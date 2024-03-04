@@ -1,0 +1,11 @@
+en:
+  activerecord:
+    attributes:
+      solution: &solution_attributes
+        comparable_products: "Comparable Products"
+      solution_draft:
+        <<: *solution_attributes
+    errors:
+      messages:
+        provided_must_be_gte_amount: "The cash provided must be ≥ the amount to pay."
+        rental_item_unavailable: "This rental item is unavailable."

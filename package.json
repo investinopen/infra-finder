@@ -1,0 +1,24 @@
+{
+  "name": "app",
+  "private": true,
+  "scripts": {
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
+    "build:css": "run-p build:css:app build:css:admin",
+    "build:css:app": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify",
+    "build:css:admin": "sass ./app/assets/stylesheets/entrypoints:./app/assets/builds --no-source-map --load-path=node_modules"
+  },
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "packageManager": "yarn@4.1.0",
+  "dependencies": {
+    "@activeadmin/activeadmin": "^3.2.0",
+    "@hotwired/stimulus": "^3.2.2",
+    "@rails/ujs": "7.1.3-2",
+    "esbuild": "^0.20.1",
+    "jquery": "^3.7.1",
+    "jquery-ui-bundle": "1.12.1-migrate",
+    "npm-run-all": "^4.1.5",
+    "sass": "^1.71.0",
+    "tailwindcss": "^3.4.1"
+  }
+}

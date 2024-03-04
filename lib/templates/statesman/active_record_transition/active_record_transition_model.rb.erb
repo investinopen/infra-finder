@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+# @see <%= klass.sub(/Transition\z/, "") %>
+# @see <%= klass.sub(/Transition\z/, "s::StateMachine") %>
+class <%= klass %> < ApplicationRecord
+  include StandardTransition
+
+  set_up_transition! :solution_draft, inverse_of: :solution_draft_transitions
+end

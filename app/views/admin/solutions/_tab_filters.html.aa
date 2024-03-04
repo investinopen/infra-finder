@@ -1,0 +1,13 @@
+attributes_table title: "Options" do
+  SolutionInterface::SHARED_MULTIPLE_ASSOCIATIONS.each do |option|
+    row option
+  end
+
+  SolutionInterface::SHARED_OPTION_ASSOCIATIONS.each do |option|
+    row option
+  end
+end
+
+attributes_table title: "Tags" do
+  row :key_technologies_list
+end

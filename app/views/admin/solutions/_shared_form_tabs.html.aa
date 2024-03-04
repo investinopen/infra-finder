@@ -1,0 +1,136 @@
+tab "General" do
+  f.inputs "Core" do
+    f.input :name
+
+    f.input :founded_on, as: :datepicker
+
+    f.input :location_of_incorporation, as: :string
+
+    f.input :member_count
+
+    f.input :current_staffing
+  end
+end
+
+tab "Filters" do
+  f.inputs "Filters" do
+    f.input :solution_categories, as: :check_boxes, collection: SolutionCategory.to_select_options
+
+    SolutionInterface::SHARED_MULTIPLE_ASSOCIATIONS.without(:solution_categories).each do |option|
+      f.input option, as: :check_boxes, collection: f.object.class.reflect_on_association(option).klass.to_select_options
+    end
+
+    SolutionInterface::SHARED_OPTION_ASSOCIATIONS.each do |option|
+      f.input option, as: :select, collection: f.object.class.reflect_on_association(option).klass.to_select_options, include_blank: true
+    end
+
+    SolutionInterface::TAG_LISTS.each do |tag_list|
+      f.input tag_list, as: :string
+    end
+  end
+end
+
+tab "Assets" do
+  f.inputs "Logo" do
+    f.input :logo, as: :file
+  end
+end
+
+tab "Info" do
+  f.inputs "Contact & Web Presence" do
+    f.input :contact, as: :url
+    f.input :website, as: :url
+    f.input :research_organization_registry_url, as: :url
+  end
+
+  f.inputs "Finances" do
+    f.input :annual_expenses
+    f.input :annual_revenue
+    f.input :investment_income
+    f.input :other_revenue
+    f.input :program_revenue
+    f.input :total_assets
+    f.input :total_contributions
+    f.input :total_liabilities
+
+    f.input :financial_numbers_applicability, as: :radio
+    f.input :financial_numbers_publishability, as: :radio
+    f.input :financial_information_scope, as: :radio
+    f.input :financial_numbers_documented_url, as: :url
+  end
+
+  f.inputs "Blurbs" do
+    SolutionInterface::BLURBS.each do |blurb|
+      f.input blurb, as: :text, rows: 7
+    end
+  end
+
+  f.inputs "Free Inputs" do
+    SolutionInterface::FREE_INPUTS.each do |free_input|
+      f.input free_input, as: :text, rows: 7
+    end
+  end
+end
+
+tab "Lists" do
+  f.inputs "Lists" do
+    f.store_model_list :service_providers do |spf|
+      spf.input :name, as: :string, required: true
+      spf.input :url, as: :url, required: true
+      spf.input :description, as: :text, required: false, rows: 4
+    end
+
+    f.store_model_list :comparable_products do |cpf|
+      cpf.input :name, as: :string, required: true
+      cpf.input :url, as: :url, required: true
+      cpf.input :description, as: :text, required: false, rows: 4
+    end
+
+    f.store_model_list :current_affiliations do |caf|
+      caf.input :name, as: :string, required: true
+      caf.input :url, as: :url, required: true
+      caf.input :description, as: :text, required: false, rows: 4
+    end
+
+    f.store_model_list :founding_institutions do |fif|
+      fif.input :name, as: :string, required: true
+      fif.input :url, as: :url, required: true
+      fif.input :description, as: :text, required: false, rows: 4
+    end
+  end
+end
+
+tab "Implementations" do
+  f.solution_implementation :bylaws
+
+  f.solution_implementation :code_of_conduct
+
+  f.solution_implementation :code_repository
+
+  f.solution_implementation :community_engagement
+
+  f.solution_implementation :equity_and_inclusion
+
+  f.solution_implementation :governance_activities
+
+  f.solution_implementation :governance_structure
+
+  f.solution_implementation :open_api
+
+  f.solution_implementation :open_data
+
+  f.solution_implementation :pricing
+
+  f.solution_implementation :privacy_policy
+
+  f.solution_implementation :product_roadmap
+
+  f.solution_implementation :user_contribution_pathways
+
+  f.solution_implementation :user_documentation
+
+  f.solution_implementation :web_accessibility do |waf|
+    waf.input :applies_to_project, as: :boolean
+    waf.input :applies_to_website, as: :boolean
+  end
+end

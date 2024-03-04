@@ -1,0 +1,7 @@
+seed_identifier,name,visibility
+1,Hosting through service provider only,visible
+2,Hosting through service provider or third party,visible
+3,Hosting through third party only,visible
+4,No hosting services available,visible
+5,Not applicable,visible
+6,Unknown,hidden

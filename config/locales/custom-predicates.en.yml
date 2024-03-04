@@ -1,0 +1,37 @@
+# Custom predicates implemented for dry-logic
+
+en:
+  custom_predicates: &custom
+    rails_blank?: "must be blank"
+
+    rails_present?: "cannot be blank"
+
+    email?: "must be an email"
+
+    global_id?: "must be a GlobalID"
+
+    http_uri?: "must be a valid HTTP or HTTPS url"
+
+    https_uri?: "must be a valid HTTPS url"
+
+    iso_639_3?: "must be a valid ISO-639-3 code"
+
+    model?: "must be a model"
+
+    model_list?: "must be an array of models"
+
+    model_class?: "must be a model class"
+
+    model_class_list?: "must be an array of model classes"
+
+    specific_model?: "must be a model of type %{model_name}"
+
+    opaque_id?: "must be an opaque Relay Node ID"
+
+    uri?: "must be a valid URI"
+  dry_schema:
+    errors:
+      <<: *custom
+  dry_validation:
+    errors:
+      <<: *custom

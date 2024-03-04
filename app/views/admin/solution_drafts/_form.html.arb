@@ -1,0 +1,9 @@
+active_admin_form_for [:admin, resource.solution, resource], builder: Admin::EnhancedFormBuilder do |f|
+  f.semantic_errors *f.object.errors.map(&:attribute).uniq
+
+  tabs do
+    render("admin/solutions/shared_form_tabs", context: self, f:)
+  end
+
+  f.actions
+end

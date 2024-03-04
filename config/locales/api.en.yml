@@ -1,0 +1,6 @@
+# frozen_string_literal: true
+
+en:
+  api:
+    errors:
+      something_went_wrong: "Something went wrong."

@@ -1,0 +1,155 @@
+version: "3.9"
+services:
+  db:
+    image: "postgres:15.5-alpine"
+    command: postgres -c shared_preload_libraries=pg_stat_statements -c pg_stat_statements.track=all
+    shm_size: 2g
+    environment:
+      POSTGRES_PASSWORD: password
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: unless-stopped
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  redis:
+    image: bitnami/redis:6.2.7-debian-10-r34
+    environment:
+      - "ALLOW_EMPTY_PASSWORD=yes"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: unless-stopped
+  test-redis:
+    image: bitnami/redis:6.2.7-debian-10-r34
+    environment:
+      - "ALLOW_EMPTY_PASSWORD=yes"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: unless-stopped
+  web:
+    tty: true
+    stdin_open: true
+    build: .
+    depends_on:
+      - db
+      - redis
+    env_file: docker/compose.env
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "10"
+    volumes:
+      - bundle_cache:/bundle
+      - node_cache:/srv/app/node_modules
+      - infra-finder-sync:/srv/app:nocopy
+    ports:
+      - "6856:6333"
+    restart: unless-stopped
+  worker:
+    build: .
+    command: bin/good_job start
+    depends_on:
+      - db
+      - redis
+    env_file: docker/compose.env
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "10"
+    volumes:
+      - bundle_cache:/bundle
+      - node_cache:/srv/app/node_modules
+      - infra-finder-sync:/srv/app:nocopy
+    restart: unless-stopped
+  spec:
+    build: .
+    command: tail -f /dev/null
+    depends_on:
+      - db
+      - test-redis
+    env_file:
+      - docker/compose.env
+    environment:
+      - RACK_ENV=test
+      - RAILS_ENV=test
+      - REDIS_URL=redis://test-redis:6379
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "10"
+    volumes:
+      - bundle_cache:/bundle
+      - node_cache:/srv/app/node_modules
+      - infra-finder-sync:/srv/app:nocopy
+    restart: unless-stopped
+  mailcatcher:
+    image: "sj26/mailcatcher:v0.8.2"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "10"
+    ports:
+      - "6857:1080"
+    restart: unless-stopped
+  minio:
+    image: "minio/minio:RELEASE.2022-09-25T15-44-53Z"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "10"
+    ports:
+      - "6858:9000"
+      - "6859:9001"
+    volumes:
+      - minio_storage:/data
+    env_file:
+      - docker/minio.env
+    command: server --console-address ":9001" /data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+  minio-proxy:
+    image: nginx:1.19.2-alpine
+    depends_on:
+      - minio
+    volumes:
+      - ./docker/minio/proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+    restart: unless-stopped
+  minio-client:
+    image: "minio/mc:RELEASE.2022-09-16T09-16-47Z"
+    depends_on:
+      - minio-proxy
+    env_file:
+      - docker/compose.env
+      - docker/minio.env
+    volumes:
+      - ./docker/minio/client:/root/.mc
+
+volumes:
+  infra-finder-sync:
+    external: true
+  bundle_cache:
+    driver: local
+  minio_storage:
+    driver: local
+  node_cache:
+    driver: local
+  postgres-data:
+    driver: local
+  upload_storage:
+    driver: local

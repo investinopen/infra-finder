@@ -1,0 +1,13 @@
+default: &default
+  bucket: "infra-finder-storage"
+  mapped_host: "http://localhost:6858"
+  public: true
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

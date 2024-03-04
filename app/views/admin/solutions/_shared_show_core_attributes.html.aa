@@ -1,0 +1,5 @@
+row :name
+row :founded_on
+row :location_of_incorporation
+row :member_count
+row :current_staffing

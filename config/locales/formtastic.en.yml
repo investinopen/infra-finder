@@ -1,0 +1,23 @@
+---
+en:
+  formtastic:
+    labels:
+      solution: &solution_labels
+        name: "Name"
+        financial_information_scope: "Financial Information Scope"
+        financial_numbers_applicability: "Financial Information Applicability"
+        financial_numbers_publishability: "Publish Financial Information?"
+      solution_draft:
+        <<: *solution_labels
+      solution_editor_assignment:
+        user: "Editor"
+    hints:
+      solution: &solution_hints
+        name: "A unique name for this solution"
+        financial_information_scope: "To what part of the solution or project does this financial information apply?"
+
+      solution_draft:
+        <<: &solution_hints
+
+      solution_editor_assignment:
+        user: "If the select box is blank, all available users have been granted access to this solution."

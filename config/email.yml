@@ -1,0 +1,19 @@
+default: &default
+  address: ""
+  external: false
+  port: 587
+  password: ""
+  username: ""
+
+development:
+  <<: *default
+  address: "mailcatcher"
+  external: false
+  port: 1025
+
+test:
+  <<: *default
+
+production:
+  <<: *default
+  external: true

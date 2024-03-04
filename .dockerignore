@@ -1,0 +1,9 @@
+.git
+*~
+*.swp
+*.swo
+.*.swn
+.do
+/docker
+/docker/minio
+!/docker/entrypoint.sh

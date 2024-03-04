@@ -1,0 +1,12 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Solutions</h1>
+
+<div id="solutions">
+  <% @solutions.each do |solution| %>
+    <%= render solution %>
+    <p>
+      <%= link_to "Show this solution", solution %>
+    </p>
+  <% end %>
+</div>

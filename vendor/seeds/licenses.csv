@@ -1,0 +1,9 @@
+seed_identifier,name,url
+1,"Apache License, Version 2.0","https://www.apache.org/licenses/LICENSE-2.0"
+2,BSD License,"https://opensource.org/license/bsd-3-clause/"
+3,GNU General Public License (GPL) Version 3,"https://www.gnu.org/licenses/gpl-3.0.en.html"
+4,MIT License,"https://opensource.org/license/mit/"
+7,CC0,"https://creativecommons.org/public-domain/cc0/"
+8,AGPL,"https://www.gnu.org/licenses/agpl-3.0.en.html"
+9,CC-BY-SA,"https://creativecommons.org/licenses/by-sa/4.0/"
+10,ISC License,"https://www.isc.org/licenses/"

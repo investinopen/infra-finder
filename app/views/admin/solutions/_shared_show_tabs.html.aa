@@ -1,0 +1,66 @@
+tab :contact do
+  attributes_table title: "Contact" do
+    row :website
+    row :contact
+    row :research_organization_registry_url
+  end
+end
+
+tab :filters do
+  render "admin/solutions/tab_filters", context: context
+end
+
+tab :assets do
+  attributes_table title: "" do
+    row :logo do |record|
+      image_tag(record.logo.url) if record.logo.present?
+    end
+  end
+end
+
+tab :info do
+  render "admin/solutions/tab_info", context: context
+end
+
+tab :finances do
+  attributes_table title: "Finances" do
+    row :annual_expenses
+    row :annual_revenue
+    row :investment_income
+    row :other_revenue
+    row :program_revenue
+    row :total_assets
+    row :total_contributions
+    row :total_liabilities
+
+    row :financial_numbers_applicability do |r|
+      status_tag r.financial_numbers_applicability
+    end
+    row :financial_numbers_publishability do |r|
+      status_tag r.financial_numbers_publishability
+    end
+    row :financial_information_scope do |r|
+      status_tag r.financial_information_scope
+    end
+    row :financial_numbers_documented_url do |r|
+      r.financial_numbers_documented_url.then { |x| link_to(x, x, target: :blank) if x.present? }
+    end
+  end
+end
+
+tab :service_providers do
+  panel "" do
+    table_for resource.service_providers do
+      column :name
+
+      column :url do |r|
+        link_to(r.url, r.url, target: :blank) if r.url.present?
+      end
+
+      column :description
+    end
+  end
+end
+
+tab :implementations do
+end
