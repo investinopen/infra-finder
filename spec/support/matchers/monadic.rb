@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+RSpec::Matchers::BaseDelegator.undef_method :with
+
 RSpec::Matchers.define :be_a_monadic_success do
   match do |actual|
     if actual.success? && instance_variable_defined?(:@expected_value)
