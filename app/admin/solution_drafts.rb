@@ -10,44 +10,45 @@ ActiveAdmin.register SolutionDraft do
   end
 
   controller do
-    def handle_simple_draft_operation!(operation_name, notice:, alert: I18n.t("api.errors.something_went_wrong"))
+    def handle_simple_draft_operation!(operation_name)
       resource.public_send(operation_name) do |m|
         m.success do
-          redirect_to(admin_solution_solution_draft_path(resource.solution, resource), notice:)
+          redirect_to(admin_solution_solution_draft_path(resource.solution, resource), notice: t(".success"))
         end
 
         m.failure do
-          # :nocov:
-          redirect_to(admin_solution_solution_drafts_path(resource.solution), alert:)
-          # :nocov:
+          redirect_to(admin_solution_solution_drafts_path(resource.solution), alert: t("api.errors.something_went_wrong"))
         end
       end
     end
   end
 
   member_action :request_review, method: :put do
-    handle_simple_draft_operation!(:request_review, notice: "Draft will be reviewed by admins")
+    handle_simple_draft_operation!(:request_review)
   end
 
   member_action :request_revision, method: :put do
-    handle_simple_draft_operation!(:request_revision, notice: "Revision requested")
+    handle_simple_draft_operation!(:request_revision)
   end
 
   member_action :approve, method: :put do
-    handle_simple_draft_operation!(:approve, notice: "Changes approved and applied to the solution")
+    handle_simple_draft_operation!(:approve)
   end
 
   member_action :reject, method: :put do
-    handle_simple_draft_operation!(:reject, notice: "Changes rejected and locked from further editing.")
+    handle_simple_draft_operation!(:reject)
   end
 
   filter :user, include_blank: true
 
+  config.sort_order = "updated_at_desc"
+
   scope :all
-  scope :pending
-  scope :in_review
-  scope :approved
-  scope :rejected
+
+  scope :pending, group: :state
+  scope :in_review, group: :state
+  scope :approved, group: :state
+  scope :rejected, group: :state
 
   index do
     selectable_column
@@ -110,9 +111,7 @@ ActiveAdmin.register SolutionDraft do
               status_tag tr.to_state
             end
 
-            column :sort_key
-
-            column :created_at do |tr|
+            column "When" do |tr|
               time_tag tr.created_at, title: tr.created_at.rfc2822 do
                 concat time_ago_in_words(tr.created_at)
                 concat " ago"
@@ -149,7 +148,7 @@ ActiveAdmin.register SolutionDraft do
     Click the following link if these changes should be approved and applied to the solution.
     TEXT
 
-    link_to "Approve Changes", approve_admin_solution_solution_draft_path(solution_draft.solution, solution), method: :put
+    link_to "Approve Changes", approve_admin_solution_solution_draft_path(solution_draft.solution, solution_draft), method: :put
   end
 
   sidebar :reject, only: :show, if: proc { authorized?(:reject, resource) && solution_draft.can_transition_to?(:rejected) } do
@@ -158,7 +157,7 @@ ActiveAdmin.register SolutionDraft do
     without deleting the history on this draft.
     TEXT
 
-    para link_to "Reject Changes", reject_admin_solution_solution_draft_path(solution_draft.solution, solution), method: :put
+    para link_to "Reject Changes", reject_admin_solution_solution_draft_path(solution_draft.solution, solution_draft), method: :put
 
     para <<~TEXT.html_safe
     <strong>Note:</strong> If there is no reason to keep the comment history or changes around, just delete the draft instead.

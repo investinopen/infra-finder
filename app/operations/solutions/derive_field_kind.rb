@@ -35,13 +35,11 @@ module Solutions
         :attachment
       when *SolutionInterface::BLURBS
         :blurb
-      when *SolutionInterface::FREE_INPUTS
-        :free_input
       when *SolutionInterface::IMPLEMENTATIONS
         :implementation
-      when *SolutionInterface::SHARED_MULTIPLE_ASSOCIATIONS
+      when *SolutionInterface::MULTIPLE_OPTIONS
         :multi_option
-      when *SolutionInterface::SHARED_OPTION_ASSOCIATIONS
+      when *SolutionInterface::SINGLE_OPTIONS
         :single_option
       when *SolutionInterface::TAG_LISTS
         :tag_list

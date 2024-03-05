@@ -28,5 +28,19 @@
 #       enabled: "ON"
 
 en:
+  admin:
+    solutions:
+      create_draft:
+        draft_created: "Draft created."
+        pending_draft_exists: "You already have a pending draft for this solution."
+    solution_drafts:
+      request_review:
+        success: "This draft will be reviewed by administrators."
+      request_revision:
+        success: "Revisions requested on this draft."
+      approve:
+        success: "This draft has been approved and the solution has been updated."
+      reject:
+        success: "This draft has been rejected and no further changes are possible."
   globals:
     app_title: "Infra Finder"

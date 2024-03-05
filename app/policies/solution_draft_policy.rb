@@ -6,6 +6,10 @@ class SolutionDraftPolicy < ApplicationPolicy
     admin_or_editor?
   end
 
+  def show?
+    admin_or_editor_for_record?
+  end
+
   def update?
     record.mutable? && admin_or_editor_for_record?
   end

@@ -12,10 +12,18 @@ Dry::Logic::Predicates.predicate :email? do |input|
   format? URI::MailTo::EMAIL_REGEXP, input
 end
 
-gid_uri = URI::DEFAULT_PARSER.make_regexp("gid")
+Dry::Logic::Predicates.predicate :uri_scheme? do |scheme, input|
+  return false unless str?(input) && rails_present?(input)
+
+  uri = URI.parse(input)
+rescue URI::Error
+  false
+else
+  scheme === uri.scheme
+end
 
 Dry::Logic::Predicates.predicate :global_id_uri? do |input|
-  str?(input) && format?(gid_uri, input)
+  uri_scheme?(/\Agid\z/, input)
 end
 
 Dry::Logic::Predicates.predicate :global_id? do |input|
@@ -32,16 +40,12 @@ Dry::Logic::Predicates.predicate :global_id? do |input|
   end
 end
 
-http_pattern = URI::DEFAULT_PARSER.make_regexp(/https?/)
-
 Dry::Logic::Predicates.predicate :http_uri? do |input|
-  str?(input) && format?(http_pattern, input)
+  uri_scheme?(/\Ahttps?\z/, input)
 end
 
-https_pattern = URI::DEFAULT_PARSER.make_regexp("https")
-
 Dry::Logic::Predicates.predicate :https_uri? do |input|
-  str?(input) && format?(https_pattern, input)
+  uri_scheme?(/\Ahttps\z/, input)
 end
 
 Dry::Logic::Predicates.predicate :inherits? do |parent, input|

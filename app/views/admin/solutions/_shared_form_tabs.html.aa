@@ -16,23 +16,23 @@ tab "Filters" do
   f.inputs "Filters" do
     f.input :solution_categories, as: :check_boxes, collection: SolutionCategory.to_select_options
 
-    SolutionInterface::SHARED_MULTIPLE_ASSOCIATIONS.without(:solution_categories).each do |option|
+    SolutionInterface::MULTIPLE_OPTIONS.without(:solution_categories).each do |option|
       f.input option, as: :check_boxes, collection: f.object.class.reflect_on_association(option).klass.to_select_options
     end
 
-    SolutionInterface::SHARED_OPTION_ASSOCIATIONS.each do |option|
+    SolutionInterface::SINGLE_OPTIONS.each do |option|
       f.input option, as: :select, collection: f.object.class.reflect_on_association(option).klass.to_select_options, include_blank: true
     end
 
     SolutionInterface::TAG_LISTS.each do |tag_list|
-      f.input tag_list, as: :string
+      f.input tag_list, as: :string, input_html: { value: f.object.try(tag_list).to_s }
     end
   end
 end
 
 tab "Assets" do
   f.inputs "Logo" do
-    f.input :logo, as: :file
+    f.input :logo, as: :file, input_html: { accept: ImageUploader::ACCEPT }
   end
 end
 
@@ -61,13 +61,7 @@ tab "Info" do
 
   f.inputs "Blurbs" do
     SolutionInterface::BLURBS.each do |blurb|
-      f.input blurb, as: :text, rows: 7
-    end
-  end
-
-  f.inputs "Free Inputs" do
-    SolutionInterface::FREE_INPUTS.each do |free_input|
-      f.input free_input, as: :text, rows: 7
+      f.input blurb, as: :text, input_html: { rows: 7 }
     end
   end
 end
@@ -77,25 +71,25 @@ tab "Lists" do
     f.store_model_list :service_providers do |spf|
       spf.input :name, as: :string, required: true
       spf.input :url, as: :url, required: true
-      spf.input :description, as: :text, required: false, rows: 4
+      spf.input :description, as: :text, required: false
     end
 
     f.store_model_list :comparable_products do |cpf|
       cpf.input :name, as: :string, required: true
       cpf.input :url, as: :url, required: true
-      cpf.input :description, as: :text, required: false, rows: 4
+      cpf.input :description, as: :text, required: false
     end
 
     f.store_model_list :current_affiliations do |caf|
       caf.input :name, as: :string, required: true
       caf.input :url, as: :url, required: true
-      caf.input :description, as: :text, required: false, rows: 4
+      caf.input :description, as: :text, required: false
     end
 
     f.store_model_list :founding_institutions do |fif|
       fif.input :name, as: :string, required: true
       fif.input :url, as: :url, required: true
-      fif.input :description, as: :text, required: false, rows: 4
+      fif.input :description, as: :text, required: false
     end
   end
 end

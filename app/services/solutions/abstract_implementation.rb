@@ -17,6 +17,7 @@ module Solutions
       :has_many_links?,
       :has_single_link?,
       :has_no_links?,
+      :has_statement?,
       :linked?,
       :unlinked?,
       to: :class
@@ -37,7 +38,7 @@ module Solutions
     end
 
     def requires_populated_link?
-      available?
+      false
     end
 
     class << self
@@ -69,6 +70,10 @@ module Solutions
 
       def has_single_link?
         link_mode == :single
+      end
+
+      def has_statement?
+        self < Implementations::WithStatement
       end
 
       # @return [Array]

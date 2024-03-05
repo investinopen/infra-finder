@@ -6,13 +6,17 @@ ActiveAdmin.register HostingStrategy do
   permit_params :name, :description, :visibility
 
   filter :name
-  filter :visibility
+  filter :visibility, as: :select, collection: proc { ApplicationRecord.pg_enum_select_options(:visibility) }
+
+  config.sort_order = "name_asc"
 
   index do
     selectable_column
 
     column :name
-    column :visibility
+    column :visibility, sortable: false do |record|
+      status_tag record.visibility
+    end
 
     actions
   end
@@ -22,7 +26,7 @@ ActiveAdmin.register HostingStrategy do
       f.input :name
       f.input :visibility, as: :select
 
-      f.input :description, rows: 4
+      f.input :description, as: :text
     end
 
     f.actions
@@ -31,7 +35,9 @@ ActiveAdmin.register HostingStrategy do
   show do
     attributes_table do
       row :name
-      row :visibility
+      row :visibility do |record|
+        status_tag record.visibility
+      end
 
       row :description
 

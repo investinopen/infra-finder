@@ -10,7 +10,6 @@ module Solutions
 
     strip_attributes
 
-    validates :name, presence: true
     validates :url, presence: true, url: true
   end
 end

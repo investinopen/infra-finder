@@ -18,6 +18,7 @@ module Support
         super
 
         base.include Dry::Monads::Do.for(hook_name)
+        base.include Dry::Matcher.for(:"match_#{hook_name}!", with: Dry::Matcher::ResultMatcher)
         base.define_model_callbacks hook_name
         base.extend @watcher
         base.prepend @wrapper
@@ -49,6 +50,10 @@ module Support
           end
         ensure
           @current_hook = nil
+        end
+
+        def match_#{hook_name}!
+          #{hook_name}!
         end
         RUBY
       end

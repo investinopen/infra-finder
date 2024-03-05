@@ -36,6 +36,19 @@ module PostgresEnums
   class_methods do
     @@pg_enum_definitions = PostgresEnums.fetch_pg_enum_definitions.freeze
 
+    # @param [#to_s] enum_name
+    # @return [Dry::Types::Type]
+    def dry_pg_enum(enum_name)
+      values = pg_enum_values(enum_name)
+
+      Support::GlobalTypes::Coercible::String.enum(*values)
+    rescue KeyError
+      # :nocov:
+      # During migrations, etc. Allow any string.
+      Support::GlobalTypes::Coercible::String
+      # :nocov:
+    end
+
     # @return [void]
     def pg_enum!(attr_name, as:, **options)
       values = pg_enum_values(as).to_h { |v| [v, v] }
@@ -57,6 +70,23 @@ module PostgresEnums
     # @return [<String>]
     def pg_enum_values(enum_name)
       pg_enum_definitions.fetch(enum_name)
+    end
+
+    # @param [#to_s] enum_name
+    # @return [<String>]
+    def pg_enum_select_options(enum_name)
+      values = pg_enum_values(enum_name)
+
+      scope = "pg_enums.#{enum_name}"
+
+      values.map do |value|
+        [I18n.t(value, scope:, default: value.titleize), value]
+      end
+    rescue KeyError
+      # :nocov:
+      # During migrations, etc. Provide an empty set of options.
+      []
+      # :nocov:
     end
   end
 end

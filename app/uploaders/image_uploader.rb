@@ -2,6 +2,21 @@
 
 # An uploader specifically for images, with common dimensions and formats.
 class ImageUploader < Shrine
+  ALLOWED_MIME_TYPES = %w[
+    image/heic
+    image/heif
+    image/jpeg
+    image/jpg
+    image/png
+    image/svg+xml
+    image/tiff
+    image/webp
+  ].freeze
+
+  ACCEPT = [
+    ".jpeg", ".png", ".jpg", ".svg", ".webp", *ALLOWED_MIME_TYPES
+  ].join(?,).freeze
+
   plugin :derivatives, create_on_promote: false
   plugin :add_metadata
   plugin :default_url
@@ -23,7 +38,7 @@ class ImageUploader < Shrine
   end
 
   Attacher.validate do
-    validate_mime_type %w[image/jpg image/jpeg image/png image/tiff image/webp image/heic image/heif image/gif image/svg+xml]
+    validate_mime_type ALLOWED_MIME_TYPES
   end
 
   Attacher.derivatives do |original|

@@ -5,5 +5,5 @@ class ReadinessLevel < ApplicationRecord
   include SolutionOption
   include TimestampScopes
 
-  scalar!
+  single!
 end

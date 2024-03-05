@@ -6,7 +6,7 @@ Rails.application.configure do
 
   queues = [
     "export:1",
-    "mailers:3",
+    "attachments,mailers:3",
   ].join(?;)
 
   config.good_job.preserve_job_records = true

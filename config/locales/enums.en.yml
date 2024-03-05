@@ -1,0 +1,53 @@
+---
+en:
+  pg_enums:
+    contact_method:
+      unavailable: Unavailable
+      email: Email
+      website: Website
+    financial_information_scope:
+      unknown: Unknown
+      not_applicable: Not Applicable
+      project: Project
+      host: Host
+    financial_numbers_applicability:
+      unknown: Unknown
+      not_applicable: Not Applicable
+      applicable: Applicable
+    financial_numbers_publishability:
+      unknown: Unknown
+      not_applicable: Not Applicable
+      unapproved: Unapproved
+      approved: Approved
+    implementation_status:
+      available: Available
+      in_progress: In Progress
+      considering: Considering
+      not_planning: Not Planning
+      not_applicable: Not Applicable
+      unknown: Unknown
+    solution_implementation:
+      bylaws: Bylaws
+      code_of_conduct: Code Of Conduct
+      code_repository: Code Repository
+      community_engagement: Community Engagement
+      equity_and_inclusion: Equity And Inclusion
+      governance_activities: Governance Activities
+      governance_structure: Governance Structure
+      open_api: Open API
+      open_data: Open Data
+      product_roadmap: Product Roadmap
+      pricing: Pricing
+      privacy_policy: Privacy Policy
+      user_contribution_pathways: User Contribution Pathways
+      user_documentation: User Documentation
+      web_accessibility: Web Accessibility
+    user_kind:
+      super_admin: Super Admin
+      admin: Admin
+      editor: Editor
+      default: Default
+      anonymous: Anonymous
+    visibility:
+      hidden: "Hidden — Only shown internally"
+      visible: "Visible — Show on frontend"

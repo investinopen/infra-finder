@@ -7,11 +7,13 @@ ActiveAdmin.register License do
 
   filter :name
 
+  config.sort_order = "name_asc"
+
   index do
     selectable_column
 
     column :name
-    column :url
+    column :url, sortable: false
 
     actions
   end
@@ -21,7 +23,7 @@ ActiveAdmin.register License do
       f.input :name
       f.input :url
 
-      f.input :description, rows: 4
+      f.input :description, as: :text
     end
 
     f.actions

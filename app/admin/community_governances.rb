@@ -7,6 +7,8 @@ ActiveAdmin.register CommunityGovernance do
 
   filter :name
 
+  config.sort_order = "name_asc"
+
   index do
     selectable_column
 
@@ -19,7 +21,7 @@ ActiveAdmin.register CommunityGovernance do
     f.inputs do
       f.input :name
 
-      f.input :description, rows: 4
+      f.input :description, as: :text
     end
 
     f.actions

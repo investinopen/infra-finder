@@ -2,6 +2,7 @@
 
 # An organizational model for a {Solution}.
 class Organization < ApplicationRecord
+  include Filterable
   include SluggedByName
 
   has_many :solutions, inverse_of: :organization, dependent: :restrict_with_error

@@ -20,9 +20,11 @@ module Processing
       attacher = attacher_class.retrieve(model: record, name:, file: file_data)
 
       attacher.file.open do
+        # :nocov:
         attacher.refresh_metadata! if attacher.respond_to?(:refresh_metadata!)
         attacher.create_derivatives(attacher.file.tempfile) if attacher.respond_to?(:create_derivatives)
         record.on_promote!(name) if record.respond_to?(:on_promote!)
+        # :nocov:
       end
 
       attacher.atomic_promote

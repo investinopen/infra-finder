@@ -7,6 +7,8 @@ class License < ApplicationRecord
   include SolutionOption
   include TimestampScopes
 
+  multiple!
+
   has_many :solution_draft_licenses, inverse_of: :license, dependent: :destroy
   has_many :solution_licenses, inverse_of: :license, dependent: :destroy
 

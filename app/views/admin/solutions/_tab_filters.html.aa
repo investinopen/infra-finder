@@ -1,9 +1,9 @@
 attributes_table title: "Options" do
-  SolutionInterface::SHARED_MULTIPLE_ASSOCIATIONS.each do |option|
+  SolutionInterface::MULTIPLE_OPTIONS.each do |option|
     row option
   end
 
-  SolutionInterface::SHARED_OPTION_ASSOCIATIONS.each do |option|
+  SolutionInterface::SINGLE_OPTIONS.each do |option|
     row option
   end
 end

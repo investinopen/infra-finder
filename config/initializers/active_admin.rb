@@ -156,7 +156,7 @@ ActiveAdmin.setup do |config|
   # config.comments_menu = false
   #
   # You can customize the comment menu:
-  config.comments_menu = { parent: "System", priority: 1 }
+  config.comments_menu = { parent: "System", priority: 50 }
 
   # == Batch Actions
   #
@@ -241,7 +241,7 @@ ActiveAdmin.setup do |config|
   # config.csv_options = { col_sep: ';' }
   #
   # Force the use of quotes
-  config.csv_options = { force_quotes: true }
+  config.csv_options = { force_quotes: true, humanize_name: false }
 
   # == Menu System
   #
@@ -286,7 +286,7 @@ ActiveAdmin.setup do |config|
   #   end
 
   config.namespace :admin do |admin|
-    admin.download_links = [:csv, :json]
+    admin.download_links = false
   end
 
   # == Pagination

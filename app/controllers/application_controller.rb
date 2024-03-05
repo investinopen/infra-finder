@@ -5,6 +5,6 @@ class ApplicationController < ActionController::Base
   include Pundit::Authorization
 
   def access_denied(error = nil)
-    redirect_to ?/
+    redirect_back fallback_location: root_path
   end
 end

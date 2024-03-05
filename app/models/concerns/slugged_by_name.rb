@@ -4,6 +4,8 @@
 module SluggedByName
   extend ActiveSupport::Concern
 
+  include HasName
+
   included do
     extend FriendlyId
 

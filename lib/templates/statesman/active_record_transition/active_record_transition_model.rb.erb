@@ -5,5 +5,5 @@
 class <%= klass %> < ApplicationRecord
   include StandardTransition
 
-  set_up_transition! :solution_draft, inverse_of: :solution_draft_transitions
+  set_up_transition! <%= parent_name.to_sym.inspect %>, inverse_of: <%= table_name.to_sym.inspect %>
 end

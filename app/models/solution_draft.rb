@@ -25,7 +25,7 @@ class SolutionDraft < ApplicationRecord
   scope :approved, -> { in_state(:approved) }
   scope :rejected, -> { in_state(:rejected) }
 
-  after_save :check!
+  after_save :check!, if: :should_check?
 
   # @!group Stateful Workflow Methods
 
@@ -68,6 +68,17 @@ class SolutionDraft < ApplicationRecord
   # @return [<SolutionDrafts::ChangedField>]
   def changed_fields
     fetch_changed_fields.value_or([])
+  end
+
+  def should_check?
+    TO_CLONE.any? do |attr|
+      case attr
+      when *ATTACHMENTS
+        saved_change_to_attribute? :"#{attr}_data"
+      else
+        saved_change_to_attribute? attr
+      end
+    end
   end
 
   class << self

@@ -5,5 +5,5 @@ class PrimaryFundingSource < ApplicationRecord
   include SolutionOption
   include TimestampScopes
 
-  scalar!
+  single!
 end

@@ -6,6 +6,10 @@ module SolutionOptionLink
 
   include TimestampScopes
 
+  included do
+    scope :in_default_order, -> { joins(option_association.name).merge(option_association.klass.in_alphabetical_order) }
+  end
+
   STANDARD_RANSACKABLE_ATTRIBUTES = %w[
     id
     created_at

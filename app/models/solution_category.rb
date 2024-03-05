@@ -6,6 +6,8 @@ class SolutionCategory < ApplicationRecord
   include SolutionOption
   include TimestampScopes
 
+  multiple!
+
   has_many :solution_category_draft_links, inverse_of: :solution_category, dependent: :destroy
   has_many :solution_category_links, inverse_of: :solution_category, dependent: :destroy
 

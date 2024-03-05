@@ -16,8 +16,12 @@ RSpec.shared_context "default auth" do
   let_it_be(:regular_user, refind: true) do
     FactoryBot.create :user
   end
+
+  # @see ApplicationController#access_denied
+  let_it_be(:unauthorized_path) { ?/ }
 end
 
 RSpec.configure do |config|
   config.include_context "default auth", default_auth: true
+  config.include_context "default auth", type: :policy
 end

@@ -7,6 +7,7 @@ en:
         financial_information_scope: "Financial Information Scope"
         financial_numbers_applicability: "Financial Information Applicability"
         financial_numbers_publishability: "Publish Financial Information?"
+        key_technology_list: "Key Technologies"
       solution_draft:
         <<: *solution_labels
       solution_editor_assignment:
@@ -15,9 +16,10 @@ en:
       solution: &solution_hints
         name: "A unique name for this solution"
         financial_information_scope: "To what part of the solution or project does this financial information apply?"
-
+        key_technology_list: "This is a free-form tagging input. Enter a comma-separated list of technologies."
+        licenses: "Select the license(s) that apply to your project."
+        user_contributions: "Describe the methods in which users could contribute to the solution."
       solution_draft:
         <<: &solution_hints
-
       solution_editor_assignment:
         user: "If the select box is blank, all available users have been granted access to this solution."

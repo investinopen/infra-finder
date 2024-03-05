@@ -19,6 +19,11 @@ module SolutionInterface
     key_achievements
     mission
     organizational_history
+    special_certifications_or_statuses
+    standards_employed
+    what_registered
+    what_other_tools
+    what_technologies
   ].freeze
 
   CORE = %i[
@@ -51,15 +56,6 @@ module SolutionInterface
     financial_numbers_documented_url
   ].freeze
 
-  FREE_INPUTS = %i[
-    content_licensing
-    special_certifications_or_statuses
-    standards_employed
-    what_registered
-    what_technologies
-    what_other_tools
-  ].freeze
-
   IMPLEMENTATIONS = %i[
     bylaws
     code_of_conduct
@@ -70,9 +66,9 @@ module SolutionInterface
     governance_structure
     open_api
     open_data
-    product_roadmap
     pricing
     privacy_policy
+    product_roadmap
     user_contribution_pathways
     user_documentation
     web_accessibility
@@ -82,7 +78,7 @@ module SolutionInterface
     [implementation, :"#{implementation}_implementation"]
   end
 
-  SHARED_OPTION_ASSOCIATIONS = %i[
+  SINGLE_OPTIONS = %i[
     board_structure
     business_form
     community_governance
@@ -92,7 +88,7 @@ module SolutionInterface
     readiness_level
   ].freeze
 
-  SHARED_MULTIPLE_ASSOCIATIONS = %i[
+  MULTIPLE_OPTIONS = %i[
     licenses
     solution_categories
     user_contributions
@@ -116,15 +112,14 @@ module SolutionInterface
     *CONTACT,
     *BLURBS,
     *FINANCES,
-    *FREE_INPUTS,
   ].freeze
 
   TO_CLONE = [
     *ATTACHMENTS,
     *STANDARD_ATTRIBUTES,
     *IMPLEMENTATIONS_WITH_ENUMS,
-    *SHARED_OPTION_ASSOCIATIONS,
-    *SHARED_MULTIPLE_ASSOCIATIONS,
+    *SINGLE_OPTIONS,
+    *MULTIPLE_OPTIONS,
     *STORE_MODEL_LISTS,
     *TAG_LISTS,
   ].freeze
@@ -155,7 +150,7 @@ module SolutionInterface
     before_validation :derive_contact_method!
     before_validation :set_default_identifier!
 
-    validates :comparable_products, :current_affiliations, :founding_institutions, :service_providers, store_model: true
+    validates *STORE_MODEL_LISTS, store_model: true
 
     validates :website, :research_organization_registry_url, url: { allow_blank: true }
 
@@ -232,16 +227,16 @@ module SolutionInterface
     def define_common_associations!
       inverse_of = model_name.plural.to_sym
 
-      SHARED_OPTION_ASSOCIATIONS.each do |assoc|
+      SINGLE_OPTIONS.each do |assoc|
         belongs_to assoc, inverse_of:, optional: true
       end
 
       inverse_of = model_name.singular.to_sym
 
-      SHARED_MULTIPLE_ASSOCIATIONS.each do |assoc|
+      MULTIPLE_OPTIONS.each do |assoc|
         join_assoc = link_association_for(assoc)
 
-        has_many join_assoc, inverse_of:, dependent: :destroy
+        has_many join_assoc, -> { in_default_order }, inverse_of:, dependent: :destroy
 
         has_many assoc, through: join_assoc
       end

@@ -4,10 +4,22 @@
 module SolutionOption
   extend ActiveSupport::Concern
 
+  include Filterable
   include SluggedByName
   include TimestampScopes
 
+  included do
+    extend Dry::Core::ClassAttributes
+
+    defines :option_mode, type: Solutions::Types::OptionMode
+  end
+
   module ClassMethods
+    # @return [void]
+    def multiple!
+      include SolutionOption::Multiple
+    end
+
     def policy_class
       SolutionOptionPolicy
     end
@@ -27,10 +39,8 @@ module SolutionOption
     end
 
     # @return [void]
-    def scalar!
-      has_many :solutions, inverse_of: model_name.i18n_key, dependent: :restrict_with_error
-
-      has_many :solution_drafts, inverse_of: model_name.i18n_key, dependent: :restrict_with_error
+    def single!
+      include SolutionOption::Single
     end
 
     # @api private
@@ -43,6 +53,28 @@ module SolutionOption
     # @return [<(String, String)>]
     def to_select_options
       order_for_select_options.pluck(:name, :id)
+    end
+  end
+
+  # Options that a {Solution} can select multiple of, through a join record.
+  module Multiple
+    extend ActiveSupport::Concern
+
+    included do
+      option_mode :multiple
+    end
+  end
+
+  # Options that a {Solution} can select only one of, as foreign keys directly on the record.
+  module Single
+    extend ActiveSupport::Concern
+
+    included do
+      option_mode :single
+
+      has_many :solutions, inverse_of: model_name.i18n_key, dependent: :restrict_with_error
+
+      has_many :solution_drafts, inverse_of: model_name.i18n_key, dependent: :restrict_with_error
     end
   end
 end

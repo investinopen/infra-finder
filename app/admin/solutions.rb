@@ -12,11 +12,11 @@ ActiveAdmin.register Solution do
   member_action :create_draft, method: :put do
     resource.create_draft(user: current_user) do |m|
       m.success do |draft|
-        redirect_to admin_solution_solution_draft_path(resource, draft), notice: "Draft created."
+        redirect_to admin_solution_solution_draft_path(resource, draft), notice: t(".draft_created")
       end
 
       m.failure :pending_draft_exists do |_, draft|
-        redirect_to admin_solution_solution_draft_path(resource, draft), alert: "You have an existing pending draft."
+        redirect_to admin_solution_solution_draft_path(resource, draft), alert: t(".pending_draft_exists")
       end
 
       m.failure do
@@ -29,28 +29,33 @@ ActiveAdmin.register Solution do
 
   filter :name
 
-  filter :solution_categories, include_blank: true
-  filter :licenses, include_blank: true
-  filter :user_contributions, include_blank: true
+  filter :solution_categories, include_blank: true, collection: SolutionCategory.for_filter_collection
+  filter :licenses, include_blank: true, collection: License.for_filter_collection
+  filter :user_contributions, include_blank: true, collection: UserContribution.for_filter_collection
 
-  filter :organization, include_blank: true
-  filter :board_structure, include_blank: true
-  filter :business_form, include_blank: true
-  filter :community_governance, include_blank: true
-  filter :hosting_strategy, include_blank: true
-  filter :maintenance_status, include_blank: true
-  filter :primacy_funding_source, include_blank: true
-  filter :readiness_level, include_blank: true
+  filter :organization, include_blank: true, collection: Organization.for_filter_collection
+  filter :board_structure, include_blank: true, collection: BoardStructure.for_filter_collection
+  filter :business_form, include_blank: true, collection: BusinessForm.for_filter_collection
+  filter :community_governance, include_blank: true, collection: CommunityGovernance.for_filter_collection
+  filter :hosting_strategy, include_blank: true, collection: HostingStrategy.for_filter_collection
+  filter :maintenance_status, include_blank: true, collection: MaintenanceStatus.for_filter_collection
+  filter :primacy_funding_source, include_blank: true, collection: PrimaryFundingSource.for_filter_collection
+  filter :readiness_level, include_blank: true, collection: ReadinessLevel.for_filter_collection
 
   scope :all
 
   scope :with_reviewable_drafts
 
-  index do
+  config.sort_order = "name_asc"
+
+  index download_links: proc { current_user.has_any_admin_access? && %i[csv] } do
     selectable_column
 
     column :name
+    column :solution_categories
+    column :organization
     column :created_at
+    column :updated_at
 
     actions do |solution|
       item "Start Draft", create_draft_admin_solution_path(solution), method: :put
@@ -98,5 +103,10 @@ ActiveAdmin.register Solution do
 
   action_item :manage_access, only: :show, if: proc { current_user.has_any_admin_access? } do
     link_to "Manage Access", admin_solution_solution_editor_assignments_path(solution)
+  end
+
+  csv do
+    column :id
+    column :name
   end
 end

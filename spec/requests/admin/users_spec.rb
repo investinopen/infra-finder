@@ -31,7 +31,7 @@ RSpec.describe "Admin Users", type: :request, default_auth: true do
 
       make_the_request!
 
-      expect(response).to redirect_to(?/)
+      expect(response).to redirect_to(unauthorized_path)
     end
 
     it "is hidden from users" do
@@ -39,7 +39,7 @@ RSpec.describe "Admin Users", type: :request, default_auth: true do
 
       make_the_request!
 
-      expect(response).to redirect_to(?/)
+      expect(response).to redirect_to(unauthorized_path)
     end
   end
 
@@ -71,7 +71,7 @@ RSpec.describe "Admin Users", type: :request, default_auth: true do
 
       make_the_request!
 
-      expect(response).to redirect_to ?/
+      expect(response).to redirect_to(unauthorized_path)
     end
 
     it "is hidden from users" do
@@ -79,7 +79,7 @@ RSpec.describe "Admin Users", type: :request, default_auth: true do
 
       make_the_request!
 
-      expect(response).to redirect_to ?/
+      expect(response).to redirect_to(unauthorized_path)
     end
   end
 
@@ -103,7 +103,7 @@ RSpec.describe "Admin Users", type: :request, default_auth: true do
 
       make_the_request!
 
-      expect(response).to redirect_to ?/
+      expect(response).to redirect_to(unauthorized_path)
     end
 
     it "is hidden to assigned editors" do
@@ -111,7 +111,7 @@ RSpec.describe "Admin Users", type: :request, default_auth: true do
 
       make_the_request!
 
-      expect(response).to redirect_to ?/
+      expect(response).to redirect_to(unauthorized_path)
     end
 
     it "is hidden from users" do
@@ -119,7 +119,7 @@ RSpec.describe "Admin Users", type: :request, default_auth: true do
 
       make_the_request!
 
-      expect(response).to redirect_to ?/
+      expect(response).to redirect_to(unauthorized_path)
     end
   end
 end

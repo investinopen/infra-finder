@@ -3,9 +3,3 @@ attributes_table title: "Blurbs" do
     row blurb
   end
 end
-
-attributes_table title: "Free Inputs" do
-  SolutionInterface::FREE_INPUTS.each do |free_input|
-    row free_input
-  end
-end

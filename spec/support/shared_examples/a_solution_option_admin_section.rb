@@ -39,7 +39,7 @@ RSpec.shared_examples_for "a solution option admin section" do |klass|
 
       make_the_request!
 
-      expect(response).to redirect_to(?/)
+      expect(response).to redirect_to(unauthorized_path)
     end
 
     it "is hidden from users" do
@@ -47,7 +47,7 @@ RSpec.shared_examples_for "a solution option admin section" do |klass|
 
       make_the_request!
 
-      expect(response).to redirect_to(?/)
+      expect(response).to redirect_to(unauthorized_path)
     end
   end
 
@@ -79,7 +79,7 @@ RSpec.shared_examples_for "a solution option admin section" do |klass|
 
       make_the_request!
 
-      expect(response).to redirect_to ?/
+      expect(response).to redirect_to(unauthorized_path)
     end
 
     it "is hidden from users" do
@@ -87,7 +87,7 @@ RSpec.shared_examples_for "a solution option admin section" do |klass|
 
       make_the_request!
 
-      expect(response).to redirect_to ?/
+      expect(response).to redirect_to(unauthorized_path)
     end
   end
 
@@ -111,7 +111,7 @@ RSpec.shared_examples_for "a solution option admin section" do |klass|
 
       make_the_request!
 
-      expect(response).to redirect_to ?/
+      expect(response).to redirect_to(unauthorized_path)
     end
 
     it "is hidden to assigned editors" do
@@ -119,7 +119,7 @@ RSpec.shared_examples_for "a solution option admin section" do |klass|
 
       make_the_request!
 
-      expect(response).to redirect_to ?/
+      expect(response).to redirect_to(unauthorized_path)
     end
 
     it "is hidden from users" do
@@ -127,7 +127,7 @@ RSpec.shared_examples_for "a solution option admin section" do |klass|
 
       make_the_request!
 
-      expect(response).to redirect_to ?/
+      expect(response).to redirect_to(unauthorized_path)
     end
   end
 end

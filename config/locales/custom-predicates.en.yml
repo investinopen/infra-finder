@@ -14,8 +14,6 @@ en:
 
     https_uri?: "must be a valid HTTPS url"
 
-    iso_639_3?: "must be a valid ISO-639-3 code"
-
     model?: "must be a model"
 
     model_list?: "must be an array of models"
@@ -25,8 +23,6 @@ en:
     model_class_list?: "must be an array of model classes"
 
     specific_model?: "must be a model of type %{model_name}"
-
-    opaque_id?: "must be an opaque Relay Node ID"
 
     uri?: "must be a valid URI"
   dry_schema:

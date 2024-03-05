@@ -8,6 +8,7 @@ module Support
       extend Dry::Core::ClassAttributes
       extend Support::DoFor
 
+      include ActiveSupport::Benchmarkable
       include Dry::Effects::Handler.Interrupt(:halt_actor, as: :catch_actor_halt)
       include Dry::Effects.Interrupt(:halt_actor)
 

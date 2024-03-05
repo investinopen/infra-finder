@@ -37,7 +37,7 @@ RSpec.describe "Admin Dashboard", type: :request, default_auth: true do
 
       make_the_request!
 
-      expect(response).to redirect_to(?/)
+      expect(response).to redirect_to(unauthorized_path)
     end
   end
 
@@ -77,7 +77,7 @@ RSpec.describe "Admin Dashboard", type: :request, default_auth: true do
 
       make_the_request!
 
-      expect(response).to redirect_to(?/)
+      expect(response).to redirect_to(unauthorized_path)
     end
   end
 end

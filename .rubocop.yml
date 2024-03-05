@@ -322,8 +322,6 @@ Rails/I18nLocaleAssignment: # new in 2.11
   Enabled: true
 
 Rails/I18nLocaleTexts: # new in 2.14
-  Exclude:
-    - "app/admin/**/*.rb"
   Enabled: true
 
 Rails/Inquiry:

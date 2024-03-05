@@ -5,12 +5,17 @@ ActiveAdmin.register Organization do
 
   permit_params :name, :url
 
+  filter :name
+
+  config.sort_order = "name_asc"
+
   index do
     selectable_column
 
     column :name
-    column :url
+    column :url, sortable: false
     column :created_at
+    column :updated_at
 
     actions
   end

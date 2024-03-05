@@ -5,5 +5,5 @@ class BusinessForm < ApplicationRecord
   include SolutionOption
   include TimestampScopes
 
-  scalar!
+  single!
 end

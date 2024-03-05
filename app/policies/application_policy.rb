@@ -112,7 +112,7 @@ class ApplicationPolicy
 
     # @return [ActiveRecord::Relation]
     def resolve
-      scope
+      scope.all
     end
   end
 end

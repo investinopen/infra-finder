@@ -16,7 +16,7 @@ module Solutions
       end
 
       def requires_statement?
-        available?
+        false
       end
     end
   end

@@ -3,7 +3,7 @@
 ActiveAdmin.register User do
   menu parent: "System", priority: 0
 
-  permit_params :email, :name, :super_admin, :admin, :kind, :password, :password_confirmation
+  permit_params :email, :name, :super_admin, :admin, :password, :password_confirmation
 
   filter :email
   filter :kind
@@ -11,16 +11,27 @@ ActiveAdmin.register User do
   filter :sign_in_count
   filter :created_at
 
-  index do
+  scope :all, default: true
+
+  scope "Super Admins", :super_admin_kind, group: :kind
+  scope "Admins", :admin_kind, group: :kind
+  scope "Editors", :editor_kind, group: :kind
+  scope "Default (End Users)", :default_kind, group: :kind
+
+  config.sort_order = "name_asc"
+
+  index download_links: proc { current_user.super_admin? && %i[csv] } do
     selectable_column
 
+    column :name
     column :email
-    column :kind do |u|
+    column :kind, sortable: false do |u|
       status_tag u.kind
     end
     column :current_sign_in_at
     column :sign_in_count
     column :created_at
+    column :updated_at
 
     actions
   end
@@ -44,7 +55,9 @@ ActiveAdmin.register User do
       row :email
       row :name
 
-      row :kind
+      row :kind do |u|
+        status_tag u.kind
+      end
 
       row :current_sign_in_at
       row :current_sign_in_ip
@@ -59,5 +72,19 @@ ActiveAdmin.register User do
     end
 
     active_admin_comments_for(resource)
+  end
+
+  csv do
+    column :id
+    column :email
+    column :name
+    column :kind
+    column :current_sign_in_at
+    column :current_sign_in_ip
+    column :last_sign_in_at
+    column :last_sign_in_ip
+    column :locked_at
+    column :created_at
+    column :updated_at
   end
 end
