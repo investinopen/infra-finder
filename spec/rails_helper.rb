@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-ENV["RAILS_ENV"] ||= "test"
+
+return unless ENV["RAILS_ENV"] == "test"
+
 require "simplecov"
 
 SimpleCov.start "rails" do
