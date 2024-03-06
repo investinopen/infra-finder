@@ -6,6 +6,8 @@ module Solutions
     include Dry::Initializer[undefined: false].define -> do
       param :solution, Types::Actual
 
+      option :enforce_single_pending_draft, Types::Bool, default: proc { true }
+
       option :user, Types::User.optional, optional: true
     end
 
@@ -30,9 +32,13 @@ module Solutions
     end
 
     wrapped_hook! def prepare
-      @draft = solution.solution_drafts.in_state(:pending).where(user:).first_or_create
+      if enforce_single_pending_draft
+        @draft = solution.solution_drafts.in_state(:pending).where(user:).first_or_initialize
 
-      return Failure[:pending_draft_exists, draft] if draft.persisted?
+        return Failure[:pending_draft_exists, draft] if draft.persisted?
+      else
+        @draft = solution.solution_drafts.build(user:)
+      end
 
       super
     end

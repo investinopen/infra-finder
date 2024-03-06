@@ -12,6 +12,10 @@ en:
         <<: *solution_labels
       solution_editor_assignment:
         user: "Editor"
+      solution_import:
+        source: "Data Source"
+      solution_imports/options:
+        auto_approve: "Auto-approve drafts?"
     hints:
       solution: &solution_hints
         name: "A unique name for this solution"
@@ -23,3 +27,7 @@ en:
         <<: &solution_hints
       solution_editor_assignment:
         user: "If the select box is blank, all available users have been granted access to this solution."
+      solution_import:
+        source: "The file must be a CSV with a very specific format."
+      solution_imports/options:
+        auto_approve: "Whether the import should auto-approve all drafts. Otherwise, updates will be readied for review and can be selectively applied."

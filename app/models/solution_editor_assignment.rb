@@ -6,7 +6,7 @@ class SolutionEditorAssignment < ApplicationRecord
   belongs_to :solution, inverse_of: :solution_editor_assignments
   belongs_to :user, inverse_of: :solution_editor_assignments
 
-  before_destroy :remove_role_assignment!
+  after_destroy :remove_role_assignment!
 
   after_save :enforce_role_assignment!
 
@@ -14,10 +14,6 @@ class SolutionEditorAssignment < ApplicationRecord
   delegate :name, to: :user, prefix: true, allow_nil: true
 
   validates :user_id, uniqueness: { scope: :solution_id }
-
-  def display_name
-    "EditorAssignment(#{solution_name.inspect}, #{user_name.inspect})"
-  end
 
   private
 

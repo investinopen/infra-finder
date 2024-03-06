@@ -6,6 +6,8 @@ module SolutionInterface
   extend DefinesMonadicOperation
 
   include HasName
+  include HasSystemTags
+  include SolutionImportable
   include StoreModelIntrospection
 
   ATTACHMENTS = %i[
@@ -19,6 +21,7 @@ module SolutionInterface
     key_achievements
     mission
     organizational_history
+    service_summary
     special_certifications_or_statuses
     standards_employed
     what_registered
@@ -58,6 +61,7 @@ module SolutionInterface
 
   IMPLEMENTATIONS = %i[
     bylaws
+    code_license
     code_of_conduct
     code_repository
     community_engagement
@@ -104,7 +108,9 @@ module SolutionInterface
     comparable_products
     current_affiliations
     founding_institutions
+    recent_grants
     service_providers
+    top_granting_institutions
   ].freeze
 
   STANDARD_ATTRIBUTES = [
@@ -145,7 +151,9 @@ module SolutionInterface
     attribute :comparable_products, Solutions::ComparableProduct.to_array_type, default: proc { [] }
     attribute :current_affiliations, Solutions::Institution.to_array_type, default: proc { [] }
     attribute :founding_institutions, Solutions::Institution.to_array_type, default: proc { [] }
+    attribute :recent_grants, Solutions::Grant.to_array_type, default: proc { [] }
     attribute :service_providers, Solutions::ServiceProvider.to_array_type, default: proc { [] }
+    attribute :top_granting_institutions, Solutions::Institution.to_array_type, default: proc { [] }
 
     before_validation :derive_contact_method!
     before_validation :set_default_identifier!

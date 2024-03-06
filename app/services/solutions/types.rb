@@ -16,7 +16,6 @@ module Solutions
       :attachment,
       :blurb,
       :enum,
-      :free_input,
       :implementation,
       :multi_option,
       :single_option,
@@ -27,7 +26,11 @@ module Solutions
 
     Kind = Coercible::Symbol.enum(:actual, :draft)
 
+    Implementation = ApplicationRecord.dry_pg_enum(:solution_implementation)
+
     ImplementationLinkMode = Coercible::Symbol.enum(:many, :single, :none)
+
+    OptionMode = Coercible::Symbol.enum(:single, :multiple)
 
     User = ModelInstance("User")
   end

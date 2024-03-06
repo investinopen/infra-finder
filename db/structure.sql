@@ -187,6 +187,7 @@ CREATE TYPE public.implementation_status AS ENUM (
 
 CREATE TYPE public.solution_implementation AS ENUM (
     'bylaws',
+    'code_license',
     'code_of_conduct',
     'code_repository',
     'community_engagement',
@@ -201,6 +202,16 @@ CREATE TYPE public.solution_implementation AS ENUM (
     'user_contribution_pathways',
     'user_documentation',
     'web_accessibility'
+);
+
+
+--
+-- Name: solution_import_strategy; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.solution_import_strategy AS ENUM (
+    'legacy',
+    'modern'
 );
 
 
@@ -728,7 +739,13 @@ CREATE TABLE public.solution_drafts (
     logo_data jsonb,
     draft_overrides public.citext[] DEFAULT '{}'::public.citext[],
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    engagement_with_values_frameworks text,
+    service_summary text,
+    code_license_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    code_license jsonb DEFAULT '{}'::jsonb NOT NULL,
+    recent_grants jsonb DEFAULT '[]'::jsonb NOT NULL,
+    top_granting_institutions jsonb DEFAULT '[]'::jsonb NOT NULL
 );
 
 
@@ -743,6 +760,64 @@ CREATE TABLE public.solution_editor_assignments (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
+
+
+--
+-- Name: solution_import_transitions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_import_transitions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_import_id uuid NOT NULL,
+    most_recent boolean NOT NULL,
+    sort_key integer NOT NULL,
+    to_state character varying NOT NULL,
+    metadata jsonb,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_imports; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_imports (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    user_id uuid,
+    strategy public.solution_import_strategy NOT NULL,
+    started_at timestamp without time zone,
+    success_at timestamp without time zone,
+    failure_at timestamp without time zone,
+    identifier bigint NOT NULL,
+    organizations_count bigint DEFAULT 0 NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    source_data jsonb NOT NULL,
+    options jsonb DEFAULT '{}'::jsonb NOT NULL,
+    messages jsonb DEFAULT '[]'::jsonb NOT NULL,
+    metadata jsonb DEFAULT '{}'::jsonb NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_imports_identifier_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.solution_imports_identifier_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: solution_imports_identifier_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.solution_imports_identifier_seq OWNED BY public.solution_imports.identifier;
 
 
 --
@@ -855,7 +930,13 @@ CREATE TABLE public.solutions (
     web_accessibility jsonb DEFAULT '{}'::jsonb NOT NULL,
     logo_data jsonb,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    engagement_with_values_frameworks text,
+    service_summary text,
+    code_license_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    code_license jsonb DEFAULT '{}'::jsonb NOT NULL,
+    recent_grants jsonb DEFAULT '[]'::jsonb NOT NULL,
+    top_granting_institutions jsonb DEFAULT '[]'::jsonb NOT NULL
 );
 
 
@@ -944,6 +1025,13 @@ CREATE TABLE public.users_roles (
     user_id uuid NOT NULL,
     role_id uuid NOT NULL
 );
+
+
+--
+-- Name: solution_imports identifier; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_imports ALTER COLUMN identifier SET DEFAULT nextval('public.solution_imports_identifier_seq'::regclass);
 
 
 --
@@ -1176,6 +1264,22 @@ ALTER TABLE ONLY public.solution_drafts
 
 ALTER TABLE ONLY public.solution_editor_assignments
     ADD CONSTRAINT solution_editor_assignments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_import_transitions solution_import_transitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_import_transitions
+    ADD CONSTRAINT solution_import_transitions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_imports solution_imports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_imports
+    ADD CONSTRAINT solution_imports_pkey PRIMARY KEY (id);
 
 
 --
@@ -1739,6 +1843,34 @@ CREATE UNIQUE INDEX index_solution_editor_assignments_uniqueness ON public.solut
 
 
 --
+-- Name: index_solution_import_transitions_parent_most_recent; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_solution_import_transitions_parent_most_recent ON public.solution_import_transitions USING btree (solution_import_id, most_recent) WHERE most_recent;
+
+
+--
+-- Name: index_solution_import_transitions_parent_sort; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_solution_import_transitions_parent_sort ON public.solution_import_transitions USING btree (solution_import_id, sort_key);
+
+
+--
+-- Name: index_solution_imports_on_identifier; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_solution_imports_on_identifier ON public.solution_imports USING btree (identifier);
+
+
+--
+-- Name: index_solution_imports_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_imports_on_user_id ON public.solution_imports USING btree (user_id);
+
+
+--
 -- Name: index_solution_licenses_on_license_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1985,6 +2117,14 @@ ALTER TABLE ONLY public.solution_category_links
 
 
 --
+-- Name: solution_import_transitions fk_rails_14d9b58b8e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_import_transitions
+    ADD CONSTRAINT fk_rails_14d9b58b8e FOREIGN KEY (solution_import_id) REFERENCES public.solution_imports(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_category_draft_links fk_rails_16e9f886f1; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2110,6 +2250,14 @@ ALTER TABLE ONLY public.solution_category_draft_links
 
 ALTER TABLE ONLY public.solutions
     ADD CONSTRAINT fk_rails_73c7b0a3ae FOREIGN KEY (maintenance_status_id) REFERENCES public.maintenance_statuses(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: solution_imports fk_rails_7928c4b4bd; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_imports
+    ADD CONSTRAINT fk_rails_7928c4b4bd FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -2263,6 +2411,9 @@ ALTER TABLE ONLY public.users_roles
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240304235024'),
+('20240304210653'),
+('20240304205557'),
 ('20240227190134'),
 ('20240223210705'),
 ('20240223201239'),

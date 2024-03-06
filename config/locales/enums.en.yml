@@ -28,6 +28,7 @@ en:
       unknown: Unknown
     solution_implementation:
       bylaws: Bylaws
+      code_license: Code License
       code_of_conduct: Code Of Conduct
       code_repository: Code Repository
       community_engagement: Community Engagement
@@ -42,6 +43,9 @@ en:
       user_contribution_pathways: User Contribution Pathways
       user_documentation: User Documentation
       web_accessibility: Web Accessibility
+    solution_import_strategy:
+      legacy: Legacy
+      modern: Modern
     user_kind:
       super_admin: Super Admin
       admin: Admin

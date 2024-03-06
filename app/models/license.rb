@@ -9,6 +9,8 @@ class License < ApplicationRecord
 
   multiple!
 
+  legacy_import_source_key :license_type_names
+
   has_many :solution_draft_licenses, inverse_of: :license, dependent: :destroy
   has_many :solution_licenses, inverse_of: :license, dependent: :destroy
 

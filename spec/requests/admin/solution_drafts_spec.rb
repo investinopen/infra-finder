@@ -44,6 +44,11 @@ RSpec.describe "Admin Solution Drafts", type: :request, default_auth: true do
   end
 
   describe "GET /admin/solutions/:solution_id/solution_drafts/:id" do
+    before do
+      solution_draft.update!(founded_on: Date.new(2024, 2, 14))
+      solution_draft.request_review!
+    end
+
     def make_the_request!
       expect do
         get admin_solution_solution_draft_path(solution, solution_draft)
@@ -80,6 +85,20 @@ RSpec.describe "Admin Solution Drafts", type: :request, default_auth: true do
       make_the_request!
 
       expect(response).to redirect_to(unauthorized_path)
+    end
+
+    context "when the draft is approved" do
+      before do
+        solution_draft.approve!
+      end
+
+      it "affects the display slightly" do
+        sign_in super_admin
+
+        make_the_request!
+
+        expect(response).to have_http_status(:ok)
+      end
     end
   end
 

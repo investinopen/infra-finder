@@ -124,28 +124,20 @@ module Solutions
       store_model_list_type_for(key).attribute_names.map(&:to_sym)
     end
 
+    # @param [#to_s] key
     # @return [Class]
     def store_model_list_type_for(key)
-      case key
-      in :comparable_products
-        Solutions::ComparableProduct
-      in :current_affiliations
-        Solutions::Institution
-      in :founding_institutions
-        Solutions::Institution
-      in :service_providers
-        Solutions::ServiceProvider
-      end
+      Solution.store_model_attribute_types.fetch(key.to_s).model_klass
     end
 
     def shared_multiple_association_keys
-      SolutionInterface::SHARED_MULTIPLE_ASSOCIATIONS.each_with_object({}) do |option, h|
+      SolutionInterface::MULTIPLE_OPTIONS.each_with_object({}) do |option, h|
         h[:"#{option.to_s.singularize}_ids"] = []
       end
     end
 
     def shared_option_association_keys
-      SolutionInterface::SHARED_OPTION_ASSOCIATIONS.map { :"#{_1}_id" }
+      SolutionInterface::SINGLE_OPTIONS.map { :"#{_1}_id" }
     end
   end
 end

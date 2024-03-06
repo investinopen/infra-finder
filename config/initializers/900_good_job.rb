@@ -5,6 +5,7 @@ Rails.application.configure do
   config.good_job.smaller_number_is_higher_priority = true
 
   queues = [
+    "import:1",
     "export:1",
     "attachments,mailers:3",
   ].join(?;)

@@ -91,6 +91,24 @@ tab "Lists" do
       fif.input :url, as: :url, required: true
       fif.input :description, as: :text, required: false
     end
+
+    f.store_model_list :recent_grants do |rgf|
+      rgf.input :name, as: :string, required: false
+      rgf.input :starts_on, as: :datepicker, required: false
+      rgf.input :ends_on, as: :datepicker, required: false
+      rgf.input :display_date, as: :string, required: false
+      rgf.input :funder, as: :string, required: false
+      rgf.input :amount, as: :string, required: false
+      rgf.input :grant_activities, as: :string, required: false
+      rgf.input :award_announcement_url, as: :url, required: false
+      rgf.input :notes, as: :string, required: false
+    end
+
+    f.store_model_list :top_granting_institutions do |tgif|
+      tgif.input :name, as: :string, required: true
+      tgif.input :url, as: :url, required: true
+      tgif.input :description, as: :text, required: false
+    end
   end
 end
 

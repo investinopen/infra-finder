@@ -7,4 +7,6 @@ class HostingStrategy < ApplicationRecord
   include TimestampScopes
 
   single!
+
+  legacy_import_source_key :can_infra_hosted_by_service_prvdr_or_3rd_party_id
 end

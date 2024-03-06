@@ -3,7 +3,7 @@
 module Solutions
   module Implementations
     class ProductRoadmap < Solutions::AbstractImplementation
-      with_link!
+      with_links!
       with_statement!
     end
   end

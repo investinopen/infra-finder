@@ -9,12 +9,14 @@ module SeededOption
   include SolutionOption
 
   included do
+    scope :seeded, -> { where.not(seed_identifier: nil) }
+
     validates :seed_identifier, uniqueness: { if: :seed_identifier? }
   end
 
   module ClassMethods
     # @api private
-    # @param [String] seed_identifier
+    # @param [Integer] seed_identifier
     # @param [CSV::Row] row
     # @return [SeededOption]
     def seed_for!(seed_identifier, row)
@@ -25,6 +27,14 @@ module SeededOption
       record.save!
 
       return record
+    end
+
+    # @param [Integer, nil] seed_identifier
+    # @return [SeededOption, nil]
+    def by_seed_identifier(seed_identifier)
+      return unless seed_identifier.present?
+
+      seeded.find_by(seed_identifier:)
     end
   end
 end
