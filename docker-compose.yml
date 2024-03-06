@@ -14,6 +14,11 @@ services:
     restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   redis:
     image: bitnami/redis:6.2.7-debian-10-r34
     environment:
@@ -24,6 +29,11 @@ services:
         max-size: "10m"
         max-file: "10"
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
   test-redis:
     image: bitnami/redis:6.2.7-debian-10-r34
     environment:
@@ -34,13 +44,20 @@ services:
         max-size: "10m"
         max-file: "10"
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
   web:
     tty: true
     stdin_open: true
     build: .
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     env_file: docker/compose.env
     logging:
       driver: json-file
@@ -54,12 +71,22 @@ services:
     ports:
       - "6856:6333"
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-s", "-o", "/dev/null", "http://localhost:6333/up"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
   worker:
     build: .
-    command: bin/good_job start
+    command: bin/good_job start --probe-port 7001
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      web:
+        condition: service_healthy
     env_file: docker/compose.env
     logging:
       driver: json-file
@@ -71,12 +98,42 @@ services:
       - node_cache:/srv/app/node_modules
       - infra-finder-sync:/srv/app:nocopy
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-s", "-o", "/dev/null", "http://localhost:7001/status/started"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+  assets:
+    build: .
+    command: yarn dev:watch
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      web:
+        condition: service_healthy
+    env_file: docker/compose.env
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "10"
+    volumes:
+      - bundle_cache:/bundle
+      - node_cache:/srv/app/node_modules
+      - infra-finder-sync:/srv/app:nocopy
+    restart: unless-stopped
+    stdin_open: true
   spec:
     build: .
     command: tail -f /dev/null
     depends_on:
-      - db
-      - test-redis
+      db:
+        condition: service_healthy
+      test-redis:
+        condition: service_healthy
     env_file:
       - docker/compose.env
     environment:

@@ -3,9 +3,10 @@
   "private": true,
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
-    "build:css": "run-p build:css:app build:css:admin",
+    "build:css": "run-p \"build:css:* {@}\" --",
     "build:css:app": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application.css --minify",
-    "build:css:admin": "sass ./app/assets/stylesheets/entrypoints:./app/assets/builds --no-source-map --load-path=node_modules"
+    "build:css:admin": "sass ./app/assets/stylesheets/entrypoints:./app/assets/builds --no-source-map --load-path=node_modules",
+    "dev:watch": "run-p \"build {@}\" \"build:css {@}\" -- --watch"
   },
   "version": "1.0.0",
   "license": "UNLICENSED",
