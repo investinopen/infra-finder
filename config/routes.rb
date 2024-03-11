@@ -5,7 +5,13 @@ Rails.application.routes.draw do
 
   ActiveAdmin.routes(self)
 
-  resources :solutions
+  resource :comparison, only: %i[show destroy]
+
+  resource :solution_search, only: %i[create destroy]
+
+  resources :solutions, only: %i[index show] do
+    resource :comparison_item, path: "compare", as: :compare, only: %i[create destroy]
+  end
 
   get "up" => "rails/health#show", as: :rails_health_check
 

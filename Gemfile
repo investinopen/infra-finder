@@ -22,10 +22,12 @@ gem "postgresql_cursor", "~> 0.6.8"
 gem "retryable", "~> 3.0.5"
 gem "scenic", "~> 1.6.0"
 gem "store_model", "~> 2.1.2"
+gem "view_component", "~> 3.11.0"
 
 # Redis / Jobs
 gem "good_job", "~> 3.21.5"
 gem "redis", "~> 5.1.0"
+gem "redis-actionpack", "~> 5.4.0"
 gem "redis-objects", ">= 2.0.0.beta"
 gem "job-iteration", "~> 1.4.1"
 
@@ -48,6 +50,7 @@ gem "dry-validation", "~> 1.10.0"
 
 # Assets
 gem "cssbundling-rails"
+gem "heroicon", "~> 1.0.0"
 gem "jsbundling-rails"
 gem "propshaft"
 gem "stimulus-rails"
@@ -56,6 +59,7 @@ gem "turbo-rails"
 
 # Misc
 gem "absolute_time", "~> 1.0.0"
+gem "active_link_to", "~> 1.0.5"
 gem "acts_as_list", "~> 1.1.0"
 gem "acts-as-taggable-on", "~> 10.0"
 gem "activeadmin", "~> 3.2.0"
@@ -105,6 +109,7 @@ group :development do
 end
 
 group :development, :test do
+  gem "erb_lint", "~> 0.5.0", require: false
   gem "factory_bot_rails", "~> 6.2.0"
   gem "faker", "~> 3.2.3"
   gem "rspec", "~> 3.13.0"

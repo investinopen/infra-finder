@@ -1,0 +1,11 @@
+<%= turbo_frame_tag(solution, :details) do %>
+  <div data-controller="solution-details-component--solution-details-component">
+    <h1><%= solution.name %></h1>
+
+    <h2>Implementation Examples</h2>
+
+    <%= render_implementation(:bylaws) %>
+    <%= render_implementation(:code_repository) %>
+    <%= render_implementation(:web_accessibility) %>
+  </div>
+<% end %>

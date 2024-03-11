@@ -98,9 +98,17 @@ module SolutionInterface
     user_contributions
   ].freeze
 
-  TAG_LISTS = %i[
-    key_technology_list
+  TAG_ASSOCIATIONS = %i[
+    key_technologies
   ].freeze
+
+  TAG_MAPPING = TAG_ASSOCIATIONS.index_with do |assoc|
+    :"#{assoc.to_s.singularize}_list"
+  end.with_indifferent_access.freeze
+
+  TAG_LOOKUP = TAG_MAPPING.invert.with_indifferent_access.transform_values(&:to_sym).freeze
+
+  TAG_LISTS = TAG_LOOKUP.keys.map(&:to_sym).freeze
 
   # @!group Composite Attributes
 
@@ -130,6 +138,12 @@ module SolutionInterface
     *TAG_LISTS,
   ].freeze
 
+  TO_EAGER_LOAD = [
+    *MULTIPLE_OPTIONS,
+    *SINGLE_OPTIONS,
+    TAG_ASSOCIATIONS.index_with(:taggings),
+  ].freeze
+
   # @!endgroup
 
   included do
@@ -146,7 +160,9 @@ module SolutionInterface
       solution_kind :draft
     end
 
-    acts_as_ordered_taggable_on :key_technologies
+    TAG_ASSOCIATIONS.each do |assoc|
+      acts_as_ordered_taggable_on assoc
+    end
 
     attribute :comparable_products, Solutions::ComparableProduct.to_array_type, default: proc { [] }
     attribute :current_affiliations, Solutions::Institution.to_array_type, default: proc { [] }
@@ -154,6 +170,8 @@ module SolutionInterface
     attribute :recent_grants, Solutions::Grant.to_array_type, default: proc { [] }
     attribute :service_providers, Solutions::ServiceProvider.to_array_type, default: proc { [] }
     attribute :top_granting_institutions, Solutions::Institution.to_array_type, default: proc { [] }
+
+    scope :with_all_facets_loaded, -> { preload(*TO_EAGER_LOAD).strict_loading }
 
     before_validation :derive_contact_method!
     before_validation :set_default_identifier!

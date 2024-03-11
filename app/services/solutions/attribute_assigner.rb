@@ -73,7 +73,15 @@ module Solutions
     end
 
     wrapped_hook! def assign
-      target.assign_attributes attributes
+      attributes.each do |attribute, value|
+        case attribute.to_sym
+        when *SolutionInterface::STANDARD_ATTRIBUTES
+          target.write_attribute attribute, value
+        else
+          # Associations, attachments, tag lists, etc
+          target.__send__(:"#{attribute}=", value)
+        end
+      end
 
       target.save!
 

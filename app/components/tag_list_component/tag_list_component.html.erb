@@ -1,0 +1,5 @@
+<div data-controller="tag-list-component--tag-list-component">
+  <% if tags? %>
+    <%= render TagComponent.with_collection(tags) %>
+  <% end %>
+</div>

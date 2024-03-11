@@ -9,5 +9,7 @@ bundle check || bundle install
 
 bundle binstubs --all --path="$BUNDLE_BIN"
 
+corepack enable
+
 # Then exec the container's main process
 exec "$@"

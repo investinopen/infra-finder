@@ -1,7 +1,1 @@
-<p style="color: green"><%= notice %></p>
-
-<%= render @solution %>
-
-<div>
-  <%= link_to "Back to solutions", solutions_path %>
-</div>
+<%= render SolutionDetailsComponent.new(solution: @solution, comparison: current_comparison) %>

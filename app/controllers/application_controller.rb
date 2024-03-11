@@ -2,6 +2,11 @@
 
 # @abstract
 class ApplicationController < ActionController::Base
+  include CallsCommonOperation
+  include WorksWithComparisons
+
+  protect_from_forgery with: :null_session
+
   include Pundit::Authorization
 
   def access_denied(error = nil)

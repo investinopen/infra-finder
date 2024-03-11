@@ -10,6 +10,7 @@ class Solution < ApplicationRecord
 
   belongs_to :organization, inverse_of: :solutions
 
+  has_many :comparison_items, inverse_of: :solution, dependent: :destroy
   has_many :solution_drafts, -> { in_recent_order }, inverse_of: :solution, dependent: :destroy
   has_many :solution_editor_assignments, inverse_of: :solution, dependent: :destroy
 

@@ -6,8 +6,6 @@ module SolutionImports
     #
     # @see SolutionImports::Persistence::PersistEachSolution
     class EachSolutionPersister < SolutionImports::Persistence::BasePersister
-      prepend TransactionalCall
-
       include Dry::Effects.Cache(:persistence)
 
       param :solution_row, Types.Instance(SolutionImports::Transient::SolutionRow)

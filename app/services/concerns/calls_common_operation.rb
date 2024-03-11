@@ -4,6 +4,10 @@
 module CallsCommonOperation
   extend ActiveSupport::Concern
 
+  included do
+    include Dry::Matcher.for(:call_operation, with: Dry::Matcher::ResultMatcher)
+  end
+
   # Call a registered operation with arguments.
   #
   # It will error if the operation does not result in a success.

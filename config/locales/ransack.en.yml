@@ -1,0 +1,8 @@
+---
+en:
+  ransack:
+    models:
+      solution_category: Category
+    attributes:
+      solution:
+        solution_category_ids: Category

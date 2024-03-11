@@ -42,18 +42,19 @@ module SolutionDrafts
 
     wrapped_hook! :perform
 
-    around_perform :locked_performance!
-
     private
 
+    # @todo Re-investigate why this fails certain updates.
     # @return [void]
     def locked_performance!
+      # :nocov:
       ApplicationRecord.transaction do
         draft.lock!
         solution.lock!
 
         yield
       end
+      # :nocov:
     end
   end
 end

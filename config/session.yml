@@ -1,0 +1,19 @@
+default: &default
+ base_key: "_infra_sess"
+ # The Redis database used to store the session.
+ db: 0
+ include_env_in_key: true
+ # They key prefix for sessions inside Redis.
+ namespace: "session"
+ # Number of days before sessions are expired in Redis.
+ ttl: 30
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
+  include_env_in_key: false

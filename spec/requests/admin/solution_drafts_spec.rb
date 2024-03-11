@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe "Admin Solution Drafts", type: :request, default_auth: true do
-  let_it_be(:solution_draft) { solution.create_draft!(user: editor) }
+  let_it_be(:solution_draft, refind: true) { solution.create_draft!(user: editor) }
 
   describe "GET /admin/solutions/:solution_id/solution_drafts" do
     def make_the_request!

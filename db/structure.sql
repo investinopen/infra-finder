@@ -317,6 +317,35 @@ CREATE TABLE public.community_governances (
 
 
 --
+-- Name: comparison_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.comparison_items (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    comparison_id uuid NOT NULL,
+    solution_id uuid NOT NULL,
+    "position" bigint,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: comparisons; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.comparisons (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    ip inet,
+    last_seen_at timestamp without time zone,
+    session_id text NOT NULL,
+    search_filters jsonb DEFAULT '{}'::jsonb NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1075,6 +1104,22 @@ ALTER TABLE ONLY public.community_governances
 
 
 --
+-- Name: comparison_items comparison_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comparison_items
+    ADD CONSTRAINT comparison_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comparisons comparisons_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comparisons
+    ADD CONSTRAINT comparisons_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: friendly_id_slugs friendly_id_slugs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1392,6 +1437,34 @@ CREATE UNIQUE INDEX index_business_forms_on_seed_identifier ON public.business_f
 --
 
 CREATE UNIQUE INDEX index_business_forms_on_slug ON public.business_forms USING btree (slug);
+
+
+--
+-- Name: index_comparison_items_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comparison_items_ordering ON public.comparison_items USING btree (comparison_id, "position", solution_id);
+
+
+--
+-- Name: index_comparison_items_uniqueness; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_comparison_items_uniqueness ON public.comparison_items USING btree (comparison_id, solution_id);
+
+
+--
+-- Name: index_comparisons_on_last_seen_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comparisons_on_last_seen_at ON public.comparisons USING btree (last_seen_at);
+
+
+--
+-- Name: index_comparisons_on_session_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_comparisons_on_session_id ON public.comparisons USING btree (session_id);
 
 
 --
@@ -2317,6 +2390,14 @@ ALTER TABLE ONLY public.solution_drafts
 
 
 --
+-- Name: comparison_items fk_rails_b0877dc5c7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comparison_items
+    ADD CONSTRAINT fk_rails_b0877dc5c7 FOREIGN KEY (comparison_id) REFERENCES public.comparisons(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_draft_user_contributions fk_rails_b604ad2471; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2373,6 +2454,14 @@ ALTER TABLE ONLY public.solution_drafts
 
 
 --
+-- Name: comparison_items fk_rails_d4c511baf3; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comparison_items
+    ADD CONSTRAINT fk_rails_d4c511baf3 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solutions fk_rails_d7b00384c2; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2411,6 +2500,8 @@ ALTER TABLE ONLY public.users_roles
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240306012508'),
+('20240306012426'),
 ('20240304235024'),
 ('20240304210653'),
 ('20240304205557'),

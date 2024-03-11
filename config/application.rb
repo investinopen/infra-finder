@@ -26,6 +26,7 @@ Bundler.require(*Rails.groups)
 require_relative "../lib/patches/alter_store_model_mutation_tracking"
 require_relative "../lib/patches/better_migration_timestamps"
 require_relative "../lib/patches/handle_weird_redis_openssl_errors"
+require_relative "../lib/patches/improve_stimulus_manifests"
 require_relative "../lib/patches/irregular_camelization"
 require_relative "../lib/patches/support_calculated_fields_with_aggregates"
 require_relative "../lib/patches/support_lquery"
@@ -65,6 +66,17 @@ module InfraFinder
 
       g.orm :active_record, primary_key_type: :uuid
     end
+
+    config.view_component.component_parent_class = "ApplicationComponent"
+    config.view_component.generate.distinct_locale_files = true
+    config.view_component.generate.locale = true
+    config.view_component.generate.preview = true
+    config.view_component.generate.sidecar = true
+    config.view_component.generate.stimulus = true
+    config.view_component.generate.stimulus_controller = true
+    config.view_component.generate.preview_path = "spec/components/previews"
+    config.view_component.preview_paths << Rails.root.join("spec/components/previews").to_s
+    config.view_component.show_previews_source = false
 
     if Rails.env.development?
       config.hosts << "www.example.com"

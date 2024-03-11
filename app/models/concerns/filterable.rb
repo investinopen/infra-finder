@@ -29,6 +29,10 @@ module Filterable
       ordered_for_filter_collection.scoped_for_filter_collection_for(user)
     end
 
+    def filter_select_options(...)
+      filter_collection(...).pluck(:name, :id)
+    end
+
     # @api private
     # @return [ActiveRecord::Relation<Filterable>]
     def ordered_for_filter_collection

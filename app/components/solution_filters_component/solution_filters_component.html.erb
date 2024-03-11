@@ -1,0 +1,12 @@
+<%= turbo_frame_tag("solution-filters") do %>
+  <%= search_form_for solution_search, **search_form_options do |f| %>
+    <%= f.label :solution_categories_id_in %>
+    <%= f.select :solution_categories_id_in, SolutionCategory.filter_select_options, multiple: true %>
+
+    <%= f.label :name_cont %>
+    <%= f.search_field :name_cont %>
+
+    <%= f.submit t(".submit_label"), class: "solution-filters--btn" %>
+    <%= link_to t(".reset_label"), solution_search_path, class: "solution-filters--btn", data: { turbo_method: :delete, turbo_frame: "_top" } %>
+  <% end %>
+<% end %>
