@@ -1,25 +1,63 @@
 <%= turbo_frame_tag "site-footer", target: "_top" do %>
-  <footer class="bg-white rounded-lg shadow m-4 dark:bg-gray-800" data-controller="footer-component--footer-component">
-    <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
-      <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
-        <%= t(".copyright_prefix") %>
-        <%= link_to t(".ioi"), "https://investinopen.org/", class: "hover:underline", target: "_blank", rel: "noopener" %>.
-        <%= t(".copyright_suffix") %>
-      </span>
-      <ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
-        <li>
-          <a href="#" class="hover:underline me-4 md:me-6">About</a>
-        </li>
-        <li>
-          <a href="#" class="hover:underline me-4 md:me-6">Privacy Policy</a>
-        </li>
-        <li>
-          <a href="#" class="hover:underline me-4 md:me-6">Licensing</a>
-        </li>
-        <li>
-          <a href="#" class="hover:underline">Contact</a>
-        </li>
-      </ul>
+  <div class="l-container">
+    <div class="l-container__inner text-light pb-10">
+      <h4 class="text-sm pt-9 border-t border-neutral-40">
+        <%= t(".agreement_header") %>
+      </h4>
+      <div class="pt-2.5 text-terms">
+        <%= t(".agreement_info") %>
+      </div>
+      <div class="pt-3.5 text-terms">
+        <p><%= t(".agreement_paragraph_1") %></p>
+        <p class="pt-4"><%= t(".agreement_paragraph_2") %></p>
+      </div>
+    </div>
+  </div>
+  <footer class="bg-black l-container l-container--narrow" data-controller="footer-component--footer-component">
+    <div class="l-container__inner footer-wrap">
+      <div class="footer-data">
+        <div class="footer-logo">
+          <img src="/assets/ioi-logo-light.svg" alt="Invest in Open Infrastructure">
+        </div>
+        <div class="footer-copyright">
+          © Invest in Open Infrastructure, subject to a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+        </div>
+        <ul id="terms">
+          <li><a href="https://investinopen.org/ioi-privacy-policy">Privacy Policy</a></li>
+          <li><a href="https://investinopen.org/terms-and-conditions/">Terms &amp; Conditions</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav">
+        <h3>Navigation</h3>
+        <div class="footer-nav-column">
+          <ul>
+            <li><a href="https://investinopen.org/about/funding/">How We're Funded</a></li>
+            <li><a href="https://investinopen.org/about/">About IOI</a></li>
+            <li><a href="https://investinopen.org/code-of-conduct/">Code of Conduct</a></li>
+            <li><a href="https://investinopen.org/contact/">Contact Us</a></li>
+            <li><a href="https://investinopen.org/about/team/">Who We Are</a></li>
+            <li><a href="https://investinopen.org/blog/">Blog</a></li>
+            <li><a href="https://investinopen.org/jobs/">Work With Us</a></li>
+            <li><a href="https://investinopen.org/tag/resources/">Resources</a></li>
+            <li><a href="https://investinopen.org/tag/events/">Events</a></li>
+          </ul>
+        </div>
+        <ul>
+          <li class="global-underline"><a href="https://investinopen.org/tag/events/">Events</a></li>
+          <li class="global-underline"><a href="https://investinopen.org/tag/community/">Community</a></li>
+          <li class="global-underline"><a href="https://investinopen.org/tag/strategy/">Strategy</a></li>
+          <li class="global-underline"><a href="https://investinopen.org/tag/governance/">Governance</a></li>
+          <li class="global-underline"><a href="https://investinopen.org/tag/friday-updates/">Friday Updates</a></li>
+        </ul>
+      </div>
+      <div class="footer-social">
+        <h3>We are on social media</h3>
+        <ul>
+          <li><a href="https://www.linkedin.com/company/invest-in-open" aria-label="link Linkedin" class="arrow">LinkedIn</a></li>
+          <li><a href="https://indieweb.social/@investinopen" aria-label="link Mastodon" class="arrow">Mastodon</a></li>
+          <li><a href="https://twitter.com/investinopen" aria-label="link Twitter" class="arrow">Twitter</a></li>
+        </ul>
+      </div>
     </div>
   </footer>
 <% end %>

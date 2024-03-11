@@ -1,0 +1,4 @@
+@define-mixin a-default-outline {
+  outline: var(--outline-width) solid var(--outline-color, currentColor);
+  outline-offset: var(--outline-offset, var(--outline-width));
+}

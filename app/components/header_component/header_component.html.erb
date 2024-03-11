@@ -1,32 +1,97 @@
 <%= turbo_frame_tag "site-header", class: "max-w-screen-xl", target: "_top" do %>
-  <header class="container mx-auto px-5 flex flex-wrap max-w-screen-xl" data-controller="header-component--header-component">
-    <nav class="bg-white border-gray-200 dark:bg-gray-900 w-screen">
-      <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <%= link_to root_path, class: "flex items-center space-x-3 rtl:space-x-reverse" do %>
-          <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"><%= t("globals.app_title") %></span>
-        <% end %>
-        <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
-          <span class="sr-only">Open main menu</span>
-          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
-          </svg>
-        </button>
-        <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-          <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
-              <%= nav_link "Solutions", solutions_path, active: :exclusive %>
+<header class="header-section l-container">
+  <div class="l-container__inner header-nav">
+    <nav class="header-nav" id="primary-nav">
+      <a href="https://investinopen.org" id="home-link"><img src="/assets/ioi-logo-dark.svg" alt="Invest in Open Infrastructure"></a>
+      <input id="toggle" class="header-checkbox" type="checkbox">
+      <label class="header-toggle" for="toggle">
+        <span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </span>
+      </label>
+      <ul class="header-nav-list">
+        <li class="header-nav-item">
+          <span class="spacer">About IOI</span>
+          <a href="https://investinopen.org/about">About IOI</a>
+          <ul>
+            <li class="np-about">
+              <span class="spacer">About Us</span>
+              <a href="https://investinopen.org/about">About Us</a>
             </li>
+            <li class="np-team">
+              <span class="spacer">Our Team</span>
+              <a href="https://investinopen.org/about/team">Our Team</a>
+            </li>
+            <li class="np-governance">
+              <span class="spacer">Our Governance</span>
+              <a href="https://investinopen.org/about/governance">Our Governance</a>
+            </li>
+            <li class="np-funding">
+              <span class="spacer">How We're Funded</span>
+              <a href="https://investinopen.org/about/funding">How We're Funded</a>
+            </li>
+            <li class="np-how-we-work">
+              <span class="spacer">How We Work</span>
+              <a href="https://investinopen.org/about/how-we-work">How We Work</a>
+            </li>
+            <li class="np-strategic-plan-2021-2024">
+              <span class="spacer">Strategic Plan</span>
+              <a href="https://investinopen.org/about/strategic-plan-2021-2024">Strategic Plan</a>
+            </li>
+          </ul>
+        </li>
+        <li class="header-nav-item">
+          <span class="spacer">What We Do</span>
+          <a class="cursor-arrow">What We Do</a>
+          <ul>
+            <li class="np-funding-pilots">
+                <span class="spacer">Funding Pilots</span>
+                <a href="https://investinopen.org/funding-pilots">Funding Pilots</a>
+            </li>
+            <li class="np-strategic-support">
+                <span class="spacer">Strategic Support</span>
+                <a href="https://investinopen.org/strategic-support">Strategic Support</a>
+            </li>
+            <li class="np-data-room">
+                <span class="spacer">Data Room</span>
+                <a href="https://investinopen.org/data-room">Data Room</a>
+            </li>
+          </ul>
+        </li>
+        <li class="header-nav-item">
+          <span class="spacer">Our Impact</span>
+          <a href="https://investinopen.org/our-impact">Our Impact</a>
+        </li>
+        <li class="header-nav-item">
+          <span class="spacer">Infra Finder</span>
+          <%= nav_link "Infra Finder", solutions_path, active: :exclusive %>
+          <ul>
             <li>
+              <%= nav_link "Search & Compare", solutions_path, active: :exclusive %>
+            </li>
+            <!-- li>
               <%= nav_link "Compare", comparison_path %>
-            </li>
+            </li -->
             <% if has_any_admin_or_editor_access? %>
               <li>
                 <%= nav_link "Admin", admin_dashboard_path %>
               </li>
             <% end %>
           </ul>
-        </div>
-      </div>
+        </li>
+        <li class="header-nav-item">
+          <span class="spacer">News &amp; Updates</span>
+          <a href="https://investinopen.org/blog">News &amp; Updates</a>
+
+        </li>
+        <li class="header-nav-item">
+          <span class="spacer">Get Involved</span>
+          <a href="https://investinopen.org/get-involved">Get Involved</a>
+        </li>
+      </ul>
     </nav>
-  </header>
+  </div>
+</header>
 <% end %>

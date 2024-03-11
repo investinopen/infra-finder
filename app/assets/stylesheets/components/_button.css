@@ -1,0 +1,41 @@
+/* See base/_appearance for base button styles */
+.m-button {
+  border-radius: 12.5rem;
+  @apply font-header;
+  @apply text-label;
+
+  /* In the interest of time & reduced complexity,
+  background styles will use tailwind's 'bg-' pattern. */
+  &.bg-black:hover {
+    background-color: theme("colors.brand.yellow");
+    color: theme("colors.black");
+  }
+
+  &:hover {
+    background-color: theme("colors.neutral.40");
+    color: theme("colors.black");
+  }
+
+  &--lg {
+    gap: 1rem;
+    padding-block: 1.0625rem;
+    padding-inline: 1.75rem;
+
+    > svg {
+      block-size: 1.5rem;
+      margin-block: -0.125rem;
+    }
+  }
+
+  &--sm {
+    gap: 0.6875rem;
+    padding-block: 0.75rem;
+    padding-inline: 1.25rem;
+    @apply text-base;
+    @apply text-xs;
+
+    > svg {
+      block-size: 1rem;
+    }
+  }
+}

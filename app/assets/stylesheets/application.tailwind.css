@@ -1,3 +1,14 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "base/_fonts.css";
+@import "base/_root.css";
+@import "base/_appearance.css";
+@import "base/_typography.css";
+
+@import "tailwindcss/components";
+@import "components/_button.css";
+@import "components/_card.css";
+
+@import "tailwindcss/utilities";
+@import "utilities/_appearance";
+@import "utilities/_layout.css";
+@import "utilities/_typography.css";

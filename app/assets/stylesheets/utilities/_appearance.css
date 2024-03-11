@@ -1,0 +1,11 @@
+/* In the interest of time & reduced complexity,
+background classes will extend tailwind's 'bg-' pattern. */
+[class*="bg-"] {
+  color: var(--color);
+  accent-color: var(--accent-color);
+}
+
+.bg-black {
+  --color: theme("colors.neutral.10");
+  --color-light: theme("colors.neutral.40");
+}

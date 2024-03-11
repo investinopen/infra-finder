@@ -1,0 +1,16 @@
+.l-container {
+  @apply @container;
+
+  &--narrow {
+    --container-inline-size: theme("maxWidth.narrow");
+  }
+
+  &__inner {
+    inline-size: 100%;
+    max-inline-size: calc(
+      var(--container-inline-size) + 2 * var(--container-padding-inline)
+    );
+    margin-inline: auto;
+    padding-inline: var(--container-padding-inline);
+  }
+}

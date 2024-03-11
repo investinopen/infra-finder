@@ -37,7 +37,7 @@ class ComparisonToggleComponent < ApplicationComponent
 
   def build_link_options
     {
-      class: "mt-3 text-black dark:text-white hover:text-blue-600 inline-flex items-center",
+      class: "m-button bg-neutral-20",
       data: {
         controller: "comparison-toggle-component--comparison-toggle-component",
         "turbo-method": comparing? ? :delete : :post,

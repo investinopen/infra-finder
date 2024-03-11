@@ -1,3 +1,12 @@
-<%= render SolutionFiltersComponent.new(solution_search: @solution_search) %>
+<section class="l-container">
+  <div class="l-container__inner pb-[7.5rem] pt-8">
+    <header>
+      <h2>Search & Compare Solutions</h2>
+    </header>
+    <div class="pt-9">
+      <%= render SolutionFiltersComponent.new(solution_search: @solution_search) %>
 
-<%= render SolutionsComponent.new(solutions: @solutions, comparison: current_comparison) %>
+      <%= render SolutionsComponent.new(solutions: @solutions, comparison: current_comparison) %>
+    </div>
+  </div>
+</section>

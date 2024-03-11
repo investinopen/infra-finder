@@ -15,7 +15,7 @@
   <body>
     <%= render HeaderComponent.new %>
     <%= render FlashMessagesComponent.new(flash:) %>
-    <main class="container mx-auto mt-28 px-5 flex flex-wrap">
+    <main>
       <%= yield %>
     </main>
     <%= render FooterComponent.new %>
