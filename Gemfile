@@ -54,7 +54,6 @@ gem "heroicon", "~> 1.0.0"
 gem "jsbundling-rails"
 gem "propshaft"
 gem "stimulus-rails"
-gem "tailwindcss-rails"
 gem "turbo-rails"
 
 # Misc
