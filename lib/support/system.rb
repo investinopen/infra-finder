@@ -31,12 +31,6 @@ module Support
         dir.namespaces.add_root key: nil, const: nil
       end
 
-      config.component_dirs.add "models" do |dir|
-        dir.auto_register = false
-
-        dir.namespaces.add_root key: nil, const: nil
-      end
-
       config.inflector = Dry::Inflector.new do |inflections|
         inflections.acronym("API")
         inflections.acronym("HTML")

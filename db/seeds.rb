@@ -5,5 +5,8 @@ InfraFinder::Container["system.initial_seed"].().value!
 
 Shrine.logger.level = :FATAL
 
-warn "Seeding legacy solutions"
-InfraFinder::Container["seeding.import_legacy_solutions"].().value!
+unless Solution.exists?
+  warn "Seeding legacy solutions"
+
+  InfraFinder::Container["seeding.import_legacy_solutions"].().value!
+end

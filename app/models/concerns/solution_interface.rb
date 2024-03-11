@@ -246,6 +246,10 @@ module SolutionInterface
       define_contact_method!
 
       define_financial_enums!
+    rescue ActiveRecord::NoDatabaseError
+      # :nocov:
+      # intentionally left blank
+      # :nocov:
     end
 
     # @api private

@@ -18,27 +18,7 @@ docker-sync start
 docker-compose up -d
 ```
 
-Look at `docker-compose ps` to make sure everything gets into a running state before proceeding.
-
-### Minio
-
-Minio is used to simulate S3 in development. On your **host** machine, run the following script:
-
-```bash
-docker/minio/configure.sh
-```
-
-It will do what needs to be done in the docker container.
-
-### Setting up the database
-
-On your **host** machine, run the following:
-
-```bash
-docker/ensure_seeds.sh
-```
-
-This will take a little time. Errors about file formats and VIPS can be ignored—the data has some messy image URLs. The import will proceed regardless.
+This will automatically run migrations and seed the database with migrations, seeds, etc.
 
 ### Setting up your admin account
 
