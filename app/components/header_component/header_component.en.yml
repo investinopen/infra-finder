@@ -1,3 +1,6 @@
 ---
 en:
-  header_title: "Site Header"
+  finder_link: "Infra Finder"
+  finder_about_link: "About Infra Finder"
+  finder_admin_link: "Admin"
+  finder_solutions_link: "Search & Compare"
