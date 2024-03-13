@@ -46,3 +46,6 @@
 /coverage
 /node_modules
 /spec/examples.txt
+
+# misc
+.DS_Store
