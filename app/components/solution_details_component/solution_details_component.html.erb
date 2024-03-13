@@ -1,11 +1,15 @@
 <%= turbo_frame_tag(solution, :details) do %>
-  <div data-controller="solution-details-component--solution-details-component">
-    <h1><%= solution.name %></h1>
+  <section data-controller="solution-details-component--solution-details-component" class="l-container">
+    <div class="l-container__inner">
+      <h1><%= solution.name %></h1>
 
-    <h2>Implementation Examples</h2>
+      <hr>
 
-    <%= render_implementation(:bylaws) %>
-    <%= render_implementation(:code_repository) %>
-    <%= render_implementation(:web_accessibility) %>
-  </div>
+      <h2>Implementation Examples</h2>
+
+      <%= render_implementation(:bylaws) %>
+      <%= render_implementation(:code_repository) %>
+      <%= render_implementation(:web_accessibility) %>
+    </div>
+  </section>
 <% end %>

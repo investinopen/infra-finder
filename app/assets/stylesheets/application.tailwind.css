@@ -5,6 +5,7 @@
 @import "base/_typography.css";
 
 @import "tailwindcss/components";
+@import "components/_badge.css";
 @import "components/_button.css";
 @import "components/_card.css";
 

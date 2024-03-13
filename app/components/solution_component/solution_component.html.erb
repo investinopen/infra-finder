@@ -4,6 +4,7 @@
       <h3><%= link_to solution.name, solution_path(solution), data: { turbo_frame: "_top" } %></h3>
     </header>
     <div class="m-card__text">
+      <%= render_implementation(:open_api) %>
       <%= render_implementation(:bylaws) %>
       <%= render_implementation(:code_repository) %>
       <%= render_tag_list(:key_technologies) %>

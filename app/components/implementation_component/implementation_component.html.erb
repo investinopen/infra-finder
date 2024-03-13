@@ -1,4 +1,11 @@
-<div data-controller="implementation-component--implementation-component">
-  <div class="leading-relaxed text-light"><%= implementation_name %>: <%= available? ? "available" : "not available" %></div>
-
+<div data-controller="implementation-component--implementation-component" class="m-badge-md">
+  <span class="<%= available? ? "bg-brand-blue" : "bg-neutral-20" %>">
+    <% if available? %>
+      <img src="/icons/20/Checkmark.svg" alt="">
+    <% else %>
+      <img src="/icons/20/Minus.svg" alt="">
+    <% end %>
+  </span>
+  <span><%= t(".#{implementation_name}") %></span>
+  <span class="sr-only"><%= available? ? t(".available") : t(".not_available") %></span>
 </div>

@@ -1,4 +1,11 @@
-<div data-controller="implementation-detail-component--implementation-detail-component">
-  <div class="leading-relaxed text-light"><%= implementation_name %></div>
-  <p>Availability: <%= available? ? "available" : "not available" %>
-</div>
+<% if available? %>
+  <div data-controller="implementation-detail-component--implementation-detail-component" class="m-card m-card--sm">
+    <div class="m-card__text">
+      <div class="text-h5"><%= t(".#{implementation_name}") %></div>
+      <div class="m-badge-sm mt-[1.125rem]">
+        <img src="/icons/16/Checkmark.svg" alt="">
+        <%= t(".available") %>
+      </div>
+    </div>
+  </div>
+<% end %>

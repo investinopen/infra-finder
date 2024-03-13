@@ -1,3 +1,7 @@
 ---
 en:
-  hello: Hello
+  available: Available
+  not_available: Not Available
+  code_repository: Code Repository
+  open_api: Open API
+  bylaws: Bylaws
