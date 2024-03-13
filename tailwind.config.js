@@ -54,7 +54,7 @@ const fontSize = {
 };
 
 fontFamily = {
-  body: ["Inter var", ...defaultTheme.fontFamily.sans],
+  body: ["Inter", ...defaultTheme.fontFamily.sans],
   header: ["BW Gradual", ...defaultTheme.fontFamily.sans],
 };
 

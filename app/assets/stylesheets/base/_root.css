@@ -24,7 +24,6 @@
 
   --font1: theme("fontFamily.body");
   --font2: theme("fontFamily.header");
-  /* --font3: "Gloock", serif; */
 
   --vhs: 3rem;
 }
