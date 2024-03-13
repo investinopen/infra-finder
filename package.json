@@ -6,7 +6,9 @@
     "build:css": "run-p \"build:css:* {@}\" --",
     "build:css:app": "postcss ./app/assets/stylesheets/application.postcss.css -o ./app/assets/builds/application.css",
     "build:css:admin": "sass ./app/assets/stylesheets/entrypoints:./app/assets/builds --no-source-map --load-path=node_modules",
-    "dev:watch": "run-p \"build {@}\" \"build:css {@}\" -- --watch"
+    "dev:watch": "run-p \"build {@}\" \"build:css {@}\" -- --watch",
+    "lint": "docker-compose exec web bin/erblint .",
+    "fix": "docker-compose exec web bin/erblint -a ."
   },
   "version": "1.0.0",
   "license": "UNLICENSED",

@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "site-header", class: "max-w-screen-xl", target: "_top" do %>
+<%= turbo_frame_tag "site-header", target: "_top" do %>
 <header class="header-section l-container">
   <div class="l-container__inner header-nav">
     <nav class="header-nav" id="primary-nav">
@@ -67,19 +67,6 @@
         <li class="header-nav-item">
           <span class="spacer">Infra Finder</span>
           <%= nav_link "Infra Finder", solutions_path, active: :exclusive %>
-          <ul>
-            <li>
-              <%= nav_link "Search & Compare", solutions_path, active: :exclusive %>
-            </li>
-            <!-- li>
-              <%= nav_link "Compare", comparison_path %>
-            </li -->
-            <% if has_any_admin_or_editor_access? %>
-              <li>
-                <%= nav_link "Admin", admin_dashboard_path %>
-              </li>
-            <% end %>
-          </ul>
         </li>
         <li class="header-nav-item">
           <span class="spacer">News &amp; Updates</span>
@@ -94,4 +81,24 @@
     </nav>
   </div>
 </header>
+<nav aria-labelledBy="nav-infra-finder" class="subnav bg-brand-mint l-container">
+  <div class="l-container__inner">
+    <ul class="text-xs">
+      <li>
+        <%= nav_link "Search & Compare", solutions_path, active: :exclusive %>
+      </li>
+      <li>
+        <a href="https://investinopen.org/blog/blog-introducing-infra-finder/">About Infra Finder</a>
+      </li>
+      <!-- li>
+        <%= nav_link "Compare", comparison_path %>
+      </li -->
+      <% if has_any_admin_or_editor_access? %>
+        <li>
+          <%= nav_link "Admin", admin_dashboard_path %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</nav>
 <% end %>

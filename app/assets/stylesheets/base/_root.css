@@ -2,7 +2,10 @@
   --color: theme("colors.black");
   --color-light: theme("colors.neutral.70");
   --accent-color: theme("colors.brand.mint");
+
+  /* Focus states */
   --outline-width: 0.125rem;
+  --outline-color: currentColor;
 
   /* Containers */
   @mixin fluidScaleRem --container-padding-inline, 44px, 24px;

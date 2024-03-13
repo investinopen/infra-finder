@@ -96,6 +96,10 @@
     }
   }
 
+  a {
+    --outline-offset: calc(var(--outline-width) * -1);
+  }
+
   @media screen and (max-width: theme("screens.nav")) {
     flex-direction: column;
 
@@ -158,6 +162,9 @@
     margin-left: auto;
 
     > a {
+      --outline-offset: var(--outline-width);
+      --outline-color: var(--black);
+
       background-color: var(--black);
       border-radius: var(--radius);
       height: var(--nav-item-height);
@@ -297,6 +304,33 @@
 
     ~ .header-nav-list {
       display: inline-block;
+    }
+  }
+}
+
+/* subnav */
+.subnav {
+  overflow-x: auto;
+  white-space: nowrap;
+
+  ul {
+    display: flex;
+
+    @media screen and (min-width: theme("screens.nav")) {
+      justify-content: center;
+    }
+  }
+
+  a {
+    --outline-offset: calc(var(--outline-width) * -1);
+
+    display: inline-block;
+    @mixin fluidScaleRem padding-inline, 36px, 26px;
+    margin-inline: auto;
+    padding-block: 18px;
+
+    &[aria-current="page"] {
+      @apply font-bold;
     }
   }
 }
