@@ -1,5 +1,6 @@
 ---
 en:
   heading: "Filters"
+  category_heading: "Solution Category"
   reset_label: "Clear All"
   submit_label: "Update Results"

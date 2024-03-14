@@ -1,12 +1,32 @@
 .m-checkbox {
   @apply text-xs;
-  display: flex;
-  gap: 0.625rem;
 
   input {
     @apply sr-only;
 
-    & + span {
+    &:focus,
+    &:focus-visible {
+      outline: 0;
+    }
+
+    &:checked + span::before {
+      background-image: url("/icons/20/Checkbox-Checked.svg");
+    }
+
+    &:focus-visible + span::before {
+      --outline-offset: 0;
+
+      @mixin a-default-outline;
+    }
+  }
+
+  span {
+    display: flex;
+    gap: 0.625rem;
+
+    &::before {
+      display: inline-block;
+      content: "";
       flex: 0 0 auto;
       display: inline-block;
       block-size: 1.25rem;
@@ -14,16 +34,6 @@
       border-radius: 0.3125rem;
       background-image: url("/icons/20/Checkbox-Unchecked.svg");
       background-repeat: no-repeat;
-    }
-
-    &:checked + span {
-      background-image: url("/icons/20/Checkbox-Checked.svg");
-    }
-
-    &:focus + span {
-      --outline-offset: 0;
-
-      @mixin a-default-outline;
     }
   }
 }

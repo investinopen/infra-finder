@@ -15,6 +15,7 @@
     @apply font-header;
 
     &:focus-within {
+      --outline-offset: calc(var(--outline-width) * -1);
       @mixin a-default-outline;
     }
 
@@ -34,7 +35,7 @@
 
     padding: var(--_solution-filters-padding);
 
-    &__group {
+    details {
       padding-block: 1.25rem;
       border-block-end-width: 0.0625rem;
 
@@ -43,12 +44,40 @@
       }
     }
 
+    summary {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.875rem;
+
+      &::marker {
+        content: none;
+      }
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      &::after {
+        display: block;
+        content: "";
+        inline-size: 1rem;
+        block-size: 1.5rem;
+        background-image: url("/icons/16/Disclosure-Down.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+    }
+
+    details[open] summary::after {
+      background-image: url("/icons/16/Disclosure-Up.svg");
+    }
+
     &__checkboxes {
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      padding-block-start: 1rem;
-      padding-block-end: 1.25rem;
+      margin-block-start: 1.1875rem;
       margin-inline-end: calc(var(--_solution-filters-padding) * -0.5);
       padding-inline-end: calc(var(--_solution-filters-padding) * 0.5);
       margin-inline-start: calc(var(--outline-width) * -1);
@@ -62,7 +91,6 @@
       flex-wrap: wrap;
       justify-content: space-between;
       gap: 0.5rem;
-      padding-block-start: 2rem;
     }
   }
 }
