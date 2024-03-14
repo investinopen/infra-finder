@@ -1,5 +1,5 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
-const { screens } = require("./tailwind-helper");
+const { screens } = require("./tailwind/helper");
 
 const maxWidth = {
   base: "84.5rem",
@@ -81,5 +81,6 @@ module.exports = {
     require("@tailwindcss/aspect-ratio"),
     require("@tailwindcss/typography"),
     require("@tailwindcss/container-queries"),
+    require("./tailwind/fluid-scale-plugin"),
   ],
 };
