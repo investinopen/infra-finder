@@ -1,6 +1,68 @@
 @layer components {
-  .solution-filters {
+  .solution-filters-sidebar {
+    /* @apply sticky; */
+    /* @apply top-4; */
+    /* max-block-size: calc(100vh - 2rem); */
+    /* overflow-y: auto; */
+    overflow-x: hidden;
+  }
+
+  .solution-search {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding-inline: 1.4375rem;
+    @apply font-header;
+
+    &:focus-within {
+      @mixin a-default-outline;
+    }
+
+    input {
+      background-color: transparent;
+      block-size: 3.75rem;
+      inline-size: 100%;
+
+      &:focus-visible {
+        outline: 0;
+      }
+    }
+  }
+
+  .solution-filters {
+    --_solution-filters-padding: 2.25rem;
+
+    padding: var(--_solution-filters-padding);
+
+    &__group {
+      padding-block: 1.25rem;
+      border-block-end-width: 0.0625rem;
+
+      &:first-of-type {
+        border-block-start-width: 0.0625rem;
+      }
+    }
+
+    &__checkboxes {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding-block-start: 1rem;
+      padding-block-end: 1.25rem;
+      margin-inline-end: calc(var(--_solution-filters-padding) * -0.5);
+      padding-inline-end: calc(var(--_solution-filters-padding) * 0.5);
+      margin-inline-start: calc(var(--outline-width) * -1);
+      padding-inline-start: var(--outline-width);
+      max-block-size: 16.0625rem;
+      overflow-y: auto;
+    }
+
+    &__buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding-block-start: 2rem;
+    }
   }
 }

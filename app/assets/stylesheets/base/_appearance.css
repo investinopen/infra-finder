@@ -7,12 +7,23 @@ body {
   color: var(--color);
 }
 
-a,
-button,
-input,
-.m-button {
+:is(
+    [href],
+    button,
+    input,
+    textarea,
+    summary,
+    select,
+    [tabindex],
+    [draggable],
+    area,
+    object,
+    iframe,
+    .m-button
+  ) {
   &:focus {
     outline: 0;
+    box-shadow: none;
   }
 
   &:focus-visible {
@@ -55,9 +66,25 @@ input[type="submit"]:not([class]),
   }
 }
 
-input[type="checkbox"],
-input[type="radio"] {
+:is([type="search"], select, textarea, [type="search"]) {
+  @apply truncate;
+  background-color: var(--accent-color);
+  border: transparent;
+  font-size: inherit;
+  padding: 0;
+}
+
+:is(input[type="checkbox"], input[type="radio"]) {
   accent-color: theme("colors.white");
+
+  &:focus {
+    outline: 0;
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    @mixin a-default-outline;
+  }
 }
 
 svg {

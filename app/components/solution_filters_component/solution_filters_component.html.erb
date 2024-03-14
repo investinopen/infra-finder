@@ -1,12 +1,32 @@
 <%= turbo_frame_tag("solution-filters") do %>
   <%= search_form_for solution_search, **search_form_options do |f| %>
-    <%= f.label :solution_categories_id_in %>
-    <%= f.select :solution_categories_id_in, SolutionCategory.filter_select_options, multiple: true %>
-
-    <%= f.label :name_cont %>
-    <%= f.search_field :name_cont %>
-
-    <%= f.submit t(".submit_label"), class: "m-button m-button--sm bg-black" %>
-    <%= link_to t(".reset_label"), solution_search_path, class: "m-button m-button--sm bg-white", data: { turbo_method: :delete, turbo_frame: "_top" } %>
+  <div class="solution-search rounded-full bg-neutral-20 mb-4">
+    <img src="/icons/24/Search.svg" alt="">
+    <%= f.label :name_cont, class: "sr-only" %>
+    <%= f.search_field :name_cont, placeholder: "Search" %>
+  </div>
+  <div class="solution-filters  bg-neutral-20 rounded-xl">
+    <h3 class="pb-[1.1875rem]"><%= t(".heading") %></h3>
+    <div>
+      <%= f.label :solution_categories_id_in %>
+      <%= f.select :solution_categories_id_in, SolutionCategory.filter_select_options, multiple: true %>
+    </div>
+    <details class="solution-filters__group">
+      <summary class="text-h5">Solution Category</summary>
+      <div class="solution-filters__checkboxes">
+        <% SolutionCategory.filter_select_options.each do |category, id| %>
+          <label class="m-checkbox">
+            <input type="checkbox" value="<%= id %>">
+            <span></span>
+            <span><%= category %></span>
+          </label>
+        <% end %>
+      </div>
+    </details>
+    <div class="solution-filters__buttons">
+      <%= link_to t(".reset_label"), solution_search_path, class: "m-button m-button--sm bg-white", data: { turbo_method: :delete, turbo_frame: "_top" } %>
+      <%= f.submit t(".submit_label"), class: "m-button m-button--sm bg-black" %>
+    </div>
+  </div>
   <% end %>
 <% end %>

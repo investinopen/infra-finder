@@ -23,7 +23,7 @@ class SolutionFiltersComponent < ApplicationComponent
     {
       url: solution_search_path,
       html: {
-        class: "solution-filters bg-neutral-20 rounded-xl",
+        class: "solution-filters-sidebar",
         data: {
           controller: "solution-filters-component--solution-filters-component",
           method: "post",

@@ -1,7 +1,7 @@
 :root {
   --color: theme("colors.black");
   --color-light: theme("colors.neutral.70");
-  --accent-color: theme("colors.brand.mint");
+  --accent-color: theme("colors.white");
   --border-color: theme("colors.neutral.30");
 
   /* Focus states */

@@ -1,4 +1,5 @@
 ---
 en:
+  heading: "Filters"
   reset_label: "Clear All"
   submit_label: "Update Results"

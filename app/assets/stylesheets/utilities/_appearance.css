@@ -8,4 +8,9 @@ background classes will extend tailwind's 'bg-' pattern. */
 .bg-black {
   --color: theme("colors.neutral.10");
   --color-light: theme("colors.neutral.40");
+  --outline-color: theme("colors.black");
+}
+
+.bg-neutral-20 {
+  --border-color: theme("colors.neutral.60");
 }

@@ -14,6 +14,7 @@ const colors = {
   },
   neutral: {
     70: "hsla(0, 0%, 38%, 1)",
+    60: "hsla(0, 0%, 41%, 1)",
     40: "hsla(0, 0%, 75%, 1)",
     30: "hsla(0, 0%, 85%, 1)",
     20: "hsla(0, 0%, 92%, 1)",
@@ -67,6 +68,11 @@ const borderRadius = {
   full: "25rem",
 };
 
+const gridTemplateColumns = {
+  solutionsPage: "21.4375rem 1fr",
+  solutionsList: "repeat(auto-fit, minmax(20.375rem, 1fr))",
+};
+
 module.exports = {
   content: [
     "./public/*.html",
@@ -84,6 +90,7 @@ module.exports = {
       fontFamily,
       maxWidth,
       screens,
+      gridTemplateColumns,
     },
   },
   plugins: [

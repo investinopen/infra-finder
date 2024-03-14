@@ -1,6 +1,6 @@
 <%= turbo_frame_tag(solution) do %>
-  <article class="m-card m-card--lg" data-controller="solution-component--solution-component">
-    <header>
+  <article class="m-card m-card--lg h-full" data-controller="solution-component--solution-component">
+    <header class="bg-brand-mint">
       <h3><%= link_to solution.name, solution_path(solution), data: { turbo_frame: "_top" } %></h3>
     </header>
     <div class="m-card__text">

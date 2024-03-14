@@ -30,11 +30,13 @@
 
   > header {
     flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     padding-block-start: var(--_card-padding-block-start);
-    background-color: theme("colors.brand.mint");
-    min-block-size: 5.5625rem;
 
     &.bg-brand-mint {
+      min-block-size: 5.5625rem;
       padding-block-end: 1.25rem;
     }
   }
