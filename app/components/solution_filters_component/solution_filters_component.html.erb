@@ -12,7 +12,7 @@
       <div class="solution-filters__checkboxes">
         <% SolutionCategory.filter_select_options.each do |category, id| %>
           <label class="m-checkbox">
-            <%= f.check_box :solution_categories_id_in, { multiple: true }, id %>
+            <%= f.check_box :solution_categories_id_in, { multiple: true }, id, '' %>
             <span><%= category %></span>
           </label>
         <% end %>
