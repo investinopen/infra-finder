@@ -24,26 +24,33 @@ a:not(.m-button):hover {
   text-decoration: underline;
 }
 
-button,
-input[type="submit"],
+button:not([class]),
+input[type="submit"]:not([class]),
 .m-button {
   display: inline-flex;
   justify-content: space-between;
-  gap: 11px;
-  padding-block: 13px;
-  padding-inline: 24px;
-  background-color: theme("colors.neutral.20");
-  color: inherit;
+  gap: 0.6875rem;
+  padding-block: 0.8125rem;
+  padding-inline: 1.5rem;
+  color: var(--color);
+
+  &:not(:disabled, [aria-disabled]) {
+    cursor: pointer;
+  }
+
+  &:not([class*="bg-"]) {
+    background-color: theme("colors.neutral.20");
+  }
 
   > svg {
     flex: 0 0 auto;
 
     &:last-child {
-      margin-inline-end: -4px;
+      margin-inline-end: -0.25rem;
     }
 
     &:first-child {
-      margin-inline-start: -4px;
+      margin-inline-start: -0.25rem;
     }
   }
 }

@@ -6,7 +6,7 @@
     <%= f.label :name_cont %>
     <%= f.search_field :name_cont %>
 
-    <%= f.submit t(".submit_label"), class: "solution-filters--btn" %>
-    <%= link_to t(".reset_label"), solution_search_path, class: "solution-filters--btn", data: { turbo_method: :delete, turbo_frame: "_top" } %>
+    <%= f.submit t(".submit_label"), class: "m-button m-button--sm bg-black" %>
+    <%= link_to t(".reset_label"), solution_search_path, class: "m-button m-button--sm bg-white", data: { turbo_method: :delete, turbo_frame: "_top" } %>
   <% end %>
 <% end %>

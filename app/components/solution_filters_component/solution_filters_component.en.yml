@@ -1,4 +1,4 @@
 ---
 en:
-  reset_label: "Reset"
-  submit_label: "Search"
+  reset_label: "Clear All"
+  submit_label: "Update Results"

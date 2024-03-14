@@ -53,9 +53,18 @@ const fontSize = {
   label: ["1rem", { headerProps, letterSpacing: "0rem" }],
 };
 
-fontFamily = {
+const fontFamily = {
   body: ["Inter", ...defaultTheme.fontFamily.sans],
   header: ["BW Gradual", ...defaultTheme.fontFamily.sans],
+};
+
+const borderRadius = {
+  xs: "0.375rem",
+  sm: "0.75rem",
+  md: "1rem",
+  lg: "1.25rem",
+  xl: "1.5rem",
+  full: "25rem",
 };
 
 module.exports = {
@@ -68,6 +77,7 @@ module.exports = {
     "./app/views/**/*.{erb,haml,html,slim}",
   ],
   theme: {
+    borderRadius,
     extend: {
       colors,
       fontSize,

@@ -1,9 +1,9 @@
 /* See base/_appearance for base button styles */
 .m-card {
-  --_card-padding-inline: 36px;
-  --_card-padding-block-start: 24px;
-  --_card-padding-block-end: 32px;
-  --_card-border-radius: 24px;
+  --_card-padding-inline: 2.25rem;
+  --_card-padding-block-start: 1.5rem;
+  --_card-padding-block-end: 2rem;
+  --_card-border-radius: 1.5rem;
 
   position: relative;
   display: flex;
@@ -13,15 +13,15 @@
   overflow: hidden;
 
   &--md {
-    --_card-padding-inline: 32px;
-    --_card-border-radius: 20px;
+    --_card-padding-inline: 2rem;
+    --_card-border-radius: 1.25rem;
   }
 
   &--sm {
-    --_card-padding-block-start: 24px;
-    --_card-padding-block-end: 24px;
-    --_card-padding-inline: 24px;
-    --_card-border-radius: 20px;
+    --_card-padding-block-start: 1.5rem;
+    --_card-padding-block-end: 1.5rem;
+    --_card-padding-inline: 1.5rem;
+    --_card-border-radius: 1.25rem;
   }
 
   > * {
@@ -32,10 +32,10 @@
     flex: 0 0 auto;
     padding-block-start: var(--_card-padding-block-start);
     background-color: theme("colors.brand.mint");
-    min-block-size: 89px;
+    min-block-size: 5.5625rem;
 
     &.bg-brand-mint {
-      padding-block-end: 20px;
+      padding-block-end: 1.25rem;
     }
   }
 
@@ -45,14 +45,14 @@
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 1rem;
-    padding-block-start: 28px;
+    padding-block-start: 1.75rem;
     padding-block-end: var(--_card-padding-block-end);
   }
 
   &__text {
     flex: 1 1 auto;
-    padding-block-start: 24px;
-    padding-block-end: 22px;
+    padding-block-start: 1.5rem;
+    padding-block-end: 1.375rem;
   }
 
   &__close {
@@ -61,8 +61,8 @@
     inset-block-start: 1rem;
 
     > svg {
-      inline-size: 16px;
-      block-size: 16px;
+      inline-size: 1rem;
+      block-size: 1rem;
     }
   }
 }

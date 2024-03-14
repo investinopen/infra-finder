@@ -23,7 +23,7 @@ class SolutionFiltersComponent < ApplicationComponent
     {
       url: solution_search_path,
       html: {
-        class: "max-w-sm mx-auto",
+        class: "solution-filters bg-neutral-20 rounded-xl",
         data: {
           controller: "solution-filters-component--solution-filters-component",
           method: "post",

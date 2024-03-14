@@ -31,8 +31,9 @@
     gap: 0.6875rem;
     padding-block: 0.75rem;
     padding-inline: 1.25rem;
-    @apply text-base;
+    @apply font-body;
     @apply text-xs;
+    @apply font-semibold;
 
     > svg {
       block-size: 1rem;
