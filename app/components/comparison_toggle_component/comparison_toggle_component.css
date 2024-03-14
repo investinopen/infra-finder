@@ -1,1 +1,28 @@
-/* Add styles for this component */
+.comparison-toggle {
+  display: flex;
+  align-items: center;
+  padding-inline-end: 18px;
+
+  &::after {
+    display: block;
+    content: "";
+    flex: 0 0 auto;
+    inline-size: 1.375rem;
+    block-size: 1.375rem;
+    border: 0.125rem solid theme("colors.black");
+    @apply bg-white;
+    @apply rounded-full;
+  }
+
+  &[aria-pressed="true"] {
+    @apply bg-brand-mint;
+
+    &::after {
+      background-image: radial-gradient(
+        circle,
+        rgba(2, 0, 36, 1) 44%,
+        rgba(255, 255, 255, 1) 44%
+      );
+    }
+  }
+}

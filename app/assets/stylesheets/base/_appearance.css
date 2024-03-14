@@ -41,7 +41,7 @@ input[type="submit"]:not([class]),
   display: inline-flex;
   justify-content: space-between;
   gap: 0.6875rem;
-  padding-block: 0.8125rem;
+  padding-block: 0.875rem;
   padding-inline: 1.5rem;
   color: var(--color);
 

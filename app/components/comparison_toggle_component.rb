@@ -30,14 +30,15 @@ class ComparisonToggleComponent < ApplicationComponent
   end
 
   def message
-    comparing? ? t(".stop_comparing") : t(".compare")
+    #comparing? ? t(".stop_comparing") : t(".compare")
+    t(".compare")
   end
 
   private
 
   def build_link_options
     {
-      class: "m-button bg-neutral-20",
+      class: "m-button bg-neutral-20 comparison-toggle",
       data: {
         controller: "comparison-toggle-component--comparison-toggle-component",
         "turbo-method": comparing? ? :delete : :post,

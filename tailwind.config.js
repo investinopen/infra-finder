@@ -51,7 +51,14 @@ const fontSize = {
   xs: ["0.9375rem", bodyProps],
   xxs: ["0.875rem", bodyProps],
   terms: ["0.8125rem", bodyProps],
-  label: ["1rem", { headerProps, letterSpacing: "0rem" }],
+  label: [
+    "1rem",
+    {
+      lineHeight: "1.375rem",
+      letterSpacing: "0rem",
+      fontWeight: headerProps.fontWeight,
+    },
+  ],
 };
 
 const fontFamily = {

@@ -1,15 +1,21 @@
 <%= turbo_frame_tag(solution) do %>
-  <article class="m-card m-card--lg h-full" data-controller="solution-component--solution-component">
+  <article class="solution-component h-full" data-controller="solution-component--solution-component">
     <header class="bg-brand-mint">
-      <h3><%= link_to solution.name, solution_path(solution), data: { turbo_frame: "_top" } %></h3>
+      <h3 class="line-clamp-1"><%= solution.name %></h3>
     </header>
-    <div class="m-card__text">
+    <div class="text-xs">
+      <span class="font-bold">Provider Name</span>
+    </div>
+    <div class="grow">
+      <div class="text-xs t-rte line-clamp-4">
+        <%= sanitize solution.service_summary %>
+      </div>
+    </div>
+    <div class="flex flex-col gap-4">
       <%= render_implementation(:open_api) %>
-      <%= render_implementation(:bylaws) %>
-      <%= render_implementation(:code_repository) %>
-      <%= render_tag_list(:key_technologies) %>
     </div>
     <footer>
+      <%= link_to t(".learn_more"), solution_path(solution), class: "m-button", data: { turbo_frame: "_top" } %>
       <%= render ComparisonToggleComponent.new(solution:, comparison:) %>
     </footer>
   </article>

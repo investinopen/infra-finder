@@ -7,7 +7,6 @@
 @import "tailwindcss/components";
 @import "components/_badge.css";
 @import "components/_button.css";
-@import "components/_card.css";
 @import "components/_checkbox.css";
 
 @import "tailwindcss/utilities";
