@@ -1,9 +1,9 @@
 <section class="l-container">
   <div class="l-container__inner pb-[7.5rem] pt-8">
     <header>
-      <h2>Search & Compare Solutions</h2>
+      <h1 class="text-h2">Search & Compare Solutions</h1>
     </header>
-    <div class="fpt-[36px,30px] grid grid-cols-1 md:grid-cols-solutionsPage gap-4">
+    <div class="pt-9 grid grid-cols-1 md:grid-cols-solutionsPage gap-4">
       <%= render SolutionFiltersComponent.new(solution_search: @solution_search) %>
 
       <%= render SolutionsComponent.new(solutions: @solutions, comparison: current_comparison) %>

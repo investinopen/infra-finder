@@ -30,7 +30,6 @@ class ComparisonToggleComponent < ApplicationComponent
   end
 
   def message
-    #comparing? ? t(".stop_comparing") : t(".compare")
     t(".compare")
   end
 

@@ -1,5 +1,11 @@
 <%= turbo_frame_tag "solutions-list", class: "", target: "_top" do %>
   <section data-controller="solutions-component--solutions-component">
+    <header class="flex">
+      <h2 class="bg-white rounded-full px-8 py-[0.875rem] min-h-resultsBar text-h3 mb-4 grow">
+        <%= solutions.length %>
+        <span class="text-h5"><%= t(".solutions", count: solutions.length) %></span>
+      </h2>
+    </header>
     <% if solutions.present? %>
       <div class="grid grid-cols-solutionsList gap-4">
         <%= render SolutionComponent.with_collection(solutions, comparison:) %>

@@ -80,6 +80,10 @@ const gridTemplateColumns = {
   solutionsList: "repeat(auto-fit, minmax(20.375rem, 1fr))",
 };
 
+const minHeight = {
+  resultsBar: "3.75rem",
+};
+
 module.exports = {
   content: [
     "./public/*.html",
@@ -95,9 +99,10 @@ module.exports = {
       colors,
       fontSize,
       fontFamily,
-      maxWidth,
-      screens,
       gridTemplateColumns,
+      maxWidth,
+      minHeight,
+      screens,
     },
   },
   plugins: [
