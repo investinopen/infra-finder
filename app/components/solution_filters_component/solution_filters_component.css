@@ -23,6 +23,7 @@
       background-color: transparent;
       block-size: 3.75rem;
       inline-size: 100%;
+      padding: 0;
 
       &:focus-visible {
         outline: 0;

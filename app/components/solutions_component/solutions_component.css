@@ -1,0 +1,35 @@
+/* component styles */
+.solutions-results {
+  margin-block-end: 1rem;
+  padding-inline: 2rem;
+  padding-block: 0.875rem;
+  flex: 1 1 auto;
+  @apply text-h3;
+  @apply rounded-s-full;
+}
+
+.solutions-sort {
+  display: flex;
+  align-items: center;
+  padding-inline-start: 1.75rem;
+  @apply rounded-e-full;
+
+  &:focus-within {
+    --outline-offset: calc(var(--outline-width) * -1);
+
+    @mixin a-default-outline;
+  }
+
+  select {
+    align-self: stretch;
+    padding-inline-end: 3.25rem;
+    padding-inline-start: 0.25rem;
+    background-color: transparent;
+    background-position: right 1.5rem center;
+
+    &:focus,
+    &:focus-visible {
+      outline: 0;
+    }
+  }
+}
