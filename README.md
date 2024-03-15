@@ -63,5 +63,5 @@ docker-compose exec web bin/rails g component ComponentName --stimulus
 The `ComponentName` should be something like `FooBar` in pascal case, and it will generate a component named `FooBarComponent` with its associated sidecar directory `app/components/foo_bar_component`. The `--stimulus` option is necessary to make sure that the generated HTML template is wired up to the component's specific Stimulus controller correctly. After you've done that, you can generate a colocated CSS file and have it automatically be included in the CSS manifest by running the following:
 
 ```bash
-docker-compose exec web bin/rails g view_component:assets:regenerate
+docker-compose exec web bin/rails view_component:assets:regenerate
 ```

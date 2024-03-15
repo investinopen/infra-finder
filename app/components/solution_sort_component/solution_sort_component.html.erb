@@ -1,0 +1,18 @@
+<div data-controller="solution-sort-component--solution-sort-component">
+  <%= search_form_for solution_search, **search_form_options do |f| %>
+    <div class="solutions-sort min-h-resultsBar bg-neutral-20">
+      <%# f.label :sort_by, class: "text-h6 font-normal" %>
+      <label for="sort_by" class="text-h6 font-normal"><%= t(".sort_label") %></label>
+      <%# f.select :sort_by, options_for_select([[t(".last_updated_option"), "date"],[t(".title_option"), "name_asc"]]) %>
+      <select id="sort_by">
+        <option value="1">
+          <%= t(".last_updated_option") %>
+        </option>
+        <option value="2">
+          <%= t(".title_option") %>
+        </option>
+      </select>
+    </div>
+  </form>
+  <% end %>
+</div>

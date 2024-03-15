@@ -15,6 +15,7 @@ import ImplementationDetailComponent__ImplementationDetailComponentController fr
 import SolutionComponent__SolutionComponentController from "./solution_component/solution_component_controller";
 import SolutionDetailsComponent__SolutionDetailsComponentController from "./solution_details_component/solution_details_component_controller";
 import SolutionFiltersComponent__SolutionFiltersComponentController from "./solution_filters_component/solution_filters_component_controller";
+import SolutionSortComponent__SolutionSortComponentController from "./solution_sort_component/solution_sort_component_controller";
 import SolutionsComponent__SolutionsComponentController from "./solutions_component/solutions_component_controller";
 import TagComponent__TagComponentController from "./tag_component/tag_component_controller";
 import TagListComponent__TagListComponentController from "./tag_list_component/tag_list_component_controller";
@@ -32,6 +33,7 @@ application.register("implementation-detail-component--implementation-detail-com
 application.register("solution-component--solution-component", SolutionComponent__SolutionComponentController);
 application.register("solution-details-component--solution-details-component", SolutionDetailsComponent__SolutionDetailsComponentController);
 application.register("solution-filters-component--solution-filters-component", SolutionFiltersComponent__SolutionFiltersComponentController);
+application.register("solution-sort-component--solution-sort-component", SolutionSortComponent__SolutionSortComponentController);
 application.register("solutions-component--solutions-component", SolutionsComponent__SolutionsComponentController);
 application.register("tag-component--tag-component", TagComponent__TagComponentController);
 application.register("tag-list-component--tag-list-component", TagListComponent__TagListComponentController);

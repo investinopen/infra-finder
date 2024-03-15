@@ -1,27 +1,27 @@
 <%= turbo_frame_tag("solution-filters") do %>
   <%= search_form_for solution_search, **search_form_options do |f| %>
-  <div class="solution-search rounded-full bg-neutral-20 mb-4 min-h-resultsBar">
-    <img src="/icons/24/Search.svg" alt="">
-    <%= f.label :name_cont, class: "sr-only" %>
-    <%= f.search_field :name_cont, placeholder: "Search" %>
-  </div>
-  <div class="solution-filters bg-neutral-20 rounded-xl">
-    <h2 class="pb-4 text-h3"><%= t(".heading") %></h2>
-    <details>
-      <summary class="text-h5"><%= t(".category_heading") %></summary>
-      <div class="solution-filters__checkboxes">
-        <% SolutionCategory.filter_select_options.each do |category, id| %>
-          <label class="m-checkbox">
-            <%= f.check_box :solution_categories_id_in, { multiple: true }, id, '' %>
-            <span><%= category %></span>
-          </label>
-        <% end %>
-      </div>
-    </details>
-    <div class="solution-filters__buttons pt-8">
-      <%= link_to t(".reset_label"), solution_search_path, class: "m-button m-button--sm bg-white", data: { turbo_method: :delete, turbo_frame: "_top" } %>
-      <%= f.submit t(".submit_label"), class: "m-button m-button--sm bg-black" %>
+    <div class="solution-search rounded-full bg-neutral-20 mb-4 min-h-resultsBar">
+      <img src="/icons/24/Search.svg" alt="">
+      <%= f.label :name_cont, class: "sr-only" %>
+      <%= f.search_field :name_cont, placeholder: "Search" %>
     </div>
-  </div>
+    <div class="solution-filters bg-neutral-20 rounded-xl">
+      <h2 class="pb-4 text-h3"><%= t(".heading") %></h2>
+      <details>
+        <summary class="text-h5"><%= t(".category_heading") %></summary>
+        <div class="solution-filters__checkboxes">
+          <% SolutionCategory.filter_select_options.each do |category, id| %>
+            <label class="m-checkbox">
+              <%= f.check_box :solution_categories_id_in, { multiple: true }, id, '' %>
+              <span><%= category %></span>
+            </label>
+          <% end %>
+        </div>
+      </details>
+      <div class="solution-filters__buttons pt-8">
+        <%= link_to t(".reset_label"), solution_search_path, class: "m-button m-button--sm bg-white", data: { turbo_method: :delete, turbo_frame: "_top" } %>
+        <%= f.submit t(".submit_label"), class: "m-button m-button--sm bg-black" %>
+      </div>
+    </div>
   <% end %>
 <% end %>

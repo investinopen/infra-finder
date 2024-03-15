@@ -5,5 +5,3 @@ en:
     one: Solution
     other: Solutions
   no_solutions_found: "There are no solutions that match your current filters."
-  sort_label: "Sort by:"
-  last_updated_option: "Last Updated"
