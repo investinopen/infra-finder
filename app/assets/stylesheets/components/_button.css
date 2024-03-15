@@ -9,11 +9,7 @@
   &.bg-black:hover {
     background-color: theme("colors.brand.yellow");
     color: theme("colors.black");
-  }
-
-  &:hover {
-    background-color: theme("colors.neutral.40");
-    color: theme("colors.black");
+    filter: none;
   }
 
   &--lg {

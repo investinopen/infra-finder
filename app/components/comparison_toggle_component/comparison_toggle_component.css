@@ -15,8 +15,6 @@
   }
 
   &[aria-pressed="true"] {
-    @apply bg-brand-mint;
-
     &::after {
       background-image: radial-gradient(
         circle,

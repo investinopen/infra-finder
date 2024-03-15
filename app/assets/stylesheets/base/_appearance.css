@@ -44,13 +44,14 @@ input[type="submit"]:not([class]),
   padding-block: 0.875rem;
   padding-inline: 1.5rem;
   color: var(--color);
+  background-color: theme("colors.neutral.20");
 
   &:not(:disabled, [aria-disabled]) {
     cursor: pointer;
-  }
 
-  &:not([class*="bg-"]) {
-    background-color: theme("colors.neutral.20");
+    &:hover {
+      filter: brightness(96%);
+    }
   }
 
   > svg {
@@ -71,7 +72,12 @@ input[type="submit"]:not([class]),
   background-color: var(--accent-color);
   border: transparent;
   font-size: inherit;
-  padding: 0;
+}
+
+:is(select) {
+  background-image: url("/icons/16/Disclosure-Down.svg");
+  background-repeat: no-repeat;
+  background-size: 1rem;
 }
 
 :is(input[type="checkbox"], input[type="radio"]) {
