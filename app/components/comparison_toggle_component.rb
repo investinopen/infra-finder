@@ -37,7 +37,7 @@ class ComparisonToggleComponent < ApplicationComponent
 
   def build_link_options
     {
-      class: "comparison-toggle m-button " + (comparing? ?  "bg-brand-mint" : ""),
+      class: "comparison-toggle m-button #{comparing? ? "bg-brand-mint" : ""}>",
       data: {
         controller: "comparison-toggle-component--comparison-toggle-component",
         "turbo-method": comparing? ? :delete : :post,

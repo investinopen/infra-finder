@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class SolutionSortComponent < ApplicationComponent
-
   # @return [Ransack::Search]
   attr_reader :solution_search
 
@@ -35,5 +34,4 @@ class SolutionSortComponent < ApplicationComponent
       },
     }
   end
-
 end
