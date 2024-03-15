@@ -21,6 +21,10 @@ body {
     iframe,
     .m-button
   ) {
+  line-height: inherit;
+  font-size: inherit;
+  font-family: inherit;
+
   &:focus {
     outline: 0;
     box-shadow: none;
@@ -71,7 +75,6 @@ input[type="submit"]:not([class]),
   @apply truncate;
   background-color: var(--accent-color);
   border: transparent;
-  font-size: inherit;
 }
 
 :is(select) {

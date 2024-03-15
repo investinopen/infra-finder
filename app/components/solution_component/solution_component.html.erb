@@ -3,8 +3,16 @@
     <header class="bg-brand-mint">
       <h3 class="line-clamp-1"><%= solution.name %></h3>
     </header>
-    <div class="text-xs">
-      <span class="font-bold">Provider Name</span>
+    <div class="text-xs a-underline a-underline--lt">
+        <div class="font-bold">
+          <%= solution.organization.name %>
+        </div>
+      <% if solution.location_of_incorporation? %>
+        <div class="flex gap-1.5 pt-[0.625rem]">
+          <img src="/icons/16/Location-Pin.svg" alt="">
+          <%= solution.location_of_incorporation %>
+        </div>
+      <% end %>
     </div>
     <div class="grow">
       <div class="text-xs t-rte line-clamp-4">

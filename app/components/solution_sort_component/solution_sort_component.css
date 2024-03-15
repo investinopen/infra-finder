@@ -1,1 +1,32 @@
 /* Add styles for this component */
+.solutions-sort {
+  flex-grow: 1;
+  display: flex;
+  @apply rounded-full;
+  @apply sm:rounded-s-[0];
+
+  &:focus-within {
+    --outline-offset: calc(var(--outline-width) * -1);
+
+    @mixin a-default-outline;
+  }
+
+  form {
+    display: flex;
+    align-items: center;
+    padding-inline-start: 1.75rem;
+  }
+
+  select {
+    align-self: stretch;
+    padding-inline-end: 3.25rem;
+    padding-inline-start: 0.25rem;
+    background-color: transparent;
+    background-position: right 1.5rem center;
+
+    &:focus,
+    &:focus-visible {
+      outline: 0;
+    }
+  }
+}

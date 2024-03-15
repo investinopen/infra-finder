@@ -139,6 +139,7 @@ module SolutionInterface
   ].freeze
 
   TO_EAGER_LOAD = [
+    :organization,
     *MULTIPLE_OPTIONS,
     *SINGLE_OPTIONS,
     TAG_ASSOCIATIONS.index_with(:taggings),
