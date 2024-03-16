@@ -1,5 +1,6 @@
 ---
 en:
   sort_label: "Sort by:"
-  last_updated_option: "Last Updated"
-  title_option: "Title, A-Z"
+  date_desc_option: "Last Updated"
+  title_asc_option: "Title, A-Z"
+  title_desc_option: "Title, Z-A"

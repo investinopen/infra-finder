@@ -17,7 +17,8 @@
     padding-block: 1.0625rem;
     padding-inline: 1.75rem;
 
-    > svg {
+    > svg,
+    > img {
       block-size: 1.5rem;
       margin-block: -0.125rem;
     }
@@ -25,13 +26,14 @@
 
   &--sm {
     gap: 0.6875rem;
-    padding-block: 0.75rem;
+    padding-block: 0.6875rem;
     padding-inline: 1.25rem;
     @apply font-body;
     @apply text-xs;
     @apply font-semibold;
 
-    > svg {
+    > svg,
+    > img {
       block-size: 1rem;
     }
   }

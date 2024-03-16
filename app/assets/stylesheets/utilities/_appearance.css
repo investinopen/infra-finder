@@ -31,3 +31,7 @@ background classes will extend tailwind's 'bg-' pattern. */
     border-bottom: 0.3125rem solid var(--border-color);
   }
 }
+
+.a-hidden {
+  @apply hidden;
+}
