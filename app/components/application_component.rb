@@ -7,6 +7,8 @@ class ApplicationComponent < ViewComponent::Base
   include Ransack::Helpers::FormHelper
   include Turbo::FramesHelper
 
+  NBSP = "&nbsp;".html_safe.freeze
+
   module AcceptsImplementation
     extend ActiveSupport::Concern
 

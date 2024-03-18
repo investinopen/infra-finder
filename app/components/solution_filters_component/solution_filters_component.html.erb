@@ -18,6 +18,7 @@
           <% end %>
         </div>
       </details>
+      <%= implementation_checkbox(:open_api_available, f:) %>
       <div class="solution-filters__buttons pt-8">
         <%= link_to t(".reset_label"), solution_search_path, class: "m-button m-button--sm bg-white", data: { turbo_method: :delete, turbo_frame: "_top" } %>
         <%= f.submit t(".submit_label"), class: "m-button m-button--sm bg-black" %>

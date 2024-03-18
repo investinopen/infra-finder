@@ -5,3 +5,5 @@ en:
   attributes_heading: "Technical Attributes"
   reset_label: "Clear All"
   submit_label: "Update Results"
+  implementations:
+    open_api_available: "Open API Available?"

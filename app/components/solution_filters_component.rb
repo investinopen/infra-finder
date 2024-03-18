@@ -17,6 +17,19 @@ class SolutionFiltersComponent < ApplicationComponent
     @search_form_options = build_search_form_options
   end
 
+  # @param [Symbol] scope_name
+  # @param [Ransack::Helpers::FormBuilder] f
+  # @return [String]
+  def implementation_checkbox(scope_name, f:)
+    f.label scope_name do
+      capture do
+        concat f.check_box scope_name, {}, "true", "false"
+        concat NBSP
+        concat content_tag :span, t(".implementations.#{scope_name}", raise: true)
+      end
+    end
+  end
+
   private
 
   def build_search_form_options
