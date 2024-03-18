@@ -1,7 +1,7 @@
 ---
 en:
   solutions:
-    zero: No Solutions
+    zero: Solutions
     one: Solution
     other: Solutions
   no_solutions_found: "There are no solutions that match your current filters."

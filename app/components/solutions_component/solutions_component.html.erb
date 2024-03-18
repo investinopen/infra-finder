@@ -12,11 +12,8 @@
         <%= render SolutionComponent.with_collection(solutions, comparison:) %>
       </div>
     <% else %>
-      <div>
-        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-           <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-        </svg>
-        <h2><%= t(".no_solutions_found") %></h2>
+      <div class="bg-white py-8 px-8 rounded-md flex">
+        <span class="text-base"><%= t(".no_solutions_found") %></span>
       </div>
     <% end %>
   </section>
