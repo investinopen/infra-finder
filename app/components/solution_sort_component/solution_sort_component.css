@@ -2,19 +2,16 @@
 .solutions-sort {
   flex-grow: 1;
   display: flex;
+  align-items: center;
+  padding-inline-start: 1.75rem;
   @apply rounded-full;
   @apply sm:rounded-s-[0];
+  @apply text-h6;
 
   &:focus-within {
     --outline-offset: calc(var(--outline-width) * -1);
 
     @mixin a-default-outline;
-  }
-
-  form {
-    display: flex;
-    align-items: center;
-    padding-inline-start: 1.75rem;
   }
 
   select {
@@ -23,6 +20,7 @@
     padding-inline-start: 0.25rem;
     background-color: transparent;
     background-position: right 1.5rem center;
+    @apply font-bold;
 
     &:focus,
     &:focus-visible {

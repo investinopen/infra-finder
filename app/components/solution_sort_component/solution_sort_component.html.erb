@@ -1,7 +1,7 @@
 <%= turbo_frame_tag("solution-sorts") do %>
   <%= search_form_for solution_search, **search_form_options do |f| %>
     <div class="solutions-sort min-h-resultsBar bg-neutral-20">
-      <%= f.label :s, t(".sort_label"), class: "text-h6 font-normal" %>
+      <%= f.label :s, t(".sort_label"), class: "font-normal" %>
       <%= f.select :s do %>
         <%= solution_sort_option :updated_at, dir: :desc %>
         <%= solution_sort_option :name %>
