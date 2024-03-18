@@ -21,10 +21,9 @@ class SolutionFiltersComponent < ApplicationComponent
   # @param [Ransack::Helpers::FormBuilder] f
   # @return [String]
   def implementation_checkbox(scope_name, f:)
-    f.label scope_name do
+    f.label scope_name, class: "m-checkbox" do
       capture do
         concat f.check_box scope_name, {}, "true", "false"
-        concat NBSP
         concat content_tag :span, t(".implementations.#{scope_name}", raise: true)
       end
     end
