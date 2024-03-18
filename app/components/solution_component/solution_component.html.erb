@@ -20,6 +20,11 @@
       </div>
     </div>
     <div class="flex flex-col gap-4">
+      <% solution.solution_categories.each do |category, id| %>
+        <div class="m-badge-md">
+          <span><%= category.name %></span>
+        </div>
+      <% end %>
       <%= render_implementation(:open_api) %>
     </div>
     <footer>
