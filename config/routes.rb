@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
   resource :solution_search, only: %i[create destroy]
 
+  resource :solution_sort, only: %i[create]
+
   resources :solutions, only: %i[index show] do
     resource :comparison_item, path: "compare", as: :compare, only: %i[create destroy]
   end

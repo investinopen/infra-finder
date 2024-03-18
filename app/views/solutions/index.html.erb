@@ -6,7 +6,7 @@
     <div class="pt-9 grid grid-cols-1 md:grid-cols-solutionsPage gap-4">
       <%= render SolutionFiltersComponent.new(solution_search: @solution_search) %>
 
-      <%= render SolutionsComponent.new(solutions: @solutions, comparison: current_comparison) %>
+      <%= render SolutionsComponent.new(solutions: @solutions, solution_search: @solution_search, comparison: current_comparison) %>
     </div>
   </div>
 </section>

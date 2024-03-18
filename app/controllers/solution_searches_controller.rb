@@ -7,13 +7,13 @@ class SolutionSearchesController < ApplicationController
   def create
     search_filters = params.permit(q: {}).to_h[:q] || {}
 
-    current_comparison.update_columns(search_filters:)
+    current_comparison.apply_filters! search_filters
 
     redirect_back fallback_location: solutions_path
   end
 
   def destroy
-    current_comparison.update_columns(search_filters: {})
+    current_comparison.clear_filters!
 
     redirect_back fallback_location: solutions_path
   end

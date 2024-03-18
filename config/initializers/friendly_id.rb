@@ -21,6 +21,7 @@ FriendlyId.defaults do |config|
   config.reserved_words = %w[
     new edit index session login logout users admin
     stylesheets assets javascripts images
+    search sort
   ]
 
   # This adds an option to treat reserved words as conflicts rather than exceptions.
