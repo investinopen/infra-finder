@@ -5,6 +5,7 @@
 module HasName
   extend ActiveSupport::Concern
 
+  include ExposesRansackable
   include Filterable
 
   included do
@@ -17,5 +18,7 @@ module HasName
     validates :name, presence: true
 
     filter_collection_order_scope :in_alphabetical_order
+
+    expose_ransackable_attributes! :name
   end
 end

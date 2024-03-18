@@ -4,68 +4,76 @@
 module SolutionOptionLink
   extend ActiveSupport::Concern
 
+  include ExposesRansackable
   include TimestampScopes
 
   included do
+    extend Dry::Core::ClassAttributes
+
+    defines :option_association_name, type: Solutions::Types::Symbol.enum(:license, :solution_category, :user_contribution)
+    defines :solution_kind, type: Solutions::Types::Kind
+    defines :solution_association_name, type: Solutions::Types::Symbol.enum(:solution, :solution_draft)
+
+    solution_kind derive_solution_kind
+    solution_association_name derive_solution_association_name
+    option_association_name derive_option_association_name
+
     scope :in_default_order, -> { joins(option_association.name).merge(option_association.klass.in_alphabetical_order) }
+
+    expose_ransackable_associations! option_association_name, solution_association_name, on: :admin
   end
 
-  STANDARD_RANSACKABLE_ATTRIBUTES = %w[
-    id
-    created_at
-    updated_at
-  ].freeze
-
   module ClassMethods
-    def solution_kind
-      @solution_kind ||= derive_solution_kind
-    end
-
     def option_association
-      @option_association ||= derive_option_association
+      # :nocov:
+      reflect_on_association(option_association_name)
+      # :nocov:
     end
 
     def solution_association
-      case solution_kind
-      in :actual
-        reflect_on_association(:solution)
-      in :draft
-        reflect_on_association(:solution_draft)
-      end
-    end
-
-    def ransackable_associations(auth_object = nil)
-      [
-        option_association.name.to_s,
-        solution_association.name.to_s,
-      ]
-    end
-
-    def ransackable_attributes(auth_object = nil)
-      STANDARD_RANSACKABLE_ATTRIBUTES
+      # :nocov:
+      reflect_on_association(solution_association_name)
+      # :nocov:
     end
 
     private
 
-    def derive_option_association
-      reflect_on_all_associations.detect do |assoc|
-        next if assoc.name.in?([:solution, :draft_solution])
+    def derive_option_association_name
+      case name
+      when /\ASolutionCategory/
+        :solution_category
+      when /License\z/
+        :license
+      when /UserContribution\z/
+        :user_contribution
+      else
+        # :nocov:
+        raise "Unknown option association name for #{name}"
+        # :nocov:
+      end
+    end
 
-        assoc.klass < SolutionOption
+    def derive_solution_association_name
+      case solution_kind
+      in :draft
+        :solution_draft
+      else
+        :solution
       end
     end
 
     # @return [Solutions::Types::Kind]
     def derive_solution_kind
-      if reflect_on_association(:solution)
-        :actual
-      elsif reflect_on_association(:solution_draft)
+      case name
+      when /Draft/
         :draft
+      when /\ASolution/
+        :actual
       else
         # :nocov:
         raise "Unknown solution kind for #{name}"
         # :nocov:
-      end.then { Solutions::Types::Kind[_1] }
+      end
     end
   end
 end

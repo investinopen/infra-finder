@@ -13,6 +13,14 @@ class SolutionDraft < ApplicationRecord
 
   define_common_attributes!
 
+  clear_exposed_ransackable_attributes!
+
+  ransackable_minimum_allowance! :editor
+
+  expose_ransackable_associations! :user, on: :editor
+
+  expose_ransackable_attributes! :solution_id, :user_id, on: :editor
+
   belongs_to :solution, inverse_of: :solution_drafts, optional: true
   belongs_to :user, inverse_of: :solution_drafts, optional: true
 
@@ -78,26 +86,6 @@ class SolutionDraft < ApplicationRecord
       else
         saved_change_to_attribute? attr
       end
-    end
-  end
-
-  class << self
-    def ransackable_associations(auth_object = nil)
-      [
-        "user",
-      ]
-    end
-
-    def ransackable_attributes(auth_object = nil)
-      [
-        "id", "created_at", "updated_at",
-      ]
-    end
-
-    def ransackable_scopes(auth_object = nil)
-      [
-        "in_state",
-      ]
     end
   end
 end

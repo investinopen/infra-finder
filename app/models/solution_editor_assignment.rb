@@ -6,6 +6,9 @@ class SolutionEditorAssignment < ApplicationRecord
   belongs_to :solution, inverse_of: :solution_editor_assignments
   belongs_to :user, inverse_of: :solution_editor_assignments
 
+  expose_ransackable_associations! :solution, :user, on: :admin
+  expose_ransackable_attributes! :id, :created_at, :updated_at, :solution_id, :user_id, on: :admin
+
   after_destroy :remove_role_assignment!
 
   after_save :enforce_role_assignment!
@@ -25,28 +28,5 @@ class SolutionEditorAssignment < ApplicationRecord
   # @return [void]
   def remove_role_assignment!
     user.remove_role :editor, solution
-  end
-
-  class << self
-    def ransackable_associations(auth_object = nil)
-      [
-        "solution",
-        "user",
-      ]
-    end
-
-    def ransackable_attributes(auth_object = nil)
-      [
-        "id",
-        "created_at",
-        "updated_at",
-        "solution_id",
-        "user_id",
-      ]
-    end
-
-    def ransackable_scopes(auth_object = nil)
-      []
-    end
   end
 end

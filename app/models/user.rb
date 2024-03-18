@@ -7,6 +7,18 @@ class User < ApplicationRecord
     :recoverable, :rememberable, :validatable,
     :confirmable, :lockable, :timeoutable, :trackable
 
+  ransackable_minimum_allowance! :admin
+
+  expose_ransackable_attributes!(
+    "admin",
+    "current_sign_in_at",
+    "email",
+    "kind",
+    "sign_in_count",
+    "super_admin",
+    on: :admin
+  )
+
   pg_enum! :kind, as: :user_kind, default: :default, allow_blank: false, suffix: :kind
 
   rolify after_add: :refresh_from_role!, after_remove: :refresh_from_role!
@@ -54,6 +66,13 @@ class User < ApplicationRecord
     solution_drafts.pending.where(solution:)
   end
 
+  # @return [ExposesRansackable::Types::Allowance]
+  def ransackable_allowance
+    return :any if default_kind?
+
+    ExposesRansackable::Types::Allowance[kind.to_sym]
+  end
+
   private
 
   # @return [Users::Types::Kind]
@@ -88,24 +107,6 @@ class User < ApplicationRecord
     def assignable_to_solution(solution)
       where.not(kind: %w[admin super_admin]).
         where.not(id: solution.solution_editor_assignments.select(:user_id))
-    end
-
-    def ransackable_associations(auth_object = nil)
-      []
-    end
-
-    def ransackable_attributes(auth_object = nil)
-      [
-        "id",
-        "created_at",
-        "current_sign_in_at",
-        "email",
-        "name",
-        "kind",
-        "sign_in_count",
-        "super_admin",
-        "updated_at",
-      ]
     end
   end
 end

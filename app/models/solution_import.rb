@@ -13,6 +13,10 @@ class SolutionImport < ApplicationRecord
 
   pg_enum! :strategy, as: :solution_import_strategy, allow_blank: false
 
+  expose_ransackable_associations! :user, on: :admin
+
+  expose_ransackable_attributes! :id, :strategy, :user_id, :created_at, :updated_at, on: :admin
+
   attribute :options, SolutionImports::Options.to_type, default: proc { {} }
   attribute :metadata, SolutionImports::Metadata.to_type, default: proc { {} }
 
@@ -56,23 +60,5 @@ class SolutionImport < ApplicationRecord
   # @param [Hash] new_options
   def options_attributes=(new_options)
     self.options = new_options
-  end
-
-  class << self
-    def ransackable_associations(auth_object = nil)
-      [
-        "user",
-      ]
-    end
-
-    def ransackable_attributes(auth_object = nil)
-      [
-        "id",
-        "strategy",
-        "user_id",
-        "created_at",
-        "updated_at",
-      ]
-    end
   end
 end

@@ -4,6 +4,7 @@
 module SolutionOption
   extend ActiveSupport::Concern
 
+  include ExposesRansackable
   include Filterable
   include SluggedByName
   include TimestampScopes
@@ -12,6 +13,8 @@ module SolutionOption
     extend Dry::Core::ClassAttributes
 
     defines :option_mode, type: Solutions::Types::OptionMode
+
+    expose_ransackable_attributes! :description, on: :admin
   end
 
   module ClassMethods
@@ -22,20 +25,6 @@ module SolutionOption
 
     def policy_class
       SolutionOptionPolicy
-    end
-
-    def ransackable_associations(auth_object = nil)
-      []
-    end
-
-    def ransackable_attributes(auth_object = nil)
-      [
-        "id",
-        "created_at", "updated_at",
-        "name",
-        "description",
-        "visibility"
-      ]
     end
 
     # @return [void]

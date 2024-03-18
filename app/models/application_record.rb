@@ -6,6 +6,7 @@ class ApplicationRecord < ActiveRecord::Base
   extend DefinesMonadicOperation
 
   include CallsCommonOperation
+  include ExposesRansackable
   include LazyOrdering
   include PostgresEnums
   include StoreModelIntrospection

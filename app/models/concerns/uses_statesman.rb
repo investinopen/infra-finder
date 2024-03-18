@@ -4,6 +4,12 @@
 module UsesStatesman
   extend ActiveSupport::Concern
 
+  include ExposesRansackable
+
+  included do
+    expose_ransackable_scopes! :in_state, :not_in_state
+  end
+
   class_methods do
     # Define a conventions-based state machine.
     #

@@ -5,6 +5,7 @@ module SolutionInterface
   extend ActiveSupport::Concern
   extend DefinesMonadicOperation
 
+  include ExposesRansackable
   include HasName
   include HasSystemTags
   include SolutionImportable
@@ -145,6 +146,21 @@ module SolutionInterface
     TAG_ASSOCIATIONS.index_with(:taggings),
   ].freeze
 
+  TO_RANSACKABLE_ASSOCS = [
+    "organization",
+    *SINGLE_OPTIONS,
+    *MULTIPLE_OPTIONS,
+    *TAG_ASSOCIATIONS,
+  ].freeze
+
+  TO_RANSACKABLE_ATTRS = [
+    *STANDARD_ATTRIBUTES,
+    *IMPLEMENTATIONS_WITH_ENUMS,
+    *STORE_MODEL_LISTS,
+    *TAG_LISTS,
+    *SINGLE_OPTIONS.map { "#{_1}_id" }
+  ].freeze
+
   # @!endgroup
 
   included do
@@ -183,6 +199,10 @@ module SolutionInterface
 
     delegate :applies?, :applies_to_project?, :applies_to_website?,
       to: :web_accessibility, prefix: :web_accessibility_statement
+
+    expose_ransackable_associations!(*TO_RANSACKABLE_ASSOCS)
+    expose_ransackable_attributes!(*TO_RANSACKABLE_ATTRS)
+    expose_ransackable_scopes!(*each_implementation.flat_map(&:ransackable_scopes))
   end
 
   # @api private
