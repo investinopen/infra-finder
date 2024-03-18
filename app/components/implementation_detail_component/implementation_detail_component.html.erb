@@ -1,11 +1,9 @@
 <% if available? %>
-  <div data-controller="implementation-detail-component--implementation-detail-component" class="m-card m-card--sm">
-    <div class="m-card__text">
-      <div class="text-h5"><%= t(".#{implementation_name}") %></div>
-      <div class="m-badge-sm mt-[1.125rem]">
-        <img src="/icons/16/Checkmark.svg" alt="">
-        <%= t(".available") %>
-      </div>
+  <div data-controller="implementation-detail-component--implementation-detail-component">
+    <div class="text-h5"><%= t(".#{implementation_name}") %></div>
+    <div class="m-badge-sm mt-[1.125rem]">
+      <img src="/icons/16/Checkmark.svg" alt="">
+      <%= t(".available") %>
     </div>
   </div>
 <% end %>
