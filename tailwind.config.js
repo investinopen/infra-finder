@@ -78,6 +78,7 @@ const borderRadius = {
 const gridTemplateColumns = {
   solutionsPage: "21.4375rem 1fr",
   solutionsList: "repeat(auto-fit, minmax(20.375rem, 1fr))",
+  comparisonList: "repeat(auto-fit, minmax(20.375rem, 1fr))",
 };
 
 const minHeight = {

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe ImplementationFilterComponent, type: :component do
+RSpec.describe ComparisonBarComponent, type: :component do
   pending "add some examples to (or delete) #{__FILE__}"
 
   # it "renders something useful" do

@@ -1,8 +1,13 @@
 # frozen_string_literal: true
 
-# The component for the site header, navigation, etc.
-class HeaderComponent < ApplicationComponent
-  include LoadsCurrentUser
+class ComparisonBarComponent < ApplicationComponent
+  # @return [Comparison]
+  attr_reader :comparison
+
+  # @param [Comparison] comparison
+  def initialize(comparison:)
+    @comparison = comparison
+  end
 
   def before_render
     @nav_link_options = build_nav_link_options
@@ -22,12 +27,16 @@ class HeaderComponent < ApplicationComponent
 
   def build_nav_link_options
     {
-      class: "block py-2 px-3",
-      # class_active: "nav-link--active",
-      # class_inactive: "nav-link--inactive",
+      class: "m-button m-button--sm bg-brand-mint",
       data: {
         turbo_frame: "_top",
       }
     }
+  end
+
+  def remaining_slots
+    slots_length = @comparison.comparison_items.length < 4 ? 4 - @comparison.comparison_items.length : 1
+
+    (1..slots_length).to_a
   end
 end

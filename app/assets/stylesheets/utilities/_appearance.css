@@ -5,6 +5,12 @@ background classes will extend tailwind's 'bg-' pattern. */
   accent-color: var(--accent-color);
 }
 
+.bg-white,
+[class*="bg-brand-"],
+[class*="bg-neutral-"] {
+  --color: theme("colors.black");
+}
+
 .bg-black {
   --color: theme("colors.neutral.10");
   --color-light: theme("colors.neutral.40");
