@@ -10,4 +10,6 @@
     </div>
   </div>
 </section>
-<%= render ComparisonBarComponent.new(comparison: current_comparison) %>
+<% if current_comparison.present? %>
+  <%= render ComparisonBarComponent.new(comparison: current_comparison) %>
+<% end %>
