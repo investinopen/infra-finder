@@ -5,7 +5,7 @@
     <div class="line-clamp-2 text-h6"><%= solution.name %></div>
     <div class="m-comparison-bar-item__close">
       <%= link_to(solution_compare_path(solution), link_to_remove_options) do %>
-        <img src="icons/20/Close.svg" alt="">
+        <%= image_tag "icons/20/Close.svg", alt: "" %>
         <span class="sr-only"><%= t(".remove") %></span>
       <% end %>
     </div>

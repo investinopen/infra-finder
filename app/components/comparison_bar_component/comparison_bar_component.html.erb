@@ -7,7 +7,7 @@
       <div class="flex flex-wrap gap-[0.625rem]">
         <%# TODO: Add functionality to clear all %>
         <div class="m-button m-button--sm bg-white">
-          <img src="/icons/16/Close.svg" alt="">
+          <%= image_tag "icons/16/Close.svg", alt: "" %>
           <span><%= t(".clear_all") %></span>
         </div>
         <%= nav_link "Compare", comparison_path %>

@@ -1,9 +1,9 @@
 <div data-controller="implementation-component--implementation-component" class="m-badge-md">
   <span class="<%= available? ? "bg-brand-blue" : "bg-neutral-20" %>">
     <% if available? %>
-      <img src="/icons/20/Checkmark.svg" alt="">
+      <%= image_tag "icons/20/Checkmark.svg", alt: "" %>
     <% else %>
-      <img src="/icons/20/Minus.svg" alt="">
+      <%= image_tag "icons/20/Minus.svg", alt: "" %>
     <% end %>
   </span>
   <span><%= t(".#{implementation_name}") %></span>

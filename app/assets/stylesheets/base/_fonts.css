@@ -4,30 +4,30 @@
   font-family: "BW Gradual";
   font-style: normal;
   font-weight: 700;
-  src: url(/fonts/BwGradual-Bold.woff2) format("woff2"),
-    url(/fonts/BwGradual-Bold.woff) format("woff");
+  src: url(/BwGradual-Bold.woff2) format("woff2"),
+    url(/BwGradual-Bold.woff) format("woff");
 }
 
 @font-face {
   font-family: "BW Gradual";
   font-style: italic;
   font-weight: 700;
-  src: url(/fonts/BwGradual-BoldItalic.woff2) format("woff2"),
-    url(/fonts/BwGradual-BoldItalic.woff) format("woff");
+  src: url(/BwGradual-BoldItalic.woff2) format("woff2"),
+    url(/BwGradual-BoldItalic.woff) format("woff");
 }
 
 @font-face {
   font-family: "BW Gradual";
   font-style: normal;
   font-weight: 400;
-  src: url(/fonts/BwGradual-Medium.woff2) format("woff2"),
-    url(/fonts/BwGradual-Medium.woff) format("woff");
+  src: url(/BwGradual-Medium.woff2) format("woff2"),
+    url(/BwGradual-Medium.woff) format("woff");
 }
 
 @font-face {
   font-family: "BW Gradual";
   font-style: italic;
   font-weight: 400;
-  src: url(/fonts/BwGradual-MediumItalic.woff2) format("woff2"),
-    url(/fonts/BwGradual-MediumItalic.woff) format("woff");
+  src: url(/BwGradual-MediumItalic.woff2) format("woff2"),
+    url(/BwGradual-MediumItalic.woff) format("woff");
 }

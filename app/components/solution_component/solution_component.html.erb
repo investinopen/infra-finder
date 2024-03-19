@@ -8,7 +8,7 @@
         <%= solution.organization.name %>
       </div>
       <div class="flex gap-1.5 pt-[0.625rem]">
-        <img src="/icons/16/Location-Pin.svg" alt="">
+        <%= image_tag "icons/16/Location-Pin.svg", alt: "" %>
         <%= solution.location_of_incorporation? ? solution.location_of_incorporation : "—" %>
       </div>
     </div>
