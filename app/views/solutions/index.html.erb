@@ -1,15 +1,17 @@
-<section class="l-container">
-  <div class="l-container__inner pb-[7.5rem] pt-8">
-    <header>
-      <h1 class="text-h2">Search & Compare Solutions</h1>
-    </header>
-    <div class="pt-9 grid grid-cols-1 md:grid-cols-solutionsPage gap-4">
-      <%= render SolutionFiltersComponent.new(solution_search: @solution_search) %>
+<%= turbo_frame_tag("solutions-index") do %>
+  <section class="l-container">
+    <div class="l-container__inner pb-[7.5rem] pt-8">
+      <header>
+        <h1 class="text-h2">Search & Compare Solutions</h1>
+      </header>
+      <div class="pt-9 grid grid-cols-1 md:grid-cols-solutionsPage gap-4">
+        <%= render SolutionFiltersComponent.new(solution_search: @solution_search) %>
 
-      <%= render SolutionsComponent.new(solutions: @solutions, solution_search: @solution_search, comparison: current_comparison) %>
+        <%= render SolutionsComponent.new(solutions: @solutions, solution_search: @solution_search, comparison: current_comparison) %>
+      </div>
     </div>
-  </div>
-</section>
-<% if current_comparison.present? %>
-  <%= render ComparisonBarComponent.new(comparison: current_comparison) %>
+  </section>
+  <% if current_comparison.present? %>
+    <%= render ComparisonBarComponent.new(comparison: current_comparison) %>
+  <% end %>
 <% end %>

@@ -16,4 +16,12 @@ class ComparisonsController < ApplicationController
       return
     end
   end
+
+  # @note The destroy action actually just clears the current comparison's items, since
+  #   we want to maintain the filters, etc.
+  def destroy
+    current_comparison.comparison_items.destroy_all if current_comparison.present?
+
+    redirect_back fallback_location: solutions_path
+  end
 end

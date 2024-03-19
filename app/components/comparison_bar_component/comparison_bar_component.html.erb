@@ -5,11 +5,10 @@
     <header class="l-container__inner flex flex-wrap gap-[0.625rem] items-center justify-between pb-5">
       <h3><%= t(".title") %></h3>
       <div class="flex flex-wrap gap-[0.625rem]">
-        <%# TODO: Add functionality to clear all %>
-        <div class="m-button m-button--sm bg-white">
+        <%= link_to_clear_comparison do %>
           <%= image_tag "icons/16/Close.svg", alt: "" %>
           <span><%= t(".clear_all") %></span>
-        </div>
+        <% end %>
         <%= nav_link "Compare", comparison_path %>
       </div>
     </header>

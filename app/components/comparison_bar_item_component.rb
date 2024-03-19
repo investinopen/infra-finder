@@ -22,7 +22,7 @@ class ComparisonBarItemComponent < ApplicationComponent
   def link_to_remove_options
     {
       data: {
-        turbo_frame: "_top",
+        turbo_frame: "solutions-index",
         turbo_method: :delete,
       },
     }

@@ -23,6 +23,20 @@ class ComparisonBarComponent < ApplicationComponent
     active_link_to(label, href, **opts)
   end
 
+  def link_to_clear_comparison(&)
+    options = {
+      class: "m-button m-button--sm bg-white",
+      data: {
+        turbo_frame: "solutions-index",
+        turbo_method: :delete,
+      },
+    }
+
+    link_to comparison_path, options do
+      capture(&)
+    end
+  end
+
   private
 
   def build_nav_link_options
