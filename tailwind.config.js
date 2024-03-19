@@ -81,13 +81,22 @@ const borderRadius = {
 };
 
 const gridTemplateColumns = {
-  solutionsPage: "21.4375rem 1fr",
-  solutionsList: "repeat(auto-fit, minmax(20.375rem, 1fr))",
-  comparisonList: "repeat(auto-fit, minmax(20.375rem, 1fr))",
+  "solutions-page": "21.4375rem 1fr",
+  "solutions-list": "repeat(auto-fit, minmax(20.375rem, 1fr))",
+  "comparison-page": "21.4375rem 1fr",
+  "comparison-list": "repeat(auto-fit, minmax(20.375rem, 1fr))",
 };
 
 const minHeight = {
   resultsBar: "3.75rem",
+};
+
+const spacing = {
+  "container-inline": "var(--container-padding-inline)",
+};
+
+const width = {
+  "comparison-item": "20.375rem",
 };
 
 module.exports = {
@@ -109,6 +118,8 @@ module.exports = {
       maxWidth,
       minHeight,
       screens,
+      spacing,
+      width,
     },
   },
   plugins: [

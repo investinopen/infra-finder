@@ -1,13 +1,13 @@
 <%= turbo_frame_tag(solution) do %>
-  <article class="solution-component h-full" data-controller="solution-component--solution-component">
-    <header class="bg-brand-mint">
+  <article class="m-solution-card" data-controller="solution-component--solution-component">
+    <header class="m-solution-card__header">
       <h3 class="line-clamp-1"><%= solution.name %></h3>
     </header>
     <div class="text-xs a-underline a-underline--lt">
       <div class="font-bold truncate">
         <%= solution.organization.name %>
       </div>
-      <div class="flex gap-1.5 pt-[0.625rem]">
+      <div class="m-solution-card__location">
         <%= image_tag "icons/16/Location-Pin.svg", alt: "" %>
         <%= solution.location_of_incorporation? ? solution.location_of_incorporation : "—" %>
       </div>
@@ -15,7 +15,7 @@
     <div class="text-xs t-rte line-clamp-4">
       <%= sanitize solution.service_summary %>
     </div>
-    <div class="flex flex-col gap-4 grow">
+    <div class="m-solution-card__badges">
       <% solution.solution_categories.each do |category, id| %>
         <div class="m-badge-md">
           <span><%= category.name %></span>
@@ -23,7 +23,7 @@
       <% end %>
       <%= render_implementation(:open_api) %>
     </div>
-    <footer>
+    <footer class="m-solution-card__footer">
       <%= link_to t(".learn_more"), solution_path(solution), class: "m-button", data: { turbo_frame: "_top" } %>
       <%= render ComparisonToggleComponent.new(solution:, comparison:) %>
     </footer>

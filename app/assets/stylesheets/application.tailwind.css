@@ -8,6 +8,7 @@
 @import "components/_badge.css";
 @import "components/_button.css";
 @import "components/_checkbox.css";
+@import "components/_solution-card.css";
 
 @import "tailwindcss/utilities";
 @import "utilities/_appearance";

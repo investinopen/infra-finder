@@ -19,14 +19,26 @@ class ComparisonItemComponent < ApplicationComponent
     @iteration = item_iteration
   end
 
-  def link_to_remove_solution
-    options = {
+  def link_to_remove_options
+    {
+      class: "m-solution-card__close",
       data: {
         turbo_frame: "_top",
         turbo_method: :delete,
-      },
+      }
     }
+  end
 
-    link_to(t(".remove"), solution_compare_path(solution), **options)
+  def link_to_detail_options
+    {
+      class: "m-button m-button--sm bg-brand-mint",
+      data: { turbo_frame: "_top" }
+    }
+  end
+
+  # @param [Solutions::Types::Implementation] name
+  # @return [String]
+  def render_implementation(name)
+    render ImplementationComponent.new(solution:, name:)
   end
 end

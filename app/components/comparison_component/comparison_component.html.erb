@@ -1,12 +1,12 @@
 <%= turbo_frame_tag(comparison) do %>
-  <section class="l-container" data-controller="comparison-component--comparison-component">
-    <div class="l-container__inner grid grid-cols-comparisonList">
-      <header>
+  <section class="l-container pt-8 overflow-x-auto pb-6" data-controller="comparison-component--comparison-component">
+    <div class="l-container__inner grid grid-cols-comparison-page">
+      <header class="sticky left-0 bg-neutral-10 z-[1] pe-6 ps-container-inline -ms-container-inline">
         <h1 class="text-h2">
           <%= t(".title") %>
         </h1>
       </header>
-      <div>
+      <div class="flex gap-4 pe-container-inline">
           <%= render ComparisonItemComponent.with_collection(comparison.comparison_items) %>
       </div>
     </div>

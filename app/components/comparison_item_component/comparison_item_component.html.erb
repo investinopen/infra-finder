@@ -1,8 +1,37 @@
-<%= turbo_frame_tag item do %>
-  <div class="inline-block px-3" data-controller="comparison-item-component--comparison-item-component">
-    <div class="w-64 h-64 max-w-xs overflow-hidden rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out">
-      <h2><%= solution.name %></h2>
-      <p><%= link_to_remove_solution %></p>
+<%= turbo_frame_tag item, class: "" do %>
+  <article class="m-solution-card w-comparison-item" data-controller="comparison-item-component--comparison-item-component">
+    <header class="m-solution-card__header">
+      <h3 class="text-h4"><%= solution.name %></h3>
+      <%= link_to(solution_compare_path(solution), link_to_remove_options) do %>
+        <%= image_tag "icons/20/Close.svg", alt: "" %>
+        <span class="sr-only"><%= t(".remove") %></span>
+      <% end %>
+    </header>
+    <div class="text-xs">
+      <div class="font-bold">
+        <%= solution.organization.name %>
+      </div>
+      <div class="m-solution-card__location">
+        <%= image_tag "icons/16/Location-Pin.svg", alt: "" %>
+        <%= solution.location_of_incorporation? ? solution.location_of_incorporation : "—" %>
+      </div>
     </div>
-  </div>
+    <div class="text-xs t-rte line-clamp-6">
+      <%= sanitize solution.service_summary %>
+    </div>
+    <div class="m-solution-card__badges">
+      <% solution.solution_categories.each do |category, id| %>
+        <div class="m-badge-md">
+          <span><%= category.name %></span>
+        </div>
+      <% end %>
+      <%= render_implementation(:open_api) %>
+    </div>
+    <div class="m-solution-card__footer">
+      <%= link_to(solution_path(solution), link_to_detail_options) do %>
+        <span><%= t(".learn_more") %></span>
+        <%= image_tag "icons/16/Arrow-Right.svg", alt: "" %>
+      <% end %>
+    </div>
+  </article>
 <% end %>
