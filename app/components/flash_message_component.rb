@@ -20,15 +20,15 @@ class FlashMessageComponent < ApplicationComponent
   def color_classes
     case type
     when :success
-      "bg-green-100 border-green-400 text-green-700"
+      "bg-brand-mint-tint"
     when :error, :alert
-      "bg-red-100 border-red-400 text-red-700"
+      "bg-brand-orange-tint"
     when :warning
-      "bg-yellow-100 border-yellow-400 text-yellow-700"
+      "bg-brand-yellow-tint"
     when :notice
-      "bg-blue-100 border-blue-400 text-blue-700"
+      "bg-brand-blue-tint"
     else
-      "bg-gray-100 border-gray-400 text-gray-700"
+      "bg-neutral-30"
     end
   end
 end

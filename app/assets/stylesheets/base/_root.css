@@ -14,17 +14,17 @@
 
   /* Root variables from IOI's website */
   --white: theme("colors.white");
-  --white2: #f7f7f7;
-  --grey: #707070;
-  --grey2: #888888;
+  --white2: theme("colors.neutral.10");
+  --grey: theme("colors.neutral.70");
+  --grey2: theme("colors.neutral.60");
   --black: theme("colors.black");
-  --yellow: #ffde17;
-  --yellow2: #fce59d;
-  --green: #83fed1;
-  --green2: #b6fcdf;
-  --blue: #9aeef7;
-  --orange: #ffbea1;
-  --orange2: #ffd9a1;
+  --yellow: theme("colors.brand.yellow");
+  --yellow2: theme("colors.brand.yellow-tint");
+  --green: theme("colors.brand.mint");
+  --green2: theme("colors.brand.mint-tint");
+  --blue: theme("colors.brand.blue");
+  --orange: theme("colors.brand.orange");
+  --orange2: theme("colors.brand.orange-tint");
 
   --font1: theme("fontFamily.body");
   --font2: theme("fontFamily.header");

@@ -1,6 +1,6 @@
-<div class="relative flex px-4 py-3 space-x-2 border <%= color_classes %>" role="alert" data-controller="flash-message-component--flash-message-component">
-  <strong class="font-bold"><%= message %></strong>
-  <span class="pl-5">
+<div class="flex gap-6 rounded-xs py-4 px-6 <%= color_classes %>" role="alert" data-controller="flash-message-component--flash-message-component">
+  <strong class="font-bold pt-[0.125rem]"><%= message %></strong>
+  <span>
     <%= heroicon "x-mark", options: { class: "w-6 h-6 fill-current", "data-action": "click->flash-message-component--flash-message-component#close", role: "button" } %>
   </span>
 </div>

@@ -9,8 +9,13 @@ const maxWidth = {
 const colors = {
   brand: {
     mint: "hsla(162, 78%, 73%, 1)",
+    "mint-tint": "hsla(155, 92%, 85%, 1)",
     blue: "hsla(208, 100%, 84%, 1)",
+    "blue-tint": "hsla(208, 100%, 84%, .7)",
     yellow: "hsla(51, 100%, 55%, 1)",
+    "yellow-tint": "hsla(45, 94%, 80%, 0)",
+    orange: "hsla(19, 100%, 82%, 0)",
+    "orange-tint": "hsla(36, 100%, 82%, 0)",
   },
   neutral: {
     70: "hsla(0, 0%, 38%, 1)",
