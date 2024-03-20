@@ -26,6 +26,10 @@ module Solutions
       parent.try(:"#{implementation_name}_available?")
     end
 
+    def in_progress?
+      parent.try(:"#{implementation_name}_in_progress?")
+    end
+
     # @api private
     # @return [Symbol]
     def implementation_name

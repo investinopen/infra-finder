@@ -1,0 +1,11 @@
+<div data-controller="comparison-implementation-cell-component--comparison-implementation-cell-component" role="cell">
+  <% if available? %>
+    <%= image_tag "icons/20/Checkmark.svg", alt: "" %>
+    <span class="sr-only"><%= t(".available") %></span>
+  <% elsif implementation.in_progress? %>
+    <span><%= t(".in_progress") %></span>
+  <% else %>
+    <%= image_tag "icons/20/Minus.svg", alt: "" %>
+    <span class="sr-only"><%= t(".unavailable") %></span>
+  <% end %>
+</div>

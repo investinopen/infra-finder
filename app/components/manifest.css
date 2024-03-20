@@ -4,6 +4,8 @@
 @import "./comparison_bar_component/comparison_bar_component.css";
 @import "./comparison_bar_item_component/comparison_bar_item_component.css";
 @import "./comparison_component/comparison_component.css";
+@import "./comparison_implementation_cell_component/comparison_implementation_cell_component.css";
+@import "./comparison_implementation_row_component/comparison_implementation_row_component.css";
 @import "./comparison_item_component/comparison_item_component.css";
 @import "./comparison_toggle_component/comparison_toggle_component.css";
 @import "./flash_message_component/flash_message_component.css";

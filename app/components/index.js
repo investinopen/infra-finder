@@ -5,6 +5,8 @@ import { application } from "../javascript/controllers/application";
 import ComparisonBarComponent__ComparisonBarComponentController from "./comparison_bar_component/comparison_bar_component_controller";
 import ComparisonBarItemComponent__ComparisonBarItemComponentController from "./comparison_bar_item_component/comparison_bar_item_component_controller";
 import ComparisonComponent__ComparisonComponentController from "./comparison_component/comparison_component_controller";
+import ComparisonImplementationCellComponent__ComparisonImplementationCellComponentController from "./comparison_implementation_cell_component/comparison_implementation_cell_component_controller";
+import ComparisonImplementationRowComponent__ComparisonImplementationRowComponentController from "./comparison_implementation_row_component/comparison_implementation_row_component_controller";
 import ComparisonItemComponent__ComparisonItemComponentController from "./comparison_item_component/comparison_item_component_controller";
 import ComparisonToggleComponent__ComparisonToggleComponentController from "./comparison_toggle_component/comparison_toggle_component_controller";
 import FlashMessageComponent__FlashMessageComponentController from "./flash_message_component/flash_message_component_controller";
@@ -26,6 +28,8 @@ import TagListComponent__TagListComponentController from "./tag_list_component/t
 application.register("comparison-bar-component--comparison-bar-component", ComparisonBarComponent__ComparisonBarComponentController);
 application.register("comparison-bar-item-component--comparison-bar-item-component", ComparisonBarItemComponent__ComparisonBarItemComponentController);
 application.register("comparison-component--comparison-component", ComparisonComponent__ComparisonComponentController);
+application.register("comparison-implementation-cell-component--comparison-implementation-cell-component", ComparisonImplementationCellComponent__ComparisonImplementationCellComponentController);
+application.register("comparison-implementation-row-component--comparison-implementation-row-component", ComparisonImplementationRowComponent__ComparisonImplementationRowComponentController);
 application.register("comparison-item-component--comparison-item-component", ComparisonItemComponent__ComparisonItemComponentController);
 application.register("comparison-toggle-component--comparison-toggle-component", ComparisonToggleComponent__ComparisonToggleComponentController);
 application.register("flash-message-component--flash-message-component", FlashMessageComponent__FlashMessageComponentController);

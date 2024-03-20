@@ -1,13 +1,109 @@
 <%= turbo_frame_tag(comparison) do %>
-  <section class="l-container pt-8 overflow-x-auto pb-6" data-controller="comparison-component--comparison-component">
-    <div class="l-container__inner grid grid-cols-comparison-page">
-      <header class="sticky left-0 bg-neutral-10 z-[1] pe-6 ps-container-inline -ms-container-inline">
-        <h1 class="text-h2">
-          <%= t(".title") %>
-        </h1>
-      </header>
-      <div class="flex gap-4 pe-container-inline">
-          <%= render ComparisonItemComponent.with_collection(comparison.comparison_items) %>
+  <section class="l-container pt-8 pb-[6.25rem] overflow-x-auto" data-controller="comparison-component--comparison-component">
+    <div class="l-container__inner">
+      <div class="flex gap-4">
+        <header class="w-comparison-item shrink-0 pe-6">
+          <h1 class="text-h2">
+            <%= t(".title") %>
+          </h1>
+        </header>
+        <%= render ComparisonItemComponent.with_collection(comparison.comparison_items) %>
+      </div>
+      <div class="m-table">
+        <div class="m-table__header">
+          <h2 class="text-h4" id="technical_table_header">
+            Technical
+          </h2>
+        </div>
+        <div role="table"
+          aria-describedby="technical_table_header">
+          <div role="rowgroup">
+            <%= render ComparisonImplementationRowComponent.new(comparison:, name: :open_api) %>
+            <%= render ComparisonImplementationRowComponent.new(comparison:, name: :code_repository) %>
+            <%= render ComparisonImplementationRowComponent.new(comparison:, name: :user_documentation) %>
+            <%= render ComparisonImplementationRowComponent.new(comparison:, name: :product_roadmap) %>
+          </div>
+        </div>
+      </div>
+      <div class="m-table">
+        <div class="m-table__header">
+          <h2 class="text-h4" id="technical_table_header">
+            Community
+          </h2>
+        </div>
+        <div role="table"
+          aria-describedby="technical_table_header">
+          <div role="rowgroup">
+            <%= render ComparisonImplementationRowComponent.new(comparison:, name: :community_engagement) %>
+            <%= render ComparisonImplementationRowComponent.new(comparison:, name: :code_of_conduct) %>
+          </div>
+        </div>
+      </div>
+      <div class="m-table">
+        <div class="m-table__header">
+          <h2 class="text-h4 m-table__sticky" id="technical_table_header">
+            Policies &amp; Guideance
+          </h2>
+        </div>
+        <div role="table"
+          aria-describedby="technical_table_header">
+          <div role="rowgroup">
+            <%= render ComparisonImplementationRowComponent.new(comparison:, name: :privacy_policy) %>
+            <%= render ComparisonImplementationRowComponent.new(comparison:, name: :equity_and_inclusion) %>
+            <%= render ComparisonImplementationRowComponent.new(comparison:, name: :web_accessibility) %>
+            <%= render ComparisonImplementationRowComponent.new(comparison:, name: :open_data) %>
+            <%= render ComparisonImplementationRowComponent.new(comparison:, name: :governance_activities) %>
+            <%= render ComparisonImplementationRowComponent.new(comparison:, name: :governance_structure) %>
+          </div>
+        </div>
+      </div>
+      <div class="m-table">
+        <div class="m-table__header">
+          <h2 class="text-h4 m-table__sticky" id="technical_table_header">
+            Structure
+          </h2>
+        </div>
+        <div role="table"
+          aria-describedby="technical_table_header">
+          <div role="rowgroup">
+            <div role="row">
+              <div role="rowheader" class="m-table__sticky">
+                Full-time Staff
+              </div>
+              <% comparison.comparison_items.each do |item| %>
+                <div class="text-lg" role="cell">
+                  <%= item.solution.current_staffing %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="m-table">
+        <div class="m-table__header">
+          <h2 class="text-h4 m-table__sticky" id="technical_table_header">
+            Funding
+          </h2>
+        </div>
+        <div role="table"
+          aria-describedby="technical_table_header">
+          <div role="rowgroup">
+            <div role="row">
+              <div role="rowheader" class="m-table__sticky">
+                Funding Needs
+              </div>
+              <% comparison.comparison_items.each do |item| %>
+                <div role="cell">
+                  <% if item.solution.funding_needs? %>
+                    <%= sanitize item.solution.funding_needs %>
+                  <% else %>
+                    <%= image_tag "icons/20/Minus.svg", alt: "" %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>

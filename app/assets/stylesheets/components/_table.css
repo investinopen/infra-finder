@@ -1,0 +1,33 @@
+.m-table {
+  &__header {
+    padding-block-start: 2.75rem;
+    padding-block-end: 1.25rem;
+    border-bottom: 0.125rem solid theme("colors.black");
+  }
+
+  div[role="row"] {
+    @apply flex gap-4;
+    border-bottom-width: 1px;
+  }
+
+  div[role="rowheader"] {
+    display: inline-block;
+    width: calc(
+      theme("width.comparison-item") + theme("padding.6") +
+        var(--container-padding-inline)
+    );
+    padding-block: 1.6875rem;
+    flex-shrink: 0;
+    @apply text-xs;
+    @apply sticky left-0 bg-neutral-10 z-[1] pe-6 ps-container-inline -ms-container-inline;
+  }
+
+  div[role="cell"] {
+    @apply w-comparison-item shrink-0;
+    padding-block: 1.6875rem;
+
+    &:not([class*="text-"]) {
+      @apply text-xxs;
+    }
+  }
+}

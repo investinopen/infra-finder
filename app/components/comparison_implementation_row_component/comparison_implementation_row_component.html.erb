@@ -1,0 +1,9 @@
+<div data-controller="comparison-implementation-row-component--comparison-implementation-row-component" role="row">
+  <div role="rowheader" class="m-table__sticky">
+    <%= t(".#{implementation_name}") %>
+  </div>
+  <%#= render ComparisonTableCellComponent.with_collection(comparison.comparison_items) %>
+  <% comparison.comparison_items.each do |item| %>
+    <%= render_implementation_cell(item.solution) %>
+  <% end %>
+</div>

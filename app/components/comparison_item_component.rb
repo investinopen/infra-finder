@@ -35,10 +35,4 @@ class ComparisonItemComponent < ApplicationComponent
       data: { turbo_frame: "_top" }
     }
   end
-
-  # @param [Solutions::Types::Implementation] name
-  # @return [String]
-  def render_implementation(name)
-    render ImplementationComponent.new(solution:, name:)
-  end
 end
