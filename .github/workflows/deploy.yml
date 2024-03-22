@@ -1,4 +1,4 @@
-name: "Build & Deploy Docker"
+name: "Build & Deploy Docker for Staging"
 
 on:
   push:
@@ -35,10 +35,14 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           context: .
           push: true
           file: docker/production/Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args:
+            "RAILS_ENV=staging"
           secrets:
-            "master_key=${{ secrets.STAGING_MASTER_KEY }}"
+            "masterkey=${{ secrets.STAGING_MASTER_KEY }}"
