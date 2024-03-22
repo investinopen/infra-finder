@@ -60,6 +60,10 @@ test:
   <<: *default
   database: infra_finder_test
 
+staging:
+  <<: *default
+  database: infra_finder_staging
+
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
 # ever seen by anyone, they now have access to your database.

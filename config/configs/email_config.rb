@@ -1,16 +1,13 @@
 # frozen_string_literal: true
 
 class EmailConfig < ApplicationConfig
-  attr_config origin: "team+infra-finder@castironcoding.com"
+  attr_config origin: "do-not-reply@castironcoding.com"
 
   attr_config external: false
 
   attr_config :address, :port, :password, :username
 
   coerce_types external: :boolean, port: :integer
-
-  required :username, env: %i[production]
-  required :password, env: %i[production]
 
   alias user_name username
   alias external? external

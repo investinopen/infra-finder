@@ -1,13 +1,27 @@
 default: &default
   bucket: "infra-finder-storage"
-  mapped_host: "http://localhost:6858"
+  mapped_host: ""
   public: true
 
 development:
   <<: *default
+  cdn_host: "http://localhost:6858/infra-finder-storage"
+  mapped_host: "http://localhost:6858"
+  use_asset_cdn: true
 
 test:
   <<: *default
 
+staging:
+  <<: *default
+  bucket: "infrafinder-stg"
+  cdn_host: "https://infrafinder-stg.nyc3.cdn.digitaloceanspaces.com"
+  spaces: true
+  use_asset_cdn: true
+
 production:
   <<: *default
+  bucket: "infrafinder-prd"
+  cdn_host: "https://infrafinder-prd.nyc3.cdn.digitaloceanspaces.com"
+  spaces: true
+  use_asset_cdn: true

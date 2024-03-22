@@ -11,4 +11,8 @@ require "dry/types"
 require "dry/validation"
 require "vips"
 
+Anyway::Settings.future.use :unwrap_known_environments
+
+Anyway::Settings.known_environments << "staging"
+
 FrozenRecord::Base.base_path = Pathname(__dir__).join("..", "..", "frozen_record").realpath

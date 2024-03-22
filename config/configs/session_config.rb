@@ -37,7 +37,7 @@ class SessionConfig < ApplicationConfig
 
   # @return [String]
   memoize def url
-    URI.join(ENV.fetch("REDIS_URL"), "/#{db}/#{namespace}").to_s
+    URI.join(ENV.fetch("REDIS_URL", "redis://127.0.0.1:6379"), "/#{db}/#{namespace}").to_s
   end
 
   private

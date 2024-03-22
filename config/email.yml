@@ -1,4 +1,5 @@
 default: &default
+  origin: "do-not-reply@castironcoding.com"
   address: ""
   external: false
   port: 587
@@ -14,6 +15,18 @@ development:
 test:
   <<: *default
 
+staging:
+  <<: *default
+  address: "smtp.sendgrid.net"
+  external: true
+  origin: "do-not-reply@castironcoding.com"
+  port: 587
+  username: apikey
+
 production:
   <<: *default
+  address: "smtp.sendgrid.net"
   external: true
+  origin: "do-not-reply@castironcoding.com"
+  port: 587
+  username: apikey

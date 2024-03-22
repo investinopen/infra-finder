@@ -190,6 +190,11 @@ module SolutionInterface
 
     scope :with_all_facets_loaded, -> { preload(*TO_EAGER_LOAD).strict_loading }
 
+    scope :with_logo_in_storage, ->(storage) { where(arel_json_get_as_text(:logo_data, :storage).eq(storage)) }
+    scope :with_cached_logo, -> { with_logo_in_storage(:cache) }
+    scope :with_stored_logo, -> { with_logo_in_storage(:store) }
+    scope :sans_logo, -> { where(logo_data: nil) }
+
     before_validation :derive_contact_method!
     before_validation :set_default_identifier!
 
@@ -267,7 +272,7 @@ module SolutionInterface
       define_contact_method!
 
       define_financial_enums!
-    rescue ActiveRecord::NoDatabaseError
+    rescue ActiveRecord::DatabaseConnectionError, ActiveRecord::NoDatabaseError
       # :nocov:
       # intentionally left blank
       # :nocov:

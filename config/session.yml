@@ -14,6 +14,10 @@ development:
 test:
   <<: *default
 
+staging:
+  <<: *default
+  include_env_in_key: false
+
 production:
   <<: *default
   include_env_in_key: false

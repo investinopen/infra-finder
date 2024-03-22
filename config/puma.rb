@@ -54,8 +54,6 @@ on_worker_fork do
 
   # Ensure we disconnect from Rails cache on forking.
   Rails.cache.redis.disconnect!
-
-  Redis::Objects.redis.disconnect!
 end
 
 on_worker_boot do
@@ -64,12 +62,4 @@ on_worker_boot do
   ActiveSupport.on_load(:active_record) do
     ActiveRecord::Base.establish_connection
   end
-end
-
-before_fork do
-  Barnes.start if Rails.env.production?
-end
-
-out_of_band do
-  # GC.start(full_mark: true, immediate_sweep: true)
 end

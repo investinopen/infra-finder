@@ -1,0 +1,100 @@
+alerts:
+- rule: DEPLOYMENT_FAILED
+- rule: DOMAIN_FAILED
+databases:
+- cluster_name: infra-finder-stg-redis
+  engine: REDIS
+  name: redis
+  production: true
+  version: "7"
+- cluster_name: infra-finder-stg
+  db_name: infra_finder_staging
+  db_user: doadmin
+  engine: PG
+  name: pg
+  production: true
+  version: "15"
+domains:
+  - domain: infrafinder.instance.works
+    type: PRIMARY
+envs:
+  - key: LOCATIONS_ROOT
+    scope: RUN_AND_BUILD_TIME
+    value: https://infrafinder.instance.works
+  - key: RACK_ENV
+    scope: RUN_AND_BUILD_TIME
+    value: production
+  - key: RAILS_ENV
+    scope: RUN_AND_BUILD_TIME
+    value: staging
+  - key: RAILS_LOG_TO_STDOUT
+    scope: RUN_AND_BUILD_TIME
+    value: enabled
+  - key: RAILS_MASTER_KEY
+    scope: RUN_AND_BUILD_TIME
+    type: SECRET
+    value: EV[1:454l0t3heNUXI+oCLU+CyZelxArLbzYb:iWxd0LkoShmfMXsZ3aZ/UOnE332h2arkuSKDMAMc3rSQf3oBcjZpnhJHUn/XD3zv]
+  - key: RAILS_SERVE_STATIC_FILES
+    scope: RUN_AND_BUILD_TIME
+    value: enabled
+  - key: REDIS_URL
+    scope: RUN_AND_BUILD_TIME
+    value: ${redis.DATABASE_URL}
+  - key: LANG
+    scope: RUN_AND_BUILD_TIME
+    value: en_US.UTF-8
+  - key: DATABASE_URL
+    scope: RUN_AND_BUILD_TIME
+    value: ${pg.DATABASE_URL}
+features:
+  - buildpack-stack=ubuntu-22
+ingress:
+  rules:
+  - component:
+      name: web
+    match:
+      path:
+        prefix: /
+jobs:
+- image:
+    deploy_on_push:
+      enabled: true
+    registry_type: DOCR
+    repository: infra_finder
+    tag: latest
+  instance_count: 1
+  instance_size_slug: basic-s
+  kind: PRE_DEPLOY
+  name: deployment-runner
+  run_command: ./bin/rails system:deploy
+name: infra-finder-stg
+region: nyc
+services:
+- health_check:
+    http_path: /up
+    initial_delay_seconds: 15
+  http_port: 8080
+  image:
+    deploy_on_push:
+      enabled: true
+    registry_type: DOCR
+    repository: infra_finder
+    tag: latest
+  instance_count: 1
+  instance_size_slug: basic-s
+  name: web
+workers:
+- envs:
+  - key: GOOD_JOB_PROBE_PORT
+    scope: RUN_AND_BUILD_TIME
+    value: "7001"
+  image:
+    deploy_on_push:
+      enabled: true
+    registry_type: DOCR
+    repository: infra_finder
+    tag: latest
+  instance_count: 1
+  instance_size_slug: basic-s
+  name: worker
+  run_command: bin/good_job start
