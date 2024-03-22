@@ -1,26 +1,28 @@
 <%= turbo_frame_tag(comparison, "bar") do %>
-  <aside
-    data-controller="comparison-bar-component--comparison-bar-component"
-    class="l-container bg-black sticky bottom-0 pt-5">
-    <header class="l-container__inner flex flex-wrap gap-[0.625rem] items-center justify-between pb-5">
-      <h3><%= t(".title") %></h3>
-      <div class="flex flex-wrap gap-[0.625rem]">
-        <%= link_to_clear_comparison do %>
-          <%= image_tag "icons/16/Close.svg", alt: "" %>
-          <span><%= t(".clear_all") %></span>
-        <% end %>
-        <%= nav_link "Compare", comparison_path %>
-      </div>
-    </header>
-    <div class="l-container__inner flex gap-[0.625rem] overflow-x-auto items-stretch pb-8">
-      <%= render ComparisonBarItemComponent.with_collection(comparison.comparison_items) %>
-      <% remaining_slots.each do |i| %>
-        <div class="m-comparison-bar-item bg-brand-mint/25">
-          <% if i === 1 and not comparison.comparison_items.many? %>
-            <span class="m-comparison-bar-item__add-more"><%= t(".not_enough_selected") %></span>
+  <% if bar_visible? %>
+    <aside
+      data-controller="comparison-bar-component--comparison-bar-component"
+      class="l-container bg-black sticky bottom-0 pt-5">
+      <header class="l-container__inner flex flex-wrap gap-[0.625rem] items-center justify-between pb-5">
+        <h3><%= t(".title") %></h3>
+        <div class="flex flex-wrap gap-[0.625rem]">
+          <%= link_to_clear_comparison do %>
+            <%= image_tag "icons/16/Close.svg", alt: "" %>
+            <span><%= t(".clear_all") %></span>
           <% end %>
+          <%= nav_link "Compare", comparison_path %>
         </div>
-      <% end %>
-    </div>
-  </aside>
+      </header>
+      <div class="l-container__inner flex gap-[0.625rem] overflow-x-auto items-stretch pb-8">
+        <%= render ComparisonBarItemComponent.with_collection(comparison.comparison_items) %>
+        <% remaining_slots.each do |i| %>
+          <div class="m-comparison-bar-item bg-brand-mint/25">
+            <% if i === 1 and not comparison.comparison_items.many? %>
+              <span class="m-comparison-bar-item__add-more"><%= t(".not_enough_selected") %></span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </aside>
+  <% end %>
 <% end %>

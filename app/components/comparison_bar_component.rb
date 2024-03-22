@@ -9,6 +9,10 @@ class ComparisonBarComponent < ApplicationComponent
     @comparison = comparison
   end
 
+  def bar_visible?
+    comparison.comparison_items.any?
+  end
+
   def before_render
     @nav_link_options = build_nav_link_options
   end
