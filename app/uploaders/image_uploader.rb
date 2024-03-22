@@ -3,8 +3,6 @@
 # An uploader specifically for images, with common dimensions and formats.
 class ImageUploader < Shrine
   ALLOWED_MIME_TYPES = %w[
-    image/heic
-    image/heif
     image/jpeg
     image/jpg
     image/png
@@ -17,11 +15,19 @@ class ImageUploader < Shrine
     ".jpeg", ".png", ".jpg", ".svg", ".webp", *ALLOWED_MIME_TYPES
   ].join(?,).freeze
 
+  SIZES = {
+    thumb: [200, 200],
+    small: [300, 300],
+    medium: [500, 500],
+    large: [800, 800],
+  }.freeze
+
   plugin :derivatives, create_on_promote: false
   plugin :add_metadata
   plugin :default_url
   plugin :refresh_metadata
-  plugin :remote_url, max_size: 100.megabytes
+  plugin :remote_url, max_size: 10.megabytes
+  plugin :remove_invalid
   plugin :store_dimensions, analyzer: :ruby_vips
   plugin :signature
   plugin :validation_helpers
@@ -39,16 +45,25 @@ class ImageUploader < Shrine
 
   Attacher.validate do
     validate_mime_type ALLOWED_MIME_TYPES
+
+    validate_max_size 10.megabytes
+
+    InfraFinder::Container["attachments.check_image"].(file) do |m|
+      m.success do
+        # intentionally left blank
+      end
+
+      m.failure do |validation_errors|
+        errors.concat validation_errors.to_a
+      end
+    end
   end
 
   Attacher.derivatives do |original|
-    vips = ImageProcessing::Vips.source(original)
+    vips = ImageProcessing::Vips.source(original).convert("png")
 
-    {
-      thumb: vips.resize_to_limit!(200, 200),
-      small: vips.resize_to_limit!(300, 300),
-      medium: vips.resize_to_limit!(500, 500),
-      large: vips.resize_to_limit!(800, 800),
-    }
+    SIZES.transform_values do |(width, height)|
+      vips.resize_to_limit!(width, height)
+    end
   end
 end

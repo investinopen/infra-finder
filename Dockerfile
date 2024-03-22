@@ -1,6 +1,6 @@
 FROM ruby:3.2.3-bullseye
 
-RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends ca-certificates curl gnupg gnupg2 libsndfile1-dev build-essential libvips-dev mediainfo vim
+RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends ca-certificates curl gnupg gnupg2 libsndfile1-dev build-essential libvips libvips-dev librsvg2-bin mediainfo vim
 
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 

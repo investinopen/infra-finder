@@ -9,5 +9,6 @@ require "dry/monads/all"
 require "dry/schema"
 require "dry/types"
 require "dry/validation"
+require "vips"
 
 FrozenRecord::Base.base_path = Pathname(__dir__).join("..", "..", "frozen_record").realpath
