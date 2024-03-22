@@ -1,10 +1,5 @@
 ---
 en:
   heading: "Filters"
-  category_heading: "Solution Category"
-  attributes_heading: "Technical Attributes"
   reset_label: "Clear All"
   submit_label: "Update Results"
-  select_all_label: "Select All"
-  implementations:
-    open_api_available: "Open API"

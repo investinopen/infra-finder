@@ -5,9 +5,11 @@ export default class extends Controller {
   static targets = ["nav"];
 
   initialize() {
-    if (!this.navTarget) return;
+    const el = this.navTarget;
 
-    const boundary = this.navTarget.getBoundingClientRect();
+    if (!el) return;
+
+    const boundary = el.getBoundingClientRect();
 
     const options = {
       offset: Math.ceil(boundary.top) ?? 560,
@@ -18,7 +20,7 @@ export default class extends Controller {
     };
 
     // construct an instance of Headroom, passing the element
-    var headroom = new Headroom(this.navTarget, options);
+    var headroom = new Headroom(el, options);
     // initialise
     headroom.init();
   }

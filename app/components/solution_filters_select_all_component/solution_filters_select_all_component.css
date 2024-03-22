@@ -1,0 +1,11 @@
+.select-all-filters {
+  display: inline-block;
+  text-decoration-line: underline;
+  text-transform: uppercase;
+  font-size: 0.8125rem;
+  letter-spacing: 0.077em;
+
+  &:hover {
+    text-decoration-color: transparent;
+  }
+}

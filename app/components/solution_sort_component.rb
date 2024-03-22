@@ -44,7 +44,6 @@ class SolutionSortComponent < ApplicationComponent
       url: solution_sort_path,
       html: {
         autocomplete: "off",
-        class: "solution-filters-sidebar",
         data: {
           controller: "solution-sort-component--solution-sort-component",
           method: "put",

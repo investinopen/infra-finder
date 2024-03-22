@@ -2,6 +2,7 @@
 .solutions-sort {
   flex-grow: 1;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   padding-inline-start: 1.75rem;
   @apply rounded-full;

@@ -1,0 +1,97 @@
+<div data-controller="solution-filters-checkboxes-component--solution-filters-checkboxes-component">
+  <details class="solution-filters-details">
+    <summary class="text-h5"><%= t(".category_heading") %></summary>
+    <div>
+      <% SolutionCategory.filter_select_options.each do |category, id| %>
+        <label class="m-checkbox">
+          <%= f.check_box :solution_categories_id_in, { multiple: true }, id, '' %>
+          <span><%= category %></span>
+        </label>
+      <% end %>
+    </div>
+    <%= render SolutionFiltersSelectAllComponent.new %>
+  </details>
+  <details class="solution-filters-details">
+    <summary class="text-h5"><%= t(".attributes_heading") %></summary>
+    <div>
+      <% MaintenanceStatus.filter_select_options.each do |status, id| %>
+        <label class="m-checkbox">
+          <%= f.check_box :maintenance_status_id_in, { multiple: true }, id, '' %>
+          <span><%= status %></span>
+        </label>
+      <% end %>
+      <%#= implementation_checkbox(:open_api_available) %>
+      <label class="m-checkbox">
+        <%= f.check_box :open_api_available, {}, "true", "false" %>
+        <span><%= t(".implementations.open_api_available", raise: true) %></span>
+      </label>
+      <label class="m-checkbox">
+        <%= f.check_box :code_repository_available, {}, "true", "false" %>
+        <span><%= t(".implementations.code_repository_available", raise: true) %></span>
+      </label>
+      <label class="m-checkbox">
+        <%= f.check_box :open_data_available, {}, "true", "false" %>
+        <span><%= t(".implementations.open_data_available", raise: true) %></span>
+      </label>
+      <label class="m-checkbox">
+        <%= f.check_box :product_roadmap_available, {}, "true", "false" %>
+        <span><%= t(".implementations.product_roadmap_available", raise: true) %></span>
+      </label>
+      <label class="m-checkbox">
+        <%= f.check_box :user_documentation_available, {}, "true", "false" %>
+        <span><%= t(".implementations.user_documentation_available", raise: true) %></span>
+      </label>
+      <h4><%= t(".readiness_level_heading") %></h4>
+      <% ReadinessLevel.filter_select_options.each do |level, id| %>
+        <label class="m-checkbox">
+          <%= f.check_box :readiness_level_id_in, { multiple: true }, id, '' %>
+          <span><%= level %></span>
+        </label>
+      <% end %>
+    </div>
+    <%= render SolutionFiltersSelectAllComponent.new %>
+  </details>
+  <details class="solution-filters-details">
+    <summary class="text-h5"><%= t(".community_heading") %></summary>
+    <div>
+      <label class="m-checkbox">
+        <%= f.check_box :code_of_conduct_available, {}, "true", "false" %>
+        <span><%= t(".implementations.code_of_conduct_available", raise: true) %></span>
+      </label>
+      <label class="m-checkbox">
+        <%= f.check_box :community_engagement_available, {}, "true", "false" %>
+        <span><%= t(".implementations.community_engagement_available", raise: true) %></span>
+      </label>
+      <h4><%= t(".contribution_pathways_heading") %></h4>
+      <% UserContribution.filter_select_options.each do |contribution, id| %>
+        <label class="m-checkbox">
+          <%= f.check_box :user_contributions_id_in, { multiple: true }, id, '' %>
+          <span><%= contribution %></span>
+        </label>
+      <% end %>
+    </div>
+    <%= render SolutionFiltersSelectAllComponent.new %>
+  </details>
+  <details class="solution-filters-details">
+    <summary class="text-h5"><%= t(".policies_heading") %></summary>
+    <div>
+      <label class="m-checkbox">
+        <%= f.check_box :bylaws_available, {}, "true", "false" %>
+        <span><%= t(".implementations.bylaws_available", raise: true) %></span>
+      </label>
+      <label class="m-checkbox">
+        <%= f.check_box :equity_and_inclusion_available, {}, "true", "false" %>
+        <span><%= t(".implementations.equity_and_inclusion_available", raise: true) %></span>
+      </label>
+      <label class="m-checkbox">
+        <%= f.check_box :privacy_policy_available, {}, "true", "false" %>
+        <span><%= t(".implementations.privacy_policy_available", raise: true) %></span>
+      </label>
+      <label class="m-checkbox">
+        <%= f.check_box :web_accessibility_available, {}, "true", "false" %>
+        <span><%= t(".implementations.web_accessibility_available", raise: true) %></span>
+      </label>
+    </div>
+    <%= render SolutionFiltersSelectAllComponent.new %>
+  </details>
+</div>

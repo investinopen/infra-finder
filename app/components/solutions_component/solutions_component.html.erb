@@ -8,7 +8,7 @@
       <%= render SolutionSortComponent.new(solution_search:) %>
     </header>
     <% if solutions.present? %>
-      <div class="grid grid-cols-solutions-list gap-4">
+      <div class="grid sm:grid-cols-solutions-list grid-cols-1 gap-4">
         <%= render SolutionComponent.with_collection(solutions, comparison:) %>
       </div>
     <% else %>

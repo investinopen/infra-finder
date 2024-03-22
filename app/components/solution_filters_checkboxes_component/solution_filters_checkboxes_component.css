@@ -1,0 +1,63 @@
+.solution-filters-details {
+  padding-block: 1.25rem;
+  border-block-end-width: 0.0625rem;
+
+  &:first-of-type {
+    border-block-start-width: 0.0625rem;
+  }
+
+  &[open] summary::after {
+    background-image: url("/icons/16/Disclosure-Up.svg");
+  }
+
+  summary {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.875rem;
+
+    &::marker {
+      content: none;
+    }
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::after {
+      display: block;
+      content: "";
+      inline-size: 1rem;
+      block-size: 1.5rem;
+      background-image: url("/icons/16/Disclosure-Down.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  summary + div {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-block-start: 1.1875rem;
+    margin-inline-end: calc(var(--solution-filters-padding) * -0.5);
+    padding-inline-end: calc(var(--solution-filters-padding) * 0.5);
+    margin-inline-start: calc(var(--outline-width) * -1);
+    padding-inline-start: var(--outline-width);
+    max-block-size: 16.0625rem;
+    overflow-y: auto;
+
+    + * {
+      margin-block-start: 1.5rem;
+    }
+  }
+
+  h4 {
+    @apply text-sm;
+    @apply font-body;
+    @apply font-semibold;
+    margin-block-end: -0.25rem;
+    padding-block-start: 0.5rem;
+  }
+}

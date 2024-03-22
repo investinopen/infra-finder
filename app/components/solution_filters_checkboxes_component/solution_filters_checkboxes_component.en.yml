@@ -1,0 +1,24 @@
+---
+en:
+  category_heading: Solution Category
+  attributes_heading: Technical Attributes
+  community_heading: Community Engagement
+  policies_heading: Policies
+  implementations:
+    open_api_available: Open API
+    open_data_available: Open Data
+    code_repository_available: Open Code Repository
+    product_roadmap_available: Open Product Roadmap
+    user_documentation_available: Technical Documentation
+    privacy_policy_available: Privacy Policy
+    equity_and_inclusion_available: DEI Statement
+    web_accessibility_available: Web Accessibility Statement
+    governance_activities_available: Governance Activities
+    governance_structure_available: Governance Structure
+    community_engagement_available: Community Engagement Statement
+    code_of_conduct_available: Code Of Conduct
+    web_accessibility_available: Web Accessibility
+    bylaws_available: Bylaws
+  readiness_level_heading: Technology Readiness Level
+  contribution_pathways_heading: Contribution Pathways
+

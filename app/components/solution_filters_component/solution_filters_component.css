@@ -1,24 +1,28 @@
-@layer components {
-  .solution-filters-sidebar {
-    @media screen and (min-width: theme("screens.md")) {
-      @apply sticky;
-      @apply top-0;
+.solution-filters {
+  @media screen and (min-width: theme("screens.md")),
+    screen and (min-height: theme("screens.md")) {
+    @apply sticky;
+    @apply top-0;
+    margin-inline-end: calc(var(--solution-filters-padding) * -0.25);
+    margin-block-start: -1rem;
+    padding-block: 1rem;
+    padding-inline-end: calc(var(--solution-filters-padding) * 0.25);
+
+    &--not-top {
       max-block-size: 100vh;
       overflow-y: auto;
       overscroll-behavior-y: contain;
-      margin-inline-end: calc(var(--solution-filters-padding) * -0.25);
-      margin-block-start: -1rem;
-      padding-block: 1rem;
-      padding-inline-end: calc(var(--solution-filters-padding) * 0.25);
     }
   }
 
-  .solution-search {
+  &__search {
     display: flex;
     align-items: center;
     gap: 1rem;
     padding-inline: 1.4375rem;
     @apply font-header;
+    @apply min-h-resultsBar;
+    @apply rounded-full;
 
     &:focus-within {
       --outline-offset: calc(var(--outline-width) * -1);
@@ -37,81 +41,16 @@
     }
   }
 
-  .solution-filters {
+  &__filters {
     padding: var(--solution-filters-padding);
+    @apply rounded-xl;
+    margin-block-start: 1rem;
+  }
 
-    details {
-      padding-block: 1.25rem;
-      border-block-end-width: 0.0625rem;
-
-      &:first-of-type {
-        border-block-start-width: 0.0625rem;
-      }
-    }
-
-    summary {
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      gap: 0.875rem;
-
-      &::marker {
-        content: none;
-      }
-
-      &::-webkit-details-marker {
-        display: none;
-      }
-
-      &::after {
-        display: block;
-        content: "";
-        inline-size: 1rem;
-        block-size: 1.5rem;
-        background-image: url("/icons/16/Disclosure-Down.svg");
-        background-repeat: no-repeat;
-        background-position: center;
-      }
-    }
-
-    details[open] summary::after {
-      background-image: url("/icons/16/Disclosure-Up.svg");
-    }
-
-    &__checkboxes {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin-block-start: 1.1875rem;
-      margin-inline-end: calc(var(--solution-filters-padding) * -0.5);
-      padding-inline-end: calc(var(--solution-filters-padding) * 0.5);
-      margin-inline-start: calc(var(--outline-width) * -1);
-      padding-inline-start: var(--outline-width);
-      max-block-size: 16.0625rem;
-      overflow-y: auto;
-
-      + * {
-        margin-block-start: 1.5rem;
-      }
-    }
-
-    &__buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 0.5rem;
-    }
-
-    &__select-all {
-      text-decoration-line: underline;
-      text-transform: uppercase;
-      font-size: 0.8125rem;
-      letter-spacing: 0.077em;
-
-      &:hover {
-        text-decoration-color: transparent;
-      }
-    }
+  &__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
   }
 }

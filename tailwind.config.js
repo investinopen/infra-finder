@@ -1,5 +1,6 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
-const { screens, fluidScaleRem } = require("./tailwind/helper");
+const { screens: baseScreens, fluidScaleRem } = require("./tailwind/helper");
+const { pxToRem } = require("@castiron/style-mixins/dist/base");
 
 const maxWidth = {
   base: "84.5rem",
@@ -50,23 +51,23 @@ const fontSize = {
   h2: [fluidScaleRem("36px", "32px"), headerProps],
   h3: [fluidScaleRem("26px", "24px"), headerProps],
   h4: [fluidScaleRem("24px", "20px"), headerProps],
-  h5: ["1.25rem", headerProps],
-  h6: ["1.125rem", { ...headerProps, letterSpacing: "-0.0187rem" }],
-  staff: ["3.25rem", { fontWeight: 500, lineHeight: "3.5rem" }],
-  xl: ["1.375rem", bodyProps], // 22px
-  lg: ["1.25rem", bodyProps], // 20px
+  h5: [fluidScaleRem("20px", "17px"), headerProps],
+  h6: [pxToRem("18px"), { ...headerProps, letterSpacing: "-0.0187rem" }],
+  staff: [pxToRem("52px"), { fontWeight: 500, lineHeight: pxToRem("56px") }],
+  xl: [pxToRem("22px"), bodyProps],
+  lg: [pxToRem("20px"), bodyProps],
   base: [
     fluidScaleRem("17px", "16px"),
-    { ...bodyProps, letterSpacing: "0.0156rem", lineHeight: "1.625rem" },
-  ], // 17px
-  sm: ["1rem", bodyProps], // 16px
-  xs: ["0.9375rem", bodyProps], // 15px
-  xxs: ["0.875rem", bodyProps], // 14px
-  terms: ["0.8125rem", bodyProps], // 13px
+    { ...bodyProps, letterSpacing: "0.0156rem", lineHeight: pxToRem("26px") },
+  ],
+  sm: [pxToRem("16px"), bodyProps],
+  xs: [pxToRem("15px"), bodyProps],
+  xxs: [pxToRem("14px"), bodyProps],
+  terms: [pxToRem("13px"), bodyProps], // 13px
   label: [
-    "1rem",
+    pxToRem("16px"),
     {
-      lineHeight: "1.1875rem",
+      lineHeight: pxToRem("19px"),
       letterSpacing: "0rem",
       fontWeight: headerProps.fontWeight,
     },
@@ -101,6 +102,13 @@ const minHeight = {
 const width = {
   "comparison-item": fluidScaleRem("320px", "150px"),
   "comparison-row-header": fluidScaleRem("320px", "80px"),
+};
+
+const screens = {
+  ...baseScreens,
+  mobile: {
+    raw: `screen and (min-width: ${baseScreens.lg}) and (min-height: ${baseScreens.md})`,
+  },
 };
 
 module.exports = {

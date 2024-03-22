@@ -20,7 +20,9 @@ module.exports = {
       },
     },
     "postcss-import": require("postcss-import"),
-    "tailwindcss/nesting": require("postcss-nested")({ bubble: ["container"] }),
+    "tailwindcss/nesting": require("postcss-nested")({
+      bubble: ["container", "starting-style"],
+    }),
     autoprefixer: require("autoprefixer"),
     tailwindcss: require("tailwindcss"),
   },
