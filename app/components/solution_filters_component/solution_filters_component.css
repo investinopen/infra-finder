@@ -85,6 +85,10 @@
       padding-inline-start: var(--outline-width);
       max-block-size: 16.0625rem;
       overflow-y: auto;
+
+      + * {
+        margin-block-start: 1.5rem;
+      }
     }
 
     &__buttons {
@@ -92,6 +96,17 @@
       flex-wrap: wrap;
       justify-content: space-between;
       gap: 0.5rem;
+    }
+
+    &__select-all {
+      text-decoration-line: underline;
+      text-transform: uppercase;
+      font-size: 0.8125rem;
+      letter-spacing: 0.077em;
+
+      &:hover {
+        text-decoration-color: transparent;
+      }
     }
   }
 }

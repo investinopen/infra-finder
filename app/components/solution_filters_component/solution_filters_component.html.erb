@@ -17,11 +17,29 @@
             </label>
           <% end %>
         </div>
+        <div>
+          <button
+            type="button"
+            data-solution-filters-component--solution-filters-component-target="selectAllToggle"
+            data-action="click->solution-filters-component--solution-filters-component#selectAll"
+            class="solution-filters__select-all">
+            <%= t(".select_all_label") %>
+          </button>
+        </div>
       </details>
       <details>
         <summary class="text-h5"><%= t(".attributes_heading") %></summary>
         <div class="solution-filters__checkboxes">
           <%= implementation_checkbox(:open_api_available, f:) %>
+        </div>
+        <div>
+          <button
+            type="button"
+            data-solution-filters-component--solution-filters-component-target="selectAllToggle"
+            data-action="click->solution-filters-component--solution-filters-component#selectAll"
+            class="solution-filters__select-all">
+            <%= t(".select_all_label") %>
+          </button>
         </div>
       </details>
       <div class="solution-filters__buttons pt-8">
