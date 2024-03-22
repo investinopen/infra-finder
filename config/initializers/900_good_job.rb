@@ -7,6 +7,7 @@ Rails.application.configure do
   queues = [
     "import:1",
     "export:1",
+    "maintenance:1",
     "attachments,mailers:3",
   ].join(?;)
 
@@ -18,30 +19,16 @@ Rails.application.configure do
   config.good_job.max_threads = 5
   config.good_job.poll_interval = 30 # seconds
   config.good_job.shutdown_timeout = 25 # seconds
-  config.good_job.enable_cron = false
+  config.good_job.enable_cron = true
   config.good_job.cron = {
-    # section_content_prune_orphaned_tei: {
-    # cron: "0,15,30,45 * * * *",
-    # class: "SectionContents::PruneOrphanedTEIJob",
-    # description: "Prune orphaned TEI roots",
-    # set: { priority: 500 },
-    # },
-    # section_content_prune_orphaned_legacy_html: {
-    # cron: "0,15,30,45 * * * *",
-    # class: "SectionContents::PruneOrphanedLegacyHTMLJob",
-    # description: "Prune orphaned Legacy HTML roots",
-    # set: { priority: 500 },
-    # },
+    comparison_prune: {
+      cron: "0 8 * * *",
+      class: "Comparisons::PruneJob",
+      description: "Prune stale comparisons",
+      set: { priority: 500 },
+    },
   }
 
   config.good_job.dashboard_default_locale = :en
+  config.good_job.dashboard_live_poll_enabled = Rails.env.local?
 end
-
-GoodJob::Engine.middleware.use(Rack::Auth::Basic) do |username, password|
-  SecurityConfig.validate_basic_auth?(username, password)
-end unless Rails.env.development?
-
-GoodJob::Engine.middleware.use Rack::MethodOverride
-GoodJob::Engine.middleware.use ActionDispatch::Flash
-GoodJob::Engine.middleware.use ActionDispatch::Cookies
-GoodJob::Engine.middleware.use ActionDispatch::Session::CookieStore

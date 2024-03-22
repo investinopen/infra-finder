@@ -12,9 +12,13 @@ class Comparison < ApplicationRecord
 
   DEFAULT_SORT = "updated_at desc"
 
+  PRUNABLE_AGE = 7.days
+
   has_many :comparison_items, -> { in_default_order }, inverse_of: :comparison, dependent: :destroy
 
   has_many :solutions, through: :comparison_items
+
+  scope :prunable, -> { where(arel_prunable) }
 
   validates :session_id, presence: true, uniqueness: true
 
@@ -56,4 +60,16 @@ class Comparison < ApplicationRecord
   end
 
   # @!endgroup
+
+  class << self
+    def arel_prunable
+      last_seen_at = arel_table[:last_seen_at]
+
+      never_seen = last_seen_at.eq(nil)
+
+      too_old = last_seen_at.lt(PRUNABLE_AGE.ago)
+
+      never_seen.or(too_old)
+    end
+  end
 end

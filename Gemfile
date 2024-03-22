@@ -25,7 +25,7 @@ gem "store_model", "~> 2.1.2"
 gem "view_component", "~> 3.11.0"
 
 # Redis / Jobs
-gem "good_job", "~> 3.21.5"
+gem "good_job", "~> 3.26.2"
 gem "redis", "~> 5.1.0"
 gem "redis-actionpack", "~> 5.4.0"
 gem "redis-objects", ">= 2.0.0.beta"

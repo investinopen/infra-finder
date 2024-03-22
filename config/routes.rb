@@ -5,6 +5,10 @@ Rails.application.routes.draw do
 
   ActiveAdmin.routes(self)
 
+  authenticate :user, ->(user) { user.has_any_admin_access? } do
+    mount GoodJob::Engine => "good_job"
+  end
+
   resource :comparison, only: %i[show destroy]
 
   resource :solution_search, only: %i[create destroy]

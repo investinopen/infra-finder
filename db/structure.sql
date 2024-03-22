@@ -449,7 +449,8 @@ CREATE TABLE public.good_jobs (
     is_discrete boolean,
     executions_count integer,
     job_class text,
-    error_event smallint
+    error_event smallint,
+    labels text[]
 );
 
 
@@ -1496,6 +1497,13 @@ CREATE INDEX index_good_job_executions_on_active_job_id_and_created_at ON public
 
 
 --
+-- Name: index_good_job_jobs_for_candidate_lookup; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_good_job_jobs_for_candidate_lookup ON public.good_jobs USING btree (priority, created_at) WHERE (finished_at IS NULL);
+
+
+--
 -- Name: index_good_job_settings_on_key; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1514,13 +1522,6 @@ CREATE INDEX index_good_jobs_jobs_on_finished_at ON public.good_jobs USING btree
 --
 
 CREATE INDEX index_good_jobs_jobs_on_priority_created_at_when_unfinished ON public.good_jobs USING btree (priority DESC NULLS LAST, created_at) WHERE (finished_at IS NULL);
-
-
---
--- Name: index_good_jobs_on_active_job_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_good_jobs_on_active_job_id ON public.good_jobs USING btree (active_job_id);
 
 
 --
@@ -1563,6 +1564,13 @@ CREATE INDEX index_good_jobs_on_cron_key_and_created_at_cond ON public.good_jobs
 --
 
 CREATE UNIQUE INDEX index_good_jobs_on_cron_key_and_cron_at_cond ON public.good_jobs USING btree (cron_key, cron_at) WHERE (cron_key IS NOT NULL);
+
+
+--
+-- Name: index_good_jobs_on_labels; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_good_jobs_on_labels ON public.good_jobs USING gin (labels) WHERE (labels IS NOT NULL);
 
 
 --
@@ -2500,6 +2508,16 @@ ALTER TABLE ONLY public.users_roles
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240322084261'),
+('20240322084260'),
+('20240322084259'),
+('20240322084258'),
+('20240322084257'),
+('20240322084256'),
+('20240322084255'),
+('20240322084254'),
+('20240322084253'),
+('20240322084252'),
 ('20240306012508'),
 ('20240306012426'),
 ('20240304235024'),
