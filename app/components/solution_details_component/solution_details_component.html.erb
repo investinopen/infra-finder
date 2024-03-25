@@ -1,4 +1,4 @@
-<%= turbo_frame_tag(solution, :details) do %>
+<%= turbo_frame_tag(solution, :details, target: "_top") do %>
   <section data-controller="solution-details-component--solution-details-component">
     <header class="l-container l-container--narrow">
       <div class="l-container__inner py-[3.75rem]">
@@ -67,9 +67,9 @@
         </li>
       </ul>
     </nav>
-    <div class="space-y-[5rem] pt-[5rem] pb-[6.25rem] l-container l-container--narrow">
-      <article id="about" class="l-container__inner max-w-text space-y-[2.0625rem]">
-        <h2 class="a-underline mb-3 max-w-text"><%= t(".about.heading") %></h2>
+    <div class="l-container l-container--narrow pt-[5rem] pb-[6.25rem]">
+      <article id="about" class="l-container__inner space-y-[2.0625rem] pt-[5rem]">
+        <h2 class="a-underline mb-3"><%= t(".about.heading") %></h2>
         <div class="border-b flex flex-wrap gap-y-2 justify-between pb-4 max-w-text">
           <div class="font-light">
             <%= t(".about.launched") %> <span class="font-semibold"><%= solution.founded_on.to_fs(:year) %></span>
@@ -79,27 +79,38 @@
           </div>
         </div>
         <%= render_category_badges %>
-        <div class="py-[2.0625rem] border-y max-w-text">
-          Fulcrum  is a community-based, open-source publishing platform that helps publishers  present the full richness of their authors' research outputs in a durable,  discoverable, accessible, and flexible form. The focus of the platform is on  making multimodal long-form content (as well as simpler ebooks) as  accessible, discoverable, and durable as possible. Because of its focus on  long-term stewardship, the main Fulcrum service is a hosted one, based at the University of Michigan Library. While the code is all open source, the value  of the platform lies in how embedded it is in research library  infrastructure. The platform is heavily standards-based and connects with a  variety of authoring, annotation, and editing tools. Fulcrum also has a  special relationship with Janeway for publishers who wish to publish both  book-like and journal-like digital materials.
+        <div class="py-[2.0625rem] border-y t-rte">
+          <%= sanitize solution.service_summary %>
         </div>
       </article>
-      <article id="mission" class="l-container__inner max-w-text">
-        <h2 class="a-underline max-w-text"><%= t(".mission.heading") %></h2>
+      <article id="mission" class="l-container__inner pt-[5rem]">
+        <h2 class="a-underline"><%= t(".mission.heading") %></h2>
+        <% if solution.mission? %>
+          <div class="t-rte pt-[1.875rem]">
+            <%= sanitize solution.mission %>
+          </div>
+        <% end %>
+        <% if solution.key_achievements? %>
+          <div class="t-rte bg-white p-10 pt-8 mt-[3.75rem] rounded-lg">
+            <h3 class="text-h4">Key Achievements</h3>
+            <%= sanitize solution.key_achievements %>
+          </div>
+        <% end %>
       </article>
-      <article id="technical" class="l-container__inner max-w-text">
-        <h2 class="a-underline max-w-text"><%= t(".technical.heading") %></h2>
+      <article id="technical" class="l-container__inner pt-[5rem]">
+        <h2 class="a-underline"><%= t(".technical.heading") %></h2>
       </article>
-      <article id="community" class="l-container__inner max-w-text">
-        <h2 class="a-underline max-w-text"><%= t(".community.heading") %></h2>
+      <article id="community" class="l-container__inner pt-[5rem]">
+        <h2 class="a-underline"><%= t(".community.heading") %></h2>
       </article>
-      <article id="policies" class="l-container__inner max-w-text">
-        <h2 class="a-underline max-w-text"><%= t(".policies.heading") %></h2>
+      <article id="policies" class="l-container__inner pt-[5rem]">
+        <h2 class="a-underline"><%= t(".policies.heading") %></h2>
       </article>
-      <article id="additional_information" class="l-container__inner max-w-text">
-        <h2 class="a-underline max-w-text"><%= t(".additional_information.heading") %></h2>
+      <article id="additional_information" class="l-container__inner pt-[5rem]">
+        <h2 class="a-underline"><%= t(".additional_information.heading") %></h2>
       </article>
-      <article id="funding" class="l-container__inner max-w-text">
-        <h2 class="a-underline max-w-text"><%= t(".funding.heading") %></h2>
+      <article id="funding" class="l-container__inner pt-[5rem]">
+        <h2 class="a-underline"><%= t(".funding.heading") %></h2>
       </article>
     </div>
   </section>

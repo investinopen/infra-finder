@@ -2,10 +2,36 @@
 use tailwind's text-[name] classes for font sizes. */
 :is(.text-h1, .text-h2, .text-h3, .text-h4, .text-h5, .text-h6, .text-label) {
   @apply font-header;
+  @apply max-w-text;
 }
 
 .t-rte {
+  @apply max-w-text;
+
   > *:not(meta) + * {
-    margin-block-start: 0.75em;
+    margin-block-start: 1.5rem;
+  }
+
+  ul,
+  ol {
+    padding-inline-start: 1.25rem;
+    list-style: revert;
+  }
+
+  ol > li,
+  ul > li {
+    margin-block-start: 1rem;
+  }
+
+  ol > li::marker {
+    color: var(--color);
+  }
+
+  ul > li::marker {
+    color: theme("colors.brand.mint");
+  }
+
+  ul > li {
+    list-style-type: disc;
   }
 }
