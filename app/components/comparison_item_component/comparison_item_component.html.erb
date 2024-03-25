@@ -7,14 +7,11 @@
         <span class="sr-only"><%= t(".remove") %></span>
       <% end %>
     </header>
-    <div class="text-xs">
+    <div class="text-xs space-y-[0.625rem]">
       <div class="font-bold">
         <%= solution.organization.name %>
       </div>
-      <div class="m-solution-card__location">
-        <%= image_tag "icons/16/Location-Pin.svg", alt: "" %>
-        <%= solution.location_of_incorporation? ? solution.location_of_incorporation : "—" %>
-      </div>
+      <%= render_location %>
     </div>
     <div class="text-xs t-rte line-clamp-6">
       <%= sanitize solution.service_summary %>

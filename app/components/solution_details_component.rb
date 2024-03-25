@@ -22,4 +22,8 @@ class SolutionDetailsComponent < ApplicationComponent
   def render_implementation(name)
     render ImplementationDetailComponent.new(solution:, name:)
   end
+
+  def render_location
+    render SolutionLocationComponent.new(solution:)
+  end
 end

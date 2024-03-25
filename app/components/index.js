@@ -20,6 +20,7 @@ import ShareBarComponent__ShareBarComponentController from "./share_bar_componen
 import SolutionComponent__SolutionComponentController from "./solution_component/solution_component_controller";
 import SolutionDetailsComponent__SolutionDetailsComponentController from "./solution_details_component/solution_details_component_controller";
 import SolutionFiltersComponent__SolutionFiltersComponentController from "./solution_filters_component/solution_filters_component_controller";
+import SolutionLocationComponent__SolutionLocationComponentController from "./solution_location_component/solution_location_component_controller";
 import SolutionSortComponent__SolutionSortComponentController from "./solution_sort_component/solution_sort_component_controller";
 import SolutionsComponent__SolutionsComponentController from "./solutions_component/solutions_component_controller";
 import TagComponent__TagComponentController from "./tag_component/tag_component_controller";
@@ -43,6 +44,7 @@ application.register("share-bar-component--share-bar-component", ShareBarCompone
 application.register("solution-component--solution-component", SolutionComponent__SolutionComponentController);
 application.register("solution-details-component--solution-details-component", SolutionDetailsComponent__SolutionDetailsComponentController);
 application.register("solution-filters-component--solution-filters-component", SolutionFiltersComponent__SolutionFiltersComponentController);
+application.register("solution-location-component--solution-location-component", SolutionLocationComponent__SolutionLocationComponentController);
 application.register("solution-sort-component--solution-sort-component", SolutionSortComponent__SolutionSortComponentController);
 application.register("solutions-component--solutions-component", SolutionsComponent__SolutionsComponentController);
 application.register("tag-component--tag-component", TagComponent__TagComponentController);

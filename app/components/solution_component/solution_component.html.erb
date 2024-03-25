@@ -3,14 +3,11 @@
     <header class="m-solution-card__header">
       <h3><%= solution.name %></h3>
     </header>
-    <div class="text-xs a-underline a-underline--lt">
+    <div class="text-xs a-underline a-underline--lt space-y-[0.625rem]">
       <div class="font-bold truncate">
         <%= solution.organization.name %>
       </div>
-      <div class="m-solution-card__location">
-        <%= image_tag "icons/16/Location-Pin.svg", alt: "" %>
-        <%= solution.location_of_incorporation? ? solution.location_of_incorporation : "—" %>
-      </div>
+      <%= render_location %>
     </div>
     <div class="text-xs t-rte line-clamp-4">
       <%= sanitize solution.service_summary %>

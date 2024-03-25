@@ -1,0 +1,7 @@
+.solution-location-icon {
+  block-size: 1.25rem;
+
+  .text-xs & {
+    block-size: 1rem;
+  }
+}

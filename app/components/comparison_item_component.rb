@@ -35,4 +35,8 @@ class ComparisonItemComponent < ApplicationComponent
       data: { turbo_frame: "_top" }
     }
   end
+
+  def render_location
+    render SolutionLocationComponent.new(solution:)
+  end
 end

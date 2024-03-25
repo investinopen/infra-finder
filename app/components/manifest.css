@@ -19,6 +19,7 @@
 @import "./solution_component/solution_component.css";
 @import "./solution_details_component/solution_details_component.css";
 @import "./solution_filters_component/solution_filters_component.css";
+@import "./solution_location_component/solution_location_component.css";
 @import "./solution_sort_component/solution_sort_component.css";
 @import "./solutions_component/solutions_component.css";
 @import "./tag_component/tag_component.css";
