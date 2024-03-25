@@ -23,9 +23,16 @@ export default class extends Controller {
         text,
         url,
       });
-      console.info("Shared successfully");
     } catch (err) {
-      console.error(`Share error: ${err}`);
+      console.error(`Error sharing page: ${err}`);
+    }
+  }
+
+  back() {
+    try {
+      history.back();
+    } catch (err) {
+      console.error(`Error going back in browser history: ${err}`);
     }
   }
 }

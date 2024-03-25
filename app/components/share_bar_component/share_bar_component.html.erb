@@ -1,5 +1,15 @@
 <div data-controller="share-bar-component--share-bar-component" class="l-container">
-  <div class="l-container__inner pt-8 flex justify-end" data-share-bar-component--share-bar-component-target="wrapper">
+  <div class="l-container__inner pt-8 flex justify-between" data-share-bar-component--share-bar-component-target="wrapper">
+    <div>
+      <% if show_back %>
+        <button
+          class="m-button m-button--sm"
+          data-action="click->share-bar-component--share-bar-component#back">
+          <%= image_tag "icons/16/Arrow-Left-Wide.svg", alt: "", class: "-ms-1" %>
+          <span><%= t(".back") %></span>
+        </button>
+      <% end %>
+    </div>
     <button
       class="m-button m-button--sm"
       data-action="click->share-bar-component--share-bar-component#share">
