@@ -87,14 +87,23 @@
   <div class="l-container__inner">
     <ul class="text-xs">
       <li>
-        <%= nav_link t(".finder_solutions_link"), solutions_path, active: :exclusive %>
+        <%= nav_link t(".solutions_link"), solutions_path, active: :exclusive %>
       </li>
       <li>
-        <a href="https://investinopen.org/blog/blog-introducing-infra-finder/"><%= t(".finder_about_link") %></a>
+        <a href="https://investinopen.org/data-room/infra-finder-about"><%= t(".about_link") %></a>
+      </li>
+      <li>
+        <a href="https://investinopen.org/data-room/add-to-infra-finder"><%= t(".add_link") %></a>
+      </li>
+      <li>
+        <a href="https://form.asana.com/?k=_SIAKr0YcFgxdAgWY3fCNQ&d=1204039279428915"><%= t(".feedback_link") %></a>
+      </li>
+      <li>
+        <a href="#"><%= t(".support_link") %></a>
       </li>
       <% if has_any_admin_or_editor_access? %>
         <li>
-          <%= nav_link t(".finder_admin_link"), admin_dashboard_path %>
+          <%= nav_link t(".admin_link"), admin_dashboard_path %>
         </li>
       <% end %>
     </ul>

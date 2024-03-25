@@ -1,6 +1,9 @@
 ---
 en:
   finder_link: "Infra Finder"
-  finder_about_link: "About Infra Finder"
-  finder_admin_link: "Admin"
-  finder_solutions_link: "Search & Compare"
+  about_link: "About Infra Finder"
+  admin_link: "Admin"
+  solutions_link: "Search & Compare"
+  add_link: "Add an Open Infrastructure"
+  support_link: Support Infra Finder
+  feedback_link: Give Feedback
