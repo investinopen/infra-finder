@@ -35,9 +35,14 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    min-block-size: 5.5625rem;
+    min-block-size: 7.5rem;
     padding-block-end: 1.25rem;
+    padding-block-start: 2.5rem;
     @apply bg-brand-mint;
+
+    > h3 {
+      @apply line-clamp-2;
+    }
   }
 
   &__location {
