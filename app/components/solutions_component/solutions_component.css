@@ -1,5 +1,6 @@
 /* component styles */
 .solutions-results {
+  align-self: flex-start;
   padding-inline: 2rem;
   padding-block: 0.875rem;
   flex-grow: 999;

@@ -1,10 +1,16 @@
 @layer components {
   .solution-filters-sidebar {
-    /* @apply sticky; */
-    /* @apply top-4; */
-    /* max-block-size: calc(100vh - 2rem); */
-    /* overflow-y: auto; */
-    overflow-x: hidden;
+    @media screen and (min-width: theme("screens.md")) {
+      @apply sticky;
+      @apply top-0;
+      max-block-size: 100vh;
+      overflow-y: auto;
+      overscroll-behavior-y: contain;
+      margin-inline-end: calc(var(--solution-filters-padding) * -0.25);
+      margin-block-start: -1rem;
+      padding-block: 1rem;
+      padding-inline-end: calc(var(--solution-filters-padding) * 0.25);
+    }
   }
 
   .solution-search {
@@ -32,9 +38,7 @@
   }
 
   .solution-filters {
-    --_solution-filters-padding: 2.25rem;
-
-    padding: var(--_solution-filters-padding);
+    padding: var(--solution-filters-padding);
 
     details {
       padding-block: 1.25rem;
@@ -75,12 +79,13 @@
     }
 
     &__checkboxes {
+      position: relative;
       display: flex;
       flex-direction: column;
       gap: 1rem;
       margin-block-start: 1.1875rem;
-      margin-inline-end: calc(var(--_solution-filters-padding) * -0.5);
-      padding-inline-end: calc(var(--_solution-filters-padding) * 0.5);
+      margin-inline-end: calc(var(--solution-filters-padding) * -0.5);
+      padding-inline-end: calc(var(--solution-filters-padding) * 0.5);
       margin-inline-start: calc(var(--outline-width) * -1);
       padding-inline-start: var(--outline-width);
       max-block-size: 16.0625rem;

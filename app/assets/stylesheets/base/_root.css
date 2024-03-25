@@ -12,6 +12,9 @@
   @mixin fluidScaleRem --container-padding-inline, 44px, 24px;
   --container-inline-size: theme("maxWidth.base");
 
+  /* Solution Filters */
+  --solution-filters-padding: 2.25rem;
+
   /* Root variables from IOI's website */
   --white: theme("colors.white");
   --white2: theme("colors.neutral.10");

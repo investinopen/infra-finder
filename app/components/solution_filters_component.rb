@@ -36,7 +36,6 @@ class SolutionFiltersComponent < ApplicationComponent
       url: solution_search_path,
       html: {
         autocomplete: "off",
-        class: "solution-filters-sidebar",
         data: {
           controller: "solution-filters-component--solution-filters-component",
           method: "post",
