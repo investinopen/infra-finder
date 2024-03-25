@@ -17,6 +17,7 @@ import HomePageComponent__HomePageComponentController from "./home_page_componen
 import ImplementationComponent__ImplementationComponentController from "./implementation_component/implementation_component_controller";
 import ImplementationDetailComponent__ImplementationDetailComponentController from "./implementation_detail_component/implementation_detail_component_controller";
 import ShareBarComponent__ShareBarComponentController from "./share_bar_component/share_bar_component_controller";
+import SolutionCategoryBadgesComponent__SolutionCategoryBadgesComponentController from "./solution_category_badges_component/solution_category_badges_component_controller";
 import SolutionComponent__SolutionComponentController from "./solution_component/solution_component_controller";
 import SolutionDetailsComponent__SolutionDetailsComponentController from "./solution_details_component/solution_details_component_controller";
 import SolutionFiltersComponent__SolutionFiltersComponentController from "./solution_filters_component/solution_filters_component_controller";
@@ -41,6 +42,7 @@ application.register("home-page-component--home-page-component", HomePageCompone
 application.register("implementation-component--implementation-component", ImplementationComponent__ImplementationComponentController);
 application.register("implementation-detail-component--implementation-detail-component", ImplementationDetailComponent__ImplementationDetailComponentController);
 application.register("share-bar-component--share-bar-component", ShareBarComponent__ShareBarComponentController);
+application.register("solution-category-badges-component--solution-category-badges-component", SolutionCategoryBadgesComponent__SolutionCategoryBadgesComponentController);
 application.register("solution-component--solution-component", SolutionComponent__SolutionComponentController);
 application.register("solution-details-component--solution-details-component", SolutionDetailsComponent__SolutionDetailsComponentController);
 application.register("solution-filters-component--solution-filters-component", SolutionFiltersComponent__SolutionFiltersComponentController);

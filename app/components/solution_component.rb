@@ -33,4 +33,8 @@ class SolutionComponent < ApplicationComponent
   def render_location
     render SolutionLocationComponent.new(solution:)
   end
+
+  def render_category_badges
+    render SolutionCategoryBadgesComponent.new(solution:, is_small: true)
+  end
 end

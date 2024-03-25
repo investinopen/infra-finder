@@ -26,4 +26,8 @@ class SolutionDetailsComponent < ApplicationComponent
   def render_location
     render SolutionLocationComponent.new(solution:)
   end
+
+  def render_category_badges
+    render SolutionCategoryBadgesComponent.new(solution:)
+  end
 end

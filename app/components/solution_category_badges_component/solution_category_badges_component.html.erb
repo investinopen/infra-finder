@@ -1,0 +1,9 @@
+<div data-controller="solution-category-badges-component--solution-category-badges-component" class="py-3 flex flex-col gap-4 max-w-text">
+  <% if solution.solution_categories %>
+    <% solution.solution_categories.each do |category, id| %>
+    <div class="<%= is_small ? "m-badge-md" : "m-badge bg-neutral-20" %>">
+      <span><%= category.name %></span>
+    </div>
+    <% end %>
+  <% end %>
+</div>

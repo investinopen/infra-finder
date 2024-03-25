@@ -4,6 +4,7 @@ const { screens } = require("./tailwind/helper");
 const maxWidth = {
   base: "84.5rem",
   narrow: "74rem",
+  text: "52.1875rem",
 };
 
 const colors = {
@@ -51,12 +52,13 @@ const fontSize = {
   h4: ["1.5rem", headerProps],
   h5: ["1.25rem", headerProps],
   h6: ["1.125rem", { ...headerProps, letterSpacing: "-0.0187rem" }],
-  lg: ["1.375rem", bodyProps],
-  base: ["1.0625rem", { ...bodyProps, letterSpacing: "0.0156rem" }],
-  sm: ["1rem", bodyProps],
-  xs: ["0.9375rem", bodyProps],
-  xxs: ["0.875rem", bodyProps],
-  terms: ["0.8125rem", bodyProps],
+  xl: ["1.375rem", bodyProps], // 22px
+  lg: ["1.25rem", bodyProps], // 20px
+  base: ["1.0625rem", { ...bodyProps, letterSpacing: "0.0156rem" }], // 17px
+  sm: ["1rem", bodyProps], // 16px
+  xs: ["0.9375rem", bodyProps], // 15px
+  xxs: ["0.875rem", bodyProps], // 14px
+  terms: ["0.8125rem", bodyProps], // 13px
   label: [
     "1rem",
     {

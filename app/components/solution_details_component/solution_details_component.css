@@ -1,1 +1,18 @@
 /* Add styles for this component */
+.solution-nav {
+  overflow-x: auto;
+  @apply sticky;
+  top: 0;
+  z-index: 1;
+
+  &__list {
+    display: flex;
+  }
+
+  &__link {
+    display: inline-block;
+    padding-block: 1.3125rem;
+    padding-inline: 1.75rem;
+    white-space: nowrap;
+  }
+}

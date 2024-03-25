@@ -1,22 +1,106 @@
 <%= turbo_frame_tag(solution, :details) do %>
-  <section data-controller="solution-details-component--solution-details-component" class="l-container">
-    <div class="l-container__inner py-[3.75rem]">
-      <div class="pt-6 space-y-5">
-        <h1><%= solution.name %></h1>
-        <div class="text-lg font-semibold">
-          <%= solution.organization.name %>
-        </div>
-        <%= render_location %>
-        <div class="a-underline"></div>
-        <div class="pt-[1.625rem]">
-          <% if solution.website? %>
-            <a href="<%= solution.website %>" class="m-button bg-brand-mint">
-              <span><%= t(".website") %></span>
-              <%= image_tag "icons/24/Link-External.svg", alt: "", class: "-ms-1" %>
-            </a>
-          <% end %>
+  <section data-controller="solution-details-component--solution-details-component">
+    <header class="l-container l-container--narrow">
+      <div class="l-container__inner py-[3.75rem]">
+        <div class="max-w-text pt-6 space-y-5">
+          <h1><%= solution.name %></h1>
+          <div class="text-lg font-semibold">
+            <%= solution.organization.name %>
+          </div>
+          <%= render_location %>
+          <div class="a-underline"></div>
+          <div class="pt-[1.625rem]">
+            <% if solution.website? %>
+              <a href="<%= solution.website %>" class="m-button m-button--lg bg-brand-mint">
+                <span><%= t(".website") %></span>
+                <%= image_tag "icons/24/Link-External.svg", alt: "", class: "-ms-1" %>
+              </a>
+            <% end %>
+            <% if solution.pricing? %>
+              <% solution.pricing.links.each do |link| %>
+                <a href="<%= link.url %>" class="m-button m-button--lg">
+                  <span><%= link.label? ? link.label : t(".pricing") %></span>
+                  <%= image_tag "icons/24/Link-External.svg", alt: "", class: "-ms-1" %>
+                </a>
+              <% end %>
+            <% end %>
+            <% if solution.contact? %>
+              <a href="<%= solution.contact %>" class="m-button m-button--lg">
+                <span><%= t(".contact") %></span>
+                <%= image_tag "icons/24/Link-External.svg", alt: "", class: "-ms-1" %>
+              </a>
+            <% end %>
+          </div>
         </div>
       </div>
+    </header>
+    <nav class="l-container bg-neutral-20 solution-nav">
+      <ul class="l-container__inner solution-nav__list">
+        <li>
+          <a href="#about" class="solution-nav__link">
+            <%= t(".about.nav") %>
+          </a>
+        </li><li>
+          <a href="#mission" class="solution-nav__link">
+            <%= t(".mission.nav") %>
+          </a>
+        </li><li>
+          <a href="#technical" class="solution-nav__link">
+            <%= t(".technical.nav") %>
+          </a>
+        </li><li>
+          <a href="#community" class="solution-nav__link">
+            <%= t(".community.nav") %>
+          </a>
+        </li><li>
+          <a href="#policies" class="solution-nav__link">
+            <%= t(".policies.nav") %>
+          </a>
+        </li><li>
+          <a href="#additional_information" class="solution-nav__link">
+            <%= t(".additional_information.nav") %>
+          </a>
+        </li><li>
+          <a href="#funding" class="solution-nav__link">
+            <%= t(".funding.nav") %>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <div class="space-y-[5rem] pt-[5rem] pb-[6.25rem] l-container l-container--narrow">
+      <article id="about" class="l-container__inner max-w-text space-y-[2.0625rem]">
+        <h2 class="a-underline mb-3 max-w-text"><%= t(".about.heading") %></h2>
+        <div class="border-b flex flex-wrap gap-y-2 justify-between pb-4 max-w-text">
+          <div class="font-light">
+            <%= t(".about.launched") %> <span class="font-semibold"><%= solution.founded_on.to_fs(:year) %></span>
+          </div>
+          <div class="font-light">
+            <%= t(".about.record_updated") %> <span class="font-semibold"><%= solution.updated_at.to_fs(:mdy) %></span>
+          </div>
+        </div>
+        <%= render_category_badges %>
+        <div class="py-[2.0625rem] border-y max-w-text">
+          Fulcrum  is a community-based, open-source publishing platform that helps publishers  present the full richness of their authors' research outputs in a durable,  discoverable, accessible, and flexible form. The focus of the platform is on  making multimodal long-form content (as well as simpler ebooks) as  accessible, discoverable, and durable as possible. Because of its focus on  long-term stewardship, the main Fulcrum service is a hosted one, based at the University of Michigan Library. While the code is all open source, the value  of the platform lies in how embedded it is in research library  infrastructure. The platform is heavily standards-based and connects with a  variety of authoring, annotation, and editing tools. Fulcrum also has a  special relationship with Janeway for publishers who wish to publish both  book-like and journal-like digital materials.
+        </div>
+      </article>
+      <article id="mission" class="l-container__inner max-w-text">
+        <h2 class="a-underline max-w-text"><%= t(".mission.heading") %></h2>
+      </article>
+      <article id="technical" class="l-container__inner max-w-text">
+        <h2 class="a-underline max-w-text"><%= t(".technical.heading") %></h2>
+      </article>
+      <article id="community" class="l-container__inner max-w-text">
+        <h2 class="a-underline max-w-text"><%= t(".community.heading") %></h2>
+      </article>
+      <article id="policies" class="l-container__inner max-w-text">
+        <h2 class="a-underline max-w-text"><%= t(".policies.heading") %></h2>
+      </article>
+      <article id="additional_information" class="l-container__inner max-w-text">
+        <h2 class="a-underline max-w-text"><%= t(".additional_information.heading") %></h2>
+      </article>
+      <article id="funding" class="l-container__inner max-w-text">
+        <h2 class="a-underline max-w-text"><%= t(".funding.heading") %></h2>
+      </article>
     </div>
   </section>
 <% end %>

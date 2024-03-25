@@ -16,6 +16,7 @@
 @import "./implementation_component/implementation_component.css";
 @import "./implementation_detail_component/implementation_detail_component.css";
 @import "./share_bar_component/share_bar_component.css";
+@import "./solution_category_badges_component/solution_category_badges_component.css";
 @import "./solution_component/solution_component.css";
 @import "./solution_details_component/solution_details_component.css";
 @import "./solution_filters_component/solution_filters_component.css";
