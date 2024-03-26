@@ -1,9 +1,39 @@
-<% if available? %>
-  <div data-controller="implementation-detail-component--implementation-detail-component">
-    <div class="text-h5"><%= t(".#{implementation_name}") %></div>
-    <div class="m-badge-sm mt-[1.125rem]">
-      <%= image_tag "icons/16/Checkmark.svg", alt: "" %>
-      <%= t(".available") %>
+  <div
+    data-controller="implementation-detail-component--implementation-detail-component"
+    class="m-card">
+    <h4 class="text-h5"><%= t(".#{implementation_name}") %></h4>
+    <div class="grow">
+      <% if available? %>
+        <div class="m-badge m-badge--sm bg-neutral-20">
+          <%= image_tag "icons/16/Checkmark.svg", alt: "" %>
+          <%= t(".implemented") %>
+        </div>
+      <% elsif implementation.in_progress? %>
+        <div class="m-badge m-badge--sm bg-neutral-20">
+          <%= t(".in_progress") %>
+        </div>
+      <% else %>
+        <div class="m-badge m-badge--sm bg-neutral-20">
+          <%= image_tag "icons/16/Close.svg", alt: "" %>
+          <%= t(".not_available") %>
+        </div>
+      <% end %>
     </div>
+    <% if implementation.has_many_links? and implementation.links.present? %>
+      <div class="flex flex-wrap gap-2">
+        <% implementation.links.each_with_index do |link, i| %>
+          <a href="<%= link.url %>" class="m-button m-button--sm <%= i === 0 ? "bg-brand-mint" : "" %>">
+            <span><%= link.label.presence || t(".website") %></span>
+            <%= image_tag "icons/16/Link-External.svg", alt: "" %>
+          </a>
+        <% end %>
+      </div>
+    <% elsif implementation.has_single_link? and implementation.link.present? %>
+      <div>
+        <a href="<%= implementation.link.url %>" class="m-button m-button--sm bg-brand-mint">
+          <span><%= implementation.link.label.presence || t(".website") %></span>
+          <%= image_tag "icons/16/Link-External.svg", alt: "" %>
+        </a>
+      </div>
+    <% end %>
   </div>
-<% end %>

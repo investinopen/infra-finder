@@ -1,5 +1,5 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
-const { screens } = require("./tailwind/helper");
+const { screens, fluidScaleRem } = require("./tailwind/helper");
 
 const maxWidth = {
   base: "84.5rem",
@@ -46,15 +46,19 @@ const bodyProps = {
 /* In the interest of time & reduced complexity,
 use tailwind's 'text-' classes instead of the 't-' pattern. */
 const fontSize = {
-  h1: ["2.875rem", headerProps],
-  h2: ["2.25rem", headerProps],
-  h3: ["1.625rem", headerProps],
-  h4: ["1.5rem", headerProps],
+  h1: [fluidScaleRem("46px", "32px"), headerProps],
+  h2: [fluidScaleRem("36px", "32px"), headerProps],
+  h3: [fluidScaleRem("26px", "24px"), headerProps],
+  h4: [fluidScaleRem("24px", "20px"), headerProps],
   h5: ["1.25rem", headerProps],
   h6: ["1.125rem", { ...headerProps, letterSpacing: "-0.0187rem" }],
+  staff: ["3.25rem", { fontWeight: 500, lineHeight: "3.5rem" }],
   xl: ["1.375rem", bodyProps], // 22px
   lg: ["1.25rem", bodyProps], // 20px
-  base: ["1.0625rem", { ...bodyProps, letterSpacing: "0.0156rem" }], // 17px
+  base: [
+    fluidScaleRem("17px", "16px"),
+    { ...bodyProps, letterSpacing: "0.0156rem", lineHeight: "1.625rem" },
+  ], // 17px
   sm: ["1rem", bodyProps], // 16px
   xs: ["0.9375rem", bodyProps], // 15px
   xxs: ["0.875rem", bodyProps], // 14px
@@ -62,7 +66,7 @@ const fontSize = {
   label: [
     "1rem",
     {
-      lineHeight: "1.375rem",
+      lineHeight: "1.1875rem",
       letterSpacing: "0rem",
       fontWeight: headerProps.fontWeight,
     },

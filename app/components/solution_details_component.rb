@@ -10,11 +10,15 @@ class SolutionDetailsComponent < ApplicationComponent
   # @return [Solution]
   attr_reader :solution
 
+  # @return [String, nil]
+  attr_reader :formatted_num_staff
+
   # @param [Solution] solution
   # @param [Comparison, nil] comparison
   def initialize(solution:, comparison: nil)
     @solution = solution
     @comparison = comparison
+    @formatted_num_staff = number_to_human(solution.current_staffing)
   end
 
   # @param [Solutions::Types::Implementation] name

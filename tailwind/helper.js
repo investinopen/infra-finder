@@ -12,14 +12,11 @@ const screens = {
 module.exports = {
   screens,
   fluidScaleRem: function (
-    mixin,
-    property,
     max,
     min,
     maxBreak = screens.xl,
     minBreak = screens.xs
   ) {
-    const scale = fluidScaleRemBase(max, min, maxBreak, minBreak);
-    return { [property]: scale };
+    return fluidScaleRemBase(max, min, maxBreak, minBreak);
   },
 };

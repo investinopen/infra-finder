@@ -1,4 +1,8 @@
-/* Add styles for this component */
+.solution-details {
+  position: relative;
+  scroll-padding-top: 4.25rem;
+}
+
 .solution-hero {
   display: flex;
   flex-direction: column;
@@ -39,26 +43,49 @@
   }
 }
 
-.solution-nav {
-  --_solution-nav-inline-padding: 1.75rem;
+.solution-articles {
+  padding-block-end: 6.25rem;
 
-  overflow-x: auto;
-  @apply sticky;
-  top: 0;
-  z-index: 1;
-
-  &__list {
-    display: flex;
-
-    li:first-child {
-      margin-inline-start: calc(var(--_solution-nav-inline-padding) * -1);
-    }
+  > article {
+    padding-block-start: 5rem;
+    @apply space-y-[3.75rem];
   }
 
-  &__link {
-    display: inline-block;
-    padding-block: 1.3125rem;
-    padding-inline: var(--_solution-nav-inline-padding);
-    white-space: nowrap;
+  > article > div > h3 {
+    @apply text-h4;
+    padding-block-end: 1.5rem;
+  }
+}
+
+.solution-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: stretch;
+
+  > * {
+    flex-basis: 19.6875rem;
+  }
+}
+
+.org-structure-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2.75rem;
+  justify-content: space-between;
+  border-radius: 1.25rem;
+  background-color: theme("colors.white");
+  padding-block-end: 2rem;
+  overflow: hidden;
+
+  > * {
+    padding-inline: 2rem;
+  }
+
+  > h4 {
+    @apply font-body text-base;
+    background-color: theme("colors.brand.mint");
+    padding-block-start: 1.5rem;
+    padding-block-end: 1.25rem;
   }
 }

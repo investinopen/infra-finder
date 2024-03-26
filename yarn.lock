@@ -507,6 +507,7 @@ __metadata:
     "@tailwindcss/typography": "npm:^0.5.10"
     autoprefixer: "npm:^10.4.18"
     esbuild: "npm:^0.20.1"
+    headroom.js: "npm:^0.12.0"
     jquery: "npm:^3.7.1"
     jquery-ui-bundle: "npm:1.12.1-migrate"
     npm-run-all: "npm:^4.1.5"
@@ -1413,6 +1414,13 @@ __metadata:
   dependencies:
     function-bind: "npm:^1.1.2"
   checksum: 10c0/3769d434703b8ac66b209a4cca0737519925bbdb61dd887f93a16372b14694c63ff4e797686d87c90f08168e81082248b9b028bad60d4da9e0d1148766f56eb9
+  languageName: node
+  linkType: hard
+
+"headroom.js@npm:^0.12.0":
+  version: 0.12.0
+  resolution: "headroom.js@npm:0.12.0"
+  checksum: 10c0/1a9976145f3278598cfa866ba5cf21bafe77fbacc90acce9504ffe2da5d50e9f0e1f18f1a4a702ccae725194de312562879a8b440635c12eda6bf27c0f172dc5
   languageName: node
   linkType: hard
 

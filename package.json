@@ -8,7 +8,9 @@
     "build:css:admin": "sass ./app/assets/stylesheets/entrypoints:./app/assets/builds --no-source-map --load-path=node_modules",
     "dev:watch": "run-p \"build {@}\" \"build:css {@}\" -- --watch",
     "lint": "docker-compose exec web bin/erblint .",
-    "fix": "docker-compose exec web bin/erblint -a ."
+    "fix": "docker-compose exec web bin/erblint -a .",
+    "rubocop": "docker-compose exec web bin/rubocop",
+    "rspec": "docker-compose exec web bin/rspec"
   },
   "version": "1.0.0",
   "license": "UNLICENSED",
@@ -21,6 +23,7 @@
     "@rails/ujs": "7.1.3-2",
     "autoprefixer": "^10.4.18",
     "esbuild": "^0.20.1",
+    "headroom.js": "^0.12.0",
     "jquery": "^3.7.1",
     "jquery-ui-bundle": "1.12.1-migrate",
     "npm-run-all": "^4.1.5",

@@ -1,6 +1,15 @@
 /* In the interest of time & reduced complexity,
 use tailwind's text-[name] classes for font sizes. */
-:is(.text-h1, .text-h2, .text-h3, .text-h4, .text-h5, .text-h6, .text-label) {
+:is(
+    .text-h1,
+    .text-h2,
+    .text-h3,
+    .text-h4,
+    .text-h5,
+    .text-h6,
+    .text-label,
+    .text-staff
+  ) {
   @apply font-header;
   @apply max-w-text;
 }
@@ -18,8 +27,7 @@ use tailwind's text-[name] classes for font sizes. */
     list-style: revert;
   }
 
-  ol > li,
-  ul > li {
+  li {
     margin-block-start: 1rem;
   }
 
@@ -27,11 +35,15 @@ use tailwind's text-[name] classes for font sizes. */
     color: var(--color);
   }
 
-  ul > li::marker {
+  li::marker {
     color: theme("colors.brand.mint");
   }
 
   ul > li {
     list-style-type: disc;
+  }
+
+  a {
+    text-decoration: underline;
   }
 }

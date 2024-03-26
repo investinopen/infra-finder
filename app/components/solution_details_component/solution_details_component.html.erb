@@ -1,5 +1,5 @@
 <%= turbo_frame_tag(solution, :details, target: "_top") do %>
-  <section data-controller="solution-details-component--solution-details-component">
+  <section data-controller="solution-details-component--solution-details-component" class="solution-details">
     <header class="l-container l-container--narrow">
       <div class="l-container__inner solution-hero">
         <% if solution.logo.present? %>
@@ -14,18 +14,18 @@
           </div>
           <%= render_location %>
           <div class="a-underline"></div>
-          <div class="pt-[1.625rem]">
+          <div class="pt-[1.625rem] flex gap-3 flex-wrap">
             <% if solution.website? %>
               <a href="<%= solution.website %>" class="m-button m-button--lg bg-brand-mint">
                 <span><%= t(".website") %></span>
-                <%= image_tag "icons/24/Link-External.svg", alt: "", class: "-ms-1" %>
+                <%= image_tag "icons/24/Link-External.svg", alt: "" %>
               </a>
             <% end %>
             <% if solution.pricing? %>
               <% solution.pricing.links.each do |link| %>
                 <a href="<%= link.url %>" class="m-button m-button--lg">
                   <span><%= link.label? ? link.label : t(".pricing") %></span>
-                  <%= image_tag "icons/24/Link-External.svg", alt: "", class: "-ms-1" %>
+                  <%= image_tag "icons/24/Link-External.svg", alt: "" %>
                 </a>
               <% end %>
             <% end %>
@@ -39,83 +39,169 @@
         </div>
       </div>
     </header>
-    <nav class="l-container l-container--narrow bg-neutral-20 solution-nav">
-      <ul class="l-container__inner solution-nav__list">
-        <li>
-          <a href="#about" class="solution-nav__link">
-            <%= t(".about.nav") %>
-          </a>
-        </li><li>
-          <a href="#mission" class="solution-nav__link">
-            <%= t(".mission.nav") %>
-          </a>
-        </li><li>
-          <a href="#technical" class="solution-nav__link">
-            <%= t(".technical.nav") %>
-          </a>
-        </li><li>
-          <a href="#community" class="solution-nav__link">
-            <%= t(".community.nav") %>
-          </a>
-        </li><li>
-          <a href="#policies" class="solution-nav__link">
-            <%= t(".policies.nav") %>
-          </a>
-        </li><li>
-          <a href="#additional_information" class="solution-nav__link">
-            <%= t(".additional_information.nav") %>
-          </a>
-        </li><li>
-          <a href="#funding" class="solution-nav__link">
-            <%= t(".funding.nav") %>
-          </a>
-        </li>
-      </ul>
-    </nav>
-    <div class="l-container l-container--narrow pt-[5rem] pb-[6.25rem]">
-      <article id="about" class="l-container__inner space-y-[2.0625rem] pt-[5rem]">
+    <%= render SolutionNavComponent.new %>
+    <div class="l-container l-container--narrow solution-articles">
+      <article id="about" class="l-container__inner space-y-[2.0625rem]">
         <h2 class="a-underline mb-3"><%= t(".about.heading") %></h2>
         <div class="border-b flex flex-wrap gap-y-2 justify-between pb-4 max-w-text">
-          <div class="font-light">
-            <%= t(".about.launched") %> <span class="font-semibold"><%= solution.founded_on.to_fs(:year) %></span>
+          <div>
+            <span class="font-light"><%= t(".about.launched") %> </span>
+            <span class="font-semibold"><%= solution.founded_on.to_fs(:year) %></span>
           </div>
-          <div class="font-light">
-            <%= t(".about.record_updated") %> <span class="font-semibold"><%= solution.updated_at.to_fs(:mdy) %></span>
+          <div>
+            <span class="font-light"><%= t(".about.record_updated") %> </span>
+            <span class="font-semibold"><%= solution.updated_at.to_fs(:mdy) %></span>
           </div>
         </div>
         <%= render_category_badges %>
-        <div class="py-[2.0625rem] border-y t-rte">
-          <%= sanitize solution.service_summary %>
+        <% if solution.mission?.present? %>
+          <div class="py-[2.0625rem] border-y t-rte">
+            <%= sanitize solution.service_summary %>
+          </div>
+        <% end %>
+      </article>
+      <article id="mission" class="l-container__inner">
+        <h2 class="a-underline"><%= t(".mission.heading") %></h2>
+        <div class="t-rte">
+          <%= solution.mission?.present? ? (sanitize solution.mission) : "—" %>
+        </div>
+        <% if solution.key_achievements.present? %>
+          <div class="bg-white p-10 pt-8 mt-[3.75rem] rounded-lg t-rte">
+            <h3>
+              <%= t(".mission.key_achievements_heading") %>
+            </h3>
+            <div>
+              <%= sanitize solution.key_achievements %>
+            </div>
+          </div>
+        <% end %>
+      </article>
+      <article id="technical" class="l-container__inner">
+        <h2 class="a-underline">
+          <%= t(".technical.heading") %>
+        </h2>
+        <div class="solution-cards">
+          <%= render_implementation(:code_repository) %>
+          <div class="m-card">
+            <h4 class="text-h5"><%= t(".technical.maintainance_status_heading") %></h4>
+            <div>
+              <% if solution.maintenance_status.present? %>
+                <div class="m-badge m-badge--sm bg-neutral-20"><%= solution.maintenance_status.name %></div>
+              <% elsif %>
+                &mdash;
+              <% end %>
+            </div>
+          </div>
+          <%= render_implementation(:user_documentation) %>
+          <%= render_implementation(:product_roadmap) %>
+          <%= render_implementation(:open_api) %>
+          <%= render_implementation(:product_roadmap) %>
+        </div>
+        <div>
+          <h3>
+            <%= t(".technical.hosting_options_heading") %>
+          </h3>
+          <div class="solution-cards">
+            <div class="m-card">
+              <h4 class="text-h5"><%= t(".technical.hosting_strategy_heading") %></h4>
+              <div class="text-xxs"><%= solution.hosting_strategy.present? ? solution.hosting_strategy.name : "—" %></div>
+            </div>
+            <div class="m-card">
+              <h4 class="text-h5"><%= t(".technical.service_providers_heading") %></h4>
+              <div class="text-xxs">
+                <% if solution.service_providers.present? %>
+                  <% solution.service_providers.each do |service| %>
+                    <div>
+                      <a href="<%= service.url %>"><%= service.name %></a>
+                      <span class="text-neutral-70"><%= service.description %></span>
+                    </div>
+                  <% end %>
+                <% elsif %>
+                  &mdash;
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <%= render SolutionDetailsTextBlockComponent.new(text: solution.what_other_tools, heading: t(".technical.other_tools_heading")) %>
+      </article>
+      <article id="community" class="l-container__inner">
+        <h2 class="a-underline"><%= t(".community.heading") %></h2>
+        <div class="solution-cards">
+          <%= render_implementation(:code_of_conduct) %>
+          <%= render_implementation(:community_engagement) %>
+          <%#= render_implementation(:user_contribution_pathways) %>
+        </div>
+        <%= render SolutionDetailsTextBlockComponent.new(text: solution.community_engagement.statement, heading: t(".community.organizational_commitment_heading")) %>
+        <div>
+          <h3><%= t(".community.user_contribution_heading") %></h3>
+            <% if solution.user_contributions.present? %>
+              <ul class="flex gap-4 flex-wrap">
+                <% solution.user_contributions.each do |item| %>
+                  <li class="m-badge bg-white"><%= item.name %></li>
+                <% end %>
+              </ul>
+            <% elsif %>
+              <div>&mdash;</div>
+            <% end %>
         </div>
       </article>
-      <article id="mission" class="l-container__inner pt-[5rem]">
-        <h2 class="a-underline"><%= t(".mission.heading") %></h2>
-        <% if solution.mission? %>
-          <div class="t-rte pt-[1.875rem]">
-            <%= sanitize solution.mission %>
-          </div>
-        <% end %>
-        <% if solution.key_achievements? %>
-          <div class="t-rte bg-white p-10 pt-8 mt-[3.75rem] rounded-lg">
-            <h3 class="text-h4">Key Achievements</h3>
-            <%= sanitize solution.key_achievements %>
-          </div>
-        <% end %>
-      </article>
-      <article id="technical" class="l-container__inner pt-[5rem]">
-        <h2 class="a-underline"><%= t(".technical.heading") %></h2>
-      </article>
-      <article id="community" class="l-container__inner pt-[5rem]">
-        <h2 class="a-underline"><%= t(".community.heading") %></h2>
-      </article>
-      <article id="policies" class="l-container__inner pt-[5rem]">
+      <article id="policies" class="l-container__inner">
         <h2 class="a-underline"><%= t(".policies.heading") %></h2>
+        <%= render SolutionDetailsTextBlockComponent.new(text: solution.governance_summary, heading: t(".policies.governance_summary_heading")) %>
+        <div>
+          <h3>
+            <%= t(".policies.policies_heading") %>
+          </h3>
+          <div class="solution-cards">
+            <%= render_implementation(:bylaws) %>
+            <%= render_implementation(:equity_and_inclusion) %>
+            <%= render_implementation(:privacy_policy) %>
+            <%= render_implementation(:web_accessibility) %>
+            <%= render_implementation(:open_data) %>
+          </div>
+        </div>
       </article>
-      <article id="additional_information" class="l-container__inner pt-[5rem]">
+      <article id="additional_information" class="l-container__inner">
         <h2 class="a-underline"><%= t(".additional_information.heading") %></h2>
+        <%= render SolutionDetailsTextBlockComponent.new(text: solution.organizational_history, heading: t(".additional_information.organizational_history_heading")) %>
+        <div>
+          <h3><%= t(".additional_information.organizational_structure_heading") %></h3>
+          <div class="solution-cards">
+            <div class="org-structure-card">
+              <h4>
+                Business or ownership model
+              </h4>
+              <div class="text-h4">
+                <%= solution.business_form.present? ? solution.business_form.name : "—" %>
+              </div>
+            </div>
+            <div class="org-structure-card">
+              <h4>
+                Full-time Staff
+              </h4>
+              <div class="text-staff">
+                <%= formatted_num_staff.presence || "—" %>
+              </div>
+            </div>
+          </div>
+        </div>
       </article>
-      <article id="funding" class="l-container__inner pt-[5rem]">
+      <article id="funding" class="l-container__inner">
         <h2 class="a-underline"><%= t(".funding.heading") %></h2>
+        <div>
+          <h3><%= t(".funding.primary_source_heading") %></h3>
+          <div class="flex flex-wrap gap-3">
+            <% if solution.primary_funding_source.present? %>
+              <div class=" bg-white m-badge">
+                <%= solution.primary_funding_source.name %>
+              </div>
+            <% elsif %>
+              &mdash;
+            <% end %>
+          </div>
+        </div>
+        <%= render SolutionDetailsTextBlockComponent.new(text: solution.funding_needs, heading: t(".funding.needs_heading")) %>
       </article>
     </div>
   </section>

@@ -1,0 +1,10 @@
+<div data-controller="solution-details-text-block-component--solution-details-text-block-component">
+  <% if heading.present? %>
+    <h3 class="text-h4">
+      <%= heading %>
+    </h3>
+  <% end %>
+  <div class="font-light t-rte">
+    <%= text.present? ? (sanitize text) : "—" %>
+  </div>
+</div>

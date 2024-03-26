@@ -1,0 +1,8 @@
+.m-card {
+  display: flex;
+  flex-direction: column;
+  background-color: theme("colors.white");
+  padding: 1.5rem;
+  @apply rounded-lg;
+  @apply space-y-[1.125rem];
+}

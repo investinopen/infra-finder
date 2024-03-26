@@ -9,7 +9,7 @@
   --outline-color: currentColor;
 
   /* Containers */
-  @mixin fluidScaleRem --container-padding-inline, 44px, 24px;
+  @mixin fluidScaleRem --container-padding-inline, 44px, 16px;
   --container-inline-size: theme("maxWidth.base");
 
   /* Solution Filters */

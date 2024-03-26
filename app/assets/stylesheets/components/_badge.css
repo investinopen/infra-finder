@@ -1,39 +1,55 @@
-.m-badge,
-.m-badge-md,
-.m-badge-sm {
+.m-badge {
+  --_badge-padding-block: 1rem;
+  --_badge-padding-inline: 1.5rem;
+
   display: flex;
   align-items: stretch;
+  gap: 1rem;
+  overflow: hidden;
+  padding-block: var(--_badge-padding-block);
+  padding-inline: var(--_badge-padding-inline);
   background-color: theme("colors.neutral.10");
   border-radius: 0.375rem;
-  overflow: hidden;
-}
+  @apply text-label;
 
-.m-badge {
-  padding-inline: 1.5rem;
-  padding-block: 1.125rem;
-}
+  &:has(span) {
+    padding: 0;
+    gap: 0;
 
-.m-badge-md {
-  @apply text-xs;
+    > span {
+      padding-block: var(--_badge-padding-block);
+      padding-inline: var(--_badge-padding-inline);
+    }
 
-  > span:not([class|="sr-only"]) {
-    padding-inline: 1rem;
-    padding-block: 0.8125rem;
-
-    &:has(img) {
-      padding-inline: 0.75rem;
+    > span:has(img) {
+      padding-inline: calc(var(--_badge-padding-inline) - 0.25rem);
     }
   }
-}
 
-.m-badge-sm {
-  display: inline-flex;
-  gap: 0.625rem;
-  padding-inline: 0.875rem;
-  padding-block: 0.4375rem;
-  @apply text-xxs;
+  &--lg {
+    --_badge-padding-block: 1.125rem;
+    --_badge-padding-inline: 1.5rem;
+    gap: 1rem;
+    @apply text-base;
+  }
 
-  img {
-    margin-inline-start: -0.25rem;
+  &--md {
+    --_badge-padding-block: 0.8125rem;
+    --_badge-padding-inline: 1rem;
+    gap: 1rem;
+    @apply text-xs;
+  }
+
+  &--sm {
+    --_badge-padding-block: 0.4375rem;
+    --_badge-padding-inline: 0.875rem;
+    display: inline-flex;
+    gap: 0.625rem;
+    @apply text-xxs;
+
+    img {
+      margin-inline-start: -0.25rem;
+      block-size: 1rem;
+    }
   }
 }

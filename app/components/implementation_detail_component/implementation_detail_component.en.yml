@@ -1,20 +1,24 @@
 ---
 en:
-  available: Available
   not_available: Not Available
+  active: Active
+  implemented: Implemented
+  in_progress: In Progress
+  website: Website
+  learn_more: Learn More
   bylaws: Bylaws
   code_license: Code License
-  code_of_conduct: Code of Conduce
-  code_repository: Code Repository
+  code_of_conduct: Code of Conduct
+  code_repository: Open Code Repository
   community_engagement: Community Engagement
-  equity_and_inclusion: DEI
+  equity_and_inclusion: DEI Statement
   governance_activities: Governance Activities
   governance_structure: Governance Structure
   open_api: Open API
-  open_data: Open Data
+  open_data: Open Data Statemenet
   pricing: Pricing
-  privacy_policy: Privacy Policy
-  product_roadmap: Product Roadmap
-  user_contribution_pathways: User Contribution Pathways
-  user_documentation: User Documentation
-  web_accessibility: Web Accessibility
+  privacy_policy: Commitment to Privacy
+  product_roadmap: Open Product Roadmap
+  user_contribution_pathways: Contribution Pathways
+  user_documentation: Technical Documentation
+  web_accessibility: Web Accessibility Statement

@@ -6,7 +6,17 @@ module.exports = {
     "postcss-mixins": {
       mixinsDir: path.join(__dirname, "./app/assets/stylesheets/mixins"),
       mixins: {
-        fluidScaleRem,
+        fluidScaleRem: function (
+          mixin,
+          property,
+          max,
+          min,
+          maxBreak,
+          minBreak
+        ) {
+          const scale = fluidScaleRem(max, min, maxBreak, minBreak);
+          return { [property]: scale };
+        },
       },
     },
     "postcss-import": require("postcss-import"),

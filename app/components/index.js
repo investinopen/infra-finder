@@ -20,8 +20,10 @@ import ShareBarComponent__ShareBarComponentController from "./share_bar_componen
 import SolutionCategoryBadgesComponent__SolutionCategoryBadgesComponentController from "./solution_category_badges_component/solution_category_badges_component_controller";
 import SolutionComponent__SolutionComponentController from "./solution_component/solution_component_controller";
 import SolutionDetailsComponent__SolutionDetailsComponentController from "./solution_details_component/solution_details_component_controller";
+import SolutionDetailsTextBlockComponent__SolutionDetailsTextBlockComponentController from "./solution_details_text_block_component/solution_details_text_block_component_controller";
 import SolutionFiltersComponent__SolutionFiltersComponentController from "./solution_filters_component/solution_filters_component_controller";
 import SolutionLocationComponent__SolutionLocationComponentController from "./solution_location_component/solution_location_component_controller";
+import SolutionNavComponent__SolutionNavComponentController from "./solution_nav_component/solution_nav_component_controller";
 import SolutionSortComponent__SolutionSortComponentController from "./solution_sort_component/solution_sort_component_controller";
 import SolutionsComponent__SolutionsComponentController from "./solutions_component/solutions_component_controller";
 import TagComponent__TagComponentController from "./tag_component/tag_component_controller";
@@ -45,8 +47,10 @@ application.register("share-bar-component--share-bar-component", ShareBarCompone
 application.register("solution-category-badges-component--solution-category-badges-component", SolutionCategoryBadgesComponent__SolutionCategoryBadgesComponentController);
 application.register("solution-component--solution-component", SolutionComponent__SolutionComponentController);
 application.register("solution-details-component--solution-details-component", SolutionDetailsComponent__SolutionDetailsComponentController);
+application.register("solution-details-text-block-component--solution-details-text-block-component", SolutionDetailsTextBlockComponent__SolutionDetailsTextBlockComponentController);
 application.register("solution-filters-component--solution-filters-component", SolutionFiltersComponent__SolutionFiltersComponentController);
 application.register("solution-location-component--solution-location-component", SolutionLocationComponent__SolutionLocationComponentController);
+application.register("solution-nav-component--solution-nav-component", SolutionNavComponent__SolutionNavComponentController);
 application.register("solution-sort-component--solution-sort-component", SolutionSortComponent__SolutionSortComponentController);
 application.register("solutions-component--solutions-component", SolutionsComponent__SolutionsComponentController);
 application.register("tag-component--tag-component", TagComponent__TagComponentController);

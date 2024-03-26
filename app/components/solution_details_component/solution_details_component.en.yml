@@ -3,6 +3,7 @@ en:
   website: Website
   contact: Get in Touch
   pricing: Pricing Info
+  back_to_top: Back to Top
   about:
     nav: About
     heading: About
@@ -11,18 +12,35 @@ en:
   mission:
     nav: Mission
     heading: Mission
+    key_achievements_heading: Key Achievements
   technical:
     nav: Technical
     heading: Technical Attributes
+    hosting_options_heading: "Hosting Options & Service Providers"
+    other_tools_heading: What other tools and projects does your project interact with?
+    standards_heading: Standards Employed
+    maintainance_status_heading: Maintainance status
+    hosting_strategy_heading: Hosting Strategy
+    service_providers_heading: Service Providers
   community:
     nav: Community
     heading: Community Engagement
+    user_contribution_heading: User Contribution Pathways
+    organizational_commitment_heading: Organizational commitment to community engagement
   policies:
     nav: Policies
     heading: Policies & Governance
+    governance_summary_heading: Governance Summary
+    policies_heading: Policies
+    content_licensing_heading: Content Licensing
+    special_certifications_heading: Special Certifications or Statuses
   additional_information:
     nav: Additional Information
     heading: Additional Information
+    organizational_history_heading: Organizational History
+    organizational_structure_heading: Organizational Structure
   funding:
     nav: Funding
     heading: Funding
+    primary_source_heading: Primary Funding Source
+    needs_heading: Funding Needs

@@ -2,6 +2,12 @@
   border-color: var(--border-color);
 }
 
+html {
+  @media (prefers-reduced-motion: no-preference) {
+    scroll-behavior: smooth;
+  }
+}
+
 body {
   background-color: theme("colors.neutral.10");
   color: var(--color);
