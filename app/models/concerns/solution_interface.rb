@@ -44,6 +44,17 @@ module SolutionInterface
     research_organization_registry_url
   ].freeze
 
+  CURRENCY_VALUES = %i[
+    annual_expenses
+    annual_revenue
+    investment_income
+    other_revenue
+    program_revenue
+    total_assets
+    total_contributions
+    total_liabilities
+  ].freeze
+
   FINANCES = %i[
     annual_expenses
     annual_revenue
@@ -129,6 +140,11 @@ module SolutionInterface
     *FINANCES,
   ].freeze
 
+  STRINGS = %i[
+    name
+    location_of_incorporation
+  ].freeze
+
   TO_CLONE = [
     *ATTACHMENTS,
     *STANDARD_ATTRIBUTES,
@@ -208,6 +224,11 @@ module SolutionInterface
     expose_ransackable_associations!(*TO_RANSACKABLE_ASSOCS)
     expose_ransackable_attributes!(*TO_RANSACKABLE_ATTRS)
     expose_ransackable_scopes!(*each_implementation.flat_map(&:ransackable_scopes))
+
+    strip_attributes only: STRINGS, allow_empty: false, collapse_spaces: true, replace_newlines: true
+    strip_attributes only: BLURBS, allow_empty: false, collapse_spaces: true, replace_newlines: false
+
+    normalizes *BLURBS, with: -> { _1.gsub("\r", "") }
   end
 
   # @api private

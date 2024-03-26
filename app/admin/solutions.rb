@@ -46,6 +46,8 @@ ActiveAdmin.register Solution do
 
   scope :with_reviewable_drafts
 
+  config.per_page = 100
+
   config.sort_order = "name_asc"
 
   index download_links: proc { current_user.has_any_admin_access? && %i[csv] } do
@@ -54,15 +56,17 @@ ActiveAdmin.register Solution do
     column :name
     column :solution_categories
     column :organization
-    column :created_at
     column :updated_at
 
     actions do |solution|
+      br
       item "Start Draft", create_draft_admin_solution_path(solution), method: :put
-      text_node "&nbsp;&nbsp;".html_safe
-      item "Drafts", admin_solution_solution_drafts_path(solution)
-      text_node "&nbsp;&nbsp;".html_safe
-      item "Manage Access", admin_solution_solution_editor_assignments_path(solution)
+      br
+      item "View Drafts", admin_solution_solution_drafts_path(solution)
+      if current_user.has_any_admin_access?
+        br
+        item "Manage Access", admin_solution_solution_editor_assignments_path(solution)
+      end
     end
   end
 

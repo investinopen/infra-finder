@@ -68,6 +68,8 @@ module Solutions
       case key
       when *SolutionInterface::ATTACHMENTS
         source_value&.sha256 == target_value&.sha256
+      when *SolutionInterface::TAG_LISTS
+        source_value.sort == target_value.sort
       else
         source_value == target_value
       end

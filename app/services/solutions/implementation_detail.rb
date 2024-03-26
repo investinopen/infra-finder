@@ -16,5 +16,9 @@ module Solutions
     memoize def ransackable_scopes
       SCOPE_SUFFIXES.map { "#{name}_#{_1}" }
     end
+
+    def title
+      Solution.human_attribute_name(name)
+    end
   end
 end

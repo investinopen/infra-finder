@@ -9,7 +9,7 @@ module HasName
   include Filterable
 
   included do
-    strip_attributes only: :name
+    strip_attributes only: :name, collapse_spaces: true, replace_newlines: true
 
     scope :in_alphabetical_order, -> { lazily_order(:name) }
 

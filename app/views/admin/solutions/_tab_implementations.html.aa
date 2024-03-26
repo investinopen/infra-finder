@@ -1,0 +1,40 @@
+resource.class.each_implementation do |details|
+  impl = resource.__send__(details.name)
+
+  panel details.title do
+    attributes_table_for resource do
+      row(:implementation_status) do |r|
+        status_tag r.__send__(details.enum)
+      end
+
+      if details.name == :web_accessibility
+        row(:applies_to_project)
+        row(:applies_to_website)
+      end
+
+      row(:statement) if details.has_statement?
+    end
+
+    if details.has_single_link?
+      panel "Link" do
+        attributes_table_for impl.link do
+          row :label
+          row :url
+        end
+      end
+    end
+
+    if details.has_many_links?
+      panel "Links" do
+        if impl.links.any?
+          table_for impl.links do
+            column :label
+            column :url
+          end
+        else
+          para "There are no links defined for this implementation on the #{resource.model_name.human}."
+        end
+      end
+    end
+  end
+end
