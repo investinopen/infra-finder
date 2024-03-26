@@ -15,7 +15,7 @@ module Admin
         store_model(attr, heading: false) do |impf|
           yield impf if block_given?
 
-          if object.kind_of?(Solutions::Implementations::WithStatement)
+          if obj_type.has_statement?
             impf.input :statement, as: :text
           end
 
