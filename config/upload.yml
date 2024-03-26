@@ -5,9 +5,8 @@ default: &default
 
 development:
   <<: *default
-  cdn_host: "http://localhost:6858/infra-finder-storage"
   mapped_host: "http://localhost:6858"
-  use_asset_cdn: true
+  use_asset_cdn: false
 
 test:
   <<: *default
