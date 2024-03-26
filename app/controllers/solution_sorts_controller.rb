@@ -11,6 +11,14 @@ class SolutionSortsController < ApplicationController
 
     current_comparison.apply_sorts!(sort_param)
 
-    redirect_back fallback_location: solutions_path
+    respond_to do |format|
+      format.html do
+        redirect_back fallback_location: solutions_path
+      end
+
+      format.turbo_stream do
+        search_and_load_solutions!
+      end
+    end
   end
 end

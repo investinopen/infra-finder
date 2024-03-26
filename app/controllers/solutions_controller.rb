@@ -5,19 +5,10 @@ class SolutionsController < ApplicationController
   comparison_load_strategy :find_existing
 
   def index
-    @solution_search = solution_scope.ransack(current_search_filters)
-    @solution_search.sorts = [Comparison::DEFAULT_SORT] if @solution_search.sorts.empty?
-
-    @solutions = @solution_search.result(distinct: true).with_all_facets_loaded
+    search_and_load_solutions!
   end
 
   def show
     @solution = Solution.find params[:id]
-  end
-
-  private
-
-  def solution_scope
-    Pundit.policy_scope!(current_user, Solution.all)
   end
 end

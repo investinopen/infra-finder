@@ -1,0 +1,13 @@
+<%= turbo_stream.update "solutions-list" do %>
+  <%= render SolutionsComponent.new(solutions: @solutions, solution_search: @solution_search, comparison: current_comparison) %>
+<% end %>
+
+<%= turbo_stream.update "solution-filters" do %>
+  <%= render SolutionFiltersComponent.new(solution_search: @solution_search) %>
+<% end %>
+
+<% if current_comparison.present? %>
+  <%= turbo_stream.update dom_id(current_comparison, "bar") do %>
+    <%= render ComparisonBarComponent.new(comparison: current_comparison) %>
+  <% end %>
+<% end %>

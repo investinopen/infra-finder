@@ -1,0 +1,11 @@
+<%= turbo_stream.update dom_id(current_comparison, "bar") do %>
+  <%= render ComparisonBarComponent.new(comparison: current_comparison) %>
+<% end %>
+
+<%= turbo_stream.update dom_id(@solution) do %>
+  <%= render SolutionComponent.new(solution: @solution, comparison: current_comparison) %>
+<% end %>
+
+<%= turbo_stream.update dom_id(current_comparison) do %>
+  <%= render ComparisonComponent.new(comparison: current_comparison) %>
+<% end %>

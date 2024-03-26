@@ -9,7 +9,13 @@ class ComparisonItemsController < ApplicationController
 
     current_comparison.add(@solution) do |m|
       m.success do
-        redirect_back fallback_location: solutions_path
+        respond_to do |format|
+          format.html do
+            redirect_back fallback_location: solutions_path
+          end
+
+          format.turbo_stream
+        end
       end
 
       m.failure :items_exceeded do |_, alert|
@@ -29,7 +35,13 @@ class ComparisonItemsController < ApplicationController
 
     current_comparison.remove(@solution) do |m|
       m.success do
-        redirect_back fallback_location: solutions_path
+        respond_to do |format|
+          format.html do
+            redirect_back fallback_location: solutions_path
+          end
+
+          format.turbo_stream
+        end
       end
 
       m.failure do

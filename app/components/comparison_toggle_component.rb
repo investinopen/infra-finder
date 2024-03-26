@@ -24,7 +24,7 @@ class ComparisonToggleComponent < ApplicationComponent
     @solution = solution
     @comparison = comparison
 
-    @comparing = comparison.present? && solution.in?(comparison.solutions)
+    @comparing = comparison.present? && comparison.comparing?(solution)
 
     @link_options = build_link_options
   end

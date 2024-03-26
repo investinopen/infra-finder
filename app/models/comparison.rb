@@ -69,6 +69,11 @@ class Comparison < ApplicationRecord
 
   # @!group Extended Item Predications
 
+  # @param [Solution]
+  def comparing?(solution)
+    solution.in? solutions.to_a
+  end
+
   def items_addable?
     !items_maxed_out?
   end

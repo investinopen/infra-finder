@@ -78,4 +78,19 @@ module WorksWithComparisons
       end
     end
   end
+
+  # @return [void]
+  def search_and_load_solutions!
+    @solution_search = solution_scope.ransack(current_search_filters)
+    @solution_search.sorts = [Comparison::DEFAULT_SORT] if @solution_search.sorts.empty?
+
+    @solutions = @solution_search.result(distinct: true).with_all_facets_loaded
+
+    render "solutions/index"
+  end
+
+  # @return [ActiveRecord::Relation]
+  def solution_scope
+    Pundit.policy_scope!(current_user, Solution.all)
+  end
 end
