@@ -11,6 +11,8 @@ module Comparisons
     def call(comparison, solution)
       comparison.comparison_items.where(solution:).destroy_all
 
+      comparison.touch
+
       Success comparison.reload
     end
   end
