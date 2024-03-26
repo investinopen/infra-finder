@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 RSpec.describe TagListComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let_it_be(:solution, refind: true) { FactoryBot.create :solution, :with_key_technologies }
 
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+  context "when name: :key_technologies" do
+    let(:name) { :key_technologies }
+
+    it "renders a list of tags" do
+      expect(render_inline(described_class.new(solution:, name:)).to_html).to include "ruby"
+    end
+  end
 end

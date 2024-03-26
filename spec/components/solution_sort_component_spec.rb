@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 RSpec.describe SolutionSortComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "supports last_updated" do
+    expect(render_preview(:last_updated).css("option[selected]").inner_text).to eq described_class.t(".sorts.updated_at.desc")
+  end
 
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+  it "supports name asc" do
+    expect(render_preview(:name_asc).css("option[selected]").inner_text).to eq described_class.t(".sorts.name.asc")
+  end
+
+  it "supports name desc" do
+    expect(render_preview(:name_desc).css("option[selected]").inner_text).to eq described_class.t(".sorts.name.desc")
+  end
 end

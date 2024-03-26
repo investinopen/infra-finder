@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Component Preview</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= turbo_refresh_method_tag(:replace) %>
+    <%= turbo_refresh_scroll_tag(:preserve) %>
+    <meta name="turbo-visit-control" content="reload">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+  <body>
+    <main>
+      <%= yield %>
+    </main>
+  </body>
+</html>

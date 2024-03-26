@@ -52,12 +52,10 @@ SimpleCov.start "rails" do
   add_filter "app/services/concerns/monadic_transitions.rb"
   add_filter "app/services/concerns/query_operation.rb"
   add_filter "app/services/concerns/state_machine_select_options.rb"
+  add_filter "app/services/concerns/transactional_call.rb"
   add_filter "app/services/testing"
   add_filter "app/services/tus_client"
   add_filter "app/services/utility/hash_decamelizer.rb"
-  add_filter "app/services/utility/recursive_interface_fragment_builder.rb"
-  add_filter "app/services/utility/recursive_union_fragment_builder.rb"
-  add_filter "app/services/utility/request_runner"
   add_filter "app/validators/enforced_string_validator.rb"
   add_filter "app/validators/unique_items_validator.rb"
   add_filter "config/initializers"
@@ -72,7 +70,8 @@ SimpleCov.start "rails" do
   add_filter "lib/support"
 
   # App-specific filters
-  add_filter "app/operations/example_queries/generate_tei_section_content"
+  add_filter "app/operations/system/set_bucket_lifecycle.rb"
+  add_filter "app/services/system/asset_pusher.rb"
 end
 
 require File.expand_path("../config/environment", __dir__)

@@ -29,10 +29,6 @@ class ComparisonToggleComponent < ApplicationComponent
     @link_options = build_link_options
   end
 
-  def message
-    t(".compare")
-  end
-
   private
 
   def build_link_options

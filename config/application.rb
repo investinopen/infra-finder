@@ -68,6 +68,7 @@ module InfraFinder
     end
 
     config.view_component.component_parent_class = "ApplicationComponent"
+    config.view_component.default_preview_layout = "component_preview"
     config.view_component.generate.distinct_locale_files = true
     config.view_component.generate.locale = true
     config.view_component.generate.preview = true

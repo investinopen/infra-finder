@@ -6,5 +6,9 @@ FactoryBot.define do
     sequence(:name) { "Solution #{_1}" }
     founded_on { Date.new(2020, 1, 1) }
     website { "https://example.org" }
+
+    trait :with_key_technologies do
+      key_technology_list { "ruby, postgresql, rust" }
+    end
   end
 end
