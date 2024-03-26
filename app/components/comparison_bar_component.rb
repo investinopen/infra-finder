@@ -4,9 +4,16 @@ class ComparisonBarComponent < ApplicationComponent
   # @return [Comparison]
   attr_reader :comparison
 
+  # @return [Integer]
+  attr_reader :remaining_slot_count
+
+  delegate :comparison_items_count, :items_addable?, :items_comparable?, :items_incomparable?, to: :comparison
+
   # @param [Comparison] comparison
   def initialize(comparison:)
     @comparison = comparison
+
+    @remaining_slot_count = (ComparisonItem::MAX_ITEMS - comparison_items_count).clamp(0, ComparisonItem::MAX_ITEMS)
   end
 
   def bar_visible?
@@ -52,9 +59,15 @@ class ComparisonBarComponent < ApplicationComponent
     }
   end
 
-  def remaining_slots
-    slots_length = @comparison.comparison_items.length < 4 ? 4 - @comparison.comparison_items.length : 1
+  def each_remaining_slot
+    return unless items_addable?
 
-    (1..slots_length).to_a
+    iteration = ActionView::PartialIteration.new(remaining_slot_count)
+
+    remaining_slot_count.times do
+      yield iteration
+    ensure
+      iteration.iterate!
+    end
   end
 end

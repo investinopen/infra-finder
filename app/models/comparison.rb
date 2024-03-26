@@ -14,11 +14,17 @@ class Comparison < ApplicationRecord
 
   PRUNABLE_AGE = 7.days
 
-  has_many :comparison_items, -> { in_default_order }, inverse_of: :comparison, dependent: :destroy
+  pg_enum! :item_state, as: :comparison_item_state, allow_blank: false, default: :empty, prefix: :items
+
+  has_many :comparison_items, -> { for_comparison }, inverse_of: :comparison, dependent: :destroy
 
   has_many :solutions, through: :comparison_items
 
   scope :prunable, -> { where(arel_prunable) }
+
+  before_validation :detect_item_state!, on: :update
+
+  after_touch :recheck_item_state!
 
   validates :session_id, presence: true, uniqueness: true
 
@@ -60,6 +66,49 @@ class Comparison < ApplicationRecord
   end
 
   # @!endgroup
+
+  # @!group Extended Item Predications
+
+  def items_addable?
+    !items_maxed_out?
+  end
+
+  def items_comparable?
+    items_many? || items_maxed_out?
+  end
+
+  def items_incomparable?
+    !items_comparable?
+  end
+
+  # @!endgroup
+
+  private
+
+  # @return ["empty", "single", "many", "maxed_out"]
+  def detect_item_state
+    item_count = ComparisonItem.where(comparison_id: id).count
+
+    case item_count
+    when 0 then "empty"
+    when ComparisonItem::MAX_ITEMS.. then "maxed_out"
+    when 2...ComparisonItem::MAX_ITEMS then "many"
+    else
+      "single"
+    end
+  end
+
+  # @return [void]
+  def detect_item_state!
+    self.item_state = detect_item_state
+  end
+
+  # @return [void]
+  def recheck_item_state!
+    detect_item_state!
+
+    update_column(:item_state, item_state) if item_state_changed?
+  end
 
   class << self
     def arel_prunable

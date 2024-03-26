@@ -122,6 +122,18 @@ COMMENT ON EXTENSION unaccent IS 'text search dictionary that removes accents';
 
 
 --
+-- Name: comparison_item_state; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.comparison_item_state AS ENUM (
+    'empty',
+    'single',
+    'many',
+    'maxed_out'
+);
+
+
+--
 -- Name: contact_method; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -341,7 +353,9 @@ CREATE TABLE public.comparisons (
     session_id text NOT NULL,
     search_filters jsonb DEFAULT '{}'::jsonb NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    comparison_items_count bigint DEFAULT 0 NOT NULL,
+    item_state public.comparison_item_state DEFAULT 'empty'::public.comparison_item_state NOT NULL
 );
 
 
@@ -2508,6 +2522,7 @@ ALTER TABLE ONLY public.users_roles
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240325214531'),
 ('20240322084261'),
 ('20240322084260'),
 ('20240322084259'),

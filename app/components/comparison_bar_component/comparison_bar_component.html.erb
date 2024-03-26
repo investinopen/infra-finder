@@ -15,9 +15,9 @@
       </header>
       <div class="l-container__inner flex gap-[0.625rem] overflow-x-auto items-stretch pb-8">
         <%= render ComparisonBarItemComponent.with_collection(comparison.comparison_items) %>
-        <% remaining_slots.each do |i| %>
+        <% each_remaining_slot do |iteration| %>
           <div class="m-comparison-bar-item bg-brand-mint/25">
-            <% if i === 1 and not comparison.comparison_items.many? %>
+            <% if iteration.first? && items_incomparable? %>
               <span class="m-comparison-bar-item__add-more"><%= t(".not_enough_selected") %></span>
             <% end %>
           </div>

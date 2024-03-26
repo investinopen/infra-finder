@@ -12,6 +12,10 @@ class ComparisonItemsController < ApplicationController
         redirect_back fallback_location: solutions_path
       end
 
+      m.failure :items_exceeded do |_, alert|
+        redirect_back(fallback_location: solutions_path, alert:)
+      end
+
       m.failure do
         # :nocov:
         redirect_back fallback_location: solutions_path, alert: t("api.errors.something_went_wrong")

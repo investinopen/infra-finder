@@ -1,5 +1,9 @@
 en:
   activerecord:
+    errors:
+      models:
+        comparison_item:
+          items_exceeded: "Please select no more than %{count} solutions to compare."
     models:
       solution_import: Solution Import
     attributes:

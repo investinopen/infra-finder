@@ -14,6 +14,8 @@ module Comparisons
       item.move_to_top
 
       Success comparison.reload
+    rescue Comparisons::ItemsExceeded => e
+      Failure[:items_exceeded, e.message]
     end
   end
 end
