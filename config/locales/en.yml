@@ -42,6 +42,9 @@ en:
         success: "This draft has been approved and the solution has been updated."
       reject:
         success: "This draft has been rejected and no further changes are possible."
+    users:
+      send_reset_password_instructions:
+        success: "Reset password instructions sent to %{email}."
   comparisons:
     show:
       not_enough_selected: "Select some more solutions to compare."

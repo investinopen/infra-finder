@@ -16,6 +16,9 @@ en:
         source: "Data Source"
       solution_imports/options:
         auto_approve: "Auto-approve drafts?"
+      user:
+        super_admin: "This user is a super-admin?"
+        admin: "This user is an admin?"
     hints:
       solution: &solution_hints
         name: "A unique name for this solution"
@@ -31,3 +34,6 @@ en:
         source: "The file must be a CSV with a very specific format."
       solution_imports/options:
         auto_approve: "Whether the import should auto-approve all drafts. Otherwise, updates will be readied for review and can be selectively applied."
+      user:
+        super_admin: A super-admin has unrestricted access to manage everything in the system. It takes precedence over admin if both are set.
+        admin: An admin can manage most things, except creating users and other admins / super-admins.

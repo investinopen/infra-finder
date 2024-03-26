@@ -6,6 +6,7 @@ ActiveAdmin.register User do
   permit_params :email, :name, :super_admin, :admin, :password, :password_confirmation
 
   filter :email
+  filter :name
   filter :kind
   filter :current_sign_in_at
   filter :sign_in_count
@@ -33,18 +34,23 @@ ActiveAdmin.register User do
     column :created_at
     column :updated_at
 
-    actions
+    actions do |user|
+      br
+      item "Send Reset PW", send_reset_password_instructions_admin_user_path(user), method: :put
+    end
   end
 
   form do |f|
     f.inputs do
-      f.input :email
-      f.input :name
-      f.input :super_admin
-      f.input :admin
+      f.input :email, required: true, input_html: { autocomplete: "off" }
+      f.input :name, as: :string, required: true, input_html: { autocomplete: "off" }
+      f.input :super_admin, input_html: { autocomplete: "off" }
+      f.input :admin, input_html: { autocomplete: "off" }
 
-      f.input :password
-      f.input :password_confirmation
+      if f.object.new_record?
+        f.input :password, required: true, input_html: { autocomplete: "new-password" }
+        f.input :password_confirmation, required: true, input_html: { autocomplete: "new-password" }
+      end
     end
 
     f.actions
@@ -59,6 +65,7 @@ ActiveAdmin.register User do
         status_tag u.kind
       end
 
+      row :confirmed_at
       row :current_sign_in_at
       row :current_sign_in_ip
 
@@ -79,6 +86,7 @@ ActiveAdmin.register User do
     column :email
     column :name
     column :kind
+    column :confirmed_at
     column :current_sign_in_at
     column :current_sign_in_ip
     column :last_sign_in_at
@@ -86,5 +94,15 @@ ActiveAdmin.register User do
     column :locked_at
     column :created_at
     column :updated_at
+  end
+
+  action_item :send_reset_password_instructions, only: %i[show edit], if: proc { authorized?(:send_reset_password_instructions, resource) } do
+    link_to "Send Password Reset Instructions", send_reset_password_instructions_admin_user_path(resource), method: :put
+  end
+
+  member_action :send_reset_password_instructions, method: :put do
+    resource.send_reset_password_instructions
+
+    redirect_to admin_user_path(resource), notice: t(".success", email: resource.email)
   end
 end

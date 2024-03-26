@@ -10,6 +10,10 @@ class UserPolicy < ApplicationPolicy
     has_any_admin_access? || user_matches?
   end
 
+  def send_reset_password_instructions?
+    user_matches? || has_any_admin_access?
+  end
+
   private
 
   def user_matches?
