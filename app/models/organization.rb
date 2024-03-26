@@ -9,7 +9,9 @@ class Organization < ApplicationRecord
 
   expose_ransackable_associations! :solutions
 
-  expose_ransackable_attributes! :url
+  expose_ransackable_attributes! :solutions_count, :url
+
+  scope :with_multiple_solutions, -> { where(arel_table[:solutions_count].gt(1)) }
 
   has_many :solutions, inverse_of: :organization, dependent: :restrict_with_error
 

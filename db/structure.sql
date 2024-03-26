@@ -527,7 +527,8 @@ CREATE TABLE public.organizations (
     slug public.citext NOT NULL,
     url text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL
 );
 
 
@@ -2522,6 +2523,7 @@ ALTER TABLE ONLY public.users_roles
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240325215622'),
 ('20240325214531'),
 ('20240322084261'),
 ('20240322084260'),
