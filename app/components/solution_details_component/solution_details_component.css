@@ -1,4 +1,44 @@
 /* Add styles for this component */
+.solution-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  column-gap: 2rem;
+  row-gap: 2.6875rem;
+  padding-block: 3.75rem;
+
+  @media screen and (min-width: theme("screens.lg")) {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+
+  &__text {
+    @apply space-y-5;
+
+    @media screen and (min-width: theme("screens.lg")) {
+      padding-block-start: 24px;
+      flex-basis: theme("maxWidth.text");
+    }
+  }
+
+  &__figure {
+    flex-shrink: 0;
+    max-inline-size: 15rem;
+    aspect-ratio: 1/1;
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: theme("colors.white");
+  }
+
+  &__logo {
+    object-fit: contain;
+    inline-size: 100%;
+    max-inline-size: 14rem;
+    height: auto;
+    aspect-ratio: 1/1;
+  }
+}
+
 .solution-nav {
   --_solution-nav-inline-padding: 1.75rem;
 

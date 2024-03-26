@@ -1,8 +1,13 @@
 <%= turbo_frame_tag(solution, :details, target: "_top") do %>
   <section data-controller="solution-details-component--solution-details-component">
     <header class="l-container l-container--narrow">
-      <div class="l-container__inner py-[3.75rem]">
-        <div class="max-w-text pt-6 space-y-5">
+      <div class="l-container__inner solution-hero">
+        <% if solution.logo.present? %>
+          <figure class="solution-hero__figure">
+            <%= image_tag solution.logo(:medium).url, alt: "", class: "solution-hero__logo" %>
+          </figure>
+        <% end %>
+        <div class="solution-hero__text">
           <h1><%= solution.name %></h1>
           <div class="text-lg font-semibold">
             <%= solution.organization.name %>
