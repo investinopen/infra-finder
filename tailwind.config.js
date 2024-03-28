@@ -98,12 +98,9 @@ const minHeight = {
   resultsBar: "3.75rem",
 };
 
-const spacing = {
-  "container-inline": "var(--container-padding-inline)",
-};
-
 const width = {
-  "comparison-item": "20.375rem",
+  "comparison-item": fluidScaleRem("326px", "226px"),
+  "comparison-row-header": fluidScaleRem("326px", "126px"),
 };
 
 module.exports = {
@@ -125,7 +122,6 @@ module.exports = {
       maxWidth,
       minHeight,
       screens,
-      spacing,
       width,
     },
   },

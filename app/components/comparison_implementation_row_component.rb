@@ -4,7 +4,7 @@
 # a table row within the comparison page component.
 #
 # @see ComparisonComponent
-class ComparisonImplementationRowComponent < ApplicationComponent
+class ComparisonImplementationRowComponent < ApplicationComponent  
   # @return [Comparison]
   attr_reader :comparison
 

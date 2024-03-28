@@ -1,9 +1,11 @@
 <%= turbo_frame_tag "site-footer", target: "_top" do %>
-  <div class="l-container">
+  <aside class="l-container">
     <div class="l-container__inner text-light pb-10">
-      <h4 class="text-sm pt-9 border-t border-neutral-40">
-        <%= t(".agreement_header") %>
-      </h4>
+      <header class="pt-9 border-t border-neutral-40">
+        <h4 class="text-sm">
+          <%= t(".agreement_header") %>
+        </h4>
+      </header>
       <div class="pt-2.5 text-terms">
         <%= t(".agreement_info") %>
       </div>
@@ -12,7 +14,7 @@
         <p class="pt-4"><%= t(".agreement_paragraph_2") %></p>
       </div>
     </div>
-  </div>
+  </aside>
   <footer class="bg-black l-container l-container--narrow" data-controller="footer-component--footer-component">
     <div class="l-container__inner footer-wrap">
       <div class="footer-data">

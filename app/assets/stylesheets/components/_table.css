@@ -1,33 +1,40 @@
 .m-table {
+  --_table-row-gap: 1.6875rem;
+  --_table-column-gap: 2.25rem;
+
+  @apply text-xs;
+
   &__header {
     padding-block-start: 2.75rem;
     padding-block-end: 1.25rem;
-    border-bottom: 0.125rem solid theme("colors.black");
   }
 
   div[role="row"] {
-    @apply flex gap-4;
+    display: flex;
+
+    &:first-child > * {
+      border-top: 0.125rem solid theme("colors.black");
+    }
+  }
+
+  div[role="rowheader"],
+  div[role="cell"] {
     border-bottom-width: 1px;
+    padding-block: var(--_table-row-gap);
   }
 
   div[role="rowheader"] {
     display: inline-block;
-    width: calc(
-      theme("width.comparison-item") + theme("padding.6") +
-        var(--container-padding-inline)
-    );
-    padding-block: 1.6875rem;
+    /* Extra padding at the end for the gap between comparison items */
+    inline-size: calc(theme("width.comparison-row-header") + 1rem);
+    padding-inline-end: var(--_table-column-gap);
     flex-shrink: 0;
-    @apply text-xs;
-    @apply sticky left-0 bg-neutral-10 z-[1] pe-6 ps-container-inline -ms-container-inline;
   }
 
   div[role="cell"] {
-    @apply w-comparison-item shrink-0;
-    padding-block: 1.6875rem;
-
-    &:not([class*="text-"]) {
-      @apply text-xxs;
-    }
+    /* Extra padding at the end for the gap between comparison items */
+    inline-size: calc(theme("width.comparison-item") + 1rem);
+    padding-inline: var(--_table-column-gap);
+    flex-shrink: 0;
   }
 }

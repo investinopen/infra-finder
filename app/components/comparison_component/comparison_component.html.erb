@@ -2,7 +2,7 @@
   <section class="l-container pt-8 pb-[6.25rem] overflow-x-auto" data-controller="comparison-component--comparison-component">
     <div class="l-container__inner">
       <div class="flex gap-4">
-        <header class="w-comparison-item shrink-0 pe-6">
+        <header class="w-comparison-row-header shrink-0 pe-6">
           <h1 class="text-h2">
             <%= t(".title") %>
           </h1>
@@ -12,12 +12,26 @@
       <div class="m-table">
         <div class="m-table__header">
           <h2 class="text-h4" id="technical_table_header">
-            Technical
+            <%= t(".technical.heading") %>
           </h2>
         </div>
         <div role="table"
           aria-describedby="technical_table_header">
           <div role="rowgroup">
+            <div role="row">
+              <div role="rowheader">
+                <%= t(".technical.maintenance_row") %>
+              </div>
+              <% comparison.comparison_items.each do |item| %>
+                <div role="cell">
+                  <% if item.solution.maintenance_status.present? %>
+                    <%= item.solution.maintenance_status.name %>
+                  <% else %>
+                    <%= image_tag "icons/20/Minus.svg", alt: "" %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
             <%= render ComparisonImplementationRowComponent.new(comparison:, name: :open_api) %>
             <%= render ComparisonImplementationRowComponent.new(comparison:, name: :code_repository) %>
             <%= render ComparisonImplementationRowComponent.new(comparison:, name: :user_documentation) %>
@@ -28,7 +42,7 @@
       <div class="m-table">
         <div class="m-table__header">
           <h2 class="text-h4" id="technical_table_header">
-            Community
+            <%= t(".community.heading") %>
           </h2>
         </div>
         <div role="table"
@@ -42,7 +56,7 @@
       <div class="m-table">
         <div class="m-table__header">
           <h2 class="text-h4 m-table__sticky" id="technical_table_header">
-            Policies &amp; Guideance
+            <%= t(".policies.heading") %>
           </h2>
         </div>
         <div role="table"
@@ -54,54 +68,74 @@
             <%= render ComparisonImplementationRowComponent.new(comparison:, name: :open_data) %>
             <%= render ComparisonImplementationRowComponent.new(comparison:, name: :governance_activities) %>
             <%= render ComparisonImplementationRowComponent.new(comparison:, name: :governance_structure) %>
+            <%= render ComparisonBlurbRowComponent.new(comparison:, name: :governance_summary) %>
           </div>
         </div>
       </div>
       <div class="m-table">
         <div class="m-table__header">
           <h2 class="text-h4 m-table__sticky" id="technical_table_header">
-            Structure
+            <%= t(".structure.heading") %>
           </h2>
         </div>
         <div role="table"
           aria-describedby="technical_table_header">
           <div role="rowgroup">
             <div role="row">
-              <div role="rowheader" class="m-table__sticky">
-                Full-time Staff
-              </div>
-              <% comparison.comparison_items.each do |item| %>
-                <div class="text-xl" role="cell">
-                  <%= item.solution.current_staffing %>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="m-table">
-        <div class="m-table__header">
-          <h2 class="text-h4 m-table__sticky" id="technical_table_header">
-            Funding
-          </h2>
-        </div>
-        <div role="table"
-          aria-describedby="technical_table_header">
-          <div role="rowgroup">
-            <div role="row">
-              <div role="rowheader" class="m-table__sticky">
-                Funding Needs
+              <div role="rowheader">
+                <%= t(".structure.ownership_row") %>
               </div>
               <% comparison.comparison_items.each do |item| %>
                 <div role="cell">
-                  <% if item.solution.funding_needs? %>
-                    <%= sanitize item.solution.funding_needs %>
+                  <% if item.solution.business_form.present? %>
+                    <%= item.solution.business_form.name %>
                   <% else %>
                     <%= image_tag "icons/20/Minus.svg", alt: "" %>
                   <% end %>
                 </div>
               <% end %>
             </div>
+            <div role="row">
+              <div role="rowheader">
+                <%= t(".structure.staff_row") %>
+              </div>
+              <% comparison.comparison_items.each do |item| %>
+                <div class="text-xl" role="cell">
+                  <% if item.solution.current_staffing.present? %>
+                    <%= item.solution.current_staffing %>
+                  <% elsif %>
+                    <%= image_tag "icons/20/Minus.svg", alt: "" %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="m-table">
+        <div class="m-table__header">
+          <h2 class="text-h4" id="technical_table_header">
+            <%= t(".funding.heading") %>
+          </h2>
+        </div>
+        <div role="table"
+          aria-describedby="technical_table_header">
+          <div role="rowgroup">
+            <div role="row">
+              <div role="rowheader">
+                <%= t(".funding.primary_source_row") %>
+              </div>
+              <% comparison.comparison_items.each do |item| %>
+                <div role="cell">
+                  <% if item.solution.primary_funding_source.present? %>
+                    <%= item.solution.primary_funding_source.name %>
+                  <% else %>
+                    <%= image_tag "icons/20/Minus.svg", alt: "" %>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+            <%= render ComparisonBlurbRowComponent.new(comparison:, name: :funding_needs) %>
           </div>
         </div>
       </div>

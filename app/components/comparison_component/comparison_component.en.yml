@@ -1,3 +1,17 @@
 ---
 en:
   title: Compare Solutions
+  technical:
+    heading: Technical
+    maintenance_row: Maintenance Status
+  community:
+    heading: Community
+  policies:
+    heading: Policies & Governance
+  structure:
+    heading: Structure
+    ownership_row: Business Form / Organizational Ownership Model
+    staff_row: Full-time Staff
+  funding:
+    heading: Funding
+    primary_source_row: Primary Funding Source

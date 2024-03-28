@@ -1,0 +1,15 @@
+<div data-controller="comparison-blurb-row-component--comparison-blurb-row-component"
+  role="row">
+  <div role="rowheader" class="m-table__sticky">
+    <%= t(".#{name}") %>
+  </div>
+  <% comparison.comparison_items.each do |item| %>
+    <div role="cell">
+      <% if item.solution[name].present? %>
+        <div class="t-rte"><%= sanitize item.solution[name] %></div>
+      <% else %>
+        <%= image_tag "icons/20/Minus.svg", alt: "" %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
