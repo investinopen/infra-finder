@@ -14,7 +14,7 @@
   }
 
   > * {
-    padding-inline: 2.25rem;
+    @mixin fluidScaleRem padding-inline, 36px, 20px;
 
     &:last-child {
       padding-block-end: 2rem;

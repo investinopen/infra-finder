@@ -1,5 +1,7 @@
 /* See base/_appearance for base button styles */
 .m-button {
+  display: flex;
+  align-items: center;
   border-radius: 12.5rem;
   @apply font-header;
   @apply text-label;
@@ -36,5 +38,10 @@
     > img {
       block-size: 1rem;
     }
+  }
+
+  > svg,
+  > img {
+    flex: 0 0 auto;
   }
 }

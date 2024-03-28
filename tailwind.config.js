@@ -99,8 +99,8 @@ const minHeight = {
 };
 
 const width = {
-  "comparison-item": fluidScaleRem("326px", "226px"),
-  "comparison-row-header": fluidScaleRem("326px", "126px"),
+  "comparison-item": fluidScaleRem("320px", "150px"),
+  "comparison-row-header": fluidScaleRem("320px", "80px"),
 };
 
 module.exports = {

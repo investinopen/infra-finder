@@ -82,6 +82,7 @@ module InfraFinder
     if Rails.env.development?
       config.hosts << "www.example.com"
       config.hosts << /[a-z0-9.-]+\.ngrok\.io/
+      config.hosts << /[a-z0-9.-]+\.ngrok\.app/
       config.hosts << /[a-z0-9.-]+\.ngrok-free\.app/
     end
   end

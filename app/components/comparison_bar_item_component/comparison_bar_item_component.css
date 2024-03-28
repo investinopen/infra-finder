@@ -2,9 +2,8 @@
 .m-comparison-bar-item {
   position: relative;
   min-block-size: 5.25rem;
-  min-inline-size: 17.875rem;
-  max-inline-size: 20.625rem;
   flex-basis: 25%;
+  @apply w-comparison-item;
   @apply rounded-md;
   @apply py-4 ps-5 pe-10;
 

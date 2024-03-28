@@ -1,0 +1,13 @@
+.comparison-sticky-header {
+  .m-comparison-bar-item {
+    opacity: 0;
+    @apply transition-opacity;
+  }
+
+  &--not-top,
+  &--is-unpinned {
+    .m-comparison-bar-item {
+      opacity: 1;
+    }
+  }
+}

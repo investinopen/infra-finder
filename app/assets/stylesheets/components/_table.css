@@ -1,19 +1,46 @@
 .m-table {
   --_table-row-gap: 1.6875rem;
-  --_table-column-gap: 2.25rem;
+  @mixin fluidScaleRem --_table-column-gap, 36px, 20px;
 
   @apply text-xs;
-
-  &__header {
-    padding-block-start: 2.75rem;
-    padding-block-end: 1.25rem;
-  }
+  inline-size: theme("maxWidth.max");
+  padding-inline-end: var(--container-padding-inline);
 
   div[role="row"] {
     display: flex;
 
-    &:first-child > * {
-      border-top: 0.125rem solid theme("colors.black");
+    &:first-child {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      @apply bg-neutral-10;
+    }
+
+    > div {
+      flex-shrink: 0;
+      inline-size: calc(theme("width.comparison-item") + 1rem);
+      padding-inline: var(--_table-column-gap);
+
+      &:first-child {
+        position: sticky;
+        left: 0;
+        inline-size: calc(theme("width.comparison-row-header") + 1rem);
+        /* box-shadow: 10px 0 5px -2px theme("colors.neutral.10"); */
+        padding-inline-start: 0;
+        @apply bg-neutral-10;
+      }
+    }
+  }
+
+  div[role="columnheader"] {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-block: 1.25rem;
+    border-bottom: 0.125rem solid theme("colors.black");
+
+    &:first-child {
+      z-index: 2;
     }
   }
 
@@ -23,18 +50,7 @@
     padding-block: var(--_table-row-gap);
   }
 
-  div[role="rowheader"] {
-    display: inline-block;
-    /* Extra padding at the end for the gap between comparison items */
-    inline-size: calc(theme("width.comparison-row-header") + 1rem);
-    padding-inline-end: var(--_table-column-gap);
-    flex-shrink: 0;
-  }
-
-  div[role="cell"] {
-    /* Extra padding at the end for the gap between comparison items */
-    inline-size: calc(theme("width.comparison-item") + 1rem);
-    padding-inline: var(--_table-column-gap);
-    flex-shrink: 0;
+  .m-comparison-bar-item {
+    margin-inline: calc(var(--_table-column-gap) * -1);
   }
 }
