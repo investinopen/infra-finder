@@ -3,9 +3,10 @@
 
   overflow-x: auto;
   @apply sticky;
-  top: 0;
+  top: -1px;
   z-index: 1;
   background-color: theme("colors.neutral.20");
+  @apply transition-colors;
 
   &__list {
     display: flex;
@@ -22,7 +23,7 @@
     white-space: nowrap;
   }
 
-  &--not-top {
+  &--is-pinned {
     background-color: theme("colors.brand.mint");
   }
 }

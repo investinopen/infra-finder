@@ -1,11 +1,9 @@
 .comparison-sticky-header {
   position: sticky;
-  top: 0;
-  /* padding-block-start: 3rem; */
+  top: -1px;
   @apply bg-neutral-10;
 
-  &--is-unpinned &__solution,
-  &--not-top &__solution {
+  &--is-pinned &__solution {
     opacity: 1;
   }
 

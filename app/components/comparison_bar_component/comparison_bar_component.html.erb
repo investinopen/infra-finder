@@ -2,6 +2,7 @@
   <% if bar_visible? %>
     <aside
       data-controller="comparison-bar-component--comparison-bar-component"
+      data-comparison-bar-component--comparison-bar-component-target="wrapper"
       class="l-container bg-black sticky bottom-0 pt-5">
       <header class="l-container__inner flex flex-wrap gap-[0.625rem] items-center justify-between pb-5">
         <h3><%= t(".title") %></h3>

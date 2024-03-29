@@ -1,5 +1,4 @@
 import { Controller } from "@hotwired/stimulus";
-import Headroom from "headroom.js";
 
 export default class extends Controller {
   static targets = ["nav"];
@@ -9,19 +8,17 @@ export default class extends Controller {
 
     if (!el) return;
 
-    const boundary = el.getBoundingClientRect();
-
-    const options = {
-      offset: Math.ceil(boundary.top) ?? 560,
-      classes: {
-        // when below offset
-        notTop: "solution-nav--not-top",
+    const observer = new IntersectionObserver(
+      ([e]) => {
+        const top = el.getBoundingClientRect().top;
+        e.target.classList.toggle(
+          "solution-nav--is-pinned",
+          e.intersectionRatio < 1 && top < 1
+        );
       },
-    };
+      { threshold: [1] }
+    );
 
-    // construct an instance of Headroom, passing the element
-    var headroom = new Headroom(el, options);
-    // initialise
-    headroom.init();
+    observer.observe(el);
   }
 }
