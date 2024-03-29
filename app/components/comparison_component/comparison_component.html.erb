@@ -1,29 +1,29 @@
 <%= turbo_frame_tag(comparison) do %>
-<div class="l-container overflow-x-auto h-screen xxl:h-auto xxl:overflow-clip"
-  id="comparison_component_wrapper">
-  <%= render ShareBarComponent.new(show_back: true) %>
-  <header class="pt-8 l-container__inner" data-controller="comparison-component--comparison-component">
-    <div class="flex gap-4">
-      <header class="w-comparison-row-header shrink-0 pe-6">
+<div class="l-container comparison-wrapper"
+  id="comparison_component_wrapper"
+  style="--comparison-columns: <%= comparison.comparison_items.length %>">
+  <header class="comparison-header l-container__inner" data-controller="comparison-component--comparison-component">
+    <div class="comparison-row">
+      <div>
         <h1 class="text-h2">
           <%= t(".title") %>
         </h1>
-      </header>
+      </div>
       <%= render ComparisonItemComponent.with_collection(comparison.comparison_items) %>
     </div>
   </header>
-  <section class="l-container__inner">
+  <section class="l-container__inner comparison-tables">
     <div role="table"
       class="m-table"
       aria-label="<%= t(".technical.heading") %>">
       <div role="rowgroup">
         <%= render ComparisonStickyHeaderComponent.new(comparison:, heading: t(".technical.heading")) %>
-        <div role="row">
-          <div role="rowheader">
+        <div role="row" class="m-table__row">
+          <div role="rowheader" class="m-table__rowheader">
             <%= t(".technical.maintenance_row") %>
           </div>
           <% comparison.comparison_items.each do |item| %>
-            <div role="cell">
+            <div role="cell" class="m-table__cell">
               <% if item.solution.maintenance_status.present? %>
                 <%= item.solution.maintenance_status.name %>
               <% else %>
@@ -66,12 +66,12 @@
       aria-label="<%= t(".structure.heading") %>">
       <div role="rowgroup">
         <%= render ComparisonStickyHeaderComponent.new(comparison:, heading: t(".structure.heading")) %>
-        <div role="row">
-          <div role="rowheader">
+        <div role="row" class="m-table__row">
+          <div role="rowheader" class="m-table__rowheader">
             <%= t(".structure.ownership_row") %>
           </div>
           <% comparison.comparison_items.each do |item| %>
-            <div role="cell">
+            <div role="cell" class="m-table__cell">
               <% if item.solution.business_form.present? %>
                 <%= item.solution.business_form.name %>
               <% else %>
@@ -80,12 +80,12 @@
             </div>
           <% end %>
         </div>
-        <div role="row">
-          <div role="rowheader">
+        <div role="row" class="m-table__row">
+          <div role="rowheader" class="m-table__rowheader">
             <%= t(".structure.staff_row") %>
           </div>
           <% comparison.comparison_items.each do |item| %>
-            <div class="text-xl" role="cell">
+            <div class="text-xl" role="cell" class="m-table__cell">
               <% if item.solution.current_staffing.present? %>
                 <%= item.solution.current_staffing %>
               <% elsif %>
@@ -101,12 +101,12 @@
       aria-label="<%= t(".funding.heading") %>">
       <div role="rowgroup">
         <%= render ComparisonStickyHeaderComponent.new(comparison:, heading: t(".funding.heading")) %>
-        <div role="row">
-          <div role="rowheader">
+        <div role="row" class="m-table__row">
+          <div role="rowheader" class="m-table__rowheader">
             <%= t(".funding.primary_source_row") %>
           </div>
           <% comparison.comparison_items.each do |item| %>
-            <div role="cell">
+            <div role="cell" class="m-table__cell">
               <% if item.solution.primary_funding_source.present? %>
                 <%= item.solution.primary_funding_source.name %>
               <% else %>

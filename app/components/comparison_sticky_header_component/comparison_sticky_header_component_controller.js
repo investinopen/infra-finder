@@ -6,7 +6,7 @@ export default class extends Controller {
 
   initialize() {
     const el = this.wrapperTarget;
-    const parent = document.getElementById("comparison_component_wrapper");
+    // const parent = document.getElementById("comparison_component_wrapper");
 
     if (!el && !parent) return;
 
@@ -14,9 +14,7 @@ export default class extends Controller {
 
     const elBoundary = el.getBoundingClientRect();
 
-    const offset = Math.ceil(
-      elBoundary.top - elBoundary.height * 1.5 - bodyBoundary.top
-    );
+    const offset = Math.ceil(elBoundary.top - bodyBoundary.top);
 
     const bodyWidth = bodyBoundary.width;
 
@@ -26,7 +24,7 @@ export default class extends Controller {
       offset,
       // If the width is smaller than 2100,
       // use the comparison wrapper as the scroll target
-      ...(bodyWidth <= 2100 ? { scroller: parent } : {}),
+      // ...(bodyWidth <= 2100 ? { scroller: parent } : {}),
       classes: {
         initial: `${className}--is-initial`,
         pinned: `${className}--is-pinned`,

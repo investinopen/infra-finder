@@ -311,8 +311,10 @@
 
   /* subnav */
   .subnav {
+    position: relative;
     overflow-x: auto;
     white-space: nowrap;
+    z-index: 3;
 
     ul {
       display: flex;

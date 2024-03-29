@@ -1,5 +1,5 @@
 <%= turbo_frame_tag item, class: "" do %>
-  <article class="m-solution-card w-comparison-item" data-controller="comparison-item-component--comparison-item-component">
+  <article class="m-solution-card" data-controller="comparison-item-component--comparison-item-component">
     <header class="m-solution-card__header">
       <h3 class="text-h4"><%= solution.name %></h3>
       <%= link_to(solution_compare_path(solution), link_to_remove_options) do %>

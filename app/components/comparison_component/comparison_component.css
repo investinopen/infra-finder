@@ -1,1 +1,36 @@
-/* Add styles for this component */
+.comparison-wrapper {
+  --table-column-min: 160px;
+  --table-columns: calc(var(--comparison-columns) + 1);
+
+  @media (max-width: theme("screens.lg")) {
+    --table-columns: var(--comparison-columns);
+  }
+
+  @media (max-width: theme("screens.sm")) {
+    overflow-x: auto;
+  }
+}
+
+.comparison-header {
+  position: relative;
+  padding-block-start: 2rem;
+}
+
+.comparison-row {
+  display: grid;
+  grid-template-columns: repeat(
+    var(--table-columns, auto-fit),
+    minmax(var(--table-column-min), 1fr)
+  );
+
+  > * {
+    padding-inline-end: 1rem;
+    padding-block: 1rem;
+
+    @media (max-width: theme("screens.lg")) {
+      &:first-child {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+}

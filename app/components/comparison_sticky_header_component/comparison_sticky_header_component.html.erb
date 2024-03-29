@@ -1,16 +1,16 @@
 <div data-controller="comparison-sticky-header-component--comparison-sticky-header-component"
   data-comparison-sticky-header-component--comparison-sticky-header-component-target="wrapper"
-  class="comparison-sticky-header"
+  class="comparison-sticky-header m-table__row"
   role="row">
-  <div role="columnheader">
+  <div role="columnheader" class="comparison-sticky-header__heading m-table__columnheader">
     <h2 class="text-h4">
       <%= heading %>
     </h2>
   </div>
   <% comparison.comparison_items.each do |item| %>
-    <div role="columnheader">
-      <div class="m-comparison-bar-item bg-brand-mint">
-        <h3 class="text-h5 line-clamp-2"><%= item.solution.name %></h3>
+    <div role="columnheader" class="m-table__columnheader">
+      <div class="comparison-sticky-header__solution bg-brand-mint">
+        <span class="line-clamp-2 text-h6"><%= item.solution.name %></span>
       </div>
     </div>
   <% end %>

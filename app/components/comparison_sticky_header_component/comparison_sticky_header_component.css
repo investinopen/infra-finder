@@ -1,13 +1,31 @@
 .comparison-sticky-header {
-  .m-comparison-bar-item {
+  position: sticky;
+  top: 0;
+  /* padding-block-start: 3rem; */
+  @apply bg-neutral-10;
+
+  &--is-unpinned &__solution,
+  &--not-top &__solution {
+    opacity: 1;
+  }
+
+  &__solution {
     opacity: 0;
+    @mixin fluidScaleRem padding-inline, 20px, 14px;
+    padding-block: 1rem;
+    height: 100%;
+    @apply rounded-sm;
     @apply transition-opacity;
   }
 
-  &--not-top,
-  &--is-unpinned {
-    .m-comparison-bar-item {
-      opacity: 1;
+  @media (max-width: theme("screens.lg")) {
+    &__heading {
+      grid-row: 2;
+      padding-block-start: 0;
+    }
+
+    div[role="columnheader"]:not(:first-child) {
+      border-bottom: 0;
     }
   }
 }
