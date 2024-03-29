@@ -19,6 +19,7 @@ en:
     code_of_conduct_available: Code Of Conduct
     web_accessibility_available: Web Accessibility
     bylaws_available: Bylaws
-  readiness_level_heading: Technology Readiness Level
-  contribution_pathways_heading: Contribution Pathways
+  maintenance_status: Maintenance Status
+  readiness_level: Technology Readiness Level
+  user_contributions: Contribution Pathways
 
