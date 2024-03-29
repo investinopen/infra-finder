@@ -1,33 +1,35 @@
 <div data-controller="solution-mobile-filters-component--solution-mobile-filters-component"
   class="mobile:hidden block min-h-resultsBar">
-  <button
-    type="button"
-    data-solution-mobile-filters-component--solution-mobile-filters-component-target="toggle"
-    data-action="click->solution-mobile-filters-component--solution-mobile-filters-component#toggleDialog"
-    class="solution-filters-dialog-toggle w-full h-full rounded-full bg-neutral-20 mb-4 text-h5">
-    <%= image_tag "icons/24/Filters.svg", alt: "" %>
-    <span><%= t(".toggle_label") %></span>
-  </button>
-  <dialog
-    data-solution-mobile-filters-component--solution-mobile-filters-component-target="dialog"
-    class="solution-filters-dialog bg-neutral-20">
-    <div class="solution-filters-dialog__inner">
-      <header class="solution-filters-dialog__header">
-        <%= image_tag "icons/24/Filters.svg", alt: "" %>
-        <h2 class="text-h3"><%= t(".filters_heading") %></h2>
-        <button
-          type="button"
-          data-action="click->solution-mobile-filters-component--solution-mobile-filters-component#closeDialog"
-          class="solution-filters-dialog__close">
-          <%= image_tag "icons/24/Close.svg", alt: "" %>
-          <span class="sr-only"><%= t(".close_label") %></span>
-        </button>
-      </header>
-      <%= render SolutionFiltersCheckboxesComponent.new(f:) %>
-      <footer class="solution-filters-dialog__footer">
-        <%= link_to t(".reset_label"), solution_search_path, class: "m-button m-button--sm m-button--center bg-white", data: { turbo_method: :delete, turbo_frame: "_top" } %>
-        <%= f.submit t(".submit_label"), class: "m-button m-button--sm m-button--center bg-black" %>
-      </footer>
-    </div>
-  </dialog>
+  <%= search_form_for solution_search, **search_form_options do |f| %>
+    <button
+      type="button"
+      data-solution-mobile-filters-component--solution-mobile-filters-component-target="toggle"
+      data-action="click->solution-mobile-filters-component--solution-mobile-filters-component#toggleDialog"
+      class="solution-filters-dialog-toggle w-full h-full rounded-full bg-neutral-20 mb-4 text-h5">
+      <%= image_tag "icons/24/Filters.svg", alt: "" %>
+      <span><%= t(".toggle_label") %></span>
+    </button>
+    <dialog
+      data-solution-mobile-filters-component--solution-mobile-filters-component-target="dialog"
+      class="solution-filters-dialog bg-neutral-20">
+      <div class="solution-filters-dialog__inner">
+        <header class="solution-filters-dialog__header">
+          <%= image_tag "icons/24/Filters.svg", alt: "" %>
+          <h2 class="text-h3"><%= t(".filters_heading") %></h2>
+          <button
+            type="button"
+            data-action="click->solution-mobile-filters-component--solution-mobile-filters-component#closeDialog"
+            class="solution-filters-dialog__close">
+            <%= image_tag "icons/24/Close.svg", alt: "" %>
+            <span class="sr-only"><%= t(".close_label") %></span>
+          </button>
+        </header>
+        <%= render SolutionFiltersCheckboxesComponent.new(f:) %>
+        <footer class="solution-filters-dialog__footer">
+          <%= link_to t(".reset_label"), solution_search_path, class: "m-button m-button--sm m-button--center bg-white", data: { turbo_method: :delete, turbo_frame: "_top" } %>
+          <%= f.submit t(".submit_label"), class: "m-button m-button--sm m-button--center bg-black" %>
+        </footer>
+      </div>
+    </dialog>
+  <% end %>
 </div>
