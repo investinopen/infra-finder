@@ -1,7 +1,7 @@
 <%= turbo_frame_tag(comparison) do %>
 <div class="l-container overflow-x-auto h-screen xxl:h-auto xxl:overflow-clip"
   id="comparison_component_wrapper">
-  <%= render ShareBarComponent.new %>
+  <%= render ShareBarComponent.new(show_back: true) %>
   <header class="pt-8 l-container__inner" data-controller="comparison-component--comparison-component">
     <div class="flex gap-4">
       <header class="w-comparison-row-header shrink-0 pe-6">

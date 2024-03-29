@@ -1,5 +1,5 @@
-<div data-controller="share-bar-component--share-bar-component" class="l-container">
-  <div class="l-container__inner pt-8 flex justify-between" data-share-bar-component--share-bar-component-target="wrapper">
+<div data-controller="share-bar-component--share-bar-component" class="l-container <%= class_name %>">
+  <div class="l-container__inner pt-8 flex justify-between">
     <div>
       <% if show_back %>
         <button
@@ -10,11 +10,13 @@
         </button>
       <% end %>
     </div>
-    <button
-      class="m-button m-button--sm"
-      data-action="click->share-bar-component--share-bar-component#share">
-      <span><%= t(".share") %></span>
-      <%= image_tag "icons/16/Share.svg", alt: "" %>
-    </button>
+    <div data-share-bar-component--share-bar-component-target="wrapper">
+      <button
+        class="m-button m-button--sm"
+        data-action="click->share-bar-component--share-bar-component#share">
+        <span><%= t(".share") %></span>
+        <%= image_tag "icons/16/Share.svg", alt: "" %>
+      </button>
+    </div>
   </div>
 </div>
