@@ -5,7 +5,7 @@
     <div class="solution-filters__search bg-neutral-20">
       <%= image_tag "icons/24/Search.svg", alt: "" %>
       <%= f.label :name_cont, class: "sr-only" %>
-      <%= f.search_field :name_cont, placeholder: "Search" %>
+      <%= f.search_field :name_cont, placeholder: "Search", class: "solution-filters__search-input" %>
     </div>
     <div class="solution-filters__filters hidden mobile:block bg-neutral-20">
       <h2 class="pb-4 text-h3"><%= t(".heading") %></h2>

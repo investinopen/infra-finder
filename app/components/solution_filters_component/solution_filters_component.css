@@ -1,6 +1,5 @@
 .solution-filters {
-  @media screen and (min-width: theme("screens.md")),
-    screen and (min-height: theme("screens.md")) {
+  @media theme("screens.mobile.raw") {
     @apply sticky;
     @apply top-0;
     margin-inline-end: calc(var(--solution-filters-padding) * -0.25);
@@ -12,6 +11,31 @@
       max-block-size: 100vh;
       overflow-y: auto;
       overscroll-behavior-y: contain;
+    }
+  }
+
+  @starting-style {
+    .solution_search {
+      width: 100%;
+    }
+  }
+
+  .solution_search {
+    width: 100%;
+
+    @media (prefers-reduced-motion: no-preference) {
+      transition-property: width;
+      transition-duration: theme("transitionDuration.DEFAULT");
+      transition-timing: theme("transitionTimingFunction.DEFAULT");
+    }
+
+    &:focus-within {
+      z-index: 3;
+      width: calc(100vw - var(--container-padding-inline) * 2);
+
+      @media theme("screens.mobile.raw") {
+        width: 100%;
+      }
     }
   }
 
@@ -28,16 +52,16 @@
       --outline-offset: calc(var(--outline-width) * -1);
       @mixin a-default-outline;
     }
+  }
 
-    input {
-      background-color: transparent;
-      block-size: 3.75rem;
-      inline-size: 100%;
-      padding: 0;
+  &__search-input {
+    background-color: transparent;
+    block-size: 3.75rem;
+    inline-size: 100%;
+    padding: 0;
 
-      &:focus-visible {
-        outline: 0;
-      }
+    &:focus-visible {
+      outline: 0;
     }
   }
 
