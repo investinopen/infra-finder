@@ -11,6 +11,7 @@ export default class extends Controller {
     const observer = new IntersectionObserver(
       ([e]) => {
         const top = el.getBoundingClientRect().top;
+
         e.target.classList.toggle(
           "comparison-sticky-header--is-pinned",
           e.intersectionRatio < 1 && top < 1

@@ -4,7 +4,9 @@
   @apply bg-neutral-10;
 
   &--is-pinned &__solution {
-    opacity: 1;
+    @media (min-width: theme("screens.sm")) {
+      opacity: 1;
+    }
   }
 
   &__solution {
@@ -14,6 +16,11 @@
     height: 100%;
     @apply rounded-sm;
     @apply transition-opacity;
+
+    @media (max-width: theme("screens.sm")) {
+      opacity: 1;
+      margin-block-start: 2rem;
+    }
   }
 
   @media (max-width: theme("screens.lg")) {

@@ -14,14 +14,14 @@
   }
 
   > * {
-    @mixin fluidScaleRem padding-inline, 36px, 20px;
+    @mixin fluidScaleRem padding-inline, 36px, 16px;
 
     &:last-child {
-      padding-block-end: 2rem;
+      @mixin fluidScaleRem padding-block-end, 32px, 20px;
     }
 
     & + div {
-      padding-block-start: 1.5rem;
+      @mixin fluidScaleRem padding-block-start, 24px, 16px;
     }
   }
 
@@ -35,9 +35,9 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    min-block-size: 7.5rem;
-    padding-block-end: 1.25rem;
-    padding-block-start: 2.5rem;
+    @mixin fluidScaleRem min-block-size, 120px, 100px;
+    @mixin fluidScaleRem padding-block-end, 20px, 16px;
+    @mixin fluidScaleRem padding-block-start, 40px, 32px;
     @apply bg-brand-mint;
 
     > h3 {
