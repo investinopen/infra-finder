@@ -52,7 +52,10 @@ const fontSize = {
   h3: [fluidScaleRem("26px", "24px"), headerProps],
   h4: [fluidScaleRem("24px", "20px"), headerProps],
   h5: [fluidScaleRem("20px", "17px"), headerProps],
-  h6: [pxToRem("18px"), { ...headerProps, letterSpacing: "-0.0187rem" }],
+  h6: [
+    fluidScaleRem("18px", "16px"),
+    { ...headerProps, letterSpacing: "-0.0187rem" },
+  ],
   staff: [pxToRem("52px"), { fontWeight: 500, lineHeight: pxToRem("56px") }],
   xl: [pxToRem("22px"), bodyProps],
   lg: [pxToRem("20px"), bodyProps],
@@ -60,8 +63,8 @@ const fontSize = {
     fluidScaleRem("17px", "16px"),
     { ...bodyProps, letterSpacing: "0.0156rem", lineHeight: pxToRem("26px") },
   ],
-  sm: [pxToRem("16px"), bodyProps],
-  xs: [pxToRem("15px"), bodyProps],
+  sm: [fluidScaleRem("16px", "15px"), bodyProps],
+  xs: [fluidScaleRem("15px", "14px"), bodyProps],
   xxs: [pxToRem("14px"), bodyProps],
   terms: [pxToRem("13px"), bodyProps], // 13px
   label: [

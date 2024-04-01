@@ -36,7 +36,7 @@ class ComparisonBarComponent < ApplicationComponent
 
   def link_to_clear_comparison(&)
     options = {
-      class: "m-button m-button--sm bg-white",
+      class: "m-button m-button--sm hidden sm:flex bg-white",
       data: {
         turbo_frame: "solutions-index",
         turbo_method: :delete,

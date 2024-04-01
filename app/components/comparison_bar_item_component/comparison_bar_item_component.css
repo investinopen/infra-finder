@@ -1,16 +1,19 @@
 /* Add styles for this component */
 .m-comparison-bar-item {
   position: relative;
-  min-block-size: 5.25rem;
   flex-basis: 25%;
+  @mixin fluidScaleRem min-block-size, 75px, 60px;
+  @mixin fluidScaleRem padding-block, 16px, 10px;
+  @mixin fluidScaleRem padding-inline, 20px, 16px;
   @apply w-comparison-item;
   @apply rounded-md;
-  @apply py-4 ps-5 pe-10;
+
+  &:has(.m-comparison-bar-item__close) {
+    @mixin fluidScaleRem padding-inline-end, 40px, 30px;
+  }
 
   &:has(.m-comparison-bar-item__add-more) {
     @apply border border-brand-mint border-dashed;
-    @apply pt-5;
-    @apply pe-5;
   }
 
   &__add-more {
