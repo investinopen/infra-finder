@@ -1,5 +1,5 @@
 .comparison-wrapper {
-  --table-column-min: 160px;
+  --table-column-min: theme("width.comparison-item");
   --table-columns: calc(var(--comparison-columns) + 1);
 
   @media (max-width: theme("screens.lg")) {

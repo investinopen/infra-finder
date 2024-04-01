@@ -4,6 +4,7 @@
 @import "./back_to_top_component/back_to_top_component.css";
 @import "./comparison_bar_component/comparison_bar_component.css";
 @import "./comparison_bar_item_component/comparison_bar_item_component.css";
+@import "./comparison_blurb_cell_component/comparison_blurb_cell_component.css";
 @import "./comparison_blurb_row_component/comparison_blurb_row_component.css";
 @import "./comparison_component/comparison_component.css";
 @import "./comparison_implementation_cell_component/comparison_implementation_cell_component.css";

@@ -4,13 +4,5 @@
   <div role="rowheader" class="m-table__rowheader">
     <%= t(".#{name}") %>
   </div>
-  <% comparison.comparison_items.each do |item| %>
-    <div role="cell" class="m-table__cell">
-      <% if item.solution[name].present? %>
-        <div class="t-rte"><%= sanitize item.solution[name] %></div>
-      <% else %>
-        <%= image_tag "icons/20/Minus.svg", alt: "" %>
-      <% end %>
-    </div>
-  <% end %>
+  <%= render ComparisonBlurbCellComponent.with_collection(comparison.comparison_items, name:) %>
 </div>

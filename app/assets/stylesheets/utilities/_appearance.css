@@ -42,6 +42,10 @@ background classes will extend tailwind's 'bg-' pattern. */
   @apply hidden;
 }
 
+.a-link {
+  text-decoration: underline;
+}
+
 .translation_missing {
   outline: 2px dashed theme("colors.brand.mint");
   outline-offset: 2px;

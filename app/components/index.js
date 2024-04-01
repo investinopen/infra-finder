@@ -5,6 +5,7 @@ import { application } from "../javascript/controllers/application";
 import BackToTopComponent__BackToTopComponentController from "./back_to_top_component/back_to_top_component_controller";
 import ComparisonBarComponent__ComparisonBarComponentController from "./comparison_bar_component/comparison_bar_component_controller";
 import ComparisonBarItemComponent__ComparisonBarItemComponentController from "./comparison_bar_item_component/comparison_bar_item_component_controller";
+import ComparisonBlurbCellComponent__ComparisonBlurbCellComponentController from "./comparison_blurb_cell_component/comparison_blurb_cell_component_controller";
 import ComparisonBlurbRowComponent__ComparisonBlurbRowComponentController from "./comparison_blurb_row_component/comparison_blurb_row_component_controller";
 import ComparisonComponent__ComparisonComponentController from "./comparison_component/comparison_component_controller";
 import ComparisonImplementationCellComponent__ComparisonImplementationCellComponentController from "./comparison_implementation_cell_component/comparison_implementation_cell_component_controller";
@@ -38,6 +39,7 @@ import TagListComponent__TagListComponentController from "./tag_list_component/t
 application.register("back-to-top-component--back-to-top-component", BackToTopComponent__BackToTopComponentController);
 application.register("comparison-bar-component--comparison-bar-component", ComparisonBarComponent__ComparisonBarComponentController);
 application.register("comparison-bar-item-component--comparison-bar-item-component", ComparisonBarItemComponent__ComparisonBarItemComponentController);
+application.register("comparison-blurb-cell-component--comparison-blurb-cell-component", ComparisonBlurbCellComponent__ComparisonBlurbCellComponentController);
 application.register("comparison-blurb-row-component--comparison-blurb-row-component", ComparisonBlurbRowComponent__ComparisonBlurbRowComponentController);
 application.register("comparison-component--comparison-component", ComparisonComponent__ComparisonComponentController);
 application.register("comparison-implementation-cell-component--comparison-implementation-cell-component", ComparisonImplementationCellComponent__ComparisonImplementationCellComponentController);

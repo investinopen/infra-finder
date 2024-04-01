@@ -103,8 +103,8 @@ const minHeight = {
 };
 
 const width = {
-  "comparison-item": fluidScaleRem("320px", "150px"),
-  "comparison-row-header": fluidScaleRem("320px", "80px"),
+  "comparison-item": fluidScaleRem("320px", "165px"),
+  "comparison-row-header": fluidScaleRem("320px", "100px"),
 };
 
 const screens = {
