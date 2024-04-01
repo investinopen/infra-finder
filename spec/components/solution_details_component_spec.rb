@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 RSpec.describe SolutionDetailsComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context "with a barebones solution" do
+    let_it_be(:solution, refind: true) { FactoryBot.create :solution, :barebones }
 
-  # it "renders something useful" do
-  #   expect(
-  #     render_inline(described_class.new(attr: "value")) { "Hello, components!" }.css("p").to_html
-  #   ).to include(
-  #     "Hello, components!"
-  #   )
-  # end
+    it "renders okay" do
+      expect(
+        render_inline(described_class.new(solution:)).css("h1").to_html
+      ).to include solution.name
+    end
+  end
 end

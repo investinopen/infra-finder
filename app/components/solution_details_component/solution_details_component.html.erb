@@ -29,7 +29,7 @@
                 </a>
               <% end %>
             <% end %>
-            <% if solution.contact? %>
+            <% unless solution.contact_unavailable? %>
               <a href="<%= solution.contact %>" class="m-button m-button--lg">
                 <span><%= t(".contact") %></span>
                 <%= image_tag "icons/24/Link-External.svg", alt: "", class: "-ms-1" %>
@@ -44,10 +44,12 @@
       <article id="about" class="l-container__inner space-y-[2.0625rem]">
         <h2 class="a-underline mb-3"><%= t(".about.heading") %></h2>
         <div class="border-b flex flex-wrap gap-y-2 justify-between pb-4 max-w-text">
-          <div>
-            <span class="font-light"><%= t(".about.launched") %> </span>
-            <span class="font-semibold"><%= solution.founded_on.to_fs(:year) %></span>
-          </div>
+          <% if solution.founded_on? %>
+            <div>
+              <span class="font-light"><%= t(".about.launched") %> </span>
+              <span class="font-semibold"><%= solution.founded_on.to_fs(:year) %></span>
+            </div>
+          <% end %>
           <div>
             <span class="font-light"><%= t(".about.record_updated") %> </span>
             <span class="font-semibold"><%= solution.updated_at.to_fs(:mdy) %></span>
@@ -63,7 +65,7 @@
       <article id="mission" class="l-container__inner">
         <h2 class="a-underline"><%= t(".mission.heading") %></h2>
         <div class="t-rte">
-          <%= solution.mission?.present? ? (sanitize solution.mission) : "—" %>
+          <%= solution.mission? ? (sanitize solution.mission) : "—" %>
         </div>
         <% if solution.key_achievements.present? %>
           <div class="bg-white p-10 pt-8 mt-[3.75rem] rounded-lg t-rte">
