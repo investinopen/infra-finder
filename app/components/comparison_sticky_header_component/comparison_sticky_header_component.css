@@ -31,6 +31,22 @@
       opacity: 1;
       margin-block-start: 2rem;
     }
+
+    .comparison-wrapper--col-3 & {
+      /* 3 * table-column-min + gap */
+      @media (max-width: theme("screens.compare3")) {
+        opacity: 1;
+        margin-block-start: 2rem;
+      }
+    }
+
+    .comparison-wrapper--col-4 & {
+      /* 4 * table-column-min + gap  */
+      @media (max-width: theme("screens.compare4")) {
+        opacity: 1;
+        margin-block-start: 2rem;
+      }
+    }
   }
 
   @media (max-width: theme("screens.lg")) {

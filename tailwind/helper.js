@@ -8,6 +8,10 @@ const screens = {
   xl: "87.5rem", // 1400px
   xxl: "131.25rem", // 2100px
   nav: "72.8125rem", // 1165px
+  /* 3 * table-column-min + gap */
+  compare3: "41rem",
+  /* 4 * table-column-min + gap  */
+  compare4: "54rem",
 };
 
 module.exports = {

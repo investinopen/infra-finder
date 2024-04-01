@@ -1,5 +1,5 @@
 <%= turbo_frame_tag(comparison) do %>
-<div class="l-container comparison-wrapper"
+<div class="l-container comparison-wrapper comparison-wrapper--col-<%= comparison.comparison_items.length %>"
   id="comparison_component_wrapper"
   style="--comparison-columns: <%= comparison.comparison_items.length %>">
   <header class="comparison-header l-container__inner" data-controller="comparison-component--comparison-component">

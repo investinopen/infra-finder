@@ -1,13 +1,28 @@
 .comparison-wrapper {
-  --table-column-min: theme("width.comparison-item");
+  --table-column-min: 12.5rem;
   --table-columns: calc(var(--comparison-columns) + 1);
 
   @media (max-width: theme("screens.lg")) {
     --table-columns: var(--comparison-columns);
   }
 
+  /* Always overflow x at small screens */
   @media (max-width: theme("screens.sm")) {
     overflow-x: auto;
+  }
+
+  &--col-3 {
+    /* 3 * table-column-min + gap */
+    @media (max-width: theme("screens.compare3")) {
+      overflow-x: auto;
+    }
+  }
+
+  &--col-4 {
+    /* 4 * table-column-min + gap  */
+    @media (max-width: theme("screens.compare4")) {
+      overflow-x: auto;
+    }
   }
 }
 
