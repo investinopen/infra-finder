@@ -1,20 +1,25 @@
 <%= render ShareBarComponent.new %>
-<%= turbo_frame_tag("solutions-index") do %>
-  <section class="l-container">
-    <div class="l-container__inner pb-[7.5rem] pt-8">
-      <header>
-        <h1 class="text-h2">Search & Compare Solutions</h1>
-      </header>
-      <div class="pt-9 grid grid-cols-1 mobile:grid-cols-solutions-page gap-4">
-        <%= turbo_frame_tag "solution-filters" do %>
-          <%= render SolutionFiltersComponent.new(solution_search: @solution_search) %>
-        <% end %>
+<div class="l-back-container">
+  <div>
+    <%= turbo_frame_tag("solutions-index") do %>
+        <section class="l-container">
+          <div class="l-container__inner pb-[7.5rem] pt-8">
+            <header>
+              <h1 class="text-h2">Search & Compare Solutions</h1>
+            </header>
+            <div class="pt-9 grid grid-cols-1 mobile:grid-cols-solutions-page gap-4">
+              <%= turbo_frame_tag "solution-filters" do %>
+                <%= render SolutionFiltersComponent.new(solution_search: @solution_search) %>
+              <% end %>
 
-        <%= render SolutionsComponent.new(solutions: @solutions, solution_search: @solution_search, comparison: current_comparison) %>
-      </div>
-    </div>
-  </section>
-  <% if current_comparison.present? %>
-    <%= render ComparisonBarComponent.new(comparison: current_comparison) %>
-  <% end %>
-<% end %>
+              <%= render SolutionsComponent.new(solutions: @solutions, solution_search: @solution_search, comparison: current_comparison) %>
+            </div>
+          </div>
+        </section>
+      <% if current_comparison.present? %>
+        <%= render ComparisonBarComponent.new(comparison: current_comparison) %>
+      <% end %>
+    <% end %>
+  </div>
+  <%= render BackToTopComponent.new %>
+</div>

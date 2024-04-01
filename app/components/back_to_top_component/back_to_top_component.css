@@ -2,7 +2,7 @@
   --offset: 62rem;
 
   position: sticky;
-  bottom: 0px;
+  bottom: calc(var(--comparison-bar-height, 0px) + 0px);
   place-self: end;
   margin-top: calc(100vh + var(--offset));
   inline-size: 100vw;

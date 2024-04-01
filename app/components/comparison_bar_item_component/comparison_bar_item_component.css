@@ -1,11 +1,11 @@
 /* Add styles for this component */
 .m-comparison-bar-item {
   position: relative;
-  flex-basis: 25%;
+  flex: 0 0 auto;
+  height: 100%;
   @mixin fluidScaleRem min-block-size, 75px, 60px;
   @mixin fluidScaleRem padding-block, 16px, 10px;
   @mixin fluidScaleRem padding-inline, 20px, 16px;
-  @apply w-comparison-item;
   @apply rounded-md;
 
   &:has(.m-comparison-bar-item__close) {
@@ -14,13 +14,16 @@
 
   &:has(.m-comparison-bar-item__add-more) {
     @apply border border-brand-mint border-dashed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 0.25rem;
   }
 
   &__add-more {
     display: block;
     text-align: center;
     @apply text-brand-mint;
-    @apply text-sm;
   }
 
   &__close {

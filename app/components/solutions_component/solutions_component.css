@@ -1,12 +1,7 @@
 /* component styles */
 .solutions-results {
-  align-self: flex-start;
   padding-inline: 2rem;
   padding-block: 0.875rem;
-  flex-grow: 999;
-  flex-basis: 0;
-  min-inline-size: 50%;
-  @apply text-h3;
   @apply rounded-s-full;
   @apply rounded-e-full;
   @apply sm:rounded-e-[0];

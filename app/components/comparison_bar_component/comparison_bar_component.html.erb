@@ -14,12 +14,12 @@
           <%= nav_link "Compare", comparison_path %>
         </div>
       </header>
-      <div class="l-container__inner flex gap-[0.625rem] overflow-x-auto items-stretch pb-6 sm:pb-8">
+      <div class="l-container__inner comparison-bar__grid">
         <%= render ComparisonBarItemComponent.with_collection(comparison.comparison_items) %>
         <% each_remaining_slot do |iteration| %>
           <div class="m-comparison-bar-item bg-brand-mint/25">
             <% if iteration.first? && items_incomparable? %>
-              <span class="m-comparison-bar-item__add-more"><%= t(".not_enough_selected") %></span>
+              <span class="m-comparison-bar-item__add-more text-xxs lg:text-xs"><%= t(".not_enough_selected") %></span>
             <% end %>
           </div>
         <% end %>

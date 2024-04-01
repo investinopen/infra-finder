@@ -1,7 +1,7 @@
 <%= turbo_frame_tag(item, "bar") do %>
   <div
     data-controller="comparison-item-component--comparison-item-component"
-    class="m-comparison-bar-item bg-brand-mint h-full sm:min-w-auto">
+    class="m-comparison-bar-item bg-brand-mint">
     <div class="line-clamp-2 text-h6"><%= solution.name %></div>
     <div class="m-comparison-bar-item__close">
       <%= link_to(solution_compare_path(solution), link_to_remove_options) do %>

@@ -1,1 +1,10 @@
 /* Add styles for this component */
+.comparison-bar {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
+    gap: 0.625rem;
+    overflow-x: auto;
+    @mixin fluidScaleRem padding-block-end, 32px, 24px;
+  }
+}

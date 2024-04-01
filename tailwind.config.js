@@ -65,7 +65,7 @@ const fontSize = {
   ],
   sm: [fluidScaleRem("16px", "15px"), bodyProps],
   xs: [fluidScaleRem("15px", "14px"), bodyProps],
-  xxs: [pxToRem("14px"), bodyProps],
+  xxs: [fluidScaleRem("14px", "13px"), bodyProps],
   terms: [pxToRem("13px"), bodyProps], // 13px
   label: [
     pxToRem("16px"),
