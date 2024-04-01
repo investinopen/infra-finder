@@ -7,7 +7,7 @@
             <%= image_tag solution.logo(:medium).url, alt: "", class: "solution-hero__logo" %>
           </figure>
         <% end %>
-        <div class="solution-hero__text">
+        <div class="solution-hero__text me-auto">
           <h1><%= solution.name %></h1>
           <div class="text-lg font-semibold">
             <%= solution.organization.name %>
@@ -52,7 +52,13 @@
           <% end %>
           <div>
             <span class="font-light"><%= t(".about.record_updated") %> </span>
-            <span class="font-semibold"><%= solution.updated_at.to_fs(:mdy) %></span>
+            <span class="font-semibold">
+              <% if solution.updated_at? %>
+                <%= solution.updated_at.to_fs(:mdy) %>
+              <% elsif %>
+                &mdash;
+              <% end %>
+            </span>
           </div>
         </div>
         <%= render_category_badges %>
@@ -132,7 +138,6 @@
         <div class="solution-cards">
           <%= render_implementation(:code_of_conduct) %>
           <%= render_implementation(:community_engagement) %>
-          <%#= render_implementation(:user_contribution_pathways) %>
         </div>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.community_engagement.statement, heading: t(".community.organizational_commitment_heading")) %>
         <div>

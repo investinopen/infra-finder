@@ -18,7 +18,7 @@ class SolutionDetailsComponent < ApplicationComponent
   def initialize(solution:, comparison: nil)
     @solution = solution
     @comparison = comparison
-    @formatted_num_staff = number_to_human(solution.current_staffing)
+    @formatted_num_staff = number_with_delimiter(solution.current_staffing)
   end
 
   # @param [Solutions::Types::Implementation] name
