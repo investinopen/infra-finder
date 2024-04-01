@@ -61,7 +61,7 @@ const fontSize = {
   lg: [pxToRem("20px"), bodyProps],
   base: [
     fluidScaleRem("17px", "16px"),
-    { ...bodyProps, letterSpacing: "0.0156rem", lineHeight: pxToRem("26px") },
+    { ...bodyProps, letterSpacing: "-0.0156rem", lineHeight: pxToRem("26px") },
   ],
   sm: [fluidScaleRem("16px", "15px"), bodyProps],
   xs: [fluidScaleRem("15px", "14px"), bodyProps],
