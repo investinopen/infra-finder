@@ -1,0 +1,7 @@
+body {
+  &:has(dialog[open]) {
+    position: absolute;
+    inline-size: 100%;
+    overflow: hidden;
+  }
+}

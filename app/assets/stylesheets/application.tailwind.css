@@ -3,6 +3,7 @@
 @import "base/_root.css";
 @import "base/_appearance.css";
 @import "base/_typography.css";
+@import "base/_layout.css";
 
 @import "tailwindcss/components";
 @import "components/_badge.css";
