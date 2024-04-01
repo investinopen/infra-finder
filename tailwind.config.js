@@ -111,6 +111,11 @@ const screens = {
   },
 };
 
+const zIndex = {
+  backToTop: 50,
+  stickyHeader: 51,
+};
+
 module.exports = {
   content: [
     "./public/*.html",
@@ -131,6 +136,7 @@ module.exports = {
       minHeight,
       screens,
       width,
+      zIndex,
     },
   },
   plugins: [

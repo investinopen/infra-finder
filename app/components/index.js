@@ -2,6 +2,7 @@
 // Run that command whenever you add a new controller in ViewComponent
 
 import { application } from "../javascript/controllers/application";
+import BackToTopComponent__BackToTopComponentController from "./back_to_top_component/back_to_top_component_controller";
 import ComparisonBarComponent__ComparisonBarComponentController from "./comparison_bar_component/comparison_bar_component_controller";
 import ComparisonBarItemComponent__ComparisonBarItemComponentController from "./comparison_bar_item_component/comparison_bar_item_component_controller";
 import ComparisonBlurbRowComponent__ComparisonBlurbRowComponentController from "./comparison_blurb_row_component/comparison_blurb_row_component_controller";
@@ -34,6 +35,7 @@ import SolutionsComponent__SolutionsComponentController from "./solutions_compon
 import TagComponent__TagComponentController from "./tag_component/tag_component_controller";
 import TagListComponent__TagListComponentController from "./tag_list_component/tag_list_component_controller";
 
+application.register("back-to-top-component--back-to-top-component", BackToTopComponent__BackToTopComponentController);
 application.register("comparison-bar-component--comparison-bar-component", ComparisonBarComponent__ComparisonBarComponentController);
 application.register("comparison-bar-item-component--comparison-bar-item-component", ComparisonBarItemComponent__ComparisonBarItemComponentController);
 application.register("comparison-blurb-row-component--comparison-blurb-row-component", ComparisonBlurbRowComponent__ComparisonBlurbRowComponentController);

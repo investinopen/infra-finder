@@ -1,2 +1,7 @@
 <%= render ShareBarComponent.new(show_back: true, is_narrow: true) %>
-<%= render SolutionDetailsComponent.new(solution: @solution, comparison: current_comparison) %>
+<div class="l-back-container">
+  <div>
+    <%= render SolutionDetailsComponent.new(solution: @solution, comparison: current_comparison) %>
+  </div>
+  <%= render BackToTopComponent.new(is_narrow: true) %>
+</div>

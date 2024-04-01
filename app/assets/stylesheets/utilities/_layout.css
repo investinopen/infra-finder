@@ -14,3 +14,13 @@
     padding-inline: var(--container-padding-inline);
   }
 }
+
+.l-back-container {
+  display: grid;
+  grid-template-columns: 1fr 0px;
+
+  > div:first-child {
+    /* Leave room for the back to top button at the bottom of the page */
+    padding-bottom: 100px;
+  }
+}

@@ -4,9 +4,9 @@
   overflow-x: auto;
   @apply sticky;
   top: -1px;
-  z-index: 1;
   background-color: theme("colors.neutral.20");
   @apply transition-colors;
+  @apply z-stickyHeader;
 
   &__list {
     display: flex;
