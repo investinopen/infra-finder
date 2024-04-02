@@ -10,7 +10,9 @@
     "lint": "docker-compose exec web bin/erblint .",
     "fix": "docker-compose exec web bin/erblint -a .",
     "rubocop": "docker-compose exec web bin/rubocop",
-    "rspec": "docker-compose exec web bin/rspec"
+    "rspec": "docker-compose exec web bin/rspec",
+    "start": "docker-sync start && docker compose start",
+    "stop": "docker-sync stop && docker compose stop"
   },
   "version": "1.0.0",
   "license": "UNLICENSED",

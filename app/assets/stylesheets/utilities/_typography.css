@@ -45,5 +45,6 @@ use tailwind's text-[name] classes for font sizes. */
 
   a {
     text-decoration: underline;
+    word-break: break-all;
   }
 }
