@@ -1,17 +1,10 @@
 ---
 en:
   nav_a11y_label: Sub-navigation
-  about:
-    nav: About
-  mission:
-    nav: Mission
-  technical:
-    nav: Technical
-  community:
-    nav: Community
-  policies:
-    nav: Policies
-  additional_information:
-    nav: Additional Information
-  funding:
-    nav: Funding
+  about: About
+  mission: Mission
+  technical: Technical
+  community: Community
+  policies: Policies
+  additional_information: Additional Information
+  funding: Funding

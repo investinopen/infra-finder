@@ -83,27 +83,35 @@
     </nav>
   </div>
 </header>
-<nav aria-labelledBy="nav-infra-finder" class="subnav bg-brand-mint l-container">
+<nav aria-labelledBy="nav-infra-finder" class="l-nav-bar l-nav-bar--centered bg-brand-mint l-container">
   <div class="l-container__inner">
-    <ul class="text-xs">
+    <ul class="l-nav-bar__list">
       <li>
-        <%= nav_link t(".solutions_link"), solutions_path, active: :exclusive %>
+        <%= nav_link t(".solutions_link"), solutions_path, active: :exclusive, class: "l-nav-bar__link", data: { text: t(".solutions_link") } %>
       </li>
       <li>
-        <a href="https://investinopen.org/data-room/infra-finder-about"><%= t(".about_link") %></a>
+        <a class="l-nav-bar__link" href="https://investinopen.org/data-room/infra-finder-about" data-text="<%= t(".about_link") %>">
+          <%= t(".about_link") %>
+        </a>
       </li>
       <li>
-        <a href="https://investinopen.org/data-room/add-to-infra-finder"><%= t(".add_link") %></a>
+        <a class="l-nav-bar__link" href="https://investinopen.org/data-room/add-to-infra-finder" data-text="<%= t(".add_link") %>">
+          <%= t(".add_link") %>
+        </a>
       </li>
       <li>
-        <a href="https://form.asana.com/?k=_SIAKr0YcFgxdAgWY3fCNQ&d=1204039279428915"><%= t(".feedback_link") %></a>
+        <a class="l-nav-bar__link" href="https://form.asana.com/?k=_SIAKr0YcFgxdAgWY3fCNQ&d=1204039279428915" data-text="<%= t(".feedback_link") %>">
+          <%= t(".feedback_link") %>
+        </a>
       </li>
       <li>
-        <a href="#"><%= t(".support_link") %></a>
+        <a class="l-nav-bar__link" href="#" data-text="<%= t(".support_link") %>">
+          <%= t(".support_link") %>
+        </a>
       </li>
       <% if has_any_admin_or_editor_access? %>
         <li>
-          <%= nav_link t(".admin_link"), admin_dashboard_path %>
+          <%= nav_link t(".admin_link"), admin_dashboard_path, { class: "l-nav-bar__link", data: { text: t(".admin_link") } } %>
         </li>
       <% end %>
     </ul>

@@ -12,6 +12,10 @@
   @mixin fluidScaleRem --container-padding-inline, 44px, 16px;
   --container-inline-size: theme("maxWidth.base");
 
+  /* Nav bar */
+  @mixin fluidScaleRem --nav-bar-inline-padding, 36px, 8px;
+  @mixin fluidScaleRem --nav-bar-height, 54px, 39px;
+
   /* Solution Filters */
   --solution-filters-padding: 2.25rem;
 

@@ -41,7 +41,7 @@ body {
   }
 }
 
-a:not(.m-button):hover {
+a:not(class):hover {
   text-decoration: underline;
 }
 
@@ -62,6 +62,10 @@ input[type="submit"]:not([class]),
     &:hover {
       filter: brightness(96%);
     }
+  }
+
+  &:hover {
+    text-decoration: none;
   }
 
   > svg {

@@ -308,33 +308,4 @@
       }
     }
   }
-
-  /* subnav */
-  .subnav {
-    position: relative;
-    overflow-x: auto;
-    white-space: nowrap;
-    z-index: 3;
-
-    ul {
-      display: flex;
-
-      @media screen and (min-width: theme("screens.nav")) {
-        justify-content: center;
-      }
-    }
-
-    a {
-      --outline-offset: calc(var(--outline-width) * -1);
-
-      display: inline-block;
-      @mixin fluidScaleRem padding-inline, 36px, 26px;
-      margin-inline: auto;
-      padding-block: 18px;
-
-      &[aria-current="page"] {
-        @apply font-bold;
-      }
-    }
-  }
 }

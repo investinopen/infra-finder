@@ -1,29 +1,8 @@
 .solution-nav {
-  --_solution-nav-inline-padding: 1.75rem;
+  @mixin fluidScaleRem --nav-bar-inline-padding, 28px, 8px;
+  @mixin fluidScaleRem --nav-bar-height, 60px, 39px;
 
-  overflow-x: auto;
-  @apply sticky;
+  position: sticky;
   top: -1px;
-  background-color: theme("colors.neutral.20");
-  @apply transition-colors;
   @apply z-stickyHeader;
-
-  &__list {
-    display: flex;
-
-    li:first-child {
-      margin-inline-start: calc(var(--_solution-nav-inline-padding) * -1);
-    }
-  }
-
-  &__link {
-    display: inline-block;
-    padding-block: 1.3125rem;
-    padding-inline: var(--_solution-nav-inline-padding);
-    white-space: nowrap;
-  }
-
-  &--is-pinned {
-    background-color: theme("colors.brand.mint");
-  }
 }

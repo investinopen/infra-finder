@@ -12,7 +12,7 @@ export default class extends Controller {
       ([e]) => {
         const top = el.getBoundingClientRect().top;
         e.target.classList.toggle(
-          "solution-nav--is-pinned",
+          "bg-brand-mint",
           e.intersectionRatio < 1 && top < 1
         );
       },
