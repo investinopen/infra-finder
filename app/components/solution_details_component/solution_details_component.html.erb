@@ -2,7 +2,7 @@
   <section data-controller="solution-details-component--solution-details-component" class="solution-details">
     <header class="l-container l-container--narrow">
       <div class="l-container__inner solution-hero">
-        <% if solution.logo.present? %>
+        <% if solution.logo.present? and solution.logo(:medium).present? %>
           <figure class="solution-hero__figure">
             <%= image_tag solution.logo(:medium).url, alt: "", class: "solution-hero__logo" %>
           </figure>

@@ -26,18 +26,22 @@
   }
 
   &__figure {
-    flex-shrink: 0;
-    max-inline-size: 15rem;
+    flex: 0 0 auto;
+    inline-size: 15rem;
+    max-inline-size: 100%;
     aspect-ratio: 1/1;
     padding: 1rem;
     border-radius: 1rem;
     background-color: theme("colors.white");
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &__logo {
     object-fit: contain;
-    inline-size: 100%;
-    max-inline-size: 14rem;
+    max-inline-size: 100%;
+    min-inline-size: 50%;
     height: auto;
     aspect-ratio: 1/1;
   }
