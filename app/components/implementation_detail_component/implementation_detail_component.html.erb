@@ -29,7 +29,7 @@
         <% end %>
       </div>
     <% elsif implementation.has_single_link? and implementation.link.present? %>
-      <div>
+      <div class="flex">
         <a href="<%= implementation.link.url %>" class="m-button m-button--sm bg-brand-mint">
           <span><%= implementation.link.label.presence || t(".website") %></span>
           <%= image_tag "icons/16/Link-External.svg", alt: "" %>
