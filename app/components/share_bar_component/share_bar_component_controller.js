@@ -27,12 +27,4 @@ export default class extends Controller {
       console.error(`Error sharing page: ${err}`);
     }
   }
-
-  back() {
-    try {
-      history.back();
-    } catch (err) {
-      console.error(`Error going back in browser history: ${err}`);
-    }
-  }
 }

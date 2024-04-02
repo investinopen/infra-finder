@@ -1,5 +1,5 @@
 .back-to-top {
-  --offset: 62rem;
+  --offset: 70%;
 
   position: sticky;
   bottom: calc(var(--comparison-bar-height, 0px) + 0px);
