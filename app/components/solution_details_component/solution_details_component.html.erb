@@ -80,7 +80,7 @@
         <% if solution.key_achievements.present? %>
           <div class="bg-white p-10 pt-8 mt-[3.75rem] rounded-lg max-w-text">
             <h3>
-              <%= t(".mission.key_achievements_heading") %>
+              <%= t(".mission.key_achievements") %>
             </h3>
             <div class="t-rte">
               <%= sanitize solution.key_achievements %>
@@ -95,7 +95,7 @@
         <div class="solution-cards">
           <%= render_implementation(:code_repository) %>
           <div class="m-card">
-            <h4 class="text-h5"><%= t(".technical.maintenance_status_heading") %></h4>
+            <h4 class="text-h5"><%= t(".technical.maintenance_status") %></h4>
             <div>
               <% if solution.maintenance_status.present? %>
                 <div class="m-badge m-badge--sm bg-neutral-20"><%= solution.maintenance_status.name %></div>
@@ -111,15 +111,15 @@
         </div>
         <div>
           <h3>
-            <%= t(".technical.hosting_options_heading") %>
+            <%= t(".technical.hosting_options") %>
           </h3>
           <div class="solution-cards">
             <div class="m-card">
-              <h4 class="text-h5"><%= t(".technical.hosting_strategy_heading") %></h4>
+              <h4 class="text-h5"><%= t(".technical.hosting_strategy") %></h4>
               <div class="text-xxs"><%= solution.hosting_strategy.present? ? solution.hosting_strategy.name : "—" %></div>
             </div>
             <div class="m-card">
-              <h4 class="text-h5"><%= t(".technical.service_providers_heading") %></h4>
+              <h4 class="text-h5"><%= t(".technical.service_providers") %></h4>
               <div class="text-xxs">
                 <% if solution.service_providers.present? %>
                   <% solution.service_providers.each do |service| %>
@@ -135,7 +135,7 @@
             </div>
           </div>
         </div>
-        <%= render SolutionDetailsTextBlockComponent.new(text: solution.what_other_tools, heading: t(".technical.other_tools_heading")) %>
+        <%= render SolutionDetailsTextBlockComponent.new(text: solution.what_other_tools, heading: t(".technical.other_tools")) %>
       </article>
       <article id="community" class="l-container__inner">
         <h2 class="a-underline"><%= t(".community.heading") %></h2>
@@ -143,9 +143,9 @@
           <%= render_implementation(:code_of_conduct) %>
           <%= render_implementation(:community_engagement) %>
         </div>
-        <%= render SolutionDetailsTextBlockComponent.new(text: solution.community_engagement.statement, heading: t(".community.organizational_commitment_heading")) %>
+        <%= render SolutionDetailsTextBlockComponent.new(text: solution.community_engagement.statement, heading: t(".community.organizational_commitment")) %>
         <div>
-          <h3><%= t(".community.user_contribution_heading") %></h3>
+          <h3><%= t(".community.user_contribution") %></h3>
             <% if solution.user_contributions.present? %>
               <ul class="flex gap-4 flex-wrap">
                 <% solution.user_contributions.each do |item| %>
@@ -159,10 +159,10 @@
       </article>
       <article id="policies" class="l-container__inner">
         <h2 class="a-underline"><%= t(".policies.heading") %></h2>
-        <%= render SolutionDetailsTextBlockComponent.new(text: solution.governance_summary, heading: t(".policies.governance_summary_heading")) %>
+        <%= render SolutionDetailsTextBlockComponent.new(text: solution.governance_summary, heading: t(".policies.governance_summary")) %>
         <div>
           <h3>
-            <%= t(".policies.policies_heading") %>
+            <%= t(".policies.policies") %>
           </h3>
           <div class="solution-cards">
             <%= render_implementation(:bylaws) %>
@@ -175,23 +175,23 @@
       </article>
       <article id="additional_information" class="l-container__inner">
         <h2 class="a-underline"><%= t(".additional_information.heading") %></h2>
-        <%= render SolutionDetailsTextBlockComponent.new(text: solution.organizational_history, heading: t(".additional_information.organizational_history_heading")) %>
+        <%= render SolutionDetailsTextBlockComponent.new(text: solution.organizational_history, heading: t(".additional_information.organizational_history")) %>
         <div>
-          <h3><%= t(".additional_information.organizational_structure_heading") %></h3>
+          <h3><%= t(".additional_information.organizational_structure") %></h3>
           <div class="solution-cards">
             <div class="org-structure-card">
               <h4>
-                Business or ownership model
+                <%= t(".additional_information.business_model") %>
               </h4>
-              <div class="text-h4">
+              <div class="<% solution.business_form.present? ? "text-h4" : "" %>">
                 <%= solution.business_form.present? ? solution.business_form.name : "—" %>
               </div>
             </div>
             <div class="org-structure-card">
               <h4>
-                Full-time Staff
+                <%= t(".additional_information.full_time_staff") %>
               </h4>
-              <div class="text-staff">
+              <div class="<%= formatted_num_staff.present? ? "text-staff" : "" %>">
                 <%= formatted_num_staff.presence || "—" %>
               </div>
             </div>
@@ -201,7 +201,7 @@
       <article id="funding" class="l-container__inner">
         <h2 class="a-underline"><%= t(".funding.heading") %></h2>
         <div>
-          <h3><%= t(".funding.primary_source_heading") %></h3>
+          <h3><%= t(".funding.primary_source") %></h3>
           <div class="flex flex-wrap gap-3">
             <% if solution.primary_funding_source.present? %>
               <div class=" bg-white m-badge">
@@ -212,7 +212,7 @@
             <% end %>
           </div>
         </div>
-        <%= render SolutionDetailsTextBlockComponent.new(text: solution.funding_needs, heading: t(".funding.needs_heading")) %>
+        <%= render SolutionDetailsTextBlockComponent.new(text: solution.funding_needs, heading: t(".funding.needs")) %>
       </article>
     </div>
   </section>

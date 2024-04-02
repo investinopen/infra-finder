@@ -12,35 +12,35 @@ en:
   mission:
     nav: Mission
     heading: Mission
-    key_achievements_heading: Key Achievements
+    key_achievements: Key Achievements
   technical:
     nav: Technical
     heading: Technical Attributes
-    hosting_options_heading: "Hosting Options & Service Providers"
-    other_tools_heading: What other tools and projects does your project interact with?
-    standards_heading: Standards Employed
-    maintenance_status_heading: Maintenance status
-    hosting_strategy_heading: Hosting Strategy
-    service_providers_heading: Service Providers
+    hosting_options: "Hosting Options & Service Providers"
+    other_tools: What other tools and projects does your project interact with?
+    standards: Standards Employed
+    maintenance_status: Maintenance status
+    hosting_strategy: Hosting Strategy
+    service_providers: Service Providers
   community:
     nav: Community
     heading: Community Engagement
-    user_contribution_heading: User Contribution Pathways
-    organizational_commitment_heading: Organizational commitment to community engagement
+    user_contribution: User Contribution Pathways
+    organizational_commitment: Organizational commitment to community engagement
   policies:
     nav: Policies
     heading: Policies & Governance
-    governance_summary_heading: Governance Summary
-    policies_heading: Policies
-    content_licensing_heading: Content Licensing
-    special_certifications_heading: Special Certifications or Statuses
+    governance_summary: Governance Summary
+    policies: Policies
   additional_information:
     nav: Additional Information
     heading: Additional Information
-    organizational_history_heading: Organizational History
-    organizational_structure_heading: Organizational Structure
+    organizational_history: Organizational History
+    organizational_structure: Organizational Structure
+    full_time_staff: Full-time Staff
+    business_model: Business or ownership model
   funding:
     nav: Funding
     heading: Funding
-    primary_source_heading: Primary Funding Source
-    needs_heading: Funding Needs
+    primary_source: Primary Funding Source
+    needs: Funding Needs
