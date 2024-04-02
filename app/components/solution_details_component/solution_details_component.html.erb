@@ -183,7 +183,7 @@
               <h4>
                 <%= t(".additional_information.business_model") %>
               </h4>
-              <div class="<% solution.business_form.present? ? "text-h4" : "" %>">
+              <div class="<%= solution.business_form.present? ? "text-h4" : "" %>">
                 <%= solution.business_form.present? ? solution.business_form.name : "—" %>
               </div>
             </div>

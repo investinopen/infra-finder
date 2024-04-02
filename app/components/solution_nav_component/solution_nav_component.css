@@ -1,6 +1,6 @@
 .solution-nav {
   @mixin fluidScaleRem --nav-bar-inline-padding, 28px, 8px;
-  @mixin fluidScaleRem --nav-bar-height, 60px, 39px;
+  @mixin fluidScaleRem --nav-bar-height, 60px, 50px;
 
   position: sticky;
   top: -1px;

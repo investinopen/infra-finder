@@ -90,13 +90,13 @@
   overflow: hidden;
 
   > * {
-    padding-inline: 2rem;
+    @mixin fluidScaleRem padding-inline, 32px, 24px;
   }
 
   > h4 {
     @apply font-body text-base;
     background-color: theme("colors.brand.mint");
-    padding-block-start: 1.5rem;
-    padding-block-end: 1.25rem;
+    @mixin fluidScaleRem padding-block-start, 24px, 20px;
+    @mixin fluidScaleRem padding-block-end, 20px, 16px;
   }
 }

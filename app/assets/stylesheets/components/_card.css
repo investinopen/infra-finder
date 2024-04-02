@@ -2,7 +2,10 @@
   display: flex;
   flex-direction: column;
   background-color: theme("colors.white");
-  padding: 1.5rem;
+  @mixin fluidScaleRem padding, 24px, 20px;
   @apply rounded-lg;
-  @apply space-y-[1.125rem];
+
+  > * + * {
+    @mixin fluidScaleRem margin-block-start, 18px, 16px;
+  }
 }

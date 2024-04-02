@@ -14,7 +14,7 @@
 
   /* Nav bar */
   @mixin fluidScaleRem --nav-bar-inline-padding, 36px, 8px;
-  @mixin fluidScaleRem --nav-bar-height, 54px, 39px;
+  @mixin fluidScaleRem --nav-bar-height, 54px, 44px;
 
   /* Solution Filters */
   --solution-filters-padding: 2.25rem;
