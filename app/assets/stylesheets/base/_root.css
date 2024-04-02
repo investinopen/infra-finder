@@ -6,7 +6,8 @@
 
   /* Focus states */
   --outline-width: 0.125rem;
-  --outline-color: currentColor;
+  --outline-color: var(--color);
+  --outline-offset: var(--outline-width);
 
   /* Containers */
   @mixin fluidScaleRem --container-padding-inline, 44px, 16px;

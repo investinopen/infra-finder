@@ -1,5 +1,6 @@
 .m-checkbox {
   @apply text-xs;
+  cursor: pointer;
 
   input {
     @apply sr-only;

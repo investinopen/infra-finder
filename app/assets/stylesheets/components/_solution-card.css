@@ -29,6 +29,10 @@
     position: absolute;
     inset-block-start: 1rem;
     inset-inline-end: 1rem;
+
+    &:focus-visible {
+      @mixin a-default-outline;
+    }
   }
 
   &__header {

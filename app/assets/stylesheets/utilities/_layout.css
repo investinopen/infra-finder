@@ -26,6 +26,8 @@
 }
 
 .l-nav-bar {
+  --outline-offset: calc(var(--outline-width) * -1);
+
   overflow-x: auto;
   white-space: nowrap;
   @apply transition-colors;

@@ -21,6 +21,7 @@ class ComparisonBarItemComponent < ApplicationComponent
 
   def link_to_remove_options
     {
+      class: "m-comparison-bar-item__close",
       data: {
         turbo_frame: "solutions-index",
         turbo_method: :delete,

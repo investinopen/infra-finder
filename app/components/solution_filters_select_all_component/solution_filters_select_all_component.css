@@ -4,6 +4,7 @@
   text-transform: uppercase;
   font-size: 0.8125rem;
   letter-spacing: 0.077em;
+  @apply font-semibold;
 
   &:hover {
     text-decoration-color: transparent;

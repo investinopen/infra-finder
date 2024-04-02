@@ -39,6 +39,14 @@ body {
   &:focus-visible {
     @mixin a-default-outline;
   }
+
+  .bg-black & {
+    --outline-color: theme("colors.white");
+  }
+
+  .bg-brand-mint & {
+    --outline-color: theme("colors.black");
+  }
 }
 
 a:not(class):hover {
