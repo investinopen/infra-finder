@@ -51,8 +51,15 @@
   padding-block-end: 6.25rem;
 
   > article {
-    padding-block-start: 5rem;
-    @apply space-y-[3.75rem];
+    @mixin fluidScaleRem padding-block-start, 80px, 60px;
+    @apply space-y-[2.5rem];
+    @apply sm:space-y-[3.75rem];
+
+    /* About has a slightly smaller gap */
+    &.solution-articles__about {
+      @apply space-y-[2.25rem];
+      @apply sm:space-y-[2.8125rem];
+    }
   }
 
   > article > div > h3 {

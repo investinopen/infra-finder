@@ -41,7 +41,7 @@
     </header>
     <%= render SolutionNavComponent.new %>
     <div class="l-container l-container--narrow solution-articles">
-      <article id="about" class="l-container__inner space-y-[2.0625rem]">
+      <article id="about" class="l-container__inner solution-articles__about">
         <h2 class="a-underline mb-3"><%= t(".about.heading") %></h2>
         <div class="border-b flex flex-wrap gap-y-2 justify-between pb-4 max-w-text">
           <div>
@@ -149,7 +149,7 @@
             <% if solution.user_contributions.present? %>
               <ul class="flex gap-4 flex-wrap">
                 <% solution.user_contributions.each do |item| %>
-                  <li class="m-badge bg-white"><%= item.name %></li>
+                  <li class="m-badge m-badge--white text-label"><%= item.name %></li>
                 <% end %>
               </ul>
             <% elsif %>
@@ -204,7 +204,7 @@
           <h3><%= t(".funding.primary_source") %></h3>
           <div class="flex flex-wrap gap-3">
             <% if solution.primary_funding_source.present? %>
-              <div class=" bg-white m-badge">
+              <div class="m-badge m-badge--white">
                 <%= solution.primary_funding_source.name %>
               </div>
             <% elsif %>
