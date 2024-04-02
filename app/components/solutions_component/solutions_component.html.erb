@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "solutions-list", class: "", target: "_top" do %>
   <section data-controller="solutions-component--solutions-component">
-    <header class="grid sm:grid-cols-[1fr_auto] mb-4 gap-y-4">
-      <div class="solutions-results min-h-resultsBar bg-white">
+    <header class="solutions-results">
+      <div class="solutions-results__count bg-white">
         <h2 class="text-h3">
           <span><%= solutions.length %></span>
           <span class="text-h5"><%= t(".solutions", count: solutions.length) %></span>

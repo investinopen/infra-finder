@@ -1,7 +1,8 @@
 const { fluidScaleRemBase } = require("@castiron/style-mixins");
 
 const screens = {
-  xs: "17.5rem", // 280px
+  xxs: "17.5rem", // 280px
+  xs: "23rem", // 368px
   sm: "30rem", // 480px
   md: "48rem", // 768px
   lg: "64rem", // 1024px

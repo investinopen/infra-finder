@@ -5,9 +5,9 @@
         <section class="l-container">
           <div class="l-container__inner pb-[7.5rem] pt-8">
             <header>
-              <h1 class="text-h2">Search & Compare Solutions</h1>
+              <h1 class="text-h3 sm:text-h2">Search & Compare Solutions</h1>
             </header>
-            <div class="pt-9 grid grid-cols-1 mobile:grid-cols-solutions-page gap-4">
+            <div class="pt-6 sm:pt-9 grid grid-cols-1 mobile:grid-cols-solutions-page gap-4">
               <%= turbo_frame_tag "solution-filters" do %>
                 <%= render SolutionFiltersComponent.new(solution_search: @solution_search) %>
               <% end %>

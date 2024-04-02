@@ -1,4 +1,13 @@
 .solution-filters {
+  display: grid;
+  gap: 0.5rem;
+
+  @apply mobile:block;
+
+  @media screen and (min-width: theme("screens.xs")) {
+    grid-template-columns: 1fr 1fr;
+  }
+
   @media theme("screens.mobile.raw") {
     @apply sticky;
     top: -1px;
@@ -44,9 +53,9 @@
     align-items: center;
     gap: 1rem;
     padding-inline: 1.4375rem;
+    block-size: theme("minHeight.resultsBar");
     @apply font-header;
-    @apply min-h-resultsBar;
-    @apply rounded-full;
+    @apply rounded-xl;
 
     &:focus-within {
       --outline-offset: calc(var(--outline-width) * -1);

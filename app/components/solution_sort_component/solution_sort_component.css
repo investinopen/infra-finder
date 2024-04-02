@@ -1,13 +1,23 @@
 /* Add styles for this component */
 .solutions-sort {
-  flex-grow: 1;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  padding-inline-start: 1.75rem;
-  @apply rounded-full;
-  @apply sm:rounded-s-[0];
+  padding-block: 0.5rem;
+  @mixin fluidScaleRem padding-inline-start, 28px, 16px;
+  @apply rounded-xl;
   @apply text-h6;
+  @apply min-h-resultsBar;
+
+  @media screen and (min-width: theme("screens.xs")) {
+    @apply rounded-s-[0];
+  }
+
+  /* label {
+    @media screen and (max-width: theme("screens.sm")) {
+      @apply sr-only;
+    }
+  } */
 
   &:focus-within {
     --outline-offset: calc(var(--outline-width) * -1);
@@ -17,7 +27,7 @@
 
   select {
     align-self: stretch;
-    padding-inline-end: 3.25rem;
+    @mixin fluidScaleRem padding-inline-end, 52px, 42px;
     padding-inline-start: 0.25rem;
     background-color: transparent;
     background-position: right 1.5rem center;

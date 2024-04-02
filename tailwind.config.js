@@ -99,7 +99,7 @@ const gridTemplateColumns = {
 };
 
 const minHeight = {
-  resultsBar: "3.75rem",
+  resultsBar: fluidScaleRem("60px", "52px"),
 };
 
 const width = {

@@ -1,6 +1,7 @@
 ---
 en:
   sort_label: "Sort by:"
+  sort_mobile_label: "Sort:"
   sorts:
     name:
       asc: "Title, A-Z"

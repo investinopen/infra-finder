@@ -1,8 +1,20 @@
 /* component styles */
 .solutions-results {
-  padding-inline: 2rem;
-  padding-block: 0.875rem;
-  @apply rounded-s-full;
-  @apply rounded-e-full;
-  @apply sm:rounded-e-[0];
+  display: grid;
+  margin-block-end: 1rem;
+  row-gap: 1rem;
+
+  @media screen and (min-width: theme("screens.xs")) {
+    grid-template-columns: 1fr auto;
+  }
+
+  &__count {
+    @mixin fluidScaleRem padding-inline-start, 32px, 16px;
+    padding-inline-end: 0.25rem;
+    @mixin fluidScaleRem padding-block, 14px, 10.5px;
+    @apply rounded-s-xl;
+    @apply rounded-e-xl;
+    @apply xs:rounded-e-[0];
+    @apply min-h-resultsBar;
+  }
 }
