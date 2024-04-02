@@ -6,15 +6,6 @@
   @apply font-header;
   @apply text-label;
 
-  /* In the interest of time & reduced complexity,
-  background styles will use tailwind's 'bg-' pattern. */
-  &.bg-black:hover {
-    background-color: theme("colors.neutral.70");
-    filter: none;
-  }
-
-  /* Buttons to hover to 30 gray unless black or white inside of filter panel */
-
   &--center {
     justify-content: center;
   }

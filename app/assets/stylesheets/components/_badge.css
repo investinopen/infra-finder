@@ -2,7 +2,7 @@
   --_badge-padding-block: 0.8125rem;
   --_badge-padding-inline: 1rem;
 
-  display: inline-flex;
+  display: flex;
   align-items: stretch;
   gap: 1rem;
   overflow: hidden;

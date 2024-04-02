@@ -60,7 +60,15 @@ input[type="submit"]:not([class]),
     cursor: pointer;
 
     &:hover {
-      filter: brightness(96%);
+      background-color: theme("colors.neutral.30");
+    }
+
+    &.bg-black:hover {
+      background-color: theme("colors.neutral.70");
+    }
+
+    &.bg-brand-mint:hover {
+      background-color: theme("colors.brand.mint-dark");
     }
   }
 
