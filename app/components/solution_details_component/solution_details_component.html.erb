@@ -44,12 +44,16 @@
       <article id="about" class="l-container__inner space-y-[2.0625rem]">
         <h2 class="a-underline mb-3"><%= t(".about.heading") %></h2>
         <div class="border-b flex flex-wrap gap-y-2 justify-between pb-4 max-w-text">
-          <% if solution.founded_on? %>
-            <div>
-              <span class="font-light"><%= t(".about.launched") %> </span>
-              <span class="font-semibold"><%= solution.founded_on.to_fs(:year) %></span>
-            </div>
-          <% end %>
+          <div>
+            <span class="font-light"><%= t(".about.launched") %> </span>
+            <span class="font-semibold">
+              <% if solution.founded_on? %>
+                <%= solution.founded_on.to_fs(:year) %>
+              <% elsif %>
+                &mdash;
+              <% end %>
+            </span>
+          </div>
           <div>
             <span class="font-light"><%= t(".about.record_updated") %> </span>
             <span class="font-semibold">
