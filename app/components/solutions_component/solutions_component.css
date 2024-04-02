@@ -12,8 +12,8 @@
     @mixin fluidScaleRem padding-inline-start, 32px, 16px;
     padding-inline-end: 0.25rem;
     @mixin fluidScaleRem padding-block, 14px, 10.5px;
-    @apply rounded-s-xl;
-    @apply rounded-e-xl;
+    @apply rounded-s-xxl;
+    @apply rounded-e-xxl;
     @apply xs:rounded-e-[0];
     @apply min-h-resultsBar;
   }

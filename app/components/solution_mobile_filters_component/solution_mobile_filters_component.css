@@ -1,3 +1,7 @@
+.solution-mobile-filters {
+  @apply mobile:hidden block min-h-resultsBar;
+}
+
 .solution-filters-dialog-toggle {
   display: flex;
   align-items: center;
