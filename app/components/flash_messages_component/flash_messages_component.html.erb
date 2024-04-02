@@ -1,6 +1,6 @@
 <%= turbo_frame_tag "flash-messages", target: "_top" do %>
   <% if has_acceptable_flash? %>
-    <div class="l-container sticky top-0 z-stickyHeader" data-controller="flash-messages-component--flash-messages-component">
+    <div class="l-container sticky top-0 z-messages" data-controller="flash-messages-component--flash-messages-component">
       <div class="l-container__inner flex flex-col items-center justify-center pt-8">
         <% each_flash do |type, message| %>
           <%= render FlashMessageComponent.new(type:, message:) %>

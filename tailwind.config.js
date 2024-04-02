@@ -117,6 +117,7 @@ const screens = {
 const zIndex = {
   backToTop: 50,
   stickyHeader: 51,
+  messages: 60,
 };
 
 module.exports = {
