@@ -74,11 +74,11 @@
           <%= solution.mission? ? (sanitize solution.mission) : "—" %>
         </div>
         <% if solution.key_achievements.present? %>
-          <div class="bg-white p-10 pt-8 mt-[3.75rem] rounded-lg t-rte">
+          <div class="bg-white p-10 pt-8 mt-[3.75rem] rounded-lg max-w-text">
             <h3>
               <%= t(".mission.key_achievements_heading") %>
             </h3>
-            <div>
+            <div class="t-rte">
               <%= sanitize solution.key_achievements %>
             </div>
           </div>

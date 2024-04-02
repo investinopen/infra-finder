@@ -27,20 +27,37 @@ use tailwind's text-[name] classes for font sizes. */
     list-style: revert;
   }
 
-  li {
-    margin-block-start: 1rem;
+  ul > li,
+  > li {
+    list-style: none;
+    /* list-style-position: inside; */
+
+    &::before {
+      content: "■";
+      font-size: 0.6875rem;
+      line-height: 0;
+      inset-block-start: -0.125rem;
+      margin-inline-end: 0.3rem;
+      margin-inline-start: -1.25rem;
+      position: relative;
+      color: theme("colors.brand.mint");
+    }
   }
 
   ol > li::marker {
     color: var(--color);
   }
 
-  li::marker {
-    color: theme("colors.brand.mint");
+  li + li {
+    margin-block-start: 1rem;
   }
 
-  ul > li {
-    list-style-type: disc;
+  > li {
+    padding-inline-start: 1.25rem;
+
+    &::before {
+      margin-inline-start: -1.25rem;
+    }
   }
 
   a {
