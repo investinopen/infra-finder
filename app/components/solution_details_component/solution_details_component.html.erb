@@ -44,29 +44,25 @@
       <article id="about" class="l-container__inner solution-articles__about">
         <h2 class="a-underline mb-3"><%= t(".about.heading") %></h2>
         <div class="border-b flex flex-wrap gap-y-2 justify-between pb-4 max-w-text">
-          <div>
-            <span class="font-light"><%= t(".about.launched") %> </span>
-            <span class="font-semibold">
-              <% if solution.founded_on? %>
+          <% if solution.founded_on? %>
+            <div>
+              <span class="font-light"><%= t(".about.launched") %> </span>
+              <span class="font-semibold">
                 <%= l solution.founded_on, format: :year %>
-              <% elsif %>
-                &mdash;
-              <% end %>
-            </span>
-          </div>
-          <div>
-            <span class="font-light"><%= t(".about.record_updated") %> </span>
-            <span class="font-semibold">
-              <% if solution.updated_at? %>
+              </span>
+            </div>
+          <% end %>
+          <% if solution.updated_at? %>
+            <div>
+              <span class="font-light"><%= t(".about.record_updated") %> </span>
+              <span class="font-semibold">
                 <%= l solution.updated_at, format: :mdy %>
-              <% elsif %>
-                &mdash;
-              <% end %>
-            </span>
-          </div>
+              </span>
+            </div>
+          <% end %>
         </div>
         <%= render_category_badges %>
-        <% if solution.mission?.present? %>
+        <% if solution.service_summary?.present? %>
           <div class="py-[2.0625rem] border-y t-rte">
             <%= sanitize solution.service_summary %>
           </div>
@@ -75,7 +71,7 @@
       <article id="mission" class="l-container__inner">
         <h2 class="a-underline"><%= t(".mission.heading") %></h2>
         <div class="t-rte">
-          <%= solution.mission? ? (sanitize solution.mission) : "—" %>
+          <%= solution.mission? ? (sanitize solution.mission) : "" %>
         </div>
         <% if solution.key_achievements.present? %>
           <div class="bg-white p-10 pt-8 mt-[3.75rem] rounded-lg max-w-text">
@@ -94,47 +90,47 @@
         </h2>
         <div class="solution-cards">
           <%= render_implementation(:code_repository) %>
-          <div class="m-card">
-            <h4 class="text-h5"><%= t(".technical.maintenance_status") %></h4>
-            <div>
-              <% if solution.maintenance_status.present? %>
+          <% if solution.maintenance_status.present? %>
+            <div class="m-card">
+              <h4 class="text-h5"><%= t(".technical.maintenance_status") %></h4>
+              <div>
                 <div class="m-badge m-badge--sm bg-neutral-20"><%= solution.maintenance_status.name %></div>
-              <% elsif %>
-                &mdash;
-              <% end %>
+              </div>
             </div>
-          </div>
+          <% end %>
           <%= render_implementation(:user_documentation) %>
           <%= render_implementation(:product_roadmap) %>
           <%= render_implementation(:open_api) %>
           <%= render_implementation(:product_roadmap) %>
         </div>
+        <% if solution.hosting_strategy.present? or solution.service_providers.present? %>
         <div>
           <h3>
             <%= t(".technical.hosting_options") %>
           </h3>
           <div class="solution-cards">
+            <% if solution.hosting_strategy.present? %>
             <div class="m-card">
               <h4 class="text-h5"><%= t(".technical.hosting_strategy") %></h4>
-              <div class="text-xxs"><%= solution.hosting_strategy.present? ? solution.hosting_strategy.name : "—" %></div>
+              <div class="text-xxs"><%= solution.hosting_strategy.name %></div>
             </div>
-            <div class="m-card">
-              <h4 class="text-h5"><%= t(".technical.service_providers") %></h4>
-              <div class="text-xxs">
-                <% if solution.service_providers.present? %>
+            <% end %>
+            <% if solution.service_providers.present? %>
+              <div class="m-card">
+                <h4 class="text-h5"><%= t(".technical.service_providers") %></h4>
+                <div class="text-xxs">
                   <% solution.service_providers.each do |service| %>
                     <div>
                       <a href="<%= service.url %>"><%= service.name %></a>
                       <span class="text-neutral-70"><%= service.description %></span>
                     </div>
                   <% end %>
-                <% elsif %>
-                  &mdash;
-                <% end %>
+                </div>
               </div>
-            </div>
+            <% end %>
           </div>
         </div>
+        <% end %>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.what_other_tools, heading: t(".technical.other_tools")) %>
       </article>
       <article id="community" class="l-container__inner">
@@ -144,74 +140,78 @@
           <%= render_implementation(:community_engagement) %>
         </div>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.community_engagement.statement, heading: t(".community.organizational_commitment")) %>
-        <div>
-          <h3><%= t(".community.user_contribution") %></h3>
-            <% if solution.user_contributions.present? %>
-              <ul class="flex gap-4 flex-wrap">
-                <% solution.user_contributions.each do |item| %>
-                  <li class="m-badge m-badge--white text-label"><%= item.name %></li>
-                <% end %>
-              </ul>
-            <% elsif %>
-              <div>&mdash;</div>
-            <% end %>
-        </div>
+        <% if solution.user_contributions.present? %>
+          <div>
+            <h3><%= t(".community.user_contribution") %></h3>
+            <ul class="flex gap-4 flex-wrap">
+              <% solution.user_contributions.each do |item| %>
+                <li class="m-badge m-badge--white text-label"><%= item.name %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
       </article>
       <article id="policies" class="l-container__inner">
         <h2 class="a-underline"><%= t(".policies.heading") %></h2>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.governance_summary, heading: t(".policies.governance_summary")) %>
         <div>
-          <h3>
-            <%= t(".policies.policies") %>
-          </h3>
-          <div class="solution-cards">
-            <%= render_implementation(:bylaws) %>
-            <%= render_implementation(:equity_and_inclusion) %>
-            <%= render_implementation(:privacy_policy) %>
-            <%= render_implementation(:web_accessibility) %>
-            <%= render_implementation(:open_data) %>
-          </div>
+         <% if has_policies %>
+            <h3>
+              <%= t(".policies.policies") %>
+            </h3>
+            <div class="solution-cards">
+              <%= render_implementation(:bylaws) %>
+              <%= render_implementation(:equity_and_inclusion) %>
+              <%= render_implementation(:privacy_policy) %>
+              <%= render_implementation(:web_accessibility) %>
+              <%= render_implementation(:open_data) %>
+            </div>
+          <% end %>
         </div>
       </article>
       <article id="additional_information" class="l-container__inner">
         <h2 class="a-underline"><%= t(".additional_information.heading") %></h2>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.organizational_history, heading: t(".additional_information.organizational_history")) %>
         <div>
-          <h3><%= t(".additional_information.organizational_structure") %></h3>
-          <div class="solution-cards">
-            <div class="org-structure-card">
-              <h4>
-                <%= t(".additional_information.business_model") %>
-              </h4>
-              <div class="<%= solution.business_form.present? ? "text-h4" : "" %>">
-                <%= solution.business_form.present? ? solution.business_form.name : "—" %>
-              </div>
+          <% if solution.business_form.present? or formatted_num_staff.present? %>
+            <h3><%= t(".additional_information.organizational_structure") %></h3>
+            <div class="solution-cards">
+              <% if solution.business_form.present? %>
+                <div class="org-structure-card">
+                  <h4>
+                    <%= t(".additional_information.business_model") %>
+                  </h4>
+                  <div class="text-h4">
+                    <%= solution.business_form.name %>
+                  </div>
+                </div>
+              <% end %>
+              <% if formatted_num_staff.present? %>
+                <div class="org-structure-card">
+                  <h4>
+                    <%= t(".additional_information.full_time_staff") %>
+                  </h4>
+                  <div class="text-staff">
+                    <%= formatted_num_staff %>
+                  </div>
+                </div>
+              <% end %>
             </div>
-            <div class="org-structure-card">
-              <h4>
-                <%= t(".additional_information.full_time_staff") %>
-              </h4>
-              <div class="<%= formatted_num_staff.present? ? "text-staff" : "" %>">
-                <%= formatted_num_staff.presence || "—" %>
-              </div>
-            </div>
-          </div>
+          <% end %>
         </div>
       </article>
       <article id="funding" class="l-container__inner">
         <h2 class="a-underline"><%= t(".funding.heading") %></h2>
-        <div>
-          <h3><%= t(".funding.primary_source") %></h3>
-          <div class="flex flex-wrap gap-3">
-            <% if solution.primary_funding_source.present? %>
-              <div class="m-badge m-badge--white">
-                <%= solution.primary_funding_source.name %>
+        <% if solution.primary_funding_source.present? %>
+          <div>
+            <h3><%= t(".funding.primary_source") %></h3>
+              <div class="flex flex-wrap gap-3">
+                <div class="m-badge m-badge--white">
+                  <%= solution.primary_funding_source.name %>
+                </div>
               </div>
-            <% elsif %>
-              &mdash;
-            <% end %>
           </div>
-        </div>
+        <% end %>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.funding_needs, heading: t(".funding.needs")) %>
       </article>
     </div>

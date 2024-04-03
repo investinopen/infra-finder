@@ -1,3 +1,4 @@
+<% if available? or in_progress? %>
   <div
     data-controller="implementation-detail-component--implementation-detail-component"
     class="m-card">
@@ -8,7 +9,7 @@
           <%= image_tag "icons/16/Checkmark.svg", alt: "" %>
           <%= t(".implemented") %>
         </div>
-      <% elsif implementation.in_progress? %>
+      <% elsif in_progress? %>
         <div class="m-badge m-badge--sm bg-neutral-20">
           <%= t(".in_progress") %>
         </div>
@@ -37,3 +38,4 @@
       </div>
     <% end %>
   </div>
+<% end %>

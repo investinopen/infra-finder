@@ -14,6 +14,7 @@ class ApplicationComponent < ViewComponent::Base
 
     included do
       delegate :available?, to: :implementation
+      delegate :in_progress?, to: :implementation
     end
 
     IMPLEMENTATION = ::Solutions::Types.Instance(::Solutions::AbstractImplementation)

@@ -1,4 +1,6 @@
-<div data-controller="solution-location-component--solution-location-component" class="flex gap-1.5">
-  <%= image_tag "icons/16/Location-Pin.svg", alt: "", class: "solution-location-icon" %>
-  <%= solution.location_of_incorporation? ? solution.location_of_incorporation : "—" %>
-</div>
+<% if solution.location_of_incorporation.present? %>
+  <div data-controller="solution-location-component--solution-location-component" class="flex gap-1.5">
+    <%= image_tag "icons/16/Location-Pin.svg", alt: "", class: "solution-location-icon" %>
+    <%= solution.location_of_incorporation %>
+  </div>
+<% end %>
