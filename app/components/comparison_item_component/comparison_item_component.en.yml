@@ -2,3 +2,4 @@
 en:
   remove: "Remove from comparison"
   learn_more: "Learn More"
+  about: "About %{name}"

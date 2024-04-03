@@ -7,4 +7,19 @@
     overflow-x: auto;
     @mixin fluidScaleRem padding-block-end, 32px, 24px;
   }
+
+  &__skip {
+    opacity: 0;
+    /* transform: translateX(-100%); */
+    @apply transition-opacity;
+
+    &:not(:focus-visible) {
+      @apply sr-only;
+    }
+
+    &:focus-visible {
+      /* transform: translateX(0); */
+      opacity: 1;
+    }
+  }
 }

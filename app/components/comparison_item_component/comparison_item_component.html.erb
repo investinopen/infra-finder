@@ -26,6 +26,7 @@
     <div class="m-solution-card__footer">
       <%= link_to(solution_path(solution), link_to_detail_options) do %>
         <span><%= t(".learn_more") %></span>
+        <span class="sr-only"><%= t(".about", name: solution.name) %></span>
         <%= image_tag "icons/16/Arrow-Right.svg", alt: "" %>
       <% end %>
     </div>

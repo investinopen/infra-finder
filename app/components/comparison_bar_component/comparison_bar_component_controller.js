@@ -18,4 +18,20 @@ export default class extends Controller {
   disconnect() {
     this.setHeight(0);
   }
+
+  solutions() {
+    const solutions = document.getElementById("solutions-grid");
+
+    console.log("solutions", solutions);
+
+    if (!solutions) return;
+
+    const focusable = solutions.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+
+    if (focusable[0]) {
+      focusable[0].focus();
+    }
+  }
 }

@@ -18,3 +18,24 @@
     @apply min-h-resultsBar;
   }
 }
+
+.solutions-skip-link {
+  position: absolute;
+  display: inline-flex;
+  right: 1rem;
+  transform: translateX(100%);
+  opacity: 0;
+  @apply z-skipLink;
+  transition-property: opacity;
+  transition-duration: theme("transitionDuration.DEFAULT");
+  transition-timing: theme("transitionTimingFunction.DEFAULT");
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition-property: opacity, transform;
+  }
+
+  &:focus-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

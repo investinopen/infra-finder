@@ -118,6 +118,7 @@ const screens = {
 
 const zIndex = {
   backToTop: 50,
+  skipLink: 50,
   stickyHeader: 51,
   messages: 60,
 };
