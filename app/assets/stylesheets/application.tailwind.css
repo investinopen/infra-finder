@@ -12,6 +12,7 @@
 @import "components/_checkbox.css";
 @import "components/_solution-card.css";
 @import "components/_table.css";
+@import "components/_nav-bar.css";
 
 @import "tailwindcss/utilities";
 @import "utilities/_appearance";

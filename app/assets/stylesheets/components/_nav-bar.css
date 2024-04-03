@@ -1,0 +1,65 @@
+.m-nav-bar {
+  --outline-offset: calc(var(--outline-width) * -1);
+
+  overflow-x: auto;
+  white-space: nowrap;
+  @apply transition-colors;
+  @apply text-xs;
+
+  &:not([class*="bg-"]) {
+    /* Default background color */
+    @apply bg-neutral-20;
+  }
+
+  &--centered &__list {
+    @media screen and (min-width: theme("screens.nav")) {
+      justify-content: center;
+    }
+  }
+
+  &__list {
+    display: flex;
+
+    li:first-child {
+      margin-inline-start: calc(var(--nav-bar-inline-padding) * -1);
+    }
+  }
+
+  &__link {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    block-size: var(--nav-bar-height);
+    padding-inline: var(--nav-bar-inline-padding);
+
+    &:hover {
+      @apply bg-black;
+      @apply text-white;
+      @apply font-bold;
+      text-decoration: none;
+    }
+
+    /* Create a pseudo element to prevent layout shift on hover
+    https://css-tricks.com/bold-on-hover-without-the-layout-shift/ */
+    &::after {
+      content: attr(data-text);
+      content: attr(data-text) / "";
+      height: 0;
+      visibility: hidden;
+      overflow: hidden;
+      user-select: none;
+      pointer-events: none;
+      @apply font-bold;
+
+      @media speech {
+        display: none;
+      }
+    }
+
+    &[aria-current="page"],
+    &[data-active="true"] {
+      @apply font-bold;
+    }
+  }
+}

@@ -41,7 +41,8 @@
     </header>
     <%= render SolutionNavComponent.new %>
     <div class="l-container l-container--narrow solution-articles">
-      <article id="about" class="l-container__inner solution-articles__about">
+      <article id="about" class="l-container__inner solution-articles__about"
+        data-solution-details-component--solution-details-component-target="article">
         <h2 class="a-underline mb-3"><%= t(".about.heading") %></h2>
         <div class="border-b flex flex-wrap gap-y-2 justify-between pb-4 max-w-text">
           <% if solution.founded_on? %>
@@ -68,7 +69,8 @@
           </div>
         <% end %>
       </article>
-      <article id="mission" class="l-container__inner">
+      <article id="mission" class="l-container__inner"
+        data-solution-details-component--solution-details-component-target="article">
         <h2 class="a-underline"><%= t(".mission.heading") %></h2>
         <div class="t-rte">
           <%= solution.mission? ? (sanitize solution.mission) : "" %>
@@ -84,7 +86,8 @@
           </div>
         <% end %>
       </article>
-      <article id="technical" class="l-container__inner">
+      <article id="technical" class="l-container__inner"
+        data-solution-details-component--solution-details-component-target="article">
         <h2 class="a-underline">
           <%= t(".technical.heading") %>
         </h2>
@@ -133,7 +136,8 @@
         <% end %>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.what_other_tools, heading: t(".technical.other_tools")) %>
       </article>
-      <article id="community" class="l-container__inner">
+      <article id="community" class="l-container__inner"
+        data-solution-details-component--solution-details-component-target="article">
         <h2 class="a-underline"><%= t(".community.heading") %></h2>
         <div class="solution-cards">
           <%= render_implementation(:code_of_conduct) %>
@@ -151,7 +155,8 @@
           </div>
         <% end %>
       </article>
-      <article id="policies" class="l-container__inner">
+      <article id="policies" class="l-container__inner"
+        data-solution-details-component--solution-details-component-target="article">
         <h2 class="a-underline"><%= t(".policies.heading") %></h2>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.governance_summary, heading: t(".policies.governance_summary")) %>
         <div>
@@ -169,7 +174,8 @@
           <% end %>
         </div>
       </article>
-      <article id="additional_information" class="l-container__inner">
+      <article id="additional_information" class="l-container__inner"
+        data-solution-details-component--solution-details-component-target="article">
         <h2 class="a-underline"><%= t(".additional_information.heading") %></h2>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.organizational_history, heading: t(".additional_information.organizational_history")) %>
         <div>
@@ -200,7 +206,8 @@
           <% end %>
         </div>
       </article>
-      <article id="funding" class="l-container__inner">
+      <article id="funding" class="l-container__inner"
+        data-solution-details-component--solution-details-component-target="article">
         <h2 class="a-underline"><%= t(".funding.heading") %></h2>
         <% if solution.primary_funding_source.present? %>
           <div>
