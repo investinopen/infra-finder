@@ -111,7 +111,7 @@
       </li>
       <% if has_any_admin_or_editor_access? %>
         <li>
-          <%= nav_link t(".admin_link"), admin_dashboard_path, { class: "l-nav-bar__link", data: { text: t(".admin_link") } } %>
+          <%= nav_link t(".admin_link"), admin_dashboard_path, class: "l-nav-bar__link", data: { text: t(".admin_link") } %>
         </li>
       <% end %>
     </ul>
