@@ -38,6 +38,7 @@
     --_badge-padding-block: 0.4375rem;
     --_badge-padding-inline: 0.875rem;
 
+    display: inline-flex;
     gap: 0.625rem;
     @apply text-xxs;
     @apply font-semibold;
