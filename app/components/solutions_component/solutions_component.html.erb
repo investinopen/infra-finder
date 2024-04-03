@@ -9,11 +9,13 @@
       </div>
       <%= render SolutionSortComponent.new(solution_search:) %>
     </header>
-    <a href="#compare-bar"
-      class="m-button solutions-skip-link"
-      data-action="click->solutions-component--solutions-component#focus">
-      <%= t(".skip_to_compare") %>
-    </a>
+    <% if comparison.present? and comparison.comparison_items.any? %>
+      <a href="#compare-bar"
+        class="m-button solutions-skip-link"
+        data-action="click->solutions-component--solutions-component#focus">
+        <%= t(".skip_to_compare") %>
+      </a>
+    <% end %>
     <% if solutions.present? %>
       <div class="grid sm:grid-cols-solutions-list grid-cols-1 gap-4" id="solutions-grid">
         <%= render SolutionComponent.with_collection(solutions, comparison:) %>
