@@ -3,6 +3,10 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static targets = ["toggle", "dialog"];
 
+  dialogTargetConnected(target) {
+    target.setAttribute("inert", "");
+  }
+
   connect() {
     if (!this.toggleTarget || !this.dialogTarget) return;
 
@@ -39,8 +43,10 @@ export default class extends Controller {
   processOpenChange() {
     if (this.state.open) {
       this.dialogTarget.showModal();
+      this.dialogTarget.removeAttribute("inert");
     } else {
       this.dialogTarget.close();
+      this.dialogTarget.setAttribute("inert", "");
     }
   }
 }
