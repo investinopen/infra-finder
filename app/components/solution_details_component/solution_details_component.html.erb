@@ -48,7 +48,7 @@
             <span class="font-light"><%= t(".about.launched") %> </span>
             <span class="font-semibold">
               <% if solution.founded_on? %>
-                <%= solution.founded_on.to_fs(:year) %>
+                <%= l solution.founded_on, format: :year %>
               <% elsif %>
                 &mdash;
               <% end %>
@@ -58,7 +58,7 @@
             <span class="font-light"><%= t(".about.record_updated") %> </span>
             <span class="font-semibold">
               <% if solution.updated_at? %>
-                <%= solution.updated_at.to_fs(:mdy) %>
+                <%= l solution.updated_at, format: :mdy %>
               <% elsif %>
                 &mdash;
               <% end %>

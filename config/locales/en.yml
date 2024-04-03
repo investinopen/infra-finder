@@ -51,3 +51,9 @@ en:
       select_some_comparisons: "Select two or more solutions to compare."
   globals:
     app_title: "Infra Finder"
+  time:
+    formats:
+      mdy: "%b %d, %Y"
+  date:
+    formats:
+      year: "%Y"
