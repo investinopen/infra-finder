@@ -4,6 +4,7 @@
 module SolutionOption
   extend ActiveSupport::Concern
 
+  include BuildsSelectOptions
   include ExposesRansackable
   include Filterable
   include SluggedByName
@@ -30,18 +31,6 @@ module SolutionOption
     # @return [void]
     def single!
       include SolutionOption::Single
-    end
-
-    # @api private
-    # @abstract
-    # @return [ActiveRecord::Relation<SolutionOption>]
-    def order_for_select_options
-      lazily_order(:name)
-    end
-
-    # @return [<(String, String)>]
-    def to_select_options
-      order_for_select_options.pluck(:name, :id)
     end
   end
 

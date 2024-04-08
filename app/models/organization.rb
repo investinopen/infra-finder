@@ -2,10 +2,13 @@
 
 # An organizational model for a {Solution}.
 class Organization < ApplicationRecord
+  include BuildsSelectOptions
   include Filterable
   include HasSystemTags
   include SluggedByName
   include SolutionImportable
+
+  has_normalized_name!
 
   expose_ransackable_associations! :solutions
 

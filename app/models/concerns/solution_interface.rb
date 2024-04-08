@@ -184,6 +184,8 @@ module SolutionInterface
 
     include ImageUploader::Attachment.new(:logo)
 
+    has_normalized_name!
+
     defines :solution_kind, type: Solutions::Types::Kind
 
     case name

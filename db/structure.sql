@@ -250,6 +250,42 @@ CREATE TYPE public.visibility AS ENUM (
 );
 
 
+--
+-- Name: immutable_unaccent(regdictionary, text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.immutable_unaccent(regdictionary, text) RETURNS text
+    LANGUAGE c IMMUTABLE STRICT PARALLEL SAFE
+    AS '$libdir/unaccent', 'unaccent_dict';
+
+
+--
+-- Name: f_unaccent(text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.f_unaccent(text) RETURNS text
+    LANGUAGE sql IMMUTABLE STRICT PARALLEL SAFE
+    RETURN public.immutable_unaccent('public.unaccent'::regdictionary, $1);
+
+
+--
+-- Name: normalize_ransackable(text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.normalize_ransackable(text) RETURNS public.citext
+    LANGUAGE sql IMMUTABLE STRICT PARALLEL SAFE
+    RETURN (lower(public.f_unaccent($1)))::public.citext;
+
+
+--
+-- Name: normalize_ransackable(public.citext); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.normalize_ransackable(public.citext) RETURNS public.citext
+    LANGUAGE sql IMMUTABLE STRICT PARALLEL SAFE
+    RETURN (lower(public.f_unaccent(($1)::text)))::public.citext;
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -528,7 +564,8 @@ CREATE TABLE public.organizations (
     url text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    solutions_count bigint DEFAULT 0 NOT NULL
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    normalized_name public.citext GENERATED ALWAYS AS (public.normalize_ransackable(name)) STORED NOT NULL
 );
 
 
@@ -790,7 +827,8 @@ CREATE TABLE public.solution_drafts (
     code_license_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
     code_license jsonb DEFAULT '{}'::jsonb NOT NULL,
     recent_grants jsonb DEFAULT '[]'::jsonb NOT NULL,
-    top_granting_institutions jsonb DEFAULT '[]'::jsonb NOT NULL
+    top_granting_institutions jsonb DEFAULT '[]'::jsonb NOT NULL,
+    normalized_name public.citext GENERATED ALWAYS AS (public.normalize_ransackable(name)) STORED NOT NULL
 );
 
 
@@ -981,7 +1019,8 @@ CREATE TABLE public.solutions (
     code_license_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
     code_license jsonb DEFAULT '{}'::jsonb NOT NULL,
     recent_grants jsonb DEFAULT '[]'::jsonb NOT NULL,
-    top_granting_institutions jsonb DEFAULT '[]'::jsonb NOT NULL
+    top_granting_institutions jsonb DEFAULT '[]'::jsonb NOT NULL,
+    normalized_name public.citext GENERATED ALWAYS AS (public.normalize_ransackable(name)) STORED NOT NULL
 );
 
 
@@ -1652,6 +1691,13 @@ CREATE UNIQUE INDEX index_organizations_on_identifier ON public.organizations US
 
 
 --
+-- Name: index_organizations_on_normalized_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_organizations_on_normalized_name ON public.organizations USING btree (normalized_name);
+
+
+--
 -- Name: index_organizations_on_slug; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1890,6 +1936,13 @@ CREATE INDEX index_solution_drafts_on_maintenance_status_id ON public.solution_d
 
 
 --
+-- Name: index_solution_drafts_on_normalized_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_drafts_on_normalized_name ON public.solution_drafts USING btree (normalized_name);
+
+
+--
 -- Name: index_solution_drafts_on_primary_funding_source_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2048,6 +2101,13 @@ CREATE UNIQUE INDEX index_solutions_on_identifier ON public.solutions USING btre
 --
 
 CREATE INDEX index_solutions_on_maintenance_status_id ON public.solutions USING btree (maintenance_status_id);
+
+
+--
+-- Name: index_solutions_on_normalized_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solutions_on_normalized_name ON public.solutions USING btree (normalized_name);
 
 
 --
@@ -2523,6 +2583,7 @@ ALTER TABLE ONLY public.users_roles
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240408175528'),
 ('20240325215622'),
 ('20240325214531'),
 ('20240322084261'),

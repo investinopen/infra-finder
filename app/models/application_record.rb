@@ -10,6 +10,7 @@ class ApplicationRecord < ActiveRecord::Base
   include LazyOrdering
   include PostgresEnums
   include StoreModelIntrospection
+  include WhereMatches
 
   primary_abstract_class
 
