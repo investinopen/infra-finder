@@ -91,6 +91,10 @@ ActiveAdmin.register Solution do
     active_admin_comments_for(resource)
   end
 
+  action_item :view_on_site, only: :show do
+    link_to "View on Site", solution_path(solution)
+  end
+
   action_item :start_or_view_draft, only: :show, if: proc { authorized?(:create_draft, resource) } do
     if current_user.has_pending_draft_for?(resource)
       draft = current_user.pending_draft_for(resource)
