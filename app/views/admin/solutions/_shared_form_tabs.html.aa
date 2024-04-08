@@ -32,6 +32,16 @@ end
 
 tab "Assets" do
   f.inputs "Logo" do
+    li do
+      if f.object.logo.present?
+        panel "Current" do
+          image_tag f.object.logo.url
+        end
+      elsif f.object.persisted?
+        para "No logo currently set."
+      end
+    end
+
     f.input :logo, as: :file, input_html: { accept: ImageUploader::ACCEPT }
   end
 end
