@@ -233,6 +233,14 @@ module SolutionInterface
     normalizes *BLURBS, with: -> { _1.gsub("\r", "") }
   end
 
+  STORE_MODEL_LISTS.each do |list|
+    class_eval <<~RUBY, __FILE__, __LINE__ + 1
+    def #{list}_attributes=(list_attributes)
+      self[#{list.inspect}] = parse_list_items_from(list_attributes)
+    end
+    RUBY
+  end
+
   # @api private
   # @return [String]
   def derive_contact_method
@@ -266,6 +274,15 @@ module SolutionInterface
   # @return [Solutions::Types::Kind]
   def solution_kind
     self.class.solution_kind
+  end
+
+  private
+
+  # @param [Hash] attributes
+  def parse_list_items_from(attributes)
+    attributes.values.select do |item|
+      item.present? && item.values.any? { _1.present? || _1 == false }
+    end
   end
 
   module ClassMethods
