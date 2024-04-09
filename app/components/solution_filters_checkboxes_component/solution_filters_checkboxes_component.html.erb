@@ -1,5 +1,5 @@
 <div data-controller="solution-filters-checkboxes-component--solution-filters-checkboxes-component">
-  <details class="solution-filters-details">
+  <details data-solution-filters-checkboxes-component--solution-filters-checkboxes-component-target="accordion" class="solution-filters-details">
     <summary class="text-h5"><%= t(".category_heading") %></summary>
     <div>
       <% SolutionCategory.filter_select_options.each do |category, id| %>
@@ -11,7 +11,7 @@
     </div>
     <%= render SolutionFiltersSelectAllComponent.new %>
   </details>
-  <details class="solution-filters-details">
+  <details data-solution-filters-checkboxes-component--solution-filters-checkboxes-component-target="accordion" class="solution-filters-details">
     <summary class="text-h5"><%= t(".attributes_heading") %></summary>
     <div>
       <!--
@@ -53,7 +53,7 @@
     </div>
     <%= render SolutionFiltersSelectAllComponent.new %>
   </details>
-  <details class="solution-filters-details">
+  <details data-solution-filters-checkboxes-component--solution-filters-checkboxes-component-target="accordion" class="solution-filters-details">
     <summary class="text-h5"><%= t(".community_heading") %></summary>
     <div>
       <label class="m-checkbox">
@@ -71,7 +71,7 @@
     </div>
     <%= render SolutionFiltersSelectAllComponent.new %>
   </details>
-  <details class="solution-filters-details">
+  <details data-solution-filters-checkboxes-component--solution-filters-checkboxes-component-target="accordion" class="solution-filters-details">
     <summary class="text-h5"><%= t(".policies_heading") %></summary>
     <div>
       <label class="m-checkbox">
