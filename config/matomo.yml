@@ -1,0 +1,21 @@
+default: &default
+  enabled: false
+  tag_manager_url: "https://cdn.matomo.cloud/investinopen.matomo.cloud/container_B31bllnu.js"
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+staging:
+  <<: *default
+  enabled: true
+  site_id: "5"
+  tag_manager_url: "https://cdn.matomo.cloud/investinopen.matomo.cloud/container_B31bllnu.js"
+
+production:
+  <<: *default
+  enabled: true
+  site_id: "2"
+  tag_manager_url: "https://cdn.matomo.cloud/investinopen.matomo.cloud/container_VykvCHua.js"
