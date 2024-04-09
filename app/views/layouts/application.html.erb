@@ -16,7 +16,7 @@
   <body>
     <%= render HeaderComponent.new %>
     <%= render FlashMessagesComponent.new(flash:) %>
-    <main id="main">
+    <main id="main" tabindex="-1">
       <%= yield %>
     </main>
     <%= render FooterComponent.new %>
