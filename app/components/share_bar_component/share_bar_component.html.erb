@@ -10,10 +10,19 @@
     </div>
     <div data-share-bar-component--share-bar-component-target="wrapper">
       <button
-        class="m-button m-button--sm"
+        class="m-button m-button--sm a-hidden"
+        data-share-bar-component--share-bar-component-target="share"
         data-action="click->share-bar-component--share-bar-component#share">
         <span><%= t(".share") %></span>
         <%= image_tag "icons/16/Share.svg", alt: "" %>
+      </button>
+      <button
+        class="m-button m-button--sm a-hidden copy-button"
+        data-share-bar-component--share-bar-component-target="copy"
+        data-action="click->share-bar-component--share-bar-component#copy">
+        <span data-copy-text><%= t(".copy") %></span>
+        <span data-copied-text class="a-hidden"><%= t(".copied") %></span>
+        <%= image_tag "icons/16/LinkChain.svg", alt: "" %>
       </button>
     </div>
   </div>

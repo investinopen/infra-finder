@@ -1,1 +1,4 @@
-/* Add styles for this component */
+.copy-button {
+  /* prevents button from growing when inner text changes */
+  min-inline-size: 8.62rem;
+}

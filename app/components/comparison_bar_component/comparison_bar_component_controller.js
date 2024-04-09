@@ -22,8 +22,6 @@ export default class extends Controller {
   solutions() {
     const solutions = document.getElementById("solutions-grid");
 
-    console.log("solutions", solutions);
-
     if (!solutions) return;
 
     const focusable = solutions.querySelectorAll(
