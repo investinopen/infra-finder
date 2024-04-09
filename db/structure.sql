@@ -255,8 +255,8 @@ CREATE TYPE public.visibility AS ENUM (
 --
 
 CREATE FUNCTION public.immutable_unaccent(regdictionary, text) RETURNS text
-    LANGUAGE c IMMUTABLE STRICT PARALLEL SAFE
-    AS '$libdir/unaccent', 'unaccent_dict';
+    LANGUAGE sql IMMUTABLE STRICT PARALLEL SAFE
+    RETURN public.unaccent($1, $2);
 
 
 --

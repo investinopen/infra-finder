@@ -15,8 +15,8 @@ class AddUnaccentAndNameNormalizationFunctions < ActiveRecord::Migration[7.1]
         execute <<~SQL
         CREATE OR REPLACE FUNCTION public.immutable_unaccent(regdictionary, text)
           RETURNS text
-          LANGUAGE c IMMUTABLE PARALLEL SAFE STRICT AS
-          '$libdir/unaccent', 'unaccent_dict'
+          LANGUAGE #{LANG} IMMUTABLE PARALLEL SAFE STRICT
+          RETURN public.unaccent($1, $2)
         ;
 
         CREATE OR REPLACE FUNCTION public.f_unaccent(text)
