@@ -85,7 +85,7 @@
             <%= t(".structure.staff_row") %>
           </div>
           <% comparison.comparison_items.each do |item| %>
-            <div class="text-xl" role="cell" class="m-table__cell">
+            <div class="m-table__cell text-xl" role="cell" class="m-table__cell">
               <% if item.solution.current_staffing.present? %>
                 <%= item.solution.current_staffing %>
               <% elsif %>
