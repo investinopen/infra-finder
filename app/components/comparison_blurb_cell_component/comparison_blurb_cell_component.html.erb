@@ -6,7 +6,8 @@
       class="a-link mt-4 hidden"
       data-action="click->comparison-blurb-cell-component--comparison-blurb-cell-component#readMore"
       aria-hidden="true">
-      <%= t(".read_more") %>
+      <span data-more-text><%= t(".read_more") %></span>
+      <span data-less-text class="a-hidden"><%= t(".show_less") %></span>
     </button>
   <% else %>
     <%= image_tag "icons/20/Minus.svg", alt: "" %>

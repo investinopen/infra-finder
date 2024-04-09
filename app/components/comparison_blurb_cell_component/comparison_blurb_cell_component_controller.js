@@ -3,6 +3,14 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static targets = ["body", "readMore"];
 
+  get moreText() {
+    return this.readMoreTarget?.querySelector("[data-more-text]");
+  }
+
+  get lessText() {
+    return this.readMoreTarget?.querySelector("[data-less-text]");
+  }
+
   bodyTargetConnected(target) {
     const link = this.readMoreTarget;
 
@@ -39,5 +47,7 @@ export default class extends Controller {
 
   updateTogglePressedState(toggle, state = false) {
     toggle.setAttribute("aria-pressed", state);
+    this.moreText?.classList.toggle("a-hidden", state);
+    this.lessText?.classList.toggle("a-hidden", !state);
   }
 }
