@@ -152,7 +152,7 @@ tab "Implementations" do
   f.solution_implementation :user_documentation
 
   f.solution_implementation :web_accessibility do |waf|
-    waf.input :applies_to_project, as: :boolean
+    waf.input :applies_to_solution, as: :boolean
     waf.input :applies_to_website, as: :boolean
   end
 end

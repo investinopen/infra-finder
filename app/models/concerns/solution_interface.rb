@@ -25,9 +25,9 @@ module SolutionInterface
     service_summary
     special_certifications_or_statuses
     standards_employed
-    what_registered
-    what_other_tools
-    what_technologies
+    registered_service_provider_description
+    integrations_and_compatibility
+    technology_dependencies
   ].freeze
 
   CORE = %i[

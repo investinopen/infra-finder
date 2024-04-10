@@ -7,7 +7,7 @@ module Admin
 
       impl_enum = :"#{attr}_implementation"
 
-      title = attr.to_s.titleize
+      title = Solution.human_attribute_name(attr, default: attr.to_s.titleize)
 
       inputs title do
         input(impl_enum, label: "Implemented?", as: :select)
@@ -20,12 +20,16 @@ module Admin
           end
 
           if obj_type.has_many_links?
-            impf.store_model_list(:links, heading: "Links", new_record: "Add link") do |lf|
+            heading = obj_type.human_attribute_name(:links)
+
+            impf.store_model_list(:links, heading:, new_record: "Add link") do |lf|
               lf.input :url, as: :url, required: true
               lf.input :label, as: :string, required: false
             end
           elsif obj_type.has_single_link?
-            impf.store_model(:link, heading: "Link") do |lf|
+            heading = obj_type.human_attribute_name(:link)
+
+            impf.store_model(:link, heading:) do |lf|
               lf.input :url, as: :url, required: true
               lf.input :label, as: :string, required: false
             end

@@ -6,11 +6,11 @@ module Solutions
       with_link!
       with_statement!
 
-      attribute :applies_to_project, :boolean, default: false
+      attribute :applies_to_solution, :boolean, default: false
       attribute :applies_to_website, :boolean, default: false
 
       def applies?
-        applies_to_project? || applies_to_website?
+        applies_to_solution? || applies_to_website?
       end
     end
   end

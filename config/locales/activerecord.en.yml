@@ -6,6 +6,7 @@ en:
           items_exceeded: "Please select no more than %{count} solutions to compare."
     models:
       solution_import: Solution Import
+      solution_editor_assignment: "Editor Assignment"
     attributes:
       hosting_strategy:
         visibilities:
@@ -16,6 +17,27 @@ en:
           hidden: "Hidden — Only shown internally"
           visible: "Visible — Show on frontend"
       solution: &solution_attributes
-        comparable_products: "Comparable Products"
+        bylaws: "Bylaws or Other Governance Documentation"
+        code_license: "Code License Details"
+        code_repository: "Open Code Repository"
+        community_engagement: "Organizational Commitment to Community Engagement"
+        comparable_products: "Comparable Tools or Products"
+        contact: "Contact Form or Email"
+        current_staffing: "Staff: Full-time"
+        equity_and_inclusion: "Commitment to Equity and Inclusion"
+        founded_on: "Founding or Launch Date"
+        founding_institutions: "Founding Institutions and Individuals"
+        governance_structure: "Governance Structure and Processes"
+        hosting_strategy: "Service and Hosting Options"
+        key_technology_list: "Key Technologies"
+        licenses: "Code Licenses Used"
+        logo: "Solution Logo"
+        member_count: "Number of Members"
+        name: "Solution Name"
+        pricing: "Transparent Pricing and Cost Expectations"
+        product_roadmap: "Open Product Roadmap"
+        readiness_level: "Technology Readiness Level"
+        service_providers: "Registered Service Providers"
+        user_contributions: "User Contribution Opportunities"
       solution_draft:
         <<: *solution_attributes

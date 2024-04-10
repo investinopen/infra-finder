@@ -9,6 +9,22 @@ module SolutionImports
 
     Blurb = String.optional
 
+    # The current_staffing value in the legacy database is a float. This makes no sense,
+    # and it should be treated as an integer.
+    CorrectedFloat = Types::Integer.optional.constructor do |value|
+      # :nocov:
+      case value
+      in nil then nil
+      in Types::Coercible::Float => flt
+        Types::Coercible::Float[flt].ceil
+      in Types::Coercible::Integer => int
+        Types::Coercible::Integer[int]
+      else
+        raise Dry::Types::CoercionError, "invalid staffing value: #{value.inspect}"
+      end
+      # :nocov:
+    end
+
     FinancialNumbersApplicability = ApplicationRecord.dry_pg_enum(:financial_numbers_applicability).fallback("unknown")
 
     FinancialNumbersPublishability = ApplicationRecord.dry_pg_enum(:financial_numbers_publishability).fallback("unknown")

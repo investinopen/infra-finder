@@ -255,6 +255,12 @@ module SolutionImports
 
         # Tags
         key_technologies_names: :key_technology_list,
+
+        # Blurbs
+        what_registered: :registered_service_provider_description,
+        what_other_tools: :integrations_and_compatibility,
+        what_technologies: :technology_dependencies,
+
       }.freeze
     end
   end

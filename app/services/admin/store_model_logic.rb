@@ -14,7 +14,7 @@ module Admin
     attr_reader :store_model_type
 
     def default_heading
-      @attr.to_s.titleize
+      Solution.human_attribute_name(attr, default: @attr.to_s.titleize)
     end
 
     # @api private

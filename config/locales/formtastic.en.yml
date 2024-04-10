@@ -3,11 +3,10 @@ en:
   formtastic:
     labels:
       solution: &solution_labels
-        name: "Name"
+        name: "Solution Name"
         financial_information_scope: "Financial Information Scope"
         financial_numbers_applicability: "Financial Information Applicability"
         financial_numbers_publishability: "Publish Financial Information?"
-        key_technology_list: "Key Technologies"
       solution_draft:
         <<: *solution_labels
       solution_editor_assignment:
@@ -24,8 +23,8 @@ en:
         name: "A unique name for this solution"
         financial_information_scope: "To what part of the solution or project does this financial information apply?"
         key_technology_list: "This is a free-form tagging input. Enter a comma-separated list of technologies."
-        licenses: "Select the license(s) that apply to your project."
-        user_contributions: "Describe the methods in which users could contribute to the solution."
+        licenses: "What type of license(s) does your solution apply to code you develop?"
+        user_contributions: "In what ways can users currently contribute to your project?"
       solution_draft:
         <<: &solution_hints
       solution_editor_assignment:
@@ -34,6 +33,8 @@ en:
         source: "The file must be a CSV with a very specific format."
       solution_imports/options:
         auto_approve: "Whether the import should auto-approve all drafts. Otherwise, updates will be readied for review and can be selectively applied."
+      solutions/implementations/equity_and_inclusion:
+        links: "hey"
       user:
         super_admin: A super-admin has unrestricted access to manage everything in the system. It takes precedence over admin if both are set.
         admin: An admin can manage most things, except creating users and other admins / super-admins.

@@ -13,7 +13,7 @@ active_admin_form_for [:admin, resource], builder: Admin::EnhancedFormBuilder do
     render("admin/solutions/shared_form_tabs", context: self, f:)
 
     tab "Protected Attributes" do
-      li do
+      panel "About" do
         para <<~TEXT
         This tab is only available to admins when editing a solution directly. Solution editors cannot change the provider at this time.
         TEXT

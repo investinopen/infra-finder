@@ -17,7 +17,7 @@ en:
     nav: Technical
     heading: Technical Attributes
     hosting_options: "Hosting Options & Service Providers"
-    other_tools: What other tools and projects does your project interact with?
+    integrations_and_compatibility: What other tools and projects does your project interact with?
     standards: Standards Employed
     maintenance_status: Maintenance status
     hosting_strategy: Hosting Strategy
