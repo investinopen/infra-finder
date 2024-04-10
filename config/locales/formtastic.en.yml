@@ -24,6 +24,7 @@ en:
         financial_information_scope: "To what part of the solution or project does this financial information apply?"
         key_technology_list: "This is a free-form tagging input. Enter a comma-separated list of technologies."
         licenses: "What type of license(s) does your solution apply to code you develop?"
+        logo: "Logos can be uploaded as JPG, PNG, SVG, or WEBP, with a maximum file size of 10 megabytes. They will be converted to PNG and resized to fit for displaying in different situations on the frontend."
         user_contributions: "In what ways can users currently contribute to your project?"
       solution_draft:
         <<: &solution_hints

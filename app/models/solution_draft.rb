@@ -73,6 +73,10 @@ class SolutionDraft < ApplicationRecord
     in_state?(:pending, :in_review)
   end
 
+  def pending_logo_change?
+    in_state?(:pending, :in_review) && "logo".in?(draft_overrides)
+  end
+
   # @return [<SolutionDrafts::ChangedField>]
   def changed_fields
     fetch_changed_fields.value_or([])

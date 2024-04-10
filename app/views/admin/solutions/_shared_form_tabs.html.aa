@@ -33,12 +33,54 @@ end
 tab "Assets" do
   f.inputs "Logo" do
     li do
-      if f.object.logo.present?
-        panel "Current" do
-          image_tag f.object.logo.url
+      if f.object.solution_kind == :draft
+        attributes_table_for f.object do
+          row :current do
+            if f.object.solution.logo_attacher.stored?
+              image_tag f.object.solution.logo(:small).url
+            else
+              status_tag "unset"
+            end
+          end
+
+          row :draft_logo do
+            if f.object.pending_logo_change?
+              if f.object.logo_attacher.stored?
+                image_tag f.object.logo(:small).url
+              else
+                status_tag "will remove when approved"
+              end
+            else
+              status_tag "unchanged from current"
+            end
+          end
         end
-      elsif f.object.persisted?
-        para "No logo currently set."
+      else
+        attributes_table_for f.object do
+          row :current do
+            if f.object.logo_attacher.stored?
+              image_tag f.object.logo(:small).url
+            else
+              status_tag "unset"
+            end
+          end
+
+          row :original_filename do
+            if f.object.logo_attacher.stored?
+              f.object.logo.original_filename
+            else
+              status_tag "unset"
+            end
+          end
+
+          row :original_size do
+            if f.object.logo_attacher.stored?
+              number_to_human_size f.object.logo.size
+            else
+              status_tag "unset"
+            end
+          end
+        end
       end
     end
 
