@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
 RSpec.describe "Admin Dashboard", type: :request, default_auth: true do
+  let_it_be(:review_draft, refind: true) do
+    solution.create_draft!(user: editor).tap do |draft|
+      draft.transition_to! :in_review
+    end
+  end
+
+  let_it_be(:pending_draft, refind: true) { solution.create_draft!(user: editor) }
+
   describe "GET /admin" do
     def make_the_request!
       expect do

@@ -21,6 +21,7 @@ class Solution < ApplicationRecord
 
   delegate :name, to: :provider, prefix: true
 
+  scope :with_editor_access_for, ->(user) { where(id: SolutionEditorAssignment.where(user:).select(:solution_id)) }
   scope :with_pending_drafts, -> { where(id: SolutionDraft.in_state(:pending).select(:solution_id)) }
   scope :with_reviewable_drafts, -> { where(id: SolutionDraft.in_state(:in_review).select(:solution_id)) }
 

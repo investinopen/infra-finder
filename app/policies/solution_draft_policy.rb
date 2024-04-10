@@ -37,9 +37,12 @@ class SolutionDraftPolicy < ApplicationPolicy
   end
 
   class Scope < Scope
-    # NOTE: Be explicit about which records you allow access to!
-    # def resolve
-    #   scope.all
-    # end
+    def resolve
+      return scope.all if has_any_admin_access?
+
+      return scope.none unless has_any_editor_access?
+
+      scope.where(solution_id: Solution.with_editor_access_for(user).select(:id))
+    end
   end
 end

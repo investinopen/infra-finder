@@ -2,6 +2,7 @@
 
 class User < ApplicationRecord
   include HasName
+  include TimestampScopes
 
   devise :database_authenticatable,
     :recoverable, :rememberable, :validatable,

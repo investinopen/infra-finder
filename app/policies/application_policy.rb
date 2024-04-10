@@ -103,6 +103,8 @@ class ApplicationPolicy
     # @return [User, nil]
     attr_reader :user
 
+    delegate :admin?, :has_any_admin_or_editor_access?, :has_any_admin_access?, :has_any_editor_access?, :has_role?, :super_admin?, to: :user, allow_nil: true
+
     # @param [User, nil] user
     # @param [ActiveRecord::Relation] scope
     def initialize(user, scope)
