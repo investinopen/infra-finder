@@ -49,6 +49,11 @@ en:
     show:
       not_enough_selected: "Select some more solutions to compare."
       select_some_comparisons: "Select two or more solutions to compare."
+  comparison_shares:
+    show:
+      applied: "Shared solution filters updated"
+      invalid_share_id: "Invalid Comparison Share ID"
+      selected: "Shared solutions selected for comparison"
   globals:
     app_title: "Infra Finder"
   time:

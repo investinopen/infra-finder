@@ -11,3 +11,7 @@
 <%= turbo_stream.update dom_id(@solution) do %>
   <%= render SolutionComponent.new(solution: @solution, comparison: current_comparison) %>
 <% end %>
+
+<%= turbo_stream.update "share-bar" do %>
+  <%= render ShareBarComponent.new(mode: @share_mode, comparison: current_comparison) %>
+<% end %>

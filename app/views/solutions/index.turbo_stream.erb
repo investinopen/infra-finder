@@ -1,3 +1,7 @@
+<%= turbo_stream.update "share-bar" do %>
+  <%= render ShareBarComponent.new(mode: :solution_list, comparison: current_comparison) %>
+<% end %>
+
 <%= turbo_stream.update "solutions-list" do %>
   <%= render SolutionsComponent.new(solutions: @solutions, solution_search: @solution_search, comparison: current_comparison) %>
 <% end %>

@@ -1,4 +1,8 @@
-<%= render ShareBarComponent.new(show_back: true, back_to_solutions: true) %>
+<%= render SubnavBarComponent.new(show_back: true, back_to_solutions: true) do |component| %>
+  <% component.with_share_bar do %>
+    <%= render ShareBarComponent.new(mode: :comparison, comparison: current_comparison) %>
+  <% end %>
+<% end %>
 <div class="l-back-container">
   <div>
     <%= render ComparisonComponent.new(comparison: current_comparison) %>

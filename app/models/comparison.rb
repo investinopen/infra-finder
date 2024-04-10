@@ -2,6 +2,7 @@
 
 # A session-based model for tracking comparisons between various {Solution}s.
 class Comparison < ApplicationRecord
+  include AbstractComparison
   include TimestampScopes
 
   ACCEPTABLE_SORTS = [
@@ -20,11 +21,13 @@ class Comparison < ApplicationRecord
 
   has_many :solutions, through: :comparison_items
 
+  belongs_to :comparison_share, inverse_of: :comparisons, foreign_key: :fingerprint, primary_key: :fingerprint, optional: true
+
   scope :prunable, -> { where(arel_prunable) }
 
-  before_validation :detect_item_state!, on: :update
+  after_update :regenerate_comparison_share!
 
-  after_touch :recheck_item_state!
+  after_touch :regenerate_comparison_share!
 
   validates :session_id, presence: true, uniqueness: true
 
@@ -45,9 +48,9 @@ class Comparison < ApplicationRecord
   # @param [Hash] new_search_filters
   # @return [void]
   def apply_filters!(new_search_filters = {})
-    filters_with_existing_sort = new_search_filters.reverse_merge(search_filters.slice(?s))
+    self.search_filters = new_search_filters.reverse_merge(search_filters.slice(?s))
 
-    update_column(:search_filters, filters_with_existing_sort)
+    save!
   end
 
   # @param [String, nil] raw_sort
@@ -57,63 +60,38 @@ class Comparison < ApplicationRecord
 
     new_search_filters = search_filters.merge("s" => sort)
 
-    update_column(:search_filters, new_search_filters)
+    self.search_filters = new_search_filters
+
+    save!
   end
 
   # @return [void]
   def clear_filters!
-    update_columns(search_filters: {})
+    self.search_filters = {}
+
+    save!
   end
 
   # @!endgroup
 
-  # @!group Extended Item Predications
+  # @!group Sharing
 
-  # @param [Solution]
-  def comparing?(solution)
-    solution.in? solutions.to_a
+  # @param [ComparisonShare] comparison_share
+  # @return [Dry::Monads::Success(Comparison)]
+  monadic_matcher! def accept_shared(comparison_share)
+    call_operation("comparisons.sharing.accept", self, comparison_share)
   end
 
-  def items_addable?
-    !items_maxed_out?
+  # @return [Dry::Monads::Success(Comparison)]
+  monadic_operation! def regenerate_comparison_share
+    call_operation("comparisons.sharing.regenerate", self)
   end
 
-  def items_comparable?
-    items_many? || items_maxed_out?
-  end
-
-  def items_incomparable?
-    !items_comparable?
+  def sharable?
+    fingerprint? && comparison_share.present?
   end
 
   # @!endgroup
-
-  private
-
-  # @return ["empty", "single", "many", "maxed_out"]
-  def detect_item_state
-    item_count = ComparisonItem.where(comparison_id: id).count
-
-    case item_count
-    when 0 then "empty"
-    when ComparisonItem::MAX_ITEMS.. then "maxed_out"
-    when 2...ComparisonItem::MAX_ITEMS then "many"
-    else
-      "single"
-    end
-  end
-
-  # @return [void]
-  def detect_item_state!
-    self.item_state = detect_item_state
-  end
-
-  # @return [void]
-  def recheck_item_state!
-    detect_item_state!
-
-    update_column(:item_state, item_state) if item_state_changed?
-  end
 
   class << self
     def arel_prunable

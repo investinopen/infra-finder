@@ -1,9 +1,29 @@
 import { Controller } from "@hotwired/stimulus";
+
 export default class extends Controller {
   static targets = ["wrapper", "share", "copy"];
+  static values = {
+    /**
+     * This can be a value like comparison, solution_list, solution_detail, or none
+     */
+    shareMode: { type: String, default: "none" },
+    /**
+     * This will be empty if not sharable / shareMode === "none"
+     */
+    shareUrl: String,
+    /**
+     * This is an optional URL that should be called with PUT
+     * when the `shareUrl` is shared or copied.
+     */
+    sharedUrl: String,
+  };
 
-  get currentUrl() {
-    return window.location.toString();
+  get enabled() {
+    return this.shareModeValue !== "none" && Boolean(this.shareUrlValue);
+  }
+
+  get disabled() {
+    return !this.enabled;
   }
 
   get shareData() {
@@ -15,18 +35,25 @@ export default class extends Controller {
     return {
       title,
       text,
-      url: this.currentUrl,
+      url: this.shareUrlValue,
     };
   }
 
   get canShare() {
+    if (this.disabled) {
+      return false;
+    }
+
     return (
-      typeof navigator.canShare === "function" &&
-      navigator.canShare(this.shareData)
+      typeof navigator.canShare === "function" && navigator.canShare(this.shareData)
     );
   }
 
   get canCopy() {
+    if (this.disabled) {
+      return false;
+    }
+
     return (
       navigator.clipboard && typeof navigator.clipboard.writeText === "function"
     );
@@ -42,8 +69,9 @@ export default class extends Controller {
 
   connect() {
     const self = this;
+
     this.state = new Proxy(
-      { copied: false },
+      { copied: false, },
       {
         set(state, key, value) {
           const oldValue = state[key];
@@ -73,6 +101,8 @@ export default class extends Controller {
   async share() {
     try {
       await navigator.share(this.shareData);
+
+      await this.shared();
     } catch (err) {
       console.error(err);
     }
@@ -80,17 +110,29 @@ export default class extends Controller {
 
   async copy() {
     try {
+      await navigator.clipboard.writeText(this.shareUrlValue)
+
       this.state.copied = true;
 
-      navigator.clipboard.writeText(this.currentUrl).then(() => {
-        setTimeout(() => {
-          this.state.copied = false;
-        }, 1500);
-      });
+      await this.shared();
     } catch (err) {
       console.error(err);
-      this.state.copied = false;
+    } finally {
+      setTimeout(() => {
+        this.state.copied = false;
+      }, 1500);
     }
+  }
+
+  async shared() {
+    if (!this.sharedUrlValue) {
+      return;
+    }
+
+    await fetch(this.sharedUrlValue, {
+      credentials: "include",
+      method: "PUT",
+    });
   }
 
   processCopyStateChange() {

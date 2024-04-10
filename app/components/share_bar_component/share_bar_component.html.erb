@@ -1,29 +1,23 @@
-<div data-controller="share-bar-component--share-bar-component" class="l-container <%= class_name %>">
-  <div class="l-container__inner pt-8 flex justify-between">
-    <div>
-      <% if show_back %>
-        <%= link_to_back do %>
-          <%= image_tag "icons/16/Arrow-Left-Wide.svg", alt: "", class: "-ms-1" %>
-          <span><%= t(".back") %></span>
-        <% end %>
-      <% end %>
-    </div>
-    <div data-share-bar-component--share-bar-component-target="wrapper">
-      <button
-        class="m-button m-button--sm a-hidden"
-        data-share-bar-component--share-bar-component-target="share"
-        data-action="click->share-bar-component--share-bar-component#share">
-        <span><%= t(".share") %></span>
-        <%= image_tag "icons/16/Share.svg", alt: "" %>
-      </button>
-      <button
-        class="m-button m-button--sm a-hidden copy-button"
-        data-share-bar-component--share-bar-component-target="copy"
-        data-action="click->share-bar-component--share-bar-component#copy">
-        <span data-copy-text><%= t(".copy") %></span>
-        <span data-copied-text class="a-hidden"><%= t(".copied") %></span>
-        <%= image_tag "icons/16/LinkChain.svg", alt: "" %>
-      </button>
-    </div>
+<div
+  data-controller="share-bar-component--share-bar-component"
+  data-share-bar-component--share-bar-component-share-mode-value="<%= share_mode %>"
+  data-share-bar-component--share-bar-component-share-url-value="<%= share_url %>"
+  data-share-bar-component--share-bar-component-shared-url-value="<%= shared_url %>">
+  <div data-share-bar-component--share-bar-component-target="wrapper">
+    <button
+      class="m-button m-button--sm a-hidden"
+      data-share-bar-component--share-bar-component-target="share"
+      data-action="click->share-bar-component--share-bar-component#share">
+      <span><%= t(".share") %></span>
+      <%= image_tag "icons/16/Share.svg", alt: "" %>
+    </button>
+    <button
+      class="m-button m-button--sm a-hidden copy-button"
+      data-share-bar-component--share-bar-component-target="copy"
+      data-action="click->share-bar-component--share-bar-component#copy">
+      <span data-copy-text><%= t(".copy") %></span>
+      <span data-copied-text class="a-hidden"><%= t(".copied") %></span>
+      <%= image_tag "icons/16/LinkChain.svg", alt: "" %>
+    </button>
   </div>
 </div>

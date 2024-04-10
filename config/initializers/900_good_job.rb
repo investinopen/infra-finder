@@ -27,6 +27,12 @@ Rails.application.configure do
       description: "Prune stale comparisons",
       set: { priority: 500 },
     },
+    comparison_share_prune: {
+      cron: "15 * * * *",
+      class: "ComparisonShares::PruneJob",
+      description: "Prune stale comparison shares",
+      set: { priority: 300 },
+    },
   }
 
   config.good_job.dashboard_default_locale = :en

@@ -11,6 +11,12 @@ Rails.application.routes.draw do
 
   resource :comparison, only: %i[show destroy]
 
+  resources :comparison_shares, path: "comparisons/share", only: %i[show] do
+    member do
+      put :shared
+    end
+  end
+
   resource :solution_search, only: %i[create destroy]
 
   resource :solution_sort, only: %i[create]

@@ -379,6 +379,38 @@ CREATE TABLE public.comparison_items (
 
 
 --
+-- Name: comparison_share_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.comparison_share_items (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    comparison_share_id uuid NOT NULL,
+    solution_id uuid NOT NULL,
+    "position" bigint,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: comparison_shares; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.comparison_shares (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    comparison_share_items_count bigint DEFAULT 0 NOT NULL,
+    share_count bigint DEFAULT 0 NOT NULL,
+    item_state public.comparison_item_state DEFAULT 'empty'::public.comparison_item_state NOT NULL,
+    last_used_at timestamp without time zone,
+    shared_at timestamp without time zone,
+    fingerprint text NOT NULL,
+    search_filters jsonb DEFAULT '{}'::jsonb NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: comparisons; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -391,7 +423,8 @@ CREATE TABLE public.comparisons (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     comparison_items_count bigint DEFAULT 0 NOT NULL,
-    item_state public.comparison_item_state DEFAULT 'empty'::public.comparison_item_state NOT NULL
+    item_state public.comparison_item_state DEFAULT 'empty'::public.comparison_item_state NOT NULL,
+    fingerprint text
 );
 
 
@@ -1167,6 +1200,22 @@ ALTER TABLE ONLY public.comparison_items
 
 
 --
+-- Name: comparison_share_items comparison_share_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comparison_share_items
+    ADD CONSTRAINT comparison_share_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: comparison_shares comparison_shares_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comparison_shares
+    ADD CONSTRAINT comparison_shares_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: comparisons comparisons_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1506,6 +1555,41 @@ CREATE INDEX index_comparison_items_ordering ON public.comparison_items USING bt
 --
 
 CREATE UNIQUE INDEX index_comparison_items_uniqueness ON public.comparison_items USING btree (comparison_id, solution_id);
+
+
+--
+-- Name: index_comparison_share_items_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comparison_share_items_ordering ON public.comparison_share_items USING btree (comparison_share_id, "position", solution_id);
+
+
+--
+-- Name: index_comparison_share_items_uniqueness; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_comparison_share_items_uniqueness ON public.comparison_share_items USING btree (comparison_share_id, solution_id);
+
+
+--
+-- Name: index_comparison_shares_on_fingerprint; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_comparison_shares_on_fingerprint ON public.comparison_shares USING btree (fingerprint);
+
+
+--
+-- Name: index_comparison_shares_prunability; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comparison_shares_prunability ON public.comparison_shares USING btree (shared_at, last_used_at, fingerprint);
+
+
+--
+-- Name: index_comparisons_on_fingerprint; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comparisons_on_fingerprint ON public.comparisons USING btree (fingerprint);
 
 
 --
@@ -2441,6 +2525,14 @@ ALTER TABLE ONLY public.solution_drafts
 
 
 --
+-- Name: comparison_share_items fk_rails_7fdf8277aa; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comparison_share_items
+    ADD CONSTRAINT fk_rails_7fdf8277aa FOREIGN KEY (comparison_share_id) REFERENCES public.comparison_shares(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solutions fk_rails_84c054e1eb; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2454,6 +2546,14 @@ ALTER TABLE ONLY public.solutions
 
 ALTER TABLE ONLY public.solution_draft_transitions
     ADD CONSTRAINT fk_rails_8d1bd9f228 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: comparison_share_items fk_rails_9df2127bc4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comparison_share_items
+    ADD CONSTRAINT fk_rails_9df2127bc4 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
 
 
 --
@@ -2583,6 +2683,8 @@ ALTER TABLE ONLY public.users_roles
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240410175652'),
+('20240410175613'),
 ('20240409183241'),
 ('20240409174440'),
 ('20240408175528'),

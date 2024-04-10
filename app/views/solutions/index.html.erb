@@ -1,4 +1,8 @@
-<%= render ShareBarComponent.new %>
+<%= render SubnavBarComponent.new do |component| %>
+  <% component.with_share_bar do %>
+    <%= render ShareBarComponent.new(mode: :solution_list, comparison: current_comparison) %>
+  <% end %>
+<% end %>
 <div class="l-back-container">
   <div>
     <%= turbo_frame_tag("solutions-index") do %>

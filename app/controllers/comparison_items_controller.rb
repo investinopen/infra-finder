@@ -4,6 +4,8 @@
 class ComparisonItemsController < ApplicationController
   comparison_load_strategy :fetch
 
+  before_action :derive_share_mode!
+
   def create
     @solution = Solution.find params[:solution_id]
 
@@ -72,5 +74,12 @@ class ComparisonItemsController < ApplicationController
         # :nocov:
       end
     end
+  end
+
+  private
+
+  # @return [void]
+  def derive_share_mode!
+    @share_mode = request_from_comparison? ? "comparison" : "solution_list"
   end
 end
