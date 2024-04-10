@@ -7,7 +7,7 @@ RSpec.describe StaticController, type: :request do
     it "renders a successful response" do
       get root_url
 
-      expect(response).to be_successful
+      expect(response).to redirect_to solutions_path
     end
   end
 end

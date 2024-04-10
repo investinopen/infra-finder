@@ -4,5 +4,6 @@
 class StaticController < ApplicationController
   # The home page / `/` route.
   def root
+    redirect_to solutions_path
   end
 end
