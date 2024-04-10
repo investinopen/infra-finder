@@ -10,6 +10,10 @@ class ApplicationController < ActionController::Base
   include Pundit::Authorization
 
   def access_denied(error = nil)
-    redirect_back fallback_location: root_path
+    if user_signed_in? && current_user.has_any_admin_or_editor_access?
+      redirect_back fallback_location: root_path
+    else
+      redirect_to root_path
+    end
   end
 end
