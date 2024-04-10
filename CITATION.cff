@@ -1,0 +1,17 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Infra Finder
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - name: Invest in Open Infrastructure
+    country: US
+    email: infra-finder@investinopen.org
+    website: 'https://investinopen.org'
+url: 'https://infrafinder.investinopen.org'
+abstract: Source code for the Infra Finder application.
+license: MIT
