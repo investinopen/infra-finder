@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-RSpec.describe "Admin Organizations", type: :request, default_auth: true do
-  let_it_be(:organization) { FactoryBot.create :organization }
+RSpec.describe "Admin Providers", type: :request, default_auth: true do
+  let_it_be(:provider) { FactoryBot.create :provider }
 
-  describe "GET /admin/organizations" do
-    let_it_be(:extra_users) { FactoryBot.create_list :organization, 3 }
+  describe "GET /admin/providers" do
+    let_it_be(:extra_users) { FactoryBot.create_list :provider, 3 }
 
     def make_the_request!
       expect do
-        get admin_organizations_path
+        get admin_providers_path
       end.to execute_safely
     end
 
@@ -45,10 +45,10 @@ RSpec.describe "Admin Organizations", type: :request, default_auth: true do
     end
   end
 
-  describe "GET /admin/organizations/:id" do
+  describe "GET /admin/providers/:id" do
     def make_the_request!
       expect do
-        get admin_organization_path(organization)
+        get admin_provider_path(provider)
       end.to execute_safely
     end
 
@@ -85,10 +85,10 @@ RSpec.describe "Admin Organizations", type: :request, default_auth: true do
     end
   end
 
-  describe "GET /admin/organizations/:id/edit" do
+  describe "GET /admin/providers/:id/edit" do
     def make_the_request!
       expect do
-        get edit_admin_organization_path(organization)
+        get edit_admin_provider_path(provider)
       end.to execute_safely
     end
 

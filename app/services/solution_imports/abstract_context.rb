@@ -14,9 +14,9 @@ module SolutionImports
     include Dry::Effects::Handler.Reader(:logger)
     include Dry::Effects::Handler.Resolve
 
-    include Dry::Effects::Handler.State(:extracted_organizations)
+    include Dry::Effects::Handler.State(:extracted_providers)
     include Dry::Effects::Handler.State(:extracted_solutions)
-    include Dry::Effects::Handler.State(:organizations_count)
+    include Dry::Effects::Handler.State(:providers_count)
     include Dry::Effects::Handler.State(:solutions_count)
 
     option :import, Types::SolutionImport
@@ -28,13 +28,13 @@ module SolutionImports
     define_model_callbacks :extraction, :persistence
 
     # @return [Integer]
-    attr_accessor :organizations_count
+    attr_accessor :providers_count
 
     # @return [Integer]
     attr_accessor :solutions_count
 
     # @return [<SolutionImports::Transient::OrganizationRow>]
-    attr_reader :transient_organizations
+    attr_reader :transient_providers
 
     # @return [<SolutionImports::Transient::SolutionRow>]
     attr_reader :transient_solutions
@@ -42,10 +42,10 @@ module SolutionImports
     def initialize(...)
       super
 
-      @organizations_count = 0
+      @providers_count = 0
       @solutions_count = 0
 
-      @transient_organizations = []
+      @transient_providers = []
       @transient_solutions = []
     end
 
@@ -55,7 +55,7 @@ module SolutionImports
     end
 
     def to_finalize
-      { organizations_count:, solutions_count:, }
+      { providers_count:, solutions_count:, }
     end
 
     # @return [{ Symbol => Object }]
@@ -101,21 +101,21 @@ module SolutionImports
 
     # @!endgroup
 
-    around_extraction :collect_organizations!
+    around_extraction :collect_providers!
     around_extraction :collect_solutions!
 
-    around_persistence :track_organizations_count!
+    around_persistence :track_providers_count!
     around_persistence :track_solutions_count!
 
     private
 
     # @return [void]
-    def collect_organizations!
-      collected, _ = with_extracted_organizations([]) do
+    def collect_providers!
+      collected, _ = with_extracted_providers([]) do
         yield
       end
 
-      transient_organizations.concat(collected)
+      transient_providers.concat(collected)
     end
 
     # @return [void]
@@ -128,8 +128,8 @@ module SolutionImports
     end
 
     # @return [void]
-    def track_organizations_count!
-      @organizations_count, _ = with_organizations_count(0) do
+    def track_providers_count!
+      @providers_count, _ = with_providers_count(0) do
         yield
       end
     end

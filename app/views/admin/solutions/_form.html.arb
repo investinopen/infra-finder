@@ -1,10 +1,10 @@
 active_admin_form_for [:admin, resource], builder: Admin::EnhancedFormBuilder do |f|
   f.semantic_errors *f.object.errors.map(&:attribute).uniq
 
-  panel "Organization Required" do
+  panel "Provider Required" do
     para <<~HTML.html_safe
-    When creating a solution, an organization is required in the <strong>Private Attributes</strong> tab. If you need to,
-    #{link_to("create a new organization", new_admin_organization_path, target: "_blank", rel: "noopener")}
+    When creating a solution, a provider is required in the <strong>Protected Attributes</strong> tab. If you need to,
+    #{link_to("create a new provider", new_admin_provider_path, target: "_blank", rel: "noopener")}
     <em>before</em> completing this form.
     HTML
   end if f.object.new_record?
@@ -12,9 +12,15 @@ active_admin_form_for [:admin, resource], builder: Admin::EnhancedFormBuilder do
   tabs do
     render("admin/solutions/shared_form_tabs", context: self, f:)
 
-    tab "Private Attributes" do
+    tab "Protected Attributes" do
+      li do
+        para <<~TEXT
+        This tab is only available to admins when editing a solution directly. Solution editors cannot change the provider at this time.
+        TEXT
+      end
+
       f.inputs "Ownership" do
-        f.input :organization, as: :select, collection: Organization.to_select_options, required: true, include_blank: true
+        f.input :provider, as: :select, collection: Provider.to_select_options, required: true, include_blank: true
       end
     end
   end

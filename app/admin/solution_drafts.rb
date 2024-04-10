@@ -75,7 +75,7 @@ ActiveAdmin.register SolutionDraft do
           end
 
           row :solution
-          row :organization
+          row :provider
           row :user
 
           render "admin/solutions/shared_show_core_attributes", context: self

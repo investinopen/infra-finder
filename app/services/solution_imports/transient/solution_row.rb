@@ -5,7 +5,7 @@ module SolutionImports
     # A transient record to ensure an {Solution} exists.
     class SolutionRow < Support::FlexibleStruct
       attribute :identifier, Types::Identifier
-      attribute :organization_identifier, Types::Identifier
+      attribute :provider_identifier, Types::Identifier
       attribute :name, Types::PresentString
 
       # @!group Core Attributes

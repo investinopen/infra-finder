@@ -33,7 +33,7 @@ ActiveAdmin.register Solution do
   filter :licenses, include_blank: true, collection: License.for_filter_collection
   filter :user_contributions, include_blank: true, collection: UserContribution.for_filter_collection
 
-  filter :organization, include_blank: true, collection: Organization.for_filter_collection
+  filter :provider, include_blank: true, collection: Provider.for_filter_collection
   filter :board_structure, include_blank: true, collection: BoardStructure.for_filter_collection
   filter :business_form, include_blank: true, collection: BusinessForm.for_filter_collection
   filter :community_governance, include_blank: true, collection: CommunityGovernance.for_filter_collection
@@ -55,7 +55,7 @@ ActiveAdmin.register Solution do
 
     column :name
     column :solution_categories
-    column :organization
+    column :provider
     column :updated_at
 
     actions do |solution|
@@ -76,7 +76,7 @@ ActiveAdmin.register Solution do
     tabs do
       tab :core do
         attributes_table do
-          row :organization
+          row :provider
 
           render "admin/solutions/shared_show_core_attributes", context: self
 

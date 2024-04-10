@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ActiveAdmin.register Organization do
+ActiveAdmin.register Provider do
   menu priority: 3
 
   permit_params :name, :url

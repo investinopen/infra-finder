@@ -44,17 +44,17 @@ RSpec.describe SolutionImports::Process, type: :operation do
 
   context "with a legacy import" do
     context "when given valid inputs" do
-      it "will process and import organizations and solutions" do
+      it "will process and import providers and solutions" do
         expect do
           expect_calling_with(solution_import).to succeed
         end.to change { solution_import.current_state(force_reload: true) }.from("pending").to("success")
-          .and change(Organization, :count).by(52)
+          .and change(Provider, :count).by(52)
           .and change(Solution, :count).by(57)
           .and change(SolutionDraft, :count).by(57)
           .and change(SolutionDraft.approved, :count).by(57)
 
         aggregate_failures do
-          expect(solution_import).to have_attributes(organizations_count: 52, solutions_count: 57)
+          expect(solution_import).to have_attributes(providers_count: 52, solutions_count: 57)
 
           expect(solution_import.messages).to be_present
         end

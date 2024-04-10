@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# @see Organization
-class OrganizationPolicy < ApplicationPolicy
+# @see Provider
+class ProviderPolicy < ApplicationPolicy
   requires_admin_for_show!
 
   class Scope < Scope

@@ -156,14 +156,14 @@ module SolutionInterface
   ].freeze
 
   TO_EAGER_LOAD = [
-    :organization,
+    :provider,
     *MULTIPLE_OPTIONS,
     *SINGLE_OPTIONS,
     TAG_ASSOCIATIONS.index_with(:taggings),
   ].freeze
 
   TO_RANSACKABLE_ASSOCS = [
-    "organization",
+    "provider",
     *SINGLE_OPTIONS,
     *MULTIPLE_OPTIONS,
     *TAG_ASSOCIATIONS,

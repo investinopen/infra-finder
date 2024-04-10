@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # An organizational model for a {Solution}.
-class Organization < ApplicationRecord
+class Provider < ApplicationRecord
   include BuildsSelectOptions
   include Filterable
   include HasSystemTags
@@ -16,7 +16,7 @@ class Organization < ApplicationRecord
 
   scope :with_multiple_solutions, -> { where(arel_table[:solutions_count].gt(1)) }
 
-  has_many :solutions, inverse_of: :organization, dependent: :restrict_with_error
+  has_many :solutions, inverse_of: :provider, dependent: :restrict_with_error
 
   validates :name, presence: true
 

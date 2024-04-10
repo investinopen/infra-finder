@@ -24,7 +24,7 @@ class SolutionDraft < ApplicationRecord
   belongs_to :solution, inverse_of: :solution_drafts, optional: true
   belongs_to :user, inverse_of: :solution_drafts, optional: true
 
-  has_one :organization, through: :solution
+  has_one :provider, through: :solution
 
   scope :mutable, -> { in_state(:pending, :in_review) }
 

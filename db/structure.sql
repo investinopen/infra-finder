@@ -553,23 +553,6 @@ CREATE TABLE public.maintenance_statuses (
 
 
 --
--- Name: organizations; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.organizations (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    identifier public.citext DEFAULT (gen_random_uuid())::text NOT NULL,
-    name public.citext NOT NULL,
-    slug public.citext NOT NULL,
-    url text,
-    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    solutions_count bigint DEFAULT 0 NOT NULL,
-    normalized_name public.citext GENERATED ALWAYS AS (public.normalize_ransackable(name)) STORED NOT NULL
-);
-
-
---
 -- Name: primary_funding_sources; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -581,6 +564,23 @@ CREATE TABLE public.primary_funding_sources (
     description text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: providers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.providers (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    identifier public.citext DEFAULT (gen_random_uuid())::text NOT NULL,
+    name public.citext NOT NULL,
+    slug public.citext NOT NULL,
+    url text,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    normalized_name public.citext GENERATED ALWAYS AS (public.normalize_ransackable(name)) STORED NOT NULL
 );
 
 
@@ -873,7 +873,7 @@ CREATE TABLE public.solution_imports (
     success_at timestamp without time zone,
     failure_at timestamp without time zone,
     identifier bigint NOT NULL,
-    organizations_count bigint DEFAULT 0 NOT NULL,
+    providers_count bigint DEFAULT 0 NOT NULL,
     solutions_count bigint DEFAULT 0 NOT NULL,
     source_data jsonb NOT NULL,
     options jsonb DEFAULT '{}'::jsonb NOT NULL,
@@ -935,7 +935,7 @@ CREATE TABLE public.solution_user_contributions (
 
 CREATE TABLE public.solutions (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
-    organization_id uuid NOT NULL,
+    provider_id uuid NOT NULL,
     board_structure_id uuid,
     business_form_id uuid,
     community_governance_id uuid,
@@ -1247,19 +1247,19 @@ ALTER TABLE ONLY public.maintenance_statuses
 
 
 --
--- Name: organizations organizations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.organizations
-    ADD CONSTRAINT organizations_pkey PRIMARY KEY (id);
-
-
---
 -- Name: primary_funding_sources primary_funding_sources_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.primary_funding_sources
     ADD CONSTRAINT primary_funding_sources_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: providers providers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.providers
+    ADD CONSTRAINT providers_pkey PRIMARY KEY (id);
 
 
 --
@@ -1684,27 +1684,6 @@ CREATE UNIQUE INDEX index_maintenance_statuses_on_slug ON public.maintenance_sta
 
 
 --
--- Name: index_organizations_on_identifier; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_organizations_on_identifier ON public.organizations USING btree (identifier);
-
-
---
--- Name: index_organizations_on_normalized_name; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_organizations_on_normalized_name ON public.organizations USING btree (normalized_name);
-
-
---
--- Name: index_organizations_on_slug; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_organizations_on_slug ON public.organizations USING btree (slug);
-
-
---
 -- Name: index_primary_funding_sources_on_seed_identifier; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1716,6 +1695,27 @@ CREATE UNIQUE INDEX index_primary_funding_sources_on_seed_identifier ON public.p
 --
 
 CREATE UNIQUE INDEX index_primary_funding_sources_on_slug ON public.primary_funding_sources USING btree (slug);
+
+
+--
+-- Name: index_providers_on_identifier; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_providers_on_identifier ON public.providers USING btree (identifier);
+
+
+--
+-- Name: index_providers_on_normalized_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_providers_on_normalized_name ON public.providers USING btree (normalized_name);
+
+
+--
+-- Name: index_providers_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_providers_on_slug ON public.providers USING btree (slug);
 
 
 --
@@ -2111,17 +2111,17 @@ CREATE INDEX index_solutions_on_normalized_name ON public.solutions USING btree 
 
 
 --
--- Name: index_solutions_on_organization_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_solutions_on_organization_id ON public.solutions USING btree (organization_id);
-
-
---
 -- Name: index_solutions_on_primary_funding_source_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_solutions_on_primary_funding_source_id ON public.solutions USING btree (primary_funding_source_id);
+
+
+--
+-- Name: index_solutions_on_provider_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solutions_on_provider_id ON public.solutions USING btree (provider_id);
 
 
 --
@@ -2445,7 +2445,7 @@ ALTER TABLE ONLY public.solution_drafts
 --
 
 ALTER TABLE ONLY public.solutions
-    ADD CONSTRAINT fk_rails_84c054e1eb FOREIGN KEY (organization_id) REFERENCES public.organizations(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_84c054e1eb FOREIGN KEY (provider_id) REFERENCES public.providers(id) ON DELETE RESTRICT;
 
 
 --
@@ -2583,6 +2583,7 @@ ALTER TABLE ONLY public.users_roles
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240409174440'),
 ('20240408175528'),
 ('20240325215622'),
 ('20240325214531'),

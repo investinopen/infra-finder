@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-RSpec.describe OrganizationPolicy, type: :policy do
-  subject { described_class.new(identity, organization) }
+RSpec.describe ProviderPolicy, type: :policy do
+  subject { described_class.new(identity, provider) }
 
-  let_it_be(:organization) { FactoryBot.create :organization }
+  let_it_be(:provider) { FactoryBot.create :provider }
 
   let_it_be(:identity) { FactoryBot.create :user }
 

@@ -9,7 +9,7 @@ module SolutionImports
         # Identifier
         :id,
 
-        # Organization
+        # Provider
         :provider_name,
 
         # Core
@@ -235,7 +235,7 @@ module SolutionImports
       REMAPPED_KEYS = {
         id: :identifier,
         service_name: :name,
-        provider_name: :organization_identifier,
+        provider_name: :provider_identifier,
         year_when_service_was_founded: :founded_on,
         service_logo: :logo_remote_url,
         number_of_members: :member_count,

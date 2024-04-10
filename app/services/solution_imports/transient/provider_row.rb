@@ -2,14 +2,14 @@
 
 module SolutionImports
   module Transient
-    # A transient record to ensure an {Organization} exists.
-    class OrganizationRow < Support::FlexibleStruct
+    # A transient record to ensure an {Provider} exists.
+    class ProviderRow < Support::FlexibleStruct
       attribute :identifier, Types::Identifier
       attribute :name, Types::PresentString
       attribute? :url, Types::URL.optional
 
-      # Attributes that are provided only when creating an {Organization}
-      # for the first time. We do not overwrite changes to organizations
+      # Attributes that are provided only when creating an {Provider}
+      # for the first time. We do not overwrite changes to providers
       # through the import process.
       #
       # @return [Hash]

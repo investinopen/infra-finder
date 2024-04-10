@@ -10,7 +10,7 @@ module SolutionImports
 
       param :solution_row, Types.Instance(SolutionImports::Transient::SolutionRow)
 
-      delegate :organization_identifier, :identifier, to: :solution_row
+      delegate :provider_identifier, :identifier, to: :solution_row
 
       # @return [SolutionDraft]
       attr_reader :draft
@@ -18,8 +18,8 @@ module SolutionImports
       # @return [Boolean]
       attr_reader :new_record
 
-      # @return [Organization]
-      attr_reader :organization
+      # @return [Provider]
+      attr_reader :provider
 
       # @return [Solution]
       attr_reader :solution
@@ -33,7 +33,7 @@ module SolutionImports
       end
 
       def prepare
-        @organization = yield find_organization
+        @provider = yield find_provider
 
         @solution = yield find_or_initialize_solution
 
@@ -145,18 +145,18 @@ module SolutionImports
         end
       end
 
-      # @return [Dry::Monads::Success(Organization)]
-      # @return [Dry::Monads::Failure(:unknown_organization, String)]
-      def find_organization
-        organization = cache :organization, organization_identifier do
-          Organization.find_by!(identifier: organization_identifier)
+      # @return [Dry::Monads::Success(Provider)]
+      # @return [Dry::Monads::Failure(:unknown_provider, String)]
+      def find_provider
+        provider = cache :provider, provider_identifier do
+          Provider.find_by!(identifier: provider_identifier)
         end
       rescue ActiveRecord::RecordNotFound
         # :nocov:
-        Failure[:unknown_organization, organization_identifier]
+        Failure[:unknown_provider, provider_identifier]
         # :nocov:
       else
-        Success organization
+        Success provider
       end
 
       def find_or_initialize_solution
@@ -164,7 +164,7 @@ module SolutionImports
           sol.assign_attributes(solution_row.attrs_to_create)
         end
 
-        solution.organization = organization
+        solution.provider = provider
 
         Success solution
       end
