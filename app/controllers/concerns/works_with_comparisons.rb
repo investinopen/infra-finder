@@ -80,7 +80,24 @@ module WorksWithComparisons
   end
 
   # @return [void]
-  def search_and_load_solutions!
+  def refetch_current_comparison!
+    @current_comparison = fetch_comparison!
+  end
+
+  def request_from_comparison?
+    ref = Rails.application.routes.recognize_path(request.referer)
+
+    ref[:controller] == "comparisons" && ref[:action] == "show"
+  rescue ActionController::RoutingError
+    # :nocov:
+    false
+    # :nocov:
+  end
+
+  # @return [void]
+  def search_and_load_solutions!(refetch_comparison: true)
+    refetch_current_comparison! if refetch_comparison
+
     @solution_search = solution_scope.ransack(current_search_filters)
     @solution_search.sorts = [Comparison::DEFAULT_SORT] if @solution_search.sorts.empty?
 
@@ -91,6 +108,6 @@ module WorksWithComparisons
 
   # @return [ActiveRecord::Relation]
   def solution_scope
-    Pundit.policy_scope!(current_user, Solution.all)
+    Solution.publicly_accessible_for(current_user)
   end
 end

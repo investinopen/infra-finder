@@ -14,12 +14,26 @@ class ComparisonItemsController < ApplicationController
             redirect_back fallback_location: solutions_path
           end
 
-          format.turbo_stream
+          format.turbo_stream do
+            refetch_current_comparison!
+          end
         end
       end
 
       m.failure :items_exceeded do |_, alert|
-        redirect_back(fallback_location: solutions_path, alert:)
+        respond_to do |format|
+          format.html do
+            redirect_back(fallback_location: solutions_path, alert:)
+          end
+
+          format.turbo_stream do
+            refetch_current_comparison!
+
+            flash.now[:alert] = alert
+
+            @show_flash = true
+          end
+        end
       end
 
       m.failure do
@@ -40,7 +54,15 @@ class ComparisonItemsController < ApplicationController
             redirect_back fallback_location: solutions_path
           end
 
-          format.turbo_stream
+          format.turbo_stream do
+            refetch_current_comparison!
+
+            if request_from_comparison? && current_comparison.items_incomparable?
+              flash[:alert] = t("comparisons.show.not_enough_selected")
+
+              render turbo_stream: turbo_stream.action(:redirect, comparison_url)
+            end
+          end
         end
       end
 

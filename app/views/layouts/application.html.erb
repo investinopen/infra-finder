@@ -15,7 +15,9 @@
   </head>
   <body>
     <%= render HeaderComponent.new %>
-    <%= render FlashMessagesComponent.new(flash:) %>
+    <%= turbo_frame_tag "flash-messages", target: "_top" do %>
+      <%= render FlashMessagesComponent.new(flash:) %>
+    <% end %>
     <main id="main" tabindex="-1">
       <%= yield %>
     </main>

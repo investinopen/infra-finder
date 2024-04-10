@@ -6,8 +6,8 @@
   <%= render SolutionFiltersComponent.new(solution_search: @solution_search) %>
 <% end %>
 
-<% if current_comparison.present? %>
-  <%= turbo_stream.update dom_id(current_comparison, "bar") do %>
+<%= turbo_stream.update "comparison-bar" do %>
+  <% if current_comparison.present? %>
     <%= render ComparisonBarComponent.new(comparison: current_comparison) %>
   <% end %>
 <% end %>

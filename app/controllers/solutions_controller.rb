@@ -5,7 +5,7 @@ class SolutionsController < ApplicationController
   comparison_load_strategy :find_existing
 
   def index
-    search_and_load_solutions!
+    search_and_load_solutions! refetch_comparison: false
   end
 
   def show

@@ -195,7 +195,7 @@ Metrics/AbcSize:
     - "app/services/**/*.rb"
     - "lib/support/**/*.rb"
     - "spec/**/*.rb"
-  Max: 25
+  Max: 30
 
 Metrics/BlockLength:
   Enabled: false

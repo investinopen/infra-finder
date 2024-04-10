@@ -1,4 +1,10 @@
-<%= turbo_stream.update dom_id(current_comparison, "bar") do %>
+<% if @show_flash %>
+  <%= turbo_stream.update "flash-messages" do %>
+    <%= render FlashMessagesComponent.new(flash:) %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.update "comparison-bar" do %>
   <%= render ComparisonBarComponent.new(comparison: current_comparison) %>
 <% end %>
 

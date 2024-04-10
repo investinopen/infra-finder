@@ -35,4 +35,12 @@ class Solution < ApplicationRecord
   monadic_matcher! def create_draft(...)
     call_operation("solutions.create_draft", self, ...)
   end
+
+  class << self
+    # @param [User, nil] _user
+    # @return [ActiveRecord::Relation<Solution>]
+    def publicly_accessible_for(_user)
+      all
+    end
+  end
 end
