@@ -13,6 +13,14 @@ FactoryBot.define do
       website { nil }
     end
 
+    trait :maintenance_active do
+      maintenance_status { "active" }
+    end
+
+    trait :maintenance_inactive do
+      maintenance_status { "inactive" }
+    end
+
     trait :with_key_technologies do
       key_technology_list { "ruby, postgresql, rust" }
     end

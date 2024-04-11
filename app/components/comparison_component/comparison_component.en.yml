@@ -1,5 +1,7 @@
 ---
 en:
+  maintenance_status:
+    active: "Actively maintained"
   title: Compare Solutions
   technical:
     heading: Technical

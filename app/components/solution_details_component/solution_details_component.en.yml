@@ -5,6 +5,8 @@ en:
   pricing: Pricing Info
   opens_in_new_window: (Opens in new window)
   back_to_top: Back to Top
+  maintenance_status:
+    active: "Actively maintained"
   about:
     nav: About
     heading: About

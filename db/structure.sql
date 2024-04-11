@@ -194,6 +194,17 @@ CREATE TYPE public.implementation_status AS ENUM (
 
 
 --
+-- Name: maintenance_status; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.maintenance_status AS ENUM (
+    'active',
+    'inactive',
+    'unknown'
+);
+
+
+--
 -- Name: publication; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -871,7 +882,8 @@ CREATE TABLE public.solution_drafts (
     code_license jsonb DEFAULT '{}'::jsonb NOT NULL,
     recent_grants jsonb DEFAULT '[]'::jsonb NOT NULL,
     top_granting_institutions jsonb DEFAULT '[]'::jsonb NOT NULL,
-    normalized_name public.citext GENERATED ALWAYS AS (public.normalize_ransackable(name)) STORED NOT NULL
+    normalized_name public.citext GENERATED ALWAYS AS (public.normalize_ransackable(name)) STORED NOT NULL,
+    maintenance_status public.maintenance_status DEFAULT 'unknown'::public.maintenance_status NOT NULL
 );
 
 
@@ -1065,7 +1077,8 @@ CREATE TABLE public.solutions (
     top_granting_institutions jsonb DEFAULT '[]'::jsonb NOT NULL,
     normalized_name public.citext GENERATED ALWAYS AS (public.normalize_ransackable(name)) STORED NOT NULL,
     publication public.publication DEFAULT 'unpublished'::public.publication NOT NULL,
-    published_at timestamp without time zone
+    published_at timestamp without time zone,
+    maintenance_status public.maintenance_status DEFAULT 'unknown'::public.maintenance_status NOT NULL
 );
 
 
@@ -2025,6 +2038,13 @@ CREATE INDEX index_solution_drafts_on_identifier ON public.solution_drafts USING
 
 
 --
+-- Name: index_solution_drafts_on_maintenance_status; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_drafts_on_maintenance_status ON public.solution_drafts USING btree (maintenance_status);
+
+
+--
 -- Name: index_solution_drafts_on_maintenance_status_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2190,6 +2210,13 @@ CREATE INDEX index_solutions_on_hosting_strategy_id ON public.solutions USING bt
 --
 
 CREATE UNIQUE INDEX index_solutions_on_identifier ON public.solutions USING btree (identifier);
+
+
+--
+-- Name: index_solutions_on_maintenance_status; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solutions_on_maintenance_status ON public.solutions USING btree (maintenance_status);
 
 
 --
@@ -2702,6 +2729,7 @@ ALTER TABLE ONLY public.users_roles
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240411211514'),
 ('20240411164445'),
 ('20240410175652'),
 ('20240410175613'),

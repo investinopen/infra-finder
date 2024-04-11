@@ -18,6 +18,16 @@ module SolutionImports
 
         # @param [Hash] hash
         # @return [Hash]
+        def normalize_maintenance_status(hash)
+          id = hash.delete :maintenance_status_id
+
+          hash[:maintenance_status] = id.to_s == ?1 ? "active" : "unknown"
+
+          return hash
+        end
+
+        # @param [Hash] hash
+        # @return [Hash]
         def normalize_multiple_options(hash)
           SolutionInterface::MULTIPLE_OPTIONS.reduce(hash) do |h, option|
             assoc = Solution.reflect_on_association(option)

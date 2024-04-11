@@ -36,6 +36,7 @@ module SolutionInterface
     location_of_incorporation
     member_count
     current_staffing
+    maintenance_status
   ].freeze
 
   CONTACT = %i[
@@ -99,7 +100,6 @@ module SolutionInterface
     business_form
     community_governance
     hosting_strategy
-    maintenance_status
     primary_funding_source
     readiness_level
   ].freeze
@@ -199,6 +199,8 @@ module SolutionInterface
       acts_as_ordered_taggable_on assoc
     end
 
+    pg_enum! :maintenance_status, as: :maintenance_status, prefix: :maintenance, allow_blank: false, default: :unknown
+
     attribute :comparable_products, Solutions::ComparableProduct.to_array_type, default: proc { [] }
     attribute :current_affiliations, Solutions::Institution.to_array_type, default: proc { [] }
     attribute :founding_institutions, Solutions::Institution.to_array_type, default: proc { [] }
@@ -226,6 +228,7 @@ module SolutionInterface
     expose_ransackable_associations!(*TO_RANSACKABLE_ASSOCS)
     expose_ransackable_attributes!(*TO_RANSACKABLE_ATTRS)
     expose_ransackable_scopes!(*each_implementation.flat_map(&:ransackable_scopes))
+    expose_ransackable_scopes! :maintenance_active, :maintenance_inactive, :maintenance_unknown
 
     strip_attributes only: STRINGS, allow_empty: false, collapse_spaces: true, replace_newlines: true
     strip_attributes only: BLURBS, allow_empty: false, collapse_spaces: true, replace_newlines: false

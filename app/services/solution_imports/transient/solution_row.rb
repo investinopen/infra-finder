@@ -14,6 +14,7 @@ module SolutionImports
       attribute? :location_of_incorporation, Types::String.optional
       attribute? :member_count, Types::Integer.optional
       attribute? :current_staffing, Types::CorrectedFloat
+      attribute? :maintenance_status, Types::MaintenanceStatus
 
       # @!endgroup
 

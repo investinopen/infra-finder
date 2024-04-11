@@ -21,9 +21,9 @@ RSpec.describe "Admin All Solution Options", type: :request, default_auth: true 
     include_examples "a solution option admin section", License
   end
 
-  describe MaintenanceStatus do
-    include_examples "a solution option admin section", MaintenanceStatus
-  end
+  # describe MaintenanceStatus do
+  #   include_examples "a solution option admin section", MaintenanceStatus
+  # end
 
   describe PrimaryFundingSource do
     include_examples "a solution option admin section", PrimaryFundingSource

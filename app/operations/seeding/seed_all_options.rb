@@ -14,7 +14,7 @@ module Seeding
       yield seed_options.(CommunityGovernance)
       yield seed_options.(HostingStrategy)
       yield seed_options.(License)
-      yield seed_options.(MaintenanceStatus)
+      # yield seed_options.(MaintenanceStatus)
       yield seed_options.(PrimaryFundingSource)
       yield seed_options.(ReadinessLevel)
       yield seed_options.(SolutionCategory)

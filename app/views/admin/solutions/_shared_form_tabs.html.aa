@@ -24,6 +24,8 @@ tab "Filters" do
       f.input option, as: :select, collection: f.object.class.reflect_on_association(option).klass.to_select_options, include_blank: true
     end
 
+    f.input :maintenance_status, as: :select, required: true
+
     SolutionInterface::TAG_LISTS.each do |tag_list|
       f.input tag_list, as: :string, input_html: { value: f.object.try(tag_list).to_s }
     end

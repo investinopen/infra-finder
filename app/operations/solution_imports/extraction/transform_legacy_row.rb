@@ -13,6 +13,8 @@ module SolutionImports
 
         year_to_date :year_when_service_was_founded
 
+        normalize_maintenance_status
+
         normalize_multiple_options
 
         normalize_single_options

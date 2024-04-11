@@ -39,6 +39,8 @@ module SolutionImports
 
     ImplementationStatus = ApplicationRecord.dry_pg_enum(:implementation_status).fallback("unknown")
 
+    MaintenanceStatus = ApplicationRecord.dry_pg_enum(:maintenance_status).fallback("unknown")
+
     PresentString = String.constrained(filled: true)
 
     SolutionImport = ModelInstance("SolutionImport")

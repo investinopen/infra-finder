@@ -2,9 +2,9 @@
 
 class MaintenanceStatus < ApplicationRecord
   include HasVisibility
-  include SeededOption
-  include SolutionOption
+  # include SeededOption
+  # include SolutionOption
   include TimestampScopes
 
-  single!
+  # single!
 end
