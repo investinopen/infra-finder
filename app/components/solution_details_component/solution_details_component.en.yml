@@ -19,14 +19,14 @@ en:
     hosting_options: "Hosting Options & Service Providers"
     integrations_and_compatibility: What other tools and projects does your project interact with?
     standards: Standards Employed
-    maintenance_status: Maintenance status
+    maintenance_status: Maintenance Status
     hosting_strategy: Hosting Strategy
     service_providers: Service Providers
   community:
     nav: Community
     heading: Community Engagement
     user_contribution: User Contribution Pathways
-    organizational_commitment: Organizational commitment to community engagement
+    organizational_commitment: Organizational Commitment to Community Engagement
   policies:
     nav: Policies
     heading: Policies & Governance
@@ -38,7 +38,7 @@ en:
     organizational_history: Organizational History
     organizational_structure: Organizational Structure
     full_time_staff: Full-time Staff
-    business_model: Business or ownership model
+    business_model: Business or Ownership Model
   funding:
     nav: Funding
     heading: Funding
