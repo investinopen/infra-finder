@@ -143,7 +143,7 @@ module SolutionImports
           case key
           when :this_web_accessibility_statement_applies_to_id
             @data[:applies_to_website] = value == 1
-            @data[:applies_to_project] = value == 2
+            @data[:applies_to_solution] = value == 2
           when
             # :nocov:
             @data.compact_blank

@@ -8,7 +8,7 @@ resource.class.each_implementation do |details|
       end
 
       if details.name == :web_accessibility
-        row(:applies_to_project)
+        row(:applies_to_solution)
         row(:applies_to_website)
       end
 

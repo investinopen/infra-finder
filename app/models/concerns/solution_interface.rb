@@ -220,7 +220,7 @@ module SolutionInterface
 
     validates :website, :research_organization_registry_url, url: { allow_blank: true }
 
-    delegate :applies?, :applies_to_project?, :applies_to_website?,
+    delegate :applies?, :applies_to_solution?, :applies_to_website?,
       to: :web_accessibility, prefix: :web_accessibility_statement
 
     expose_ransackable_associations!(*TO_RANSACKABLE_ASSOCS)
