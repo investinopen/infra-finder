@@ -233,6 +233,14 @@ module SolutionInterface
     normalizes *BLURBS, with: -> { _1.gsub("\r", "") }
   end
 
+  IMPLEMENTATIONS.each do |impl|
+    class_eval <<~RUBY, __FILE__, __LINE__ + 1
+    def #{impl}_attributes=(impl_attributes)
+      self[#{impl.inspect}] = impl_attributes
+    end
+    RUBY
+  end
+
   STORE_MODEL_LISTS.each do |list|
     class_eval <<~RUBY, __FILE__, __LINE__ + 1
     def #{list}_attributes=(list_attributes)

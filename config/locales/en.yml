@@ -59,6 +59,10 @@ en:
       selected: "Shared solutions selected for comparison"
   globals:
     app_title: "Infra Finder"
+  implementations:
+    link_messages:
+      many: "This implementation can have many links associated with it."
+      single: "This implementation supports only a single associated link."
   time:
     formats:
       mdy: "%b %d, %Y"

@@ -165,36 +165,14 @@ tab "Lists" do
 end
 
 tab "Implementations" do
-  f.solution_implementation :bylaws
-
-  f.solution_implementation :code_of_conduct
-
-  f.solution_implementation :code_repository
-
-  f.solution_implementation :community_engagement
-
-  f.solution_implementation :equity_and_inclusion
-
-  f.solution_implementation :governance_activities
-
-  f.solution_implementation :governance_structure
-
-  f.solution_implementation :open_api
-
-  f.solution_implementation :open_data
-
-  f.solution_implementation :pricing
-
-  f.solution_implementation :privacy_policy
-
-  f.solution_implementation :product_roadmap
-
-  f.solution_implementation :user_contribution_pathways
-
-  f.solution_implementation :user_documentation
-
-  f.solution_implementation :web_accessibility do |waf|
-    waf.input :applies_to_solution, as: :boolean
-    waf.input :applies_to_website, as: :boolean
+  ::Solution.each_implementation do |impl|
+    if impl.name == :web_accessibility
+      f.solution_implementation impl.name do |waf|
+        waf.input :applies_to_solution, as: :boolean
+        waf.input :applies_to_website, as: :boolean
+      end
+    else
+      f.solution_implementation impl.name
+    end
   end
 end

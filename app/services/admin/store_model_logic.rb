@@ -7,6 +7,12 @@ module Admin
     # @return [Symbol]
     attr_reader :attr
 
+    # @return [String, Boolean]
+    attr_reader :heading
+
+    # @return [String, nil]
+    attr_reader :instructions
+
     # @return [Hash]
     attr_reader :options
 
@@ -15,6 +21,15 @@ module Admin
 
     def default_heading
       Solution.human_attribute_name(attr, default: @attr.to_s.titleize)
+    end
+
+    def render_instructions
+      return "".html_safe unless instructions.present?
+
+      [].tap do |html|
+        html << template.content_tag(:p, class: "inline-hints") { instructions }
+        html << "<br />"
+      end.join.html_safe
     end
 
     # @api private

@@ -22,14 +22,18 @@ module Admin
           if obj_type.has_many_links?
             heading = obj_type.human_attribute_name(:links)
 
-            impf.store_model_list(:links, heading:, new_record: "Add link") do |lf|
+            instructions = I18n.t("implementations.link_messages.many")
+
+            impf.store_model_list(:links, heading:, instructions:, new_record: "Add link") do |lf|
               lf.input :url, as: :url, required: true
               lf.input :label, as: :string, required: false
             end
           elsif obj_type.has_single_link?
             heading = obj_type.human_attribute_name(:link)
 
-            impf.store_model(:link, heading:) do |lf|
+            instructions = I18n.t("implementations.link_messages.single")
+
+            impf.store_model(:link, heading:, instructions:) do |lf|
               lf.input :url, as: :url, required: true
               lf.input :label, as: :string, required: false
             end

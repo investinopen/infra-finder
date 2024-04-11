@@ -109,6 +109,7 @@ module Solutions
         enums << implementation.enum
 
         impls[implementation.name] = implementation.type.strong_params
+        impls[implementation.nested_attributes] = implementation.type.strong_params
       end
 
       [*enums, impls]

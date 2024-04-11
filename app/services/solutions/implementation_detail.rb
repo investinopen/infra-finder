@@ -12,6 +12,10 @@ module Solutions
 
     delegate :has_any_links?, :has_many_links?, :has_no_links?, :has_single_link?, :has_statement?, :link_mode, :linked?, :unlinked?, to: :type
 
+    def nested_attributes
+      :"#{name}_attributes"
+    end
+
     # @return [<String>]
     memoize def ransackable_scopes
       SCOPE_SUFFIXES.map { "#{name}_#{_1}" }

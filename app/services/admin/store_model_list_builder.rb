@@ -5,9 +5,6 @@ module Admin
   class StoreModelListBuilder < SimpleDelegator
     include Admin::StoreModelLogic
 
-    # @return [String]
-    attr_reader :heading
-
     # @return [String, Boolean]
     attr_reader :new_record
 
@@ -27,6 +24,7 @@ module Admin
     def render(&)
       html = "".html_safe
       html << template.content_tag(:h3, class: "has-many-fields-title") { heading } if heading.present?
+      html << render_instructions
       html << template.capture { content_has_many(&) }
       html = wrap_div_or_li(html)
 
@@ -39,6 +37,7 @@ module Admin
 
     def extract_custom_settings!(options)
       @heading = options.key?(:heading) ? options.delete(:heading) : default_heading
+      @instructions = options.delete(:instructions)
       @new_record = options.key?(:new_record) ? options.delete(:new_record) : true
       @remove_record = options.delete(:remove_record)
 

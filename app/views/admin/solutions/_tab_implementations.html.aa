@@ -6,7 +6,9 @@ resource.class.each_implementation do |details|
       row(:implementation_status) do |r|
         status_tag r.__send__(details.enum)
       end
+    end
 
+    attributes_table_for impl do
       if details.name == :web_accessibility
         row(:applies_to_solution)
         row(:applies_to_website)
@@ -17,22 +19,36 @@ resource.class.each_implementation do |details|
 
     if details.has_single_link?
       panel "Link" do
+        para t("implementations.link_messages.single")
         attributes_table_for impl.link do
           row :label
-          row :url
+          row :url do |r|
+            if r.url.present?
+              link_to r.url, r.url, target: "_blank", rel: "noopener"
+            end
+          end
         end
       end
     end
 
     if details.has_many_links?
       panel "Links" do
-        if impl.links.any?
-          table_for impl.links do
-            column :label
-            column :url
+        para t("implementations.link_messages.many")
+
+        links = impl.links.presence || [Solutions::Link.new]
+
+        table_for links do
+          column :label do |r|
+            r.label.presence || status_tag("empty")
           end
-        else
-          para "There are no links defined for this implementation on the #{resource.model_name.human}."
+
+          column :url do |r|
+            if r.url.present?
+              link_to r.url, r.url, target: "_blank", rel: "noopener"
+            else
+              status_tag("empty")
+            end
+          end
         end
       end
     end
