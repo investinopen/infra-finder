@@ -26,6 +26,9 @@ en:
       not_planning: Not Planning
       not_applicable: Not Applicable
       unknown: Unknown
+    publication:
+      published: Published
+      unpublished: Unpublished
     solution_implementation:
       bylaws: Bylaws
       code_license: Code License

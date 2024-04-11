@@ -9,6 +9,6 @@ class SolutionsController < ApplicationController
   end
 
   def show
-    @solution = Solution.find params[:id]
+    @solution = Solution.publicly_accessible_for(current_user).find params[:id]
   end
 end

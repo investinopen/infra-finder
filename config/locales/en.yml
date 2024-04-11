@@ -33,6 +33,9 @@ en:
       create_draft:
         draft_created: "Draft created."
         pending_draft_exists: "You already have a pending draft for this solution."
+      batch_action:
+        published: "Published %{count} solution(s) from the selected."
+        unpublished: "Unpublished %{count} solution(s) from the selected."
     solution_drafts:
       request_review:
         success: "This draft will be reviewed by administrators."

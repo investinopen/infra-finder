@@ -21,6 +21,7 @@ active_admin_form_for [:admin, resource], builder: Admin::EnhancedFormBuilder do
 
       f.inputs "Ownership" do
         f.input :provider, as: :select, collection: Provider.to_select_options, required: true, include_blank: true
+        f.input :publication, as: :select
       end
     end
   end

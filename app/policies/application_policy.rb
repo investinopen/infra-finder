@@ -61,6 +61,10 @@ class ApplicationPolicy
     super_admin?
   end
 
+  def batch_action?
+    super_admin?
+  end
+
   def scope
     Pundit.policy_scope!(user, record.class)
   end

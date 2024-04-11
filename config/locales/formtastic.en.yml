@@ -7,6 +7,7 @@ en:
         financial_information_scope: "Financial Information Scope"
         financial_numbers_applicability: "Financial Information Applicability"
         financial_numbers_publishability: "Publish Financial Information?"
+        publication: "Published on site?"
       solution_draft:
         <<: *solution_labels
       solution_editor_assignment:
@@ -25,6 +26,7 @@ en:
         key_technology_list: "This is a free-form tagging input. Enter a comma-separated list of technologies."
         licenses: "What type of license(s) does your solution apply to code you develop?"
         logo: "Logos can be uploaded as JPG, PNG, SVG, or WEBP, with a maximum file size of 10 megabytes. They will be converted to PNG and resized to fit for displaying in different situations on the frontend."
+        publication: "This affects whether the solution appears in the frontend. If unpublishing a solution, any active comparisons OR shared comparisons will have that solution removed from them."
         user_contributions: "In what ways can users currently contribute to your project?"
       solution_draft:
         <<: &solution_hints

@@ -46,6 +46,10 @@ ActiveAdmin.register Solution do
 
   scope :with_reviewable_drafts
 
+  scope :published
+
+  scope :unpublished
+
   config.per_page = 100
 
   config.sort_order = "name_asc"
@@ -56,6 +60,9 @@ ActiveAdmin.register Solution do
     column :name
     column :solution_categories
     column :provider
+    column :published, sortable: false do |r|
+      r.published?
+    end
     column :updated_at
 
     actions do |solution|
@@ -80,6 +87,11 @@ ActiveAdmin.register Solution do
 
           render "admin/solutions/shared_show_core_attributes", context: self
 
+          row :publication do |r|
+            status_tag r.publication
+          end
+
+          row :published_at
           row :created_at
           row :updated_at
         end
@@ -92,7 +104,11 @@ ActiveAdmin.register Solution do
   end
 
   action_item :view_on_site, only: :show do
-    link_to "View on Site", solution_path(solution)
+    if resource.published?
+      link_to "View on Site", solution_path(solution), target: "_blank", rel: "noopener"
+    else
+      link_to "View on Site (Unpublished)", ?#, style: "text-decoration: line-through;"
+    end
   end
 
   action_item :start_or_view_draft, only: :show, if: proc { authorized?(:create_draft, resource) } do
@@ -111,6 +127,28 @@ ActiveAdmin.register Solution do
 
   action_item :manage_access, only: :show, if: proc { current_user.has_any_admin_access? } do
     link_to "Manage Access", admin_solution_solution_editor_assignments_path(solution)
+  end
+
+  batch_action :destroy, false
+
+  batch_action :publish_all, if: proc { authorized?(:publish_all, Solution) } do |ids|
+    authorize :publish_all, policy_class: SolutionPolicy
+
+    count = Solution.where(id: ids).publish_all!
+
+    redirect_to admin_solutions_path, notice: t(".published", count:)
+  rescue Pundit::NotAuthorizedError
+    head :forbidden
+  end
+
+  batch_action :unpublish_all, if: proc { authorized?(:unpublish_all, Solution) } do |ids|
+    authorize :unpublish_all, policy_class: SolutionPolicy
+
+    count = Solution.where(id: ids).unpublish_all!
+
+    redirect_to admin_solutions_path, notice: t(".unpublished", count:)
+  rescue Pundit::NotAuthorizedError
+    head :forbidden
   end
 
   csv do

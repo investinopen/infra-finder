@@ -194,6 +194,16 @@ CREATE TYPE public.implementation_status AS ENUM (
 
 
 --
+-- Name: publication; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.publication AS ENUM (
+    'published',
+    'unpublished'
+);
+
+
+--
 -- Name: solution_implementation; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -1053,7 +1063,9 @@ CREATE TABLE public.solutions (
     code_license jsonb DEFAULT '{}'::jsonb NOT NULL,
     recent_grants jsonb DEFAULT '[]'::jsonb NOT NULL,
     top_granting_institutions jsonb DEFAULT '[]'::jsonb NOT NULL,
-    normalized_name public.citext GENERATED ALWAYS AS (public.normalize_ransackable(name)) STORED NOT NULL
+    normalized_name public.citext GENERATED ALWAYS AS (public.normalize_ransackable(name)) STORED NOT NULL,
+    publication public.publication DEFAULT 'unpublished'::public.publication NOT NULL,
+    published_at timestamp without time zone
 );
 
 
@@ -2209,6 +2221,13 @@ CREATE INDEX index_solutions_on_provider_id ON public.solutions USING btree (pro
 
 
 --
+-- Name: index_solutions_on_publication; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solutions_on_publication ON public.solutions USING btree (publication);
+
+
+--
 -- Name: index_solutions_on_readiness_level_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2683,6 +2702,7 @@ ALTER TABLE ONLY public.users_roles
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240411164445'),
 ('20240410175652'),
 ('20240410175613'),
 ('20240409183241'),

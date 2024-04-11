@@ -59,7 +59,7 @@ module Solutions
       @params = initialize_common_strong_params
     end
 
-    after_build :maybe_add_provider!
+    after_build :add_actuals!, if: :actual?
 
     private
 
@@ -83,8 +83,8 @@ module Solutions
       Success cache_key
     end
 
-    def maybe_add_provider!
-      @params << :provider_id if actual?
+    def add_actuals!
+      @params << :provider_id << :publication
     end
 
     def initialize_common_strong_params

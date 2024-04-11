@@ -221,4 +221,99 @@ RSpec.describe "Admin Solutions", type: :request, default_auth: true do
       end
     end
   end
+
+  describe "POST /admin/solutions/batch_action" do
+    let_it_be(:published_solution, refind: true) { FactoryBot.create :solution, :published }
+    let_it_be(:unpublished_solution, refind: true) { FactoryBot.create :solution, :unpublished }
+
+    def batch_action!(batch_action, *collection_selection)
+      collection_selection.flatten!
+
+      post batch_action_admin_solutions_path, params: { batch_action:, collection_selection:, }
+    end
+
+    shared_examples_for "valid batch publication actions" do
+      describe "publish_all" do
+        it "publishes unpublished solutions" do
+          expect do
+            batch_action!("publish_all", published_solution.id, unpublished_solution.id)
+          end.to keep_the_same { published_solution.reload.published_at }
+            .and keep_the_same { published_solution.reload.publication }
+            .and change { unpublished_solution.reload.published_at }.from(nil).to(a_kind_of(Time))
+            .and change { unpublished_solution.reload.publication }.from("unpublished").to("published")
+        end
+      end
+
+      describe "unpublish_all" do
+        it "unpublishes published solutions" do
+          expect do
+            batch_action!("unpublish_all", published_solution.id, unpublished_solution.id)
+          end.to keep_the_same { unpublished_solution.reload.published_at }
+            .and keep_the_same { unpublished_solution.reload.publication }
+            .and change { published_solution.reload.published_at }.from(a_kind_of(Time)).to(nil)
+            .and change { published_solution.reload.publication }.from("published").to("unpublished")
+        end
+      end
+    end
+
+    shared_examples_for "forbidden batch publication actions" do
+      describe "publish_all" do
+        it "publishes unpublished solutions" do
+          expect do
+            batch_action!("publish_all", published_solution.id, unpublished_solution.id)
+          end.to keep_the_same { published_solution.reload.published_at }
+            .and keep_the_same { published_solution.reload.publication }
+            .and keep_the_same { unpublished_solution.reload.published_at }
+            .and keep_the_same { unpublished_solution.reload.publication }
+
+          expect(response).to have_http_status(:forbidden)
+        end
+      end
+
+      describe "unpublish_all" do
+        it "unpublishes published solutions" do
+          expect do
+            batch_action!("unpublish_all", published_solution.id, unpublished_solution.id)
+          end.to keep_the_same { unpublished_solution.reload.published_at }
+            .and keep_the_same { unpublished_solution.reload.publication }
+            .and keep_the_same { published_solution.reload.published_at }
+            .and keep_the_same { published_solution.reload.publication }
+
+          expect(response).to have_http_status(:forbidden)
+        end
+      end
+    end
+
+    context "as a super admin" do
+      before do
+        sign_in super_admin
+      end
+
+      include_examples "valid batch publication actions"
+    end
+
+    context "as an admin" do
+      before do
+        sign_in admin
+      end
+
+      include_examples "valid batch publication actions"
+    end
+
+    context "as an editor" do
+      before do
+        sign_in editor
+      end
+
+      include_examples "forbidden batch publication actions"
+    end
+
+    context "as a regular user" do
+      before do
+        sign_in regular_user
+      end
+
+      include_examples "forbidden batch publication actions"
+    end
+  end
 end

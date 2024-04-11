@@ -18,6 +18,21 @@ class SolutionPolicy < ApplicationPolicy
     admin_or_editor_for_record?
   end
 
+  def publish_all?
+    has_any_admin_access?
+  end
+
+  def unpublish_all?
+    has_any_admin_access?
+  end
+
+  def batch_action?
+    return publish_all? if record == :publish_all
+    return unpublish_all? if record == :unpublish_all
+
+    super
+  end
+
   class Scope < Scope
     def resolve
       return scope.all if has_any_admin_access?
