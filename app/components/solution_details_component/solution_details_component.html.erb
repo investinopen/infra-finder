@@ -16,22 +16,25 @@
           <div class="a-underline"></div>
           <div class="pt-[1.625rem] flex gap-3 flex-wrap">
             <% if solution.website? %>
-              <a href="<%= solution.website %>" class="m-button m-button--lg bg-brand-mint">
+              <a href="<%= solution.website %>" target="_blank" rel="noreferrer" class="m-button m-button--lg bg-brand-mint">
                 <span><%= t(".website") %></span>
+                <span class="sr-only"><%= t(".opens_in_new_window") %></span>
                 <%= image_tag "icons/24/Link-External.svg", alt: "" %>
               </a>
             <% end %>
             <% if solution.pricing? %>
               <% solution.pricing.links.each do |link| %>
-                <a href="<%= link.url %>" class="m-button m-button--lg">
+                <a href="<%= link.url %>" target="_blank" rel="noreferrer" class="m-button m-button--lg">
                   <span><%= link.label? ? link.label : t(".pricing") %></span>
+                  <span class="sr-only"><%= t(".opens_in_new_window") %></span>
                   <%= image_tag "icons/24/Link-External.svg", alt: "" %>
                 </a>
               <% end %>
             <% end %>
             <% unless solution.contact_unavailable? %>
-              <a href="<%= solution.contact %>" class="m-button m-button--lg">
+              <a href="<%= solution.contact %>" target="_blank" rel="noreferrer" class="m-button m-button--lg">
                 <span><%= t(".contact") %></span>
+                <span class="sr-only"><%= t(".opens_in_new_window") %></span>
                 <%= image_tag "icons/24/Link-External.svg", alt: "", class: "-ms-1" %>
               </a>
             <% end %>
