@@ -30,6 +30,8 @@ module Solutions
 
     ImplementationLinkMode = Coercible::Symbol.enum(:many, :single, :none)
 
+    Option = Instance(::SolutionOption)
+
     OptionMode = Coercible::Symbol.enum(:single, :multiple)
 
     User = ModelInstance("User")

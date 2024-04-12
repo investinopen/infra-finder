@@ -12,4 +12,5 @@ class SolutionCategory < ApplicationRecord
   has_many :solution_category_links, inverse_of: :solution_category, dependent: :destroy
 
   has_many :solutions, through: :solution_category_links
+  has_many :solution_drafts, through: :solution_category_draft_links
 end

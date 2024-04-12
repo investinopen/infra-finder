@@ -33,6 +33,12 @@ Rails.application.configure do
       description: "Prune stale comparison shares",
       set: { priority: 300 },
     },
+    refresh_option_counters: {
+      cron: "*/7 * * * *",
+      class: "SolutionOptions::RefreshCountersJob",
+      description: "Refresh counter caches for solution options",
+      set: { priority: 900 },
+    },
   }
 
   config.good_job.dashboard_default_locale = :en

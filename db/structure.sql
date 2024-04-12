@@ -351,7 +351,9 @@ CREATE TABLE public.board_structures (
     slug public.citext NOT NULL,
     description text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL
 );
 
 
@@ -366,7 +368,9 @@ CREATE TABLE public.business_forms (
     slug public.citext NOT NULL,
     description text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL
 );
 
 
@@ -381,7 +385,9 @@ CREATE TABLE public.community_governances (
     slug public.citext,
     description text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL
 );
 
 
@@ -570,7 +576,9 @@ CREATE TABLE public.hosting_strategies (
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL
 );
 
 
@@ -586,7 +594,9 @@ CREATE TABLE public.licenses (
     description text,
     url text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL
 );
 
 
@@ -602,7 +612,9 @@ CREATE TABLE public.maintenance_statuses (
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL
 );
 
 
@@ -617,7 +629,9 @@ CREATE TABLE public.primary_funding_sources (
     slug public.citext NOT NULL,
     description text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL
 );
 
 
@@ -649,7 +663,9 @@ CREATE TABLE public.readiness_levels (
     slug public.citext NOT NULL,
     description text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL
 );
 
 
@@ -718,7 +734,9 @@ CREATE TABLE public.solution_categories (
     slug public.citext NOT NULL,
     description text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL
 );
 
 
@@ -1123,7 +1141,9 @@ CREATE TABLE public.user_contributions (
     slug public.citext NOT NULL,
     description text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL
 );
 
 
@@ -2729,6 +2749,7 @@ ALTER TABLE ONLY public.users_roles
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240412195958'),
 ('20240411211514'),
 ('20240411164445'),
 ('20240410175652'),

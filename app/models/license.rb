@@ -14,5 +14,6 @@ class License < ApplicationRecord
   has_many :solution_draft_licenses, inverse_of: :license, dependent: :destroy
   has_many :solution_licenses, inverse_of: :license, dependent: :destroy
 
-  has_many :solutions, through: :service_licenses
+  has_many :solutions, through: :solution_licenses
+  has_many :solution_drafts, through: :solution_draft_licenses
 end

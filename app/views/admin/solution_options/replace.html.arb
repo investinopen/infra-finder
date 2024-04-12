@@ -1,0 +1,17 @@
+panel "Replace Option" do
+  para <<~TEXT.html_safe
+  If you would like to replace this option with another, you can do so here. Please note that
+  this will <em>remove</em> the current option (<strong>#{resource.name}</strong>)
+  and replace it with whatever is selected below.
+  TEXT
+
+  active_admin_form_for option_replacement, as: :option_replacement, url: url_for([:replace_option, :admin, resource]), method: :put do |f|
+    f.inputs do
+      f.input :new_option, as: :select, collection: available_replacement_options, required: true, include_blank: true
+    end
+
+    f.actions do
+      f.action :submit, label: "Replace"
+    end
+  end
+end

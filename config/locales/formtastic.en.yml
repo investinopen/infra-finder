@@ -2,6 +2,8 @@
 en:
   formtastic:
     labels:
+      option_replacement:
+        new_option: "Replacement Option"
       solution: &solution_labels
         name: "Solution Name"
         financial_information_scope: "Financial Information Scope"
@@ -20,6 +22,8 @@ en:
         super_admin: "This user is a super-admin?"
         admin: "This user is an admin?"
     hints:
+      option_replacement:
+        new_option: "The option selected here will update all solutions (and active drafts) to use it instead."
       solution: &solution_hints
         name: "A unique name for this solution"
         financial_information_scope: "To what part of the solution or project does this financial information apply?"

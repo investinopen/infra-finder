@@ -45,6 +45,9 @@ en:
         success: "This draft has been approved and the solution has been updated."
       reject:
         success: "This draft has been rejected and no further changes are possible."
+    solution_options:
+      replaced: "Replaced %{old_name} with %{new_name}"
+      something_went_wrong: "Something went wrong, please try again"
     users:
       send_reset_password_instructions:
         success: "Reset password instructions sent to %{email}."

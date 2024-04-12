@@ -191,6 +191,7 @@ Metrics/AbcSize:
   AllowedPatterns:
     - ^ransackable
   Exclude:
+    - "app/admin/**/*.rb"
     - "app/operations/**/*.rb"
     - "app/services/**/*.rb"
     - "lib/support/**/*.rb"
@@ -209,6 +210,7 @@ Metrics/CyclomaticComplexity:
     - ^has_.+!
     - ^ransackable
   Exclude:
+    - "app/admin/**/*.rb"
     - "app/operations/**/*.rb"
     - "app/services/**/*.rb"
     - "lib/**/*.rb"
@@ -218,6 +220,7 @@ Metrics/MethodLength:
   AllowedPatterns:
     - ^ransackable
   Exclude:
+    - "app/admin/**/*.rb"
     - "lib/support/**/*.rb"
     - "spec/**/*.rb"
   Max: 30
