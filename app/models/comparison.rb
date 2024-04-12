@@ -59,7 +59,7 @@ class Comparison < ApplicationRecord
   # @param [String, nil] raw_sort
   # @return [void]
   def apply_sorts!(raw_sort)
-    search_filters.apply_sort!(raw_sort)
+    search_filters.apply_sorts!(raw_sort)
 
     search_filters_will_change!
 
