@@ -9,6 +9,10 @@
   pointer-events: none;
   @apply z-backToTop;
 
+  @media print {
+    display: none;
+  }
+
   &__inner {
     display: flex;
     justify-content: flex-end;

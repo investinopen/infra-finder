@@ -1,6 +1,6 @@
 <%= turbo_frame_tag("solution-sorts") do %>
   <%= search_form_for solution_search, **search_form_options do |f| %>
-    <div class="solutions-sort bg-neutral-20">
+    <div class="solutions-sort bg-neutral-20 print:hidden">
       <%= f.label :s, class: "font-normal" do %>
         <span class="hidden sm:block"><%= t(".sort_label") %></span>
         <span class="block sm:hidden"><%= t(".sort_mobile_label") %></span>

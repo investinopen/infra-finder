@@ -13,8 +13,17 @@
     outline-offset: -0.25rem;
   }
 
+  @media print {
+    break-inside: avoid;
+    border: 1px solid theme("colors.neutral.60");
+  }
+
   > * {
     @mixin fluidScaleRem padding-inline, 36px, 16px;
+
+    @media print {
+      padding-inline: 16px;
+    }
 
     &:last-child {
       @mixin fluidScaleRem padding-block-end, 32px, 20px;
@@ -43,6 +52,10 @@
     @mixin fluidScaleRem padding-block-end, 20px, 16px;
     @mixin fluidScaleRem padding-block-start, 40px, 32px;
     @apply bg-brand-mint;
+
+    @media print {
+      @mixin fluidScaleRem padding-block-start, 20px, 16px;
+    }
 
     > h3 {
       @apply line-clamp-2;

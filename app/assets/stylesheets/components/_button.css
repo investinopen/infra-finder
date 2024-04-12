@@ -6,6 +6,10 @@
   @apply font-header;
   @apply text-label;
 
+  @media print {
+    border: 2px solid theme("colors.neutral.60");
+  }
+
   &--center {
     justify-content: center;
   }

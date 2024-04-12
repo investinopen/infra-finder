@@ -1,9 +1,9 @@
 <div data-controller="comparison-blurb-cell-component--comparison-blurb-cell-component" role="cell" class="m-table__cell">
   <% if solution[name].present? %>
     <div data-comparison-blurb-cell-component--comparison-blurb-cell-component-target="body"
-      class="t-rte line-clamp-6"><%= sanitize solution[name] %></div>
+      class="t-rte line-clamp-6 print:line-clamp-none"><%= sanitize solution[name] %></div>
     <button data-comparison-blurb-cell-component--comparison-blurb-cell-component-target="readMore"
-      class="a-link mt-4 hidden"
+      class="a-link mt-4 hidden print:hidden"
       data-action="click->comparison-blurb-cell-component--comparison-blurb-cell-component#readMore"
       aria-hidden="true">
       <span data-more-text><%= t(".read_more") %></span>

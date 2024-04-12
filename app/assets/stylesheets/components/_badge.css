@@ -13,6 +13,10 @@
   @apply text-xs;
   @apply font-semibold;
 
+  @media print {
+    border: 1px solid theme("colors.neutral.60");
+  }
+
   &:has(span) {
     padding: 0;
     gap: 0;

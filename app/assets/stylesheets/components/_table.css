@@ -7,6 +7,10 @@
       var(--table-columns, auto-fit),
       minmax(var(--table-column-min, 7.5rem), 1fr)
     );
+
+    @media print {
+      --table-column-min: 25%;
+    }
   }
 
   &__columnheader,

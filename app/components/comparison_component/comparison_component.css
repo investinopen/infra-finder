@@ -38,6 +38,10 @@
     minmax(var(--table-column-min), 1fr)
   );
 
+  @media print {
+    --table-column-min: 25%;
+  }
+
   > * {
     padding-inline-end: 1rem;
     padding-block: 1rem;

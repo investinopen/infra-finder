@@ -26,13 +26,16 @@
   <footer class="bg-black l-container l-container--narrow" data-controller="footer-component--footer-component">
     <div class="l-container__inner footer-wrap">
       <div class="footer-data">
-        <a href="https://investinopen.org" class="footer-logo">
+        <a href="https://investinopen.org" class="footer-logo print:hidden">
           <%= image_tag "logos/ioi-logo-light.svg", alt: "Invest in Open Infrastructure" %>
+        </a>
+        <a href="https://investinopen.org" class="footer-logo hidden print:block">
+          <%= image_tag "logos/ioi-logo-dark.svg", alt: "Invest in Open Infrastructure" %>
         </a>
         <div class="footer-copyright">
           © Invest in Open Infrastructure, subject to a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
         </div>
-        <ul id="terms">
+        <ul id="terms" class="print:hidden">
           <li><a href="https://investinopen.org/ioi-privacy-policy">Privacy Policy</a></li>
           <li><a href="https://investinopen.org/terms-and-conditions/">Terms &amp; Conditions</a></li>
         </ul>

@@ -58,6 +58,10 @@
       max-height: calc(100vh - var(--nav-height));
       overflow: auto;
     }
+
+    @media print {
+      display: none;
+    }
   }
 
   /* Top level nav item */

@@ -21,7 +21,7 @@ class ComparisonItemComponent < ApplicationComponent
 
   def link_to_remove_options
     {
-      class: "m-solution-card__close",
+      class: "m-solution-card__close print:hidden",
       data: {
         turbo_frame: "_top",
         turbo_method: :delete,

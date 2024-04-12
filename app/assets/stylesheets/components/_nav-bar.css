@@ -6,6 +6,10 @@
   @apply transition-colors;
   @apply text-xs;
 
+  @media print {
+    display: none;
+  }
+
   &:not([class*="bg-"]) {
     /* Default background color */
     @apply bg-neutral-20;
