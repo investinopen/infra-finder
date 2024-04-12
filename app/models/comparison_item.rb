@@ -14,8 +14,11 @@ class ComparisonItem < ApplicationRecord
   belongs_to :solution, inverse_of: :comparison_items
 
   scope :for_comparison, -> { in_default_order.limit(MAX_ITEMS) }
-  scope :in_default_order, -> { reorder(position: :asc) }
+  scope :in_default_order, -> { reorder(position: :desc) }
 
+  # @note We actually want add_new_at: :bottom, but something isn't working.
+  #   So we keep add_new_at: :top and just use position: :desc in the above
+  #   scope to achieve the same effect.
   acts_as_list scope: :comparison_id, add_new_at: :top
 
   validate :enforce_item_count!
@@ -26,7 +29,7 @@ class ComparisonItem < ApplicationRecord
 
   # @return [void]
   def enforce_item_count!
-    sibling_count = ComparisonItem.where(comparison:).count
+    sibling_count = ComparisonItem.where(comparison:).where.not(id:).count
 
     return if sibling_count < MAX_ITEMS
 
