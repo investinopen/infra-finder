@@ -24,7 +24,7 @@ module Comparisons
         super
 
         @search_filters = prune_search_filters.(raw_search_filters)
-        @solution_ids = raw_solution_ids.sort.take(4)
+        @solution_ids = raw_solution_ids.take(4)
       end
 
       def nothing_to_share?
