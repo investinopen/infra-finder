@@ -79,7 +79,7 @@ ActiveAdmin.register Solution do
 
   form partial: "form"
 
-  show do
+  show title: -> { _1.name.html_safe } do
     tabs do
       tab :core do
         attributes_table do

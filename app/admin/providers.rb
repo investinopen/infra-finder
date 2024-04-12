@@ -35,7 +35,7 @@ ActiveAdmin.register Provider do
     f.actions
   end
 
-  show do
+  show title: -> { _1.name.html_safe } do
     attributes_table do
       row :name
       row :solutions_count
