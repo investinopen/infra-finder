@@ -26,7 +26,7 @@ class SubnavBarComponent < ApplicationComponent
       class: "m-button m-button--sm"
     }
 
-    path = @back_to_solutions ? solutions_path : :back
+    path = solutions_path
 
     link_to path, options do
       capture(&)
