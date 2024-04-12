@@ -23,8 +23,9 @@
     <% if implementation.has_many_links? and implementation.links.present? %>
       <div class="flex flex-wrap gap-2">
         <% implementation.links.each_with_index do |link, i| %>
-          <a href="<%= link.url %>" class="m-button m-button--sm <%= i === 0 ? "bg-brand-mint" : "" %>">
+          <a href="<%= link.url %>" target="_blank" rel="noreferrer" class="m-button m-button--sm <%= i === 0 ? "bg-brand-mint" : "" %>">
             <span><%= link.label.presence || t(".website") %></span>
+            <span class="sr-only"><%= t(".opens_in_new_window") %></span>
             <%= image_tag "icons/16/Link-External.svg", alt: "" %>
           </a>
         <% end %>
