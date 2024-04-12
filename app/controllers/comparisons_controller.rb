@@ -3,6 +3,8 @@
 class ComparisonsController < ApplicationController
   comparison_load_strategy :find_existing
 
+  uncacheable! :show
+
   def show
     if current_comparison.blank?
       redirect_to solutions_path, notice: t(".select_some_comparisons")

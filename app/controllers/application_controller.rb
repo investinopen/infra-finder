@@ -16,4 +16,18 @@ class ApplicationController < ActionController::Base
       redirect_to root_path
     end
   end
+
+  def uncacheable!
+    response.headers["Cache-Control"] = "no-cache, no-store"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "Mon, 01 Jan 1990 00:00:00 GMT"
+  end
+
+  class << self
+    # @param [<Symbol>] actions
+    # @return [void]
+    def uncacheable!(*actions)
+      before_action :uncacheable!, only: actions
+    end
+  end
 end
