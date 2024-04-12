@@ -19,8 +19,18 @@ module Comparisons
 
     SearchFilters = Types::Hash.fallback { {}.freeze }
 
+    SearchFilterGrouping = Coercible::Symbol.enum(:community_engagement, :global, :policy, :solution_category, :technical_attribute)
+
+    SearchFilterGroupings = Hash.map(Symbol, SearchFilterGrouping)
+
+    SearchFilterMapping = Hash.map(SearchFilterGrouping, Array.of(Symbol))
+
+    GroupedSearchFilters = Hash.map(SearchFilterGrouping, Hash)
+
     SessionID = Utility::Types::SessionID
 
     SolutionIDs = Types::Array.of(Types::String).fallback { [] }
+
+    SolutionRelation = Support::Types::Relation.of(::Solution)
   end
 end

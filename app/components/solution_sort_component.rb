@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# @note When adding new sorts, be sure to update the {Comparison::ACCEPTABLE_SORTS}
+# @note When adding new sorts, be sure to update the {Comparisons::SearchFilters::ACCEPTABLE_SORTS}
 #   constant with the new attr / dir pair. Otherwise the sort will not persist.
 class SolutionSortComponent < ApplicationComponent
   DIR = Dry::Types["coercible.symbol"].enum(:asc, :desc).fallback(:asc)

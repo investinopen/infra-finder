@@ -56,6 +56,13 @@ module Support
 
         enum attr_name, **options
       end
+
+      # @return [<String>]
+      def array_attributes
+        attribute_names.select do |name|
+          /array/.match? attribute_types.fetch(name).try(:type)
+        end
+      end
     end
   end
 end

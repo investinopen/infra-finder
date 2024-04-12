@@ -14,13 +14,13 @@ module AbstractComparison
 
   def sharable_search_filters
     # :nocov:
-    call_operation("comparisons.sharing.prune_search_filters", search_filters)
+    call_operation("comparisons.sharing.prune_search_filters", search_filters.as_json)
     # :nocov:
   end
 
   def to_share_options
     {
-      search_filters:,
+      search_filters: search_filters.as_json,
       solution_ids:,
     }
   end

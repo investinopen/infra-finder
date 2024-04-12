@@ -98,10 +98,14 @@ module WorksWithComparisons
   def search_and_load_solutions!(refetch_comparison: true)
     refetch_current_comparison! if refetch_comparison
 
-    @solution_search = solution_scope.ransack(current_search_filters)
-    @solution_search.sorts = [Comparison::DEFAULT_SORT] if @solution_search.sorts.empty?
+    search_filters = current_search_filters || Comparisons::SearchFilters.new
 
-    @solutions = @solution_search.result(distinct: true).with_all_facets_loaded
+    @solution_search = solution_scope.ransack(current_search_filters&.as_json)
+    @solution_search.sorts = [Comparisons::SearchFilters::DEFAULT_SORT] if @solution_search.sorts.empty?
+
+    @relogicked_solution_search = search_filters.apply_ransack(scope: solution_scope)
+
+    @solutions = @relogicked_solution_search.result(distinct: true).with_all_facets_loaded
 
     render "solutions/index"
   end

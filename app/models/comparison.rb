@@ -25,11 +25,14 @@ class Comparison < ApplicationRecord
 
   scope :prunable, -> { where(arel_prunable) }
 
+  attribute :search_filters, Comparisons::SearchFilters.to_type, default: -> { {} }
+
   after_update :regenerate_comparison_share!
 
   after_touch :regenerate_comparison_share!
 
   validates :session_id, presence: true, uniqueness: true
+  validates :search_filters, store_model: true
 
   # @see Comparisons::Add
   # @return [Dry::Monads::Result]
@@ -56,11 +59,9 @@ class Comparison < ApplicationRecord
   # @param [String, nil] raw_sort
   # @return [void]
   def apply_sorts!(raw_sort)
-    sort = raw_sort.presence_in(ACCEPTABLE_SORTS) || DEFAULT_SORT
+    search_filters.apply_sort!(raw_sort)
 
-    new_search_filters = search_filters.merge("s" => sort)
-
-    self.search_filters = new_search_filters
+    search_filters_will_change!
 
     save!
   end

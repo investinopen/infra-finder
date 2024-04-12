@@ -179,6 +179,8 @@ module SolutionInterface
 
   # @!endgroup
 
+  IMPLEMENTATION_AVAILABLE_SCOPE = /\A(?<implementation>#{Regexp.union(*IMPLEMENTATIONS.map(&:to_s))})_available\z/
+
   included do
     extend Dry::Core::ClassAttributes
 
