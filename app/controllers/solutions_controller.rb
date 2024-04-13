@@ -11,9 +11,9 @@ class SolutionsController < ApplicationController
 
     page_meta.site_title = t(".site_title", raise: true)
 
-    search_and_load_solutions! refetch_comparison: false
-
     open_graph.url = solutions_url
+
+    search_and_load_solutions! refetch_comparison: false
   end
 
   def show
