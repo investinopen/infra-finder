@@ -25,7 +25,7 @@ module WorksWithComparisons
   # @return [Comparison, nil]
   attr_reader :current_comparison
 
-  delegate :search_filters, to: :current_comparison, allow_nil: true, prefix: :current
+  delegate :comparison_share, :search_filters, to: :current_comparison, allow_nil: true, prefix: :current
 
   # @return [Comparisons::Types::LoadStrategy]
   def comparison_load_strategy
@@ -60,6 +60,10 @@ module WorksWithComparisons
   #   Should never occur under normal circumstances.
   # @return [Comparison]
   def fetch_comparison!
+    # :nocov:
+    session.update(xx: ?b) unless session.exists?
+    # :nocov:
+
     session_id = session.try(:id)
 
     ip = request.remote_ip
@@ -84,10 +88,46 @@ module WorksWithComparisons
     @current_comparison = fetch_comparison!
   end
 
+  def skip_current_comparison?
+    if current_comparison.blank?
+      redirect_to solutions_path, notice: t("comparisons.show.select_some_comparisons")
+
+      return true
+    end
+
+    unless current_comparison.comparison_items.many?
+      redirect_to solutions_path, notice: t("comparisons.show.not_enough_selected")
+
+      return true
+    end
+
+    if controller_name == "comparisons" && action_name == "show"
+      redirect_to comparison_share_url(current_comparison_share, m: ?c)
+
+      return true
+    end
+  end
+
+  def render_current_comparison!
+    return if skip_current_comparison?
+
+    set_current_open_graph!(image: "og/compare.png")
+
+    open_graph.url = comparison_share_url(current_comparison_share)
+
+    page_meta.canonical_url = comparison_share_url(current_comparison_share)
+
+    page_meta.no_index!
+
+    page_meta.site_title = t(".site_title", raise: true)
+  end
+
+  COMPARISON_CONTROLLERS = %w[comparisons comparison_shares].freeze
+
   def request_from_comparison?
     ref = Rails.application.routes.recognize_path(request.referer)
 
-    ref[:controller] == "comparisons" && ref[:action] == "show"
+    ref[:controller].in?(COMPARISON_CONTROLLERS) && ref[:action] == "show"
   rescue ActionController::RoutingError
     # :nocov:
     false

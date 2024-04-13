@@ -7,13 +7,14 @@ class ComparisonSharesController < ApplicationController
     @comparison_share = ComparisonShare.find params[:id]
 
     current_comparison.accept_shared @comparison_share do |m|
-      m.success do
-        @comparison_share.used!
+      m.success do |_, changed|
+        @comparison_share.used! if changed
 
-        if params[:m] == ?c
-          redirect_to comparison_path, notice: t(".selected")
+        # f for "filters"
+        if params[:m] == ?f
+          redirect_to solutions_path
         else
-          redirect_to solutions_path, notice: t(".applied")
+          render_current_comparison!
         end
       end
 

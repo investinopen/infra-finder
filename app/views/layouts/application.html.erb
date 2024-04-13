@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="<%= I18n.locale %>">
   <head>
-    <title><%= t("globals.app_title") %></title>
+    <title><%= page_meta.site_title %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= turbo_refresh_method_tag(:replace) %>
     <%= turbo_refresh_scroll_tag(:preserve) %>
@@ -16,6 +16,18 @@
     <meta name="application-name" content="Infra Finder">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
+
+    <% if page_meta.canonical_url.present? %>
+      <link rel="canonical" href="<%= page_meta.canonical_url %>">
+    <% end %>
+
+    <% if page_meta.no_index %>
+      <meta name="robots" content="noindex, nofollow">
+    <% end %>
+
+    <% if open_graph.valid? %>
+      <%= render OpenGraphComponent.new(open_graph:) %>
+    <% end %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>

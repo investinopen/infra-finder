@@ -41,42 +41,70 @@ RSpec.describe ComparisonsController do
             get comparison_url
           end.to execute_safely
 
-          expect(response).to be_successful
+          expect(response).to redirect_to(comparison_share_url(current_comparison.comparison_share, m: ?c))
+
+          expect do
+            follow_redirect!
+          end.to execute_safely
+
+          expect(response).to have_http_status(:ok)
         end
       end
     end
   end
 
   context "DELETE /comparison" do
-    context "when there is no current comparison" do
-      it "redirects to solutions" do
-        expect do
-          delete comparison_url
-        end.to execute_safely
+    shared_examples "success" do
+      context "when there is no current comparison" do
+        it "redirects to solutions" do
+          expect do
+            delete comparison_url, as: format
+          end.to execute_safely
 
-        expect(response).to redirect_to solutions_path
-      end
-    end
-
-    context "with a current comparison" do
-      include_context "existing comparison"
-
-      let_it_be(:solutions, refind: true) { FactoryBot.create_list :solution, 2 }
-
-      before do
-        solutions.each do |solution|
-          current_comparison.add!(solution)
+          if format == :turbo_stream
+            assert_turbo_stream action: "update", count: 4
+          else
+            expect(response).to redirect_to solutions_path
+          end
         end
       end
 
-      it "clears the items" do
-        expect do
-          delete comparison_url
-        end.to change(ComparisonItem, :count).by(-2)
-          .and keep_the_same(Comparison, :count)
+      context "with a current comparison" do
+        include_context "existing comparison"
 
-        expect(response).to redirect_to(solutions_path)
+        let_it_be(:solutions, refind: true) { FactoryBot.create_list :solution, 2 }
+
+        before do
+          solutions.each do |solution|
+            current_comparison.add!(solution)
+          end
+        end
+
+        it "clears the items" do
+          expect do
+            delete comparison_url, as: format
+          end.to change(ComparisonItem, :count).by(-2)
+            .and keep_the_same(Comparison, :count)
+
+          if format == :turbo_stream
+            assert_turbo_stream action: "update", count: 4
+          else
+            expect(response).to redirect_to solutions_path
+          end
+        end
       end
+    end
+
+    context "as html" do
+      let(:format) { nil }
+
+      include_examples "success"
+    end
+
+    context "as turbo stream" do
+      let(:format) { :turbo_stream }
+
+      include_examples "success"
     end
   end
 end

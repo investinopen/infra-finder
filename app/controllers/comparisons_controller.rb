@@ -6,17 +6,7 @@ class ComparisonsController < ApplicationController
   uncacheable! :show
 
   def show
-    if current_comparison.blank?
-      redirect_to solutions_path, notice: t(".select_some_comparisons")
-
-      return
-    end
-
-    unless current_comparison.comparison_items.many?
-      redirect_to solutions_path, notice: t(".not_enough_selected")
-
-      return
-    end
+    render_current_comparison!
   end
 
   # @note The destroy action actually just clears the current comparison's items, since

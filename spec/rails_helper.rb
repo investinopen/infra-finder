@@ -25,6 +25,7 @@ SimpleCov.start "rails" do
   add_filter "app/models/concerns/checks_before_destruction.rb"
   add_filter "app/models/concerns/defines_monadic_operation.rb"
   add_filter "app/models/concerns/filterable.rb"
+  add_filter "app/models/concerns/has_autoincrementing_identifier.rb"
   add_filter "app/models/concerns/has_calculated_system_slug"
   add_filter "app/models/concerns/has_email.rb"
   add_filter "app/models/concerns/has_unique_identifier"
@@ -46,6 +47,7 @@ SimpleCov.start "rails" do
   add_filter "app/operations/utility"
   add_filter "app/policies/application_policy"
   add_filter "app/services/application_contract"
+  add_filter "app/services/concerns/calls_common_operation.rb"
   add_filter "app/services/concerns/initializer_options.rb"
   add_filter "app/services/concerns/monadic_find.rb"
   add_filter "app/services/concerns/monadic_persistence.rb"
@@ -170,6 +172,7 @@ RSpec.configure do |config|
 
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include Turbo::TestAssertions, type: :request
 
   config.include ViewComponent::TestHelpers, type: :component
   config.include ViewComponent::SystemTestHelpers, type: :component

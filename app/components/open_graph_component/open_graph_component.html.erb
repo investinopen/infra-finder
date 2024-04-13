@@ -1,0 +1,7 @@
+<%= meta_tag("og:title", open_graph.title) %>
+<%= meta_tag("og:type", open_graph.type) %>
+<%= meta_tag("og:image", open_graph.image) %>
+<%= meta_tag("og:url", open_graph.url) %>
+<% if open_graph.description.present? %>
+  <%= meta_tag("og:description", open_graph.description) %>
+<% end %>

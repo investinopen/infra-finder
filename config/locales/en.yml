@@ -54,18 +54,39 @@ en:
   comparisons:
     show:
       not_enough_selected: "Select some more solutions to compare."
+      open_graph_description: >
+        Compare open infrastructure solutions to identify the ones that fit your and your institutions' requirements.
+      open_graph_title: "Compare Solutions | Infra Finder"
       select_some_comparisons: "Select two or more solutions to compare."
+      site_title: "Compare Solutions | Infra Finder"
   comparison_shares:
     show:
       applied: "Shared solution filters updated"
       invalid_share_id: "Invalid Comparison Share ID"
+      open_graph_description: >
+        Compare open infrastructure solutions to identify the ones that fit your and your institutions' requirements.
+      open_graph_title: "Compare Solutions | Infra Finder"
       selected: "Shared solutions selected for comparison"
+      site_title: "Compare Solutions | Infra Finder"
   globals:
     app_title: "Infra Finder"
+    site_title: "Invest in Open Infrastructure"
+    open_graph_title: "Invest in Open Infrastructure"
   implementations:
     link_messages:
       many: "This implementation can have many links associated with it."
       single: "This implementation supports only a single associated link."
+  solutions:
+    index:
+      open_graph_description: >
+        Use Infra Finder to discover open infrastructure solutions enabling open research and scholarship.
+      open_graph_title: "Search & Compare Solutions | Infra Finder"
+      site_title: "Search & Compare Solutions | Infra Finder"
+    show:
+      open_graph_description: >
+        Infra Finder provides verified information on open infrastructures’ technical attributes, community engagement, governance, key policies, and more.
+      open_graph_title: "Solution: %{solution_name} | Infra Finder"
+      site_title: "%{solution_name} | Infra Finder"
   time:
     formats:
       mdy: "%b %d, %Y"

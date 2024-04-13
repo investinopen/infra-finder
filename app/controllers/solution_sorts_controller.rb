@@ -4,6 +4,11 @@
 class SolutionSortsController < ApplicationController
   comparison_load_strategy :fetch
 
+  # Only happens when there are errors, but we want to recover gracefully.
+  def show
+    redirect_to solutions_path
+  end
+
   def create
     params.permit(q: { s: [] })
 
