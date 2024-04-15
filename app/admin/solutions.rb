@@ -29,9 +29,12 @@ ActiveAdmin.register Solution do
 
   filter :name
 
-  filter :solution_categories, include_blank: true, collection: SolutionCategory.for_filter_collection
-  filter :licenses, include_blank: true, collection: License.for_filter_collection
-  filter :user_contributions, include_blank: true, collection: UserContribution.for_filter_collection
+  filter :solution_categories_id_in, as: :select, multiple: true, label: "Solution Categories (Any)",
+    collection: SolutionCategory.for_filter_collection
+  filter :licenses_id_in, as: :select, multiple: true, label: "Licenses (Any)",
+    collection: License.for_filter_collection
+  filter :user_contributions_id_in, as: :select, multiple: true, label: "User Contributions (Any)",
+    collection: UserContribution.for_filter_collection
 
   filter :provider, include_blank: true, collection: Provider.for_filter_collection
   filter :board_structure, include_blank: true, collection: BoardStructure.for_filter_collection

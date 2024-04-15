@@ -140,7 +140,7 @@ module SolutionImports
         # @!attribute [r] pattern
         # @return [Regexp]
         def pattern
-          @pattern ||= Regexp.union(lookups.keys)
+          @pattern ||= Regexp.union(lookups.keys.sort.reverse)
         end
       end
     end
