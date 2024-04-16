@@ -7,6 +7,51 @@ RSpec.describe ComparisonItemsController, type: :request do
 
   let(:success_path) { solutions_path }
 
+  describe "GET /solutions/:solution_id/compare (no JS fallback)" do
+    context "when adding a solution" do
+      it "works as a no-JS fallback" do
+        expect do
+          get solution_compare_path(solution)
+        end.to change(ComparisonItem, :count).by(1)
+
+        expect(response).to redirect_to(success_path)
+      end
+
+      context "when the maximum number of solutions have been added" do
+        let_it_be(:existing_solutions) { FactoryBot.create_list :solution, ComparisonItem::MAX_ITEMS }
+
+        before do
+          existing_solutions.each do |solution|
+            current_comparison.add! solution
+          end
+        end
+
+        it "refuses to add any more" do
+          expect do
+            get solution_compare_path(solution)
+          end.to keep_the_same(ComparisonItem, :count)
+
+          expect(response).to redirect_to(success_path)
+          expect(flash[:alert]).to eq I18n.t("activerecord.errors.models.comparison_item.items_exceeded", count: ComparisonItem::MAX_ITEMS)
+        end
+      end
+    end
+
+    context "when removing an already-selected solution" do
+      before do
+        current_comparison.add! solution
+      end
+
+      it "removes the solution from comparison as a no-JS fallback" do
+        expect do
+          get solution_compare_path(solution)
+        end.to change(ComparisonItem, :count).by(-1)
+
+        expect(response).to redirect_to(success_path)
+      end
+    end
+  end
+
   describe "POST /solutions/:solution_id/compare" do
     shared_examples "success" do
       it "can add a solution" do

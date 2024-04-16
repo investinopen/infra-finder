@@ -46,6 +46,17 @@ class Comparison < ApplicationRecord
     call_operation("comparisons.remove", self, solution)
   end
 
+  # @see #add
+  # @see #remove
+  # @param [Solution] solution
+  def toggle(solution, &)
+    if comparing?(solution)
+      remove(solution, &)
+    else
+      add(solution, &)
+    end
+  end
+
   # @!group Filtering
 
   # @param [Hash] new_search_filters

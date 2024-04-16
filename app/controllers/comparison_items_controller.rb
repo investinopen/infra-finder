@@ -6,6 +6,26 @@ class ComparisonItemsController < ApplicationController
 
   before_action :derive_share_mode!
 
+  def show
+    @solution = Solution.find params[:solution_id]
+
+    current_comparison.toggle(@solution) do |m|
+      m.success do
+        redirect_back fallback_location: solutions_path
+      end
+
+      m.failure :items_exceeded do |_, alert|
+        redirect_back(fallback_location: solutions_path, alert:)
+      end
+
+      m.failure do
+        # :nocov:
+        redirect_back fallback_location: solutions_path, alert: t("api.errors.something_went_wrong")
+        # :nocov:
+      end
+    end
+  end
+
   def create
     @solution = Solution.find params[:solution_id]
 

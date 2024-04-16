@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   resource :solution_sort, only: %i[show create]
 
   resources :solutions, only: %i[index show] do
-    resource :comparison_item, path: "compare", as: :compare, only: %i[create destroy]
+    resource :comparison_item, path: "compare", as: :compare, only: %i[show create destroy]
   end
 
   get "up" => "rails/health#show", as: :rails_health_check
