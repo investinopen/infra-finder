@@ -2,12 +2,25 @@
 
 [IOI](https://investinopen.org) Infra Finder.
 
-## Setting up
+## Setting up for local development
 
 Ensure you have docker, docker-compose, and docker-sync (`gem install docker-sync`) installed.
 
-Though credentials are not extensively used on this project yet, copy the master key from "Infra Finder master.key"
-in 1Password and put it in place, `pbpaste > config/master.key`
+### Credentials
+
+If you are developing the core application, copy the master key from the  1Password and put it in place:
+`pbpaste > config/master.key`. If you are running this in your own environment, you will need to fork and
+generate your own credentials for development, staging, and production:
+
+```bash
+rm config/credentials.yml.enc config/credentials/{staging,production}.yml.enc
+
+bin/rails credentials:edit # for dev credentials, only secret_key_base needs to be set
+bin/rails credentials:edit --environment staging
+bin/rails credentials:edit --environment production
+```
+
+### Starting
 
 `docker-sync` must always be running in order to have changes persist between your host and the docker container.
 
@@ -25,7 +38,7 @@ This will automatically run migrations and seed the database with migrations, se
 You can launch a console inside the docker environment via `bin/console`. To make a new user for dev, launch one and:
 
 ```ruby
-user = InfraFinder::Container["testing.add_super_admin"].("youremail@castironcoding.com", "Your Name").value!;
+user = InfraFinder::Container["testing.add_super_admin"].("youremail@investinopen.org", "Your Name").value!;
 ```
 
 The randomly-generated password will get printed to the console. You can then sign in by going to [the admin section](http://localhost:6856/admin).

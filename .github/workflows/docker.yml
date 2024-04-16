@@ -1,4 +1,4 @@
-name: "Build & Deploy Docker for Staging"
+name: "Build & Push Docker"
 
 on:
   push:
@@ -43,6 +43,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args:
-            "RAILS_ENV=staging"
+            "RAILS_ENV=production"
           secrets:
-            "masterkey=${{ secrets.STAGING_MASTER_KEY }}"
+            "masterkey=${{ secrets.PRODUCTION_MASTER_KEY }}"

@@ -1,5 +1,5 @@
 default: &default
-  origin: "do-not-reply@castironcoding.com"
+  origin: "no-reply@investinopen.org"
   address: ""
   external: false
   port: 587
@@ -19,7 +19,7 @@ staging:
   <<: *default
   address: "smtp.sendgrid.net"
   external: true
-  origin: "do-not-reply@castironcoding.com"
+  origin: "no-reply@investinopen.org"
   port: 587
   username: apikey
 
@@ -27,6 +27,6 @@ production:
   <<: *default
   address: "smtp.sendgrid.net"
   external: true
-  origin: "do-not-reply@castironcoding.com"
+  origin: "no-reply@investinopen.org"
   port: 587
   username: apikey
