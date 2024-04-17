@@ -146,6 +146,9 @@
           <%= render_implementation(:community_engagement) %>
         </div>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.community_engagement.statement, heading: t(".community.organizational_commitment")) %>
+        <% if solution.engagement_with_values_frameworks?.present? %>
+          <%= render SolutionDetailsTextBlockComponent.new(text: solution.engagement_with_values_frameworks, heading: t(".community.engagement")) %>
+        <% end %>
         <% if solution.user_contributions.present? %>
           <div>
             <h3><%= t(".community.user_contribution") %></h3>
