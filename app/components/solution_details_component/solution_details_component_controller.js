@@ -11,6 +11,11 @@ export default class extends Controller {
     return [...this.navEl.querySelectorAll("[href]")];
   }
 
+  get prefersReducedMotion() {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    return mq.matches;
+  }
+
   connect() {
     this.observer;
 
@@ -37,6 +42,8 @@ export default class extends Controller {
         },
       }
     );
+
+    this.bindHashChange();
   }
 
   articleTargetConnected(element) {
@@ -61,6 +68,26 @@ export default class extends Controller {
       this.state.direction === "down" ? this.getTargetArticle(e) : e.target;
 
     if (this.shouldUpdate(e)) this.state.activeId = entryTarget.id;
+  };
+
+  bindHashChange() {
+    window.addEventListener("hashchange", this.handleHashChange);
+  }
+
+  handleHashChange = (event) => {
+    if (!this.prefersReducedMotion) return;
+
+    const newUrl = new URL(event.newURL);
+    const targetId = newUrl.hash.replace("#", "");
+
+    const articleIsActive = this.articleTargets.some(
+      (article) => article.id === targetId
+    );
+
+    if (articleIsActive)
+      setTimeout(() => {
+        this.state.activeId = targetId;
+      }, 200);
   };
 
   processActiveChange() {
