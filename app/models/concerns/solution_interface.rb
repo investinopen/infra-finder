@@ -17,6 +17,7 @@ module SolutionInterface
 
   BLURBS = %i[
     content_licensing
+    engagement_with_values_frameworks
     funding_needs
     governance_summary
     key_achievements
