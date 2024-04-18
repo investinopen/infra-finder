@@ -13,16 +13,12 @@ class SolutionDetailsComponent < ApplicationComponent
   # @return [String, nil]
   attr_reader :formatted_num_staff
 
-  # @return [Boolean]
-  attr_reader :has_policies
-
   # @param [Solution] solution
   # @param [Comparison, nil] comparison
   def initialize(solution:, comparison: nil)
     @solution = solution
     @comparison = comparison
     @formatted_num_staff = number_with_delimiter(solution.current_staffing)
-    @has_policies = solution.bylaws? or solution.equity_and_inclusion? or solution.privacy_policy? or solution.web_accessibility? or solution.open_data?
   end
 
   # @param [Solutions::Types::Implementation] name
