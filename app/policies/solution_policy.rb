@@ -14,6 +14,10 @@ class SolutionPolicy < ApplicationPolicy
     has_any_admin_access?
   end
 
+  def fetch_public?
+    has_any_admin_access?
+  end
+
   def create_draft?
     admin_or_editor_for_record?
   end
