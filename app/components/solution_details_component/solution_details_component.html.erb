@@ -75,9 +75,11 @@
       <article id="mission" class="l-container__inner"
         data-solution-details-component--solution-details-component-target="article">
         <h2 class="a-underline"><%= t(".mission.heading") %></h2>
-        <div class="t-rte">
-          <%= solution.mission? ? (sanitize solution.mission) : "" %>
-        </div>
+        <% if solution.mission? %>
+          <div class="t-rte">
+            <%= sanitize solution.mission %>
+          </div>
+        <% end %>
         <% if solution.key_achievements.present? %>
           <div class="bg-white p-10 pt-8 mt-[3.75rem] rounded-lg max-w-text">
             <h3>
@@ -108,8 +110,7 @@
           <%= render_implementation(:product_roadmap) %>
           <%= render_implementation(:open_api) %>
         </div>
-        <% if solution.hosting_strategy.present? or solution.service_providers.present? %>
-        <div>
+        <div class="solution-cards-wrapper">
           <h3>
             <%= t(".technical.hosting_options") %>
           </h3>
@@ -135,7 +136,6 @@
             <% end %>
           </div>
         </div>
-        <% end %>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.integrations_and_compatibility, heading: t(".technical.integrations_and_compatibility")) %>
       </article>
       <article id="community" class="l-container__inner"
@@ -164,51 +164,50 @@
         data-solution-details-component--solution-details-component-target="article">
         <h2 class="a-underline"><%= t(".policies.heading") %></h2>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.governance_summary, heading: t(".policies.governance_summary")) %>
-        <div>
-         <% if has_policies %>
-            <h3>
-              <%= t(".policies.policies") %>
-            </h3>
-            <div class="solution-cards">
-              <%= render_implementation(:bylaws) %>
-              <%= render_implementation(:equity_and_inclusion) %>
-              <%= render_implementation(:privacy_policy) %>
-              <%= render_implementation(:web_accessibility) %>
-              <%= render_implementation(:open_data) %>
-            </div>
-          <% end %>
+        <div class="solution-cards-wrapper">
+          <h3>
+            <%= t(".policies.policies") %>
+          </h3>
+          <div class="solution-cards">
+            <%= render_implementation(:bylaws) %>
+            <%= render_implementation(:equity_and_inclusion) %>
+            <%= render_implementation(:privacy_policy) %>
+            <%= render_implementation(:web_accessibility) %>
+            <%= render_implementation(:open_data) %>
+            <%= render_implementation(:governance_activities) %>
+            <%= render_implementation(:governance_structure) %>
+            <%= render_implementation(:pricing) %>
+          </div>
         </div>
       </article>
       <article id="additional_information" class="l-container__inner"
         data-solution-details-component--solution-details-component-target="article">
         <h2 class="a-underline"><%= t(".additional_information.heading") %></h2>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.organizational_history, heading: t(".additional_information.organizational_history")) %>
-        <div>
-          <% if solution.business_form.present? or formatted_num_staff.present? %>
-            <h3><%= t(".additional_information.organizational_structure") %></h3>
-            <div class="solution-cards">
-              <% if solution.business_form.present? %>
-                <div class="org-structure-card">
-                  <h4>
-                    <%= t(".additional_information.business_model") %>
-                  </h4>
-                  <div class="text-h4">
-                    <%= solution.business_form.name %>
-                  </div>
+        <div class="solution-cards-wrapper">
+          <h3><%= t(".additional_information.organizational_structure") %></h3>
+          <div class="solution-cards">
+            <% if solution.business_form.present? %>
+              <div class="org-structure-card">
+                <h4>
+                  <%= t(".additional_information.business_model") %>
+                </h4>
+                <div class="text-h4">
+                  <%= solution.business_form.name %>
                 </div>
-              <% end %>
-              <% if formatted_num_staff.present? %>
-                <div class="org-structure-card">
-                  <h4>
-                    <%= t(".additional_information.full_time_staff") %>
-                  </h4>
-                  <div class="text-staff">
-                    <%= formatted_num_staff %>
-                  </div>
+              </div>
+            <% end %>
+            <% if formatted_num_staff.present? %>
+              <div class="org-structure-card">
+                <h4>
+                  <%= t(".additional_information.full_time_staff") %>
+                </h4>
+                <div class="text-staff">
+                  <%= formatted_num_staff %>
                 </div>
-              <% end %>
-            </div>
-          <% end %>
+              </div>
+            <% end %>
+          </div>
         </div>
       </article>
       <article id="funding" class="l-container__inner"
