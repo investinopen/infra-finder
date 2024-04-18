@@ -21,10 +21,11 @@ en:
     heading: Technical Attributes
     hosting_options: "Hosting Options & Service Providers"
     integrations_and_compatibility: What other tools and projects does your project interact with?
-    standards: Standards Employed
+    standards_employed: Standards Employed
     maintenance_status: Maintenance Status
     hosting_strategy: Hosting Strategy
     service_providers: Service Providers
+    content_licensing: Content Licensing
   community:
     nav: Community
     heading: Community Engagement

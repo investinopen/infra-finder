@@ -110,6 +110,8 @@
           <%= render_implementation(:product_roadmap) %>
           <%= render_implementation(:open_api) %>
         </div>
+        <%= render SolutionDetailsTextBlockComponent.new(text: solution.content_licensing, heading: t(".technical.content_licensing")) %>
+        <%= render SolutionDetailsTextBlockComponent.new(text: solution.standards_employed, heading: t(".technical.standards_employed")) %>
         <div class="solution-cards-wrapper">
           <h3>
             <%= t(".technical.hosting_options") %>
@@ -145,6 +147,8 @@
           <%= render_implementation(:code_of_conduct) %>
           <%= render_implementation(:community_engagement) %>
           <%= render_implementation(:user_contribution_pathways) %>
+          <%= render_implementation(:code_license) %>
+          <%= render_implementation(:open_data) %>
         </div>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.community_engagement.statement, heading: t(".community.organizational_commitment")) %>
         <% if solution.engagement_with_values_frameworks?.present? %>
