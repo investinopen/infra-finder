@@ -192,6 +192,7 @@ Metrics/AbcSize:
     - ^ransackable
   Exclude:
     - "app/admin/**/*.rb"
+    - "app/models/concerns/**/*.rb"
     - "app/operations/**/*.rb"
     - "app/services/**/*.rb"
     - "lib/support/**/*.rb"
@@ -211,6 +212,7 @@ Metrics/CyclomaticComplexity:
     - ^ransackable
   Exclude:
     - "app/admin/**/*.rb"
+    - "app/models/concerns/**/*.rb"
     - "app/operations/**/*.rb"
     - "app/services/**/*.rb"
     - "lib/**/*.rb"
@@ -221,6 +223,7 @@ Metrics/MethodLength:
     - ^ransackable
   Exclude:
     - "app/admin/**/*.rb"
+    - "app/models/concerns/**/*.rb"
     - "lib/support/**/*.rb"
     - "spec/**/*.rb"
   Max: 30
@@ -233,6 +236,7 @@ Metrics/ParameterLists:
 
 Metrics/PerceivedComplexity:
   Exclude:
+    - "app/models/concerns/**/*.rb"
     - "app/operations/**/*.rb"
     - "app/services/**/*.rb"
     - "lib/support/**/*.rb"

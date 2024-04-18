@@ -154,8 +154,24 @@ ActiveAdmin.register Solution do
     head :forbidden
   end
 
-  csv do
-    column :id
-    column :name
+  csv force_quotes: true do
+    SolutionInterface.private_csv!(self)
+  end
+
+  collection_action :fetch_public, method: :get, format: :csv do
+    authorize :fetch_public, policy_class: SolutionPolicy
+
+    headers["Content-Type"] = "text/csv; charset=utf-8" # In Rails 5 it's set to HTML??
+    headers["Content-Disposition"] = %{attachment; filename="public-#{csv_filename}"}
+
+    builder_proc = SolutionInterface.public_csv_builder.method(:build).to_proc.curry[self]
+
+    stream_resource &builder_proc
+  rescue Pundit::NotAuthorizedError
+    redirect_to root_path
+  end
+
+  sidebar :downloads, only: :index, if: proc { current_user.has_any_admin_access? } do
+    link_to "Download Public CSV", fetch_public_admin_solutions_url(format: :csv)
   end
 end
