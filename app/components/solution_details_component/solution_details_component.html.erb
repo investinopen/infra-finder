@@ -144,6 +144,7 @@
         <div class="solution-cards">
           <%= render_implementation(:code_of_conduct) %>
           <%= render_implementation(:community_engagement) %>
+          <%= render_implementation(:user_contribution_pathways) %>
         </div>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.community_engagement.statement, heading: t(".community.organizational_commitment")) %>
         <% if solution.engagement_with_values_frameworks?.present? %>
