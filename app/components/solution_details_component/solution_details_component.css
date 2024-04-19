@@ -69,7 +69,7 @@
 }
 
 .solution-cards-wrapper {
-  &:not(:has(.m-card)) {
+  &:not(:has(.m-card)):not(:has(.org-structure-card)) {
     display: none;
   }
 }
@@ -79,10 +79,6 @@
   flex-wrap: wrap;
   gap: 1rem;
   align-items: stretch;
-
-  &:not(:has(.m-card)) {
-    display: none;
-  }
 
   > * {
     flex-basis: 19.6875rem;
