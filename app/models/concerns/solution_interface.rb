@@ -460,79 +460,13 @@ module SolutionInterface
       end
     end
 
+    # @see Solutions::CSVColumnDefiner
+    # @see Solutions::DefineCSVColumns
     # @param [ActiveAdmin::CSVBuilder] builder
     # @param [:private, :public] scope
     # @return [void]
     def build_scoped_csv_for(builder, scope:)
-      builder.column :identifier
-      builder.column :name
-      builder.column(:provider_id) do |solution|
-        solution.provider_id
-      end
-      builder.column(:provider_name) do |solution|
-        solution.provider_name
-      end
-      builder.column :founded_on
-      builder.column :location_of_incorporation
-      builder.column :current_staffing
-      builder.column :member_count
-      builder.column :maintenance_status
-
-      builder.column :contact_method
-      builder.column :contact
-      builder.column :research_organization_registry_url
-      builder.column :website
-
-      SolutionInterface::FINANCES.each do |attr|
-        builder.column(attr)
-      end unless scope == :public
-
-      SolutionInterface::BLURBS.each do |blurb|
-        builder.column(blurb)
-      end
-
-      SolutionInterface::IMPLEMENTATIONS_WITH_ENUMS.in_groups_of(2).each do |(impl, enum)|
-        builder.column(enum)
-
-        builder.column(impl) do |solution|
-          solution.__send__(impl).to_csv
-        end
-      end
-
-      SolutionInterface::STORE_MODEL_LISTS.each do |list|
-        builder.column(list) do |solution|
-          solution.__send__(list).as_json.compact_blank.to_json
-        end
-      end
-
-      SolutionInterface::TAG_LISTS.each do |tags|
-        builder.column(tags) do |solution|
-          solution.__send__(tags).join(?,)
-        end
-      end
-
-      SolutionInterface::SINGLE_OPTIONS.each do |opt|
-        builder.column(:"#{opt}_id")
-
-        builder.column(:"#{opt}_name") do |solution|
-          solution.__send__(opt).try(:name)
-        end
-      end
-
-      SolutionInterface::MULTIPLE_OPTIONS.each do |opt|
-        single = opt.to_s.singularize.to_sym
-
-        builder.column(:"#{single}_ids")
-
-        builder.column(:"#{single}_names") do |solution|
-          solution.__send__(opt).pluck(:name).to_json
-        end
-      end
-
-      builder.column(:created_at)
-      builder.column(:updated_at)
-
-      return builder
+      InfraFinder::Container["solutions.define_csv_columns"].(builder, scope:).value!
     end
   end
 end

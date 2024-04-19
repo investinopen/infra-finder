@@ -13,6 +13,7 @@
 # These inflection rules are supported but not enabled by default:
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym "API"
+  inflect.acronym "CSV"
   inflect.acronym "HTML"
   inflect.acronym "JSON"
   inflect.acronym "URL"
