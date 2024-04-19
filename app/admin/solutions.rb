@@ -162,7 +162,7 @@ ActiveAdmin.register Solution do
     authorize :fetch_public, policy_class: SolutionPolicy
 
     headers["Content-Type"] = "text/csv; charset=utf-8" # In Rails 5 it's set to HTML??
-    headers["Content-Disposition"] = %{attachment; filename="public-#{csv_filename}"}
+    headers["Content-Disposition"] = ContentDisposition.attachment(csv_filename(for_public: true))
 
     builder_proc = SolutionInterface.public_csv_builder.method(:build).to_proc.curry[self]
 
@@ -173,5 +173,15 @@ ActiveAdmin.register Solution do
 
   sidebar :downloads, only: :index, if: proc { current_user.has_any_admin_access? } do
     link_to "Download Public CSV", fetch_public_admin_solutions_url(format: :csv)
+  end
+
+  controller do
+    def csv_filename(for_public: false)
+      prefix = for_public ? "public" : "internal-use"
+
+      base = [prefix, "infra-finder-data-export", Date.current].join(?-)
+
+      "#{base}.csv"
+    end
   end
 end
