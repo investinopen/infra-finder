@@ -16,8 +16,6 @@ module Solutions
 
     skip_public!(*SolutionInterface::MULTIPLE_OPTIONS.map { :"#{_1.to_s.singularize}_ids" })
 
-    skip_public! :created_at, :updated_at
-
     define_columns! def core_fields
       column! :identifier
       column! :name
