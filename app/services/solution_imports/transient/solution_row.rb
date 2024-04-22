@@ -13,7 +13,7 @@ module SolutionImports
       attribute? :founded_on, Types::Date.optional
       attribute? :location_of_incorporation, Types::String.optional
       attribute? :member_count, Types::Integer.optional
-      attribute? :current_staffing, Types::CorrectedFloat
+      attribute? :current_staffing, Support::Types::BigDecimal
       attribute? :maintenance_status, Types::MaintenanceStatus
 
       # @!endgroup

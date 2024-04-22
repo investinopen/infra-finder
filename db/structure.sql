@@ -829,7 +829,7 @@ CREATE TABLE public.solution_drafts (
     founded_on date,
     location_of_incorporation text,
     member_count bigint,
-    current_staffing bigint,
+    current_staffing numeric(19,2),
     website text,
     contact text,
     research_organization_registry_url text,
@@ -1023,7 +1023,7 @@ CREATE TABLE public.solutions (
     founded_on date,
     location_of_incorporation text,
     member_count bigint,
-    current_staffing bigint,
+    current_staffing numeric(19,2),
     website text,
     contact text,
     research_organization_registry_url text,
@@ -2749,6 +2749,7 @@ ALTER TABLE ONLY public.users_roles
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240422160207'),
 ('20240417214156'),
 ('20240412195958'),
 ('20240411211514'),
