@@ -23,6 +23,11 @@ FactoryBot.define do
       last_used_at { Time.current }
     end
 
+    trait :prunable do
+      shared_at { nil }
+      last_used_at { ComparisonShare::PRUNABLE_AGE.ago - 1.day }
+    end
+
     after(:create) do |comparison_share, evaluator|
       comparison_share.solutions = Solution.find(evaluator.solution_ids)
     end

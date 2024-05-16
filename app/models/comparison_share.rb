@@ -5,7 +5,7 @@ class ComparisonShare < ApplicationRecord
   include AbstractComparison
   include TimestampScopes
 
-  PRUNABLE_AGE = 6.months
+  PRUNABLE_AGE = 2.years
 
   pg_enum! :item_state, as: :comparison_item_state, allow_blank: false, default: :empty, prefix: :items
 
@@ -34,15 +34,13 @@ class ComparisonShare < ApplicationRecord
     def arel_prunable
       last_used_at = arel_table[:last_used_at]
 
-      too_old = last_used_at.lt(PRUNABLE_AGE.ago)
-
-      existing_fingerprints = Comparison.where.not(fingerprint: nil).select(:fingerprint)
-
-      no_matching_comparisons = arel_not(arel_expr_in_query(arel_table[:fingerprint], existing_fingerprints))
+      too_old_since_used = last_used_at.lt(PRUNABLE_AGE.ago)
+      too_old_since_created = arel_table[:created_at].lt(PRUNABLE_AGE.ago)
 
       arel_case do |stmt|
-        stmt.when(arel_table[:shared_at].not_eq(nil)).then(too_old)
-        stmt.else(no_matching_comparisons)
+        stmt.when(arel_table[:shared_at].not_eq(nil)).then(arel_quote(false))
+        stmt.when(last_used_at.not_eq(nil)).then(too_old_since_used)
+        stmt.else(too_old_since_created)
       end
     end
   end
