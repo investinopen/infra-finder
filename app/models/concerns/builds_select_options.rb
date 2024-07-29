@@ -5,6 +5,10 @@ module BuildsSelectOptions
   extend ActiveSupport::Concern
 
   module ClassMethods
+    # @abstract
+    # @return [Arel::Expression, nil]
+    def select_option_props_expression; end
+
     # @api private
     # @abstract
     # @return [ActiveRecord::Relation<BuildsSelectOptions>]
@@ -14,7 +18,13 @@ module BuildsSelectOptions
 
     # @return [<(String, String)>]
     def to_select_options
-      order_for_select_options.pluck(:name, :id)
+      projections = [
+        :name,
+        :id,
+        select_option_props_expression
+      ].compact
+
+      order_for_select_options.pluck(*projections)
     end
   end
 end

@@ -2,7 +2,17 @@
 
 FactoryBot.define do
   factory :hosting_strategy do
-    sequence(:name) { "HS #{_1}" }
+    sequence(:name) { "Hosting Strategy #{_1}" }
+    sequence(:term) { "Hosting Strategy #{_1}" }
+
     visibility { "visible" }
+
+    trait :visible do
+      visibility { "visible" }
+    end
+
+    trait :hidden do
+      visibility { "hidden" }
+    end
   end
 end

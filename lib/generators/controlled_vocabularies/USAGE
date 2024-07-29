@@ -1,0 +1,8 @@
+Description:
+    Explain the generator
+
+Example:
+    bin/rails generate controlled_vocabularies Thing
+
+    This will create:
+        what/will/it/create

@@ -1,6 +1,10 @@
 en:
   activerecord:
     errors:
+      messages:
+        term_contains_separator: "contains a separator (|), which breaks import/export parsing"
+        unknown_country_code: "does not correspond to a known ISO3166 alpha-2 country code"
+        unknown_currency: "does not correspond to a known currency"
       models:
         comparison_item:
           items_exceeded: "Please select no more than %{count} solutions to compare."

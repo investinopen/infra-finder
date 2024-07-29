@@ -24,14 +24,10 @@ end
 
 tab :finances do
   attributes_table title: "Finances" do
-    SolutionInterface::CURRENCY_VALUES.each do |attr|
+    SolutionProperty.currency_values.each do |attr|
       row attr do |r|
-        number_to_currency r[attr], precision: 0, strip_insignificant_zeros: true
+        humanized_money_with_symbol r.__send__(attr)
       end
-    end
-
-    row :financial_numbers_applicability do |r|
-      status_tag r.financial_numbers_applicability
     end
 
     row :financial_numbers_publishability do |r|
@@ -51,17 +47,17 @@ end
 tab :lists do
   para "The following tables may be blank if no records have been defined for this #{resource.model_name.human}."
 
-  panel "Comparable Products" do
-    table_for resource.comparable_products do
-      column :name
-
-      column :url do |r|
-        link_to(r.url, r.url, target: :blank) if r.url.present?
-      end
-
-      column :description
-    end
-  end
+  # panel "Comparable Products" do
+  #   table_for resource.comparable_products do
+  #     column :name
+  #
+  #    column :url do |r|
+  #      link_to(r.url, r.url, target: :blank) if r.url.present?
+  #    end
+  #
+  #    column :description
+  #  end
+  # end
 
   panel "Current Affiliations" do
     table_for resource.current_affiliations do

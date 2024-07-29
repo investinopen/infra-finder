@@ -1,33 +1,33 @@
 tab "General" do
   f.inputs "Core" do
-    f.input :name
+    f.solution_property :name
 
-    f.input :founded_on, as: :datepicker
+    f.solution_property :founded_on
 
-    f.input :location_of_incorporation, as: :string
+    f.solution_property :country_code
 
-    f.input :member_count
+    f.solution_property :member_count
 
-    f.input :current_staffing
+    f.solution_property :staffing_full_time
+
+    f.solution_property :staffing_volunteer
+
+    f.solution_property :maintenance_statuses
   end
 end
 
 tab "Filters" do
-  f.inputs "Filters" do
-    f.input :solution_categories, as: :check_boxes, collection: SolutionCategory.to_select_options
+  f.inputs "Controlled Vocabularies" do
+    f.solution_property :scoss
 
-    SolutionInterface::MULTIPLE_OPTIONS.without(:solution_categories).each do |option|
-      f.input option, as: :check_boxes, collection: f.object.class.reflect_on_association(option).klass.to_select_options
+    f.solution_property(:solution_categories)
+
+    SolutionProperty.has_many_associations.without(:maintenance_statuses, :solution_categories, :accessibility_scopes).each do |option|
+      f.solution_property(option)
     end
 
-    SolutionInterface::SINGLE_OPTIONS.each do |option|
-      f.input option, as: :select, collection: f.object.class.reflect_on_association(option).klass.to_select_options, include_blank: true
-    end
-
-    f.input :maintenance_status, as: :select, required: true
-
-    SolutionInterface::TAG_LISTS.each do |tag_list|
-      f.input tag_list, as: :string, input_html: { value: f.object.try(tag_list).to_s }
+    SolutionProperty.has_one_associations.without(:staffing_full_time, :staffing_volunteer).each do |option|
+      f.solution_property(option)
     end
   end
 end
@@ -86,36 +86,37 @@ tab "Assets" do
       end
     end
 
+    f.record_property_access!(:logo)
+
     f.input :logo, as: :file, input_html: { accept: ImageUploader::ACCEPT }
   end
 end
 
 tab "Info" do
   f.inputs "Contact & Web Presence" do
-    f.input :contact, as: :url
-    f.input :website, as: :url
-    f.input :research_organization_registry_url, as: :url
+    f.solution_property :contact
+    f.solution_property :website
+    f.solution_property :board_members_url
+    f.solution_property :membership_program_url
+    f.solution_property :research_organization_registry_url
   end
 
   f.inputs "Finances" do
-    f.input :annual_expenses
-    f.input :annual_revenue
-    f.input :investment_income
-    f.input :other_revenue
-    f.input :program_revenue
-    f.input :total_assets
-    f.input :total_contributions
-    f.input :total_liabilities
+    f.solution_property :currency
 
-    f.input :financial_numbers_applicability, as: :radio
-    f.input :financial_numbers_publishability, as: :radio
-    f.input :financial_information_scope, as: :radio
-    f.input :financial_numbers_documented_url, as: :url
+    SolutionProperty.currency_values.each do |attr|
+      f.solution_property attr
+    end
+
+    f.solution_property :financial_numbers_publishability
+    f.solution_property :financial_numbers_documented_url
+    f.solution_property :financial_date_range
+    f.solution_property :shareholders
   end
 
   f.inputs "Blurbs" do
-    SolutionInterface::BLURBS.each do |blurb|
-      f.input blurb, as: :text, input_html: { rows: 7 }
+    SolutionProperty.blurb_values.each do |blurb|
+      f.solution_property blurb
     end
   end
 end
@@ -126,12 +127,6 @@ tab "Lists" do
       spf.input :name, as: :string, required: true
       spf.input :url, as: :url, required: true
       spf.input :description, as: :text, required: false
-    end
-
-    f.store_model_list :comparable_products do |cpf|
-      cpf.input :name, as: :string, required: true
-      cpf.input :url, as: :url, required: true
-      cpf.input :description, as: :text, required: false
     end
 
     f.store_model_list :current_affiliations do |caf|
@@ -167,8 +162,8 @@ tab "Lists" do
 end
 
 tab "Implementations" do
-  ::Solution.each_implementation do |impl|
-    if impl.name == :web_accessibility
+  Implementation.each do |impl|
+    if impl.web_accessibility?
       f.solution_implementation impl.name do |waf|
         waf.input :applies_to_solution, as: :boolean
         waf.input :applies_to_website, as: :boolean

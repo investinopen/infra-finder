@@ -55,14 +55,14 @@ module Comparisons
         return [attr, value] unless attr.to_s.in?(ransackable_scopes)
 
         case attr
-        when SolutionInterface::IMPLEMENTATION_AVAILABLE_SCOPE
+        when Implementation.available_scope
           impl = Regexp.last_match[:implementation]
 
           key = :"#{impl}_implementation_eq"
 
           return [key, "available"] if value
         when /\Amaintenance_active\z/
-          return [:maintenance_status_eq, "active"] if value
+          return attr if value
         else
           # :nocov:
           raise ArgumentError, "Unverified scope: #{attr.inspect}"

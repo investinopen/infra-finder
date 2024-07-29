@@ -86,7 +86,7 @@ module SolutionImports
       end
 
       wrapped_hook! def handle_draft_attachments
-        SolutionInterface::ATTACHMENTS.each do |attachment|
+        SolutionProperty.attachment_values.each do |attachment|
           remote_url = :"#{attachment}_remote_url"
 
           value = solution_row.public_send(remote_url)

@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
 class MaintenanceStatus < ApplicationRecord
-  include HasVisibility
-  # include SeededOption
-  # include SolutionOption
-  include TimestampScopes
+  include ControlledVocabularyRecord
 
-  # single!
+  uses_vocab! :maint
 end

@@ -11,8 +11,6 @@ class SolutionDraft < ApplicationRecord
 
   has_state_machine! predicates: :ALL
 
-  define_common_attributes!
-
   clear_exposed_ransackable_attributes!
 
   ransackable_minimum_allowance! :editor
@@ -83,9 +81,9 @@ class SolutionDraft < ApplicationRecord
   end
 
   def should_check?
-    TO_CLONE.any? do |attr|
+    SolutionProperty.to_clone.any? do |attr|
       case attr
-      when *ATTACHMENTS
+      when *SolutionProperty.attachment_values
         saved_change_to_attribute? :"#{attr}_data"
       else
         saved_change_to_attribute? attr

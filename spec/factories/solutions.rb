@@ -14,15 +14,15 @@ FactoryBot.define do
     end
 
     trait :maintenance_active do
-      maintenance_status { "active" }
+      # maintenance_status { "active" }
     end
 
     trait :maintenance_inactive do
-      maintenance_status { "inactive" }
+      # maintenance_status { "inactive" }
     end
 
     trait :with_key_technologies do
-      key_technology_list { "ruby, postgresql, rust" }
+      # key_technology_list { "ruby, postgresql, rust" }
     end
   end
 end

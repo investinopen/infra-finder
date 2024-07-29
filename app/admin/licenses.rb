@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register License do
-  extend SolutionOptionResource
+  extend ControlledVocabularies::Admin::Resource
 end

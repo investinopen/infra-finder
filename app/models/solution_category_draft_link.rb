@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-# A connection between a {SolutionDraft} and a {SolutionCategory}.
 class SolutionCategoryDraftLink < ApplicationRecord
-  include SolutionOptionLink
+  include ControlledVocabularyLink
 
-  belongs_to :solution_draft, inverse_of: :solution_category_draft_links
-  belongs_to :solution_category, inverse_of: :solution_category_draft_links
+  links_vocab_with_draft! :soln_cat
 end

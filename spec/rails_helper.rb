@@ -72,8 +72,17 @@ SimpleCov.start "rails" do
   add_filter "lib/support"
 
   # App-specific filters
+  add_filter "app/components/tag_list_component.rb"
+  add_filter "app/components/tag_component.rb"
   add_filter "app/operations/system/set_bucket_lifecycle.rb"
   add_filter "app/services/system/asset_pusher.rb"
+
+  # Temporary filters until import refactor
+  add_filter "app/models/concerns/has_stored_messages.rb"
+  add_filter "app/models/concerns/solution_importable.rb"
+  add_filter "app/operations/solution_imports"
+  add_filter "app/services/solution_imports"
+  add_filter "app/services/stored_messages"
 end
 
 require File.expand_path("../config/environment", __dir__)

@@ -3,7 +3,16 @@
 FactoryBot.define do
   factory :license do
     sequence(:name) { "License #{_1}" }
-    description { "A description" }
-    url { "https://example.org/license" }
+    sequence(:term) { "License #{_1}" }
+
+    visibility { "visible" }
+
+    trait :visible do
+      visibility { "visible" }
+    end
+
+    trait :hidden do
+      visibility { "hidden" }
+    end
   end
 end

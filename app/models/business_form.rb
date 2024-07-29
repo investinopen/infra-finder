@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 class BusinessForm < ApplicationRecord
-  include SeededOption
-  include SolutionOption
-  include TimestampScopes
+  include ControlledVocabularyRecord
 
-  single!
+  uses_vocab! :bus_form
 end

@@ -45,7 +45,7 @@ en:
         success: "This draft has been approved and the solution has been updated."
       reject:
         success: "This draft has been rejected and no further changes are possible."
-    solution_options:
+    controlled_vocabularies:
       replaced: "Replaced %{old_name} with %{new_name}"
       something_went_wrong: "Something went wrong, please try again"
     users:
@@ -68,6 +68,10 @@ en:
       open_graph_title: "Compare Solutions | Infra Finder"
       selected: "Shared solutions selected for comparison"
       site_title: "Compare Solutions | Infra Finder"
+  controlled_vocabularies:
+    other:
+      label: "%{label} — Other"
+      hint: "Please provide a value here when selecting \"other\"."
   globals:
     app_title: "Infra Finder"
     site_title: "Invest in Open Infrastructure"

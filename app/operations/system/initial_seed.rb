@@ -10,12 +10,12 @@ module System
     include Dry::Monads[:result, :do]
 
     include InfraFinder::Deps[
-      seed_all_options: "seeding.seed_all_options",
+      upsert_all_records: "controlled_vocabularies.upsert_all_records",
     ]
 
     # @return [Dry::Monads::Result]
     def call
-      yield seed_all_options.()
+      yield upsert_all_records.()
 
       Success()
     end

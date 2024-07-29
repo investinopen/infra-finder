@@ -1,5 +1,5 @@
 attributes_table title: "Blurbs" do
-  SolutionInterface::BLURBS.each do |blurb|
+  SolutionProperty.blurb_values do |blurb|
     row blurb
   end
 end

@@ -27,6 +27,10 @@ ActiveAdmin.register Solution do
     end
   end
 
+  controller do
+    include SolutionProperties::Admin::TrackForm
+  end
+
   filter :name
 
   filter :solution_categories_id_in, as: :select, multiple: true, label: "Solution Categories (Any)",
@@ -41,9 +45,9 @@ ActiveAdmin.register Solution do
   filter :business_form, include_blank: true, collection: BusinessForm.for_filter_collection
   filter :community_governance, include_blank: true, collection: CommunityGovernance.for_filter_collection
   filter :hosting_strategy, include_blank: true, collection: HostingStrategy.for_filter_collection
-  filter :maintenance_status, as: :select, collection: proc { ApplicationRecord.pg_enum_select_options(:maintenance_status) }
-  filter :primacy_funding_source, include_blank: true, collection: PrimaryFundingSource.for_filter_collection
-  filter :readiness_level, include_blank: true, collection: ReadinessLevel.for_filter_collection
+  filter :maintenance_statuses, include_blank: true, collection: MaintenanceStatus.for_filter_collection
+  filter :primacy_funding_sourcees, include_blank: true, collection: PrimaryFundingSource.for_filter_collection
+  filter :readiness_levels, include_blank: true, collection: ReadinessLevel.for_filter_collection
 
   scope :all
 

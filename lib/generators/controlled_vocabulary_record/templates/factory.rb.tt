@@ -1,0 +1,21 @@
+<%-
+  # vim: set ft=ruby.eruby nosmartindent noautoindent :
+-%>
+# frozen_string_literal: true
+
+FactoryBot.define do
+  factory <%= file_name.to_sym.inspect %> do
+    sequence(:name) { "<%= class_name.titleize %> #{_1}" }
+    sequence(:term) { "<%= class_name.titleize %> #{_1}" }
+
+    visibility { "visible" }
+
+    trait :visible do
+      visibility { "visible" }
+    end
+
+    trait :hidden do
+      visibility { "hidden" }
+    end
+  end
+end

@@ -46,10 +46,12 @@
         <%= f.check_box :user_documentation_available, {}, "true", "false" %>
         <span><%= t(".implementations.user_documentation_available", raise: true) %></span>
       </label>
+      <!--
       <label class="m-checkbox">
-        <%= f.check_box :readiness_level_id_not_null, {}, "true", "" %>
-        <span><%= t(".readiness_level", raise: true) %></span>
+        <%#= f.check_box :readiness_level_id_not_null, {}, "true", "" %>
+        <span><%#= t(".readiness_level", raise: true) %></span>
       </label>
+      -->
     </div>
     <%= render SolutionFiltersSelectAllComponent.new %>
   </details>
@@ -65,7 +67,7 @@
         <span><%= t(".implementations.community_engagement_available", raise: true) %></span>
       </label>
       <label class="m-checkbox">
-        <%= f.check_box :user_contribution_pathways_available, {}, "true", "" %>
+        <%= f.check_box :contribution_pathways_available, {}, "true", "" %>
         <span><%= t(".user_contributions", raise: true) %></span>
       </label>
     </div>

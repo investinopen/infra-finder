@@ -1,0 +1,437 @@
+---
+- name: countries
+  strategy: countries
+- name: currencies
+  strategy: currencies
+- name: impl_scale
+  strategy: enum
+  enum_name: implementation_status
+  mapping:
+    available: Implemented/available
+    in_progress: In progress
+    considering: Considering
+    not_planning: Not planning
+    not_applicable: Not applicable
+    unknown: Unknown
+- name: impl_scale_pricing
+  strategy: enum
+  enum_name: pricing_implementation_status
+  mapping:
+    available: Implemented/available
+    in_progress: In progress
+    considering: Considering
+    not_planning: Not planning
+    no_direct_costs: No direct costs
+    unknown: Unknown
+- name: acc_scope
+  strategy: model
+  model_name: AccessibilityScope
+  terms:
+  - term: Our website
+    provides: applies_to_website
+  - term: Our tool or project
+    provides: applies_to_solution
+- name: board
+  strategy: model
+  model_name: BoardStructure
+  accepts_other: true
+  terms:
+  - term: Advisory board or steering committee
+  - term: Multi-board governance
+  - term: None
+    provides: "none"
+  - term: Other
+    provides: other
+- name: bus_form
+  strategy: model
+  model_name: BusinessForm
+  accepts_other: true
+  terms:
+  - term: Commercial (for-profit)
+  - term: Fiscal sponsorship (academic institution)
+  - term: Fiscal sponsorship (non-profit)
+  - term: Non-profit organization
+  - term: Individual maintainer
+  - term: Volunteer community
+  - term: Intergovernmental organization
+  - term: Other
+    provides: other
+- name: code_lcns
+  strategy: model
+  model_name: License
+  accepts_other: true
+  terms:
+  - term: Apache License, Version 2.0
+  - term: MIT License
+  - term: BSD licenses
+  - term: GNU General Public License (GPL)
+  - term: Unlicense
+  - term: None
+    provides: "none"
+  - term: Other
+    provides: other
+- name: comm_eng
+  strategy: model
+  model_name: CommunityEngagementActivity
+  accepts_other: true
+  terms:
+  - term: Staff roles with responsibility for community engagement
+  - term: Mailing lists and discussion forums (including Slack)
+  - term: Social media
+  - term: Blogs
+  - term: Webinars and training
+  - term: Community calls
+  - term: Annual meetings
+  - term: Interest, working, user, or advisory groups
+  - term: Volunteer or ambassador network
+  - term: User research
+  - term: Development sprints
+  - term: Conference participation
+  - term: Other
+    provides: "other"
+- name: cont_lcns
+  strategy: model
+  model_name: ContentLicense
+  accepts_other: true
+  terms:
+  - term: Traditional copyright
+  - term: Creative commons licenses
+  - term: Rightsstatement.org licenses
+  - term: Other
+    provides: "other"
+- name: gov_stat
+  strategy: model
+  model_name: CommunityGovernance
+  terms:
+  - term: Formal
+  - term: Ad hoc
+  - term: None
+    provides: "none"
+- name: integrations
+  strategy: model
+  model_name: Integration
+  accepts_other: true
+  terms:
+  - term: Creative Commons Licenses
+  - term: Crossref
+  - term: Dryad
+  - term: OSF (Open Science Framework)
+  - term: arXiv
+  - term: Directory of Open Access Books (DOAB)
+  - term: Directory of Open Access Journals (DOAJ)
+  - term: DSpace
+  - term: Érudit
+    slug: erudit
+  - term: Fedora
+  - term: OAPEN Library
+  - term: Open Journal Systems (OJS)
+  - term: Open Monograph Press (OMP)
+  - term: Open Preprint Systems (OPS)
+  - term: OpenEdition
+  - term: Peer Community In
+  - term: PubPub
+  - term: 2i2c
+  - term: Archipelago Commons
+  - term: Archival Resource Key (ARK)
+  - term: bioRxiv
+  - term: BrCRIS
+  - term: CORE
+  - term: COUNTER Code of Practice
+  - term: DataCite
+  - term: Dataverse
+  - term: dokieli
+  - term: eduID.africa
+  - term: Europe PMC
+  - term: Fulcrum
+  - term: Humanities Commons
+  - term: Hyku
+  - term: IIIF
+  - term: Invenio RDM
+  - term: Islandora
+  - term: Janeway
+  - term: Journal Article Tag Suite (JATS)
+  - term: LA Referencia
+  - term: Manifold
+  - term: medrXiv
+  - term: Mendeley Data
+  - term: Mirador
+  - term: Mukurtu
+  - term: O Portal Brasileiro de Publicações e Dados Científicos em Acesso Aberto
+      (The Brazilian Open Access Publications and Scientific Data Portal) (Oasisbr)
+    slug: oasisbr
+  - term: OA Switchboard
+  - term: Omeka
+  - term: OpenAlex
+  - term: OpenCitations
+  - term: Oxford Common File Layout (OCFL)
+  - term: PREreview
+  - term: Pressbooks
+  - term: Public Access Submission System (PASS)
+  - term: Research Organization Registry (ROR)
+  - term: Rogue Scholar
+  - term: Sherpa Services (Sherpa Romeo, Sherpa Juliet and OpenDOAR)
+  - term: VuFind
+  - term: Zenodo
+  - term: Other (please describe)
+    slug: other
+    provides: "other"
+- name: maint
+  strategy: model
+  model_name: MaintenanceStatus
+  terms:
+  - term: Actively Maintained
+    slug: actively-maintained
+    provides: "active"
+  - term: Minimally Maintained
+    slug: minimally-maintained
+  - term: Unsupported
+  - term: Unknown
+    provides: "unknown"
+- name: nonprofit_status
+  strategy: model
+  model_name: NonprofitStatus
+  terms:
+  - term: 501(c)3
+  - term: 501(c)6
+  - term: Vereniging zonder winstoogmerk (VZW)
+  - term: Association sans but lucratif (ASBL)
+  - term: Vereinigung ohne Gewinnerzielungsabsicht (VoG)
+  - term: Stichting van openbaar nut (SON)
+  - term: Fondation d'utilité publique (FUP)
+  - term: Charitable trust
+  - term: Incorporated society
+  - term: Section-25 company
+  - term: Autonomous non-commercial organization
+  - term: Foundation
+  - term: Unincorporated association
+  - term: Charitable incorporated organisation (CIO)
+  - term: Company limited by guarantee
+  - term: Charter organization
+  - term: Charitable company
+  - term: Community interest company (CIC)
+  - term: Community benefit society
+  - term: Cooperative society
+- name: pr_fund
+  strategy: model
+  model_name: PrimaryFundingSource
+  accepts_other: true
+  terms:
+  - term: Contributions
+  - term: Program service revenue
+  - term: Other
+    provides: "other"
+- name: prgrm_lng
+  strategy: model
+  model_name: ProgrammingLanguage
+  terms:
+  - term: c
+  - term: c++
+    slug: c-plus-plus
+  - term: go
+  - term: haskell
+  - term: html
+  - term: java
+  - term: javascript
+  - term: kotlin
+  - term: mysql
+  - term: perl
+  - term: php
+  - term: python
+  - term: r
+  - term: ruby
+  - term: rust
+  - term: swift
+  - term: typescript
+  - term: clojure
+- name: rprt_lvl
+  strategy: model
+  model_name: ReportingLevel
+  accepts_other: true
+  terms:
+  - term: Provider
+  - term: Host
+  - term: Both
+  - term: Other
+    provides: "other"
+- name: saas
+  strategy: model
+  model_name: HostingStrategy
+  terms:
+  - term: Not applicable
+    provides: "not_applicable"
+  - term: Services through third party only
+    slug: "third-party-only"
+  - term: Services through service provider or third party
+    slug: "service-provider-or-third-party"
+  - term: Services through service provider only
+    slug: "service-provider-only"
+  - term: No services providers available
+    provides: "none"
+    slug: no-service-providers-available
+- name: soln_cat
+  strategy: model
+  model_name: SolutionCategory
+  terms:
+  - term: Annotations system
+  - term: Archive information management system
+  - term: Authoring tool
+  - term: Digital asset management system
+  - term: Digital library, collection or exhibit platform
+  - term: Discovery system
+  - term: Federated identity or authentication management
+  - term: Format conversion tool or service
+  - term: Index or directory
+  - term: Informal scholarly communications
+  - term: Media viewer/player
+  - term: Open access policy information compilation
+  - term: Open scholarly dataset
+  - term: Peer review system
+  - term: Persistent identifier service
+  - term: Personal information management system
+  - term: Preservation system
+  - term: Publishing system
+  - term: Repository service
+  - term: Repository software
+  - term: Research profiling system
+  - term: Standard, specification or protocol
+  - term: Submissions system
+- name: staffing
+  strategy: model
+  model_name: Staffing
+  terms:
+  - term: 0
+    slug: "zero"
+    provides: "none"
+  - term: 1-5
+    slug: "one-to-five"
+  - term: 6-10
+    slug: "six-to-ten"
+  - term: 11-20
+    slug: "eleven-to-twenty"
+  - term: More than 20
+    slug: "more-than-twenty"
+  - term: Unknown
+    provides: "unknown"
+- name: standards_auth
+  strategy: model
+  model_name: AuthenticationStandard
+  terms:
+  - term: OAuth
+  - term: OIDC
+  - term: SAML
+  - term: WebID-TLS
+  - term: WebID-OIDC
+- name: standards_metadata
+  strategy: model
+  model_name: MetadataStandard
+  terms:
+  - term: XML-TEI
+  - term: OAI-PMH
+  - term: METS
+  - term: Dublin Core
+  - term: MARC
+  - term: KBART
+  - term: SWORD
+  - term: Signposting
+  - term: Ostatus
+  - term: Data Documentation Initiative Codebook
+  - term: Atom
+  - term: JSON
+  - term: REST
+  - term: Scholix
+  - term: JATS-XML
+  - term: MODS
+  - term: IIIF
+  - term: JSON-LD
+  - term: DataCite metadata schema
+  - term: OpenAIRE guidelines
+  - term: ONIX
+  - term: ResourceSync
+  - term: Rioxx
+  - term: RIS
+  - term: MARC XML
+  - term: Linked Data Design Principles
+  - term: SRU/SRW
+  - term: Hypertext Application Language (HAL)
+  - term: Open Archives Initiative Object Reuse and Exchange (OAI-ORE)
+  - term: RDF
+  - term: Activity Streams 2.0
+  - term: Directrices Driver 2.0
+  - term: SPARQL
+  - term: Memento framework
+  - term: Web Ontology Language (OWL)
+  - term: National Information Standards Organization (NISO) Recommended Practice
+      RP-22-2015, Access License and Indicators
+  - term: XML Exchange Table Model Document Type Definition
+- name: standards_metrics
+  strategy: model
+  model_name: MetricsStandard
+  terms:
+  - term: COUNTER 5
+  - term: Make Data Count
+  - term: SUSHI
+- name: standards_pids
+  strategy: model
+  model_name: PersistentIdentifierStandard
+  terms:
+  - term: OpenURL
+  - term: Research Organization Registry
+  - term: ORCiD
+- name: standards_pres
+  strategy: model
+  model_name: PreservationStandard
+  terms:
+  - term: OAIS
+  - term: OCFL
+- name: standards_sec
+  strategy: model
+  model_name: SecurityStandard
+  terms:
+  - term: CIS Critical Security Controls
+  - term: Cloud Security Alliance STAR certification
+  - term: CMMC Level 2 standards for the protection of controlled unclassified information
+  - term: ISO/IEC 27001 information security standard
+  - term: NIST Cybersecurity Framework (CSF)
+  - term: NIST SP 800-171 for the protection of controlled unclassified information
+  - term: SSAE 18/SOC 2 certification
+- name: tech_read
+  strategy: model
+  model_name: ReadinessLevel
+  terms:
+  - term: Experimental proof of concept
+  - term: Technology validated in relevant environment
+  - term: System prototype demonstration in operational environment
+  - term: System complete and qualified
+  - term: Actual system proven in operational environment
+- name: user_paths
+  strategy: model
+  model_name: UserContribution
+  terms:
+  - term: Contribute to code
+  - term: Contribute to documentation
+  - term: Contribute to working groups or interest groups
+  - term: Contribute to education or training
+  - term: Contribute funds
+  - term: Contribute to governance
+  - term: Contribute to peer reviews
+  - term: Contribute to user research or user testing
+  - term: Other
+    provides: other
+- name: values
+  strategy: model
+  model_name: ValuesFramework
+  terms:
+  - term: CARE Principles for Indigenous Data Governance
+  - term: COAR Next Generation Repositories Principles
+  - term: Contributor Covenant Code of Conduct for Open Source and Other Digital Commons
+      Communities
+  - term: FAIR Guiding Principles for Scientific Data Management and Stewardship
+  - term: FOREST Framework for Values-Driven Scholarly Communication
+  - term: Helsinki Initiative on Multilingualism
+  - term: HumetricsHSS values framework
+  - term: It Takes a Village Open Source Software Sustainability toolkit
+  - term: Joint Statement of Principles of the Coalition for Diversity and Inclusion
+      in Scholarly Communication (C4DISC)
+  - term: Principles for Open Scholarly Infrastructure (POSI)
+  - term: San Francisco Declaration on Research Assessment (DORA)
+  - term: UN Sustainable Development Goals

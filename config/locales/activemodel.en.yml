@@ -2,16 +2,16 @@ en:
   activemodel:
     models:
       solutions/comparable_product: "Comparable Tool or Product"
-      solutions/implementations/bylaws: "Bylaws or Other Governance Documentation"
-      solutions/implementations/code_license: "Code License Details"
-      solutions/implementations/code_repository: "Open Code Repository"
-      solutions/implementations/community_engagement: "Organizational Commitment to Community Engagement"
-      solutions/implementations/equity_and_inclusion: "Commitment to Equity and Inclusion"
-      solutions/implementations/governance_structure: "Governance Structure and Processes"
-      solutions/implementations/pricing: "Transparent Pricing and Cost Expectations"
-      solutions/implementations/product_roadmap: "Open Product Roadmap"
+      implementations/bylaws: "Bylaws or Other Governance Documentation"
+      implementations/code_license: "Code License Details"
+      implementations/code_repository: "Open Code Repository"
+      implementations/community_engagement: "Organizational Commitment to Community Engagement"
+      implementations/equity_and_inclusion: "Commitment to Equity and Inclusion"
+      implementations/governance_structure: "Governance Structure and Processes"
+      implementations/pricing: "Transparent Pricing and Cost Expectations"
+      implementations/product_roadmap: "Open Product Roadmap"
     attributes:
-      solutions/implementations/equity_and_inclusion:
+      implementations/equity_and_inclusion:
         links: "Link(s) to diversity, equity, inclusion, and antiracism statement or policy"
     errors:
       models:

@@ -516,6 +516,7 @@ __metadata:
     postcss-mixins: "npm:^10.0.0"
     postcss-nesting: "npm:^12.1.0"
     sass: "npm:^1.71.0"
+    select2: "npm:^4.1.0-rc.0"
     tailwindcss: "npm:^3.4.1"
   languageName: unknown
   linkType: soft
@@ -2666,6 +2667,13 @@ __metadata:
   bin:
     sass: sass.js
   checksum: 10c0/59d79a6e106747746792b0c71908ae0aecdaf9b794d5724ee64e5249412f0d8ebe7ee2bf12946618848f14f949c4f6b530d82da3e62ab31c71198c6f73002130
+  languageName: node
+  linkType: hard
+
+"select2@npm:^4.1.0-rc.0":
+  version: 4.1.0-rc.0
+  resolution: "select2@npm:4.1.0-rc.0"
+  checksum: 10c0/6e25a387ad059b341bd154374894a730d862a65913a86b84d3a9d5b31d71219f415c2f79ec8d40761efb4d8dc3e11155cdf14b2902cf6e4f99a21148f2688e69
   languageName: node
   linkType: hard
 

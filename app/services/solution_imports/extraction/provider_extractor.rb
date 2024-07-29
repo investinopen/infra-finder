@@ -8,16 +8,6 @@ module SolutionImports
     class ProviderExtractor < SolutionImports::Extraction::BaseExtractor
       include Dry::Effects.State(:extracted_providers)
 
-      def legacy_extract
-        names = context.rows.pluck(:provider_name).sort.uniq.compact_blank
-
-        names.each do |name|
-          yield add_provider!(name:, identifier: name)
-        end
-
-        super
-      end
-
       private
 
       # @return [void]
