@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
 class ReadinessLevel < ApplicationRecord
-  include SeededOption
-  include SolutionOption
-  include TimestampScopes
+  include ControlledVocabularyRecord
 
-  single!
-
-  legacy_import_source_key :technology_readiness_level_id
+  uses_vocab! :tech_read
 end

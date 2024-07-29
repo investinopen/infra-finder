@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-# A link between a {SolutionDraft} and a {UserContribution}.
 class SolutionDraftUserContribution < ApplicationRecord
-  include SolutionOptionLink
+  include ControlledVocabularyLink
 
-  belongs_to :solution_draft, inverse_of: :solution_draft_user_contributions
-  belongs_to :user_contribution, inverse_of: :solution_draft_user_contributions
+  links_vocab_with_draft! :user_paths
 end

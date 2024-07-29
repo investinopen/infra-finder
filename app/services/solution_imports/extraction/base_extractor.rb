@@ -5,16 +5,7 @@ module SolutionImports
     # @abstract
     class BaseExtractor < SolutionImports::Subprocessor
       def perform
-        case strategy
-        in "legacy"
-          yield legacy_extract!
-
-          super
-        in "modern"
-          # :nocov:
-          Failure[:unsupported_strategy, strategy]
-          # :nocov:
-        end
+        Failure[:unsupported_strategy, strategy]
       end
 
       wrapped_hook! :legacy_extract

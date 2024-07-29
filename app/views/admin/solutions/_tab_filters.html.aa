@@ -1,17 +1,13 @@
 attributes_table title: "Options" do
-  SolutionInterface::MULTIPLE_OPTIONS.each do |option|
+  SolutionProperty.has_many_associations.each do |option|
     row option
   end
 
-  SolutionInterface::SINGLE_OPTIONS.each do |option|
+  SolutionProperty.has_one_associations.each do |option|
     row option
   end
 
-  row :maintenance_status do |r|
-    status_tag r.maintenance_status
-  end
-end
-
-attributes_table title: "Tags" do
-  row :key_technologies_list
+  # row :maintenance_status do |r|
+    # status_tag r.maintenance_status
+  # end
 end

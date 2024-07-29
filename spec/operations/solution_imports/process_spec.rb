@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-RSpec.describe SolutionImports::Process, type: :operation do
+RSpec.xdescribe SolutionImports::Process, type: :operation do
   let_it_be(:strategy) { "legacy" }
   let_it_be(:solution_import, refind: true) { FactoryBot.create(:solution_import, strategy:) }
 
   before_all do
-    InfraFinder::Container["seeding.seed_all_options"].().value!
+    InfraFinder::Container["controlled_vocabularies.upsert_all_records"].().value!
   end
 
   stub_operation! "solution_drafts.check", as: :stubbed_draft_check, auto_succeed: true

@@ -10,6 +10,8 @@ ActiveAdmin.register SolutionDraft do
   end
 
   controller do
+    include SolutionProperties::Admin::TrackForm
+
     def handle_simple_draft_operation!(operation_name)
       resource.public_send(operation_name) do |m|
         m.success do

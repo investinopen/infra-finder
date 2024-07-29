@@ -111,8 +111,8 @@
           <%= render_implementation(:open_api) %>
           <%= render_implementation(:open_data) %>
         </div>
-        <%= render SolutionDetailsTextBlockComponent.new(text: solution.content_licensing, heading: t(".technical.content_licensing")) %>
-        <%= render SolutionDetailsTextBlockComponent.new(text: solution.standards_employed, heading: t(".technical.standards_employed")) %>
+        <%#= render SolutionDetailsTextBlockComponent.new(text: solution.content_licensing, heading: t(".technical.content_licensing")) %>
+        <%#= render SolutionDetailsTextBlockComponent.new(text: solution.standards_employed, heading: t(".technical.standards_employed")) %>
         <div class="solution-cards-wrapper">
           <h3>
             <%= t(".technical.hosting_options") %>
@@ -139,7 +139,7 @@
             <% end %>
           </div>
         </div>
-        <%= render SolutionDetailsTextBlockComponent.new(text: solution.integrations_and_compatibility, heading: t(".technical.integrations_and_compatibility")) %>
+        <%#= render SolutionDetailsTextBlockComponent.new(text: solution.integrations_and_compatibility, heading: t(".technical.integrations_and_compatibility")) %>
       </article>
       <article id="community" class="l-container__inner"
         data-solution-details-component--solution-details-component-target="article">
@@ -147,13 +147,10 @@
         <div class="solution-cards">
           <%= render_implementation(:code_of_conduct) %>
           <%= render_implementation(:community_engagement) %>
-          <%= render_implementation(:user_contribution_pathways) %>
+          <%= render_implementation(:contribution_pathways) %>
           <%= render_implementation(:code_license) %>
         </div>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.community_engagement.statement, heading: t(".community.organizational_commitment")) %>
-        <% if solution.engagement_with_values_frameworks?.present? %>
-          <%= render SolutionDetailsTextBlockComponent.new(text: solution.engagement_with_values_frameworks, heading: t(".community.engagement")) %>
-        <% end %>
         <% if solution.user_contributions.present? %>
           <div>
             <h3><%= t(".community.user_contribution") %></h3>
@@ -179,7 +176,7 @@
             <%= render_implementation(:privacy_policy) %>
             <%= render_implementation(:web_accessibility) %>
             <%= render_implementation(:open_data) %>
-            <%= render_implementation(:governance_activities) %>
+            <%= render_implementation(:governance_records) %>
             <%= render_implementation(:governance_structure) %>
             <%= render_implementation(:pricing) %>
           </div>
@@ -192,13 +189,13 @@
         <div class="solution-cards-wrapper">
           <h3><%= t(".additional_information.organizational_structure") %></h3>
           <div class="solution-cards">
-            <% if solution.business_form.present? %>
+            <% if solution.business_forms.exists? %>
               <div class="org-structure-card">
                 <h4>
                   <%= t(".additional_information.business_model") %>
                 </h4>
                 <div class="text-h4">
-                  <%= solution.business_form.name %>
+                  <%= solution.business_form.first.name %>
                 </div>
               </div>
             <% end %>
@@ -218,12 +215,12 @@
       <article id="funding" class="l-container__inner"
         data-solution-details-component--solution-details-component-target="article">
         <h2 class="a-underline"><%= t(".funding.heading") %></h2>
-        <% if solution.primary_funding_source.present? %>
+        <% if solution.primary_funding_sources.present? %>
           <div>
             <h3><%= t(".funding.primary_source") %></h3>
               <div class="flex flex-wrap gap-3">
                 <div class="m-badge m-badge--white">
-                  <%= solution.primary_funding_source.name %>
+                  <%= solution.primary_funding_sources.first.name %>
                 </div>
               </div>
           </div>

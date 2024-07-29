@@ -1,0 +1,10 @@
+<%-
+  # vim: set ft=ruby.eruby nosmartindent noautoindent :
+-%>
+# frozen_string_literal: true
+
+class <%= class_name %> < ApplicationRecord
+  include ControlledVocabularyRecord
+
+  uses_vocab! <%= vocab_name.to_sym.inspect %>
+end

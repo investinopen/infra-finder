@@ -89,9 +89,9 @@ module Solutions
 
     def initialize_common_strong_params
       [].tap do |params|
-        params.concat SolutionInterface::STANDARD_ATTRIBUTES
-        params.concat SolutionInterface::ATTACHMENTS
-        params.concat SolutionInterface::TAG_LISTS
+        params.concat SolutionProperty.standard_values
+        params.concat SolutionProperty.attachment_values
+        params.concat SolutionProperty.free_input_names
         params.concat shared_option_association_keys
         params.concat implementation_params
         params << store_model_list_attributes
@@ -105,10 +105,10 @@ module Solutions
 
       impls = {}
 
-      Solution.each_implementation do |implementation|
-        enums << implementation.enum
+      Implementation.each do |implementation|
+        enums << implementation.enum.to_sym
 
-        impls[implementation.name] = implementation.type.strong_params
+        impls[implementation.name.to_sym] = implementation.type.strong_params
         impls[implementation.nested_attributes] = implementation.type.strong_params
       end
 
@@ -116,7 +116,7 @@ module Solutions
     end
 
     def store_model_list_attributes
-      SolutionInterface::STORE_MODEL_LISTS.index_with do |key|
+      SolutionProperty.store_model_lists.map(&:name).index_with do |key|
         store_model_list_attributes_for(key)
       end.transform_keys { :"#{_1}_attributes" }
     end
@@ -132,13 +132,13 @@ module Solutions
     end
 
     def shared_multiple_association_keys
-      SolutionInterface::MULTIPLE_OPTIONS.each_with_object({}) do |option, h|
+      SolutionProperty.has_many_associations.each_with_object({}) do |option, h|
         h[:"#{option.to_s.singularize}_ids"] = []
       end
     end
 
     def shared_option_association_keys
-      SolutionInterface::SINGLE_OPTIONS.map { :"#{_1}_id" }
+      SolutionProperty.has_one_associations.map { :"#{_1}_id" }
     end
   end
 end

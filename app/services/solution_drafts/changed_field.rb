@@ -2,19 +2,23 @@
 
 module SolutionDrafts
   class ChangedField < Support::FlexibleStruct
-    include Dry::Core::Memoizable
+    extend Dry::Core::Cache
 
     attribute :field, Types::Coercible::Symbol
 
-    attribute :field_kind, Types::FieldKind
+    attribute :field_kind, SolutionProperties::Types::Kind
 
     attribute? :source_value, Types::Any.optional
     attribute? :target_value, Types::Any.optional
 
-    DIFFABLE_FIELD_KINDS = %i[attachment enum multi_option single_option standard tag_list].freeze
+    delegate :diffable?, to: :property_kind
 
-    def diffable?
-      field_kind.in?(DIFFABLE_FIELD_KINDS)
+    # @!attribute [r] property_kind
+    # @return [SolutionPropertyKind]
+    def property_kind
+      fetch_or_store field_kind do
+        SolutionPropertyKind.find field_kind
+      end
     end
 
     def try_diffing_source(context)

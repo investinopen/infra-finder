@@ -19,6 +19,23 @@ en:
       not_applicable: Not Applicable
       unapproved: Unapproved
       approved: Approved
+    implementation_name:
+      bylaws: Bylaws
+      code_license: Code License
+      code_of_conduct: Code Of Conduct
+      code_repository: Code Repository
+      community_engagement: Community Engagement
+      contribution_pathways: Contribution Pathways
+      equity_and_inclusion: Equity And Inclusion
+      governance_records: Governance Records
+      governance_structure: Governance Structure
+      open_api: Open API
+      open_data: Open Data
+      product_roadmap: Product Roadmap
+      pricing: Pricing
+      privacy_policy: Privacy Policy
+      user_documentation: User Documentation
+      web_accessibility: Web Accessibility
     implementation_status:
       available: Available
       in_progress: In Progress
@@ -29,23 +46,6 @@ en:
     publication:
       published: Published
       unpublished: Unpublished
-    solution_implementation:
-      bylaws: Bylaws
-      code_license: Code License
-      code_of_conduct: Code Of Conduct
-      code_repository: Code Repository
-      community_engagement: Community Engagement
-      equity_and_inclusion: Equity And Inclusion
-      governance_activities: Governance Activities
-      governance_structure: Governance Structure
-      open_api: Open API
-      open_data: Open Data
-      product_roadmap: Product Roadmap
-      pricing: Pricing
-      privacy_policy: Privacy Policy
-      user_contribution_pathways: User Contribution Pathways
-      user_documentation: User Documentation
-      web_accessibility: Web Accessibility
     solution_import_strategy:
       legacy: Legacy
       modern: Modern

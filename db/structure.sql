@@ -180,6 +180,40 @@ CREATE TYPE public.financial_numbers_publishability AS ENUM (
 
 
 --
+-- Name: fooble; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.fooble AS ENUM (
+    'hello my darling',
+    'hello my honey'
+);
+
+
+--
+-- Name: implementation_name; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.implementation_name AS ENUM (
+    'bylaws',
+    'code_license',
+    'code_of_conduct',
+    'code_repository',
+    'community_engagement',
+    'equity_and_inclusion',
+    'governance_records',
+    'governance_structure',
+    'open_api',
+    'open_data',
+    'product_roadmap',
+    'pricing',
+    'privacy_policy',
+    'contribution_pathways',
+    'user_documentation',
+    'web_accessibility'
+);
+
+
+--
 -- Name: implementation_status; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -205,6 +239,20 @@ CREATE TYPE public.maintenance_status AS ENUM (
 
 
 --
+-- Name: pricing_implementation_status; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.pricing_implementation_status AS ENUM (
+    'available',
+    'in_progress',
+    'considering',
+    'not_planning',
+    'no_direct_costs',
+    'unknown'
+);
+
+
+--
 -- Name: publication; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -215,36 +263,22 @@ CREATE TYPE public.publication AS ENUM (
 
 
 --
--- Name: solution_implementation; Type: TYPE; Schema: public; Owner: -
---
-
-CREATE TYPE public.solution_implementation AS ENUM (
-    'bylaws',
-    'code_license',
-    'code_of_conduct',
-    'code_repository',
-    'community_engagement',
-    'equity_and_inclusion',
-    'governance_activities',
-    'governance_structure',
-    'open_api',
-    'open_data',
-    'product_roadmap',
-    'pricing',
-    'privacy_policy',
-    'user_contribution_pathways',
-    'user_documentation',
-    'web_accessibility'
-);
-
-
---
 -- Name: solution_import_strategy; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.solution_import_strategy AS ENUM (
     'legacy',
     'modern'
+);
+
+
+--
+-- Name: solution_kind; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.solution_kind AS ENUM (
+    'actual',
+    'draft'
 );
 
 
@@ -269,6 +303,21 @@ CREATE TYPE public.visibility AS ENUM (
     'visible',
     'hidden'
 );
+
+
+--
+-- Name: calculate_staffing_range(integer, integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.calculate_staffing_range(min_value integer, max_value integer) RETURNS int4range
+    LANGUAGE sql IMMUTABLE PARALLEL SAFE
+    AS $_$
+SELECT CASE
+WHEN $1 IS NOT NULL OR $2 IS NOT NULL THEN int4range($1, $2, '[)')
+ELSE
+  NULL
+END;
+$_$;
 
 
 --
@@ -312,6 +361,26 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: accessibility_scopes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.accessibility_scopes (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    name public.citext NOT NULL,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL,
+    provides public.citext,
+    enforced_slug text,
+    description text,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: active_admin_comments; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -341,6 +410,26 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: authentication_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.authentication_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    name public.citext NOT NULL,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL,
+    provides public.citext,
+    enforced_slug text,
+    description text,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: board_structures; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -353,7 +442,11 @@ CREATE TABLE public.board_structures (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     solutions_count bigint DEFAULT 0 NOT NULL,
-    solution_drafts_count bigint DEFAULT 0 NOT NULL
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    term public.citext NOT NULL,
+    enforced_slug public.citext,
+    provides public.citext
 );
 
 
@@ -370,7 +463,31 @@ CREATE TABLE public.business_forms (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     solutions_count bigint DEFAULT 0 NOT NULL,
-    solution_drafts_count bigint DEFAULT 0 NOT NULL
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    term public.citext NOT NULL,
+    enforced_slug public.citext,
+    provides public.citext
+);
+
+
+--
+-- Name: community_engagement_activities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.community_engagement_activities (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    name public.citext NOT NULL,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL,
+    provides public.citext,
+    enforced_slug text,
+    description text,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -387,7 +504,11 @@ CREATE TABLE public.community_governances (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     solutions_count bigint DEFAULT 0 NOT NULL,
-    solution_drafts_count bigint DEFAULT 0 NOT NULL
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    term public.citext NOT NULL,
+    enforced_slug public.citext,
+    provides public.citext
 );
 
 
@@ -452,6 +573,26 @@ CREATE TABLE public.comparisons (
     comparison_items_count bigint DEFAULT 0 NOT NULL,
     item_state public.comparison_item_state DEFAULT 'empty'::public.comparison_item_state NOT NULL,
     fingerprint text
+);
+
+
+--
+-- Name: content_licenses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.content_licenses (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    name public.citext NOT NULL,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL,
+    provides public.citext,
+    enforced_slug text,
+    description text,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -578,7 +719,30 @@ CREATE TABLE public.hosting_strategies (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     solutions_count bigint DEFAULT 0 NOT NULL,
-    solution_drafts_count bigint DEFAULT 0 NOT NULL
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    term public.citext NOT NULL,
+    enforced_slug public.citext,
+    provides public.citext
+);
+
+
+--
+-- Name: integrations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.integrations (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    name public.citext NOT NULL,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL,
+    provides public.citext,
+    enforced_slug text,
+    description text,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -596,7 +760,11 @@ CREATE TABLE public.licenses (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     solutions_count bigint DEFAULT 0 NOT NULL,
-    solution_drafts_count bigint DEFAULT 0 NOT NULL
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    term public.citext NOT NULL,
+    enforced_slug public.citext,
+    provides public.citext
 );
 
 
@@ -614,7 +782,110 @@ CREATE TABLE public.maintenance_statuses (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     solutions_count bigint DEFAULT 0 NOT NULL,
-    solution_drafts_count bigint DEFAULT 0 NOT NULL
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    term public.citext NOT NULL,
+    enforced_slug public.citext,
+    provides public.citext
+);
+
+
+--
+-- Name: metadata_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.metadata_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    name public.citext NOT NULL,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL,
+    provides public.citext,
+    enforced_slug text,
+    description text,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: metrics_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.metrics_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    name public.citext NOT NULL,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL,
+    provides public.citext,
+    enforced_slug text,
+    description text,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: nonprofit_statuses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.nonprofit_statuses (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    name public.citext NOT NULL,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL,
+    provides public.citext,
+    enforced_slug text,
+    description text,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: persistent_identifier_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.persistent_identifier_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    name public.citext NOT NULL,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL,
+    provides public.citext,
+    enforced_slug text,
+    description text,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: preservation_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.preservation_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    name public.citext NOT NULL,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL,
+    provides public.citext,
+    enforced_slug text,
+    description text,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -631,7 +902,31 @@ CREATE TABLE public.primary_funding_sources (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     solutions_count bigint DEFAULT 0 NOT NULL,
-    solution_drafts_count bigint DEFAULT 0 NOT NULL
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    term public.citext NOT NULL,
+    enforced_slug public.citext,
+    provides public.citext
+);
+
+
+--
+-- Name: programming_languages; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.programming_languages (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    name public.citext NOT NULL,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL,
+    provides public.citext,
+    enforced_slug text,
+    description text,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -665,7 +960,31 @@ CREATE TABLE public.readiness_levels (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     solutions_count bigint DEFAULT 0 NOT NULL,
-    solution_drafts_count bigint DEFAULT 0 NOT NULL
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    term public.citext NOT NULL,
+    enforced_slug public.citext,
+    provides public.citext
+);
+
+
+--
+-- Name: reporting_levels; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reporting_levels (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    name public.citext NOT NULL,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL,
+    provides public.citext,
+    enforced_slug text,
+    description text,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -689,6 +1008,26 @@ CREATE TABLE public.roles (
 
 CREATE TABLE public.schema_migrations (
     version character varying NOT NULL
+);
+
+
+--
+-- Name: security_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.security_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    name public.citext NOT NULL,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL,
+    provides public.citext,
+    enforced_slug text,
+    description text,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -724,6 +1063,66 @@ CREATE TABLE public.snapshots (
 
 
 --
+-- Name: solution_accessibility_scopes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_accessibility_scopes (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    accessibility_scope_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_authentication_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_authentication_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    authentication_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_board_structures; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_board_structures (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    board_structure_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_business_forms; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_business_forms (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    business_form_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: solution_categories; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -736,7 +1135,11 @@ CREATE TABLE public.solution_categories (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     solutions_count bigint DEFAULT 0 NOT NULL,
-    solution_drafts_count bigint DEFAULT 0 NOT NULL
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    term public.citext NOT NULL,
+    enforced_slug public.citext,
+    provides public.citext
 );
 
 
@@ -749,7 +1152,9 @@ CREATE TABLE public.solution_category_draft_links (
     solution_draft_id uuid NOT NULL,
     solution_category_id uuid NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL
 );
 
 
@@ -761,6 +1166,188 @@ CREATE TABLE public.solution_category_links (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     solution_id uuid NOT NULL,
     solution_category_id uuid NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL
+);
+
+
+--
+-- Name: solution_community_engagement_activities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_community_engagement_activities (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    community_engagement_activity_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_community_governances; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_community_governances (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    community_governance_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_content_licenses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_content_licenses (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    content_license_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_accessibility_scopes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_accessibility_scopes (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    accessibility_scope_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_authentication_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_authentication_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    authentication_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_board_structures; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_board_structures (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    board_structure_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_business_forms; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_business_forms (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    business_form_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_community_engagement_activities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_community_engagement_activities (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    community_engagement_activity_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_community_governances; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_community_governances (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    community_governance_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_content_licenses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_content_licenses (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    content_license_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_hosting_strategies; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_hosting_strategies (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    hosting_strategy_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_integrations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_integrations (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    integration_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -774,6 +1361,188 @@ CREATE TABLE public.solution_draft_licenses (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     solution_draft_id uuid NOT NULL,
     license_id uuid NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL
+);
+
+
+--
+-- Name: solution_draft_maintenance_statuses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_maintenance_statuses (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    maintenance_status_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_metadata_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_metadata_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    metadata_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_metrics_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_metrics_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    metrics_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_nonprofit_statuses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_nonprofit_statuses (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    nonprofit_status_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_persistent_identifier_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_persistent_identifier_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    persistent_identifier_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_preservation_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_preservation_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    preservation_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_primary_funding_sources; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_primary_funding_sources (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    primary_funding_source_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_programming_languages; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_programming_languages (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    programming_language_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_readiness_levels; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_readiness_levels (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    readiness_level_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_reporting_levels; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_reporting_levels (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    reporting_level_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_security_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_security_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    security_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_staffings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_staffings (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    staffing_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -804,6 +1573,23 @@ CREATE TABLE public.solution_draft_user_contributions (
     solution_draft_id uuid NOT NULL,
     user_contribution_id uuid NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL
+);
+
+
+--
+-- Name: solution_draft_values_frameworks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_values_frameworks (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    values_framework_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
@@ -816,18 +1602,18 @@ CREATE TABLE public.solution_drafts (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     solution_id uuid,
     user_id uuid,
-    board_structure_id uuid,
-    business_form_id uuid,
-    community_governance_id uuid,
-    hosting_strategy_id uuid,
-    maintenance_status_id uuid,
-    primary_funding_source_id uuid,
-    readiness_level_id uuid,
+    phase_1_board_structure_id uuid,
+    phase_1_business_form_id uuid,
+    phase_1_community_governance_id uuid,
+    phase_1_hosting_strategy_id uuid,
+    phase_1_maintenance_status_id uuid,
+    phase_1_primary_funding_source_id uuid,
+    phase_1_readiness_level_id uuid,
     identifier public.citext DEFAULT (gen_random_uuid())::text NOT NULL,
     contact_method public.contact_method DEFAULT 'unavailable'::public.contact_method NOT NULL,
     name public.citext NOT NULL,
     founded_on date,
-    location_of_incorporation text,
+    phase_1_location_of_incorporation text,
     member_count bigint,
     current_staffing numeric(19,2),
     website text,
@@ -838,25 +1624,25 @@ CREATE TABLE public.solution_drafts (
     organizational_history text,
     funding_needs text,
     governance_summary text,
-    content_licensing text,
-    special_certifications_or_statuses text,
-    standards_employed text,
-    registered_service_provider_description text,
-    technology_dependencies text,
-    integrations_and_compatibility text,
-    annual_expenses bigint,
-    annual_revenue bigint,
-    investment_income bigint,
-    other_revenue bigint,
-    program_revenue bigint,
-    total_assets bigint,
-    total_contributions bigint,
-    total_liabilities bigint,
-    financial_numbers_applicability public.financial_numbers_applicability DEFAULT 'unknown'::public.financial_numbers_applicability NOT NULL,
+    phase_1_content_licensing text,
+    phase_1_special_certifications_or_statuses text,
+    phase_1_standards_employed text,
+    phase_1_registered_service_provider_description text,
+    phase_1_technology_dependencies text,
+    phase_1_integrations_and_compatibility text,
+    phase_1_annual_expenses bigint,
+    phase_1_annual_revenue bigint,
+    phase_1_investment_income bigint,
+    phase_1_other_revenue bigint,
+    phase_1_program_revenue bigint,
+    phase_1_total_assets bigint,
+    phase_1_total_contributions bigint,
+    phase_1_total_liabilities bigint,
+    phase_1_financial_numbers_applicability public.financial_numbers_applicability DEFAULT 'unknown'::public.financial_numbers_applicability NOT NULL,
     financial_numbers_publishability public.financial_numbers_publishability DEFAULT 'unknown'::public.financial_numbers_publishability NOT NULL,
     financial_information_scope public.financial_information_scope DEFAULT 'unknown'::public.financial_information_scope NOT NULL,
     financial_numbers_documented_url text,
-    comparable_products jsonb DEFAULT '[]'::jsonb NOT NULL,
+    phase_1_comparable_products jsonb DEFAULT '[]'::jsonb NOT NULL,
     current_affiliations jsonb DEFAULT '[]'::jsonb NOT NULL,
     founding_institutions jsonb DEFAULT '[]'::jsonb NOT NULL,
     service_providers jsonb DEFAULT '[]'::jsonb NOT NULL,
@@ -870,8 +1656,8 @@ CREATE TABLE public.solution_drafts (
     community_engagement jsonb DEFAULT '{}'::jsonb NOT NULL,
     equity_and_inclusion_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
     equity_and_inclusion jsonb DEFAULT '{}'::jsonb NOT NULL,
-    governance_activities_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    governance_activities jsonb DEFAULT '{}'::jsonb NOT NULL,
+    governance_records_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    governance_records jsonb DEFAULT '{}'::jsonb NOT NULL,
     governance_structure_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
     governance_structure jsonb DEFAULT '{}'::jsonb NOT NULL,
     open_api_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
@@ -880,12 +1666,12 @@ CREATE TABLE public.solution_drafts (
     open_data jsonb DEFAULT '{}'::jsonb NOT NULL,
     product_roadmap_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
     product_roadmap jsonb DEFAULT '{}'::jsonb NOT NULL,
-    pricing_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    pricing_implementation public.pricing_implementation_status DEFAULT 'unknown'::public.pricing_implementation_status NOT NULL,
     pricing jsonb DEFAULT '{}'::jsonb NOT NULL,
     privacy_policy_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
     privacy_policy jsonb DEFAULT '{}'::jsonb NOT NULL,
-    user_contribution_pathways_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    user_contribution_pathways jsonb DEFAULT '{}'::jsonb NOT NULL,
+    contribution_pathways_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    contribution_pathways jsonb DEFAULT '{}'::jsonb NOT NULL,
     user_documentation_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
     user_documentation jsonb DEFAULT '{}'::jsonb NOT NULL,
     web_accessibility_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
@@ -894,14 +1680,32 @@ CREATE TABLE public.solution_drafts (
     draft_overrides public.citext[] DEFAULT '{}'::public.citext[],
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    engagement_with_values_frameworks text,
+    phase_1_engagement_with_values_frameworks text,
     service_summary text,
     code_license_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
     code_license jsonb DEFAULT '{}'::jsonb NOT NULL,
     recent_grants jsonb DEFAULT '[]'::jsonb NOT NULL,
     top_granting_institutions jsonb DEFAULT '[]'::jsonb NOT NULL,
     normalized_name public.citext GENERATED ALWAYS AS (public.normalize_ransackable(name)) STORED NOT NULL,
-    maintenance_status public.maintenance_status DEFAULT 'unknown'::public.maintenance_status NOT NULL
+    phase_1_maintenance_status public.maintenance_status DEFAULT 'unknown'::public.maintenance_status NOT NULL,
+    country_code public.citext,
+    currency public.citext DEFAULT 'USD'::public.citext NOT NULL,
+    annual_expenses_cents bigint DEFAULT 0 NOT NULL,
+    annual_revenue_cents bigint DEFAULT 0 NOT NULL,
+    investment_income_cents bigint DEFAULT 0 NOT NULL,
+    other_revenue_cents bigint DEFAULT 0 NOT NULL,
+    program_revenue_cents bigint DEFAULT 0 NOT NULL,
+    total_assets_cents bigint DEFAULT 0 NOT NULL,
+    total_contributions_cents bigint DEFAULT 0 NOT NULL,
+    total_liabilities_cents bigint DEFAULT 0 NOT NULL,
+    board_members_url text,
+    financial_date_range text,
+    financial_date_range_started_on date,
+    financial_date_range_ended_on date,
+    membership_program_url text,
+    scoss boolean DEFAULT false NOT NULL,
+    shareholders boolean DEFAULT false NOT NULL,
+    free_inputs jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 
 
@@ -913,6 +1717,21 @@ CREATE TABLE public.solution_editor_assignments (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     solution_id uuid NOT NULL,
     user_id uuid NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_hosting_strategies; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_hosting_strategies (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    hosting_strategy_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -977,6 +1796,21 @@ ALTER SEQUENCE public.solution_imports_identifier_seq OWNED BY public.solution_i
 
 
 --
+-- Name: solution_integrations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_integrations (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    integration_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: solution_licenses; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -984,6 +1818,188 @@ CREATE TABLE public.solution_licenses (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     solution_id uuid NOT NULL,
     license_id uuid NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL
+);
+
+
+--
+-- Name: solution_maintenance_statuses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_maintenance_statuses (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    maintenance_status_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_metadata_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_metadata_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    metadata_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_metrics_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_metrics_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    metrics_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_nonprofit_statuses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_nonprofit_statuses (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    nonprofit_status_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_persistent_identifier_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_persistent_identifier_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    persistent_identifier_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_preservation_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_preservation_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    preservation_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_primary_funding_sources; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_primary_funding_sources (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    primary_funding_source_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_programming_languages; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_programming_languages (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    programming_language_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_readiness_levels; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_readiness_levels (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    readiness_level_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_reporting_levels; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_reporting_levels (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    reporting_level_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_security_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_security_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    security_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_staffings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_staffings (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    staffing_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -998,6 +2014,23 @@ CREATE TABLE public.solution_user_contributions (
     solution_id uuid NOT NULL,
     user_contribution_id uuid NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL
+);
+
+
+--
+-- Name: solution_values_frameworks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_values_frameworks (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    values_framework_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
@@ -1009,19 +2042,19 @@ CREATE TABLE public.solution_user_contributions (
 CREATE TABLE public.solutions (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     provider_id uuid NOT NULL,
-    board_structure_id uuid,
-    business_form_id uuid,
-    community_governance_id uuid,
-    hosting_strategy_id uuid,
-    maintenance_status_id uuid,
-    primary_funding_source_id uuid,
-    readiness_level_id uuid,
+    phase_1_board_structure_id uuid,
+    phase_1_business_form_id uuid,
+    phase_1_community_governance_id uuid,
+    phase_1_hosting_strategy_id uuid,
+    phase_1_maintenance_status_id uuid,
+    phase_1_primary_funding_source_id uuid,
+    phase_1_readiness_level_id uuid,
     identifier public.citext DEFAULT (gen_random_uuid())::public.citext NOT NULL,
     contact_method public.contact_method DEFAULT 'unavailable'::public.contact_method NOT NULL,
     slug public.citext NOT NULL,
     name public.citext NOT NULL,
     founded_on date,
-    location_of_incorporation text,
+    phase_1_location_of_incorporation text,
     member_count bigint,
     current_staffing numeric(19,2),
     website text,
@@ -1032,25 +2065,25 @@ CREATE TABLE public.solutions (
     organizational_history text,
     funding_needs text,
     governance_summary text,
-    content_licensing text,
-    special_certifications_or_statuses text,
-    standards_employed text,
-    registered_service_provider_description text,
-    technology_dependencies text,
-    integrations_and_compatibility text,
-    annual_expenses bigint,
-    annual_revenue bigint,
-    investment_income bigint,
-    other_revenue bigint,
-    program_revenue bigint,
-    total_assets bigint,
-    total_contributions bigint,
-    total_liabilities bigint,
-    financial_numbers_applicability public.financial_numbers_applicability DEFAULT 'unknown'::public.financial_numbers_applicability NOT NULL,
+    phase_1_content_licensing text,
+    phase_1_special_certifications_or_statuses text,
+    phase_1_standards_employed text,
+    phase_1_registered_service_provider_description text,
+    phase_1_technology_dependencies text,
+    phase_1_integrations_and_compatibility text,
+    phase_1_annual_expenses bigint,
+    phase_1_annual_revenue bigint,
+    phase_1_investment_income bigint,
+    phase_1_other_revenue bigint,
+    phase_1_program_revenue bigint,
+    phase_1_total_assets bigint,
+    phase_1_total_contributions bigint,
+    phase_1_total_liabilities bigint,
+    phase_1_financial_numbers_applicability public.financial_numbers_applicability DEFAULT 'unknown'::public.financial_numbers_applicability NOT NULL,
     financial_numbers_publishability public.financial_numbers_publishability DEFAULT 'unknown'::public.financial_numbers_publishability NOT NULL,
     financial_information_scope public.financial_information_scope DEFAULT 'unknown'::public.financial_information_scope NOT NULL,
     financial_numbers_documented_url text,
-    comparable_products jsonb DEFAULT '[]'::jsonb NOT NULL,
+    phase_1_comparable_products jsonb DEFAULT '[]'::jsonb NOT NULL,
     current_affiliations jsonb DEFAULT '[]'::jsonb NOT NULL,
     founding_institutions jsonb DEFAULT '[]'::jsonb NOT NULL,
     service_providers jsonb DEFAULT '[]'::jsonb NOT NULL,
@@ -1064,8 +2097,8 @@ CREATE TABLE public.solutions (
     community_engagement jsonb DEFAULT '{}'::jsonb NOT NULL,
     equity_and_inclusion_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
     equity_and_inclusion jsonb DEFAULT '{}'::jsonb NOT NULL,
-    governance_activities_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    governance_activities jsonb DEFAULT '{}'::jsonb NOT NULL,
+    governance_records_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    governance_records jsonb DEFAULT '{}'::jsonb NOT NULL,
     governance_structure_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
     governance_structure jsonb DEFAULT '{}'::jsonb NOT NULL,
     open_api_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
@@ -1074,12 +2107,12 @@ CREATE TABLE public.solutions (
     open_data jsonb DEFAULT '{}'::jsonb NOT NULL,
     product_roadmap_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
     product_roadmap jsonb DEFAULT '{}'::jsonb NOT NULL,
-    pricing_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    pricing_implementation public.pricing_implementation_status DEFAULT 'unknown'::public.pricing_implementation_status NOT NULL,
     pricing jsonb DEFAULT '{}'::jsonb NOT NULL,
     privacy_policy_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
     privacy_policy jsonb DEFAULT '{}'::jsonb NOT NULL,
-    user_contribution_pathways_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    user_contribution_pathways jsonb DEFAULT '{}'::jsonb NOT NULL,
+    contribution_pathways_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    contribution_pathways jsonb DEFAULT '{}'::jsonb NOT NULL,
     user_documentation_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
     user_documentation jsonb DEFAULT '{}'::jsonb NOT NULL,
     web_accessibility_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
@@ -1087,7 +2120,7 @@ CREATE TABLE public.solutions (
     logo_data jsonb,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    engagement_with_values_frameworks text,
+    phase_1_engagement_with_values_frameworks text,
     service_summary text,
     code_license_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
     code_license jsonb DEFAULT '{}'::jsonb NOT NULL,
@@ -1096,7 +2129,48 @@ CREATE TABLE public.solutions (
     normalized_name public.citext GENERATED ALWAYS AS (public.normalize_ransackable(name)) STORED NOT NULL,
     publication public.publication DEFAULT 'unpublished'::public.publication NOT NULL,
     published_at timestamp without time zone,
-    maintenance_status public.maintenance_status DEFAULT 'unknown'::public.maintenance_status NOT NULL
+    phase_1_maintenance_status public.maintenance_status DEFAULT 'unknown'::public.maintenance_status NOT NULL,
+    country_code public.citext,
+    currency public.citext DEFAULT 'USD'::public.citext NOT NULL,
+    annual_expenses_cents bigint DEFAULT 0 NOT NULL,
+    annual_revenue_cents bigint DEFAULT 0 NOT NULL,
+    investment_income_cents bigint DEFAULT 0 NOT NULL,
+    other_revenue_cents bigint DEFAULT 0 NOT NULL,
+    program_revenue_cents bigint DEFAULT 0 NOT NULL,
+    total_assets_cents bigint DEFAULT 0 NOT NULL,
+    total_contributions_cents bigint DEFAULT 0 NOT NULL,
+    total_liabilities_cents bigint DEFAULT 0 NOT NULL,
+    board_members_url text,
+    financial_date_range text,
+    financial_date_range_started_on date,
+    financial_date_range_ended_on date,
+    membership_program_url text,
+    scoss boolean DEFAULT false NOT NULL,
+    shareholders boolean DEFAULT false NOT NULL,
+    free_inputs jsonb DEFAULT '{}'::jsonb NOT NULL
+);
+
+
+--
+-- Name: staffings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.staffings (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    name public.citext NOT NULL,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL,
+    provides public.citext,
+    enforced_slug text,
+    description text,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    min_value integer,
+    max_value integer,
+    coverage int4range GENERATED ALWAYS AS (public.calculate_staffing_range(min_value, max_value)) STORED,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -1143,7 +2217,11 @@ CREATE TABLE public.user_contributions (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     solutions_count bigint DEFAULT 0 NOT NULL,
-    solution_drafts_count bigint DEFAULT 0 NOT NULL
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    term public.citext NOT NULL,
+    enforced_slug public.citext,
+    provides public.citext
 );
 
 
@@ -1190,10 +2268,38 @@ CREATE TABLE public.users_roles (
 
 
 --
+-- Name: values_frameworks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.values_frameworks (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    name public.citext NOT NULL,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL,
+    provides public.citext,
+    enforced_slug text,
+    description text,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: solution_imports identifier; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_imports ALTER COLUMN identifier SET DEFAULT nextval('public.solution_imports_identifier_seq'::regclass);
+
+
+--
+-- Name: accessibility_scopes accessibility_scopes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.accessibility_scopes
+    ADD CONSTRAINT accessibility_scopes_pkey PRIMARY KEY (id);
 
 
 --
@@ -1213,6 +2319,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
+-- Name: authentication_standards authentication_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.authentication_standards
+    ADD CONSTRAINT authentication_standards_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: board_structures board_structures_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1226,6 +2340,14 @@ ALTER TABLE ONLY public.board_structures
 
 ALTER TABLE ONLY public.business_forms
     ADD CONSTRAINT business_forms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: community_engagement_activities community_engagement_activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.community_engagement_activities
+    ADD CONSTRAINT community_engagement_activities_pkey PRIMARY KEY (id);
 
 
 --
@@ -1266,6 +2388,14 @@ ALTER TABLE ONLY public.comparison_shares
 
 ALTER TABLE ONLY public.comparisons
     ADD CONSTRAINT comparisons_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: content_licenses content_licenses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.content_licenses
+    ADD CONSTRAINT content_licenses_pkey PRIMARY KEY (id);
 
 
 --
@@ -1325,6 +2455,14 @@ ALTER TABLE ONLY public.hosting_strategies
 
 
 --
+-- Name: integrations integrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.integrations
+    ADD CONSTRAINT integrations_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: licenses licenses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1341,11 +2479,59 @@ ALTER TABLE ONLY public.maintenance_statuses
 
 
 --
+-- Name: metadata_standards metadata_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.metadata_standards
+    ADD CONSTRAINT metadata_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: metrics_standards metrics_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.metrics_standards
+    ADD CONSTRAINT metrics_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: nonprofit_statuses nonprofit_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.nonprofit_statuses
+    ADD CONSTRAINT nonprofit_statuses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: persistent_identifier_standards persistent_identifier_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.persistent_identifier_standards
+    ADD CONSTRAINT persistent_identifier_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: preservation_standards preservation_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.preservation_standards
+    ADD CONSTRAINT preservation_standards_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: primary_funding_sources primary_funding_sources_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.primary_funding_sources
     ADD CONSTRAINT primary_funding_sources_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: programming_languages programming_languages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.programming_languages
+    ADD CONSTRAINT programming_languages_pkey PRIMARY KEY (id);
 
 
 --
@@ -1365,6 +2551,14 @@ ALTER TABLE ONLY public.readiness_levels
 
 
 --
+-- Name: reporting_levels reporting_levels_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reporting_levels
+    ADD CONSTRAINT reporting_levels_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: roles roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1381,6 +2575,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: security_standards security_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.security_standards
+    ADD CONSTRAINT security_standards_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: snapshot_items snapshot_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1394,6 +2596,38 @@ ALTER TABLE ONLY public.snapshot_items
 
 ALTER TABLE ONLY public.snapshots
     ADD CONSTRAINT snapshots_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_accessibility_scopes solution_accessibility_scopes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_accessibility_scopes
+    ADD CONSTRAINT solution_accessibility_scopes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_authentication_standards solution_authentication_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_authentication_standards
+    ADD CONSTRAINT solution_authentication_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_board_structures solution_board_structures_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_board_structures
+    ADD CONSTRAINT solution_board_structures_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_business_forms solution_business_forms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_business_forms
+    ADD CONSTRAINT solution_business_forms_pkey PRIMARY KEY (id);
 
 
 --
@@ -1421,11 +2655,203 @@ ALTER TABLE ONLY public.solution_category_links
 
 
 --
+-- Name: solution_community_engagement_activities solution_community_engagement_activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_community_engagement_activities
+    ADD CONSTRAINT solution_community_engagement_activities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_community_governances solution_community_governances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_community_governances
+    ADD CONSTRAINT solution_community_governances_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_content_licenses solution_content_licenses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_content_licenses
+    ADD CONSTRAINT solution_content_licenses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_accessibility_scopes solution_draft_accessibility_scopes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_accessibility_scopes
+    ADD CONSTRAINT solution_draft_accessibility_scopes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_authentication_standards solution_draft_authentication_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_authentication_standards
+    ADD CONSTRAINT solution_draft_authentication_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_board_structures solution_draft_board_structures_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_board_structures
+    ADD CONSTRAINT solution_draft_board_structures_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_business_forms solution_draft_business_forms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_business_forms
+    ADD CONSTRAINT solution_draft_business_forms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_community_engagement_activities solution_draft_community_engagement_activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_community_engagement_activities
+    ADD CONSTRAINT solution_draft_community_engagement_activities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_community_governances solution_draft_community_governances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_community_governances
+    ADD CONSTRAINT solution_draft_community_governances_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_content_licenses solution_draft_content_licenses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_content_licenses
+    ADD CONSTRAINT solution_draft_content_licenses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_hosting_strategies solution_draft_hosting_strategies_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_hosting_strategies
+    ADD CONSTRAINT solution_draft_hosting_strategies_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_integrations solution_draft_integrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_integrations
+    ADD CONSTRAINT solution_draft_integrations_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: solution_draft_licenses solution_draft_licenses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_draft_licenses
     ADD CONSTRAINT solution_draft_licenses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_maintenance_statuses solution_draft_maintenance_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_maintenance_statuses
+    ADD CONSTRAINT solution_draft_maintenance_statuses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_metadata_standards solution_draft_metadata_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_metadata_standards
+    ADD CONSTRAINT solution_draft_metadata_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_metrics_standards solution_draft_metrics_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_metrics_standards
+    ADD CONSTRAINT solution_draft_metrics_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_nonprofit_statuses solution_draft_nonprofit_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_nonprofit_statuses
+    ADD CONSTRAINT solution_draft_nonprofit_statuses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_persistent_identifier_standards solution_draft_persistent_identifier_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_persistent_identifier_standards
+    ADD CONSTRAINT solution_draft_persistent_identifier_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_preservation_standards solution_draft_preservation_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_preservation_standards
+    ADD CONSTRAINT solution_draft_preservation_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_primary_funding_sources solution_draft_primary_funding_sources_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_primary_funding_sources
+    ADD CONSTRAINT solution_draft_primary_funding_sources_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_programming_languages solution_draft_programming_languages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_programming_languages
+    ADD CONSTRAINT solution_draft_programming_languages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_readiness_levels solution_draft_readiness_levels_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_readiness_levels
+    ADD CONSTRAINT solution_draft_readiness_levels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_reporting_levels solution_draft_reporting_levels_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_reporting_levels
+    ADD CONSTRAINT solution_draft_reporting_levels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_security_standards solution_draft_security_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_security_standards
+    ADD CONSTRAINT solution_draft_security_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_staffings solution_draft_staffings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_staffings
+    ADD CONSTRAINT solution_draft_staffings_pkey PRIMARY KEY (id);
 
 
 --
@@ -1445,6 +2871,14 @@ ALTER TABLE ONLY public.solution_draft_user_contributions
 
 
 --
+-- Name: solution_draft_values_frameworks solution_draft_values_frameworks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_values_frameworks
+    ADD CONSTRAINT solution_draft_values_frameworks_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: solution_drafts solution_drafts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1458,6 +2892,14 @@ ALTER TABLE ONLY public.solution_drafts
 
 ALTER TABLE ONLY public.solution_editor_assignments
     ADD CONSTRAINT solution_editor_assignments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_hosting_strategies solution_hosting_strategies_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_hosting_strategies
+    ADD CONSTRAINT solution_hosting_strategies_pkey PRIMARY KEY (id);
 
 
 --
@@ -1477,11 +2919,115 @@ ALTER TABLE ONLY public.solution_imports
 
 
 --
+-- Name: solution_integrations solution_integrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_integrations
+    ADD CONSTRAINT solution_integrations_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: solution_licenses solution_licenses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_licenses
     ADD CONSTRAINT solution_licenses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_maintenance_statuses solution_maintenance_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_maintenance_statuses
+    ADD CONSTRAINT solution_maintenance_statuses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_metadata_standards solution_metadata_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_metadata_standards
+    ADD CONSTRAINT solution_metadata_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_metrics_standards solution_metrics_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_metrics_standards
+    ADD CONSTRAINT solution_metrics_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_nonprofit_statuses solution_nonprofit_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_nonprofit_statuses
+    ADD CONSTRAINT solution_nonprofit_statuses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_persistent_identifier_standards solution_persistent_identifier_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_persistent_identifier_standards
+    ADD CONSTRAINT solution_persistent_identifier_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_preservation_standards solution_preservation_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_preservation_standards
+    ADD CONSTRAINT solution_preservation_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_primary_funding_sources solution_primary_funding_sources_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_primary_funding_sources
+    ADD CONSTRAINT solution_primary_funding_sources_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_programming_languages solution_programming_languages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_programming_languages
+    ADD CONSTRAINT solution_programming_languages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_readiness_levels solution_readiness_levels_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_readiness_levels
+    ADD CONSTRAINT solution_readiness_levels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_reporting_levels solution_reporting_levels_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_reporting_levels
+    ADD CONSTRAINT solution_reporting_levels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_security_standards solution_security_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_security_standards
+    ADD CONSTRAINT solution_security_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_staffings solution_staffings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_staffings
+    ADD CONSTRAINT solution_staffings_pkey PRIMARY KEY (id);
 
 
 --
@@ -1493,11 +3039,27 @@ ALTER TABLE ONLY public.solution_user_contributions
 
 
 --
+-- Name: solution_values_frameworks solution_values_frameworks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_values_frameworks
+    ADD CONSTRAINT solution_values_frameworks_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: solutions solutions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solutions
     ADD CONSTRAINT solutions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: staffings staffings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.staffings
+    ADD CONSTRAINT staffings_pkey PRIMARY KEY (id);
 
 
 --
@@ -1533,10 +3095,214 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: values_frameworks values_frameworks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.values_frameworks
+    ADD CONSTRAINT values_frameworks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: idx_on_accessibility_scope_id_8cfeee5e03; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_accessibility_scope_id_8cfeee5e03 ON public.solution_draft_accessibility_scopes USING btree (accessibility_scope_id);
+
+
+--
+-- Name: idx_on_authentication_standard_id_83b18b5410; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_authentication_standard_id_83b18b5410 ON public.solution_draft_authentication_standards USING btree (authentication_standard_id);
+
+
+--
+-- Name: idx_on_authentication_standard_id_f729ce6a4d; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_authentication_standard_id_f729ce6a4d ON public.solution_authentication_standards USING btree (authentication_standard_id);
+
+
+--
+-- Name: idx_on_community_engagement_activity_id_a660ede9c2; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_community_engagement_activity_id_a660ede9c2 ON public.solution_draft_community_engagement_activities USING btree (community_engagement_activity_id);
+
+
+--
+-- Name: idx_on_community_engagement_activity_id_a6b7e59278; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_community_engagement_activity_id_a6b7e59278 ON public.solution_community_engagement_activities USING btree (community_engagement_activity_id);
+
+
+--
+-- Name: idx_on_community_governance_id_9be13ea80c; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_community_governance_id_9be13ea80c ON public.solution_community_governances USING btree (community_governance_id);
+
+
+--
+-- Name: idx_on_community_governance_id_ea4df91232; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_community_governance_id_ea4df91232 ON public.solution_draft_community_governances USING btree (community_governance_id);
+
+
+--
+-- Name: idx_on_maintenance_status_id_ba7aa33ae5; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_maintenance_status_id_ba7aa33ae5 ON public.solution_draft_maintenance_statuses USING btree (maintenance_status_id);
+
+
+--
+-- Name: idx_on_metadata_standard_id_b63801d884; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_metadata_standard_id_b63801d884 ON public.solution_draft_metadata_standards USING btree (metadata_standard_id);
+
+
+--
+-- Name: idx_on_persistent_identifier_standard_id_7f253d646b; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_persistent_identifier_standard_id_7f253d646b ON public.solution_persistent_identifier_standards USING btree (persistent_identifier_standard_id);
+
+
+--
+-- Name: idx_on_persistent_identifier_standard_id_971588cbf6; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_persistent_identifier_standard_id_971588cbf6 ON public.solution_draft_persistent_identifier_standards USING btree (persistent_identifier_standard_id);
+
+
+--
+-- Name: idx_on_preservation_standard_id_4448d346db; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_preservation_standard_id_4448d346db ON public.solution_draft_preservation_standards USING btree (preservation_standard_id);
+
+
+--
+-- Name: idx_on_preservation_standard_id_adc4fffef7; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_preservation_standard_id_adc4fffef7 ON public.solution_preservation_standards USING btree (preservation_standard_id);
+
+
+--
+-- Name: idx_on_primary_funding_source_id_5f1f221f70; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_primary_funding_source_id_5f1f221f70 ON public.solution_draft_primary_funding_sources USING btree (primary_funding_source_id);
+
+
+--
+-- Name: idx_on_primary_funding_source_id_67d9414fd7; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_primary_funding_source_id_67d9414fd7 ON public.solution_primary_funding_sources USING btree (primary_funding_source_id);
+
+
+--
+-- Name: idx_on_programming_language_id_988c7525dd; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_programming_language_id_988c7525dd ON public.solution_programming_languages USING btree (programming_language_id);
+
+
+--
+-- Name: idx_on_programming_language_id_ea4ddae88c; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_programming_language_id_ea4ddae88c ON public.solution_draft_programming_languages USING btree (programming_language_id);
+
+
+--
+-- Name: idx_on_security_standard_id_6b1dbe0a20; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_security_standard_id_6b1dbe0a20 ON public.solution_draft_security_standards USING btree (security_standard_id);
+
+
+--
+-- Name: idx_on_solution_draft_id_117fe11f0d; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_draft_id_117fe11f0d ON public.solution_draft_primary_funding_sources USING btree (solution_draft_id);
+
+
+--
+-- Name: idx_on_solution_draft_id_2d748b32cd; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_draft_id_2d748b32cd ON public.solution_draft_persistent_identifier_standards USING btree (solution_draft_id);
+
+
+--
+-- Name: idx_on_solution_draft_id_7192742c65; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_draft_id_7192742c65 ON public.solution_draft_preservation_standards USING btree (solution_draft_id);
+
+
+--
+-- Name: idx_on_solution_draft_id_849bfb38ad; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_draft_id_849bfb38ad ON public.solution_draft_community_governances USING btree (solution_draft_id);
+
+
+--
+-- Name: idx_on_solution_draft_id_a951c05879; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_draft_id_a951c05879 ON public.solution_draft_authentication_standards USING btree (solution_draft_id);
+
+
+--
+-- Name: idx_on_solution_draft_id_dcea24e157; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_draft_id_dcea24e157 ON public.solution_draft_community_engagement_activities USING btree (solution_draft_id);
+
+
+--
+-- Name: idx_on_solution_draft_id_f1434c4565; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_draft_id_f1434c4565 ON public.solution_draft_programming_languages USING btree (solution_draft_id);
+
+
+--
 -- Name: idx_on_user_contribution_id_e5e19dfc8b; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX idx_on_user_contribution_id_e5e19dfc8b ON public.solution_draft_user_contributions USING btree (user_contribution_id);
+
+
+--
+-- Name: index_accessibility_scopes_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_accessibility_scopes_on_provides ON public.accessibility_scopes USING btree (provides);
+
+
+--
+-- Name: index_accessibility_scopes_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_accessibility_scopes_on_slug ON public.accessibility_scopes USING btree (slug);
+
+
+--
+-- Name: index_accessibility_scopes_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_accessibility_scopes_on_term ON public.accessibility_scopes USING btree (term);
 
 
 --
@@ -1561,6 +3327,34 @@ CREATE INDEX index_active_admin_comments_on_resource ON public.active_admin_comm
 
 
 --
+-- Name: index_authentication_standards_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_authentication_standards_on_provides ON public.authentication_standards USING btree (provides);
+
+
+--
+-- Name: index_authentication_standards_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_authentication_standards_on_slug ON public.authentication_standards USING btree (slug);
+
+
+--
+-- Name: index_authentication_standards_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_authentication_standards_on_term ON public.authentication_standards USING btree (term);
+
+
+--
+-- Name: index_board_structures_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_board_structures_on_provides ON public.board_structures USING btree (provides);
+
+
+--
 -- Name: index_board_structures_on_seed_identifier; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1575,6 +3369,20 @@ CREATE UNIQUE INDEX index_board_structures_on_slug ON public.board_structures US
 
 
 --
+-- Name: index_board_structures_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_board_structures_on_term ON public.board_structures USING btree (term);
+
+
+--
+-- Name: index_business_forms_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_business_forms_on_provides ON public.business_forms USING btree (provides);
+
+
+--
 -- Name: index_business_forms_on_seed_identifier; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1586,6 +3394,48 @@ CREATE UNIQUE INDEX index_business_forms_on_seed_identifier ON public.business_f
 --
 
 CREATE UNIQUE INDEX index_business_forms_on_slug ON public.business_forms USING btree (slug);
+
+
+--
+-- Name: index_business_forms_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_business_forms_on_term ON public.business_forms USING btree (term);
+
+
+--
+-- Name: index_community_engagement_activities_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_community_engagement_activities_on_provides ON public.community_engagement_activities USING btree (provides);
+
+
+--
+-- Name: index_community_engagement_activities_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_community_engagement_activities_on_slug ON public.community_engagement_activities USING btree (slug);
+
+
+--
+-- Name: index_community_engagement_activities_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_community_engagement_activities_on_term ON public.community_engagement_activities USING btree (term);
+
+
+--
+-- Name: index_community_governances_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_community_governances_on_provides ON public.community_governances USING btree (provides);
+
+
+--
+-- Name: index_community_governances_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_community_governances_on_term ON public.community_governances USING btree (term);
 
 
 --
@@ -1649,6 +3499,27 @@ CREATE INDEX index_comparisons_on_last_seen_at ON public.comparisons USING btree
 --
 
 CREATE UNIQUE INDEX index_comparisons_on_session_id ON public.comparisons USING btree (session_id);
+
+
+--
+-- Name: index_content_licenses_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_content_licenses_on_provides ON public.content_licenses USING btree (provides);
+
+
+--
+-- Name: index_content_licenses_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_content_licenses_on_slug ON public.content_licenses USING btree (slug);
+
+
+--
+-- Name: index_content_licenses_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_content_licenses_on_term ON public.content_licenses USING btree (term);
 
 
 --
@@ -1771,6 +3642,13 @@ CREATE INDEX index_good_jobs_on_scheduled_at ON public.good_jobs USING btree (sc
 
 
 --
+-- Name: index_hosting_strategies_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_hosting_strategies_on_provides ON public.hosting_strategies USING btree (provides);
+
+
+--
 -- Name: index_hosting_strategies_on_seed_identifier; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1782,6 +3660,41 @@ CREATE UNIQUE INDEX index_hosting_strategies_on_seed_identifier ON public.hostin
 --
 
 CREATE UNIQUE INDEX index_hosting_strategies_on_slug ON public.hosting_strategies USING btree (slug);
+
+
+--
+-- Name: index_hosting_strategies_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_hosting_strategies_on_term ON public.hosting_strategies USING btree (term);
+
+
+--
+-- Name: index_integrations_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_integrations_on_provides ON public.integrations USING btree (provides);
+
+
+--
+-- Name: index_integrations_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_integrations_on_slug ON public.integrations USING btree (slug);
+
+
+--
+-- Name: index_integrations_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_integrations_on_term ON public.integrations USING btree (term);
+
+
+--
+-- Name: index_licenses_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_licenses_on_provides ON public.licenses USING btree (provides);
 
 
 --
@@ -1799,6 +3712,20 @@ CREATE UNIQUE INDEX index_licenses_on_slug ON public.licenses USING btree (slug)
 
 
 --
+-- Name: index_licenses_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_licenses_on_term ON public.licenses USING btree (term);
+
+
+--
+-- Name: index_maintenance_statuses_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_maintenance_statuses_on_provides ON public.maintenance_statuses USING btree (provides);
+
+
+--
 -- Name: index_maintenance_statuses_on_seed_identifier; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1813,6 +3740,125 @@ CREATE UNIQUE INDEX index_maintenance_statuses_on_slug ON public.maintenance_sta
 
 
 --
+-- Name: index_maintenance_statuses_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_maintenance_statuses_on_term ON public.maintenance_statuses USING btree (term);
+
+
+--
+-- Name: index_metadata_standards_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_metadata_standards_on_provides ON public.metadata_standards USING btree (provides);
+
+
+--
+-- Name: index_metadata_standards_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_metadata_standards_on_slug ON public.metadata_standards USING btree (slug);
+
+
+--
+-- Name: index_metadata_standards_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_metadata_standards_on_term ON public.metadata_standards USING btree (term);
+
+
+--
+-- Name: index_metrics_standards_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_metrics_standards_on_provides ON public.metrics_standards USING btree (provides);
+
+
+--
+-- Name: index_metrics_standards_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_metrics_standards_on_slug ON public.metrics_standards USING btree (slug);
+
+
+--
+-- Name: index_metrics_standards_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_metrics_standards_on_term ON public.metrics_standards USING btree (term);
+
+
+--
+-- Name: index_nonprofit_statuses_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_nonprofit_statuses_on_provides ON public.nonprofit_statuses USING btree (provides);
+
+
+--
+-- Name: index_nonprofit_statuses_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_nonprofit_statuses_on_slug ON public.nonprofit_statuses USING btree (slug);
+
+
+--
+-- Name: index_nonprofit_statuses_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_nonprofit_statuses_on_term ON public.nonprofit_statuses USING btree (term);
+
+
+--
+-- Name: index_persistent_identifier_standards_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_persistent_identifier_standards_on_provides ON public.persistent_identifier_standards USING btree (provides);
+
+
+--
+-- Name: index_persistent_identifier_standards_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_persistent_identifier_standards_on_slug ON public.persistent_identifier_standards USING btree (slug);
+
+
+--
+-- Name: index_persistent_identifier_standards_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_persistent_identifier_standards_on_term ON public.persistent_identifier_standards USING btree (term);
+
+
+--
+-- Name: index_preservation_standards_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_preservation_standards_on_provides ON public.preservation_standards USING btree (provides);
+
+
+--
+-- Name: index_preservation_standards_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_preservation_standards_on_slug ON public.preservation_standards USING btree (slug);
+
+
+--
+-- Name: index_preservation_standards_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_preservation_standards_on_term ON public.preservation_standards USING btree (term);
+
+
+--
+-- Name: index_primary_funding_sources_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_primary_funding_sources_on_provides ON public.primary_funding_sources USING btree (provides);
+
+
+--
 -- Name: index_primary_funding_sources_on_seed_identifier; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1824,6 +3870,34 @@ CREATE UNIQUE INDEX index_primary_funding_sources_on_seed_identifier ON public.p
 --
 
 CREATE UNIQUE INDEX index_primary_funding_sources_on_slug ON public.primary_funding_sources USING btree (slug);
+
+
+--
+-- Name: index_primary_funding_sources_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_primary_funding_sources_on_term ON public.primary_funding_sources USING btree (term);
+
+
+--
+-- Name: index_programming_languages_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_programming_languages_on_provides ON public.programming_languages USING btree (provides);
+
+
+--
+-- Name: index_programming_languages_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_programming_languages_on_slug ON public.programming_languages USING btree (slug);
+
+
+--
+-- Name: index_programming_languages_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_programming_languages_on_term ON public.programming_languages USING btree (term);
 
 
 --
@@ -1848,6 +3922,13 @@ CREATE UNIQUE INDEX index_providers_on_slug ON public.providers USING btree (slu
 
 
 --
+-- Name: index_readiness_levels_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_readiness_levels_on_provides ON public.readiness_levels USING btree (provides);
+
+
+--
 -- Name: index_readiness_levels_on_seed_identifier; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1862,10 +3943,59 @@ CREATE UNIQUE INDEX index_readiness_levels_on_slug ON public.readiness_levels US
 
 
 --
+-- Name: index_readiness_levels_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_readiness_levels_on_term ON public.readiness_levels USING btree (term);
+
+
+--
+-- Name: index_reporting_levels_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reporting_levels_on_provides ON public.reporting_levels USING btree (provides);
+
+
+--
+-- Name: index_reporting_levels_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_reporting_levels_on_slug ON public.reporting_levels USING btree (slug);
+
+
+--
+-- Name: index_reporting_levels_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_reporting_levels_on_term ON public.reporting_levels USING btree (term);
+
+
+--
 -- Name: index_roles_on_name_and_resource_type_and_resource_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_roles_on_name_and_resource_type_and_resource_id ON public.roles USING btree (name, resource_type, resource_id);
+
+
+--
+-- Name: index_security_standards_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_security_standards_on_provides ON public.security_standards USING btree (provides);
+
+
+--
+-- Name: index_security_standards_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_security_standards_on_slug ON public.security_standards USING btree (slug);
+
+
+--
+-- Name: index_security_standards_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_security_standards_on_term ON public.security_standards USING btree (term);
 
 
 --
@@ -1918,6 +4048,62 @@ CREATE INDEX index_snapshots_on_user ON public.snapshots USING btree (user_type,
 
 
 --
+-- Name: index_solution_accessibility_scopes_on_accessibility_scope_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_accessibility_scopes_on_accessibility_scope_id ON public.solution_accessibility_scopes USING btree (accessibility_scope_id);
+
+
+--
+-- Name: index_solution_accessibility_scopes_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_accessibility_scopes_on_solution_id ON public.solution_accessibility_scopes USING btree (solution_id);
+
+
+--
+-- Name: index_solution_authentication_standards_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_authentication_standards_on_solution_id ON public.solution_authentication_standards USING btree (solution_id);
+
+
+--
+-- Name: index_solution_board_structures_on_board_structure_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_board_structures_on_board_structure_id ON public.solution_board_structures USING btree (board_structure_id);
+
+
+--
+-- Name: index_solution_board_structures_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_board_structures_on_solution_id ON public.solution_board_structures USING btree (solution_id);
+
+
+--
+-- Name: index_solution_business_forms_on_business_form_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_business_forms_on_business_form_id ON public.solution_business_forms USING btree (business_form_id);
+
+
+--
+-- Name: index_solution_business_forms_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_business_forms_on_solution_id ON public.solution_business_forms USING btree (solution_id);
+
+
+--
+-- Name: index_solution_categories_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_categories_on_provides ON public.solution_categories USING btree (provides);
+
+
+--
 -- Name: index_solution_categories_on_seed_identifier; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1929,6 +4115,13 @@ CREATE UNIQUE INDEX index_solution_categories_on_seed_identifier ON public.solut
 --
 
 CREATE UNIQUE INDEX index_solution_categories_on_slug ON public.solution_categories USING btree (slug);
+
+
+--
+-- Name: index_solution_categories_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_solution_categories_on_term ON public.solution_categories USING btree (term);
 
 
 --
@@ -1946,20 +4139,6 @@ CREATE INDEX index_solution_category_draft_links_on_solution_draft_id ON public.
 
 
 --
--- Name: index_solution_category_draft_links_uniqueness; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_solution_category_draft_links_uniqueness ON public.solution_category_draft_links USING btree (solution_draft_id, solution_category_id);
-
-
---
--- Name: index_solution_category_link_uniqueness; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_solution_category_link_uniqueness ON public.solution_category_links USING btree (solution_id, solution_category_id);
-
-
---
 -- Name: index_solution_category_links_on_solution_category_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1971,6 +4150,111 @@ CREATE INDEX index_solution_category_links_on_solution_category_id ON public.sol
 --
 
 CREATE INDEX index_solution_category_links_on_solution_id ON public.solution_category_links USING btree (solution_id);
+
+
+--
+-- Name: index_solution_community_engagement_activities_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_community_engagement_activities_on_solution_id ON public.solution_community_engagement_activities USING btree (solution_id);
+
+
+--
+-- Name: index_solution_community_governances_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_community_governances_on_solution_id ON public.solution_community_governances USING btree (solution_id);
+
+
+--
+-- Name: index_solution_content_licenses_on_content_license_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_content_licenses_on_content_license_id ON public.solution_content_licenses USING btree (content_license_id);
+
+
+--
+-- Name: index_solution_content_licenses_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_content_licenses_on_solution_id ON public.solution_content_licenses USING btree (solution_id);
+
+
+--
+-- Name: index_solution_draft_accessibility_scopes_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_accessibility_scopes_on_solution_draft_id ON public.solution_draft_accessibility_scopes USING btree (solution_draft_id);
+
+
+--
+-- Name: index_solution_draft_board_structures_on_board_structure_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_board_structures_on_board_structure_id ON public.solution_draft_board_structures USING btree (board_structure_id);
+
+
+--
+-- Name: index_solution_draft_board_structures_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_board_structures_on_solution_draft_id ON public.solution_draft_board_structures USING btree (solution_draft_id);
+
+
+--
+-- Name: index_solution_draft_business_forms_on_business_form_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_business_forms_on_business_form_id ON public.solution_draft_business_forms USING btree (business_form_id);
+
+
+--
+-- Name: index_solution_draft_business_forms_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_business_forms_on_solution_draft_id ON public.solution_draft_business_forms USING btree (solution_draft_id);
+
+
+--
+-- Name: index_solution_draft_content_licenses_on_content_license_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_content_licenses_on_content_license_id ON public.solution_draft_content_licenses USING btree (content_license_id);
+
+
+--
+-- Name: index_solution_draft_content_licenses_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_content_licenses_on_solution_draft_id ON public.solution_draft_content_licenses USING btree (solution_draft_id);
+
+
+--
+-- Name: index_solution_draft_hosting_strategies_on_hosting_strategy_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_hosting_strategies_on_hosting_strategy_id ON public.solution_draft_hosting_strategies USING btree (hosting_strategy_id);
+
+
+--
+-- Name: index_solution_draft_hosting_strategies_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_hosting_strategies_on_solution_draft_id ON public.solution_draft_hosting_strategies USING btree (solution_draft_id);
+
+
+--
+-- Name: index_solution_draft_integrations_on_integration_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_integrations_on_integration_id ON public.solution_draft_integrations USING btree (integration_id);
+
+
+--
+-- Name: index_solution_draft_integrations_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_integrations_on_solution_draft_id ON public.solution_draft_integrations USING btree (solution_draft_id);
 
 
 --
@@ -1988,10 +4272,94 @@ CREATE INDEX index_solution_draft_licenses_on_solution_draft_id ON public.soluti
 
 
 --
--- Name: index_solution_draft_licenses_uniqueness; Type: INDEX; Schema: public; Owner: -
+-- Name: index_solution_draft_maintenance_statuses_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_solution_draft_licenses_uniqueness ON public.solution_draft_licenses USING btree (solution_draft_id, license_id);
+CREATE INDEX index_solution_draft_maintenance_statuses_on_solution_draft_id ON public.solution_draft_maintenance_statuses USING btree (solution_draft_id);
+
+
+--
+-- Name: index_solution_draft_metadata_standards_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_metadata_standards_on_solution_draft_id ON public.solution_draft_metadata_standards USING btree (solution_draft_id);
+
+
+--
+-- Name: index_solution_draft_metrics_standards_on_metrics_standard_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_metrics_standards_on_metrics_standard_id ON public.solution_draft_metrics_standards USING btree (metrics_standard_id);
+
+
+--
+-- Name: index_solution_draft_metrics_standards_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_metrics_standards_on_solution_draft_id ON public.solution_draft_metrics_standards USING btree (solution_draft_id);
+
+
+--
+-- Name: index_solution_draft_nonprofit_statuses_on_nonprofit_status_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_nonprofit_statuses_on_nonprofit_status_id ON public.solution_draft_nonprofit_statuses USING btree (nonprofit_status_id);
+
+
+--
+-- Name: index_solution_draft_nonprofit_statuses_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_nonprofit_statuses_on_solution_draft_id ON public.solution_draft_nonprofit_statuses USING btree (solution_draft_id);
+
+
+--
+-- Name: index_solution_draft_readiness_levels_on_readiness_level_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_readiness_levels_on_readiness_level_id ON public.solution_draft_readiness_levels USING btree (readiness_level_id);
+
+
+--
+-- Name: index_solution_draft_readiness_levels_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_readiness_levels_on_solution_draft_id ON public.solution_draft_readiness_levels USING btree (solution_draft_id);
+
+
+--
+-- Name: index_solution_draft_reporting_levels_on_reporting_level_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_reporting_levels_on_reporting_level_id ON public.solution_draft_reporting_levels USING btree (reporting_level_id);
+
+
+--
+-- Name: index_solution_draft_reporting_levels_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_reporting_levels_on_solution_draft_id ON public.solution_draft_reporting_levels USING btree (solution_draft_id);
+
+
+--
+-- Name: index_solution_draft_security_standards_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_security_standards_on_solution_draft_id ON public.solution_draft_security_standards USING btree (solution_draft_id);
+
+
+--
+-- Name: index_solution_draft_staffings_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_staffings_on_solution_draft_id ON public.solution_draft_staffings USING btree (solution_draft_id);
+
+
+--
+-- Name: index_solution_draft_staffings_on_staffing_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_staffings_on_staffing_id ON public.solution_draft_staffings USING btree (staffing_id);
 
 
 --
@@ -2016,38 +4384,17 @@ CREATE INDEX index_solution_draft_user_contributions_on_solution_draft_id ON pub
 
 
 --
--- Name: index_solution_draft_user_contributions_uniqueness; Type: INDEX; Schema: public; Owner: -
+-- Name: index_solution_draft_values_frameworks_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_solution_draft_user_contributions_uniqueness ON public.solution_draft_user_contributions USING btree (solution_draft_id, user_contribution_id);
-
-
---
--- Name: index_solution_drafts_on_board_structure_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_solution_drafts_on_board_structure_id ON public.solution_drafts USING btree (board_structure_id);
+CREATE INDEX index_solution_draft_values_frameworks_on_solution_draft_id ON public.solution_draft_values_frameworks USING btree (solution_draft_id);
 
 
 --
--- Name: index_solution_drafts_on_business_form_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_solution_draft_values_frameworks_on_values_framework_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_solution_drafts_on_business_form_id ON public.solution_drafts USING btree (business_form_id);
-
-
---
--- Name: index_solution_drafts_on_community_governance_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_solution_drafts_on_community_governance_id ON public.solution_drafts USING btree (community_governance_id);
-
-
---
--- Name: index_solution_drafts_on_hosting_strategy_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_solution_drafts_on_hosting_strategy_id ON public.solution_drafts USING btree (hosting_strategy_id);
+CREATE INDEX index_solution_draft_values_frameworks_on_values_framework_id ON public.solution_draft_values_frameworks USING btree (values_framework_id);
 
 
 --
@@ -2058,20 +4405,6 @@ CREATE INDEX index_solution_drafts_on_identifier ON public.solution_drafts USING
 
 
 --
--- Name: index_solution_drafts_on_maintenance_status; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_solution_drafts_on_maintenance_status ON public.solution_drafts USING btree (maintenance_status);
-
-
---
--- Name: index_solution_drafts_on_maintenance_status_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_solution_drafts_on_maintenance_status_id ON public.solution_drafts USING btree (maintenance_status_id);
-
-
---
 -- Name: index_solution_drafts_on_normalized_name; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2079,17 +4412,59 @@ CREATE INDEX index_solution_drafts_on_normalized_name ON public.solution_drafts 
 
 
 --
--- Name: index_solution_drafts_on_primary_funding_source_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_solution_drafts_on_phase_1_board_structure_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_solution_drafts_on_primary_funding_source_id ON public.solution_drafts USING btree (primary_funding_source_id);
+CREATE INDEX index_solution_drafts_on_phase_1_board_structure_id ON public.solution_drafts USING btree (phase_1_board_structure_id);
 
 
 --
--- Name: index_solution_drafts_on_readiness_level_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_solution_drafts_on_phase_1_business_form_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_solution_drafts_on_readiness_level_id ON public.solution_drafts USING btree (readiness_level_id);
+CREATE INDEX index_solution_drafts_on_phase_1_business_form_id ON public.solution_drafts USING btree (phase_1_business_form_id);
+
+
+--
+-- Name: index_solution_drafts_on_phase_1_community_governance_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_drafts_on_phase_1_community_governance_id ON public.solution_drafts USING btree (phase_1_community_governance_id);
+
+
+--
+-- Name: index_solution_drafts_on_phase_1_hosting_strategy_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_drafts_on_phase_1_hosting_strategy_id ON public.solution_drafts USING btree (phase_1_hosting_strategy_id);
+
+
+--
+-- Name: index_solution_drafts_on_phase_1_maintenance_status; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_drafts_on_phase_1_maintenance_status ON public.solution_drafts USING btree (phase_1_maintenance_status);
+
+
+--
+-- Name: index_solution_drafts_on_phase_1_maintenance_status_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_drafts_on_phase_1_maintenance_status_id ON public.solution_drafts USING btree (phase_1_maintenance_status_id);
+
+
+--
+-- Name: index_solution_drafts_on_phase_1_primary_funding_source_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_drafts_on_phase_1_primary_funding_source_id ON public.solution_drafts USING btree (phase_1_primary_funding_source_id);
+
+
+--
+-- Name: index_solution_drafts_on_phase_1_readiness_level_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_drafts_on_phase_1_readiness_level_id ON public.solution_drafts USING btree (phase_1_readiness_level_id);
 
 
 --
@@ -2128,6 +4503,20 @@ CREATE UNIQUE INDEX index_solution_editor_assignments_uniqueness ON public.solut
 
 
 --
+-- Name: index_solution_hosting_strategies_on_hosting_strategy_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_hosting_strategies_on_hosting_strategy_id ON public.solution_hosting_strategies USING btree (hosting_strategy_id);
+
+
+--
+-- Name: index_solution_hosting_strategies_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_hosting_strategies_on_solution_id ON public.solution_hosting_strategies USING btree (solution_id);
+
+
+--
 -- Name: index_solution_import_transitions_parent_most_recent; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2156,6 +4545,20 @@ CREATE INDEX index_solution_imports_on_user_id ON public.solution_imports USING 
 
 
 --
+-- Name: index_solution_integrations_on_integration_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_integrations_on_integration_id ON public.solution_integrations USING btree (integration_id);
+
+
+--
+-- Name: index_solution_integrations_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_integrations_on_solution_id ON public.solution_integrations USING btree (solution_id);
+
+
+--
 -- Name: index_solution_licenses_on_license_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2170,10 +4573,143 @@ CREATE INDEX index_solution_licenses_on_solution_id ON public.solution_licenses 
 
 
 --
--- Name: index_solution_licenses_uniqueness; Type: INDEX; Schema: public; Owner: -
+-- Name: index_solution_maintenance_statuses_on_maintenance_status_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_solution_licenses_uniqueness ON public.solution_licenses USING btree (solution_id, license_id);
+CREATE INDEX index_solution_maintenance_statuses_on_maintenance_status_id ON public.solution_maintenance_statuses USING btree (maintenance_status_id);
+
+
+--
+-- Name: index_solution_maintenance_statuses_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_maintenance_statuses_on_solution_id ON public.solution_maintenance_statuses USING btree (solution_id);
+
+
+--
+-- Name: index_solution_metadata_standards_on_metadata_standard_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_metadata_standards_on_metadata_standard_id ON public.solution_metadata_standards USING btree (metadata_standard_id);
+
+
+--
+-- Name: index_solution_metadata_standards_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_metadata_standards_on_solution_id ON public.solution_metadata_standards USING btree (solution_id);
+
+
+--
+-- Name: index_solution_metrics_standards_on_metrics_standard_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_metrics_standards_on_metrics_standard_id ON public.solution_metrics_standards USING btree (metrics_standard_id);
+
+
+--
+-- Name: index_solution_metrics_standards_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_metrics_standards_on_solution_id ON public.solution_metrics_standards USING btree (solution_id);
+
+
+--
+-- Name: index_solution_nonprofit_statuses_on_nonprofit_status_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_nonprofit_statuses_on_nonprofit_status_id ON public.solution_nonprofit_statuses USING btree (nonprofit_status_id);
+
+
+--
+-- Name: index_solution_nonprofit_statuses_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_nonprofit_statuses_on_solution_id ON public.solution_nonprofit_statuses USING btree (solution_id);
+
+
+--
+-- Name: index_solution_persistent_identifier_standards_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_persistent_identifier_standards_on_solution_id ON public.solution_persistent_identifier_standards USING btree (solution_id);
+
+
+--
+-- Name: index_solution_preservation_standards_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_preservation_standards_on_solution_id ON public.solution_preservation_standards USING btree (solution_id);
+
+
+--
+-- Name: index_solution_primary_funding_sources_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_primary_funding_sources_on_solution_id ON public.solution_primary_funding_sources USING btree (solution_id);
+
+
+--
+-- Name: index_solution_programming_languages_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_programming_languages_on_solution_id ON public.solution_programming_languages USING btree (solution_id);
+
+
+--
+-- Name: index_solution_readiness_levels_on_readiness_level_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_readiness_levels_on_readiness_level_id ON public.solution_readiness_levels USING btree (readiness_level_id);
+
+
+--
+-- Name: index_solution_readiness_levels_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_readiness_levels_on_solution_id ON public.solution_readiness_levels USING btree (solution_id);
+
+
+--
+-- Name: index_solution_reporting_levels_on_reporting_level_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_reporting_levels_on_reporting_level_id ON public.solution_reporting_levels USING btree (reporting_level_id);
+
+
+--
+-- Name: index_solution_reporting_levels_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_reporting_levels_on_solution_id ON public.solution_reporting_levels USING btree (solution_id);
+
+
+--
+-- Name: index_solution_security_standards_on_security_standard_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_security_standards_on_security_standard_id ON public.solution_security_standards USING btree (security_standard_id);
+
+
+--
+-- Name: index_solution_security_standards_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_security_standards_on_solution_id ON public.solution_security_standards USING btree (solution_id);
+
+
+--
+-- Name: index_solution_staffings_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_staffings_on_solution_id ON public.solution_staffings USING btree (solution_id);
+
+
+--
+-- Name: index_solution_staffings_on_staffing_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_staffings_on_staffing_id ON public.solution_staffings USING btree (staffing_id);
 
 
 --
@@ -2191,38 +4727,17 @@ CREATE INDEX index_solution_user_contributions_on_user_contribution_id ON public
 
 
 --
--- Name: index_solution_user_contributions_uniqueness; Type: INDEX; Schema: public; Owner: -
+-- Name: index_solution_values_frameworks_on_solution_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_solution_user_contributions_uniqueness ON public.solution_user_contributions USING btree (solution_id, user_contribution_id);
-
-
---
--- Name: index_solutions_on_board_structure_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_solutions_on_board_structure_id ON public.solutions USING btree (board_structure_id);
+CREATE INDEX index_solution_values_frameworks_on_solution_id ON public.solution_values_frameworks USING btree (solution_id);
 
 
 --
--- Name: index_solutions_on_business_form_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_solution_values_frameworks_on_values_framework_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_solutions_on_business_form_id ON public.solutions USING btree (business_form_id);
-
-
---
--- Name: index_solutions_on_community_governance_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_solutions_on_community_governance_id ON public.solutions USING btree (community_governance_id);
-
-
---
--- Name: index_solutions_on_hosting_strategy_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_solutions_on_hosting_strategy_id ON public.solutions USING btree (hosting_strategy_id);
+CREATE INDEX index_solution_values_frameworks_on_values_framework_id ON public.solution_values_frameworks USING btree (values_framework_id);
 
 
 --
@@ -2233,20 +4748,6 @@ CREATE UNIQUE INDEX index_solutions_on_identifier ON public.solutions USING btre
 
 
 --
--- Name: index_solutions_on_maintenance_status; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_solutions_on_maintenance_status ON public.solutions USING btree (maintenance_status);
-
-
---
--- Name: index_solutions_on_maintenance_status_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_solutions_on_maintenance_status_id ON public.solutions USING btree (maintenance_status_id);
-
-
---
 -- Name: index_solutions_on_normalized_name; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2254,10 +4755,59 @@ CREATE INDEX index_solutions_on_normalized_name ON public.solutions USING btree 
 
 
 --
--- Name: index_solutions_on_primary_funding_source_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_solutions_on_phase_1_board_structure_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_solutions_on_primary_funding_source_id ON public.solutions USING btree (primary_funding_source_id);
+CREATE INDEX index_solutions_on_phase_1_board_structure_id ON public.solutions USING btree (phase_1_board_structure_id);
+
+
+--
+-- Name: index_solutions_on_phase_1_business_form_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solutions_on_phase_1_business_form_id ON public.solutions USING btree (phase_1_business_form_id);
+
+
+--
+-- Name: index_solutions_on_phase_1_community_governance_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solutions_on_phase_1_community_governance_id ON public.solutions USING btree (phase_1_community_governance_id);
+
+
+--
+-- Name: index_solutions_on_phase_1_hosting_strategy_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solutions_on_phase_1_hosting_strategy_id ON public.solutions USING btree (phase_1_hosting_strategy_id);
+
+
+--
+-- Name: index_solutions_on_phase_1_maintenance_status; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solutions_on_phase_1_maintenance_status ON public.solutions USING btree (phase_1_maintenance_status);
+
+
+--
+-- Name: index_solutions_on_phase_1_maintenance_status_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solutions_on_phase_1_maintenance_status_id ON public.solutions USING btree (phase_1_maintenance_status_id);
+
+
+--
+-- Name: index_solutions_on_phase_1_primary_funding_source_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solutions_on_phase_1_primary_funding_source_id ON public.solutions USING btree (phase_1_primary_funding_source_id);
+
+
+--
+-- Name: index_solutions_on_phase_1_readiness_level_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solutions_on_phase_1_readiness_level_id ON public.solutions USING btree (phase_1_readiness_level_id);
 
 
 --
@@ -2275,17 +4825,38 @@ CREATE INDEX index_solutions_on_publication ON public.solutions USING btree (pub
 
 
 --
--- Name: index_solutions_on_readiness_level_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_solutions_on_readiness_level_id ON public.solutions USING btree (readiness_level_id);
-
-
---
 -- Name: index_solutions_on_slug; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_solutions_on_slug ON public.solutions USING btree (slug);
+
+
+--
+-- Name: index_staffings_on_coverage; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_staffings_on_coverage ON public.staffings USING gist (coverage);
+
+
+--
+-- Name: index_staffings_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_staffings_on_provides ON public.staffings USING btree (provides);
+
+
+--
+-- Name: index_staffings_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_staffings_on_slug ON public.staffings USING btree (slug);
+
+
+--
+-- Name: index_staffings_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_staffings_on_term ON public.staffings USING btree (term);
 
 
 --
@@ -2324,6 +4895,13 @@ CREATE UNIQUE INDEX index_tags_on_name ON public.tags USING btree (name);
 
 
 --
+-- Name: index_user_contributions_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_user_contributions_on_provides ON public.user_contributions USING btree (provides);
+
+
+--
 -- Name: index_user_contributions_on_seed_identifier; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2335,6 +4913,13 @@ CREATE UNIQUE INDEX index_user_contributions_on_seed_identifier ON public.user_c
 --
 
 CREATE UNIQUE INDEX index_user_contributions_on_slug ON public.user_contributions USING btree (slug);
+
+
+--
+-- Name: index_user_contributions_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_user_contributions_on_term ON public.user_contributions USING btree (term);
 
 
 --
@@ -2394,6 +4979,27 @@ CREATE UNIQUE INDEX index_users_roles_on_user_id_and_role_id ON public.users_rol
 
 
 --
+-- Name: index_values_frameworks_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_values_frameworks_on_provides ON public.values_frameworks USING btree (provides);
+
+
+--
+-- Name: index_values_frameworks_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_values_frameworks_on_slug ON public.values_frameworks USING btree (slug);
+
+
+--
+-- Name: index_values_frameworks_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_values_frameworks_on_term ON public.values_frameworks USING btree (term);
+
+
+--
 -- Name: taggings_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2415,11 +5021,799 @@ CREATE INDEX taggings_taggable_content_idx ON public.taggings USING btree (tagga
 
 
 --
+-- Name: udx_solution_accessibility_scopes_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_accessibility_scopes_multi ON public.solution_accessibility_scopes USING btree (solution_id, accessibility_scope_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_accessibility_scopes_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_accessibility_scopes_single ON public.solution_accessibility_scopes USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_authentication_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_authentication_standards_multi ON public.solution_authentication_standards USING btree (solution_id, authentication_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_authentication_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_authentication_standards_single ON public.solution_authentication_standards USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_board_structures_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_board_structures_multi ON public.solution_board_structures USING btree (solution_id, board_structure_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_board_structures_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_board_structures_single ON public.solution_board_structures USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_business_forms_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_business_forms_multi ON public.solution_business_forms USING btree (solution_id, business_form_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_business_forms_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_business_forms_single ON public.solution_business_forms USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_category_draft_links_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_category_draft_links_multi ON public.solution_category_draft_links USING btree (solution_draft_id, solution_category_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_category_draft_links_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_category_draft_links_single ON public.solution_category_draft_links USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_category_links_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_category_links_multi ON public.solution_category_links USING btree (solution_id, solution_category_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_category_links_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_category_links_single ON public.solution_category_links USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_community_engagement_activities_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_community_engagement_activities_multi ON public.solution_community_engagement_activities USING btree (solution_id, community_engagement_activity_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_community_engagement_activities_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_community_engagement_activities_single ON public.solution_community_engagement_activities USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_community_governances_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_community_governances_multi ON public.solution_community_governances USING btree (solution_id, community_governance_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_community_governances_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_community_governances_single ON public.solution_community_governances USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_content_licenses_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_content_licenses_multi ON public.solution_content_licenses USING btree (solution_id, content_license_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_content_licenses_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_content_licenses_single ON public.solution_content_licenses USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_accessibility_scopes_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_accessibility_scopes_multi ON public.solution_draft_accessibility_scopes USING btree (solution_draft_id, accessibility_scope_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_accessibility_scopes_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_accessibility_scopes_single ON public.solution_draft_accessibility_scopes USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_authentication_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_authentication_standards_multi ON public.solution_draft_authentication_standards USING btree (solution_draft_id, authentication_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_authentication_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_authentication_standards_single ON public.solution_draft_authentication_standards USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_board_structures_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_board_structures_multi ON public.solution_draft_board_structures USING btree (solution_draft_id, board_structure_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_board_structures_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_board_structures_single ON public.solution_draft_board_structures USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_business_forms_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_business_forms_multi ON public.solution_draft_business_forms USING btree (solution_draft_id, business_form_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_business_forms_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_business_forms_single ON public.solution_draft_business_forms USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_community_engagement_activities_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_community_engagement_activities_multi ON public.solution_draft_community_engagement_activities USING btree (solution_draft_id, community_engagement_activity_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_community_engagement_activities_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_community_engagement_activities_single ON public.solution_draft_community_engagement_activities USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_community_governances_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_community_governances_multi ON public.solution_draft_community_governances USING btree (solution_draft_id, community_governance_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_community_governances_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_community_governances_single ON public.solution_draft_community_governances USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_content_licenses_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_content_licenses_multi ON public.solution_draft_content_licenses USING btree (solution_draft_id, content_license_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_content_licenses_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_content_licenses_single ON public.solution_draft_content_licenses USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_hosting_strategies_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_hosting_strategies_multi ON public.solution_draft_hosting_strategies USING btree (solution_draft_id, hosting_strategy_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_hosting_strategies_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_hosting_strategies_single ON public.solution_draft_hosting_strategies USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_integrations_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_integrations_multi ON public.solution_draft_integrations USING btree (solution_draft_id, integration_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_integrations_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_integrations_single ON public.solution_draft_integrations USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_licenses_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_licenses_multi ON public.solution_draft_licenses USING btree (solution_draft_id, license_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_licenses_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_licenses_single ON public.solution_draft_licenses USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_maintenance_statuses_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_maintenance_statuses_multi ON public.solution_draft_maintenance_statuses USING btree (solution_draft_id, maintenance_status_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_maintenance_statuses_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_maintenance_statuses_single ON public.solution_draft_maintenance_statuses USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_metadata_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_metadata_standards_multi ON public.solution_draft_metadata_standards USING btree (solution_draft_id, metadata_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_metadata_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_metadata_standards_single ON public.solution_draft_metadata_standards USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_metrics_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_metrics_standards_multi ON public.solution_draft_metrics_standards USING btree (solution_draft_id, metrics_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_metrics_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_metrics_standards_single ON public.solution_draft_metrics_standards USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_nonprofit_statuses_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_nonprofit_statuses_multi ON public.solution_draft_nonprofit_statuses USING btree (solution_draft_id, nonprofit_status_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_nonprofit_statuses_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_nonprofit_statuses_single ON public.solution_draft_nonprofit_statuses USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_persistent_identifier_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_persistent_identifier_standards_multi ON public.solution_draft_persistent_identifier_standards USING btree (solution_draft_id, persistent_identifier_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_persistent_identifier_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_persistent_identifier_standards_single ON public.solution_draft_persistent_identifier_standards USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_preservation_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_preservation_standards_multi ON public.solution_draft_preservation_standards USING btree (solution_draft_id, preservation_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_preservation_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_preservation_standards_single ON public.solution_draft_preservation_standards USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_primary_funding_sources_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_primary_funding_sources_multi ON public.solution_draft_primary_funding_sources USING btree (solution_draft_id, primary_funding_source_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_primary_funding_sources_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_primary_funding_sources_single ON public.solution_draft_primary_funding_sources USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_programming_languages_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_programming_languages_multi ON public.solution_draft_programming_languages USING btree (solution_draft_id, programming_language_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_programming_languages_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_programming_languages_single ON public.solution_draft_programming_languages USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_readiness_levels_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_readiness_levels_multi ON public.solution_draft_readiness_levels USING btree (solution_draft_id, readiness_level_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_readiness_levels_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_readiness_levels_single ON public.solution_draft_readiness_levels USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_reporting_levels_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_reporting_levels_multi ON public.solution_draft_reporting_levels USING btree (solution_draft_id, reporting_level_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_reporting_levels_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_reporting_levels_single ON public.solution_draft_reporting_levels USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_security_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_security_standards_multi ON public.solution_draft_security_standards USING btree (solution_draft_id, security_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_security_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_security_standards_single ON public.solution_draft_security_standards USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_staffings_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_staffings_multi ON public.solution_draft_staffings USING btree (solution_draft_id, staffing_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_staffings_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_staffings_single ON public.solution_draft_staffings USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_user_contributions_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_user_contributions_multi ON public.solution_draft_user_contributions USING btree (solution_draft_id, user_contribution_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_user_contributions_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_user_contributions_single ON public.solution_draft_user_contributions USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_values_frameworks_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_values_frameworks_multi ON public.solution_draft_values_frameworks USING btree (solution_draft_id, values_framework_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_values_frameworks_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_values_frameworks_single ON public.solution_draft_values_frameworks USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_hosting_strategies_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_hosting_strategies_multi ON public.solution_hosting_strategies USING btree (solution_id, hosting_strategy_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_hosting_strategies_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_hosting_strategies_single ON public.solution_hosting_strategies USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_integrations_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_integrations_multi ON public.solution_integrations USING btree (solution_id, integration_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_integrations_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_integrations_single ON public.solution_integrations USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_licenses_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_licenses_multi ON public.solution_licenses USING btree (solution_id, license_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_licenses_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_licenses_single ON public.solution_licenses USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_maintenance_statuses_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_maintenance_statuses_multi ON public.solution_maintenance_statuses USING btree (solution_id, maintenance_status_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_maintenance_statuses_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_maintenance_statuses_single ON public.solution_maintenance_statuses USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_metadata_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_metadata_standards_multi ON public.solution_metadata_standards USING btree (solution_id, metadata_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_metadata_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_metadata_standards_single ON public.solution_metadata_standards USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_metrics_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_metrics_standards_multi ON public.solution_metrics_standards USING btree (solution_id, metrics_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_metrics_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_metrics_standards_single ON public.solution_metrics_standards USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_nonprofit_statuses_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_nonprofit_statuses_multi ON public.solution_nonprofit_statuses USING btree (solution_id, nonprofit_status_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_nonprofit_statuses_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_nonprofit_statuses_single ON public.solution_nonprofit_statuses USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_persistent_identifier_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_persistent_identifier_standards_multi ON public.solution_persistent_identifier_standards USING btree (solution_id, persistent_identifier_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_persistent_identifier_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_persistent_identifier_standards_single ON public.solution_persistent_identifier_standards USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_preservation_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_preservation_standards_multi ON public.solution_preservation_standards USING btree (solution_id, preservation_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_preservation_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_preservation_standards_single ON public.solution_preservation_standards USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_primary_funding_sources_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_primary_funding_sources_multi ON public.solution_primary_funding_sources USING btree (solution_id, primary_funding_source_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_primary_funding_sources_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_primary_funding_sources_single ON public.solution_primary_funding_sources USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_programming_languages_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_programming_languages_multi ON public.solution_programming_languages USING btree (solution_id, programming_language_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_programming_languages_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_programming_languages_single ON public.solution_programming_languages USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_readiness_levels_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_readiness_levels_multi ON public.solution_readiness_levels USING btree (solution_id, readiness_level_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_readiness_levels_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_readiness_levels_single ON public.solution_readiness_levels USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_reporting_levels_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_reporting_levels_multi ON public.solution_reporting_levels USING btree (solution_id, reporting_level_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_reporting_levels_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_reporting_levels_single ON public.solution_reporting_levels USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_security_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_security_standards_multi ON public.solution_security_standards USING btree (solution_id, security_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_security_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_security_standards_single ON public.solution_security_standards USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_staffings_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_staffings_multi ON public.solution_staffings USING btree (solution_id, staffing_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_staffings_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_staffings_single ON public.solution_staffings USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_user_contributions_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_user_contributions_multi ON public.solution_user_contributions USING btree (solution_id, user_contribution_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_user_contributions_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_user_contributions_single ON public.solution_user_contributions USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_values_frameworks_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_values_frameworks_multi ON public.solution_values_frameworks USING btree (solution_id, values_framework_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_values_frameworks_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_values_frameworks_single ON public.solution_values_frameworks USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: solution_draft_community_governances fk_rails_07798790cb; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_community_governances
+    ADD CONSTRAINT fk_rails_07798790cb FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_authentication_standards fk_rails_07923db27c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_authentication_standards
+    ADD CONSTRAINT fk_rails_07923db27c FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_accessibility_scopes fk_rails_0c2c08a720; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_accessibility_scopes
+    ADD CONSTRAINT fk_rails_0c2c08a720 FOREIGN KEY (accessibility_scope_id) REFERENCES public.accessibility_scopes(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_category_links fk_rails_0ca6b07585; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_category_links
     ADD CONSTRAINT fk_rails_0ca6b07585 FOREIGN KEY (solution_category_id) REFERENCES public.solution_categories(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_board_structures fk_rails_0d6a7d2685; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_board_structures
+    ADD CONSTRAINT fk_rails_0d6a7d2685 FOREIGN KEY (board_structure_id) REFERENCES public.board_structures(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_community_engagement_activities fk_rails_0e89b57f6e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_community_engagement_activities
+    ADD CONSTRAINT fk_rails_0e89b57f6e FOREIGN KEY (community_engagement_activity_id) REFERENCES public.community_engagement_activities(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_board_structures fk_rails_0fcb78e654; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_board_structures
+    ADD CONSTRAINT fk_rails_0fcb78e654 FOREIGN KEY (board_structure_id) REFERENCES public.board_structures(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_content_licenses fk_rails_1012558e31; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_content_licenses
+    ADD CONSTRAINT fk_rails_1012558e31 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_maintenance_statuses fk_rails_1019f633a9; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_maintenance_statuses
+    ADD CONSTRAINT fk_rails_1019f633a9 FOREIGN KEY (maintenance_status_id) REFERENCES public.maintenance_statuses(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_nonprofit_statuses fk_rails_10a66b590c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_nonprofit_statuses
+    ADD CONSTRAINT fk_rails_10a66b590c FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_metadata_standards fk_rails_10df1a09ec; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_metadata_standards
+    ADD CONSTRAINT fk_rails_10df1a09ec FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_business_forms fk_rails_13a4e705b5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_business_forms
+    ADD CONSTRAINT fk_rails_13a4e705b5 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
 
 
 --
@@ -2431,11 +5825,27 @@ ALTER TABLE ONLY public.solution_import_transitions
 
 
 --
+-- Name: solution_metrics_standards fk_rails_1664361248; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_metrics_standards
+    ADD CONSTRAINT fk_rails_1664361248 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_category_draft_links fk_rails_16e9f886f1; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_category_draft_links
     ADD CONSTRAINT fk_rails_16e9f886f1 FOREIGN KEY (solution_category_id) REFERENCES public.solution_categories(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_programming_languages fk_rails_185ad16ab8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_programming_languages
+    ADD CONSTRAINT fk_rails_185ad16ab8 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
 
 
 --
@@ -2447,11 +5857,75 @@ ALTER TABLE ONLY public.solution_category_links
 
 
 --
+-- Name: solution_maintenance_statuses fk_rails_1c50e5d0a8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_maintenance_statuses
+    ADD CONSTRAINT fk_rails_1c50e5d0a8 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_primary_funding_sources fk_rails_1c9dc51b64; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_primary_funding_sources
+    ADD CONSTRAINT fk_rails_1c9dc51b64 FOREIGN KEY (primary_funding_source_id) REFERENCES public.primary_funding_sources(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_readiness_levels fk_rails_1d71312376; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_readiness_levels
+    ADD CONSTRAINT fk_rails_1d71312376 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_accessibility_scopes fk_rails_1ddc052973; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_accessibility_scopes
+    ADD CONSTRAINT fk_rails_1ddc052973 FOREIGN KEY (accessibility_scope_id) REFERENCES public.accessibility_scopes(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_maintenance_statuses fk_rails_1e9fba19ac; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_maintenance_statuses
+    ADD CONSTRAINT fk_rails_1e9fba19ac FOREIGN KEY (maintenance_status_id) REFERENCES public.maintenance_statuses(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_persistent_identifier_standards fk_rails_1f919eaeba; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_persistent_identifier_standards
+    ADD CONSTRAINT fk_rails_1f919eaeba FOREIGN KEY (persistent_identifier_standard_id) REFERENCES public.persistent_identifier_standards(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_business_forms fk_rails_20734c00fb; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_business_forms
+    ADD CONSTRAINT fk_rails_20734c00fb FOREIGN KEY (business_form_id) REFERENCES public.business_forms(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_accessibility_scopes fk_rails_208a2f36e3; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_accessibility_scopes
+    ADD CONSTRAINT fk_rails_208a2f36e3 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solutions fk_rails_25e1f3faa1; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solutions
-    ADD CONSTRAINT fk_rails_25e1f3faa1 FOREIGN KEY (community_governance_id) REFERENCES public.community_governances(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_25e1f3faa1 FOREIGN KEY (phase_1_community_governance_id) REFERENCES public.community_governances(id) ON DELETE RESTRICT;
 
 
 --
@@ -2463,6 +5937,14 @@ ALTER TABLE ONLY public.solution_editor_assignments
 
 
 --
+-- Name: solution_draft_community_engagement_activities fk_rails_2af0559c4a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_community_engagement_activities
+    ADD CONSTRAINT fk_rails_2af0559c4a FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_drafts fk_rails_2eda529d66; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2471,11 +5953,59 @@ ALTER TABLE ONLY public.solution_drafts
 
 
 --
+-- Name: solution_draft_board_structures fk_rails_3249830b6b; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_board_structures
+    ADD CONSTRAINT fk_rails_3249830b6b FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_staffings fk_rails_34006937dc; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_staffings
+    ADD CONSTRAINT fk_rails_34006937dc FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_content_licenses fk_rails_3c49afced2; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_content_licenses
+    ADD CONSTRAINT fk_rails_3c49afced2 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_maintenance_statuses fk_rails_416f518fc6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_maintenance_statuses
+    ADD CONSTRAINT fk_rails_416f518fc6 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_user_contributions fk_rails_4195bf7ce7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_user_contributions
     ADD CONSTRAINT fk_rails_4195bf7ce7 FOREIGN KEY (user_contribution_id) REFERENCES public.user_contributions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_primary_funding_sources fk_rails_44cf17a7f6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_primary_funding_sources
+    ADD CONSTRAINT fk_rails_44cf17a7f6 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_hosting_strategies fk_rails_46367c0765; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_hosting_strategies
+    ADD CONSTRAINT fk_rails_46367c0765 FOREIGN KEY (hosting_strategy_id) REFERENCES public.hosting_strategies(id) ON DELETE CASCADE;
 
 
 --
@@ -2491,7 +6021,15 @@ ALTER TABLE ONLY public.solution_user_contributions
 --
 
 ALTER TABLE ONLY public.solution_drafts
-    ADD CONSTRAINT fk_rails_496e0d601c FOREIGN KEY (community_governance_id) REFERENCES public.community_governances(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_496e0d601c FOREIGN KEY (phase_1_community_governance_id) REFERENCES public.community_governances(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: solution_draft_nonprofit_statuses fk_rails_499fb46de6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_nonprofit_statuses
+    ADD CONSTRAINT fk_rails_499fb46de6 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
 
 
 --
@@ -2503,11 +6041,51 @@ ALTER TABLE ONLY public.users_roles
 
 
 --
+-- Name: solution_draft_reporting_levels fk_rails_4e11fcb854; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_reporting_levels
+    ADD CONSTRAINT fk_rails_4e11fcb854 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_content_licenses fk_rails_50b3b2085f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_content_licenses
+    ADD CONSTRAINT fk_rails_50b3b2085f FOREIGN KEY (content_license_id) REFERENCES public.content_licenses(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_accessibility_scopes fk_rails_5187268b1c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_accessibility_scopes
+    ADD CONSTRAINT fk_rails_5187268b1c FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solutions fk_rails_522f0b764c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solutions
-    ADD CONSTRAINT fk_rails_522f0b764c FOREIGN KEY (readiness_level_id) REFERENCES public.readiness_levels(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_522f0b764c FOREIGN KEY (phase_1_readiness_level_id) REFERENCES public.readiness_levels(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: solution_draft_preservation_standards fk_rails_528a826e0d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_preservation_standards
+    ADD CONSTRAINT fk_rails_528a826e0d FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_nonprofit_statuses fk_rails_53ebbbe4f8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_nonprofit_statuses
+    ADD CONSTRAINT fk_rails_53ebbbe4f8 FOREIGN KEY (nonprofit_status_id) REFERENCES public.nonprofit_statuses(id) ON DELETE CASCADE;
 
 
 --
@@ -2515,7 +6093,7 @@ ALTER TABLE ONLY public.solutions
 --
 
 ALTER TABLE ONLY public.solution_drafts
-    ADD CONSTRAINT fk_rails_57b1e3753d FOREIGN KEY (primary_funding_source_id) REFERENCES public.primary_funding_sources(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_57b1e3753d FOREIGN KEY (phase_1_primary_funding_source_id) REFERENCES public.primary_funding_sources(id) ON DELETE RESTRICT;
 
 
 --
@@ -2523,7 +6101,15 @@ ALTER TABLE ONLY public.solution_drafts
 --
 
 ALTER TABLE ONLY public.solutions
-    ADD CONSTRAINT fk_rails_57bffcae2d FOREIGN KEY (hosting_strategy_id) REFERENCES public.hosting_strategies(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_57bffcae2d FOREIGN KEY (phase_1_hosting_strategy_id) REFERENCES public.hosting_strategies(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: solution_security_standards fk_rails_59fc726812; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_security_standards
+    ADD CONSTRAINT fk_rails_59fc726812 FOREIGN KEY (security_standard_id) REFERENCES public.security_standards(id) ON DELETE CASCADE;
 
 
 --
@@ -2535,11 +6121,67 @@ ALTER TABLE ONLY public.solution_licenses
 
 
 --
+-- Name: solution_draft_programming_languages fk_rails_5a874d5703; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_programming_languages
+    ADD CONSTRAINT fk_rails_5a874d5703 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_drafts fk_rails_5b8c678d1e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_drafts
-    ADD CONSTRAINT fk_rails_5b8c678d1e FOREIGN KEY (readiness_level_id) REFERENCES public.readiness_levels(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_5b8c678d1e FOREIGN KEY (phase_1_readiness_level_id) REFERENCES public.readiness_levels(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: solution_persistent_identifier_standards fk_rails_5bd22e4323; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_persistent_identifier_standards
+    ADD CONSTRAINT fk_rails_5bd22e4323 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_primary_funding_sources fk_rails_614e311856; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_primary_funding_sources
+    ADD CONSTRAINT fk_rails_614e311856 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_hosting_strategies fk_rails_66e3788d52; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_hosting_strategies
+    ADD CONSTRAINT fk_rails_66e3788d52 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_community_governances fk_rails_685722192d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_community_governances
+    ADD CONSTRAINT fk_rails_685722192d FOREIGN KEY (community_governance_id) REFERENCES public.community_governances(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_hosting_strategies fk_rails_68eed1d3fc; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_hosting_strategies
+    ADD CONSTRAINT fk_rails_68eed1d3fc FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_integrations fk_rails_6cfe5f279e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_integrations
+    ADD CONSTRAINT fk_rails_6cfe5f279e FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
 
 
 --
@@ -2555,7 +6197,31 @@ ALTER TABLE ONLY public.solution_category_draft_links
 --
 
 ALTER TABLE ONLY public.solutions
-    ADD CONSTRAINT fk_rails_73c7b0a3ae FOREIGN KEY (maintenance_status_id) REFERENCES public.maintenance_statuses(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_73c7b0a3ae FOREIGN KEY (phase_1_maintenance_status_id) REFERENCES public.maintenance_statuses(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: solution_draft_community_engagement_activities fk_rails_74990b81fc; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_community_engagement_activities
+    ADD CONSTRAINT fk_rails_74990b81fc FOREIGN KEY (community_engagement_activity_id) REFERENCES public.community_engagement_activities(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_programming_languages fk_rails_7673528d0a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_programming_languages
+    ADD CONSTRAINT fk_rails_7673528d0a FOREIGN KEY (programming_language_id) REFERENCES public.programming_languages(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_integrations fk_rails_79073ac813; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_integrations
+    ADD CONSTRAINT fk_rails_79073ac813 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
 
 
 --
@@ -2575,6 +6241,22 @@ ALTER TABLE ONLY public.solution_editor_assignments
 
 
 --
+-- Name: solution_draft_reporting_levels fk_rails_7c4d58c2ad; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_reporting_levels
+    ADD CONSTRAINT fk_rails_7c4d58c2ad FOREIGN KEY (reporting_level_id) REFERENCES public.reporting_levels(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_preservation_standards fk_rails_7ccd99eb55; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_preservation_standards
+    ADD CONSTRAINT fk_rails_7ccd99eb55 FOREIGN KEY (preservation_standard_id) REFERENCES public.preservation_standards(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_draft_licenses fk_rails_7e7ad198c7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2587,7 +6269,15 @@ ALTER TABLE ONLY public.solution_draft_licenses
 --
 
 ALTER TABLE ONLY public.solution_drafts
-    ADD CONSTRAINT fk_rails_7e91bf84ef FOREIGN KEY (maintenance_status_id) REFERENCES public.maintenance_statuses(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_7e91bf84ef FOREIGN KEY (phase_1_maintenance_status_id) REFERENCES public.maintenance_statuses(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: solution_authentication_standards fk_rails_7f74f35c2a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_authentication_standards
+    ADD CONSTRAINT fk_rails_7f74f35c2a FOREIGN KEY (authentication_standard_id) REFERENCES public.authentication_standards(id) ON DELETE CASCADE;
 
 
 --
@@ -2599,11 +6289,43 @@ ALTER TABLE ONLY public.comparison_share_items
 
 
 --
+-- Name: solution_draft_security_standards fk_rails_837f6d3800; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_security_standards
+    ADD CONSTRAINT fk_rails_837f6d3800 FOREIGN KEY (security_standard_id) REFERENCES public.security_standards(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solutions fk_rails_84c054e1eb; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solutions
     ADD CONSTRAINT fk_rails_84c054e1eb FOREIGN KEY (provider_id) REFERENCES public.providers(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: solution_reporting_levels fk_rails_878f5a3eff; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_reporting_levels
+    ADD CONSTRAINT fk_rails_878f5a3eff FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_security_standards fk_rails_8997e6fa8b; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_security_standards
+    ADD CONSTRAINT fk_rails_8997e6fa8b FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_metadata_standards fk_rails_8bd7a107b0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_metadata_standards
+    ADD CONSTRAINT fk_rails_8bd7a107b0 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
 
 
 --
@@ -2615,11 +6337,75 @@ ALTER TABLE ONLY public.solution_draft_transitions
 
 
 --
+-- Name: solution_draft_persistent_identifier_standards fk_rails_908287340a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_persistent_identifier_standards
+    ADD CONSTRAINT fk_rails_908287340a FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_staffings fk_rails_9578850529; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_staffings
+    ADD CONSTRAINT fk_rails_9578850529 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_readiness_levels fk_rails_96b3a498a7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_readiness_levels
+    ADD CONSTRAINT fk_rails_96b3a498a7 FOREIGN KEY (readiness_level_id) REFERENCES public.readiness_levels(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_community_engagement_activities fk_rails_9b4ffde830; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_community_engagement_activities
+    ADD CONSTRAINT fk_rails_9b4ffde830 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_nonprofit_statuses fk_rails_9c295dbf4c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_nonprofit_statuses
+    ADD CONSTRAINT fk_rails_9c295dbf4c FOREIGN KEY (nonprofit_status_id) REFERENCES public.nonprofit_statuses(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_readiness_levels fk_rails_9c516f9c60; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_readiness_levels
+    ADD CONSTRAINT fk_rails_9c516f9c60 FOREIGN KEY (readiness_level_id) REFERENCES public.readiness_levels(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_readiness_levels fk_rails_9dc00e4b6a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_readiness_levels
+    ADD CONSTRAINT fk_rails_9dc00e4b6a FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
 -- Name: comparison_share_items fk_rails_9df2127bc4; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.comparison_share_items
     ADD CONSTRAINT fk_rails_9df2127bc4 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_persistent_identifier_standards fk_rails_9f0efe5c15; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_persistent_identifier_standards
+    ADD CONSTRAINT fk_rails_9f0efe5c15 FOREIGN KEY (persistent_identifier_standard_id) REFERENCES public.persistent_identifier_standards(id) ON DELETE CASCADE;
 
 
 --
@@ -2631,11 +6417,35 @@ ALTER TABLE ONLY public.taggings
 
 
 --
+-- Name: solution_draft_programming_languages fk_rails_a1841518b7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_programming_languages
+    ADD CONSTRAINT fk_rails_a1841518b7 FOREIGN KEY (programming_language_id) REFERENCES public.programming_languages(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_drafts fk_rails_a937b670c8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_drafts
-    ADD CONSTRAINT fk_rails_a937b670c8 FOREIGN KEY (business_form_id) REFERENCES public.business_forms(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_a937b670c8 FOREIGN KEY (phase_1_business_form_id) REFERENCES public.business_forms(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: solution_draft_values_frameworks fk_rails_b02a77e849; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_values_frameworks
+    ADD CONSTRAINT fk_rails_b02a77e849 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_community_governances fk_rails_b06a8f1fb1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_community_governances
+    ADD CONSTRAINT fk_rails_b06a8f1fb1 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
 
 
 --
@@ -2647,6 +6457,14 @@ ALTER TABLE ONLY public.comparison_items
 
 
 --
+-- Name: solution_metrics_standards fk_rails_b16c6d5c49; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_metrics_standards
+    ADD CONSTRAINT fk_rails_b16c6d5c49 FOREIGN KEY (metrics_standard_id) REFERENCES public.metrics_standards(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_draft_user_contributions fk_rails_b604ad2471; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2655,11 +6473,59 @@ ALTER TABLE ONLY public.solution_draft_user_contributions
 
 
 --
+-- Name: solution_business_forms fk_rails_b72a0ecbdb; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_business_forms
+    ADD CONSTRAINT fk_rails_b72a0ecbdb FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_authentication_standards fk_rails_b7b7c1db7d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_authentication_standards
+    ADD CONSTRAINT fk_rails_b7b7c1db7d FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_hosting_strategies fk_rails_bab15c6db8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_hosting_strategies
+    ADD CONSTRAINT fk_rails_bab15c6db8 FOREIGN KEY (hosting_strategy_id) REFERENCES public.hosting_strategies(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_metadata_standards fk_rails_bb19a03fc7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_metadata_standards
+    ADD CONSTRAINT fk_rails_bb19a03fc7 FOREIGN KEY (metadata_standard_id) REFERENCES public.metadata_standards(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_content_licenses fk_rails_be3a5110c9; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_content_licenses
+    ADD CONSTRAINT fk_rails_be3a5110c9 FOREIGN KEY (content_license_id) REFERENCES public.content_licenses(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_metrics_standards fk_rails_be8337f63f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_metrics_standards
+    ADD CONSTRAINT fk_rails_be8337f63f FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_drafts fk_rails_bf7a540f25; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_drafts
-    ADD CONSTRAINT fk_rails_bf7a540f25 FOREIGN KEY (hosting_strategy_id) REFERENCES public.hosting_strategies(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_bf7a540f25 FOREIGN KEY (phase_1_hosting_strategy_id) REFERENCES public.hosting_strategies(id) ON DELETE RESTRICT;
 
 
 --
@@ -2667,7 +6533,7 @@ ALTER TABLE ONLY public.solution_drafts
 --
 
 ALTER TABLE ONLY public.solutions
-    ADD CONSTRAINT fk_rails_c3189e0953 FOREIGN KEY (board_structure_id) REFERENCES public.board_structures(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_c3189e0953 FOREIGN KEY (phase_1_board_structure_id) REFERENCES public.board_structures(id) ON DELETE RESTRICT;
 
 
 --
@@ -2675,7 +6541,15 @@ ALTER TABLE ONLY public.solutions
 --
 
 ALTER TABLE ONLY public.solutions
-    ADD CONSTRAINT fk_rails_c35caf4647 FOREIGN KEY (business_form_id) REFERENCES public.business_forms(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_c35caf4647 FOREIGN KEY (phase_1_business_form_id) REFERENCES public.business_forms(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: solution_values_frameworks fk_rails_c39a93b2b2; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_values_frameworks
+    ADD CONSTRAINT fk_rails_c39a93b2b2 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
 
 
 --
@@ -2687,11 +6561,27 @@ ALTER TABLE ONLY public.solution_draft_user_contributions
 
 
 --
+-- Name: solution_draft_metrics_standards fk_rails_cb04600be4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_metrics_standards
+    ADD CONSTRAINT fk_rails_cb04600be4 FOREIGN KEY (metrics_standard_id) REFERENCES public.metrics_standards(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_primary_funding_sources fk_rails_d0ded8820f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_primary_funding_sources
+    ADD CONSTRAINT fk_rails_d0ded8820f FOREIGN KEY (primary_funding_source_id) REFERENCES public.primary_funding_sources(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_drafts fk_rails_d15fd7352a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_drafts
-    ADD CONSTRAINT fk_rails_d15fd7352a FOREIGN KEY (board_structure_id) REFERENCES public.board_structures(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_d15fd7352a FOREIGN KEY (phase_1_board_structure_id) REFERENCES public.board_structures(id) ON DELETE RESTRICT;
 
 
 --
@@ -2711,11 +6601,59 @@ ALTER TABLE ONLY public.comparison_items
 
 
 --
+-- Name: solution_board_structures fk_rails_d53d13de17; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_board_structures
+    ADD CONSTRAINT fk_rails_d53d13de17 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_values_frameworks fk_rails_d5c238e008; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_values_frameworks
+    ADD CONSTRAINT fk_rails_d5c238e008 FOREIGN KEY (values_framework_id) REFERENCES public.values_frameworks(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_values_frameworks fk_rails_d729cfd728; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_values_frameworks
+    ADD CONSTRAINT fk_rails_d729cfd728 FOREIGN KEY (values_framework_id) REFERENCES public.values_frameworks(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_community_governances fk_rails_d732fc2d31; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_community_governances
+    ADD CONSTRAINT fk_rails_d732fc2d31 FOREIGN KEY (community_governance_id) REFERENCES public.community_governances(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solutions fk_rails_d7b00384c2; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solutions
-    ADD CONSTRAINT fk_rails_d7b00384c2 FOREIGN KEY (primary_funding_source_id) REFERENCES public.primary_funding_sources(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_d7b00384c2 FOREIGN KEY (phase_1_primary_funding_source_id) REFERENCES public.primary_funding_sources(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: solution_draft_staffings fk_rails_da8213030d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_staffings
+    ADD CONSTRAINT fk_rails_da8213030d FOREIGN KEY (staffing_id) REFERENCES public.staffings(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_reporting_levels fk_rails_de54e3f5f0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_reporting_levels
+    ADD CONSTRAINT fk_rails_de54e3f5f0 FOREIGN KEY (reporting_level_id) REFERENCES public.reporting_levels(id) ON DELETE CASCADE;
 
 
 --
@@ -2724,6 +6662,22 @@ ALTER TABLE ONLY public.solutions
 
 ALTER TABLE ONLY public.solution_draft_licenses
     ADD CONSTRAINT fk_rails_dfcfc51119 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_authentication_standards fk_rails_e0aa18621d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_authentication_standards
+    ADD CONSTRAINT fk_rails_e0aa18621d FOREIGN KEY (authentication_standard_id) REFERENCES public.authentication_standards(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_staffings fk_rails_e28f9dbbd5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_staffings
+    ADD CONSTRAINT fk_rails_e28f9dbbd5 FOREIGN KEY (staffing_id) REFERENCES public.staffings(id) ON DELETE CASCADE;
 
 
 --
@@ -2743,12 +6697,71 @@ ALTER TABLE ONLY public.users_roles
 
 
 --
+-- Name: solution_draft_security_standards fk_rails_ec4adfd750; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_security_standards
+    ADD CONSTRAINT fk_rails_ec4adfd750 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_integrations fk_rails_f1ac4084b4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_integrations
+    ADD CONSTRAINT fk_rails_f1ac4084b4 FOREIGN KEY (integration_id) REFERENCES public.integrations(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_preservation_standards fk_rails_f849952176; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_preservation_standards
+    ADD CONSTRAINT fk_rails_f849952176 FOREIGN KEY (preservation_standard_id) REFERENCES public.preservation_standards(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_metadata_standards fk_rails_f9c6b2031e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_metadata_standards
+    ADD CONSTRAINT fk_rails_f9c6b2031e FOREIGN KEY (metadata_standard_id) REFERENCES public.metadata_standards(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_business_forms fk_rails_fab81acb84; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_business_forms
+    ADD CONSTRAINT fk_rails_fab81acb84 FOREIGN KEY (business_form_id) REFERENCES public.business_forms(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_preservation_standards fk_rails_fba1bc1da1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_preservation_standards
+    ADD CONSTRAINT fk_rails_fba1bc1da1 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_integrations fk_rails_fee9c6ba03; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_integrations
+    ADD CONSTRAINT fk_rails_fee9c6ba03 FOREIGN KEY (integration_id) REFERENCES public.integrations(id) ON DELETE CASCADE;
+
+
+--
 -- PostgreSQL database dump complete
 --
 
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240802183019'),
+('20240731204910'),
+('20240729171330'),
 ('20240422160207'),
 ('20240417214156'),
 ('20240412195958'),

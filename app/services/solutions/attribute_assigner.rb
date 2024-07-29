@@ -74,13 +74,17 @@ module Solutions
 
     wrapped_hook! def assign
       attributes.each do |attribute, value|
-        case attribute.to_sym
-        when *SolutionInterface::STANDARD_ATTRIBUTES
+        prop = SolutionProperty.find attribute.to_s
+
+        if prop.assign_method == :write_attribute
           target.write_attribute attribute, value
         else
           # Associations, attachments, tag lists, etc
           target.__send__(:"#{attribute}=", value)
         end
+      rescue FrozenRecord::RecordNotFound
+        # Associations, attachments, tag lists, etc
+        target.__send__(:"#{attribute}=", value)
       end
 
       target.save!

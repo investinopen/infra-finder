@@ -1,5 +1,6 @@
 row :name
 row :founded_on
-row :location_of_incorporation
+row :country_code
 row :member_count
-row :current_staffing
+row :staffing_full_time
+row :staffing_volunteer

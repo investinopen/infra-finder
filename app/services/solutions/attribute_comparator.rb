@@ -53,7 +53,7 @@ module Solutions
     end
 
     wrapped_hook! def compare
-      SolutionInterface::TO_CLONE.each do |key|
+      SolutionProperty.to_clone.each do |key|
         source_value = source_attributes[key]
         target_value = target_attributes[key]
 
@@ -65,11 +65,9 @@ module Solutions
 
     # @return [Boolean] true if value is the same
     def values_match?(key, source_value, target_value)
-      case key
-      when *SolutionInterface::ATTACHMENTS
+      case key.to_s
+      when *SolutionProperty.attachment_values
         source_value&.sha256 == target_value&.sha256
-      when *SolutionInterface::TAG_LISTS
-        source_value.sort == target_value.sort
       else
         source_value == target_value
       end
