@@ -29,7 +29,9 @@ module Solutions
     end
 
     wrapped_hook! def extract
-      attributes.merge! source.slice(*SolutionInterface::TO_CLONE)
+      SolutionProperty.to_clone.each do |attr|
+        attributes[attr] = source.__send__(attr)
+      end
 
       super
     end

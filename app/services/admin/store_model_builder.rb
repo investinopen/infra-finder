@@ -4,6 +4,9 @@ module Admin
   class StoreModelBuilder < SimpleDelegator
     include Admin::StoreModelLogic
 
+    # @return [String]
+    attr_reader :name
+
     def initialize(form_builder, attr, **options)
       super form_builder
 
@@ -29,13 +32,14 @@ module Admin
     def extract_custom_settings!(options)
       @heading = options.key?(:heading) ? options.delete(:heading) : default_heading
       @instructions = options.delete(:instructions)
+      @name = options.delete(:name) || heading
 
       options
     end
 
     def render_store_model_form(&)
       without_wrapper do
-        inputs(attr, options) do |form_builder|
+        inputs(attr, **options.merge(name:)) do |form_builder|
           yield form_builder
         end
       end.presence || "".html_safe

@@ -8,7 +8,7 @@ class ComparisonImplementationRowComponent < ApplicationComponent
   # @return [Comparison]
   attr_reader :comparison
 
-  # @return [Solutions::AbstractImplementation]
+  # @return [Implementations::AbstractImplementation]
   attr_reader :implementation
 
   # The name of the implementation

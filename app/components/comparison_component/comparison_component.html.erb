@@ -46,7 +46,7 @@
         <%= render ComparisonStickyHeaderComponent.new(comparison:, heading: t(".community.heading")) %>
         <%= render ComparisonImplementationRowComponent.new(comparison:, name: :community_engagement) %>
         <%= render ComparisonImplementationRowComponent.new(comparison:, name: :code_of_conduct) %>
-        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :user_contribution_pathways) %>
+        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :contribution_pathways) %>
       </div>
     </div>
     <div role="table"
@@ -58,7 +58,7 @@
         <%= render ComparisonImplementationRowComponent.new(comparison:, name: :equity_and_inclusion) %>
         <%= render ComparisonImplementationRowComponent.new(comparison:, name: :web_accessibility) %>
         <%= render ComparisonImplementationRowComponent.new(comparison:, name: :pricing) %>
-        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :governance_activities) %>
+        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :governance_records) %>
         <%= render ComparisonImplementationRowComponent.new(comparison:, name: :governance_structure) %>
         <%= render ComparisonBlurbRowComponent.new(comparison:, name: :governance_summary) %>
       </div>
@@ -74,8 +74,8 @@
           </div>
           <% comparison.comparison_items.each do |item| %>
             <div role="cell" class="m-table__cell">
-              <% if item.solution.business_form.present? %>
-                <%= item.solution.business_form.name %>
+              <% if item.solution.business_forms.present? %>
+                <%= item.solution.business_forms.first.name %>
               <% else %>
                 <%= image_tag "icons/20/Minus.svg", alt: "" %>
               <% end %>
@@ -109,8 +109,8 @@
           </div>
           <% comparison.comparison_items.each do |item| %>
             <div role="cell" class="m-table__cell">
-              <% if item.solution.primary_funding_source.present? %>
-                <%= item.solution.primary_funding_source.name %>
+              <% if item.solution.primary_funding_sources.present? %>
+                <%= item.solution.primary_funding_sources.first.name %>
               <% else %>
                 <%= image_tag "icons/20/Minus.svg", alt: "" %>
               <% end %>

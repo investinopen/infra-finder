@@ -19,6 +19,10 @@ module Support
       end
     end
 
+    def deconstruct_keys(keys)
+      slice(*keys)
+    end
+
     def slice(*keys)
       keys.flatten.index_with { public_send _1 }
     end

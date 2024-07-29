@@ -35,7 +35,7 @@ Rails.application.configure do
     },
     refresh_option_counters: {
       cron: "*/7 * * * *",
-      class: "SolutionOptions::RefreshCountersJob",
+      class: "ControlledVocabularies::RefreshCountersJob",
       description: "Refresh counter caches for solution options",
       set: { priority: 900 },
     },

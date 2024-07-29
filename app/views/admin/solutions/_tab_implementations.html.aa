@@ -1,4 +1,4 @@
-resource.class.each_implementation do |details|
+::Implementation.each do |details|
   impl = resource.__send__(details.name)
 
   panel details.title do
@@ -20,6 +20,7 @@ resource.class.each_implementation do |details|
     if details.has_single_link?
       panel "Link" do
         para t("implementations.link_messages.single")
+
         attributes_table_for impl.link do
           row :label
           row :url do |r|
@@ -35,9 +36,7 @@ resource.class.each_implementation do |details|
       panel "Links" do
         para t("implementations.link_messages.many")
 
-        links = impl.links.presence || [Solutions::Link.new]
-
-        table_for links do
+        table_for impl.display_links do
           column :label do |r|
             r.label.presence || status_tag("empty")
           end

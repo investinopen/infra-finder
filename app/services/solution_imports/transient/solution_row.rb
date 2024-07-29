@@ -45,42 +45,38 @@ module SolutionImports
 
       # @!endgroup
 
-      SolutionInterface::BLURBS.each do |blurb|
-        attribute? blurb, Types::Blurb
+      # SolutionInterface::BLURBS.each do |blurb|
+      #   attribute? blurb, Types::Blurb
+      # end
+
+      Implementation.each do |impl|
+        attribute impl.enum.to_sym, impl.enum_dry_type
+        attribute impl.name.to_sym, impl.data_dry_type
       end
 
-      Solution.each_implementation do |detail|
-        attribute detail.enum, Types::ImplementationStatus
-        attribute detail.name, Types::ImplementationData
-      end
+      # SolutionInterface::SINGLE_OPTIONS.each do |option|
+      #  type = Types.ModelInstance(option.to_s.classify).optional
 
-      SolutionInterface::SINGLE_OPTIONS.each do |option|
-        type = Types.ModelInstance(option.to_s.classify).optional
+      #  attribute? option, type
+      # end
 
-        attribute? option, type
-      end
+      # SolutionInterface::MULTIPLE_OPTIONS.each do |option|
+      #  inner_type = Types.ModelInstance(option.to_s.classify)
 
-      SolutionInterface::MULTIPLE_OPTIONS.each do |option|
-        inner_type = Types.ModelInstance(option.to_s.classify)
+      #  type = Types::Coercible::Array.of(inner_type).default { [] }
 
-        type = Types::Coercible::Array.of(inner_type).default { [] }
+      #  attribute? option, type
+      # end
 
-        attribute? option, type
-      end
+      # SolutionInterface::STORE_MODEL_LISTS.each do |sml|
+      #   attribute sml, Types::StoreModelList
+      # end
 
-      SolutionInterface::STORE_MODEL_LISTS.each do |sml|
-        attribute sml, Types::StoreModelList
-      end
+      # SolutionInterface::ATTACHMENTS.each do |att|
+      #   attribute? :"#{att}_remote_url", Types::URL.optional
+      # end
 
-      SolutionInterface::TAG_LISTS.each do |tag_list|
-        attribute tag_list, Types::TagList
-      end
-
-      SolutionInterface::ATTACHMENTS.each do |att|
-        attribute? :"#{att}_remote_url", Types::URL.optional
-      end
-
-      DRAFT_ATTRS = SolutionInterface::TO_CLONE.without(*SolutionInterface::ATTACHMENTS)
+      DRAFT_ATTRS = SolutionProperty.to_clone_draft
 
       # The bare-minimum attributes to merely _create_ a {Solution}.
       #

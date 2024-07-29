@@ -17,9 +17,9 @@ class ApplicationComponent < ViewComponent::Base
       delegate :in_progress?, to: :implementation
     end
 
-    IMPLEMENTATION = ::Solutions::Types.Instance(::Solutions::AbstractImplementation)
+    IMPLEMENTATION = ::Solutions::Types.Instance(::Implementations::AbstractImplementation)
 
-    # @return [Solutions::AbstractImplementation]
+    # @return [Implementations::AbstractImplementation]
     attr_reader :implementation
 
     # The name of the implementation

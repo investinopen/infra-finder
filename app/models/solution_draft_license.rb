@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-# A connection between a {SolutionDraft} and a {License}.
 class SolutionDraftLicense < ApplicationRecord
-  include SolutionOptionLink
+  include ControlledVocabularyLink
 
-  belongs_to :solution_draft, inverse_of: :solution_draft_licenses
-  belongs_to :license, inverse_of: :solution_draft_licenses
+  links_vocab_with_draft! :code_lcns
 end

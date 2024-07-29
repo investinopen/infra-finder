@@ -24,13 +24,13 @@ module Solutions
       :tag_list
     )
 
-    Kind = Coercible::Symbol.enum(:actual, :draft)
+    Kind = ApplicationRecord.dry_pg_enum(:solution_kind, symbolize: true)
 
-    Implementation = ApplicationRecord.dry_pg_enum(:solution_implementation)
+    Implementation = ApplicationRecord.dry_pg_enum(:implementation_name)
 
     ImplementationLinkMode = Coercible::Symbol.enum(:many, :single, :none)
 
-    Option = Instance(::SolutionOption)
+    Option = Instance(::ControlledVocabularyRecord)
 
     OptionMode = Coercible::Symbol.enum(:single, :multiple)
 

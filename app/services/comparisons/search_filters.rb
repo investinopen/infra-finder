@@ -26,11 +26,11 @@ module Comparisons
     technical_attribute_filter! :open_data_available, :boolean
     technical_attribute_filter! :product_roadmap_available, :boolean
     technical_attribute_filter! :user_documentation_available, :boolean
-    technical_attribute_filter! :readiness_level_id_not_null, :boolean
+    # technical_attribute_filter! :readiness_level_id_not_null, :boolean
 
     community_engagement_filter! :code_of_conduct_available, :boolean
     community_engagement_filter! :community_engagement_available, :boolean
-    community_engagement_filter! :user_contribution_pathways_available, :boolean
+    community_engagement_filter! :contribution_pathways_available, :boolean
 
     policy_filter! :bylaws_available, :boolean
     policy_filter! :equity_and_inclusion_available, :boolean

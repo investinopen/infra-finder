@@ -33,9 +33,7 @@ module SolutionImports
 
     Identifier = Coercible::String.constrained(filled: true)
 
-    Implementation = ApplicationRecord.dry_pg_enum(:solution_implementation)
-
-    ImplementationData = Hash.default { {} }
+    Implementation = ApplicationRecord.dry_pg_enum(:implementation_name)
 
     ImplementationStatus = ApplicationRecord.dry_pg_enum(:implementation_status).fallback("unknown")
 
