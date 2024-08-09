@@ -16,7 +16,7 @@ module Comparisons
     # Sorting
     global_filter! :s, :string
 
-    global_filter! :name_cont, :string
+    global_filter! :name_or_provider_name_cont, :string
 
     solution_category_filter! :solution_categories_id_in, :string_array
 

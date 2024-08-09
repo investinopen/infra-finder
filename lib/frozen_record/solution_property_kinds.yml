@@ -1,4 +1,8 @@
 ---
+- kind: acknowledgement
+  assign_method: :direct_write
+  diffable: false
+  standard: false
 - kind: attachment
   assign_method: :direct_write
   diffable: true
@@ -17,6 +21,9 @@
 - kind: date
   diffable: true
   input_kind: :datepicker
+- kind: email
+  diffable: true
+  input_kind: :email
 - kind: enum
   diffable: true
   input_kind: :radio
@@ -44,6 +51,13 @@
   connection_mode: :multiple
   diffable: true
   standard: false
+- kind: other_option
+  assign_method: :direct_write
+  diffable: true
+  standard: false
+  input_kind: :text
+  input_html:
+    rows: 3
 - kind: single_option
   assign_method: :direct_write
   connection_mode: :single
@@ -58,6 +72,13 @@
   diffable: true
   standard: true
   input_kind: :string
+- kind: store_model_input
+  assign_method: :direct_write
+  diffable: true
+  standard: false
+  input_kind: :text
+  input_html:
+    rows: 4
 - kind: store_model_list
   assign_method: :direct_write
   diffable: true

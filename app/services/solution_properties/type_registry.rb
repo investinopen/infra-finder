@@ -10,6 +10,7 @@ module SolutionProperties
     tc.add! :input, SolutionProperties::Types::Input
     tc.add! :kind, SolutionProperties::Types::Kind
     tc.add! :only, SolutionProperties::Types::SolutionKind.optional
+    tc.add! :owner, SolutionProperties::Types::Owner
     tc.add! :phase_2_status, SolutionProperties::Types::Phase2Status
     tc.add! :visibility, SolutionProperties::Types::Visibility
     tc.add! :vocab_name, ControlledVocabularies::Types::VocabName

@@ -17,7 +17,7 @@ class Solution < ApplicationRecord
   has_many :solution_drafts, -> { in_recent_order }, inverse_of: :solution, dependent: :destroy
   has_many :solution_editor_assignments, inverse_of: :solution, dependent: :destroy
 
-  expose_ransackable_associations! :solution_drafts
+  expose_ransackable_associations! :provider, :solution_drafts
   expose_ransackable_attributes! :provider_id, :publication
   expose_ransackable_scopes! :with_pending_drafts, :with_reviewable_drafts, :published, :unpublished
 

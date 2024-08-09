@@ -13,8 +13,14 @@ en:
     attributes:
       implementations/equity_and_inclusion:
         links: "Link(s) to diversity, equity, inclusion, and antiracism statement or policy"
+      solutions/grant:
+        name: Name
+      solutions/institution:
+        name: Institution Name
+      solutions/service_provider:
+        name: Service Provider Name
     errors:
       models:
-        solutions/option_replacement:
+        controlled_vocabularies/replacement:
           same_option: "is the same option"
           type_mismatch: "is a different type of option"
