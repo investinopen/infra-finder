@@ -2,7 +2,7 @@
 en:
   formtastic:
     labels:
-      option_replacement:
+      replacement:
         new_option: "Replacement Option"
       solution: &solution_labels
         name: "Solution Name"
@@ -18,11 +18,17 @@ en:
         source: "Data Source"
       solution_imports/options:
         auto_approve: "Auto-approve drafts?"
+      solutions/grant:
+        name: Name
+      solutions/institution:
+        name: Institution Name
+      solutions/service_provider:
+        name: Service Provider Name
       user:
         super_admin: "This user is a super-admin?"
         admin: "This user is an admin?"
     hints:
-      option_replacement:
+      replacement:
         new_option: "The option selected here will update all solutions (and active drafts) to use it instead."
       solution: &solution_hints
         name: "A unique name for this solution"
@@ -40,6 +46,12 @@ en:
         source: "The file must be a CSV with a very specific format."
       solution_imports/options:
         auto_approve: "Whether the import should auto-approve all drafts. Otherwise, updates will be readied for review and can be selectively applied."
+      solutions/grant:
+        name: ""
+      solutions/institution:
+        name: ""
+      solutions/service_provider:
+        name: ""
       user:
         super_admin: A super-admin has unrestricted access to manage everything in the system. It takes precedence over admin if both are set.
         admin: An admin can manage most things, except creating users and other admins / super-admins.

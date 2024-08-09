@@ -1,0 +1,8 @@
+en:
+  solution_properties:
+    static:
+      input_label:
+        implementation_enum: "Implemented?"
+        other_option: "%{owner_label} — Other"
+      input_hint:
+        other_option: "Please provide a value here when selecting \"other\"."

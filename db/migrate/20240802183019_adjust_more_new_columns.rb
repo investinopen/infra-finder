@@ -44,6 +44,9 @@ class AdjustMoreNewColumns < ActiveRecord::Migration[7.1]
       t.boolean :scoss, null: false, default: false
       t.boolean :shareholders, null: false, default: false
       t.jsonb :free_inputs, null: false, default: {}
+      t.text :first_name
+      t.text :last_name
+      t.citext :email
     end
   end
 

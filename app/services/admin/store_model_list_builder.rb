@@ -36,6 +36,7 @@ module Admin
     private
 
     def extract_custom_settings!(options)
+      @solution_property = options.delete(:solution_property)
       @heading = options.key?(:heading) ? options.delete(:heading) : default_heading
       @instructions = options.delete(:instructions)
       @new_record = options.key?(:new_record) ? options.delete(:new_record) : true

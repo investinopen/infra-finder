@@ -16,6 +16,9 @@ module Admin
     # @return [Hash]
     attr_reader :options
 
+    # @return [SolutionProperty, nil]
+    attr_reader :solution_property
+
     # @return [Class]
     attr_reader :store_model_type
 

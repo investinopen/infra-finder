@@ -14,12 +14,12 @@ RSpec.describe SolutionSearchesController, type: :request do
   describe "POST /solution_search" do
     include_context "existing comparison"
 
-    let(:name_cont) { "dat" }
+    let(:name_or_provider_name_cont) { "dat" }
 
     let(:params) do
       {
         q: {
-          name_cont:,
+          name_or_provider_name_cont:,
         },
       }
     end
@@ -38,7 +38,7 @@ RSpec.describe SolutionSearchesController, type: :request do
       it "will update the filters for the current comparison" do
         expect do
           post solution_search_path, headers:, params:, as: format
-        end.to change { current_comparison.reload.search_filters.name_cont }.to("dat")
+        end.to change { current_comparison.reload.search_filters.name_or_provider_name_cont }.to("dat")
       end
 
       context "when requesting from a comparison share url" do
@@ -47,7 +47,7 @@ RSpec.describe SolutionSearchesController, type: :request do
         it "will update the filters for the current comparison" do
           expect do
             post solution_search_path, headers:, params:, as: format
-          end.to change { current_comparison.reload.search_filters.name_cont }.to("dat")
+          end.to change { current_comparison.reload.search_filters.name_or_provider_name_cont }.to("dat")
         end
       end
     end
@@ -69,7 +69,7 @@ RSpec.describe SolutionSearchesController, type: :request do
     include_context "existing comparison"
 
     before do
-      current_comparison.search_filters = { name_cont: "dat" }
+      current_comparison.search_filters = { name_or_provider_name_cont: "dat" }
 
       current_comparison.save!
     end
