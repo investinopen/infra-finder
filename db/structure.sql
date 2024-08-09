@@ -1705,7 +1705,10 @@ CREATE TABLE public.solution_drafts (
     membership_program_url text,
     scoss boolean DEFAULT false NOT NULL,
     shareholders boolean DEFAULT false NOT NULL,
-    free_inputs jsonb DEFAULT '{}'::jsonb NOT NULL
+    free_inputs jsonb DEFAULT '{}'::jsonb NOT NULL,
+    first_name text,
+    last_name text,
+    email public.citext
 );
 
 
@@ -2147,7 +2150,10 @@ CREATE TABLE public.solutions (
     membership_program_url text,
     scoss boolean DEFAULT false NOT NULL,
     shareholders boolean DEFAULT false NOT NULL,
-    free_inputs jsonb DEFAULT '{}'::jsonb NOT NULL
+    free_inputs jsonb DEFAULT '{}'::jsonb NOT NULL,
+    first_name text,
+    last_name text,
+    email public.citext
 );
 
 

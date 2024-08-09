@@ -45,6 +45,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     optional(:kind).maybe(:kind)
     required(:meta).value(:bool)
     optional(:only).maybe(:only)
+    optional(:owner).maybe(:owner)
     optional(:description).maybe(:string)
     required(:exported).value(:bool)
     required(:required).value(:bool)
@@ -110,6 +111,9 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   scope :money, -> { in_use.where(kind: :money) }
 
+  scope :other_options, -> { in_use.where(kind: :other_option) }
+
+  scope :store_model_inputs, -> { in_use.where(kind: :store_model_input) }
   scope :store_model_lists, -> { in_use.where(kind: :store_model_list) }
 
   scope :strings, -> { in_use.where(kind: :string) }
@@ -126,6 +130,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   scope :sans_implementation_links, -> { where.not(implementation_property: %w[link links]) }
   scope :sans_meta, -> { where(meta: false) }
+  scope :meta, -> { where(meta: true) }
 
   scope :with_vocab, -> { where.not(vocab_name: [nil, ""]) }
   scope :with_model_vocab, -> { where.not(vocab_name: [nil, "", "impl_scale", "impl_scale_pricing", "currencies", "countries"]) }
@@ -142,7 +147,11 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   delegate :assign_method, :connection_mode, to: :property_kind
 
+  validate :free_input_property_exists!
+  validate :other_property_exists!
   validate :property_exists_on_models!
+  validate :required_owner_property_exists!
+  validates :owner, presence: { if: :other_option? }
 
   def accepts_other?
     has_vocab? && vocab.accepts_other?
@@ -163,7 +172,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   end
 
   memoize def csv_header
-    "%<code>d_%<ext_name>s" % { code:, ext_name:, }
+    "%<code>03d_%<ext_name>s" % { code:, ext_name:, }
   end
 
   def dropping?
@@ -215,6 +224,10 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     vocab.present?
   end
 
+  def implementation_subproperty?
+    for_implementation? && implementation_property != "enum"
+  end
+
   # The name of the attribute to use when in an active admin form input.
   #
   # For has_one through associations, we need to return our special `:"#{assoc_name}_id"` keys.
@@ -227,21 +240,42 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     end
   end
 
+  # @!attribute [r] input_hint
+  # The hint to display in ActiveAdmin when rendering the property.
+  # @return [String]
+  memoize def input_hint
+    path = "solution_properties.static.input_hint.#{kind}"
+
+    options = { default: description, raise: true }
+
+    I18n.t(path, **options)
+  end
+
+  # @!attribute [r] input_kind
+  # @see SolutionPropertyKind#input_kind_for
+  # @return [Symbol, nil]
   memoize def input_kind
     property_kind.input_kind_for(self)
   end
 
+  # @!attribute [r] input_label
   memoize def input_label
-    return "Implemented?" if kind == :implementation_enum
+    path = "solution_properties.static.input_label.#{kind}"
 
-    be_label
+    options = { default: be_label, raise: true }
+
+    options[:owner_label] = owner_property.be_label if other_option?
+
+    I18n.t(path, **options)
   end
 
+  # @!attribute [r] input_options
+  # @return [Hash]
   memoize def input_options
     {
       as: input_kind,
       label: input_label,
-      hint: description,
+      hint: input_hint,
       input_html: property_kind.input_html,
     }.compact.reverse_merge(property_kind.input_options)
   end
@@ -259,6 +293,10 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     only == kind.to_sym
   end
 
+  def other_option?
+    kind == :other_option
+  end
+
   # @param [ControlledVocabularies::Types::SourceKind] kind
   def skip_for?(kind)
     case kind.to_sym
@@ -269,8 +307,16 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     end
   end
 
-  def implementation_subproperty?
-    for_implementation? && implementation_property != "enum"
+  memoize def free_input_property
+    SolutionProperty.find(free_input_name.to_s) if free_input_name.present?
+  end
+
+  memoize def other_property
+    SolutionProperty.find(free_input_name.to_s) if accepts_other?
+  end
+
+  memoize def owner_property
+    SolutionProperty.find(owner) if owner?
   end
 
   # @return [SolutionPropertyKind]
@@ -286,14 +332,47 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   private
 
   # @return [void]
+  def free_input_property_exists!
+    return unless free_input_name.present?
+
+    free_input_property
+  rescue FrozenRecord::RecordNotFound
+    # :nocov:
+    errors.add :base, "Expected #{free_input_name} property to exist, but it is not found"
+    # :nocov:
+  end
+
+  # @return [void]
+  def other_property_exists!
+    return unless accepts_other?
+
+    other_property
+  rescue FrozenRecord::RecordNotFound
+    # :nocov:
+    errors.add :base, "Expected #{free_input_name} property to exist, but it is not found"
+    # :nocov:
+  end
+
+  # @return [void]
   def property_exists_on_models!
-    return if dropping?
+    return if dropping? || meta?
 
     SOURCE_KINDS.each do |kind|
       next if skip_for?(kind) || exists_for?(kind)
 
       errors.add :base, "Missing #{attribute_name.inspect} on #{kind.inspect} models"
     end
+  end
+
+  # @return [void]
+  def required_owner_property_exists!
+    return unless owner?
+
+    owner_property
+  rescue FrozenRecord::RecordNotFound => e
+    # :nocov:
+    errors.add :owner, "does not exist: #{e.message}"
+    # :nocov:
   end
 
   class << self
@@ -418,6 +497,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
           SolutionProperty.in_use.order(code: :asc).each do |prop|
             accepts_other = prop.accepts_other? ? ?Y : ?N
+            accepts_other = "n/a" unless prop.has_vocab? && prop.vocab.uses_model?
 
             csv << [
               prop.csv_header,

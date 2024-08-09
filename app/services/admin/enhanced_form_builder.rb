@@ -75,7 +75,9 @@ module Admin
 
     # @param [#to_s] attr
     def record_property_access!(attr)
+      # :nocov:
       return if /\Alinks\z/.match?(attr)
+      # :nocov:
 
       RequestStore.fetch(:property_form_access) do
         Hash.new { |h, k| h[k] = 0 }.with_indifferent_access
@@ -88,9 +90,24 @@ module Admin
     end
 
     def store_model_list(*args, **kwargs, &)
-      record_property_access!(args.first)
-
       Admin::StoreModelListBuilder.new(self, *args, **kwargs).render(&)
+    end
+
+    def store_model_list_property(attr, *args, **kwargs, &)
+      record_property_access!(attr)
+
+      prop = SolutionProperty.find attr.to_s
+
+      kwargs[:solution_property] = prop
+      kwargs[:heading] = "#{prop.input_label} — Structured"
+      kwargs[:instructions] = prop.input_hint
+
+      inputs prop.input_label do
+        template.capture do
+          store_model_list(attr, *args, **kwargs, &)
+          template.concat solution_property(prop.free_input_name)
+        end
+      end
     end
 
     private
@@ -108,11 +125,9 @@ module Admin
     def render_free_input_field_for!(property)
       return unless property.has_free_input?
 
-      label = I18n.t("controlled_vocabularies.other.label", label: property.be_label)
+      record_property_access!(property.other_property.input_attr.to_s)
 
-      hint = I18n.t("controlled_vocabularies.other.hint")
-
-      input(property.free_input_name, as: :text, input_html: { rows: 3 }, label:, hint:)
+      render_property_input!(property.other_property)
     end
   end
 end

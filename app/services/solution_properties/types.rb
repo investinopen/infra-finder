@@ -26,11 +26,13 @@ module SolutionProperties
     Input = Coercible::String.default("none").enum(*INPUT_TYPES).fallback("none")
 
     Kind = Coercible::Symbol.enum(
+      :acknowledgement,
       :attachment,
       :blurb,
       :boolean,
       :contact,
       :date,
+      :email,
       :enum,
       :implementation,
       :implementation_enum,
@@ -38,14 +40,18 @@ module SolutionProperties
       :integer,
       :money,
       :multi_option,
+      :other_option,
       :single_option,
       :standard,
       :string,
+      :store_model_input,
       :store_model_list,
       :tag_list,
       :timestamp,
       :url
     )
+
+    Owner = Coercible::String
 
     Phase2Status = Coercible::String.default("none").enum("add", "change_input", "change_label", "change_vocab", "drop", "keep", "none").fallback("none")
 

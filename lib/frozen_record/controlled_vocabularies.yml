@@ -223,6 +223,7 @@
 - name: prgrm_lng
   strategy: model
   model_name: ProgrammingLanguage
+  accepts_other: true
   terms:
   - term: c
   - term: c++
@@ -243,6 +244,8 @@
   - term: swift
   - term: typescript
   - term: clojure
+  - term: Other
+    provides: "other"
 - name: rprt_lvl
   strategy: model
   model_name: ReportingLevel
@@ -315,15 +318,19 @@
 - name: standards_auth
   strategy: model
   model_name: AuthenticationStandard
+  accepts_other: true
   terms:
   - term: OAuth
   - term: OIDC
   - term: SAML
   - term: WebID-TLS
   - term: WebID-OIDC
+  - term: Other
+    provides: "other"
 - name: standards_metadata
   strategy: model
   model_name: MetadataStandard
+  accepts_other: true
   terms:
   - term: XML-TEI
   - term: OAI-PMH
@@ -363,29 +370,41 @@
   - term: National Information Standards Organization (NISO) Recommended Practice
       RP-22-2015, Access License and Indicators
   - term: XML Exchange Table Model Document Type Definition
+  - term: Other
+    provides: "other"
 - name: standards_metrics
   strategy: model
   model_name: MetricsStandard
+  accepts_other: true
   terms:
   - term: COUNTER 5
   - term: Make Data Count
   - term: SUSHI
+  - term: Other
+    provides: "other"
 - name: standards_pids
   strategy: model
   model_name: PersistentIdentifierStandard
+  accepts_other: true
   terms:
   - term: OpenURL
   - term: Research Organization Registry
   - term: ORCiD
+  - term: Other
+    provides: "other"
 - name: standards_pres
   strategy: model
   model_name: PreservationStandard
+  accepts_other: true
   terms:
   - term: OAIS
   - term: OCFL
+  - term: Other
+    provides: "other"
 - name: standards_sec
   strategy: model
   model_name: SecurityStandard
+  accepts_other: true
   terms:
   - term: CIS Critical Security Controls
   - term: Cloud Security Alliance STAR certification
@@ -394,6 +413,8 @@
   - term: NIST Cybersecurity Framework (CSF)
   - term: NIST SP 800-171 for the protection of controlled unclassified information
   - term: SSAE 18/SOC 2 certification
+  - term: Other
+    provides: "other"
 - name: tech_read
   strategy: model
   model_name: ReadinessLevel
@@ -406,6 +427,7 @@
 - name: user_paths
   strategy: model
   model_name: UserContribution
+  accepts_other: true
   terms:
   - term: Contribute to code
   - term: Contribute to documentation

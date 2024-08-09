@@ -22,7 +22,7 @@ tab "Filters" do
 
     f.solution_property(:solution_categories)
 
-    SolutionProperty.has_many_associations.without(:maintenance_statuses, :solution_categories, :accessibility_scopes).each do |option|
+    SolutionProperty.has_many_associations.without(:maintenance_statuses, :solution_categories, :web_accessibility_applicabilities).each do |option|
       f.solution_property(option)
     end
 
@@ -94,6 +94,9 @@ end
 
 tab "Info" do
   f.inputs "Contact & Web Presence" do
+    f.solution_property :first_name
+    f.solution_property :last_name
+    f.solution_property :email
     f.solution_property :contact
     f.solution_property :website
     f.solution_property :board_members_url
@@ -122,42 +125,40 @@ tab "Info" do
 end
 
 tab "Lists" do
-  f.inputs "Lists" do
-    f.store_model_list :service_providers do |spf|
-      spf.input :name, as: :string, required: true
-      spf.input :url, as: :url, required: true
-      spf.input :description, as: :text, required: false
-    end
+  f.store_model_list_property :service_providers do |spf|
+    spf.input :name, as: :string, required: true
+    spf.input :url, as: :url, required: true
+    spf.input :description, as: :text, required: false, input_html: { rows: 2 }
+  end
 
-    f.store_model_list :current_affiliations do |caf|
-      caf.input :name, as: :string, required: true
-      caf.input :url, as: :url, required: true
-      caf.input :description, as: :text, required: false
-    end
+  f.store_model_list_property :current_affiliations do |caf|
+    caf.input :name, as: :string, required: true
+    caf.input :url, as: :url, required: true
+    caf.input :description, as: :text, required: false, input_html: { rows: 2 }
+  end
 
-    f.store_model_list :founding_institutions do |fif|
-      fif.input :name, as: :string, required: true
-      fif.input :url, as: :url, required: true
-      fif.input :description, as: :text, required: false
-    end
+  f.store_model_list_property :founding_institutions do |fif|
+    fif.input :name, as: :string, required: true
+    fif.input :url, as: :url, required: true
+    fif.input :description, as: :text, required: false, input_html: { rows: 2 }
+  end
 
-    f.store_model_list :recent_grants do |rgf|
-      rgf.input :name, as: :string, required: false
-      rgf.input :starts_on, as: :datepicker, required: false
-      rgf.input :ends_on, as: :datepicker, required: false
-      rgf.input :display_date, as: :string, required: false
-      rgf.input :funder, as: :string, required: false
-      rgf.input :amount, as: :string, required: false
-      rgf.input :grant_activities, as: :string, required: false
-      rgf.input :award_announcement_url, as: :url, required: false
-      rgf.input :notes, as: :string, required: false
-    end
+  f.store_model_list_property :recent_grants do |rgf|
+    rgf.input :name, as: :string, required: false
+    rgf.input :starts_on, as: :datepicker, required: false
+    rgf.input :ends_on, as: :datepicker, required: false
+    rgf.input :display_date, as: :string, required: false
+    rgf.input :funder, as: :string, required: false
+    rgf.input :amount, as: :string, required: false
+    rgf.input :grant_activities, as: :string, required: false
+    rgf.input :award_announcement_url, as: :url, required: false
+    rgf.input :notes, as: :string, required: false
+  end
 
-    f.store_model_list :top_granting_institutions do |tgif|
-      tgif.input :name, as: :string, required: true
-      tgif.input :url, as: :url, required: true
-      tgif.input :description, as: :text, required: false
-    end
+  f.store_model_list_property :top_granting_institutions do |tgif|
+    tgif.input :name, as: :string, required: true
+    tgif.input :url, as: :url, required: true
+    tgif.input :description, as: :text, required: false, input_html: { rows: 2 }
   end
 end
 
@@ -165,6 +166,8 @@ tab "Implementations" do
   Implementation.each do |impl|
     if impl.web_accessibility?
       f.solution_implementation impl.name do |waf|
+        waf.record_property_access! :web_accessibility_applicabilities
+
         waf.input :applies_to_solution, as: :boolean
         waf.input :applies_to_website, as: :boolean
       end
