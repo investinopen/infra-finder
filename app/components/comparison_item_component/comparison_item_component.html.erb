@@ -1,7 +1,11 @@
 <%= turbo_frame_tag item, class: "" do %>
   <article class="m-solution-card" data-controller="comparison-item-component--comparison-item-component">
     <header class="m-solution-card__header">
-      <h3 class="text-h4"><%= solution.name %></h3>
+      <h3 class="text-h4">
+        <%= link_to solution_path(solution), data: { turbo_frame: "_top" }, class: "m-solution-card__header-link" do %>
+          <%= solution.name %>
+        <% end %>  
+      </h3>
       <%= link_to(solution_compare_path(solution), link_to_remove_options) do %>
         <%= image_tag "icons/20/Close.svg", alt: "" %>
         <span class="sr-only"><%= t(".remove") %></span>
@@ -24,9 +28,8 @@
       <% end %>
     </div>
     <div class="m-solution-card__footer">
-      <%= link_to(solution_path(solution), link_to_detail_options) do %>
+      <%= link_to solution_path(solution), data: { turbo_frame: "_top" }, class: "m-button m-button--sm bg-brand-mint", "aria-hidden": "true", tabindex: "-1" do %>
         <span><%= t(".learn_more") %></span>
-        <span class="sr-only"><%= t(".about", name: solution.name) %></span>
         <%= image_tag "icons/16/Arrow-Right.svg", alt: "" %>
       <% end %>
     </div>

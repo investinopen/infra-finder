@@ -29,13 +29,6 @@ class ComparisonItemComponent < ApplicationComponent
     }
   end
 
-  def link_to_detail_options
-    {
-      class: "m-button m-button--sm bg-brand-mint",
-      data: { turbo_frame: "_top" }
-    }
-  end
-
   def render_location
     render SolutionLocationComponent.new(solution:)
   end
