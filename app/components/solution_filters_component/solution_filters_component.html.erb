@@ -9,11 +9,11 @@
     </div>
     <div class="solution-filters__filters hidden mobile:block bg-neutral-20">
       <h2 class="pb-4 text-h3"><%= t(".heading") %></h2>
-      <%= render SolutionFiltersCheckboxesComponent.new(f:) %>
-      <div class="solution-filters__buttons pt-8">
+      <div class="solution-filters__buttons pb-6">
         <%= link_to t(".reset_label"), solution_search_path, class: "m-button m-button--sm bg-white", data: { turbo_method: :delete, turbo_frame: "_top" } %>
         <%= f.submit t(".submit_label"), class: "m-button m-button--sm bg-black" %>
       </div>
+      <%= render SolutionFiltersCheckboxesComponent.new(f:) %>
     </div>
   <% end %>
   <%= render SolutionMobileFiltersComponent.new(solution_search:) %>

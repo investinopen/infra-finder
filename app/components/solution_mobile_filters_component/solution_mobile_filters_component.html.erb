@@ -24,11 +24,11 @@
         </button>
       </header>
       <%= search_form_for solution_search, **search_form_options do |f| %>
-        <%= render SolutionFiltersCheckboxesComponent.new(f:) %>
-        <footer class="solution-filters-dialog__footer">
+        <div class="solution-filters-dialog__buttons">
           <%= link_to t(".reset_label"), solution_search_path, class: "m-button m-button--sm m-button--center bg-white", data: { turbo_method: :delete, turbo_frame: "_top" } %>
           <%= f.submit t(".submit_label"), class: "m-button m-button--sm m-button--center bg-black" %>
-        </footer>
+        </div>
+        <%= render SolutionFiltersCheckboxesComponent.new(f:) %>
       </div>
     <% end %>
   </dialog>
