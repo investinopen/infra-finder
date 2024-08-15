@@ -50,7 +50,7 @@ body {
 }
 
 a:not(class):hover {
-  text-decoration: underline;
+  text-decoration-line: underline;
 }
 
 button:not([class]),
