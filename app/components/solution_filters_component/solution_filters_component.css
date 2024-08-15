@@ -79,7 +79,7 @@
   }
 
   &__filters {
-    padding: var(--solution-filters-padding);
+    padding: var(--solution-filters-padding) var(--solution-filters-padding) calc(1.25 * var(--solution-filters-padding));
     @apply rounded-xl;
     margin-block-start: 1rem;
   }
