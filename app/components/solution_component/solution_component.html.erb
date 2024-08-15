@@ -1,7 +1,11 @@
 <%= turbo_frame_tag(solution) do %>
   <article class="m-solution-card" data-controller="solution-component--solution-component">
     <header class="m-solution-card__header">
-      <h3><%= solution.name %></h3>
+      <h3>
+        <%= link_to solution_path(solution), data: { turbo_frame: "_top" }, class: "m-solution-card__header-link" do %>    
+          <%= solution.name %>
+        <% end %>
+      </h3>
     </header>
     <div class="text-xs a-underline a-underline--lt space-y-[0.625rem]">
       <div class="font-bold truncate">
@@ -17,9 +21,8 @@
       <%= render_implementation(:open_api) %>
     </div>
     <footer class="m-solution-card__footer">
-      <%= link_to solution_path(solution), class: "m-button", data: { turbo_frame: "_top" } do %>
+      <%= link_to solution_path(solution), class: "m-button", "aria-hidden": "true", tabindex: "-1", data: { turbo_frame: "_top" } do %>
         <span><%= t(".learn_more") %></span>
-        <span class="sr-only"><%= t(".about", name: solution.name) %></span>
       <% end %>
       <%= render ComparisonToggleComponent.new(solution:, comparison:) %>
     </footer>
