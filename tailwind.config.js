@@ -123,6 +123,10 @@ const zIndex = {
   messages: 60,
 };
 
+const transitionProperty = {
+  underline: "text-decoration-color",
+};
+
 module.exports = {
   content: [
     "./public/*.html",
@@ -144,6 +148,7 @@ module.exports = {
       screens,
       width,
       zIndex,
+      transitionProperty,
     },
   },
   plugins: [
