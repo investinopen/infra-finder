@@ -1,0 +1,14 @@
+.welcome-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: min(5%, 1.5rem);
+  padding: min(4%, 1.25rem) min(4%, 1.25rem) min(4%, 1.25rem) min(6%, 1.75rem);
+
+  &__close-button {
+    flex-shrink: 0;
+  }
+
+  &__close-icon {
+    inline-size: 1.25rem;
+  }
+}

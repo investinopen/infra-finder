@@ -12,6 +12,7 @@
 @import "./comparison_item_component/comparison_item_component.css";
 @import "./comparison_sticky_header_component/comparison_sticky_header_component.css";
 @import "./comparison_toggle_component/comparison_toggle_component.css";
+@import "./cookie_banner_component/cookie_banner_component.css";
 @import "./flash_message_component/flash_message_component.css";
 @import "./flash_messages_component/flash_messages_component.css";
 @import "./footer_component/footer_component.css";
@@ -19,6 +20,8 @@
 @import "./home_page_component/home_page_component.css";
 @import "./implementation_component/implementation_component.css";
 @import "./implementation_detail_component/implementation_detail_component.css";
+@import "./matomo_component/matomo_component.css";
+@import "./open_graph_component/open_graph_component.css";
 @import "./share_bar_component/share_bar_component.css";
 @import "./solution_category_badges_component/solution_category_badges_component.css";
 @import "./solution_component/solution_component.css";
@@ -32,5 +35,7 @@
 @import "./solution_nav_component/solution_nav_component.css";
 @import "./solution_sort_component/solution_sort_component.css";
 @import "./solutions_component/solutions_component.css";
+@import "./subnav_bar_component/subnav_bar_component.css";
 @import "./tag_component/tag_component.css";
 @import "./tag_list_component/tag_list_component.css";
+@import "./welcome_notice_component/welcome_notice_component.css";
