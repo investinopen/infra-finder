@@ -1,9 +1,9 @@
-name: "Build & Push Docker"
+name: "Build & Push Docker (Staging)"
 
 on:
   push:
     branches:
-      - main
+      - next
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -22,7 +22,7 @@ jobs:
           images: |
             registry.digitalocean.com/infrafinder/infra_finder
           tags: |
-            type=raw,value=latest,enable={{is_default_branch}},priority=1000
+            type=raw,value=next,enable=true
             type=ref,event=branch
             type=sha
       - name: Set up QEMU
@@ -36,7 +36,7 @@ jobs:
       - name: Login to DOCR
         run: |
           doctl registry login --expiry-seconds 600
-      - name: Build and push production
+      - name: Build and push staging
         uses: docker/build-push-action@v5
         with:
           cache-from: type=gha
@@ -47,6 +47,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args:
-            "RAILS_ENV=production"
+            "RAILS_ENV=staging"
           secrets:
-            "masterkey=${{ secrets.PRODUCTION_MASTER_KEY }}"
+            "masterkey=${{ secrets.STAGING_MASTER_KEY }}"
