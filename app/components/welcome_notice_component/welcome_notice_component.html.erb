@@ -1,0 +1,9 @@
+<div
+  data-controller="welcome-notice-component--welcome-notice-component"
+  class="welcome-notice rounded-xs bg-neutral-20">
+  <div class="text-xs t-rte"><%= t(".message_html") %></div>
+  <button data-action="click->welcome-notice-component--welcome-notice-component#dismiss" class="welcome-notice__close-button">
+    <span class="sr-only"><%= t(".close_label") %></span>
+    <%= image_tag "icons/24/Close.svg", alt: "", class: "welcome-notice__close-icon" %>
+  </button>
+</div>
