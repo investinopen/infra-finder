@@ -33,8 +33,10 @@ import SolutionMobileFiltersComponent__SolutionMobileFiltersComponentController 
 import SolutionNavComponent__SolutionNavComponentController from "./solution_nav_component/solution_nav_component_controller";
 import SolutionSortComponent__SolutionSortComponentController from "./solution_sort_component/solution_sort_component_controller";
 import SolutionsComponent__SolutionsComponentController from "./solutions_component/solutions_component_controller";
+import SubnavBarComponent__SubnavBarComponentController from "./subnav_bar_component/subnav_bar_component_controller";
 import TagComponent__TagComponentController from "./tag_component/tag_component_controller";
 import TagListComponent__TagListComponentController from "./tag_list_component/tag_list_component_controller";
+import WelcomeNoticeComponent__WelcomeNoticeComponentController from "./welcome_notice_component/welcome_notice_component_controller";
 
 application.register("back-to-top-component--back-to-top-component", BackToTopComponent__BackToTopComponentController);
 application.register("comparison-bar-component--comparison-bar-component", ComparisonBarComponent__ComparisonBarComponentController);
@@ -67,5 +69,7 @@ application.register("solution-mobile-filters-component--solution-mobile-filters
 application.register("solution-nav-component--solution-nav-component", SolutionNavComponent__SolutionNavComponentController);
 application.register("solution-sort-component--solution-sort-component", SolutionSortComponent__SolutionSortComponentController);
 application.register("solutions-component--solutions-component", SolutionsComponent__SolutionsComponentController);
+application.register("subnav-bar-component--subnav-bar-component", SubnavBarComponent__SubnavBarComponentController);
 application.register("tag-component--tag-component", TagComponent__TagComponentController);
 application.register("tag-list-component--tag-list-component", TagListComponent__TagListComponentController);
+application.register("welcome-notice-component--welcome-notice-component", WelcomeNoticeComponent__WelcomeNoticeComponentController);
