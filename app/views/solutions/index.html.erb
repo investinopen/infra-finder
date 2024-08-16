@@ -1,4 +1,4 @@
-<%= render SubnavBarComponent.new do |component| %>
+<%= render SubnavBarComponent.new(show_welcome_notice: true) do |component| %>
   <% component.with_share_bar do %>
     <%= render ShareBarComponent.new(mode: :solution_list, comparison: current_comparison) %>
   <% end %>
