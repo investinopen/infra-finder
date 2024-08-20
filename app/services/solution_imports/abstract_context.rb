@@ -33,7 +33,7 @@ module SolutionImports
     # @return [Integer]
     attr_accessor :solutions_count
 
-    # @return [<SolutionImports::Transient::OrganizationRow>]
+    # @return [<SolutionImports::Transient::ProviderRow>]
     attr_reader :transient_providers
 
     # @return [<SolutionImports::Transient::SolutionRow>]
@@ -138,6 +138,36 @@ module SolutionImports
     def track_solutions_count!
       @solutions_count, _ = with_solutions_count(0) do
         yield
+      end
+    end
+
+    module ProcessesCSVRows
+      extend ActiveSupport::Concern
+
+      included do
+        include Dry::Effects::Handler.Reader(:row_number)
+
+        option :rows, Types.Instance(CSV::Table)
+      end
+
+      # @yield [row] yield each row with the row_number in context
+      # @yieldparam [CSV::Row] row
+      # @yieldreturn [void]
+      # @return [void]
+      def each_row
+        # :nocov:
+        return enum_for(__method__) unless block_given?
+        # :nocov:
+
+        rows.each_with_index do |row, index|
+          number = index + 1
+
+          with_row_number number do
+            logger.tagged("[row:#{number}]") do
+              yield row
+            end
+          end
+        end
       end
     end
   end

@@ -69,6 +69,7 @@ services:
         max-file: "10"
     volumes:
       - bundle_cache:/bundle
+      - minio_storage:/srv/minio
       - node_cache:/srv/app/node_modules
       - infra-finder-sync:/srv/app:nocopy
     ports:

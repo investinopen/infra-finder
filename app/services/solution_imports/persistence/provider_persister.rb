@@ -8,8 +8,8 @@ module SolutionImports
     class ProviderPersister < SolutionImports::Persistence::BasePersister
       def perform
         context.transient_providers.each do |row|
-          provider = Provider.where(identifier: row.identifier).first_or_initialize do |org|
-            org.assign_attributes row.attrs_to_create
+          provider = Provider.where(identifier: row.identifier).first_or_initialize do |prov|
+            prov.assign_attributes row.attrs_to_create
           end
 
           yield monadic_save provider

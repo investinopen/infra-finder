@@ -1,0 +1,48 @@
+005_first_name,006_last_name,007_email,001_service_name,008_provider_name,010_website,004_public_contact,009_service_summary,056_launch_date,013_location,038_community_engagement_activities,076_saas_options,077_registered_service_providers,014_solution_category,080_maintenance_status,079_technology_readiness,018_open_code_repository_status,019_open_code_repository_url,104_code_license_status,085_code_license_url,084_code_license_name,086_content_licensing,033_transparent_pricing_status,034_transparent_pricing_url,024_governance_structure_status,025_governance_structure_url,050_board_structure,950_board_structure_other,048_community_governance_status,037_community_engagement_status,051_business_form,951_business_form_other,117_tc_ack
+Chrys Test,EOI Form,chrys@investinopen.org,EOI Test solution,EOI Test provider,https://investinopen.org/,info@investinopen.org,"EOI test solution summary Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sit amet auctor quam, quis semper tellus. Nam tristique aliquam nisl ac auctor. Proin ac leo id nunc lobortis rhoncus ut quis erat. Maecenas et mattis diam. Aenean vel mollis nisl. Proin laoreet vel enim id tempus. Mauris luctus velit quis lacus porta ultrices. Aliquam vulputate nunc metus, vitae vehicula magna fermentum in. Phasellus molestie dui in mauris porttitor, sed ultrices est accumsan. Donec vehicula ante vitae suscipit malesuada. Etiam at ultricies ante, lobortis tempus lorem. Vivamus facilisis aliquet lorem, nec iaculis purus lacinia sed.
+
+Donec quis cursus lectus, vel porttitor nulla. Nunc aliquam dolor vel odio consectetur, et ultrices nisl varius. Aliquam feugiat, nibh vitae blandit tristique, lorem purus feugiat elit, non cursus nibh justo eget ligula. Nam eleifend urna quam, id fermentum nulla dapibus eget. Sed ultrices ex at ex consequat, quis cursus urna consequat. Vestibulum",2040,United States of America,"Staff roles with responsibility for community engagement |
+Mailing lists and discussion forums (including Slack) |
+Social media |
+Blogs |
+Webinars and training |
+Community calls |
+Annual meetings |
+Interest, working, user, or advisory groups |
+Volunteer or ambassador network |
+User research |
+Development sprints |
+Conference participation |
+Other |",Through solution provider or third party vendor,https://investinopen.org/,"Research profiling system |
+Standard, specification or protocol |
+Submissions system |",Actively Maintained,Actual system proven in operational environment,Implemented/available,https://github.com/investinopen,Implemented/available,https://github.com/investinopen,"Apache License, Version 2.0 |
+MIT License |
+BSD licenses |
+Unlicense |
+GNU General Public License (GPL) |
+None |
+Other source code repo","Traditional copyright |
+Creative commons licenses |
+Rightsstatement.org licenses |
+Other licenses |",Implemented/available,https://github.com/investinopen,Implemented/available,https://github.com/investinopen,Other,,Formal,Implemented/available,Other,,Accepted
+Chrys Test,EOI Form,chrys@investinopen.org,Test Solution,Test Provider,https://investinopen.org/,info@investinopen.org,"Test solution summary. Where no-one has ipsum before. All power to weapons. There be whales here. Beam me up, O'Brian. Commander, report to the sick bay immediately. Doctor, there are Cardassians to aft. Set course for Deep Space Nine and engage at warp nine. Highly illogical, commander. Beam me up, Scotty. Highly illogical, doctor.
+
+Ensign to engine room, report. Shields up, orange alert. Sensors detect a rift in the fabric of space to port. I'm a Doctor, not a bricklayer. Lieutenant, report to the sick bay immediately. Sensors detect a gravimetric distortion to starboard. Live long and prosper.
+
+I'm a Doctor, not a database. Highly illogical, commander. I am not a merry man. Primary power to backup systems. Lieutenant, report to the bridge immediately. Set phasers to stun and retreat. Main power to life support. There be whales here. Shut up, Wesley.
+
+There be whales here. Doctor, report to the bridge immediately. Red alert, fire phasers. Secondary power to backup systems. Sensors de",2024,United States of America,"Blogs |
+Development sprints |
+Conference participation |
+Other |",Through solution provider or third party vendor,https://investinopen.org/get-involved/,"Format conversion tool or service |
+Informal scholarly communications |
+Peer review system |",Actively Maintained,Actual system proven in operational environment,Implemented/available,https://github.com/investinopen,Implemented/available,https://github.com/investinopen,"Apache License, Version 2.0 |
+MIT License |
+BSD licenses |
+Unlicense |
+GNU General Public License (GPL) |
+None |
+EOI Other Code License","Traditional copyright |
+Creative commons licenses |
+Rightsstatement.org licenses |
+EOI Other content license |",Implemented/available,https://github.com/investinopen,Implemented/available,https://github.com/investinopen,Other,,Formal,Implemented/available,Other,,Accepted

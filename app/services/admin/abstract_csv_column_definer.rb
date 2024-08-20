@@ -41,7 +41,7 @@ module Admin
 
     private
 
-    # @param [Symbol] name
+    # @param [#to_s] name
     # @return [void]
     def column!(name, ...)
       return if skip?(name)
@@ -51,7 +51,7 @@ module Admin
 
     # @param [Symbol] name
     def skip?(name)
-      name.in?(skips)
+      name.to_sym.in?(skips)
     end
 
     class << self

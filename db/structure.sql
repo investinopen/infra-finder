@@ -268,7 +268,8 @@ CREATE TYPE public.publication AS ENUM (
 
 CREATE TYPE public.solution_import_strategy AS ENUM (
     'legacy',
-    'modern'
+    'eoi',
+    'v2'
 );
 
 
@@ -6765,6 +6766,7 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240820161128'),
 ('20240802183019'),
 ('20240731204910'),
 ('20240729171330'),

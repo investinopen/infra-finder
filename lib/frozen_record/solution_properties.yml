@@ -22,7 +22,7 @@
 - name: published_at
   code: 110
   attr: published_at
-  kind: :date
+  kind: :timestamp
   meta: true
   only: :actual
   description: The date on which the entry was first made public.
@@ -42,7 +42,7 @@
 - name: created_at
   code: 2
   attr: created_at
-  kind: :date
+  kind: :timestamp
   meta: true
   description: The date on which the entry was first created.
   exported: false
@@ -149,6 +149,7 @@
   description: Status of the submission in the approval workflow.
   exported: false
   required: false
+  skip_csv_export: true
   ext_name: approval_status
   be_label: N/A
   be_position: 0
@@ -229,6 +230,7 @@
     of submitting the form.
   exported: false
   required: true
+  skip_csv_export: true
   ext_name: confirmation
   be_label: Confirmation
   be_position: 0
@@ -931,7 +933,7 @@
 - name: updated_at
   code: 92
   attr: updated_at
-  kind: :date
+  kind: :timestamp
   meta: true
   description: Automatically generated date when information in the entry was last
     changed.

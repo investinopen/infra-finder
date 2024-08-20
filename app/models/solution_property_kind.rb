@@ -49,6 +49,11 @@ class SolutionPropertyKind < Support::FrozenRecordHelpers::AbstractRecord
 
   scope :non_standard, -> { where(standard: false) }
 
+  # @return [Class(SolutionProperties::Accessors::AbstractAccessor)]
+  memoize def accessor_klass
+    "solution_properties/accessors/#{kind}".classify.constantize
+  end
+
   # @param [SolutionProperty] property
   # @return [Symbol, nil]
   def input_kind_for(property)
