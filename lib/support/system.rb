@@ -33,6 +33,7 @@ module Support
 
       config.inflector = Dry::Inflector.new do |inflections|
         inflections.acronym("API")
+        inflections.acronym("EOI")
         inflections.acronym("HTML")
         inflections.acronym("URL")
       end

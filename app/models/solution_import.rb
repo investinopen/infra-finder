@@ -17,6 +17,8 @@ class SolutionImport < ApplicationRecord
 
   expose_ransackable_attributes! :id, :strategy, :user_id, :created_at, :updated_at, on: :admin
 
+  self.filter_attributes = %i[messages]
+
   attribute :options, SolutionImports::Options.to_type, default: proc { {} }
   attribute :metadata, SolutionImports::Metadata.to_type, default: proc { {} }
 
@@ -28,7 +30,7 @@ class SolutionImport < ApplicationRecord
   scope :success, -> { in_state(:success) }
   scope :failure, -> { in_state(:failure) }
 
-  validates :source, presence: true
+  validates :source, :strategy, presence: true
 
   delegate :auto_approve?, to: :options
 
@@ -60,5 +62,12 @@ class SolutionImport < ApplicationRecord
   # @param [Hash] new_options
   def options_attributes=(new_options)
     self.options = new_options
+  end
+
+  class << self
+    # @return [<(String, String)>]
+    def strategy_select_options
+      pg_enum_select_options(:solution_import_strategy, skip: :legacy)
+    end
   end
 end

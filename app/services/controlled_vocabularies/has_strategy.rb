@@ -15,6 +15,10 @@ module ControlledVocabularies
       scope :uses_model, -> { by_strategy("model") }
     end
 
+    def uses_enum?
+      uses?("enum")
+    end
+
     def uses_model?
       uses?("model")
     end

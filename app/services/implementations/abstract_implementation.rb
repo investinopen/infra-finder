@@ -45,6 +45,72 @@ module Implementations
       false
     end
 
+    def read_url
+      case link_mode
+      when :many
+        links.try(:first).try(:url)
+      when :single
+        # :nocov:
+        link.try(:url)
+        # :nocov:
+      else
+        # :nocov:
+        raise "no link for #{implementation_name}"
+        # :nocov:
+      end
+    end
+
+    # @param [String] new_value
+    def write_url(new_value)
+      case link_mode
+      when :many
+        if links.empty?
+          self.links = [Implementations::Link.new(url: new_value)]
+        else
+          links.first.url = new_value
+        end
+      when :single
+        # :nocov:
+        link.url = new_value
+        # :nocov:
+      else
+        # :nocov:
+        raise "no link for #{implementation_name}"
+        # :nocov:
+      end
+    end
+
+    # @param ["links", "statement"] property_name
+    # @return [String, nil]
+    def read_csv_property(property_name)
+      case property_name
+      when "links", "link"
+        read_url
+      when "statement"
+        statement
+      else
+        # :nocov:
+        raise "unknown property: #{property_name.inspect}"
+        # :nocov:
+      end
+    end
+
+    # @param ["links", "statement"] property_name
+    # @param [String] new_value
+    # @return [String, nil]
+    def write_csv_property(property_name, new_value)
+      case property_name
+      when "links", "link"
+        write_url(new_value)
+      when "statement"
+        self.statement = new_value
+      else
+        # :nocov:
+        raise "unknown property: #{property_name.inspect}"
+        # :nocov:
+      end
+    end
+
     # @return [String]
     def to_csv
       as_json.transform_values do |value|

@@ -76,7 +76,11 @@ module SolutionImports
       end
 
       wrapped_hook! def populate_draft
-        draft.assign_attributes(solution_row.attrs_to_draft)
+        draft.assign_attributes(solution_row.attrs_to_create)
+
+        solution_row.standard_assignments.each do |assignment|
+          assignment.assign! draft
+        end
 
         draft.save!
 
@@ -86,14 +90,10 @@ module SolutionImports
       end
 
       wrapped_hook! def handle_draft_attachments
-        SolutionProperty.attachment_values.each do |attachment|
-          remote_url = :"#{attachment}_remote_url"
+        solution_row.attachment_assignments.each do |assignment|
+          attachment = assignment.attribute_name
 
-          value = solution_row.public_send(remote_url)
-
-          next if value.blank?
-
-          draft.__send__(:"#{remote_url}=", value)
+          assignment.assign! draft
 
           unless draft.save
             logger.tagged("attachment:#{attachment}") do
@@ -171,7 +171,7 @@ module SolutionImports
 
       # @return [void]
       def with_logger_tags!
-        logger.tagged("persist_each_solution", "solution_identifier:#{identifier.inspect}") do
+        logger.tagged("solution_identifier:#{identifier.inspect}") do
           yield
         end
       end

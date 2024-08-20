@@ -14,6 +14,7 @@
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym "API"
   inflect.acronym "CSV"
+  inflect.acronym "EOI"
   inflect.acronym "HTML"
   inflect.acronym "JSON"
   inflect.acronym "URL"

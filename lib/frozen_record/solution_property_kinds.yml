@@ -1,8 +1,4 @@
 ---
-- kind: acknowledgement
-  assign_method: :direct_write
-  diffable: false
-  standard: false
 - kind: attachment
   assign_method: :direct_write
   diffable: true

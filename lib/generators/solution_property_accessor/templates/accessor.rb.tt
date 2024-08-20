@@ -1,0 +1,12 @@
+<%-
+  # vim: set ft=ruby.eruby nosmartindent noautoindent :
+-%>
+# frozen_string_literal: true
+
+module SolutionProperties
+  module Accessors
+    class <%= class_name %> < SolutionProperties::Accessors::AbstractAccessor
+      property_kind! <%= kind.inspect %>
+    end
+  end
+end

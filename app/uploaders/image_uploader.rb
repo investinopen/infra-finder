@@ -34,10 +34,10 @@ class ImageUploader < Shrine
   plugin :restore_cached_data
 
   plugin :included do |name|
-    delegate :alt, to: name, prefix: name, allow_nil: true
+    delegate :alt, :original_import_url, to: name, prefix: name, allow_nil: true
   end
 
-  metadata_method :alt
+  metadata_method :alt, :original_import_url
 
   add_metadata :sha256 do |io, derivative: nil, **|
     calculate_signature(io, :sha256, format: :base64) unless derivative
