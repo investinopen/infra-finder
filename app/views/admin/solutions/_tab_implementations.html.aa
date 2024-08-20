@@ -10,8 +10,14 @@
 
     attributes_table_for impl do
       if details.name == :web_accessibility
-        row(:applies_to_solution)
-        row(:applies_to_website)
+        prop = SolutionProperty.find("web_accessibility_applicabilities")
+
+        row prop.input_label do
+          resource.web_accessibility_applicabilities
+        end
+
+        # row(:applies_to_solution)
+        # row(:applies_to_website)
       end
 
       row(:statement) if details.has_statement?

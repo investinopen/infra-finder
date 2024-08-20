@@ -26,6 +26,16 @@ module SolutionProperties
       def #{impl.name}_attributes=(impl_attributes)
         self[#{impl.name.inspect}] = impl_attributes
       end
+
+      def #{impl.structured_attr}
+        #{impl.name}.to_csv
+      end
+
+      def #{impl.structured_attr}=(json)
+        return if json.blank?
+
+        self[#{impl.name.inspect}] = JSON.parse(json)
+      end
       RUBY
     end
   end

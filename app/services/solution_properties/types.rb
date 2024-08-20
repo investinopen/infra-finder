@@ -17,7 +17,25 @@ module SolutionProperties
       url
     ].freeze
 
+    ValidYear = Integer.constrained(gteq: 1800) | String.constrained(format: /\A\d{4}\z/)
+
+    YearToDate = Instance(::Date).constructor do |value|
+      case value
+      when ::Date then value
+      when ValidYear then Params::Date["#{value}-01-01"]
+      when Params::Date then value
+      else
+        # :nocov:
+        raise Dry::Types::CoercionError, "invalid date: #{value.inspect}"
+        # :nocov:
+      end
+    end
+
+    AnyDate = Params::Date | YearToDate
+
     AssignMethod = Coercible::Symbol.enum(:write_attribute, :direct_write)
+
+    CSVStrategy = Coercible::Symbol.default(:v2).enum(:v2, :eoi).fallback(:v2)
 
     Field = Coercible::Symbol
 
@@ -26,7 +44,6 @@ module SolutionProperties
     Input = Coercible::String.default("none").enum(*INPUT_TYPES).fallback("none")
 
     Kind = Coercible::Symbol.enum(
-      :acknowledgement,
       :attachment,
       :blurb,
       :boolean,

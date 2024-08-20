@@ -30,6 +30,16 @@ class Implementation < Support::FrozenRecordHelpers::AbstractRecord
     Implementations::Types::Data
   end
 
+  def each_property
+    # :nocov:
+    return enum_for(__method__) unless block_given?
+    # :nocov:
+
+    property_enumerator.each do |prop|
+      yield prop
+    end
+  end
+
   # @return [Dry::Types::Type]
   def enum_dry_type
     case enum_type
@@ -40,6 +50,11 @@ class Implementation < Support::FrozenRecordHelpers::AbstractRecord
     end
   end
 
+  # @return [SolutionProperty]
+  memoize def enum_property
+    SolutionProperty.find enum
+  end
+
   def nested_attributes
     :"#{name}_attributes"
   end
@@ -47,6 +62,14 @@ class Implementation < Support::FrozenRecordHelpers::AbstractRecord
   # @return [<String>]
   memoize def ransackable_scopes
     EXPOSED_SCOPE_SUFFIXES.map { "#{name}_#{_1}" }
+  end
+
+  memoize def structured_attr
+    :"#{name}_structured"
+  end
+
+  memoize def structured_header
+    :"#{name}_structured"
   end
 
   def title
@@ -74,6 +97,19 @@ class Implementation < Support::FrozenRecordHelpers::AbstractRecord
 
   def web_accessibility?
     /\Aweb_accessibility\z/.match?(name)
+  end
+
+  private
+
+  # @return [Enumerator<SolutionProperty>]
+  def property_enumerator
+    Enumerator.new do |yy|
+      yy << enum_property
+
+      SolutionProperty.implementation_properties_for(name).each do |prop|
+        yy << prop
+      end
+    end
   end
 
   class << self

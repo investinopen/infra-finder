@@ -56,6 +56,12 @@ class Solution < ApplicationRecord
   end
 
   class << self
+    # @param [String] name
+    # @return [String, nil]
+    def identifier_by_name(name)
+      where(name:).pick(:identifier)
+    end
+
     # @param [User, nil] _user
     # @return [ActiveRecord::Relation<Solution>]
     def publicly_accessible_for(_user)

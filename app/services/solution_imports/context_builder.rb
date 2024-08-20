@@ -31,9 +31,13 @@ module SolutionImports
     wrapped_hook! def build
       case strategy
       in "legacy"
-        legacy_build!
-      in "modern"
-        mark_invalid "Modern imports not yet supported."
+        # :nocov:
+        mark_invalid "Legacy imports no longer supported."
+        # :nocov:
+      in "eoi"
+        eoi_build!
+      in "v2"
+        v2_build!
       else
         # :nocov:
         mark_invalid "Unsupported strategy: #{strategy}"
@@ -41,10 +45,16 @@ module SolutionImports
       end
     end
 
-    wrapped_hook! def legacy_build
+    wrapped_hook! def eoi_build
       rows = yield parse_csv
 
-      Success SolutionImports::Legacy::Context.new(import:, logger:, rows:, user:)
+      Success SolutionImports::EOI::Context.new(import:, logger:, rows:, user:)
+    end
+
+    wrapped_hook! def v2_build
+      rows = yield parse_csv
+
+      Success SolutionImports::V2::Context.new(import:, logger:, rows:, user:)
     end
 
     private

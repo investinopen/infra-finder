@@ -1,7 +1,12 @@
 tab :contact do
   attributes_table title: "Contact" do
+    row :first_name
+    row :last_name
+    row :email
     row :website
     row :contact
+    row :board_members_url
+    row :membership_program_url
     row :research_organization_registry_url
   end
 end
@@ -24,6 +29,8 @@ end
 
 tab :finances do
   attributes_table title: "Finances" do
+    row :currency
+
     SolutionProperty.currency_values.each do |attr|
       row attr do |r|
         humanized_money_with_symbol r.__send__(attr)
@@ -32,10 +39,6 @@ tab :finances do
 
     row :financial_numbers_publishability do |r|
       status_tag r.financial_numbers_publishability
-    end
-
-    row :financial_information_scope do |r|
-      status_tag r.financial_information_scope
     end
 
     row :financial_numbers_documented_url do |r|
@@ -47,78 +50,45 @@ end
 tab :lists do
   para "The following tables may be blank if no records have been defined for this #{resource.model_name.human}."
 
-  # panel "Comparable Products" do
-  #   table_for resource.comparable_products do
-  #     column :name
-  #
-  #    column :url do |r|
-  #      link_to(r.url, r.url, target: :blank) if r.url.present?
-  #    end
-  #
-  #    column :description
-  #  end
-  # end
+  SolutionProperty.store_model_lists.each do |list|
+    panel list.input_label do
+      list_data = resource.__send__(list.attribute_name)
 
-  panel "Current Affiliations" do
-    table_for resource.current_affiliations do
-      column :name
+      case list.name
+      when "recent_grants"
+        table_for resource.recent_grants do
+          column :name
+          column :starts_on
+          column :ends_on
+          column :display_date
+          column :funder
+          column :amount
+          column :award_announcement_url do |r|
+            link_to(r.award_announcement_url, r.award_announcement_url, target: :blank) if r.award_announcement_url.present?
+          end
+          column :notes
+        end
+      else
+        table_for list_data do
+          column :name
 
-      column :url do |r|
-        link_to(r.url, r.url, target: :blank) if r.url.present?
+          column :url do |r|
+            link_to(r.url, r.url, target: :blank) if r.url.present?
+          end
+
+          column :description
+        end
       end
 
-      column :description
-    end
-  end
+      attributes_table title: "Details" do
+        finput = list.free_input_property
 
-  panel "Founding Institutions" do
-    table_for resource.founding_institutions do
-      column :name
+        row("Free Input") do |r|
+          next nil if r.__send__(finput.attribute_name).blank?
 
-      column :url do |r|
-        link_to(r.url, r.url, target: :blank) if r.url.present?
+          simple_format r.__send__(finput.attribute_name)
+        end
       end
-
-      column :description
-    end
-  end
-
-  panel "Recent Grants" do
-    table_for resource.recent_grants do
-      column :name
-      column :starts_on
-      column :ends_on
-      column :display_date
-      column :funder
-      column :amount
-      column :award_announcement_url do |r|
-        link_to(r.award_announcement_url, r.award_announcement_url, target: :blank) if r.award_announcement_url.present?
-      end
-      column :notes
-    end
-  end
-
-  panel "Service Providers" do
-    table_for resource.service_providers do
-      column :name
-
-      column :url do |r|
-        link_to(r.url, r.url, target: :blank) if r.url.present?
-      end
-
-      column :description
-    end
-  end
-
-  panel "Top-Granting Institutions" do
-    table_for resource.top_granting_institutions do
-      column :name
-
-      column :url do |r|
-        link_to(r.url, r.url, target: :blank) if r.url.present?
-      end
-
-      column :description
     end
   end
 end

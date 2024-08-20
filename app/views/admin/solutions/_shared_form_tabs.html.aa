@@ -166,10 +166,14 @@ tab "Implementations" do
   Implementation.each do |impl|
     if impl.web_accessibility?
       f.solution_implementation impl.name do |waf|
-        waf.record_property_access! :web_accessibility_applicabilities
+        #waf.record_property_access! :web_accessibility_applicabilities
 
         waf.input :applies_to_solution, as: :boolean
         waf.input :applies_to_website, as: :boolean
+      end
+
+      inputs do
+        f.solution_property :web_accessibility_applicabilities
       end
     else
       f.solution_implementation impl.name

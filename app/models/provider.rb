@@ -21,4 +21,12 @@ class Provider < ApplicationRecord
   validates :name, presence: true
 
   validates :url, url: { allow_blank: true }
+
+  class << self
+    # @param [String] name
+    # @return [String, nil]
+    def identifier_by_name(name)
+      where(name:).pick(:identifier)
+    end
+  end
 end
