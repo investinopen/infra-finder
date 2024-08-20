@@ -31,6 +31,10 @@ class ControlledVocabulary < Support::FrozenRecordHelpers::AbstractRecord
     InfraFinder::Container["controlled_vocabularies.fetch_options"].(self)
   end
 
+  monadic_operation! def find_term(term)
+    InfraFinder::Container["controlled_vocabularies.find_term"].(self, term)
+  end
+
   # @return [Class(ApplicationRecord)]
   def model_klass
     model_name.safe_constantize if uses_model? && model_name?
@@ -48,6 +52,13 @@ class ControlledVocabulary < Support::FrozenRecordHelpers::AbstractRecord
   # @return [<String>]
   memoize def used_by_properties
     SolutionProperty.by_vocab_name(name).pluck(:name)
+  end
+
+  # @return [ActiveSupport::HashWithIndifferentAccess]
+  memoize def enum_lookup_map
+    return nil unless uses?("enum")
+
+    mapping.keys.index_with { _1 }.merge(mapping.invert).with_indifferent_access
   end
 
   class << self

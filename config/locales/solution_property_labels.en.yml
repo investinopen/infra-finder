@@ -1,0 +1,260 @@
+---
+en:
+  activerecord:
+    attributes:
+      solution:
+        annual_expenses: Annual expenses in local currency
+        annual_revenue: Annual revenue in local currency
+        api_url: Link to open APIs and/or API documentation
+        authentication_standard_other: Authentication protocols — Other
+        authentication_standards: Authentication protocols
+        board_level: Board level
+        board_level_other: Board level — Other
+        board_members_url: Board members
+        board_structure_other: Board structure — Other
+        board_structures: Board structure
+        business_form_other: Business form — Other
+        business_forms: Business form
+        bylaws_implementation: Implemented?
+        code_license_implementation: Code license status
+        code_license_url: Code license
+        code_of_conduct_implementation: Implemented?
+        code_of_conduct_url: Link to code of conduct
+        code_repository_implementation: Open code repository
+        commitment_to_equity_url: Link to diversity, equity, inclusion, and antiracism
+          statement or policy
+        commitment_to_privacy_url: Link to privacy policy
+        community_engagement_activities: Community engagement activities
+        community_engagement_activity_other: Community engagement activities — Other
+        community_engagement_implementation: Implemented?
+        community_engagement_url: Link to community engagement activities
+        community_governance_url: Link to bylaws or other governance documentation
+        community_governances: Community governance
+        confirmation: Confirmation
+        contact: Contact form or email
+        content_license_other: Content licensing — Other
+        content_licenses: Content licensing
+        contribution_guidelines: User Contribution Pathways - URL
+        contribution_pathways_implementation: Implemented?
+        country_code: Location of incorporation
+        created_at: Created at
+        currency: Currency for financial calculations
+        current_affiliation_free_input: Current affiliations — Free Input
+        current_affiliations: Current affiliations
+        email: Email
+        equity_and_inclusion_implementation: Implemented?
+        financial_date_range: Fiscal year or financial reporting period
+        financial_numbers_documented_url: Financial documentation
+        financial_numbers_publishability: Financial publishability
+        financial_reporting_level: Financial reporting level
+        financial_reporting_level_other: Financial reporting level — Other
+        first_name: First Name
+        founded_on: Founding or launch date
+        founding_institution_free_input: Founding institutions — Free Input
+        founding_institutions: Founding institutions
+        funding_needs: Funding needs
+        governance_records_implementation: Implemented?
+        governance_records_url: Link to governance records
+        governance_structure_implementation: Implemented?
+        governance_structure_url: Link to governance structure and processes
+        governance_summary: Governance summary
+        hosting_strategy: Service and hosting options
+        integration_other: Integrations and compatibility — Other
+        integrations: Integrations and compatibility
+        investment_income: Investment income in local currency
+        key_achievements: Key achievements
+        last_name: Last Name
+        license_other: Code licenses used — Other
+        licenses: Code licenses used
+        logo: Service logo
+        maintenance_statuses: Maintenance status
+        member_count: Number of members
+        membership_program_url: Link to membership program
+        metadata_standard_other: Metadata, markup, and information exchange standards
+          — Other
+        metadata_standards: Metadata, markup, and information exchange standards
+        metrics_standard_other: Standard metrics — Other
+        metrics_standards: Standard metrics
+        mission: Mission
+        name: Service name
+        nonprofit_status: Non-profit status
+        open_api_implementation: Open API
+        open_code_repository_url: Link to code repository
+        open_data_implementation: Implemented?
+        open_data_statement_url: Link to open data statement
+        organizational_history: Organizational history
+        other_revenue: Other revenue in local currency
+        persistent_identifier_standard_other: Persistent identifier support — Other
+        persistent_identifier_standards: Persistent identifier support
+        preservation_standard_other: Unknown — Other
+        preservation_standards: Preservation standards
+        pricing_implementation: Implemented?
+        pricing_url: Link to pricing
+        primary_funding_source_other: Primary Funding Source — Other
+        primary_funding_sources: Primary Funding Source
+        privacy_policy_implementation: Implemented?
+        product_roadmap_implementation: Implemented?
+        product_roadmap_url: Link to product roadmap
+        program_revenue: Program revenue in local currency
+        programming_language_other: Primary programming languages — Other
+        programming_languages: Primary programming languages
+        provider_name: Provider
+        publication: Publication
+        published_at: Published at
+        readiness_levels: Technology readiness level
+        recent_grant_free_input: List grants received in the past year — Free Input
+        recent_grants: List grants received in the past year
+        research_organization_registry_url: Research Organization Registry URL
+        scoss: SCOSS participation
+        security_standard_other: Security standards — Other
+        security_standards: Security standards
+        service_provider_free_input: Registered service providers — Free Input
+        service_providers: Registered service providers
+        service_summary: Service summary
+        shareholders: Shareholders
+        solution_categories: Solution category
+        staffing_full_time: 'Staff: Full-time'
+        staffing_volunteer: 'Staff: Volunteer'
+        technical_user_documentation_url: Link to technical user documentation
+        top_granting_institution_free_input: Top granting institutions — Free Input
+        top_granting_institutions: Top granting institutions
+        total_assets: Total assets in local currency
+        total_contributions: Total contributions in local currency
+        total_liabilities: Total liabilities in local currency
+        updated_at: Updated at
+        user_contribution_other: User contribution opportunities — Other
+        user_contributions: User contribution opportunities
+        user_documentation_implementation: Implemented?
+        values_frameworks: Engagement with values frameworks
+        web_accessibility_applicabilities: Web accessibility statement applicability
+        web_accessibility_implementation: Implemented?
+        web_accessibility_url: Link to web accessibility statement
+        website: Website
+      solution_draft:
+        annual_expenses: Annual expenses in local currency
+        annual_revenue: Annual revenue in local currency
+        api_url: Link to open APIs and/or API documentation
+        authentication_standard_other: Authentication protocols — Other
+        authentication_standards: Authentication protocols
+        board_level: Board level
+        board_level_other: Board level — Other
+        board_members_url: Board members
+        board_structure_other: Board structure — Other
+        board_structures: Board structure
+        business_form_other: Business form — Other
+        business_forms: Business form
+        bylaws_implementation: Implemented?
+        code_license_implementation: Code license status
+        code_license_url: Code license
+        code_of_conduct_implementation: Implemented?
+        code_of_conduct_url: Link to code of conduct
+        code_repository_implementation: Open code repository
+        commitment_to_equity_url: Link to diversity, equity, inclusion, and antiracism
+          statement or policy
+        commitment_to_privacy_url: Link to privacy policy
+        community_engagement_activities: Community engagement activities
+        community_engagement_activity_other: Community engagement activities — Other
+        community_engagement_implementation: Implemented?
+        community_engagement_url: Link to community engagement activities
+        community_governance_url: Link to bylaws or other governance documentation
+        community_governances: Community governance
+        confirmation: Confirmation
+        contact: Contact form or email
+        content_license_other: Content licensing — Other
+        content_licenses: Content licensing
+        contribution_guidelines: User Contribution Pathways - URL
+        contribution_pathways_implementation: Implemented?
+        country_code: Location of incorporation
+        created_at: Created at
+        currency: Currency for financial calculations
+        current_affiliation_free_input: Current affiliations — Free Input
+        current_affiliations: Current affiliations
+        email: Email
+        equity_and_inclusion_implementation: Implemented?
+        financial_date_range: Fiscal year or financial reporting period
+        financial_numbers_documented_url: Financial documentation
+        financial_numbers_publishability: Financial publishability
+        financial_reporting_level: Financial reporting level
+        financial_reporting_level_other: Financial reporting level — Other
+        first_name: First Name
+        founded_on: Founding or launch date
+        founding_institution_free_input: Founding institutions — Free Input
+        founding_institutions: Founding institutions
+        funding_needs: Funding needs
+        governance_records_implementation: Implemented?
+        governance_records_url: Link to governance records
+        governance_structure_implementation: Implemented?
+        governance_structure_url: Link to governance structure and processes
+        governance_summary: Governance summary
+        hosting_strategy: Service and hosting options
+        integration_other: Integrations and compatibility — Other
+        integrations: Integrations and compatibility
+        investment_income: Investment income in local currency
+        key_achievements: Key achievements
+        last_name: Last Name
+        license_other: Code licenses used — Other
+        licenses: Code licenses used
+        logo: Service logo
+        maintenance_statuses: Maintenance status
+        member_count: Number of members
+        membership_program_url: Link to membership program
+        metadata_standard_other: Metadata, markup, and information exchange standards
+          — Other
+        metadata_standards: Metadata, markup, and information exchange standards
+        metrics_standard_other: Standard metrics — Other
+        metrics_standards: Standard metrics
+        mission: Mission
+        name: Service name
+        nonprofit_status: Non-profit status
+        open_api_implementation: Open API
+        open_code_repository_url: Link to code repository
+        open_data_implementation: Implemented?
+        open_data_statement_url: Link to open data statement
+        organizational_history: Organizational history
+        other_revenue: Other revenue in local currency
+        persistent_identifier_standard_other: Persistent identifier support — Other
+        persistent_identifier_standards: Persistent identifier support
+        preservation_standard_other: Unknown — Other
+        preservation_standards: Preservation standards
+        pricing_implementation: Implemented?
+        pricing_url: Link to pricing
+        primary_funding_source_other: Primary Funding Source — Other
+        primary_funding_sources: Primary Funding Source
+        privacy_policy_implementation: Implemented?
+        product_roadmap_implementation: Implemented?
+        product_roadmap_url: Link to product roadmap
+        program_revenue: Program revenue in local currency
+        programming_language_other: Primary programming languages — Other
+        programming_languages: Primary programming languages
+        provider_name: Provider
+        publication: Publication
+        published_at: Published at
+        readiness_levels: Technology readiness level
+        recent_grant_free_input: List grants received in the past year — Free Input
+        recent_grants: List grants received in the past year
+        research_organization_registry_url: Research Organization Registry URL
+        scoss: SCOSS participation
+        security_standard_other: Security standards — Other
+        security_standards: Security standards
+        service_provider_free_input: Registered service providers — Free Input
+        service_providers: Registered service providers
+        service_summary: Service summary
+        shareholders: Shareholders
+        solution_categories: Solution category
+        staffing_full_time: 'Staff: Full-time'
+        staffing_volunteer: 'Staff: Volunteer'
+        technical_user_documentation_url: Link to technical user documentation
+        top_granting_institution_free_input: Top granting institutions — Free Input
+        top_granting_institutions: Top granting institutions
+        total_assets: Total assets in local currency
+        total_contributions: Total contributions in local currency
+        total_liabilities: Total liabilities in local currency
+        updated_at: Updated at
+        user_contribution_other: User contribution opportunities — Other
+        user_contributions: User contribution opportunities
+        user_documentation_implementation: Implemented?
+        values_frameworks: Engagement with values frameworks
+        web_accessibility_applicabilities: Web accessibility statement applicability
+        web_accessibility_implementation: Implemented?
+        web_accessibility_url: Link to web accessibility statement
+        website: Website

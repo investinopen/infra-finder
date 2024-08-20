@@ -1,7 +1,0 @@
-seed_identifier,name,visibility
-1,Not planning,hidden
-2,Considering,hidden
-3,In progress,hidden
-4,Implemented/available,visible
-5,Not applicable,hidden
-6,Unknown,hidden

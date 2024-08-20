@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 module SolutionImports
-  module Modern
+  module V2
     class Context < SolutionImports::AbstractContext
-      strategy "modern"
+      include ProcessesCSVRows
+
+      strategy "v2"
     end
   end
 end

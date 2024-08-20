@@ -84,8 +84,10 @@ module PostgresEnums
 
     # @param [#to_s] enum_name
     # @return [<String>]
-    def pg_enum_select_options(enum_name)
-      values = pg_enum_values(enum_name)
+    def pg_enum_select_options(enum_name, skip: [])
+      skips = Array(skip).compact_blank.map(&:to_s)
+
+      values = pg_enum_values(enum_name).without(skips)
 
       scope = "pg_enums.#{enum_name}"
 

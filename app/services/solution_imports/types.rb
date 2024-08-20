@@ -7,6 +7,10 @@ module SolutionImports
 
     extend Support::EnhancedTypes
 
+    Assignment = Instance(::SolutionProperties::Assignment)
+
+    Assignments = Array.of(Assignment).default([].freeze)
+
     Blurb = String.optional
 
     # The current_staffing value in the legacy database is a float. This makes no sense,
@@ -36,8 +40,6 @@ module SolutionImports
     Implementation = ApplicationRecord.dry_pg_enum(:implementation_name)
 
     ImplementationStatus = ApplicationRecord.dry_pg_enum(:implementation_status).fallback("unknown")
-
-    MaintenanceStatus = ApplicationRecord.dry_pg_enum(:maintenance_status).fallback("unknown")
 
     PresentString = String.constrained(filled: true)
 

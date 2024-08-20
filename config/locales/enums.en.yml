@@ -47,8 +47,9 @@ en:
       published: Published
       unpublished: Unpublished
     solution_import_strategy:
-      legacy: Legacy
-      modern: Modern
+      legacy: Legacy (Deprecated)
+      eoi: EOI Form
+      v2: V2 Import (Full Data)
     user_kind:
       super_admin: Super Admin
       admin: Admin

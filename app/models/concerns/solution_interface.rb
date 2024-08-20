@@ -58,6 +58,16 @@ module SolutionInterface
   end
 
   module ClassMethods
+    # @return [String]
+    def export_public_csv
+      InfraFinder::Container["admin.export_csv"].(SolutionInterface.private_csv_builder, all.with_all_facets_loaded).value!
+    end
+
+    # @return [String]
+    def export_private_csv
+      InfraFinder::Container["admin.export_csv"].(SolutionInterface.private_csv_builder, all.with_all_facets_loaded).value!
+    end
+
     # @see Solutions::StrongParamsBuilder
     # @param [{ Symbol => Object }] options
     # @option options [User, nil] current_user
@@ -85,12 +95,26 @@ module SolutionInterface
       build_scoped_csv_for(builder, scope: :public)
     end
 
+    # @return [ActiveAdmin::CSVBuilder]
+    def private_csv_builder
+      @private_csv_builder || build_private_csv_builder
+    end
+
+    # @return [ActiveAdmin::CSVBuilder]
     def public_csv_builder
       @public_csv_builder ||= build_public_csv_builder
     end
 
     private
 
+    # @return [ActiveAdmin::CSVBuilder]
+    def build_private_csv_builder
+      ActiveAdmin::CSVBuilder.new force_quotes: true do
+        SolutionInterface.private_csv!(self)
+      end
+    end
+
+    # @return [ActiveAdmin::CSVBuilder]
     def build_public_csv_builder
       ActiveAdmin::CSVBuilder.new force_quotes: true do
         SolutionInterface.public_csv!(self)

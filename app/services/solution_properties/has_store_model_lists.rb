@@ -21,6 +21,16 @@ module SolutionProperties
       def #{prop.name}_attributes=(list_attributes)
         self[#{prop.name.inspect}] = parse_list_items_from(list_attributes)
       end
+
+      def #{prop.structured_attr}
+        #{prop.name}.as_json.compact_blank.to_json
+      end
+
+      def #{prop.structured_attr}=(json)
+        return if json.blank?
+
+        self[#{prop.name.inspect}] = JSON.parse(json)
+      end
       RUBY
     end
 

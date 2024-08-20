@@ -65,6 +65,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     optional(:fe_section).maybe(:string)
     required(:fe_visibility).value(:visibility)
     required(:phase_2_status).value(:phase_2_status)
+    required(:skip_csv_export).value(:bool)
     # External defined input. Does not necessarily correspond to how the field is used,
     # but we store it.
     optional(:input).value(:input)
@@ -78,6 +79,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   default_attributes!(
     exported: false,
     required: false,
+    skip_csv_export: false,
     meta: false,
     description: nil,
     fe_position: 0,
@@ -108,6 +110,13 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   scope :core, -> { in_use.where(name: CORE) }
 
   scope :finances, -> { in_use.where(name: FINANCES) }
+
+  scope :for_implementation, ->(implementation) { where(implementation: implementation.to_s) }
+
+  scope :implementation_enums, -> { in_use.where(kind: :implementation_enum) }
+  scope :implementation_enum_for, ->(implementation) { implementation_enums.for_implementation(implementation) }
+  scope :implementation_properties, -> { in_use.where(kind: :implementation_property) }
+  scope :implementation_properties_for, ->(implementation) { implementation_properties.order(code: :asc).for_implementation(implementation) }
 
   scope :money, -> { in_use.where(kind: :money) }
 
@@ -145,7 +154,20 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   scope :standard, -> { in_use.with_standard_kind.sans_meta }
   scope :non_standard, -> { in_use.with_non_standard_kind.sans_meta }
 
-  delegate :assign_method, :connection_mode, to: :property_kind
+  AUTO_EXCLUDE_CSV_KINDS = %i[
+    standard
+    store_model_input
+  ].freeze
+
+  scope :expected_to_handle_in_csv, -> { in_use.where(skip_csv_export: false).where.not(kind: AUTO_EXCLUDE_CSV_KINDS) }
+
+  EXCLUDED_EXTRACTIONS = %w[
+    name
+  ].freeze
+
+  scope :to_extract, -> { in_use.sans_meta.where.not(name: EXCLUDED_EXTRACTIONS) }
+
+  delegate :accessor_klass, :assign_method, :connection_mode, to: :property_kind
 
   validate :free_input_property_exists!
   validate :other_property_exists!
@@ -188,6 +210,15 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     record = kind.to_sym == :draft ? SolutionDraft.new : Solution.new
 
     record.respond_to?(actual_attribute_name)
+  end
+
+  # @param [:private, :public] csv_scope
+  def export_for?(csv_scope)
+    case csv_scope
+    when /\Apublic\z/i then exported
+    else
+      true
+    end
   end
 
   def for_implementation?
@@ -307,6 +338,18 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     end
   end
 
+  memoize def structured_attr
+    return unless kind == :store_model_list
+
+    :"#{name}_structured"
+  end
+
+  memoize def structured_header
+    return unless kind == :store_model_list
+
+    :"#{csv_header}_structured"
+  end
+
   memoize def free_input_property
     SolutionProperty.find(free_input_name.to_s) if free_input_name.present?
   end
@@ -328,6 +371,15 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   memoize def vocab
     ControlledVocabulary.find(vocab_name) if vocab_name?
   end
+
+  # @!group Accessor Logic
+
+  # @return [SolutionProperties::Accessors::AbstractAccessor]
+  def accessor(**options)
+    accessor_klass.new(self, **options)
+  end
+
+  # @!endgroup
 
   private
 
@@ -454,6 +506,28 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
     memoize def free_input_names
       each_free_input.map(&:free_input_name)
+    end
+
+    # @return [Hash]
+    def generate_locale
+      mapping = in_use.order(name: :asc).each_with_object({}) do |prop, h|
+        next if prop.input_label == "N/A"
+
+        h[prop.attribute_name.to_s] = prop.input_label
+      end
+
+      attributes = { solution: mapping, solution_draft: mapping }
+
+      { en: { activerecord: { attributes:, } } }.deep_stringify_keys
+    end
+
+    # @return [void]
+    def write_locale!
+      locale = generate_locale
+
+      Rails.root.join("config", "locales", "solution_property_labels.en.yml").open("wb+") do |f|
+        f.write YAML.dump(locale)
+      end
     end
 
     memoize def ransackable_associations

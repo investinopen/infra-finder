@@ -1,13 +1,13 @@
 attributes_table title: "Options" do
-  SolutionProperty.has_many_associations.each do |option|
+  row :scoss
+
+  row :solution_categories
+
+  SolutionProperty.has_many_associations.without(:maintenance_statuses, :solution_categories, :web_accessibility_applicabilities).each do |option|
     row option
   end
 
-  SolutionProperty.has_one_associations.each do |option|
+  SolutionProperty.has_one_associations.without(:staffing_full_time, :staffing_volunteer).each do |option|
     row option
   end
-
-  # row :maintenance_status do |r|
-    # status_tag r.maintenance_status
-  # end
 end
