@@ -6,7 +6,7 @@ FactoryBot.define do
       auto_approve { true }
     end
 
-    options { { auto_approve:,} }
+    options { { auto_approve:, } }
 
     skip_process { true }
 
