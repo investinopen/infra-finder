@@ -31,9 +31,7 @@ module SolutionImports
     wrapped_hook! def build
       case strategy
       in "legacy"
-        # :nocov:
         mark_invalid "Legacy imports no longer supported."
-        # :nocov:
       in "eoi"
         eoi_build!
       in "v2"
