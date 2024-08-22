@@ -45,7 +45,8 @@ export default class extends Controller {
     }
 
     return (
-      typeof navigator.canShare === "function" && navigator.canShare(this.shareData)
+      typeof navigator.canShare === "function" &&
+      navigator.canShare(this.shareData)
     );
   }
 
@@ -71,7 +72,7 @@ export default class extends Controller {
     const self = this;
 
     this.state = new Proxy(
-      { copied: false, },
+      { copied: false },
       {
         set(state, key, value) {
           const oldValue = state[key];
@@ -105,12 +106,16 @@ export default class extends Controller {
       await this.shared();
     } catch (err) {
       console.error(err);
+    } finally {
+      if (window._paq) {
+        window._paq.push(["trackEvent", "Share", "Click Share Button"]);
+      }
     }
   }
 
   async copy() {
     try {
-      await navigator.clipboard.writeText(this.shareUrlValue)
+      await navigator.clipboard.writeText(this.shareUrlValue);
 
       this.state.copied = true;
 
@@ -118,6 +123,10 @@ export default class extends Controller {
     } catch (err) {
       console.error(err);
     } finally {
+      if (window._paq) {
+        window._paq.push(["trackEvent", "Share", "Click Copy Button"]);
+      }
+
       setTimeout(() => {
         this.state.copied = false;
       }, 1500);
