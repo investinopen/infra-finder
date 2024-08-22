@@ -112,7 +112,7 @@ module SolutionProperties
           # :nocov:
         end
 
-        skipped, _ = catch_skipped_assignment do
+        catch_skipped_assignment do
           value = csv_read(source_header, &)
 
           assign_value! attribute_name, value, **options

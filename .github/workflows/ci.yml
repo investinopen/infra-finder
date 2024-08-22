@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - next
   pull_request:
 
 env:
@@ -16,7 +17,7 @@ env:
 
 jobs:
   erblint:
-    if: github.event.pull_request.draft == false
+    if: github.event.pull_request.draft == false || github.ref == 'refs/heads/next'
 
     runs-on: ubuntu-latest
     steps:
@@ -40,7 +41,7 @@ jobs:
           bin/erblint --config .erb-lint.yml .
 
   rubocop:
-    if: github.event.pull_request.draft == false
+    if: github.event.pull_request.draft == false || github.ref == 'refs/heads/next'
 
     runs-on: ubuntu-latest
     steps:
@@ -64,7 +65,7 @@ jobs:
           bin/rubocop
 
   rspec:
-    if: github.event.pull_request.draft == false
+    if: github.event.pull_request.draft == false || github.ref == 'refs/heads/next'
 
     runs-on: ubuntu-latest
 
