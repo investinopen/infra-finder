@@ -2,6 +2,8 @@
 
 # An assignment of a {User} to a {Solution} that grants them
 # a reduced degree of editorial privilege.
+#
+# @deprecated Use {ProviderEditorAssignment} instead
 class SolutionEditorAssignment < ApplicationRecord
   belongs_to :solution, inverse_of: :solution_editor_assignments
   belongs_to :user, inverse_of: :solution_editor_assignments

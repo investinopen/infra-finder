@@ -248,6 +248,8 @@ GEM
       dry-initializer (~> 3.0)
       dry-schema (>= 1.12, < 2)
       zeitwerk (~> 2.6)
+    email_validator (2.2.4)
+      activemodel
     erb_lint (0.5.0)
       activesupport
       better_html (>= 2.0.1)
@@ -699,6 +701,7 @@ DEPENDENCIES
   dry-transformer (~> 1.0)
   dry-types (~> 1.7.1)
   dry-validation (~> 1.10.0)
+  email_validator (~> 2.2.4)
   erb_lint (~> 0.5.0)
   factory_bot_rails (~> 6.2.0)
   faker (~> 3.2.3)

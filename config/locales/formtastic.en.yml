@@ -25,6 +25,7 @@ en:
       solutions/service_provider:
         name: Service Provider Name
       user:
+        accept_terms_and_conditions: I agree to the Terms & Conditions and Privacy Policy.
         super_admin: "This user is a super-admin?"
         admin: "This user is an admin?"
     hints:

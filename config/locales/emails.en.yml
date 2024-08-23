@@ -1,0 +1,10 @@
+---
+en:
+  invitations_mailer:
+    welcome:
+      subject: "You have been invited to contribute to Infra Finder"
+      hello: "Hello, %{name}!"
+      edit_provider: "You have been invited to edit solutions for %{name}."
+      reset_password:
+        html: "To complete registration, please %{reset_link} in our admin interface."
+        text: "To complete registration, please change your password in our admin interface: %{reset_url}."
