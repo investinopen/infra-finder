@@ -8,6 +8,11 @@ en:
       models:
         comparison_item:
           items_exceeded: "Please select no more than %{count} solutions to compare."
+        invitation:
+          already_registered: "has already been registered in the system"
+          must_be_persisted: "must have been created successfully"
+          must_be_pending: "The invitation must still be in a pending state."
+          user_creation_failed: "Could not create user: %{reason}."
     models:
       solution_import: Solution Import
       solution_editor_assignment: "Editor Assignment"

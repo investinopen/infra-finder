@@ -48,6 +48,9 @@ en:
     controlled_vocabularies:
       replaced: "Replaced %{old_name} with %{new_name}"
       something_went_wrong: "Something went wrong, please try again"
+    terms_and_conditions:
+      accept:
+        alert: "Please review and accept terms and conditions before proceeding."
     users:
       send_reset_password_instructions:
         success: "Reset password instructions sent to %{email}."

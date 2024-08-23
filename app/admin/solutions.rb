@@ -79,7 +79,7 @@ ActiveAdmin.register Solution do
       item "View Drafts", admin_solution_solution_drafts_path(solution)
       if current_user.has_any_admin_access?
         br
-        item "Manage Access", admin_solution_solution_editor_assignments_path(solution)
+        item "Manage Access", admin_provider_provider_editor_assignments_path(solution.provider)
       end
     end
   end
