@@ -11,6 +11,8 @@ ActiveAdmin.register Provider do
 
   scope :with_multiple_solutions
 
+  config.per_page = 100
+
   config.sort_order = "name_asc"
 
   index do
@@ -21,7 +23,12 @@ ActiveAdmin.register Provider do
     column :url, sortable: false
     column :updated_at
 
-    actions
+    actions do |provider|
+      if current_user.has_any_admin_access?
+        br
+        item "Manage Access", admin_provider_provider_editor_assignments_path(provider)
+      end
+    end
   end
 
   filter :name
@@ -58,5 +65,9 @@ ActiveAdmin.register Provider do
     end
 
     active_admin_comments_for(resource)
+  end
+
+  action_item :manage_access, only: :show, if: proc { current_user.has_any_admin_access? } do
+    link_to "Manage Access", admin_provider_provider_editor_assignments_path(provider)
   end
 end

@@ -33,7 +33,7 @@ class ApplicationPolicy
     if requires_admin_for_show?
       has_any_admin_access?
     else
-      scope.exists?(id: record.id)
+      record_exists_in_scope?
     end
   end
 
@@ -77,15 +77,19 @@ class ApplicationPolicy
 
   def has_editor_access_for_record?
     case record
-    when Solution
+    when Provider
       has_role?(:editor, record)
-    when SolutionDraft
-      has_role?(:editor, record.solution)
+    when Solution, SolutionDraft
+      has_role?(:editor, record.provider)
     else
       # :nocov:
       false
       # :nocov:
     end
+  end
+
+  def record_exists_in_scope?
+    scope.exists?(id: record.id)
   end
 
   def requires_admin_for_show?

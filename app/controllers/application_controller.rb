@@ -2,8 +2,13 @@
 
 # @abstract
 class ApplicationController < ActionController::Base
+  extend Dry::Core::ClassAttributes
   include CallsCommonOperation
   include WorksWithComparisons
+
+  defines :skip_terms_enforcement, type: Support::Types::Bool
+
+  skip_terms_enforcement false
 
   before_action :prepare_open_graph!
   before_action :prepare_page_meta!
@@ -30,6 +35,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def enforce_acceptance_of_terms!
+    return unless user_signed_in? && current_user.has_unaccepted_terms?
+
+    return if skip_terms_enforcement?
+
+    alert = t("admin.terms_and_conditions.accept.alert", raise: true)
+
+    redirect_to(admin_terms_and_conditions_path, alert:)
+  end
+
   # @return [void]
   def prepare_open_graph!
     @open_graph = OpenGraph::Properties.new
@@ -45,6 +60,10 @@ class ApplicationController < ActionController::Base
     open_graph.description = t(".open_graph_description", **options, raise: true)
 
     open_graph.image = helpers.image_url(image) if image.present?
+  end
+
+  def skip_terms_enforcement?
+    self.class.skip_terms_enforcement || controller_path == "admin/terms_and_conditions"
   end
 
   def uncacheable!

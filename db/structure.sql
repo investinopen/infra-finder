@@ -748,6 +748,41 @@ CREATE TABLE public.integrations (
 
 
 --
+-- Name: invitation_transitions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.invitation_transitions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    invitation_id uuid NOT NULL,
+    most_recent boolean NOT NULL,
+    sort_key integer NOT NULL,
+    to_state character varying NOT NULL,
+    metadata jsonb,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: invitations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.invitations (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    provider_id uuid NOT NULL,
+    admin_id uuid,
+    user_id uuid,
+    email public.citext NOT NULL,
+    first_name text NOT NULL,
+    last_name text NOT NULL,
+    memo text,
+    notification_sent_at timestamp without time zone,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: licenses; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -926,6 +961,19 @@ CREATE TABLE public.programming_languages (
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: provider_editor_assignments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.provider_editor_assignments (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    provider_id uuid NOT NULL,
+    user_id uuid NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
@@ -2233,6 +2281,22 @@ CREATE TABLE public.user_contributions (
 
 
 --
+-- Name: user_transitions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.user_transitions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    user_id uuid NOT NULL,
+    most_recent boolean NOT NULL,
+    sort_key integer NOT NULL,
+    to_state character varying NOT NULL,
+    metadata jsonb,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2260,7 +2324,8 @@ CREATE TABLE public.users (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     admin boolean DEFAULT false NOT NULL,
-    kind public.user_kind DEFAULT 'default'::public.user_kind NOT NULL
+    kind public.user_kind DEFAULT 'default'::public.user_kind NOT NULL,
+    accepted_terms_at timestamp without time zone
 );
 
 
@@ -2470,6 +2535,22 @@ ALTER TABLE ONLY public.integrations
 
 
 --
+-- Name: invitation_transitions invitation_transitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.invitation_transitions
+    ADD CONSTRAINT invitation_transitions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: invitations invitations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.invitations
+    ADD CONSTRAINT invitations_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: licenses licenses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2539,6 +2620,14 @@ ALTER TABLE ONLY public.primary_funding_sources
 
 ALTER TABLE ONLY public.programming_languages
     ADD CONSTRAINT programming_languages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: provider_editor_assignments provider_editor_assignments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.provider_editor_assignments
+    ADD CONSTRAINT provider_editor_assignments_pkey PRIMARY KEY (id);
 
 
 --
@@ -3091,6 +3180,14 @@ ALTER TABLE ONLY public.tags
 
 ALTER TABLE ONLY public.user_contributions
     ADD CONSTRAINT user_contributions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_transitions user_transitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_transitions
+    ADD CONSTRAINT user_transitions_pkey PRIMARY KEY (id);
 
 
 --
@@ -3698,6 +3795,48 @@ CREATE UNIQUE INDEX index_integrations_on_term ON public.integrations USING btre
 
 
 --
+-- Name: index_invitation_transitions_parent_most_recent; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_invitation_transitions_parent_most_recent ON public.invitation_transitions USING btree (invitation_id, most_recent) WHERE most_recent;
+
+
+--
+-- Name: index_invitation_transitions_parent_sort; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_invitation_transitions_parent_sort ON public.invitation_transitions USING btree (invitation_id, sort_key);
+
+
+--
+-- Name: index_invitations_on_admin_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_invitations_on_admin_id ON public.invitations USING btree (admin_id);
+
+
+--
+-- Name: index_invitations_on_email; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_invitations_on_email ON public.invitations USING btree (email);
+
+
+--
+-- Name: index_invitations_on_provider_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_invitations_on_provider_id ON public.invitations USING btree (provider_id);
+
+
+--
+-- Name: index_invitations_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_invitations_on_user_id ON public.invitations USING btree (user_id);
+
+
+--
 -- Name: index_licenses_on_provides; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3905,6 +4044,27 @@ CREATE UNIQUE INDEX index_programming_languages_on_slug ON public.programming_la
 --
 
 CREATE UNIQUE INDEX index_programming_languages_on_term ON public.programming_languages USING btree (term);
+
+
+--
+-- Name: index_provider_editor_assignments_on_provider_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_provider_editor_assignments_on_provider_id ON public.provider_editor_assignments USING btree (provider_id);
+
+
+--
+-- Name: index_provider_editor_assignments_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_provider_editor_assignments_on_user_id ON public.provider_editor_assignments USING btree (user_id);
+
+
+--
+-- Name: index_provider_editor_assignments_uniqueness; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_provider_editor_assignments_uniqueness ON public.provider_editor_assignments USING btree (provider_id, user_id);
 
 
 --
@@ -4930,6 +5090,27 @@ CREATE UNIQUE INDEX index_user_contributions_on_term ON public.user_contribution
 
 
 --
+-- Name: index_user_transitions_parent_most_recent; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_user_transitions_parent_most_recent ON public.user_transitions USING btree (user_id, most_recent) WHERE most_recent;
+
+
+--
+-- Name: index_user_transitions_parent_sort; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_user_transitions_parent_sort ON public.user_transitions USING btree (user_id, sort_key);
+
+
+--
+-- Name: index_users_on_accepted_terms_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_users_on_accepted_terms_at ON public.users USING btree (accepted_terms_at);
+
+
+--
 -- Name: index_users_on_confirmation_token; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5944,6 +6125,14 @@ ALTER TABLE ONLY public.solution_editor_assignments
 
 
 --
+-- Name: invitations fk_rails_2a8e93f297; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.invitations
+    ADD CONSTRAINT fk_rails_2a8e93f297 FOREIGN KEY (provider_id) REFERENCES public.providers(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_draft_community_engagement_activities fk_rails_2af0559c4a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5973,6 +6162,14 @@ ALTER TABLE ONLY public.solution_draft_board_structures
 
 ALTER TABLE ONLY public.solution_staffings
     ADD CONSTRAINT fk_rails_34006937dc FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: invitation_transitions fk_rails_377ab08668; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.invitation_transitions
+    ADD CONSTRAINT fk_rails_377ab08668 FOREIGN KEY (invitation_id) REFERENCES public.invitations(id) ON DELETE CASCADE;
 
 
 --
@@ -6280,6 +6477,14 @@ ALTER TABLE ONLY public.solution_drafts
 
 
 --
+-- Name: invitations fk_rails_7eae413fe6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.invitations
+    ADD CONSTRAINT fk_rails_7eae413fe6 FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_authentication_standards fk_rails_7f74f35c2a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6349,6 +6554,14 @@ ALTER TABLE ONLY public.solution_draft_transitions
 
 ALTER TABLE ONLY public.solution_draft_persistent_identifier_standards
     ADD CONSTRAINT fk_rails_908287340a FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: provider_editor_assignments fk_rails_94f5b94419; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.provider_editor_assignments
+    ADD CONSTRAINT fk_rails_94f5b94419 FOREIGN KEY (provider_id) REFERENCES public.providers(id) ON DELETE RESTRICT;
 
 
 --
@@ -6576,6 +6789,14 @@ ALTER TABLE ONLY public.solution_draft_metrics_standards
 
 
 --
+-- Name: invitations fk_rails_cb5fd998bd; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.invitations
+    ADD CONSTRAINT fk_rails_cb5fd998bd FOREIGN KEY (admin_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: solution_draft_primary_funding_sources fk_rails_d0ded8820f; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6696,6 +6917,14 @@ ALTER TABLE ONLY public.solution_licenses
 
 
 --
+-- Name: provider_editor_assignments fk_rails_e8f22619c6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.provider_editor_assignments
+    ADD CONSTRAINT fk_rails_e8f22619c6 FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE RESTRICT;
+
+
+--
 -- Name: users_roles fk_rails_eb7b4658f8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6717,6 +6946,14 @@ ALTER TABLE ONLY public.solution_draft_security_standards
 
 ALTER TABLE ONLY public.solution_integrations
     ADD CONSTRAINT fk_rails_f1ac4084b4 FOREIGN KEY (integration_id) REFERENCES public.integrations(id) ON DELETE CASCADE;
+
+
+--
+-- Name: user_transitions fk_rails_f626c47310; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_transitions
+    ADD CONSTRAINT fk_rails_f626c47310 FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
 
 
 --
@@ -6766,6 +7003,10 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240822202129'),
+('20240822182549'),
+('20240822182356'),
+('20240822162633'),
 ('20240820161128'),
 ('20240802183019'),
 ('20240731204910'),

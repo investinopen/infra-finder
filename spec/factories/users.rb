@@ -10,6 +10,10 @@ FactoryBot.define do
     name { "Test User" }
     password { "123456" }
 
+    trait :accepted_terms do
+      accept_terms_and_conditions { true }
+    end
+
     trait :with_super_admin do
       super_admin { true }
     end
