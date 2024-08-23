@@ -12,6 +12,8 @@ class Solution < ApplicationRecord
 
   belongs_to :provider, inverse_of: :solutions, counter_cache: true, touch: true
 
+  has_many :provider_editor_assignments, through: :provider
+
   has_many :comparison_items, inverse_of: :solution, dependent: :destroy
   has_many :comparison_share_items, inverse_of: :solution, dependent: :destroy
   has_many :solution_drafts, -> { in_recent_order }, inverse_of: :solution, dependent: :destroy
@@ -22,20 +24,15 @@ class Solution < ApplicationRecord
   expose_ransackable_scopes! :with_pending_drafts, :with_reviewable_drafts, :published, :unpublished
 
   delegate :name, to: :provider, prefix: true
+  delegate :assign_editor!, to: :provider
 
-  scope :with_editor_access_for, ->(user) { where(id: SolutionEditorAssignment.where(user:).select(:solution_id)) }
+  scope :with_editor_access_for, ->(user) { joins(:provider).merge(Provider.with_editor_access_for(user)) }
   scope :with_pending_drafts, -> { where(id: SolutionDraft.in_state(:pending).select(:solution_id)) }
   scope :with_reviewable_drafts, -> { where(id: SolutionDraft.in_state(:in_review).select(:solution_id)) }
 
   before_validation :maybe_touch_published_at!, if: :publication_changed?
 
   after_save :purge_comparisons!, if: :unpublished?
-
-  # @param [User] user
-  # @return [SolutionEditorAssignment]
-  def assign_editor!(user)
-    solution_editor_assignments.where(user:).first_or_create!
-  end
 
   # @see Solutions::CreateDraft
   monadic_matcher! def create_draft(...)

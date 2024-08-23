@@ -170,6 +170,7 @@ ActiveAdmin.setup do |config|
   # Active Admin resources and pages from here.
   #
   # config.before_action :do_something_awesome
+  config.before_action :enforce_acceptance_of_terms!
 
   # == Attribute Filters
   #

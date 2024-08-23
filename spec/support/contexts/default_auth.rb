@@ -5,16 +5,18 @@ RSpec.shared_context "default auth" do
 
   let_it_be(:admin, refind: true) { FactoryBot.create :user, :with_admin }
 
-  let_it_be(:solution, refind: true) { FactoryBot.create :solution }
+  let_it_be(:provider, refind: true) { FactoryBot.create :provider }
+
+  let_it_be(:solution, refind: true) { FactoryBot.create(:solution, provider:) }
 
   let_it_be(:editor, refind: true) do
-    FactoryBot.create(:user) do |u|
+    FactoryBot.create(:user, :accepted_terms) do |u|
       solution.assign_editor!(u)
     end
   end
 
   let_it_be(:regular_user, refind: true) do
-    FactoryBot.create :user
+    FactoryBot.create :user, :accepted_terms
   end
 
   # @see ApplicationController#access_denied

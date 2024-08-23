@@ -9,7 +9,7 @@ RSpec.describe Solution, type: :model do
     specify "an editor can be assigned" do
       expect do
         solution.assign_editor!(user)
-      end.to change(SolutionEditorAssignment, :count).by(1)
+      end.to change(ProviderEditorAssignment, :count).by(1)
         .and change { user.reload.kind }.from("default").to("editor")
     end
 
@@ -23,7 +23,7 @@ RSpec.describe Solution, type: :model do
       it "will revert the user when destroying the assignment" do
         expect do
           assignment.destroy!
-        end.to change(SolutionEditorAssignment, :count).by(-1)
+        end.to change(ProviderEditorAssignment, :count).by(-1)
           .and change { user.reload.kind }.from("editor").to("default")
       end
     end

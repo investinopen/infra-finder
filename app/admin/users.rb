@@ -65,6 +65,8 @@ ActiveAdmin.register User do
         status_tag u.kind
       end
 
+      row :accepted_terms_at
+
       row :confirmed_at
       row :current_sign_in_at
       row :current_sign_in_ip
@@ -86,6 +88,7 @@ ActiveAdmin.register User do
     column :email
     column :name
     column :kind
+    column :accepted_terms_at
     column :confirmed_at
     column :current_sign_in_at
     column :current_sign_in_ip

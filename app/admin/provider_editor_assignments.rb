@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
-# @deprecated
-ActiveAdmin.register SolutionEditorAssignment do
-  belongs_to :solution
-
-  menu false
+ActiveAdmin.register ProviderEditorAssignment do
+  belongs_to :provider
 
   permit_params :user_id
 
@@ -27,7 +24,7 @@ ActiveAdmin.register SolutionEditorAssignment do
     semantic_errors
 
     f.inputs do
-      f.input :user, collection: User.assignable_to(solution), include_blank: true
+      f.input :user, collection: User.assignable_to(provider), include_blank: true
     end
 
     actions
