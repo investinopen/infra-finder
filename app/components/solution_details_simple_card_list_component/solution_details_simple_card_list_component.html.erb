@@ -1,0 +1,28 @@
+<% if items.present? or text.present? %>
+  <div class="m-card" data-controller="solution-details-simple-card-list-component--solution-details-simple-card-list-component">
+    <% if heading.present? %>
+      <h4 class="text-h5"><%= heading %></h4>
+    <% end %>
+    <% if items.present? %>
+      <ul class="t-rte text-xxs">
+        <% items.each do |item| %>
+          <% if item.name != "Other" %>
+            <li>
+              <% if item["url"] %>
+                <a href="<%= item.url %>"><%= item.name %></a>
+              <% else %>
+                <span><%= item.name %></span>
+              <% end %>
+              <% if item["description"] %>
+                <span class="text-neutral-70"><%= item.description %></span>
+              <% end %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    <% end %>
+    <% if text.present? %>
+      <div class="text-xxs"><%= sanitize text %></div>
+    <% end %>
+  </div>
+<% end %>

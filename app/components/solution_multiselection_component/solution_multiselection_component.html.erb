@@ -1,0 +1,20 @@
+<div
+  class="multiselection multiselection--<%= layout %>"
+  data-controller="solution-multiselection-component--solution-multiselection-component">
+  <h3><%= t(".#{connection_name}") %></h3>
+  <% if selections.present? %>
+    <ul class="multiselection__list--<%= layout %><% if layout == 'columns' %> t-rte<% end %>">
+      <% selections.each do |selection| %>
+        <li <% if layout == 'default' %> class="m-badge m-badge--white text-label"<% end %>><%= selection.name %></li>
+      <% end %>
+    </ul>
+  <% end %>
+  <% if other_value.present? %>
+    <div class="pt-5">
+      <strong class="multiselection__other-label"><%= t(".other_label") %></strong>
+      <div class="t-rte<% unless layout == 'columns' %> font-light<% end %>">
+        <%= simple_format(other_value).html_safe %>
+      </div>
+    </div>
+  <% end %>
+</div>

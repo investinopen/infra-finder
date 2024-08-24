@@ -12,6 +12,9 @@ en:
     heading: About
     launched: "Launched:"
     record_updated: "Record Updated:"
+    board_members_url: Board Members
+    membership_program_url: Membership Program
+    research_organization_registry_url: Research Organization Registry
   mission:
     nav: Mission
     heading: Mission
@@ -20,18 +23,18 @@ en:
     nav: Technical
     heading: Technical Attributes
     hosting_options: "Hosting Options & Service Providers"
-    integrations_and_compatibility: What other tools and projects does your project interact with?
     standards_employed: Standards Employed
     maintenance_status: Maintenance Status
     hosting_strategy: Hosting Strategy
     service_providers: Service Providers
-    content_licensing: Content Licensing
+    code_license: Code License
   community:
     nav: Community
     heading: Community Engagement
-    user_contribution: Contribution Pathways
+    user_contribution: User Contribution Pathways
     organizational_commitment: Organizational Commitment to Community Engagement
     engagement: Engagement with Values Frameworks
+    scoss: SCOSS Participation
   policies:
     nav: Policies
     heading: Policies & Governance
@@ -43,9 +46,15 @@ en:
     organizational_history: Organizational History
     organizational_structure: Organizational Structure
     full_time_staff: Full-time Staff
+    volunteer_staff: Volunteers
     business_model: Business or Ownership Model
+    nonprofit_status: Non-profit Status
+    shareholders: Shareholders
+    shareholders_true: "Yes"
+    current_affiliations: Current Affiliations
   funding:
     nav: Funding
     heading: Funding
     primary_source: Primary Funding Source
+    recent_grants: Recent Grants
     needs: Funding Needs
