@@ -34,4 +34,12 @@ class SolutionDetailsComponent < ApplicationComponent
   def render_category_badges
     render SolutionCategoryBadgesComponent.new(solution:)
   end
+
+  def render_multiselection(name, layout = "default")
+    render SolutionMultiselectionComponent.new(solution:, name:, layout:)
+  end
+
+  def render_structured_list(name, free_text = nil)
+    render SolutionStructuredListComponent.new(solution:, name:, free_text:)
+  end
 end

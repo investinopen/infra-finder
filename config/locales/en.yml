@@ -103,3 +103,4 @@ en:
   date:
     formats:
       year: "%Y"
+      mdy: "%b %d, %Y"
