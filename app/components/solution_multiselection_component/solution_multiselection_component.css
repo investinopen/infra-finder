@@ -1,0 +1,25 @@
+.multiselection {
+  max-width: theme("maxWidth.text");
+  &--columns {
+    padding: 2rem 2.5rem;
+    background-color: theme("colors.white");
+    @apply rounded-lg;
+  }
+
+  &__list {
+    &--default {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    &--columns {
+      columns: 11rem auto;
+      column-gap: 1.5rem;
+    }
+  }
+
+  &__other-label {
+    font-weight: 700;
+  }
+}

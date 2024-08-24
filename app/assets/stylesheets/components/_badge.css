@@ -32,7 +32,7 @@
   }
 
   &--lg {
-    --_badge-padding-block: 1.125rem;
+    --_badge-padding-block: 0.8rem;
     --_badge-padding-inline: 1.5rem;
     @apply text-base;
     @apply font-semibold;

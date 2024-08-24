@@ -6,7 +6,7 @@
       </h3>
     <% end %>
     <div class="font-light t-rte">
-      <%= sanitize text %>
+      <%= simple_format(text).html_safe %>
     </div>
   </div>
 <% end %>

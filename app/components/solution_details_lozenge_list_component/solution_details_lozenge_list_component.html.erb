@@ -1,0 +1,19 @@
+<% if items.present? or text.present? %>
+  <div data-controller="solution-details-lozenge-list-component--solution-details-lozenge-list-component">
+      <% if heading.present? %>
+        <h3><%= heading %></h3>
+      <% end %>
+      <% if items.present? %>
+        <ul class="flex gap-4 flex-wrap<% if items.present? %> pb-6<% end %>">
+          <% items.each do |item| %>
+            <li class="m-badge m-badge--white text-label"><%= item.name %></li>
+          <% end %>
+        </ul>
+      <% end %>
+      <% if text.present? %>
+        <div class="font-light t-rte">
+          <%= sanitize text %>
+        </div>
+      <% end %>
+  </div>
+<% end %>
