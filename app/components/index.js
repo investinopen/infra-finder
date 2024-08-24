@@ -30,8 +30,10 @@ import SolutionFiltersComponent__SolutionFiltersComponentController from "./solu
 import SolutionFiltersSelectAllComponent__SolutionFiltersSelectAllComponentController from "./solution_filters_select_all_component/solution_filters_select_all_component_controller";
 import SolutionLocationComponent__SolutionLocationComponentController from "./solution_location_component/solution_location_component_controller";
 import SolutionMobileFiltersComponent__SolutionMobileFiltersComponentController from "./solution_mobile_filters_component/solution_mobile_filters_component_controller";
+import SolutionMultiselectionComponent__SolutionMultiselectionComponentController from "./solution_multiselection_component/solution_multiselection_component_controller";
 import SolutionNavComponent__SolutionNavComponentController from "./solution_nav_component/solution_nav_component_controller";
 import SolutionSortComponent__SolutionSortComponentController from "./solution_sort_component/solution_sort_component_controller";
+import SolutionStructuredListComponent__SolutionStructuredListComponentController from "./solution_structured_list_component/solution_structured_list_component_controller";
 import SolutionsComponent__SolutionsComponentController from "./solutions_component/solutions_component_controller";
 import SubnavBarComponent__SubnavBarComponentController from "./subnav_bar_component/subnav_bar_component_controller";
 import TagComponent__TagComponentController from "./tag_component/tag_component_controller";
@@ -66,8 +68,10 @@ application.register("solution-filters-component--solution-filters-component", S
 application.register("solution-filters-select-all-component--solution-filters-select-all-component", SolutionFiltersSelectAllComponent__SolutionFiltersSelectAllComponentController);
 application.register("solution-location-component--solution-location-component", SolutionLocationComponent__SolutionLocationComponentController);
 application.register("solution-mobile-filters-component--solution-mobile-filters-component", SolutionMobileFiltersComponent__SolutionMobileFiltersComponentController);
+application.register("solution-multiselection-component--solution-multiselection-component", SolutionMultiselectionComponent__SolutionMultiselectionComponentController);
 application.register("solution-nav-component--solution-nav-component", SolutionNavComponent__SolutionNavComponentController);
 application.register("solution-sort-component--solution-sort-component", SolutionSortComponent__SolutionSortComponentController);
+application.register("solution-structured-list-component--solution-structured-list-component", SolutionStructuredListComponent__SolutionStructuredListComponentController);
 application.register("solutions-component--solutions-component", SolutionsComponent__SolutionsComponentController);
 application.register("subnav-bar-component--subnav-bar-component", SubnavBarComponent__SubnavBarComponentController);
 application.register("tag-component--tag-component", TagComponent__TagComponentController);

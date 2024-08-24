@@ -1,0 +1,26 @@
+<div
+  class="multiselection multiselection--columns"
+  data-controller="solution-structured-list-component--solution-structured-list-component">
+  <h3><%= t(".#{list_name}") %></h3>
+  <ul class="t-rte">
+    <% items.each do |item| %>
+      <li>
+        <% if item.url %>
+          <a href="<%= item.url %>">
+        <% end %>
+          <span><%= item.name %></span>
+        <% if item.url %>
+          </a>
+        <% end %>
+      <% if item.description %>
+        <div><%= simple_format(item.description).html_safe %></div>
+      <% end %>
+      </li>
+    <% end %>
+  </ul>
+  <% if free_text.present? %>
+    <div class="pt-5 t-rte">
+      <%= simple_format(free_text).html_safe %>
+    </div>
+  <% end %>
+</div>

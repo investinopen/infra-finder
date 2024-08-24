@@ -3,7 +3,7 @@
     data-controller="implementation-detail-component--implementation-detail-component"
     class="m-card">
     <h4 class="text-h5"><%= t(".#{implementation_name}") %></h4>
-    <div class="grow">
+    <div class="flex flex-col items-start gap-2">
       <% if available? %>
         <div class="m-badge m-badge--sm bg-neutral-20">
           <%= image_tag "icons/16/Checkmark.svg", alt: "" %>
@@ -19,23 +19,42 @@
           <%= t(".not_available") %>
         </div>
       <% end %>
+      <% if implementation["applies_to_solution"].present? %>
+        <div class="m-badge m-badge--sm bg-neutral-20">
+            <%= t(".applies_to_solution") %>
+        </div>
+      <% end %>
+      <% if implementation["applies_to_website"].present? %>
+        <div class="m-badge m-badge--sm bg-neutral-20">
+            <%= t(".applies_to_website") %>
+        </div>
+      <% end %>
     </div>
+    <% if implementation.statement? %>
+      <div class="t-rte text-xxs">
+        <%= sanitize implementation.statement %>
+      </div>
+    <% end %>
     <% if implementation.has_many_links? and implementation.links.present? %>
-      <div class="flex flex-wrap gap-2">
-        <% implementation.links.each_with_index do |link, i| %>
-          <a href="<%= link.url %>" target="_blank" rel="noreferrer" class="m-button m-button--sm <%= i === 0 ? "bg-brand-mint" : "" %>">
-            <span><%= link.label.presence || t(".website") %></span>
-            <span class="sr-only"><%= t(".opens_in_new_window") %></span>
-            <%= image_tag "icons/16/Link-External.svg", alt: "" %>
-          </a>
-        <% end %>
+      <div class="grow">
+        <div class="flex flex-wrap gap-2">
+          <% implementation.links.each_with_index do |link, i| %>
+            <a href="<%= link.url %>" target="_blank" rel="noreferrer" class="m-button m-button--sm <%= i === 0 ? "bg-brand-mint" : "" %>">
+              <span><%= link.label.presence || t(".website") %></span>
+              <span class="sr-only"><%= t(".opens_in_new_window") %></span>
+              <%= image_tag "icons/16/Link-External.svg", alt: "" %>
+            </a>
+          <% end %>
+        </div>
       </div>
     <% elsif implementation.has_single_link? and implementation.link.present? %>
-      <div class="flex">
-        <a href="<%= implementation.link.url %>" class="m-button m-button--sm bg-brand-mint">
-          <span><%= implementation.link.label.presence || t(".website") %></span>
-          <%= image_tag "icons/16/Link-External.svg", alt: "" %>
-        </a>
+      <div class="grow">
+        <div class="flex">
+          <a href="<%= implementation.link.url %>" class="m-button m-button--sm bg-brand-mint">
+            <span><%= implementation.link.label.presence || t(".website") %></span>
+            <%= image_tag "icons/16/Link-External.svg", alt: "" %>
+          </a>
+        </div>
       </div>
     <% end %>
   </div>

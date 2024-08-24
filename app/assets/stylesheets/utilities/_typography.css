@@ -49,7 +49,7 @@ use tailwind's text-[name] classes for font sizes. */
   }
 
   li + li {
-    margin-block-start: 1rem;
+    margin-block-start: var(--rte-li-margin-block-start, 1rem);
   }
 
   > li {

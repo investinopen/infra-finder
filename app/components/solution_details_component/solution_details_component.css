@@ -57,8 +57,8 @@
 
     /* About has a slightly smaller gap */
     &.solution-articles__about {
-      @apply space-y-[2.25rem];
-      @apply sm:space-y-[2.8125rem];
+      @apply space-y-[1.25rem];
+      @apply sm:space-y-[1.5rem];
     }
   }
 
@@ -88,8 +88,7 @@
 .org-structure-card {
   display: flex;
   flex-direction: column;
-  gap: 2.75rem;
-  justify-content: space-between;
+  gap: 2rem;
   border-radius: 1.25rem;
   background-color: theme("colors.white");
   padding-block-end: 2rem;
@@ -101,8 +100,27 @@
 
   > h4 {
     @apply font-body text-base;
+    font-weight: 600;
     background-color: theme("colors.brand.mint");
     @mixin fluidScaleRem padding-block-start, 24px, 20px;
     @mixin fluidScaleRem padding-block-end, 20px, 16px;
+  }
+}
+
+.grant-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.875em;
+
+  dl {
+    > div {
+      display: flex;
+      gap: 0.25em;
+    }
+  }
+
+  dt {
+    font-weight: 600;
   }
 }
