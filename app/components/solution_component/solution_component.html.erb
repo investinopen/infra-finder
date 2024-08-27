@@ -2,7 +2,7 @@
   <article class="m-solution-card" data-controller="solution-component--solution-component">
     <header class="m-solution-card__header">
       <h3>
-        <%= link_to solution_path(solution), data: { turbo_frame: "_top" }, class: "m-solution-card__header-link" do %>    
+        <%= link_to solution_path(solution), data: { turbo_frame: "_top" }, class: "m-solution-card__header-link" do %>
           <%= solution.name %>
         <% end %>
       </h3>

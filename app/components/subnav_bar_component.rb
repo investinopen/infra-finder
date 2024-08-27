@@ -38,6 +38,6 @@ class SubnavBarComponent < ApplicationComponent
   end
 
   def render_welcome_notice
-    render WelcomeNoticeComponent.new()
+    render WelcomeNoticeComponent.new
   end
 end
