@@ -4,6 +4,7 @@
   font-family: "BW Gradual";
   font-style: normal;
   font-weight: 700;
+  font-display: swap;
   src: url(/BwGradual-Bold.woff2) format("woff2"),
     url(/BwGradual-Bold.woff) format("woff");
 }
@@ -12,6 +13,7 @@
   font-family: "BW Gradual";
   font-style: italic;
   font-weight: 700;
+  font-display: swap;
   src: url(/BwGradual-BoldItalic.woff2) format("woff2"),
     url(/BwGradual-BoldItalic.woff) format("woff");
 }
@@ -20,6 +22,7 @@
   font-family: "BW Gradual";
   font-style: normal;
   font-weight: 400;
+  font-display: swap;
   src: url(/BwGradual-Medium.woff2) format("woff2"),
     url(/BwGradual-Medium.woff) format("woff");
 }
@@ -28,6 +31,7 @@
   font-family: "BW Gradual";
   font-style: italic;
   font-weight: 400;
+  font-display: swap;
   src: url(/BwGradual-MediumItalic.woff2) format("woff2"),
     url(/BwGradual-MediumItalic.woff) format("woff");
 }
