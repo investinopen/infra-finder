@@ -284,6 +284,27 @@ CREATE TYPE public.solution_kind AS ENUM (
 
 
 --
+-- Name: subscription; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.subscription AS ENUM (
+    'subscribed',
+    'unsubscribed'
+);
+
+
+--
+-- Name: subscription_kind; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.subscription_kind AS ENUM (
+    'comment_notifications',
+    'solution_notifications',
+    'reminder_notifications'
+);
+
+
+--
 -- Name: user_kind; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -2230,6 +2251,36 @@ CREATE TABLE public.staffings (
 
 
 --
+-- Name: subscription_transitions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.subscription_transitions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    subscription_id uuid NOT NULL,
+    most_recent boolean NOT NULL,
+    sort_key integer NOT NULL,
+    to_state character varying NOT NULL,
+    metadata jsonb,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: subscriptions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.subscriptions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    subscribable_type character varying NOT NULL,
+    subscribable_id uuid NOT NULL,
+    kind public.subscription_kind NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: taggings; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2325,7 +2376,13 @@ CREATE TABLE public.users (
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     admin boolean DEFAULT false NOT NULL,
     kind public.user_kind DEFAULT 'default'::public.user_kind NOT NULL,
-    accepted_terms_at timestamp without time zone
+    accepted_terms_at timestamp without time zone,
+    comment_notifications public.subscription DEFAULT 'unsubscribed'::public.subscription NOT NULL,
+    comment_notifications_updated_at timestamp without time zone,
+    solution_notifications public.subscription DEFAULT 'unsubscribed'::public.subscription NOT NULL,
+    solution_notifications_updated_at timestamp without time zone,
+    reminder_notifications public.subscription DEFAULT 'unsubscribed'::public.subscription NOT NULL,
+    reminder_notifications_updated_at timestamp without time zone
 );
 
 
@@ -3156,6 +3213,22 @@ ALTER TABLE ONLY public.solutions
 
 ALTER TABLE ONLY public.staffings
     ADD CONSTRAINT staffings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: subscription_transitions subscription_transitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subscription_transitions
+    ADD CONSTRAINT subscription_transitions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: subscriptions subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subscriptions
+    ADD CONSTRAINT subscriptions_pkey PRIMARY KEY (id);
 
 
 --
@@ -5027,6 +5100,34 @@ CREATE UNIQUE INDEX index_staffings_on_term ON public.staffings USING btree (ter
 
 
 --
+-- Name: index_subscription_transitions_parent_most_recent; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_subscription_transitions_parent_most_recent ON public.subscription_transitions USING btree (subscription_id, most_recent) WHERE most_recent;
+
+
+--
+-- Name: index_subscription_transitions_parent_sort; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_subscription_transitions_parent_sort ON public.subscription_transitions USING btree (subscription_id, sort_key);
+
+
+--
+-- Name: index_subscriptions_on_subscribable; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_subscriptions_on_subscribable ON public.subscriptions USING btree (subscribable_type, subscribable_id);
+
+
+--
+-- Name: index_subscriptions_uniqueness; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_subscriptions_uniqueness ON public.subscriptions USING btree (subscribable_id, subscribable_type, kind);
+
+
+--
 -- Name: index_taggings_on_context; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6725,6 +6826,14 @@ ALTER TABLE ONLY public.solution_draft_metadata_standards
 
 
 --
+-- Name: subscription_transitions fk_rails_bc86ba57c7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subscription_transitions
+    ADD CONSTRAINT fk_rails_bc86ba57c7 FOREIGN KEY (subscription_id) REFERENCES public.subscriptions(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_draft_content_licenses fk_rails_be3a5110c9; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7003,6 +7112,9 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240829191102'),
+('20240829191007'),
+('20240829183351'),
 ('20240822202129'),
 ('20240822182549'),
 ('20240822182356'),

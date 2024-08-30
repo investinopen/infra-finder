@@ -6,7 +6,10 @@ module SolutionDrafts
   #
   # @abstract
   class BaseActor < Support::HookBased::Actor
+    extend Dry::Core::ClassAttributes
     extend Dry::Initializer
+
+    include AfterCommitEverywhere
 
     param :draft, Types::Draft
 

@@ -6,11 +6,7 @@ module SolutionDrafts
   #
   # @see SolutionDrafts::RequestReview
   # @see SolutionDrafts::StateMachine
-  class ReviewRequestor < BaseActor
-    def perform
-      yield monadic_transition(draft, :in_review)
-
-      super
-    end
+  class ReviewRequestor < WorkflowActor
+    transitions_to! :in_review
   end
 end

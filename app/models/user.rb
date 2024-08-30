@@ -2,6 +2,7 @@
 
 class User < ApplicationRecord
   include HasName
+  include HasSubscriptionOption
   include TimestampScopes
   include UsesStatesman
 
@@ -25,9 +26,19 @@ class User < ApplicationRecord
 
   pg_enum! :kind, as: :user_kind, default: :default, allow_blank: false, suffix: :kind
 
+  subscription_identified_by! :email
+
+  subscription_option! :comment_notifications
+
+  subscription_option! :reminder_notifications
+
+  subscription_option! :solution_notifications
+
   rolify after_add: :refresh_from_role!, after_remove: :refresh_from_role!
 
-  scope :super_admins, -> { where(super_admin: true) }
+  scope :any_admins, -> { where(kind: %w[admin super_admin]) }
+  scope :admins, -> { admin_kind }
+  scope :super_admins, -> { super_admin_kind }
 
   has_many :created_invitations, inverse_of: :admin, foreign_key: :admin_id, class_name: "Invitation", dependent: :nullify
   has_one :invitation, inverse_of: :user, dependent: :destroy
@@ -171,6 +182,29 @@ class User < ApplicationRecord
     # @return [ActiveRecord::Relation<User>]
     def assignable_to_solution(solution)
       assignable_to_provider(solution.provider)
+    end
+
+    # @param [ApplicationRecord] resource
+    # @return [ActiveRecord::Relation<User>]
+    def with_access_to(resource)
+      case resource
+      when Provider
+        with_access_to_provider(resource)
+      when Solution, SolutionDraft
+        with_access_to(resource.provider)
+      else
+        # :nocov:
+        none
+        # :nocov:
+      end
+    end
+
+    # @param [Provider] provider
+    # @return [ActiveRecord::Relation<User>]
+    def with_access_to_provider(provider)
+      access_scope = unscoped.any_admins.or(unscoped.where(id: unscoped.with_role(:editor, provider)))
+
+      where(id: access_scope)
     end
   end
 end
