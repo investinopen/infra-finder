@@ -5,11 +5,7 @@ module SolutionDrafts
   #
   # @see SolutionDrafts::Reject
   # @see SolutionDrafts::StateMachine
-  class Rejector < BaseActor
-    def perform
-      yield monadic_transition(draft, :rejected)
-
-      super
-    end
+  class Rejector < WorkflowActor
+    transitions_to! :rejected
   end
 end

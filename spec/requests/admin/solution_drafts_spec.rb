@@ -3,6 +3,14 @@
 RSpec.describe "Admin Solution Drafts", type: :request, default_auth: true do
   let_it_be(:solution_draft, refind: true) { solution.create_draft!(user: editor) }
 
+  let_it_be(:other_admin, refind: true) do
+    FactoryBot.create :user, :with_super_admin, :subscribed_to_all
+  end
+
+  let_it_be(:other_editor, refind: true) do
+    FactoryBot.create(:user, :subscribed_to_all).tap { solution.assign_editor!(_1) }
+  end
+
   describe "GET /admin/solutions/:solution_id/solution_drafts" do
     def make_the_request!
       expect do
@@ -145,7 +153,8 @@ RSpec.describe "Admin Solution Drafts", type: :request, default_auth: true do
   shared_context "state transitions" do
     let(:initial_state) { "pending" }
     let(:desired_state) { "in_review" }
-    let(:request_path) { raise "must specify" }
+    let(:request_path) { url_for([workflow_action, :admin, solution, solution_draft]) }
+    let(:workflow_action) { raise "must specify" }
 
     let(:success_path) do
       admin_solution_solution_draft_path(solution, solution_draft)
@@ -155,18 +164,28 @@ RSpec.describe "Admin Solution Drafts", type: :request, default_auth: true do
       admin_solution_solution_drafts_path(solution)
     end
 
+    let(:params) do
+      {
+        workflow_action => {
+          memo: "some memo text",
+        }
+      }
+    end
+
     def expect_request_to_work!
       expect do
-        put request_path
+        put(request_path, params:)
       end.to change { solution_draft.current_state(force_reload: true) }.from(initial_state).to(desired_state)
+        .and have_enqueued_mail(WorkflowMailer, workflow_action).at_least(1).times
 
       expect(response).to redirect_to(success_path)
     end
 
     def expect_request_to_fail!(unauthorized: true)
       expect do
-        put request_path
+        put(request_path, params:)
       end.to keep_the_same { solution_draft.current_state(force_reload: true) }
+        .and have_enqueued_mail(WorkflowMailer, workflow_action).exactly(0).times
 
       if unauthorized
         expect(response).to redirect_to(unauthorized_path)
@@ -179,9 +198,7 @@ RSpec.describe "Admin Solution Drafts", type: :request, default_auth: true do
   describe "PUT /admin/solutions/:solution_id/solution_drafts/:id/request_review" do
     include_context "state transitions"
 
-    let(:request_path) do
-      request_review_admin_solution_solution_draft_path(solution, solution_draft)
-    end
+    let(:workflow_action) { :request_review }
 
     it "is usable by super admins" do
       sign_in super_admin
@@ -223,12 +240,10 @@ RSpec.describe "Admin Solution Drafts", type: :request, default_auth: true do
   describe "PUT /admin/solutions/:solution_id/solution_drafts/:id/request_revision" do
     include_context "state transitions"
 
+    let(:workflow_action) { :request_revision }
+
     let(:initial_state) { "in_review" }
     let(:desired_state) { "pending" }
-
-    let(:request_path) do
-      request_revision_admin_solution_solution_draft_path(solution, solution_draft)
-    end
 
     before do
       solution_draft.request_review!
@@ -274,12 +289,10 @@ RSpec.describe "Admin Solution Drafts", type: :request, default_auth: true do
   describe "PUT /admin/solutions/:solution_id/solution_drafts/:id/approve" do
     include_context "state transitions"
 
+    let(:workflow_action) { :approve }
+
     let(:initial_state) { "in_review" }
     let(:desired_state) { "approved" }
-
-    let(:request_path) do
-      approve_admin_solution_solution_draft_path(solution, solution_draft)
-    end
 
     before do
       solution_draft.request_review!
@@ -325,12 +338,10 @@ RSpec.describe "Admin Solution Drafts", type: :request, default_auth: true do
   describe "PUT /admin/solutions/:solution_id/solution_drafts/:id/reject" do
     include_context "state transitions"
 
+    let(:workflow_action) { :reject }
+
     let(:initial_state) { "in_review" }
     let(:desired_state) { "rejected" }
-
-    let(:request_path) do
-      reject_admin_solution_solution_draft_path(solution, solution_draft)
-    end
 
     before do
       solution_draft.request_review!

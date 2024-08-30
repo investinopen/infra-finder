@@ -3,7 +3,8 @@
 ActiveAdmin.register User do
   menu parent: "System", priority: 0
 
-  permit_params :email, :name, :super_admin, :admin, :password, :password_confirmation
+  permit_params :email, :name, :super_admin, :admin, :password, :password_confirmation,
+    :comment_notifications, :reminder_notifications, :solution_notifications
 
   filter :email
   filter :name
@@ -51,6 +52,10 @@ ActiveAdmin.register User do
         f.input :password, required: true, input_html: { autocomplete: "new-password" }
         f.input :password_confirmation, required: true, input_html: { autocomplete: "new-password" }
       end
+
+      f.object.each_subscription_option do |option|
+        f.input option.kind, as: :select, collection: ApplicationRecord.pg_enum_select_options(:subscription), include_blank: false
+      end
     end
 
     f.actions
@@ -95,6 +100,12 @@ ActiveAdmin.register User do
     column :last_sign_in_at
     column :last_sign_in_ip
     column :locked_at
+    column :comment_notifications
+    column :comment_notifications_updated_at
+    column :solution_notifications
+    column :solution_notifications_updated_at
+    column :reminder_notifications
+    column :reminder_notifications_updated_at
     column :created_at
     column :updated_at
   end

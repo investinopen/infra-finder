@@ -1,0 +1,12 @@
+<h1><%= t("workflow_mailer.#{workflow_action}.subject", solution_name:, raise: true) %></h1>
+
+<p><%= t(".salutation", recipient_name:, raise: true) %></p>
+
+<p><%= t("workflow_mailer.#{workflow_action}.cta", initiator_name:, raise: true) %></p>
+
+<% if @memo.present? %>
+  <blockquote><%= simple_format(@memo) %></blockquote>
+  <hr>
+<% end %>
+
+<%= render UnsubscribeNoticeComponent.new(user: initiator, kind: :solution_notifications) %>

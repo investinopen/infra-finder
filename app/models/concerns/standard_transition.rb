@@ -6,6 +6,8 @@
 module StandardTransition
   extend ActiveSupport::Concern
 
+  include TimestampScopes
+
   included do
     extend Dry::Core::ClassAttributes
 
