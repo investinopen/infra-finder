@@ -34,7 +34,8 @@ class ControlledVocabularyConnection < Support::FrozenRecordHelpers::AbstractRec
   alias_attribute :assoc, :name
 
   delegate :accepts_other?, :fetch_options, :fetch_options!, to: :vocab
-  delegate :input_attr, to: :property
+  delegate :input_attr, :other_property, to: :property
+  delegate :attribute_name, to: :other_property, allow_nil: true, prefix: :other
 
   memoize def assoc_name
     assoc.to_s.pluralize(counter).to_sym
