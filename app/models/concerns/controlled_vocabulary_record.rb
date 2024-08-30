@@ -39,6 +39,10 @@ module ControlledVocabularyRecord
     before_validation :derive_counters!
   end
 
+  def provides_other?
+    provides == "other"
+  end
+
   def slug_candidates
     enforced_slug.presence || name
   end
