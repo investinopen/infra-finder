@@ -94,6 +94,9 @@ en:
         Infra Finder provides verified information on open infrastructures’ technical attributes, community engagement, governance, key policies, and more.
       open_graph_title: "Solution: %{solution_name} | Infra Finder"
       site_title: "%{solution_name} | Infra Finder"
+  unsubscriptions:
+    show:
+      invalid: "Received invalid or expired unsubscribe token"
   time:
     formats:
       mdy: "%b %d, %Y"

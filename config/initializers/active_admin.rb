@@ -358,3 +358,13 @@ ActiveAdmin.setup do |config|
   #
   # config.use_webpacker = true
 end
+
+ActiveAdmin.after_load do
+  ActiveAdmin.register ActiveAdmin::Comment, as: "Comment" do
+    controller do
+      after_create do |comment|
+        InfraFinder::Container["admin.notify_comment"].(comment, verb: :create).value!
+      end
+    end
+  end
+end

@@ -1,0 +1,17 @@
+<h1>New Comment</h1>
+
+<p>From: <%= @comment.author.name %></p>
+
+<p>
+  <%= link_to "View & Reply", @view_url %>
+</p>
+
+<hr>
+
+<blockquote>
+  <%= simple_format(@comment.body) %>
+</blockquote>
+
+<hr>
+
+<%= render UnsubscribeNoticeComponent.new(user: @user, kind: :comment_notifications) %>

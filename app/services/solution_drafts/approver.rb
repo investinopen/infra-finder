@@ -6,14 +6,14 @@ module SolutionDrafts
   #
   # @see SolutionDrafts::Approve
   # @see SolutionDrafts::StateMachine
-  class Approver < BaseActor
+  class Approver < WorkflowActor
     include InfraFinder::Deps[
       assign_attributes: "solutions.assign_attributes",
     ]
 
-    def perform
-      yield monadic_transition(draft, :approved)
+    transitions_to! :approved
 
+    def post_process
       yield assign_attributes.(draft, solution)
 
       super
