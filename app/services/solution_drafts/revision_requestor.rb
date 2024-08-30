@@ -6,11 +6,7 @@ module SolutionDrafts
   #
   # @see SolutionDrafts::RequestRevision
   # @see SolutionDrafts::StateMachine
-  class RevisionRequestor < BaseActor
-    def perform
-      yield monadic_transition(draft, :pending)
-
-      super
-    end
+  class RevisionRequestor < WorkflowActor
+    transitions_to! :pending
   end
 end

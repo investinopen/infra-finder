@@ -25,6 +25,8 @@ Rails.application.routes.draw do
     resource :comparison_item, path: "compare", as: :compare, only: %i[show create destroy]
   end
 
+  resources :unsubscriptions, as: :unsubscribe, path: "unsubscribe", only: %i[show]
+
   get "up" => "rails/health#show", as: :rails_health_check
 
   root "static#root"

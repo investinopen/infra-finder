@@ -5,7 +5,7 @@ module ActiveAdmin
   class PagePolicy < ApplicationPolicy
     def show?
       case record.name
-      when "Dashboard", "terms_and_conditions"
+      when "Dashboard", "Notifications", "terms_and_conditions"
         admin_or_editor?
       else
         # :nocov:
@@ -18,6 +18,17 @@ module ActiveAdmin
       case record.name
       when "terms_and_conditions"
         true
+      else
+        # :nocov:
+        false
+        # :nocov:
+      end
+    end
+
+    def update_preferences?
+      case record.name
+      when "Notifications"
+        admin_or_editor?
       else
         # :nocov:
         false

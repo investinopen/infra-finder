@@ -10,6 +10,23 @@ FactoryBot.define do
     name { "Test User" }
     password { "123456" }
 
+    User.subscription_options.each_value do |option|
+      trait :"subscribed_#{option.suffix}" do
+        __send__(option.kind) { "subscribed" }
+      end
+
+      trait :"opted_out_of_#{option.kind}" do
+        __send__(option.kind) { "unsubscribed" }
+        __send__(option.timestamp) { Time.current }
+      end
+    end
+
+    trait :subscribed_to_all do
+      User.subscription_options.each_value do |option|
+        __send__(:"subscribed_#{option.suffix}")
+      end
+    end
+
     trait :accepted_terms do
       accept_terms_and_conditions { true }
     end

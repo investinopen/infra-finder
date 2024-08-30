@@ -1,0 +1,9 @@
+---
+en:
+  subscription_options:
+    description:
+      all: "all notifications"
+      comment_notifications: "notifications about comments"
+      reminder_notifications: "notifications about reminders"
+    notice:
+      unsubscribe: "Unsubscribed %{identifier} from %{description}"

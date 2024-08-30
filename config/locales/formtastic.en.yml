@@ -28,6 +28,9 @@ en:
         accept_terms_and_conditions: I agree to the Terms & Conditions and Privacy Policy.
         super_admin: "This user is a super-admin?"
         admin: "This user is an admin?"
+        comment_notifications: "Comment Notifications"
+        reminder_notifications: "Solution Update Reminder Notifications"
+        solution_notifications: "Solution Workflow Notifications"
     hints:
       replacement:
         new_option: "The option selected here will update all solutions (and active drafts) to use it instead."
@@ -41,6 +44,8 @@ en:
         user_contributions: "In what ways can users currently contribute to your project?"
       solution_draft:
         <<: &solution_hints
+      solution_drafts/workflow:
+        memo: Sent in notifications
       solution_editor_assignment:
         user: "If the select box is blank, all available users have been granted access to this solution."
       solution_import:
@@ -56,3 +61,11 @@ en:
       user:
         super_admin: A super-admin has unrestricted access to manage everything in the system. It takes precedence over admin if both are set.
         admin: An admin can manage most things, except creating users and other admins / super-admins.
+        comment_notifications: "Subscribe to this option in order to receive notifications when there is a comment on a solution you have access to."
+        reminder_notifications: "Subscribe to this option in order to receive reminders to update your solutions on a regular basis."
+        solution_notifications: "Subscribe to this option in order to receive notifications when solution drafts you have access to change state."
+    actions:
+      request_review: Request Review and other things
+      request_revision: Request Editor Revisions
+      approve: Approve Changes
+      reject: Reject Changes

@@ -1,0 +1,24 @@
+---
+- action: :request_review
+  to_state: :in_review
+  targets: :admins
+  legend: >
+    Submit the following form when you are ready for an administrator to review these changes.
+- action: :request_revision
+  to_state: :pending
+  targets: :editors
+  legend: >
+    If these changes need to be revised, submit the following to put the draft back in the <span class="status_tag pending">pending</span> state.
+- action: :approve
+  to_state: :approved
+  targets: :editors
+  legend: >
+    Submit the following form if these changes should be approved and applied to the solution.
+- action: :reject
+  to_state: :rejected
+  targets: :editors
+  legend: >
+    Submit the following if this draft should be rejected entirely and locked from further editing,
+    without deleting the history on this draft.
+
+    <strong>Note:</strong> If there is no reason to keep the comment history or changes around, just delete the draft instead.

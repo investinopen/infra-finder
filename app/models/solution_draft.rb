@@ -35,20 +35,20 @@ class SolutionDraft < ApplicationRecord
 
   # @!group Stateful Workflow Methods
 
-  monadic_matcher! def approve
-    call_operation("solution_drafts.approve", self)
+  monadic_matcher! def approve(**options)
+    call_operation("solution_drafts.approve", self, **options)
   end
 
-  monadic_matcher! def reject
-    call_operation("solution_drafts.reject", self)
+  monadic_matcher! def reject(**options)
+    call_operation("solution_drafts.reject", self, **options)
   end
 
-  monadic_matcher! def request_review
-    call_operation("solution_drafts.request_review", self)
+  monadic_matcher! def request_review(**options)
+    call_operation("solution_drafts.request_review", self, **options)
   end
 
-  monadic_matcher! def request_revision
-    call_operation("solution_drafts.request_revision", self)
+  monadic_matcher! def request_revision(**options)
+    call_operation("solution_drafts.request_revision", self, **options)
   end
 
   # @!endgroup

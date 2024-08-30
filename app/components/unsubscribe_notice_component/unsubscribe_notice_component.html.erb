@@ -1,0 +1,9 @@
+<section>
+  <p><%= link_to t(".unsubscribe", description:), instance.unsubscribe_url.value!, target: :blank %></p>
+</section>
+<% if include_all? %>
+  <%= render UnsubscribeNoticeComponent.new(user:, kind: :all) %>
+  <section>
+    <%= link_to t(".manage"), admin_notifications_url, target: :blank %>
+  </section>
+<% end %>
