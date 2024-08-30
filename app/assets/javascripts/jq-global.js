@@ -18,8 +18,9 @@ $(function() {
 
   for (const selector of SELECT2_SELECTORS) {
     $(selector).select2({
+      dropdownAutoWidth: true,
       placeholder: "n/a",
-      //width: "100%",
+      width: "calc(80% - 22px)",
     });
   }
 });
