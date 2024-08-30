@@ -11,7 +11,7 @@ ActiveAdmin.register SolutionImport do
     end
   end
 
-  permit_params :source, options_attributes: %i[auto_approve]
+  permit_params :source, :strategy, options_attributes: %i[auto_approve]
 
   actions :all, except: %i[edit update]
 
