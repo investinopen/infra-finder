@@ -17,7 +17,7 @@ use tailwind's text-[name] classes for font sizes. */
 .t-rte {
   @apply max-w-text;
 
-  > *:not(meta) + * {
+  > :where(:not(meta):not(:empty)) + * {
     margin-block-start: 1.5rem;
   }
 

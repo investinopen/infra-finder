@@ -1,0 +1,16 @@
+<div
+  data-controller="comparison-simple-cell-component--comparison-simple-cell-component"
+  role="cell"
+  class="m-table__cell">
+  <% if value.present? %>
+    <% if value.instance_of? String %>
+      <%= value %>
+    <% else %>
+      <%= image_tag "icons/20/Checkmark.svg", alt: "" %>
+      <span class="sr-only"><%= t(".checked") %></span>
+    <% end %>
+  <% else %>
+    <%= image_tag "icons/20/Minus.svg", alt: "" %>
+    <span class="sr-only"><%= t(".not_checked") %></span>
+  <% end %>
+</div>

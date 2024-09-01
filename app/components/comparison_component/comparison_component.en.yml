@@ -1,7 +1,7 @@
 ---
 en:
-  maintenance_status:
-    active: "Actively maintained"
+  available: Available
+  unavailable: Unavaliable
   title: Compare Solutions
   technical:
     heading: Technical

@@ -41,6 +41,8 @@
   }
 
   &__cell {
+    --rte-li-margin-block-start: 0.375em;
+
     @media (max-width: theme("screens.lg")) {
       border-bottom-width: 0;
     }
