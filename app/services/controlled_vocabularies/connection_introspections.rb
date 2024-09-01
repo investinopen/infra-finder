@@ -55,7 +55,7 @@ module ControlledVocabularies
 
       current = public_send(conn.name)
 
-      selected = current unless conn.accepts_other? && current.provides_other?
+      selected = current unless conn.accepts_other? && current.try(:provides_other?)
 
       other_value = other_value_for(conn.name) if conn.accepts_other?
 
