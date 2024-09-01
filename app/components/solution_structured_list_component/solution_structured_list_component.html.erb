@@ -19,7 +19,7 @@
     <% end %>
   </ul>
   <% if free_text.present? %>
-    <div class="pt-5 t-rte">
+    <div class="t-rte<% if items.present? %> pt-5<% end %>">
       <%= simple_format(free_text).html_safe %>
     </div>
   <% end %>

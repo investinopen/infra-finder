@@ -1,0 +1,42 @@
+<div
+  data-controller="comparison-multiselection-cell-component--comparison-multiselection-cell-component"
+  role="cell"
+  class="m-table__cell">
+  <div
+    data-comparison-multiselection-cell-component--comparison-multiselection-cell-component-target="body"
+    <% if has_value and truncate %> data-truncate class="line-clamp-6 print:line-clamp-none"<% end %>>
+    <% if selections.present? %>
+      <% if mode == :multiple and selections.count > 1 %>
+        <ul class="t-rte">
+          <% selections.each do |selection| %>
+            <li><%= selection.name %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <%= selections[0].name %>
+      <% end %>
+    <% end %>
+    <% if other_value.present? %>
+      <div <% if selections.present? %> class="pt-3"<% end %>>
+        <% if mode == :multiple %>
+          <strong><%= t(".other_label") %></strong>
+        <% end %>
+        <div class="t-rte">
+          <%= simple_format(other_value).html_safe %>
+        </div>
+      </div>
+    <% end %>
+    <% unless selections.present? or other_value.present? %>
+      <%= image_tag "icons/20/Minus.svg", alt: "" %>
+      <span class="sr-only"><%= t(".unavailable") %></span>
+    <% end %>
+  </div>
+  <% if has_value and truncate %>
+    <button data-comparison-multiselection-cell-component--comparison-multiselection-cell-component-target="readMore"
+      class="a-link mt-4 hidden print:hidden"
+      data-action="click->comparison-multiselection-cell-component--comparison-multiselection-cell-component#readMore">
+      <span data-more-text><%= t(".read_more") %></span>
+      <span data-less-text class="a-hidden"><%= t(".show_less") %></span>
+    </button>
+  <% end %>
+</div>

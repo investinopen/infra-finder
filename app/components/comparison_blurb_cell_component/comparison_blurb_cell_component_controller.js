@@ -12,6 +12,8 @@ export default class extends Controller {
   }
 
   bodyTargetConnected(target) {
+    if (!this.hasReadMoreTarget) return;
+    
     const link = this.readMoreTarget;
 
     const isClamped = target.scrollHeight > target.clientHeight;
