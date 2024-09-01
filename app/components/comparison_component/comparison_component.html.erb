@@ -18,25 +18,23 @@
       aria-label="<%= t(".technical.heading") %>">
       <div role="rowgroup">
         <%= render ComparisonStickyHeaderComponent.new(comparison:, heading: t(".technical.heading")) %>
-        <div role="row" class="m-table__row">
-          <div role="rowheader" class="m-table__rowheader">
-            <%= t(".technical.maintenance_row") %>
-          </div>
-          <% comparison.comparison_items.each do |item| %>
-            <div role="cell" class="m-table__cell">
-              <% if item.solution.maintenance_active? %>
-                <%#= t(".maintenance_status.#{item.solution.maintenance_status}", raise: true) %>
-              <% else %>
-                <%= image_tag "icons/20/Minus.svg", alt: "" %>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
-        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :open_api) %>
-        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :open_data) %>
-        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :code_repository) %>
-        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :user_documentation) %>
-        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :product_roadmap) %>
+        <%= render_multiselection_row(:maintenance_statuses) %>
+        <%= render_implementation_row(:open_api) %>
+        <%= render_implementation_row(:open_data) %>
+        <%= render_implementation_row(:code_repository) %>
+        <%= render_implementation_row(:code_license) %>
+        <%= render_implementation_row(:user_documentation) %>
+        <%= render_implementation_row(:product_roadmap) %>
+        <%= render_multiselection_row(:programming_languages) %>
+        <%= render_multiselection_row(:readiness_levels) %>
+        <%= render_multiselection_row(:content_licenses) %>
+        <%= render_multiselection_row(:metadata_standards) %>
+        <%= render_multiselection_row(:persistent_identifier_standards) %>
+        <%= render_multiselection_row(:security_standards) %>
+        <%= render_multiselection_row(:preservation_standards) %>
+        <%= render_multiselection_row(:metrics_standards) %>
+        <%= render_multiselection_row(:hosting_strategy) %>
+        <%= render_multiselection_row(:integrations, truncate: true) %>
       </div>
     </div>
     <div role="table"
@@ -44,9 +42,13 @@
       aria-label="<%= t(".community.heading") %>">
       <div role="rowgroup">
         <%= render ComparisonStickyHeaderComponent.new(comparison:, heading: t(".community.heading")) %>
-        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :community_engagement) %>
-        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :code_of_conduct) %>
-        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :contribution_pathways) %>
+        <%= render_implementation_row(:community_engagement) %>
+        <%= render_implementation_row(:code_of_conduct) %>
+        <%= render_implementation_row(:contribution_pathways) %>
+        <%= render_multiselection_row(:community_engagement_activities, truncate: true) %>
+        <%= render_multiselection_row(:values_frameworks) %>
+        <%= render_multiselection_row(:user_contributions) %>
+        <%= render_simple_row(:scoss) %>
       </div>
     </div>
     <div role="table"
@@ -54,13 +56,17 @@
       aria-label="<%= t(".policies.heading") %>">
       <div role="rowgroup">
         <%= render ComparisonStickyHeaderComponent.new(comparison:, heading: t(".policies.heading")) %>
-        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :privacy_policy) %>
-        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :equity_and_inclusion) %>
-        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :web_accessibility) %>
-        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :pricing) %>
-        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :governance_records) %>
-        <%= render ComparisonImplementationRowComponent.new(comparison:, name: :governance_structure) %>
+        <%= render_implementation_row(:bylaws) %>
+        <%= render_implementation_row(:equity_and_inclusion) %>
+        <%= render_implementation_row(:privacy_policy) %>
+        <%= render_implementation_row(:web_accessibility) %>
+        <%= render_implementation_row(:pricing) %>
+        <%= render_implementation_row(:governance_records) %>
+        <%= render_implementation_row(:governance_structure) %>
         <%= render ComparisonBlurbRowComponent.new(comparison:, name: :governance_summary) %>
+        <%= render_multiselection_row(:board_structures) %>
+        <%= render_multiselection_row(:board_level) %>
+        <%= render_multiselection_row(:community_governances) %>
       </div>
     </div>
     <div role="table"
@@ -68,34 +74,11 @@
       aria-label="<%= t(".structure.heading") %>">
       <div role="rowgroup">
         <%= render ComparisonStickyHeaderComponent.new(comparison:, heading: t(".structure.heading")) %>
-        <div role="row" class="m-table__row">
-          <div role="rowheader" class="m-table__rowheader">
-            <%= t(".structure.ownership_row") %>
-          </div>
-          <% comparison.comparison_items.each do |item| %>
-            <div role="cell" class="m-table__cell">
-              <% if item.solution.business_forms.present? %>
-                <%= item.solution.business_forms.first.name %>
-              <% else %>
-                <%= image_tag "icons/20/Minus.svg", alt: "" %>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
-        <div role="row" class="m-table__row">
-          <div role="rowheader" class="m-table__rowheader">
-            <%= t(".structure.staff_row") %>
-          </div>
-          <% comparison.comparison_items.each do |item| %>
-            <div class="m-table__cell text-xl" role="cell" class="m-table__cell">
-              <% if item.solution.current_staffing.present? %>
-                <%= item.solution.current_staffing %>
-              <% elsif %>
-                <%= image_tag "icons/20/Minus.svg", alt: "" %>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
+        <%= render_multiselection_row(:business_forms) %>
+        <%= render_multiselection_row(:nonprofit_status) %>
+        <%= render_multiselection_row(:staffing_full_time) %>
+        <%= render_multiselection_row(:staffing_volunteer) %>
+        <%= render_simple_row(:shareholders) %>
       </div>
     </div>
     <div role="table"
@@ -103,20 +86,8 @@
       aria-label="<%= t(".funding.heading") %>">
       <div role="rowgroup">
         <%= render ComparisonStickyHeaderComponent.new(comparison:, heading: t(".funding.heading")) %>
-        <div role="row" class="m-table__row">
-          <div role="rowheader" class="m-table__rowheader">
-            <%= t(".funding.primary_source_row") %>
-          </div>
-          <% comparison.comparison_items.each do |item| %>
-            <div role="cell" class="m-table__cell">
-              <% if item.solution.primary_funding_sources.present? %>
-                <%= item.solution.primary_funding_sources.first.name %>
-              <% else %>
-                <%= image_tag "icons/20/Minus.svg", alt: "" %>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
+        <%= render_multiselection_row(:primary_funding_sources) %>
+        <%= render_multiselection_row(:financial_reporting_level) %>
         <%= render ComparisonBlurbRowComponent.new(comparison:, name: :funding_needs) %>
       </div>
     </div>
