@@ -1,0 +1,10 @@
+<div data-controller="comparison-simple-row-component--comparison-simple-row-component"
+  role="row"
+  class="m-table__row">
+  <div role="rowheader" class="m-table__rowheader">
+    <%= t(".#{field_name}") %>
+  </div>
+  <% comparison.comparison_items.each do |item| %>
+    <%= render_simple_cell(item.solution) %>
+  <% end %>
+</div>

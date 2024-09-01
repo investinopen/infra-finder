@@ -1,0 +1,11 @@
+<div
+  data-controller="comparison-multiselection-row-component--comparison-multiselection-row-component"
+  role="row"
+  class="m-table__row">
+  <div role="rowheader" class="m-table__rowheader">
+    <%= t(".#{connection_name}") %>
+  </div>
+  <% comparison.comparison_items.each do |item| %>
+    <%= render_multiselection_cell(item.solution) %>
+  <% end %>
+</div>
