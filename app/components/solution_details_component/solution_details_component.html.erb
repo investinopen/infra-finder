@@ -102,7 +102,7 @@
             <div class="m-card">
               <h4 class="text-h5"><%= t(".technical.maintenance_status") %></h4>
               <div>
-                <div class="m-badge m-badge--sm bg-neutral-20"><%= t(".maintenance_status.#{solution.maintenance_status}", raise: true) %></div>
+                <div class="m-badge m-badge--sm bg-neutral-20"><%#= t(".maintenance_status.#{solution.maintenance_status}", raise: true) %></div>
               </div>
             </div>
           <% end %>
@@ -195,7 +195,7 @@
                   <%= t(".additional_information.business_model") %>
                 </h4>
                 <div class="text-h4">
-                  <%= solution.business_form.first.name %>
+                  <%= solution.business_forms.first.name %>
                 </div>
               </div>
             <% end %>

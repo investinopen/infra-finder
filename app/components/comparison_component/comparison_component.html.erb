@@ -25,7 +25,7 @@
           <% comparison.comparison_items.each do |item| %>
             <div role="cell" class="m-table__cell">
               <% if item.solution.maintenance_active? %>
-                <%= t(".maintenance_status.#{item.solution.maintenance_status}", raise: true) %>
+                <%#= t(".maintenance_status.#{item.solution.maintenance_status}", raise: true) %>
               <% else %>
                 <%= image_tag "icons/20/Minus.svg", alt: "" %>
               <% end %>
