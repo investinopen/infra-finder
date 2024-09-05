@@ -103,13 +103,9 @@ export default class extends Controller {
     try {
       await navigator.share(this.shareData);
 
-      await this.shared();
+      await this.shared("URL Shared");
     } catch (err) {
       console.error(err);
-    } finally {
-      if (window._paq) {
-        window._paq.push(["trackEvent", "Share", "Click Share Button"]);
-      }
     }
   }
 
@@ -119,21 +115,21 @@ export default class extends Controller {
 
       this.state.copied = true;
 
-      await this.shared();
+      await this.shared("URL Copied");
     } catch (err) {
       console.error(err);
     } finally {
-      if (window._paq) {
-        window._paq.push(["trackEvent", "Share", "Click Copy Button"]);
-      }
-
       setTimeout(() => {
         this.state.copied = false;
       }, 1500);
     }
   }
 
-  async shared() {
+  async shared(eventName) {
+    if (window._paq && Array.isArray(window._paq)) {
+      window._paq.push(["trackEvent", "Share", eventName, this.shareUrlValue]);
+    }
+    
     if (!this.sharedUrlValue) {
       return;
     }
