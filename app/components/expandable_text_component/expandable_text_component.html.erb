@@ -1,0 +1,17 @@
+<div
+  data-controller="expandable-text-component--expandable-text-component"
+  class="expandable-text"
+  style="--truncate:<%= truncate || 6 %>;">
+  <div
+    data-expandable-text-component--expandable-text-component-target="text"
+    class="t-rte line-clamp-6 print:line-clamp-none expandable-text__text">
+    <%= simple_format(text).html_safe %>
+  </div>
+  <button
+    data-expandable-text-component--expandable-text-component-target="toggle"
+    class="expandable-text__toggle a-link hidden print:hidden"
+    data-action="click->expandable-text-component--expandable-text-component#toggleExpand">
+    <span data-more-text><%= t(".read_more") %></span>
+    <span data-less-text class="a-hidden"><%= t(".show_less") %></span>
+  </button>
+</div>

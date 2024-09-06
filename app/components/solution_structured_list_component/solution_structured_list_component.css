@@ -1,1 +1,26 @@
-/* Add styles for this component */
+.structured-list {
+  max-width: theme("maxWidth.text");
+
+  &--free-text {
+    --solution-articles-h3-padding-block-end: 0.875rem;
+  }
+
+  &__body {
+    &--boxed {
+      padding: 2rem 2.5rem;
+      background-color: theme("colors.white");
+      @apply rounded-lg;
+    }
+  }
+
+  &__list {
+    &--columns {
+      columns: 16rem auto;
+      column-gap: 1.5rem;
+
+      > * {
+        break-inside: avoid;
+      }
+    }
+  }
+}

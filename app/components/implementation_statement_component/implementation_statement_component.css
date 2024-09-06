@@ -1,0 +1,7 @@
+.implementation-statement {
+  padding-top: 1rem;
+
+  &:first-child {
+    padding-top: 1.5rem;
+  }
+}

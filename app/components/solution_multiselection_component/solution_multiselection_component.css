@@ -1,9 +1,16 @@
 .multiselection {
   max-width: theme("maxWidth.text");
-  &--columns {
-    padding: 2rem 2.5rem;
-    background-color: theme("colors.white");
-    @apply rounded-lg;
+
+  &--free-text {
+    --solution-articles-h3-padding-block-end: 0.875rem;
+  }
+
+  &__body {
+    &--columns {
+      padding: 2rem 2.5rem;
+      background-color: theme("colors.white");
+      @apply rounded-lg;
+    }
   }
 
   &__list {
@@ -13,13 +20,18 @@
       gap: 1rem;
     }
 
-    &--columns {
+    &--columns-2 {
+      columns: 16rem auto;
+      column-gap: 1.5rem;
+    }
+
+    &--columns-3 {
       columns: 11rem auto;
       column-gap: 1.5rem;
     }
   }
 
   &__other-label {
-    font-weight: 700;
+    font-weight: bold;
   }
 }
