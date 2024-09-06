@@ -16,6 +16,13 @@ module SolutionDrafts
     def post_process
       yield assign_attributes.(draft, solution)
 
+      yield solution.create_revision(
+        kind: :draft,
+        solution_draft: draft,
+        note: memo,
+        user:,
+      )
+
       super
     end
   end

@@ -12,6 +12,7 @@ class Implementation < Support::FrozenRecordHelpers::AbstractRecord
     required(:enum).filled(:string)
     required(:type_name).filled(:string)
     required(:enum_type).value(:enum_type)
+    required(:code).value(:integer)
   end
 
   default_attributes!(enum_type: "implementation_status")
@@ -20,8 +21,23 @@ class Implementation < Support::FrozenRecordHelpers::AbstractRecord
 
   add_index :name, unique: true
   add_index :enum, unique: true
+  add_index :code, unique: true
+
+  scope :in_default_order, -> { order(code: :asc) }
+
+  DEFAULT_SOLUTION_PROPERTY = {
+    kind: :implementation,
+    meta: true,
+    exported: false,
+    required: false,
+    fe_position: 0,
+    fe_visibility: "hidden",
+    phase_2_status: "none",
+  }.freeze
 
   EXPOSED_SCOPE_SUFFIXES = %w[available].freeze
+
+  PROPERTIES_PATH = Rails.root.join("lib", "properties", "implementations.yml")
 
   delegate :has_any_links?, :has_many_links?, :has_no_links?, :has_single_link?, :has_statement?, :link_mode, :linked?, :unlinked?, to: :type
 
@@ -99,6 +115,18 @@ class Implementation < Support::FrozenRecordHelpers::AbstractRecord
     /\Aweb_accessibility\z/.match?(name)
   end
 
+  def to_solution_property_definition
+    DEFAULT_SOLUTION_PROPERTY.merge(
+      name:,
+      code:,
+      attr: name,
+      ext_name: "#{name}_ext",
+      description: "Actual implementation property for #{title}",
+      implementation_name: name,
+      be_label: title,
+    ).stringify_keys
+  end
+
   private
 
   # @return [Enumerator<SolutionProperty>]
@@ -121,6 +149,20 @@ class Implementation < Support::FrozenRecordHelpers::AbstractRecord
     # @return [<String>]
     def ransackable_scopes
       all.flat_map(&:ransackable_scopes)
+    end
+
+    # @api private
+    # @return [<Hash>]
+    def property_definitions
+      in_default_order.map(&:to_solution_property_definition)
+    end
+
+    # @api private
+    # @return [void]
+    def write_properties!
+      PROPERTIES_PATH.open("wb+") do |f|
+        f.write property_definitions.to_yaml
+      end
     end
   end
 end

@@ -26,11 +26,13 @@ class SolutionPropertyKind < Support::FrozenRecordHelpers::AbstractRecord
     optional(:input_html).maybe(:hash)
     optional(:input_options).maybe(:hash)
     optional(:connection_mode).maybe(:connection_mode)
+    required(:diff_klass_name).value(:string)
   end
 
   default_attributes!(
     assign_method: :write_attribute,
     diffable: false,
+    diff_klass_name: "UnknownDiff",
     input_kind: nil,
     input_html: {},
     input_options: {},
@@ -73,6 +75,10 @@ class SolutionPropertyKind < Support::FrozenRecordHelpers::AbstractRecord
 
   def input_options
     super.try(:symbolize_keys)
+  end
+
+  memoize def diff_klass
+    "::Solutions::Revisions::Diffs::#{diff_klass_name}".constantize
   end
 
   private

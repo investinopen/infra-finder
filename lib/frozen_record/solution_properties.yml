@@ -898,7 +898,7 @@
   description: Public link to prices or fees.
   exported: true
   required: false
-  implementation: pricing
+  implementation_name: pricing
   implementation_property: links
   ext_name: transparent_pricing_url
   be_label: Link to pricing
@@ -1291,13 +1291,15 @@
 - name: code_license_implementation
   code: 104
   attr: code_license_implementation
-  kind: :single_option
+  kind: :implementation_enum
   meta: false
   description: Indication of whether the service applies a standard open software
     license to its primary source code.
   exported: true
   required: true
   ext_name: code_license_status
+  implementation_property: enum
+  implementation_name: code_license
   be_label: Code license status
   be_position: 27
   fe_label: Code license
@@ -1317,7 +1319,7 @@
     repository.
   exported: true
   required: false
-  implementation: code_license
+  implementation_name: code_license
   implementation_property: link
   ext_name: code_license_url
   be_label: Code license
@@ -1333,7 +1335,7 @@
 - name: code_repository_implementation
   code: 18
   attr: code_repository_implementation
-  kind: :single_option
+  kind: :implementation_enum
   meta: false
   description: A public repository where the source code of the service is stored
     and shared openly, allowing anyone to access, inspect, modify, or contribute to
@@ -1341,6 +1343,8 @@
   exported: true
   required: true
   ext_name: open_code_repository_status
+  implementation_name: code_repository
+  implementation_property: enum
   be_label: Open code repository
   be_position: 14
   fe_label: Open code repository
@@ -1359,7 +1363,7 @@
   description: Public link to code repository.
   exported: true
   required: false
-  implementation: code_repository
+  implementation_name: code_repository
   implementation_property: links
   ext_name: open_code_repository_url
   be_label: Link to code repository
@@ -1375,12 +1379,14 @@
 - name: open_api_implementation
   code: 88
   attr: open_api_implementation
-  kind: :single_option
+  kind: :implementation_enum
   meta: false
   description: Public availability of application programming interfaces (APIs) that
     provides developers with programmatic access to content and/or metadata.
   exported: true
   required: true
+  implementation_name: open_api
+  implementation_property: enum
   ext_name: api_status
   be_label: Open API
   be_position: 21
@@ -1400,7 +1406,7 @@
   description: Link to public APIs.
   exported: true
   required: false
-  implementation: open_api
+  implementation_name: open_api
   implementation_property: links
   ext_name: api_url
   be_label: Link to open APIs and/or API documentation
@@ -1422,7 +1428,7 @@
     availability of their data, allowing the data to be accessed to the extent possible
   exported: true
   required: true
-  implementation: open_data
+  implementation_name: open_data
   implementation_property: enum
   ext_name: open_data_statement_status
   be_label: Open data statement
@@ -1443,7 +1449,7 @@
   description: Public link to open data statement.
   exported: true
   required: false
-  implementation: open_data
+  implementation_name: open_data
   implementation_property: links
   ext_name: open_data_statement_url
   be_label: Link to open data statement
@@ -1465,7 +1471,7 @@
     for product development.
   exported: true
   required: true
-  implementation: product_roadmap
+  implementation_name: product_roadmap
   implementation_property: enum
   ext_name: product_roadmap_status
   be_label: Open product roadmap
@@ -1486,7 +1492,7 @@
   description: Link to public product roadmap.
   exported: true
   required: false
-  implementation: product_roadmap
+  implementation_name: product_roadmap
   implementation_property: links
   ext_name: product_roadmap_url
   be_label: Link to product roadmap
@@ -1511,7 +1517,7 @@
     the service.
   exported: true
   required: true
-  implementation: user_documentation
+  implementation_name: user_documentation
   implementation_property: enum
   ext_name: technical_user_documentation_status
   be_label: Technical user documentation
@@ -1532,7 +1538,7 @@
   description: Public link to technical user documentation.
   exported: true
   required: false
-  implementation: user_documentation
+  implementation_name: user_documentation
   implementation_property: links
   ext_name: technical_user_documentation_url
   be_label: Link to technical user documentation
@@ -1637,7 +1643,7 @@
     be addressed and resolved.
   exported: true
   required: true
-  implementation: code_of_conduct
+  implementation_name: code_of_conduct
   implementation_property: enum
   ext_name: code_of_conduct_status
   be_label: Code of conduct
@@ -1658,7 +1664,7 @@
   description: Link to the public code of conduct and reporting guidelines.
   exported: true
   required: false
-  implementation: code_of_conduct
+  implementation_name: code_of_conduct
   implementation_property: links
   ext_name: code_of_conduct_url
   be_label: Link to code of conduct
@@ -1682,7 +1688,7 @@
     involvement in major decisions, and community-driven governance.
   exported: true
   required: true
-  implementation: community_engagement
+  implementation_name: community_engagement
   implementation_property: enum
   ext_name: community_engagement_status
   be_label: Organizational commitment to community engagement
@@ -1723,7 +1729,7 @@
   description: Link to public information about community engagement activities.
   exported: true
   required: false
-  implementation: community_engagement
+  implementation_name: community_engagement
   implementation_property: links
   ext_name: community_engagement_url
   be_label: Link to community engagement activities
@@ -1745,7 +1751,7 @@
     contribute to the development or delivery of the service.
   exported: true
   required: true
-  implementation: contribution_pathways
+  implementation_name: contribution_pathways
   implementation_property: enum
   ext_name: contribution_pathways
   be_label: User Contribution Pathways - Implemented?
@@ -1767,7 +1773,7 @@
     can meaningfully contribute to the development or delivery of the service.
   exported: true
   required: false
-  implementation: contribution_pathways
+  implementation_name: contribution_pathways
   implementation_property: links
   ext_name: contribution_guidelines
   be_label: User Contribution Pathways - URL
@@ -1828,7 +1834,7 @@
   description:
   exported: true
   required: true
-  implementation: bylaws
+  implementation_name: bylaws
   implementation_property: enum
   ext_name: bylaws_status
   be_label: Bylaws implementation status
@@ -1849,7 +1855,7 @@
   description: Public documentation of bylaws or other governance rules.
   exported: true
   required: false
-  implementation: bylaws
+  implementation_name: bylaws
   implementation_property: links
   ext_name: community_governance_url
   be_label: Link to bylaws or other governance documentation
@@ -1872,7 +1878,7 @@
     the diversity of their users, community members, and other key stakeholders.
   exported: true
   required: true
-  implementation: equity_and_inclusion
+  implementation_name: equity_and_inclusion
   implementation_property: enum
   ext_name: commitment_to_equity_status
   be_label: Commitment to equity and inclusion
@@ -1894,7 +1900,7 @@
     equity, and inclusion.
   exported: true
   required: false
-  implementation: equity_and_inclusion
+  implementation_name: equity_and_inclusion
   implementation_property: links
   ext_name: commitment_to_equity_url
   be_label: Link to diversity, equity, inclusion, and antiracism statement or policy
@@ -1917,7 +1923,7 @@
     indications of an active governance process.
   exported: true
   required: true
-  implementation: governance_records
+  implementation_name: governance_records
   implementation_property: enum
   ext_name: governance_records_status
   be_label: Governance records
@@ -1940,7 +1946,7 @@
     process.
   exported: true
   required: false
-  implementation: governance_records
+  implementation_name: governance_records
   implementation_property: links
   ext_name: governance_records_url
   be_label: Link to governance records
@@ -1963,7 +1969,7 @@
     mechanisms of the stakeholders.
   exported: true
   required: true
-  implementation: governance_structure
+  implementation_name: governance_structure
   implementation_property: enum
   ext_name: governance_structure_status
   be_label: Governance structure and processes
@@ -1986,7 +1992,7 @@
     of the stakeholders.
   exported: true
   required: false
-  implementation: governance_structure
+  implementation_name: governance_structure
   implementation_property: links
   ext_name: governance_structure_url
   be_label: Link to governance structure and processes
@@ -2009,7 +2015,7 @@
     associated with using their service.
   exported: true
   required: true
-  implementation: pricing
+  implementation_name: pricing
   implementation_property: enum
   ext_name: transparent_pricing_status
   be_label: Transparent pricing and cost expectations
@@ -2033,7 +2039,7 @@
     and how the service complies with applicable laws (e.g., GDPR).
   exported: true
   required: true
-  implementation: privacy_policy
+  implementation_name: privacy_policy
   implementation_property: enum
   ext_name: commitment_to_privacy_status
   be_label: Privacy policy
@@ -2054,7 +2060,7 @@
   description: Public link to privacy policy.
   exported: true
   required: false
-  implementation: privacy_policy
+  implementation_name: privacy_policy
   implementation_property: links
   ext_name: commitment_to_privacy_url
   be_label: Link to privacy policy
@@ -2076,7 +2082,7 @@
     to making their sites accessible to all users regardless of their abilities.
   exported: true
   required: true
-  implementation: web_accessibility
+  implementation_name: web_accessibility
   implementation_property: enum
   ext_name: web_accessibility_status
   be_label: Web accessibility statement
@@ -2097,7 +2103,7 @@
   description: Public link to web accessibility statement.
   exported: true
   required: false
-  implementation: web_accessibility
+  implementation_name: web_accessibility
   implementation_property: links
   ext_name: web_accessibility_url
   be_label: Link to web accessibility statement
@@ -2412,7 +2418,7 @@
   attr: preservation_standard_other
   kind: :other_option
   meta: false
-  owner: preservation_standard_other
+  owner: preservation_standards
   description: Records the supported preservation standards if "other" is selected
     in field 112
   exported: true
@@ -2551,7 +2557,8 @@
   kind: :other_option
   meta: false
   owner: primary_funding_sources
-  description: Records the primary funding source if "other" is selected in field 061
+  description: Records the primary funding source if "other" is selected in field
+    061
   exported: true
   required: false
   ext_name: primary_funding_source_other
@@ -2570,7 +2577,8 @@
   kind: :other_option
   meta: false
   owner: financial_reporting_level
-  description: Records the primary funding source if "other" is selected in field 072
+  description: Records the primary funding source if "other" is selected in field
+    072
   exported: true
   required: false
   ext_name: financial_reporting_level_other
@@ -2589,7 +2597,8 @@
   kind: :other_option
   meta: false
   owner: board_level
-  description: Records the primary funding source if "other" is selected in field 100
+  description: Records the primary funding source if "other" is selected in field
+    100
   exported: true
   required: false
   ext_name: board_level_other
@@ -2697,3 +2706,228 @@
   input: text
   vocab_name:
   original_input: Free text
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: bylaws
+  code: 15100
+  attr: bylaws
+  ext_name: bylaws_ext
+  description: Actual implementation property for Bylaws or Other Governance Documentation
+  implementation_name: bylaws
+  be_label: Bylaws or Other Governance Documentation
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: code_license
+  code: 15101
+  attr: code_license
+  ext_name: code_license_ext
+  description: Actual implementation property for Code License Details
+  implementation_name: code_license
+  be_label: Code License Details
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: code_of_conduct
+  code: 15102
+  attr: code_of_conduct
+  ext_name: code_of_conduct_ext
+  description: Actual implementation property for Code of conduct
+  implementation_name: code_of_conduct
+  be_label: Code of conduct
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: code_repository
+  code: 15103
+  attr: code_repository
+  ext_name: code_repository_ext
+  description: Actual implementation property for Open Code Repository
+  implementation_name: code_repository
+  be_label: Open Code Repository
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: community_engagement
+  code: 15104
+  attr: community_engagement
+  ext_name: community_engagement_ext
+  description: Actual implementation property for Organizational Commitment to Community
+    Engagement
+  implementation_name: community_engagement
+  be_label: Organizational Commitment to Community Engagement
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: contribution_pathways
+  code: 15105
+  attr: contribution_pathways
+  ext_name: contribution_pathways_ext
+  description: Actual implementation property for Contribution pathways
+  implementation_name: contribution_pathways
+  be_label: Contribution pathways
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: equity_and_inclusion
+  code: 15106
+  attr: equity_and_inclusion
+  ext_name: equity_and_inclusion_ext
+  description: Actual implementation property for Commitment to Equity and Inclusion
+  implementation_name: equity_and_inclusion
+  be_label: Commitment to Equity and Inclusion
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: governance_records
+  code: 15107
+  attr: governance_records
+  ext_name: governance_records_ext
+  description: Actual implementation property for Governance records
+  implementation_name: governance_records
+  be_label: Governance records
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: governance_structure
+  code: 15108
+  attr: governance_structure
+  ext_name: governance_structure_ext
+  description: Actual implementation property for Governance Structure and Processes
+  implementation_name: governance_structure
+  be_label: Governance Structure and Processes
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: open_api
+  code: 15109
+  attr: open_api
+  ext_name: open_api_ext
+  description: Actual implementation property for Open API
+  implementation_name: open_api
+  be_label: Open API
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: open_data
+  code: 15110
+  attr: open_data
+  ext_name: open_data_ext
+  description: Actual implementation property for Open data
+  implementation_name: open_data
+  be_label: Open data
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: pricing
+  code: 15111
+  attr: pricing
+  ext_name: pricing_ext
+  description: Actual implementation property for Transparent Pricing and Cost Expectations
+  implementation_name: pricing
+  be_label: Transparent Pricing and Cost Expectations
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: privacy_policy
+  code: 15112
+  attr: privacy_policy
+  ext_name: privacy_policy_ext
+  description: Actual implementation property for Privacy policy
+  implementation_name: privacy_policy
+  be_label: Privacy policy
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: product_roadmap
+  code: 15113
+  attr: product_roadmap
+  ext_name: product_roadmap_ext
+  description: Actual implementation property for Open Product Roadmap
+  implementation_name: product_roadmap
+  be_label: Open Product Roadmap
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: user_documentation
+  code: 15114
+  attr: user_documentation
+  ext_name: user_documentation_ext
+  description: Actual implementation property for User documentation
+  implementation_name: user_documentation
+  be_label: User documentation
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: web_accessibility
+  code: 15115
+  attr: web_accessibility
+  ext_name: web_accessibility_ext
+  description: Actual implementation property for Web accessibility
+  implementation_name: web_accessibility
+  be_label: Web accessibility
