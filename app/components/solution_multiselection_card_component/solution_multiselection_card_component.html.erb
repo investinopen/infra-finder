@@ -1,0 +1,28 @@
+<% if selections.present? or other_value.present? %>
+  <div
+    class="multiselection-card"
+    data-controller="solution-multiselection-card-component--solution-multiselection-card-component">
+    <h4 class="text-h5"><%= t(".#{connection_name}") %></h4>
+    <div class="multiselection-card__body">
+      <% if selections.present? %>
+        <ul class="multiselection-card__list">
+          <% selections.each do |selection| %>
+            <li class="m-badge m-badge--neutral-20"><%= selection.name %></li>
+          <% end %>
+        </ul>
+      <% end %>
+      <% if other_value.present? %>
+        <% if selections.present? %>
+          <div class="pt-4 t-other-text">
+            <strong><%= t(".other_label") %></strong>
+            <%= render ExpandableTextComponent.new(text: other_value, truncate: 3) %>
+          </div>
+        <% else %>
+          <div class="t-rte">
+            <%= simple_format(other_value).html_safe %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

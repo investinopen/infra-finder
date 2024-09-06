@@ -116,57 +116,94 @@
         <h2 class="a-underline">
           <%= t(".technical.heading") %>
         </h2>
-        <div class="solution-cards">
-          <%= render_implementation(:code_repository) %>
-          <% if solution.maintenance_statuses.present? %>
-            <div class="m-card">
-              <h4 class="text-h5"><%= t(".technical.maintenance_status") %></h4>
-              <div class="flex flex-wrap gap-2">
-              <% solution.maintenance_statuses.each do |status| %>
-                <div class="m-badge m-badge--sm bg-neutral-20"><%= status.name %></div>
-              <% end %>
+        <div>
+          <div class="solution-cards">
+            <%= render_implementation(:code_repository) %>
+            <% if solution.maintenance_statuses.present? %>
+              <div class="m-card">
+                <h3 class="text-h5"><%= t(".technical.maintenance_status") %></h3>
+                <div class="flex flex-wrap gap-2">
+                <% solution.maintenance_statuses.each do |status| %>
+                  <div class="m-badge m-badge--sm bg-neutral-20"><%= status.name %></div>
+                <% end %>
+                </div>
               </div>
-            </div>
-          <% end %>
-          <%= render_implementation(:user_documentation) %>
-          <%= render_implementation(:product_roadmap) %>
-          <%= render_implementation(:open_api) %>
-          <%= render_implementation(:open_data) %>
-          <%= render_implementation(:code_license) %>
+            <% end %>
+            <%= render_implementation(:user_documentation) %>
+            <%= render_implementation(:product_roadmap) %>
+            <%= render_implementation(:open_api) %>
+            <%= render_implementation(:open_data) %>
+            <%= render_implementation(:code_license) %>
+          </div>
+          <h2 class="sr-only"><%= t(".technical.statements") %></h2>
+          <div class="flex flex-col">
+            <%= render_implementation_statement(:code_repository) %>
+            <%= render_implementation_statement(:user_documentation) %>
+            <%= render_implementation_statement(:product_roadmap) %>
+            <%= render_implementation_statement(:open_api) %>
+            <%= render_implementation_statement(:open_data) %>
+            <%= render_implementation_statement(:code_license) %>
+          </div>
         </div>
         <%= render_multiselection(:programming_languages) %>
         <%= render_multiselection(:readiness_levels) %>
         <%= render_multiselection(:content_licenses) %>
-        <%= render_multiselection(:metadata_standards) %>
-        <%= render_multiselection(:persistent_identifier_standards) %>
-        <%= render_multiselection(:security_standards) %>
-        <%= render_multiselection(:preservation_standards) %>
-        <%= render_multiselection(:metrics_standards) %>
+        <div class="solution-cards-wrapper">
+          <h3>
+            <%= t(".technical.standards") %>
+          </h3>
+          <div class="solution-cards">
+            <%= render_multiselection_card(:metadata_standards) %>
+            <%= render_multiselection_card(:persistent_identifier_standards) %>
+            <%= render_multiselection_card(:security_standards) %>
+            <%= render_multiselection_card(:preservation_standards) %>
+            <%= render_multiselection_card(:metrics_standards) %>
+          </div>
+        </div>
         <%= render_multiselection(:hosting_strategy) %>
         <%= render_structured_list(:service_providers, solution.service_provider_free_input) %>
-        <%= render_multiselection(:integrations, "columns") %>
+        <%= render_multiselection(:integrations, "columns", 3) %>
       </article>
       <article id="community" class="l-container__inner"
         data-solution-details-component--solution-details-component-target="article">
         <h2 class="a-underline"><%= t(".community.heading") %></h2>
-        <div class="solution-cards">
-          <%= render_implementation(:code_of_conduct) %>
-          <%= render_implementation(:community_engagement) %>
-          <%= render_implementation(:contribution_pathways) %>
+        <div>
+          <div class="solution-cards">
+            <%= render_implementation(:code_of_conduct) %>
+            <%= render_implementation(:community_engagement) %>
+            <%= render_implementation(:contribution_pathways) %>
+          </div>
+          <h2 class="sr-only"><%= t(".community.statements") %></h2>
+          <div class="flex flex-col">
+            <%= render_implementation_statement(:code_of_conduct) %>
+            <%= render_implementation_statement(:community_engagement) %>
+            <%= render_implementation_statement(:contribution_pathways) %>
+          </div>
         </div>
         <%= render_multiselection(:community_engagement_activities) %>
-        <%= render_multiselection(:values_frameworks, "columns") %>
-        <%= render_multiselection(:user_contributions) %>
+        <%= render_multiselection(:values_frameworks, "columns", 1) %>
         <% if solution.membership_program_url? %>
-          <a href="<%= solution.membership_program_url %>" target="_blank" rel="noreferrer" class="m-button m-button--lg">
-            <span><%= t(".about.membership_program_url") %></span>
-            <span class="sr-only"><%= t(".opens_in_new_window") %></span>
-            <%= image_tag "icons/24/Link-External.svg", alt: "" %>
-          </a>
+          <div>
+            <h3><%= t(".community.membership_program") %></h3>
+            <div>
+              <a href="<%= solution.membership_program_url %>" target="_blank" rel="noreferrer" class="m-button m-button--lg m-button--fit-to-content bg-brand-mint">
+                <span><%= t(".community.membership_program_url") %></span>
+                <span class="sr-only"><%= t(".opens_in_new_window") %></span>
+                <%= image_tag "icons/24/Link-External.svg", alt: "" %>
+              </a>
+            </div>
+          </div>
         <% end %>
         <% if solution.scoss? %>
-          <%= render SolutionDetailsTextBlockComponent.new(text: "Yes", heading: t(".community.scoss")) %>
+          <div>
+            <h3><%= t(".community.scoss") %></h3>
+            <div class="m-badge m-badge--white m-badge--fit-to-content">
+              <%= image_tag "icons/16/Checkmark.svg", alt: "" %>
+              <%= t(".community.scoss_true") %>
+            </div>
+          </div>
         <% end %>
+        <%= render_multiselection(:user_contributions) %>
       </article>
       <article id="policies" class="l-container__inner"
         data-solution-details-component--solution-details-component-target="article">
@@ -176,14 +213,26 @@
           <h3>
             <%= t(".policies.policies") %>
           </h3>
-          <div class="solution-cards">
-            <%= render_implementation(:bylaws) %>
-            <%= render_implementation(:equity_and_inclusion) %>
-            <%= render_implementation(:privacy_policy) %>
-            <%= render_implementation(:web_accessibility) %>
-            <%= render_implementation(:governance_records) %>
-            <%= render_implementation(:governance_structure) %>
-            <%= render_implementation(:pricing) %>
+          <div>
+            <div class="solution-cards">
+              <%= render_implementation(:bylaws) %>
+              <%= render_implementation(:equity_and_inclusion) %>
+              <%= render_implementation(:privacy_policy) %>
+              <%= render_implementation(:web_accessibility) %>
+              <%= render_implementation(:governance_records) %>
+              <%= render_implementation(:governance_structure) %>
+              <%= render_implementation(:pricing) %>
+            </div>
+            <h2 class="sr-only"><%= t(".policies.statements") %></h2>
+            <div class="flex flex-col">
+              <%= render_implementation_statement(:bylaws) %>
+              <%= render_implementation_statement(:equity_and_inclusion) %>
+              <%= render_implementation_statement(:privacy_policy) %>
+              <%= render_implementation_statement(:web_accessibility) %>
+              <%= render_implementation_statement(:governance_records) %>
+              <%= render_implementation_statement(:governance_structure) %>
+              <%= render_implementation_statement(:pricing) %>
+            </div>
           </div>
         </div>
         <%= render_multiselection(:board_structures) %>
@@ -263,50 +312,14 @@
         <%= render_structured_list(:founding_institutions, solution.founding_institution_free_input) %>
         <%= render_structured_list(:top_granting_institutions, solution.top_granting_institution_free_input) %>
         <% if solution.recent_grants.present? %>
-          <div>
+          <div class="solution-cards-wrapper">
             <h3>
               <%= t(".funding.recent_grants") %>
             </h3>
-            <ul>
+            <ul class="solution-cards">
               <% solution.recent_grants.each do |grant| %>
-                <li class="grant-card">
-                  <% if grant.name.present? %>
-                    <h4 class="text-h5"><%= grant.name %></h4>
-                  <% end %>
-                  <dl>
-                    <div>
-                      <dt>Dates:</dt>
-                      <dd>
-                        <% if grant.display_date.present? %>
-                          <%= grant.display_date %>
-                        <% else %>
-                          <%= l grant.starts_on, format: :mdy %> – <%= l grant.ends_on, format: :mdy %>
-                        <% end %>
-                      </dd>
-                    </div>
-                    <div>
-                      <dt>Funder:</dt>
-                      <dd><%= grant.funder %></dd>
-                    </div>
-                    <div>
-                      <dt>Amount:</dt>
-                      <dd><%= grant.amount %></dd>
-                    </div>
-                    <div>
-                      <dt>Grant activities:</dt>
-                      <dd><%= grant.grant_activities %></dd>
-                    </div>
-                    <div>
-                      <dt>Announcement URL:</dt>
-                      <dd>
-                        <a href="<%= grant.award_announcement_url %>"><%= grant.award_announcement_url %></a>
-                      </dd>
-                    </div>
-                    <div>
-                      <dt>Notes:</dt>
-                      <dd><%= grant.notes %></dd>
-                    </div>
-                  </dl>
+                <li>
+                  <%= render SolutionDetailsGrantCardComponent.new(grant:) %>
                 </li>
               <% end %>
             </div>
