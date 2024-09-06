@@ -9,7 +9,7 @@ module SolutionProperties
         super
 
         if csv_strategy == :v2
-          impl = ::Implementation.find property.implementation
+          impl = property.implementation
 
           assign_value_from_csv!(impl.structured_attr, impl.structured_header)
         end

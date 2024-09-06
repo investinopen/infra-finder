@@ -24,6 +24,8 @@ class SolutionDraft < ApplicationRecord
 
   has_one :provider, through: :solution
 
+  has_many :solution_revisions, inverse_of: :solution_draft, dependent: :nullify
+
   scope :mutable, -> { in_state(:pending, :in_review) }
 
   scope :pending, -> { in_state(:pending) }

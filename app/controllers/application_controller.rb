@@ -10,6 +10,8 @@ class ApplicationController < ActionController::Base
 
   skip_terms_enforcement false
 
+  before_action :store_user!
+  after_action :clear_user!
   before_action :prepare_open_graph!
   before_action :prepare_page_meta!
 
@@ -26,6 +28,11 @@ class ApplicationController < ActionController::Base
   attr_reader :page_meta
 
   helper_method :page_meta
+
+  # @return [void]
+  def clear_user!
+    RequestStore.store[:current_user] = nil
+  end
 
   def access_denied(error = nil)
     if user_signed_in? && current_user.has_any_admin_or_editor_access?
@@ -64,6 +71,11 @@ class ApplicationController < ActionController::Base
 
   def skip_terms_enforcement?
     self.class.skip_terms_enforcement || controller_path == "admin/terms_and_conditions"
+  end
+
+  # @return [void]
+  def store_user!
+    RequestStore.store[:current_user] = user_signed_in? ? current_user : nil
   end
 
   def uncacheable!

@@ -12,6 +12,8 @@ module Solutions
 
     AnySolution = Actual | Draft
 
+    DataVersion = ApplicationRecord.dry_pg_enum(:solution_data_version)
+
     FieldKind = Coercible::Symbol.enum(
       :attachment,
       :blurb,
@@ -33,6 +35,10 @@ module Solutions
     Option = Instance(::ControlledVocabularyRecord)
 
     OptionMode = Coercible::Symbol.enum(:single, :multiple)
+
+    RevisionKind = ApplicationRecord.dry_pg_enum(:solution_revision_kind)
+
+    RevisionProviderState = ApplicationRecord.dry_pg_enum(:solution_revision_provider_state)
 
     User = ModelInstance("User")
   end

@@ -2,49 +2,65 @@
 - name: bylaws
   type_name: Implementations::Bylaws
   enum: bylaws_implementation
+  code: 15100
 - name: code_license
   type_name: Implementations::CodeLicense
   enum: code_license_implementation
+  code: 15101
 - name: code_of_conduct
   type_name: Implementations::CodeOfConduct
   enum: code_of_conduct_implementation
+  code: 15102
 - name: code_repository
   type_name: Implementations::CodeRepository
   enum: code_repository_implementation
+  code: 15103
 - name: community_engagement
   type_name: Implementations::CommunityEngagement
   enum: community_engagement_implementation
+  code: 15104
 - name: contribution_pathways
   type_name: Implementations::ContributionPathways
   enum: contribution_pathways_implementation
+  code: 15105
 - name: equity_and_inclusion
   type_name: Implementations::EquityAndInclusion
   enum: equity_and_inclusion_implementation
+  code: 15106
 - name: governance_records
   type_name: Implementations::GovernanceRecords
   enum: governance_records_implementation
+  code: 15107
 - name: governance_structure
   type_name: Implementations::GovernanceStructure
   enum: governance_structure_implementation
+  code: 15108
 - name: open_api
   type_name: Implementations::OpenAPI
   enum: open_api_implementation
+  code: 15109
 - name: open_data
   type_name: Implementations::OpenData
   enum: open_data_implementation
+  code: 15110
 - name: pricing
   type_name: Implementations::Pricing
   enum: pricing_implementation
   enum_type: pricing_implementation_status
+  code: 15111
 - name: privacy_policy
   type_name: Implementations::PrivacyPolicy
   enum: privacy_policy_implementation
+  code: 15112
 - name: product_roadmap
   type_name: Implementations::ProductRoadmap
   enum: product_roadmap_implementation
+  code: 15113
 - name: user_documentation
   type_name: Implementations::UserDocumentation
   enum: user_documentation_implementation
+  code: 15114
 - name: web_accessibility
   type_name: Implementations::WebAccessibility
   enum: web_accessibility_implementation
+  code: 15115
