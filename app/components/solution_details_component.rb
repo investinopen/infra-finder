@@ -27,6 +27,12 @@ class SolutionDetailsComponent < ApplicationComponent
     render ImplementationDetailComponent.new(solution:, name:)
   end
 
+  # @param [Solutions::Types::Implementation] name
+  # @return [String]
+  def render_implementation_statement(name)
+    render ImplementationStatementComponent.new(solution:, name:)
+  end
+
   def render_location
     render SolutionLocationComponent.new(solution:)
   end
@@ -35,8 +41,12 @@ class SolutionDetailsComponent < ApplicationComponent
     render SolutionCategoryBadgesComponent.new(solution:)
   end
 
-  def render_multiselection(name, layout = "default")
-    render SolutionMultiselectionComponent.new(solution:, name:, layout:)
+  def render_multiselection(name, layout = "default", column_count = 3)
+    render SolutionMultiselectionComponent.new(solution:, name:, layout:, column_count:)
+  end
+
+  def render_multiselection_card(name)
+    render SolutionMultiselectionCardComponent.new(solution:, name:)
   end
 
   def render_structured_list(name, free_text = nil)

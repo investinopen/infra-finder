@@ -53,6 +53,10 @@
     }
   }
 
+  &--fit-to-content {
+    inline-size: fit-content;
+  }
+
   &--white {
     @mixin fluidScaleRem --_badge-padding-block, 16px, 12px;
     @mixin fluidScaleRem --_badge-padding-inline, 24px, 20px;
@@ -60,5 +64,13 @@
     @apply bg-white;
     @apply rounded-sm;
     @apply text-label;
+  }
+
+  &--neutral-20 {
+    --_badge-padding-block: 0.475rem;
+    --_badge-padding-inline: 0.925rem;
+    
+    @apply bg-neutral-20;
+    font-size: 0.875rem;
   }
 }

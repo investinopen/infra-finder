@@ -64,25 +64,20 @@
 
   > article > div > h3 {
     @apply text-h4;
-    padding-block-end: 1.5rem;
+    padding-block-end: var(--solution-articles-h3-padding-block-end, 1.5rem);
   }
 }
 
 .solution-cards-wrapper {
-  &:not(:has(.m-card)):not(:has(.org-structure-card)) {
+  &:not(:has(.m-card)):not(:has(.org-structure-card)):not(:has(.multiselection-card)) {
     display: none;
   }
 }
 
 .solution-cards {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(19.6875rem, 1fr));
   gap: 1rem;
-  align-items: stretch;
-
-  > * {
-    flex-basis: 19.6875rem;
-  }
 }
 
 .org-structure-card {
@@ -104,23 +99,5 @@
     background-color: theme("colors.brand.mint");
     @mixin fluidScaleRem padding-block-start, 24px, 20px;
     @mixin fluidScaleRem padding-block-end, 20px, 16px;
-  }
-}
-
-.grant-card {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  font-size: 0.875em;
-
-  dl {
-    > div {
-      display: flex;
-      gap: 0.25em;
-    }
-  }
-
-  dt {
-    font-weight: 600;
   }
 }
