@@ -1,20 +1,28 @@
-<div
-  class="multiselection multiselection--<%= layout %>"
-  data-controller="solution-multiselection-component--solution-multiselection-component">
-  <h3><%= t(".#{connection_name}") %></h3>
-  <% if selections.present? %>
-    <ul class="multiselection__list--<%= layout %><% if layout == 'columns' %> t-rte<% end %>">
-      <% selections.each do |selection| %>
-        <li <% if layout == 'default' %> class="m-badge m-badge--white text-label"<% end %>><%= selection.name %></li>
+<% if selections.present? or other_value.present? %>
+  <div
+    class="multiselection<% if !selections.present? and other_value.present? %> multiselection--free-text<% end %>"
+    data-controller="solution-multiselection-component--solution-multiselection-component">
+    <h3><%= t(".#{connection_name}") %></h3>
+    <div class="multiselection__body multiselection__body--<%= layout %>">
+      <% if selections.present? %>
+        <ul class="multiselection__list multiselection__list--<%= layout %><% if layout == 'columns' %> multiselection__list--columns-<%= column_count %> t-rte<% end %>">
+          <% selections.each do |selection| %>
+            <li <% if layout == 'default' %> class="m-badge m-badge--white"<% end %>><%= selection.name %></li>
+          <% end %>
+        </ul>
       <% end %>
-    </ul>
-  <% end %>
-  <% if other_value.present? %>
-    <div <% if selections.present? %> class="pt-5"<% end %>>
-      <strong class="multiselection__other-label"><%= t(".other_label") %></strong>
-      <div class="t-rte<% unless layout == 'columns' %> font-light<% end %>">
-        <%= simple_format(other_value).html_safe %>
-      </div>
+      <% if other_value.present? %>
+        <% if selections.present? %>
+          <div class="pt-5 t-other-text">
+            <strong><%= t(".other_label") %></strong>
+            <%= render ExpandableTextComponent.new(text: other_value, truncate: 3) %>
+          </div>
+        <% else %>
+          <div class="t-rte<% unless layout == 'columns' %> font-light<% end %>">
+            <%= simple_format(other_value).html_safe %>
+          </div>
+        <% end %>
+      <% end %>
     </div>
-  <% end %>
-</div>
+  </div>
+<% end %>

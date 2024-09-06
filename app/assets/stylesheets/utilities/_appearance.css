@@ -42,7 +42,7 @@ background classes will extend tailwind's 'bg-' pattern. */
 }
 
 .a-link {
-  text-decoration: underline;
+  text-decoration-line: underline;
 }
 
 .translation_missing {

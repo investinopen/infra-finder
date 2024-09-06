@@ -40,6 +40,10 @@
     }
   }
 
+  &--fit-to-content {
+    inline-size: fit-content;
+  }
+
   > svg,
   > img {
     flex: 0 0 auto;

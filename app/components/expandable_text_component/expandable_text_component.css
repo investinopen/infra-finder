@@ -1,0 +1,11 @@
+.expandable-text {
+  &__text {
+    -webkit-line-clamp: var(--truncate);
+  }
+
+  &__toggle {
+    margin-block-start: 0.75em;
+    letter-spacing: inherit;
+    font-weight: 600;
+  }
+}

@@ -1,0 +1,26 @@
+.grant-card {
+  --card-inner-gap: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.571;
+
+  dl {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+    padding-block: 1.125rem;
+    border-block: 1px solid theme("colors.neutral.40");
+
+    > div {
+      display: flex;
+      gap: 0.25em;
+    }
+  }
+
+  dt {
+    font-weight: 600;
+  }
+}

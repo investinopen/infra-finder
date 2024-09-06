@@ -13,7 +13,6 @@ en:
     launched: "Launched:"
     record_updated: "Record Updated:"
     board_members_url: Board Members
-    membership_program_url: Membership Program
     research_organization_registry_url: Research Organization Registry
   mission:
     nav: Mission
@@ -28,18 +27,25 @@ en:
     hosting_strategy: Hosting Strategy
     service_providers: Service Providers
     code_license: Code License
+    statements: Technical Attribute Statements
+    standards: Standards
   community:
     nav: Community
     heading: Community Engagement
     user_contribution: User Contribution Pathways
     organizational_commitment: Organizational Commitment to Community Engagement
     engagement: Engagement with Values Frameworks
+    membership_program: Membership Program
+    membership_program_url: Website
     scoss: SCOSS Participation
+    scoss_true: "Yes"
+    statements: Community Statements
   policies:
     nav: Policies
     heading: Policies & Governance
     governance_summary: Governance Summary
     policies: Policies
+    statements: Policy Statements
   additional_information:
     nav: Additional Information
     heading: Additional Information

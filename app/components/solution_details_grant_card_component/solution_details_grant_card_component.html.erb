@@ -1,0 +1,57 @@
+<article
+  data-controller="solution-grant-card-component--solution-grant-card-component"
+  class="m-card grant-card">
+  <% if grant.name.present? %>
+    <h4 class="text-h5"><%= grant.name %></h4>
+  <% end %>
+  <dl>
+    <% if grant.display_date.present? or grant.starts_on.present? or grant.ends_on.present? %>
+      <div>
+        <dt><%= t(".dates") %></dt>
+        <dd>
+          <% if grant.display_date.present? %>
+            <%= grant.display_date %>
+          <% else %>
+            <% if grant.starts_on.present? %>
+              <time datetime="<%= grant.starts_on %>"><%= l grant.starts_on, format: :my %></time>
+              <span> – </span>
+            <% end %>
+            <time datetime="<%= grant.ends_on %>"><%= l grant.ends_on, format: :my %></time>
+          <% end %>
+        </dd>
+      </div>
+    <% end %>
+    <% if grant.funder.present? %>
+      <div>
+        <dt><%= t(".funder") %></dt>
+        <dd><%= grant.funder %></dd>
+      </div>
+    <% end %>
+    <% if grant.amount.present? %>
+      <div>
+        <dt><%= t(".amount") %></dt>
+        <dd><%= grant.amount %></dd>
+      </div>
+    <% end %>
+    <% if grant.grant_activities.present? %>
+      <div>
+        <dt><%= t(".activities") %></dt>
+        <dd><%= grant.grant_activities %></dd>
+      </div>
+    <% end %>
+    <% if grant.notes.present? %>
+      <div>
+        <%= render ExpandableTextComponent.new(text: grant.notes, truncate: 4) %>
+      </div>
+    <% end %>
+  </dl>
+  <% if grant.award_announcement_url.present? %>
+    <footer>
+        <a href="<%= grant.award_announcement_url %>" target="_blank" rel="noreferrer" class="m-button m-button--sm m-button--fit-to-content bg-brand-mint">
+          <%= t(".announcement") %>
+          <span class="sr-only"><%= t(".opens_in_new_window") %></span>
+          <%= image_tag "icons/16/Link-External.svg", alt: "" %>
+        </a>
+    </footer>
+  <% end %>
+</article>

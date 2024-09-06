@@ -1,10 +1,11 @@
 <div
   data-controller="comparison-multiselection-cell-component--comparison-multiselection-cell-component"
   role="cell"
-  class="m-table__cell">
+  class="m-table__cell"
+  style="--truncate:5;">
   <div
-    data-comparison-multiselection-cell-component--comparison-multiselection-cell-component-target="body"
-    <% if has_value and truncate %> data-truncate class="line-clamp-6 print:line-clamp-none"<% end %>>
+    data-comparison-multiselection-cell-component--comparison-multiselection-cell-component-target="text"
+    <% if has_value and truncate %> data-truncate class="line-clamp-6 print:line-clamp-none expandable-text__text"<% end %>>
     <% if selections.present? %>
       <% if mode == :multiple and selections.count > 1 %>
         <ul class="t-rte">
@@ -32,9 +33,9 @@
     <% end %>
   </div>
   <% if has_value and truncate %>
-    <button data-comparison-multiselection-cell-component--comparison-multiselection-cell-component-target="readMore"
-      class="a-link mt-4 hidden print:hidden"
-      data-action="click->comparison-multiselection-cell-component--comparison-multiselection-cell-component#readMore">
+    <button data-comparison-multiselection-cell-component--comparison-multiselection-cell-component-target="toggle"
+      class="a-link mt-[0.75em] hidden print:hidden"
+      data-action="click->comparison-multiselection-cell-component--comparison-multiselection-cell-component#toggleExpand">
       <span data-more-text><%= t(".read_more") %></span>
       <span data-less-text class="a-hidden"><%= t(".show_less") %></span>
     </button>
