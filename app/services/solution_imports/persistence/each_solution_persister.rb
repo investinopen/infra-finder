@@ -67,8 +67,12 @@ module SolutionImports
       end
 
       wrapped_hook! def prepare_draft
-        # Ensure our solution is persisted
-        solution.save!
+        if new_record
+          # Ensure our solution is persisted
+          solution.save!
+
+          yield solution.create_revision(kind: :import, reason: "Created via solution import ##{import.id}", user:)
+        end
 
         @draft = yield solution.create_draft(user:, enforce_single_pending_draft: false)
 

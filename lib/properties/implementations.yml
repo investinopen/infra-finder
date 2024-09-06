@@ -1,0 +1,226 @@
+---
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: bylaws
+  code: 15100
+  attr: bylaws
+  ext_name: bylaws_ext
+  description: Actual implementation property for Bylaws or Other Governance Documentation
+  implementation_name: bylaws
+  be_label: Bylaws or Other Governance Documentation
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: code_license
+  code: 15101
+  attr: code_license
+  ext_name: code_license_ext
+  description: Actual implementation property for Code License Details
+  implementation_name: code_license
+  be_label: Code License Details
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: code_of_conduct
+  code: 15102
+  attr: code_of_conduct
+  ext_name: code_of_conduct_ext
+  description: Actual implementation property for Code of conduct
+  implementation_name: code_of_conduct
+  be_label: Code of conduct
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: code_repository
+  code: 15103
+  attr: code_repository
+  ext_name: code_repository_ext
+  description: Actual implementation property for Open Code Repository
+  implementation_name: code_repository
+  be_label: Open Code Repository
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: community_engagement
+  code: 15104
+  attr: community_engagement
+  ext_name: community_engagement_ext
+  description: Actual implementation property for Organizational Commitment to Community
+    Engagement
+  implementation_name: community_engagement
+  be_label: Organizational Commitment to Community Engagement
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: contribution_pathways
+  code: 15105
+  attr: contribution_pathways
+  ext_name: contribution_pathways_ext
+  description: Actual implementation property for Contribution pathways
+  implementation_name: contribution_pathways
+  be_label: Contribution pathways
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: equity_and_inclusion
+  code: 15106
+  attr: equity_and_inclusion
+  ext_name: equity_and_inclusion_ext
+  description: Actual implementation property for Commitment to Equity and Inclusion
+  implementation_name: equity_and_inclusion
+  be_label: Commitment to Equity and Inclusion
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: governance_records
+  code: 15107
+  attr: governance_records
+  ext_name: governance_records_ext
+  description: Actual implementation property for Governance records
+  implementation_name: governance_records
+  be_label: Governance records
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: governance_structure
+  code: 15108
+  attr: governance_structure
+  ext_name: governance_structure_ext
+  description: Actual implementation property for Governance Structure and Processes
+  implementation_name: governance_structure
+  be_label: Governance Structure and Processes
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: open_api
+  code: 15109
+  attr: open_api
+  ext_name: open_api_ext
+  description: Actual implementation property for Open API
+  implementation_name: open_api
+  be_label: Open API
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: open_data
+  code: 15110
+  attr: open_data
+  ext_name: open_data_ext
+  description: Actual implementation property for Open data
+  implementation_name: open_data
+  be_label: Open data
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: pricing
+  code: 15111
+  attr: pricing
+  ext_name: pricing_ext
+  description: Actual implementation property for Transparent Pricing and Cost Expectations
+  implementation_name: pricing
+  be_label: Transparent Pricing and Cost Expectations
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: privacy_policy
+  code: 15112
+  attr: privacy_policy
+  ext_name: privacy_policy_ext
+  description: Actual implementation property for Privacy policy
+  implementation_name: privacy_policy
+  be_label: Privacy policy
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: product_roadmap
+  code: 15113
+  attr: product_roadmap
+  ext_name: product_roadmap_ext
+  description: Actual implementation property for Open Product Roadmap
+  implementation_name: product_roadmap
+  be_label: Open Product Roadmap
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: user_documentation
+  code: 15114
+  attr: user_documentation
+  ext_name: user_documentation_ext
+  description: Actual implementation property for User documentation
+  implementation_name: user_documentation
+  be_label: User documentation
+- kind: :implementation
+  meta: true
+  exported: false
+  required: false
+  fe_position: 0
+  fe_visibility: hidden
+  phase_2_status: none
+  name: web_accessibility
+  code: 15115
+  attr: web_accessibility
+  ext_name: web_accessibility_ext
+  description: Actual implementation property for Web accessibility
+  implementation_name: web_accessibility
+  be_label: Web accessibility

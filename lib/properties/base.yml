@@ -1,0 +1,2705 @@
+---
+- name: publication
+  code: 109
+  attr: publication
+  kind: :enum
+  meta: true
+  only: :actual
+  description: The publication status (visibility) of the entry.
+  exported: false
+  required: false
+  ext_name: publication_status
+  be_label: Publication
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 AUTO
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: none
+  vocab_name:
+  original_input: Auto-populated
+- name: published_at
+  code: 110
+  attr: published_at
+  kind: :timestamp
+  meta: true
+  only: :actual
+  description: The date on which the entry was first made public.
+  exported: false
+  required: false
+  ext_name: publication_date
+  be_label: Published at
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 AUTO
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: none
+  vocab_name:
+  original_input: Auto-populated
+- name: created_at
+  code: 2
+  attr: created_at
+  kind: :timestamp
+  meta: true
+  description: The date on which the entry was first created.
+  exported: false
+  required: false
+  ext_name: creation_date
+  be_label: Created at
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 AUTO
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: none
+  vocab_name:
+  original_input: Auto-populated
+- name: special_certifications_or_statuses
+  code: 47
+  attr: special_certifications_or_statuses
+  kind: :blurb
+  meta: false
+  description: Publicly available evidence of certification or validation through
+    a recognized process or community group. Examples include B-Corp certification,
+    participation in the Global Sustainability Coalition for Open Science Services
+    (SCOSS), CoreTrustSeal certification, or inclusion in the Digital Public Goods
+    registry.
+  exported: false
+  required: false
+  ext_name: certifications
+  be_label: Special certifications or statuses
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 DROP
+  fe_visibility: hidden
+  phase_2_status: drop
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: standards_employed
+  code: 87
+  attr: standards_employed
+  kind: :blurb
+  meta: false
+  description: Standards adhered to in technology and content delivery, such as metadata
+    standards (JATS XML, Dublin Core, Resource Description Framework), serialization
+    (OAI-PMH), information security (ISO/IEC 27001), persistent identifiers (ORCID,
+    ROR, DOIs).
+  exported: false
+  required: false
+  ext_name: standards
+  be_label: Standards employed
+  be_position: 30
+  fe_label: N/A
+  fe_position: 30
+  fe_section: 000 DROP
+  fe_visibility: hidden
+  phase_2_status: drop
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: registered_service_provider_description
+  code: 106
+  attr: registered_service_provider_description
+  kind: :blurb
+  meta: false
+  description: Narrative description of registered service provider(s)
+  exported: false
+  required: false
+  ext_name: registered_service_provider_description
+  be_label: Registered service provider description
+  be_position: 0
+  fe_label: Service Providers
+  fe_position: 0
+  fe_section: 000 DROP
+  fe_visibility: hidden
+  phase_2_status: drop
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: comparable_products
+  code: 60
+  attr: comparable_products
+  kind: :store_model_list
+  meta: false
+  description: Services that could be considered peers or competitors.
+  exported: false
+  required: false
+  ext_name: comparable_tools
+  be_label: Comparable tools or projects
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 DROP
+  fe_visibility: hidden
+  phase_2_status: drop
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: approval_status
+  code: 3
+  attr:
+  kind: :standard
+  meta: true
+  description: Status of the submission in the approval workflow.
+  exported: false
+  required: false
+  skip_csv_export: true
+  ext_name: approval_status
+  be_label: N/A
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 PRIVATE
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: none
+  vocab_name:
+  original_input: IOI data mgmt
+- name: first_name
+  code: 5
+  attr:
+  kind: :string
+  meta: false
+  description: First name of the individual completing the form (and key contact for
+    IOI).
+  exported: false
+  required: true
+  ext_name: first_name
+  be_label: First Name
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 PRIVATE
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: last_name
+  code: 6
+  attr:
+  kind: :string
+  meta: false
+  description: Last name of the individual completing the form (and key contact for
+    IOI).
+  exported: false
+  required: true
+  ext_name: last_name
+  be_label: Last Name
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 PRIVATE
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: email
+  code: 7
+  attr:
+  kind: :email
+  meta: false
+  description: Email address of the individual completing the form (and key contact
+    for IOI).
+  exported: false
+  required: true
+  ext_name: email
+  be_label: Email
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 PRIVATE
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: confirmation
+  code: 93
+  attr:
+  kind: :standard
+  meta: true
+  description: Indication from the submitter that they understand terms and conditions
+    of submitting the form.
+  exported: false
+  required: true
+  skip_csv_export: true
+  ext_name: confirmation
+  be_label: Confirmation
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 PRIVATE
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: none
+  vocab_name:
+  original_input: Auto-populated
+- name: member_count
+  code: 78
+  attr: member_count
+  kind: :integer
+  meta: false
+  description: Number of organizations and/or individuals actively participating in
+    the membership or sponsorship program
+  exported: true
+  required: false
+  ext_name: membership_numbers
+  be_label: Number of members
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: integer
+  vocab_name:
+  original_input: Integer
+- name: research_organization_registry_url
+  code: 11
+  attr: research_organization_registry_url
+  kind: :url
+  meta: false
+  description: Identifier from Research Organization Registry ID (https://ror.org/).
+  exported: true
+  required: false
+  ext_name: ror_id
+  be_label: Research Organization Registry URL
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: board_structures
+  code: 50
+  attr: board_structures
+  kind: :multi_option
+  meta: false
+  description: Structure of the service's governing board.
+  exported: true
+  required: true
+  ext_name: board_structure
+  be_label: Board structure
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: multiselect
+  vocab_name: board
+  original_input: Controlled multi-select
+- name: community_governances
+  code: 48
+  attr: community_governances
+  kind: :multi_option
+  meta: false
+  description: Public documentation of a community-driven governance structure, including
+    evidence of community representation in governing bodies.
+  exported: true
+  required: true
+  ext_name: community_governance_status
+  be_label: Community governance
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: multiselect
+  vocab_name: gov_stat
+  original_input: Controlled multi-select
+- name: readiness_levels
+  code: 79
+  attr: readiness_levels
+  kind: :multi_option
+  meta: false
+  description: The service’s readiness for broad adoption, adapted from the framework
+    developed by the Horizon 2020 project.
+  exported: true
+  required: true
+  ext_name: technology_readiness
+  be_label: Technology readiness level
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: multiselect
+  vocab_name: tech_read
+  original_input: Controlled multi-select
+- name: key_technologies
+  code: 82
+  attr:
+  kind: :tag_list
+  meta: false
+  description: The service or tool's technical dependencies.
+  exported: false
+  required: false
+  ext_name: key_technologies
+  be_label: Technology dependencies
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: drop
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: board_members_url
+  code: 97
+  attr: board_members_url
+  kind: :url
+  meta: false
+  description: Link to a list of the organization's current board members.
+  exported: true
+  required: false
+  ext_name: board_members
+  be_label: Board members
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: url
+  vocab_name:
+  original_input: URL
+- name: currency
+  code: 62
+  attr: currency
+  kind: :single_option
+  meta: false
+  description: Indication of the currency used to report financial information.
+  exported: false
+  required: false
+  ext_name: local_currency
+  be_label: Currency for financial calculations
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: select
+  vocab_name: currencies
+  original_input: Controlled dropdown
+- name: financial_date_range
+  code: 63
+  attr: financial_date_range
+  kind: :string
+  meta: false
+  description: The specific period for which financial information is being reported,
+    formatted as "MM-YYYY to MM-YYYY"
+  exported: false
+  required: false
+  ext_name: financial_date
+  be_label: Fiscal year or financial reporting period
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: annual_expenses
+  code: 69
+  attr:
+  kind: :money
+  meta: false
+  description: The amount of money that the organization spent on its programs, administration,
+    fundraising, and other activities during the year. For US-based organizations,
+    Part IX, line 25 from an IRS Form 990.
+  exported: false
+  required: false
+  ext_name: annual_expenses
+  be_label: Annual expenses in local currency
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: change_input
+  input: money
+  vocab_name:
+  original_input: Integer
+- name: annual_revenue
+  code: 68
+  attr:
+  kind: :money
+  meta: false
+  description: The amount of money that the organization received from all sources
+    during the most recent complete fiscal year, such as contributions, grants, program
+    service fees, investment income, etc. For US-nased non-profits, Part VIII, line
+    12 from an IRS Form 990.
+  exported: false
+  required: false
+  ext_name: annual_revenue
+  be_label: Annual revenue in local currency
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: change_input
+  input: money
+  vocab_name:
+  original_input: Integer
+- name: investment_income
+  code: 66
+  attr:
+  kind: :money
+  meta: false
+  description: The amount of money that the organization received from interest, dividends,
+    rents, royalties, and gains or losses from the sale of investments during the
+    year. For US-based non-profits, Part VIII, lines 3, 4, and 7d from an IRS Form
+    990.
+  exported: false
+  required: false
+  ext_name: investment_income
+  be_label: Investment income in local currency
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: change_input
+  input: money
+  vocab_name:
+  original_input: Integer
+- name: other_revenue
+  code: 67
+  attr:
+  kind: :money
+  meta: false
+  description: The amount of money that the organization received from other sources
+    not included in the above categories during the year. For US-based non-profits,
+    Part VIII, lines 5, 6d, 8c, 9c, 10c, and 11e from an IRS Form 990.
+  exported: false
+  required: false
+  ext_name: other_revenue
+  be_label: Other revenue in local currency
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: change_input
+  input: money
+  vocab_name:
+  original_input: Integer
+- name: program_revenue
+  code: 65
+  attr:
+  kind: :money
+  meta: false
+  description: The amount of money that the organization received from charging fees
+    or selling goods or services related to its mission or programs during the year.
+    For US-based non-profits, Part VIII, line 2g from an IRS Form 990.
+  exported: false
+  required: false
+  ext_name: program_revenue
+  be_label: Program revenue in local currency
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: change_input
+  input: money
+  vocab_name:
+  original_input: Integer
+- name: total_contributions
+  code: 64
+  attr:
+  kind: :money
+  meta: false
+  description: The amount of money that the organization received from donors and
+    grantmakers during the year. For US-based non-profits, Part VIII, line 1h from
+    an IRS Form 990.
+  exported: false
+  required: false
+  ext_name: total_contributions
+  be_label: Total contributions in local currency
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: change_input
+  input: money
+  vocab_name:
+  original_input: Integer
+- name: total_liabilities
+  code: 71
+  attr:
+  kind: :money
+  meta: false
+  description: The amount of money that the organization owes to others at the end
+    of the year, such as loans, mortgages, accounts payable, deferred revenue, etc.
+    For US-based non-profits, Part X, line 26 from an IRS Form 990.
+  exported: false
+  required: false
+  ext_name: total_liabilities
+  be_label: Total liabilities in local currency
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: change_input
+  input: money
+  vocab_name:
+  original_input: Integer
+- name: financial_numbers_publishability
+  code: 114
+  attr: financial_numbers_publishability
+  kind: :enum
+  meta: false
+  description: Indication of whether the respondent gives permission for financial
+    numbers to be published.
+  exported: false
+  required: true
+  ext_name: financial_visibility
+  be_label: Financial publishability
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: boolean
+  vocab_name:
+  original_input: Boolean (TRUE / FALSE)
+- name: staffing_volunteer
+  code: 55
+  attr:
+  kind: :single_option
+  meta: false
+  description: The current number of full-time equivalent (FTE) uncompensated volunteers
+    whose work serves an essential business function.
+  exported: true
+  required: false
+  ext_name: staffing_volunteer
+  be_label: 'Staff: Volunteer'
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: change_input
+  input: select
+  vocab_name: staffing
+  original_input: Controlled dropdown
+- name: financial_applicability
+  code: 115
+  attr:
+  kind: :single_option
+  meta: false
+  description:
+  exported: false
+  required: false
+  ext_name: financial_applicability
+  be_label: Financial information applicability
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: drop
+  input: select
+  vocab_name:
+  original_input: Controlled dropdown
+- name: financial_reporting_level
+  code: 72
+  attr:
+  kind: :single_option
+  meta: false
+  description: Indication of whether financial information provides to the service
+    or tool itself or to its fiscal sponsor or host organization.
+  exported: true
+  required: true
+  ext_name: financial_reporting_level
+  be_label: Financial reporting level
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: select
+  vocab_name: rprt_lvl
+  original_input: Controlled dropdown
+- name: financial_numbers_documented_url
+  code: 73
+  attr: financial_numbers_documented_url
+  kind: :url
+  meta: false
+  description: Link to publicly or privately available documentation that validates
+    the financial numbers reported. Examples include annual reports or IRS Form 990
+    for US-based non-profits.
+  exported: true
+  required: false
+  ext_name: financial_documentation
+  be_label: Financial documentation
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: current_affiliations
+  code: 58
+  attr: current_affiliations
+  kind: :store_model_list
+  meta: false
+  description: List of any external partners or organizations directly involved in
+    running or governing the service.
+  exported: true
+  required: true
+  store_model_type_name: Solutions::Institution
+  ext_name: affiliations
+  be_label: Current affiliations
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: founding_institutions
+  code: 59
+  attr: founding_institutions
+  kind: :store_model_list
+  meta: false
+  description: Organizations and/or individuals that had a direct role in founding
+    or launching the service.
+  exported: true
+  required: false
+  store_model_type_name: Solutions::Institution
+  ext_name: founders
+  be_label: Founding institutions
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: recent_grants
+  code: 75
+  attr: recent_grants
+  kind: :store_model_list
+  meta: false
+  description: List of grants received in the past year, including award title; date
+    (start, end dates); funder; amount; grant activities (research and development,
+    operations, strategy/governance/business planning, other); link to award or award
+    announcement, if available.
+  exported: false
+  required: false
+  store_model_type_name: Solutions::Grant
+  ext_name: grants_list
+  be_label: List grants received in the past year
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: top_granting_institutions
+  code: 74
+  attr: top_granting_institutions
+  kind: :store_model_list
+  meta: false
+  description: List or organizations that have provided the greatest amount of grant
+    funds to the service or provider in the past year.
+  exported: false
+  required: false
+  store_model_type_name: Solutions::Institution
+  ext_name: granting_institutions
+  be_label: Top granting institutions
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: web_accessibility_applicabilities
+  code: 31
+  attr: web_accessibility_applicabilities
+  kind: :multi_option
+  meta: false
+  description: Indication of whether the web accessibility statement applies solely
+    to a service or provider's website or to the tool itself.
+  exported: true
+  required: false
+  ext_name: web_accessibility_applicability
+  be_label: Web accessibility statement applicability
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: multiselect
+  vocab_name: acc_scope
+  original_input: Controlled multi-select
+- name: provider_name
+  code: 8
+  attr:
+  kind: :string
+  meta: true
+  description: Name of the service provider. A provider is a formal or informal organization
+    responsible for running a service. In some cases, the provider may be the same
+    as the service.
+  exported: true
+  required: true
+  ext_name: provider_name
+  be_label: Provider
+  be_position: 2
+  fe_label:
+  fe_position: 2
+  fe_section: 001 Header
+  fe_visibility: visible
+  phase_2_status: keep
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: name
+  code: 1
+  attr: name
+  kind: :string
+  meta: false
+  description: Name of the service. A service is a product or infrastructure component.
+    In some cases, the service may be the same as the provider.
+  exported: true
+  required: true
+  ext_name: service_name
+  be_label: Service name
+  be_position: 1
+  fe_label:
+  fe_position: 1
+  fe_section: 001 Header
+  fe_visibility: visible
+  phase_2_status: keep
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: country_code
+  code: 13
+  attr: country_code
+  kind: :single_option
+  meta: false
+  description: Location of incorporation of the service provider or of primary activity.
+  exported: true
+  required: false
+  ext_name: location
+  be_label: Location of incorporation
+  be_position: 4
+  fe_label: Map pin icon
+  fe_position: 4
+  fe_section: 001 Header
+  fe_visibility: visible
+  phase_2_status: change_input
+  input: select
+  vocab_name: countries
+  original_input: Controlled dropdown
+- name: website
+  code: 10
+  attr:
+  kind: :url
+  meta: false
+  description: Primary web presence of the service.
+  exported: true
+  required: true
+  ext_name: website
+  be_label: Website
+  be_position: 5
+  fe_label: Website
+  fe_position: 5
+  fe_section: 001 Header
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: contact
+  code: 4
+  attr: contact
+  kind: :contact
+  meta: false
+  description: Contact form or email address potential adopters can use to get additional
+    information.
+  exported: false
+  required: false
+  ext_name: public_contact
+  be_label: Contact form or email
+  be_position: 7
+  fe_label: Get in Touch
+  fe_position: 7
+  fe_section: 001 Header
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: logo
+  code: 12
+  attr: logo
+  kind: :attachment
+  meta: false
+  description: Logo or other image representing the service.
+  exported: true
+  required: false
+  ext_name: service_logo
+  be_label: Service logo
+  be_position: 3
+  fe_label:
+  fe_position: 3
+  fe_section: 001 Header
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: pricing_url
+  code: 34
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public link to prices or fees.
+  exported: true
+  required: false
+  implementation_name: pricing
+  implementation_property: links
+  ext_name: transparent_pricing_url
+  be_label: Link to pricing
+  be_position: 6
+  fe_label: Pricing info
+  fe_position: 6
+  fe_section: 001 Header
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: founded_on
+  code: 56
+  attr: founded_on
+  kind: :date
+  meta: false
+  description: Year that the service was first made available to users.
+  exported: true
+  required: true
+  ext_name: launch_date
+  be_label: Founding or launch date
+  be_position: 8
+  fe_label: Launched
+  fe_position: 8
+  fe_section: 002 About
+  fe_visibility: visible
+  phase_2_status: keep
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: updated_at
+  code: 92
+  attr: updated_at
+  kind: :timestamp
+  meta: true
+  description: Automatically generated date when information in the entry was last
+    changed.
+  exported: true
+  required: false
+  ext_name: last_update
+  be_label: Updated at
+  be_position: 9
+  fe_label: Record updated
+  fe_position: 9
+  fe_section: 002 About
+  fe_visibility: visible
+  phase_2_status: keep
+  input: none
+  vocab_name:
+  original_input: Auto-populated
+- name: solution_categories
+  code: 14
+  attr: solution_categories
+  kind: :multi_option
+  meta: false
+  description: The function(s) the service is primarily designed to serve or how adopters
+    primarily use the service.
+  exported: true
+  required: true
+  ext_name: solution_category
+  be_label: Solution category
+  be_position: 10
+  fe_label:
+  fe_position: 10
+  fe_section: 002 About
+  fe_visibility: visible
+  phase_2_status: keep
+  input: multiselect
+  vocab_name: soln_cat
+  original_input: Controlled multi-select
+- name: service_summary
+  code: 9
+  attr:
+  kind: :blurb
+  meta: false
+  description: Narrative description of the service.
+  exported: true
+  required: true
+  ext_name: service_summary
+  be_label: Service summary
+  be_position: 11
+  fe_label:
+  fe_position: 11
+  fe_section: 002 About
+  fe_visibility: visible
+  phase_2_status: keep
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: key_achievements
+  code: 16
+  attr:
+  kind: :blurb
+  meta: false
+  description: Narrative description of up to three recent milestones or achievements
+    that demonstrate growth or progress, such as usage or adoption milestones, deployment
+    of major features or new versions, staff additions or changes in leadership.
+  exported: true
+  required: false
+  ext_name: key_achievements
+  be_label: Key achievements
+  be_position: 13
+  fe_label: Key achievements
+  fe_position: 13
+  fe_section: 003 Mission
+  fe_visibility: visible
+  phase_2_status: keep
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: mission
+  code: 15
+  attr:
+  kind: :blurb
+  meta: false
+  description: Mission statement or description of problems the service aims to solve.
+  exported: true
+  required: true
+  ext_name: mission
+  be_label: Mission
+  be_position: 12
+  fe_label: Mission
+  fe_position: 12
+  fe_section: 003 Mission
+  fe_visibility: visible
+  phase_2_status: keep
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: licenses
+  code: 84
+  attr: licenses
+  kind: :multi_option
+  meta: false
+  description: Type of code license attached to the tool's primary source code repository.
+  exported: true
+  required: false
+  ext_name: code_license_name
+  be_label: Code licenses used
+  be_position: 29
+  fe_label: Code licenses used
+  fe_position: 29
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: keep
+  input: multiselect
+  vocab_name: code_lcns
+  original_input: Controlled multi-select
+- name: hosting_strategy
+  code: 76
+  attr: hosting_strategy
+  kind: :single_option
+  meta: false
+  description: Indication of whether the software can be hosted, deployed, configured,
+    maintained, or otherwise serviced by a vendor, whether the service provider or
+    a third party.
+  exported: true
+  required: true
+  ext_name: saas_options
+  be_label: Service and hosting options
+  be_position: 37
+  fe_label: Hosting Strategy
+  fe_position: 37
+  fe_section: 004 Technical Attributes
+  fe_visibility: visible
+  phase_2_status: keep
+  input: select
+  vocab_name: saas
+  original_input: Controlled dropdown
+- name: maintenance_statuses
+  code: 80
+  attr: maintenance_statuses
+  kind: :multi_option
+  meta: false
+  description: The service's maintenance status. Evidence of active maintenance may
+    include regular commits and issue resolutions in a GitHub repository, activity
+    in community and support forums.
+  exported: true
+  required: true
+  ext_name: maintenance_status
+  be_label: Maintenance status
+  be_position: 16
+  fe_label: Maintenance Status
+  fe_position: 16
+  fe_section: 004 Technical Attributes
+  fe_visibility: visible
+  phase_2_status: keep
+  input: multiselect
+  vocab_name: maint
+  original_input: Controlled multi-select
+- name: programming_languages
+  code: 81
+  attr: programming_languages
+  kind: :multi_option
+  meta: false
+  description: Primary programming languages or languages used in the service's source
+    code.
+  exported: true
+  required: false
+  ext_name: programming_language
+  be_label: Primary programming languages
+  be_position: 25
+  fe_label: Primary programming languages
+  fe_position: 25
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: add
+  input: multiselect
+  vocab_name: prgrm_lng
+  original_input: Controlled multi-select
+- name: metadata_standards
+  code: 94
+  attr: metadata_standards
+  kind: :multi_option
+  meta: false
+  description: List of standards and protocols for metadata description and exchange
+    that the tool or service supports.
+  exported: true
+  required: false
+  ext_name: metadata_standards
+  be_label: Metadata, markup, and information exchange standards
+  be_position: 31
+  fe_label:
+  fe_position: 31
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: add
+  input: multiselect
+  vocab_name: standards_metadata
+  original_input: Controlled multi-select
+- name: persistent_identifier_standards
+  code: 95
+  attr: persistent_identifier_standards
+  kind: :multi_option
+  meta: false
+  description: List of persistent identifiers supported by the tool or service.
+  exported: true
+  required: false
+  ext_name: pids
+  be_label: Persistent identifier support
+  be_position: 32
+  fe_label:
+  fe_position: 32
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: add
+  input: multiselect
+  vocab_name: standards_pids
+  original_input: Controlled multi-select
+- name: authentication_standards
+  code: 96
+  attr: authentication_standards
+  kind: :multi_option
+  meta: false
+  description: Authentication protocols supported by the tool or service.
+  exported: true
+  required: false
+  ext_name: authentication
+  be_label: Authentication protocols
+  be_position: 33
+  fe_label:
+  fe_position: 33
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: add
+  input: multiselect
+  vocab_name: standards_auth
+  original_input: Controlled multi-select
+- name: security_standards
+  code: 98
+  attr: security_standards
+  kind: :multi_option
+  meta: false
+  description: Information technology security standards in active use by the service.
+  exported: true
+  required: false
+  ext_name: security_standards
+  be_label: Security standards
+  be_position: 34
+  fe_label:
+  fe_position: 34
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: add
+  input: multiselect
+  vocab_name: standards_sec
+  original_input: Controlled multi-select
+- name: preservation_standards
+  code: 112
+  attr: preservation_standards
+  kind: :multi_option
+  meta: false
+  description: Preservation standards supported or used by the service.
+  exported: true
+  required: false
+  ext_name: preservation_standards
+  be_label: Preservation standards
+  be_position: 35
+  fe_label:
+  fe_position: 35
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: add
+  input: multiselect
+  vocab_name: standards_pres
+  original_input: Controlled multi-select
+- name: metrics_standards
+  code: 113
+  attr: metrics_standards
+  kind: :multi_option
+  meta: false
+  description: Standards supported or used by the service that pertain to the collection
+    of usage or other metrics.
+  exported: true
+  required: false
+  ext_name: metrics_standards
+  be_label: Standard metrics
+  be_position: 36
+  fe_label:
+  fe_position: 36
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: add
+  input: multiselect
+  vocab_name: standards_metrics
+  original_input: Controlled multi-select
+- name: content_licenses
+  code: 86
+  attr: content_licenses
+  kind: :multi_option
+  meta: false
+  description: For services that publish content, a list of licenses used, required,
+    or supported by the platform.
+  exported: true
+  required: true
+  ext_name: content_licensing
+  be_label: Content licensing
+  be_position: 26
+  fe_label: Content licensing
+  fe_position: 26
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: change_input
+  input: multiselect
+  vocab_name: cont_lcns
+  original_input: Controlled multi-select
+- name: integrations
+  code: 83
+  attr: integrations
+  kind: :multi_option
+  meta: false
+  description: List of tools and services with which the tool can readily exchange
+    information unidirectionally or bidirectionally.
+  exported: true
+  required: false
+  ext_name: integrations
+  be_label: Integrations and compatibility
+  be_position: 39
+  fe_label: What other tools and projects does your project interact or integrate
+    with?
+  fe_position: 39
+  fe_section: 004 Technical Attributes
+  fe_visibility: visible
+  phase_2_status: change_input
+  input: multiselect
+  vocab_name: integrations
+  original_input: Controlled multi-select
+- name: service_providers
+  code: 77
+  attr: service_providers
+  kind: :store_model_list
+  meta: false
+  description: Link to a public registry of approved third party service providers
+    or to a description of services available.
+  exported: true
+  required: false
+  store_model_type_name: Solutions::ServiceProvider
+  ext_name: registered_service_providers
+  be_label: Registered service providers
+  be_position: 38
+  fe_label: Service Providers
+  fe_position: 38
+  fe_section: 004 Technical Attributes
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: code_license_implementation
+  code: 104
+  attr: code_license_implementation
+  kind: :implementation_enum
+  meta: false
+  description: Indication of whether the service applies a standard open software
+    license to its primary source code.
+  exported: true
+  required: true
+  ext_name: code_license_status
+  implementation_property: "enum"
+  implementation_name: "code_license"
+  be_label: Code license status
+  be_position: 27
+  fe_label: Code license
+  fe_position: 27
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: keep
+  input: select
+  vocab_name: impl_scale
+  original_input: Controlled dropdown
+- name: code_license_url
+  code: 85
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Link to the code license attached to the tool's primary source code
+    repository.
+  exported: true
+  required: false
+  implementation_name: code_license
+  implementation_property: link
+  ext_name: code_license_url
+  be_label: Code license
+  be_position: 28
+  fe_label: N/A
+  fe_position: 28
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: code_repository_implementation
+  code: 18
+  attr: code_repository_implementation
+  kind: :implementation_enum
+  meta: false
+  description: A public repository where the source code of the service is stored
+    and shared openly, allowing anyone to access, inspect, modify, or contribute to
+    it.
+  exported: true
+  required: true
+  ext_name: open_code_repository_status
+  implementation_name: "code_repository"
+  implementation_property: "enum"
+  be_label: Open code repository
+  be_position: 14
+  fe_label: Open code repository
+  fe_position: 14
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: keep
+  input: select
+  vocab_name: impl_scale
+  original_input: Controlled dropdown
+- name: open_code_repository_url
+  code: 19
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public link to code repository.
+  exported: true
+  required: false
+  implementation_name: code_repository
+  implementation_property: links
+  ext_name: open_code_repository_url
+  be_label: Link to code repository
+  be_position: 15
+  fe_label: Open code repository
+  fe_position: 15
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: open_api_implementation
+  code: 88
+  attr: open_api_implementation
+  kind: :implementation_enum
+  meta: false
+  description: Public availability of application programming interfaces (APIs) that
+    provides developers with programmatic access to content and/or metadata.
+  exported: true
+  required: true
+  implementation_name: open_api
+  implementation_property: enum
+  ext_name: api_status
+  be_label: Open API
+  be_position: 21
+  fe_label: Open API
+  fe_position: 21
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: keep
+  input: select
+  vocab_name: impl_scale
+  original_input: Controlled dropdown
+- name: api_url
+  code: 89
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Link to public APIs.
+  exported: true
+  required: false
+  implementation_name: open_api
+  implementation_property: links
+  ext_name: api_url
+  be_label: Link to open APIs and/or API documentation
+  be_position: 22
+  fe_label: Open API
+  fe_position: 22
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: open_data_implementation
+  code: 20
+  attr: open_data_implementation
+  kind: :implementation_enum
+  meta: false
+  description: Public statement describing the service's commitment to the use and
+    availability of their data, allowing the data to be accessed to the extent possible
+  exported: true
+  required: true
+  implementation_name: open_data
+  implementation_property: enum
+  ext_name: open_data_statement_status
+  be_label: Open data statement
+  be_position: 23
+  fe_label: Open Data Statement
+  fe_position: 23
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: keep
+  input: select
+  vocab_name: impl_scale
+  original_input: Controlled dropdown
+- name: open_data_statement_url
+  code: 21
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public link to open data statement.
+  exported: true
+  required: false
+  implementation_name: open_data
+  implementation_property: links
+  ext_name: open_data_statement_url
+  be_label: Link to open data statement
+  be_position: 24
+  fe_label: Open Data Statement - Learn More
+  fe_position: 24
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: product_roadmap_implementation
+  code: 90
+  attr: product_roadmap_implementation
+  kind: :implementation_enum
+  meta: false
+  description: Publicly available documentation outlining the priorities and progress
+    for product development.
+  exported: true
+  required: true
+  implementation_name: product_roadmap
+  implementation_property: enum
+  ext_name: product_roadmap_status
+  be_label: Open product roadmap
+  be_position: 19
+  fe_label: Open Product Roadmap
+  fe_position: 19
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: keep
+  input: select
+  vocab_name: impl_scale
+  original_input: Controlled dropdown
+- name: product_roadmap_url
+  code: 91
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Link to public product roadmap.
+  exported: true
+  required: false
+  implementation_name: product_roadmap
+  implementation_property: links
+  ext_name: product_roadmap_url
+  be_label: Link to product roadmap
+  be_position: 20
+  fe_label: Open Product Roadmap
+  fe_position: 20
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: user_documentation_implementation
+  code: 22
+  attr: user_documentation_implementation
+  kind: :implementation_enum
+  meta: false
+  description: Public documentation that meaningfully describes the process users
+    to install, configure, maintain, and troubleshoot the code for running the service.
+    OR, in the case of those services not reliant on client installs, documentation
+    that meaningfully describes how users perform tasks on the platform to utilise
+    the service.
+  exported: true
+  required: true
+  implementation_name: user_documentation
+  implementation_property: enum
+  ext_name: technical_user_documentation_status
+  be_label: Technical user documentation
+  be_position: 17
+  fe_label: Technical documentation
+  fe_position: 17
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: keep
+  input: select
+  vocab_name: impl_scale
+  original_input: Controlled dropdown
+- name: technical_user_documentation_url
+  code: 23
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public link to technical user documentation.
+  exported: true
+  required: false
+  implementation_name: user_documentation
+  implementation_property: links
+  ext_name: technical_user_documentation_url
+  be_label: Link to technical user documentation
+  be_position: 18
+  fe_label: Technical documentation
+  fe_position: 18
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: user_contributions
+  code: 40
+  attr: user_contributions
+  kind: :multi_option
+  meta: false
+  description: Inventory of ways in which users can meaningfully contribute to the
+    development or delivery of the service.
+  exported: true
+  required: true
+  ext_name: contribution_opportunities
+  be_label: User contribution opportunities
+  be_position: 50
+  fe_label: User Contribution Pathways
+  fe_position: 50
+  fe_section: 005 Community Engagement
+  fe_visibility: visible
+  phase_2_status: keep
+  input: multiselect
+  vocab_name: user_paths
+  original_input: Controlled multi-select
+- name: values_frameworks
+  code: 46
+  attr:
+  kind: :multi_option
+  meta: false
+  description: Publicly available documentation of engagement or self-evaluation using
+    community-developed values assessments. These might include Principles of Open
+    Scholarly Infrastructure (POSI), FOREST Framework, TRUST Principles for Digital
+    Repositories.
+  exported: true
+  required: false
+  ext_name: values_frameworks
+  be_label: Engagement with values frameworks
+  be_position: 47
+  fe_label: Values Frameworks
+  fe_position: 47
+  fe_section: 005 Community Engagement
+  fe_visibility: visible
+  phase_2_status: change_input
+  input: multiselect
+  vocab_name: values
+  original_input: Controlled multi-select
+- name: scoss
+  code: 99
+  attr:
+  kind: :boolean
+  meta: false
+  description: Participation in the Global Sustainability Coalition for Open Science
+    Services (SCOSS).
+  exported: true
+  required: false
+  ext_name: scoss
+  be_label: SCOSS participation
+  be_position: 49
+  fe_label: Special certifications
+  fe_position: 49
+  fe_section: 005 Community Engagement
+  fe_visibility: visible
+  phase_2_status: add
+  input: boolean
+  vocab_name:
+  original_input: Boolean (TRUE / FALSE)
+- name: membership_program_url
+  code: 107
+  attr:
+  kind: :url
+  meta: false
+  description: Public link to a list of current members and/or information about membership
+  exported: true
+  required: false
+  ext_name: membership_program_url
+  be_label: Link to membership program
+  be_position: 48
+  fe_label: Membership program information
+  fe_position: 48
+  fe_section: 005 Community engagement
+  fe_visibility: visible
+  phase_2_status: add
+  input: url
+  vocab_name:
+  original_input: URL
+- name: code_of_conduct_implementation
+  code: 42
+  attr: code_of_conduct_implementation
+  kind: :implementation_enum
+  meta: false
+  description: A public document describing the expectations, norms, rules, and responsibilities
+    for individuals participating in physical and digital communities. It should also
+    provide explicit pathways for reporting violations and indicate how reports will
+    be addressed and resolved.
+  exported: true
+  required: true
+  implementation_name: code_of_conduct
+  implementation_property: enum
+  ext_name: code_of_conduct_status
+  be_label: Code of conduct
+  be_position: 40
+  fe_label: Code of Conduct
+  fe_position: 40
+  fe_section: 005 Community Engagement
+  fe_visibility: visible
+  phase_2_status: keep
+  input: select
+  vocab_name: impl_scale
+  original_input: Controlled dropdown
+- name: code_of_conduct_url
+  code: 43
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Link to the public code of conduct and reporting guidelines.
+  exported: true
+  required: false
+  implementation_name: code_of_conduct
+  implementation_property: links
+  ext_name: code_of_conduct_url
+  be_label: Link to code of conduct
+  be_position: 41
+  fe_label: Code of Conduct
+  fe_position: 41
+  fe_section: 005 Community Engagement
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: community_engagement_implementation
+  code: 37
+  attr: community_engagement_implementation
+  kind: :implementation_enum
+  meta: false
+  description: Public stated interest in and evidence of available resources for engaging
+    with the service's stakeholder community in a meaningful way. This may include
+    staff explicitly tasked with community engagement, evidence of regular community
+    involvement in major decisions, and community-driven governance.
+  exported: true
+  required: true
+  implementation_name: community_engagement
+  implementation_property: enum
+  ext_name: community_engagement_status
+  be_label: Organizational commitment to community engagement
+  be_position: 42
+  fe_label: Organizational commitment to community engagement
+  fe_position: 42
+  fe_section: 005 Community Engagement
+  fe_visibility: visible
+  phase_2_status: keep
+  input: select
+  vocab_name: impl_scale
+  original_input: Controlled dropdown
+- name: community_engagement_activities
+  code: 38
+  attr:
+  kind: :multi_option
+  meta: false
+  description: Inventory of community engagement activities the service or provider
+    currently employs.
+  exported: true
+  required: false
+  ext_name: community_engagement_activities
+  be_label: Community engagement activities
+  be_position: 46
+  fe_label: Community engagement activities
+  fe_position: 46
+  fe_section: 005 Community engagement
+  fe_visibility: visible
+  phase_2_status: change_input
+  input: multiselect
+  vocab_name: comm_eng
+  original_input: Controlled multi-select
+- name: community_engagement_url
+  code: 116
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Link to public information about community engagement activities.
+  exported: true
+  required: false
+  implementation_name: community_engagement
+  implementation_property: links
+  ext_name: community_engagement_url
+  be_label: Link to community engagement activities
+  be_position: 43
+  fe_label: Community engagement activities
+  fe_position: 43
+  fe_section: 005 Community engagement
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: contribution_pathways_implementation
+  code: 39
+  attr: contribution_pathways_implementation
+  kind: :implementation_enum
+  meta: false
+  description: Implementation status of publicly advertised ways for users meaningfully
+    contribute to the development or delivery of the service.
+  exported: true
+  required: true
+  implementation_name: contribution_pathways
+  implementation_property: enum
+  ext_name: contribution_pathways
+  be_label: User Contribution Pathways - Implemented?
+  be_position: 44
+  fe_label: Contribution Guidelines or Fora
+  fe_position: 44
+  fe_section: 005 Community engagement
+  fe_visibility: visible
+  phase_2_status: keep
+  input: select
+  vocab_name: impl_scale
+  original_input: Controlled dropdown
+- name: contribution_guidelines
+  code: 41
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Link to publicly available documentation of the ways in which users
+    can meaningfully contribute to the development or delivery of the service.
+  exported: true
+  required: false
+  implementation_name: contribution_pathways
+  implementation_property: links
+  ext_name: contribution_guidelines
+  be_label: User Contribution Pathways - URL
+  be_position: 45
+  fe_label: Contribution Guidelines or Fora - Website
+  fe_position: 45
+  fe_section: 005 Community Engagement
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: board_level
+  code: 100
+  attr:
+  kind: :single_option
+  meta: false
+  description: Indication of whether the governing body is affiliated with the provider
+    or the service.
+  exported: true
+  required: false
+  ext_name: board_level
+  be_label: Board level
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 006 Policies & Governance
+  fe_visibility: hidden
+  phase_2_status: add
+  input: select
+  vocab_name: rprt_lvl
+  original_input: Controlled dropdown
+- name: governance_summary
+  code: 27
+  attr:
+  kind: :blurb
+  meta: false
+  description: Description of the governance structure of the service, including major
+    partners or sponsors and existence of governing boards and committees.
+  exported: true
+  required: true
+  ext_name: governance_summary
+  be_label: Governance summary
+  be_position: 51
+  fe_label: Governance Summary
+  fe_position: 51
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  phase_2_status: keep
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: bylaws_implementation
+  code: 108
+  attr: bylaws_implementation
+  kind: :implementation_enum
+  meta: false
+  description:
+  exported: true
+  required: true
+  implementation_name: bylaws
+  implementation_property: enum
+  ext_name: bylaws_status
+  be_label: Bylaws implementation status
+  be_position: 52
+  fe_label: Bylaws
+  fe_position: 52
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  phase_2_status: keep
+  input: select
+  vocab_name: impl_scale
+  original_input: Controlled dropdown
+- name: community_governance_url
+  code: 49
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public documentation of bylaws or other governance rules.
+  exported: true
+  required: false
+  implementation_name: bylaws
+  implementation_property: links
+  ext_name: community_governance_url
+  be_label: Link to bylaws or other governance documentation
+  be_position: 53
+  fe_label: N/A
+  fe_position: 53
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: equity_and_inclusion_implementation
+  code: 35
+  attr: equity_and_inclusion_implementation
+  kind: :implementation_enum
+  meta: false
+  description: Public statement on diversity, equity, and inclusion and documentation
+    of clear initiatives, programs, or other activities aimed at measuring and increasing
+    the diversity of their users, community members, and other key stakeholders.
+  exported: true
+  required: true
+  implementation_name: equity_and_inclusion
+  implementation_property: enum
+  ext_name: commitment_to_equity_status
+  be_label: Commitment to equity and inclusion
+  be_position: 54
+  fe_label: DEI Statement
+  fe_position: 54
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  phase_2_status: keep
+  input: select
+  vocab_name: impl_scale
+  original_input: Controlled dropdown
+- name: commitment_to_equity_url
+  code: 36
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public link to statement and/or evidence of activities supporting diversity,
+    equity, and inclusion.
+  exported: true
+  required: false
+  implementation_name: equity_and_inclusion
+  implementation_property: links
+  ext_name: commitment_to_equity_url
+  be_label: Link to diversity, equity, inclusion, and antiracism statement or policy
+  be_position: 55
+  fe_label: DEI Statement - Website
+  fe_position: 55
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: governance_records_implementation
+  code: 26
+  attr: governance_records_implementation
+  kind: :implementation_enum
+  meta: false
+  description: Indication of whether the service maintains public governance records,
+    including board meeting minutes, records of major decisions, elections, or other
+    indications of an active governance process.
+  exported: true
+  required: true
+  implementation_name: governance_records
+  implementation_property: enum
+  ext_name: governance_records_status
+  be_label: Governance records
+  be_position: 60
+  fe_label: N/A
+  fe_position: 60
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  phase_2_status: change_label
+  input: select
+  vocab_name: impl_scale
+  original_input: Controlled dropdown
+- name: governance_records_url
+  code: 28
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public link to governance records, including board meeting minutes,
+    records of major decisions, elections, or other indications of an active governance
+    process.
+  exported: true
+  required: false
+  implementation_name: governance_records
+  implementation_property: links
+  ext_name: governance_records_url
+  be_label: Link to governance records
+  be_position: 61
+  fe_label: N/A
+  fe_position: 61
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  phase_2_status: change_label
+  input: url
+  vocab_name:
+  original_input: URL
+- name: governance_structure_implementation
+  code: 24
+  attr: governance_structure_implementation
+  kind: :implementation_enum
+  meta: false
+  description: Availability of a public description of how the service is organized
+    and managed, such as the roles, responsibilities, decision-making, and communication
+    mechanisms of the stakeholders.
+  exported: true
+  required: true
+  implementation_name: governance_structure
+  implementation_property: enum
+  ext_name: governance_structure_status
+  be_label: Governance structure and processes
+  be_position: 62
+  fe_label: Governance Structure & Processes
+  fe_position: 62
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  phase_2_status: keep
+  input: select
+  vocab_name: impl_scale
+  original_input: Controlled dropdown
+- name: governance_structure_url
+  code: 25
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public description of how the service is organized and managed, such
+    as the roles, responsibilities, decision-making, and communication mechanisms
+    of the stakeholders.
+  exported: true
+  required: false
+  implementation_name: governance_structure
+  implementation_property: links
+  ext_name: governance_structure_url
+  be_label: Link to governance structure and processes
+  be_position: 63
+  fe_label: Governance Structure & Processes
+  fe_position: 63
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: pricing_implementation
+  code: 33
+  attr: pricing_implementation
+  kind: :implementation_enum
+  meta: false
+  description: For services that charge a fee for service or use, public documentation
+    of prices and fees in a way that allows users to meaningfully evaluate the costs
+    associated with using their service.
+  exported: true
+  required: true
+  implementation_name: pricing
+  implementation_property: enum
+  ext_name: transparent_pricing_status
+  be_label: Transparent pricing and cost expectations
+  be_position: 64
+  fe_label: Pricing info
+  fe_position: 64
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  phase_2_status: change_vocab
+  input: select
+  vocab_name: impl_scale_pricing
+  original_input: Controlled dropdown
+- name: privacy_policy_implementation
+  code: 44
+  attr: privacy_policy_implementation
+  kind: :implementation_enum
+  meta: false
+  description: The service maintains a public policy or policies regarding the collection
+    and use of user data or personal information. Privacy policies should indicate
+    whether personal information is ever sold, how users can opt out of data collection,
+    and how the service complies with applicable laws (e.g., GDPR).
+  exported: true
+  required: true
+  implementation_name: privacy_policy
+  implementation_property: enum
+  ext_name: commitment_to_privacy_status
+  be_label: Privacy policy
+  be_position: 56
+  fe_label: Privacy Policy
+  fe_position: 56
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  phase_2_status: keep
+  input: select
+  vocab_name: impl_scale
+  original_input: Controlled dropdown
+- name: commitment_to_privacy_url
+  code: 45
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public link to privacy policy.
+  exported: true
+  required: false
+  implementation_name: privacy_policy
+  implementation_property: links
+  ext_name: commitment_to_privacy_url
+  be_label: Link to privacy policy
+  be_position: 57
+  fe_label: Privacy Policy
+  fe_position: 57
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: web_accessibility_implementation
+  code: 29
+  attr: web_accessibility_implementation
+  kind: :implementation_enum
+  meta: false
+  description: Public statement describing the organization’s commitment and actions
+    to making their sites accessible to all users regardless of their abilities.
+  exported: true
+  required: true
+  implementation_name: web_accessibility
+  implementation_property: enum
+  ext_name: web_accessibility_status
+  be_label: Web accessibility statement
+  be_position: 58
+  fe_label: Web Accessibility Statement
+  fe_position: 58
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  phase_2_status: keep
+  input: select
+  vocab_name: impl_scale
+  original_input: Controlled dropdown
+- name: web_accessibility_url
+  code: 30
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public link to web accessibility statement.
+  exported: true
+  required: false
+  implementation_name: web_accessibility
+  implementation_property: links
+  ext_name: web_accessibility_url
+  be_label: Link to web accessibility statement
+  be_position: 59
+  fe_label: Web Accessibility Statement - Website
+  fe_position: 59
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  phase_2_status: keep
+  input: url
+  vocab_name:
+  original_input: URL
+- name: business_forms
+  code: 51
+  attr: business_forms
+  kind: :multi_option
+  meta: false
+  description: The service's legal business structure or formal aims.
+  exported: true
+  required: true
+  ext_name: business_form
+  be_label: Business form
+  be_position: 66
+  fe_label: Business or ownership model
+  fe_position: 66
+  fe_section: 007 Additional Information
+  fe_visibility: visible
+  phase_2_status: change_input
+  input: multiselect
+  vocab_name: bus_form
+  original_input: Controlled multi-select
+- name: nonprofit_status
+  code: 52
+  attr:
+  kind: :single_option
+  meta: false
+  description: Specific non-profit designation or status in the country of incorporation
+  exported: true
+  required: false
+  ext_name: nonprofit_status
+  be_label: Non-profit status
+  be_position: 68
+  fe_label: Business or ownership model
+  fe_position: 68
+  fe_section: 007 Additional Information
+  fe_visibility: visible
+  phase_2_status: add
+  input: select
+  vocab_name: nonprofit_status
+  original_input: Controlled dropdown
+- name: organizational_history
+  code: 57
+  attr:
+  kind: :blurb
+  meta: false
+  description: Brief brief narrative overview of the history of the service and/or
+    provider or a link to a public document.
+  exported: true
+  required: true
+  ext_name: organizational_history
+  be_label: Organizational history
+  be_position: 65
+  fe_label: Organizational History
+  fe_position: 65
+  fe_section: 007 Additional Information
+  fe_visibility: visible
+  phase_2_status: keep
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: staffing_full_time
+  code: 54
+  attr:
+  kind: :single_option
+  meta: false
+  description: The current number of full-time equivalent (FTE) compensated employees.
+  exported: true
+  required: false
+  ext_name: staffing_full_time
+  be_label: 'Staff: Full-time'
+  be_position: 67
+  fe_label: Full-time Staff
+  fe_position: 67
+  fe_section: 007 Additional Information
+  fe_visibility: visible
+  phase_2_status: change_input
+  input: select
+  vocab_name: staffing
+  original_input: Controlled dropdown
+- name: primary_funding_sources
+  code: 61
+  attr: primary_funding_sources
+  kind: :multi_option
+  meta: false
+  description: Indication of whether the service is primarily funded through program
+    service revenue or contributions.
+  exported: true
+  required: true
+  ext_name: primary_funding_source
+  be_label: Primary Funding Source
+  be_position: 70
+  fe_label: Primary Funding Source
+  fe_position: 70
+  fe_section: '008 Funding'
+  fe_visibility: visible
+  phase_2_status: keep
+  input: multiselect
+  vocab_name: pr_fund
+  original_input: Controlled multi-select
+- name: shareholders
+  code: 53
+  attr:
+  kind: :boolean
+  meta: false
+  description: Indication of whether any person, company, or institution owns at least
+    one share of a service provider's stock
+  exported: true
+  required: true
+  ext_name: shareholders
+  be_label: Shareholders
+  be_position: 69
+  fe_label: Shareholders
+  fe_position: 69
+  fe_section: '008 Funding'
+  fe_visibility: visible
+  phase_2_status: add
+  input: boolean
+  vocab_name:
+  original_input: Boolean (TRUE / FALSE)
+- name: funding_needs
+  code: 17
+  attr:
+  kind: :blurb
+  meta: false
+  description: Description of ways in which investment can help the service achieve
+    its goals.
+  exported: true
+  required: false
+  ext_name: funding_needs
+  be_label: Funding needs
+  be_position: 71
+  fe_label: Funding needs
+  fe_position: 71
+  fe_section: '008 Funding'
+  fe_visibility: visible
+  phase_2_status: keep
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: total_assets
+  code: 70
+  attr:
+  kind: :money
+  meta: false
+  description: The value of everything that the organization owns at the end of the
+    year, such as cash, investments, property, equipment, etc. For US-based non-profits,
+    Part X, line 16 from an IRS Form 990.
+  exported: false
+  required: false
+  ext_name: total_assets
+  be_label: Total assets in local currency
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: keep
+  input: money
+  vocab_name:
+  original_input: Integer
+- name: programming_language_other
+  code: 981
+  attr: programming_language_other
+  kind: :other_option
+  meta: false
+  owner: programming_languages
+  description: Records the primary programming language if "other" is selected in
+    field 081
+  exported: true
+  required: false
+  ext_name: programming_language_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: content_license_other
+  code: 986
+  attr: content_license_other
+  kind: :other_option
+  meta: false
+  owner: content_licenses
+  description: Records the supported content licenses if "other" is selected in field
+    086
+  exported: true
+  required: false
+  ext_name: content_licensing_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: license_other
+  code: 984
+  attr: license_other
+  kind: :other_option
+  meta: false
+  owner: licenses
+  description: Records the code license if "other" is selected in field 084
+  exported: true
+  required: false
+  ext_name: code_license_name_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: metadata_standard_other
+  code: 994
+  attr: metadata_standard_other
+  kind: :other_option
+  meta: false
+  owner: metadata_standards
+  description: Records the supported metadata standards if "other" is selected in
+    field 094
+  exported: true
+  required: false
+  ext_name: metadata_standards_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: persistent_identifier_standard_other
+  code: 995
+  attr: persistent_identifier_standard_other
+  kind: :other_option
+  meta: false
+  owner: persistent_identifier_standards
+  description: Records the supported persistent identifiers if "other" is selected
+    in field 095
+  exported: true
+  required: false
+  ext_name: pids_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: authentication_standard_other
+  code: 996
+  attr: authentication_standard_other
+  kind: :other_option
+  meta: false
+  owner: authentication_standards
+  description: Records the supported authentication standards if "other" is selected
+    in field 096
+  exported: true
+  required: false
+  ext_name: authentication_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: security_standard_other
+  code: 998
+  attr: security_standard_other
+  kind: :other_option
+  meta: false
+  owner: security_standards
+  description: Records the supported security standards if "other" is selected in
+    field 098
+  exported: true
+  required: false
+  ext_name: security_standards_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: preservation_standard_other
+  code: 912
+  attr: preservation_standard_other
+  kind: :other_option
+  meta: false
+  owner: preservation_standards
+  description: Records the supported preservation standards if "other" is selected
+    in field 112
+  exported: true
+  required: false
+  ext_name: preservation_standards_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: metrics_standard_other
+  code: 913
+  attr: metrics_standard_other
+  kind: :other_option
+  meta: false
+  owner: metrics_standards
+  description: Records the supported metrics standards if "other" is selected in field
+    113
+  exported: true
+  required: false
+  ext_name: metrics_standards_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: integration_other
+  code: 983
+  attr: integration_other
+  kind: :other_option
+  meta: false
+  owner: integrations
+  description: Records the supported integrations and compatibility if "other" is
+    selected in field 083
+  exported: true
+  required: false
+  ext_name: integrations_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: user_contribution_other
+  code: 940
+  attr: user_contribution_other
+  kind: :other_option
+  meta: false
+  owner: user_contributions
+  description: Records additional contribution opportunities if "other" is selected
+    in field 040
+  exported: true
+  required: false
+  ext_name: contribution_opportunities_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: community_engagement_activity_other
+  code: 938
+  attr: community_engagement_activity_other
+  kind: :other_option
+  meta: false
+  owner: community_engagement_activities
+  description: Records additional community engagement activities if "other" is selected
+    in field 038
+  exported: true
+  required: false
+  ext_name: community_engagement_activities_other
+  be_label: Community engagement activities — other
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: board_structure_other
+  code: 950
+  attr: board_structure_other
+  kind: :other_option
+  meta: false
+  owner: board_structures
+  description: Records the board structure if "other" is selected in field 050
+  exported: true
+  required: false
+  ext_name: board_structure_other
+  be_label: Board structure — other
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: business_form_other
+  code: 951
+  attr: business_form_other
+  kind: :other_option
+  meta: false
+  owner: business_forms
+  description: Records the business form if "other" is selected in field 051
+  exported: true
+  required: false
+  ext_name: business_form_other
+  be_label: Business form — other
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: primary_funding_source_other
+  code: 961
+  attr: primary_funding_source_other
+  kind: :other_option
+  meta: false
+  owner: primary_funding_sources
+  description: Records the primary funding source if "other" is selected in field 061
+  exported: true
+  required: false
+  ext_name: primary_funding_source_other
+  be_label: Primary Funding Source — other
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: financial_reporting_level_other
+  code: 972
+  attr: financial_reporting_level_other
+  kind: :other_option
+  meta: false
+  owner: financial_reporting_level
+  description: Records the primary funding source if "other" is selected in field 072
+  exported: true
+  required: false
+  ext_name: financial_reporting_level_other
+  be_label: Financial reporting level — other
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: board_level_other
+  code: 900
+  attr: board_level_other
+  kind: :other_option
+  meta: false
+  owner: board_level
+  description: Records the primary funding source if "other" is selected in field 100
+  exported: true
+  required: false
+  ext_name: board_level_other
+  be_label: Board level — other
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: current_affiliation_free_input
+  code: 2058
+  attr: current_affiliation_free_input
+  kind: :store_model_input
+  meta: false
+  owner: current_affiliations
+  description: Free input value that is imported and exported via EOI
+  exported: false
+  required: false
+  ext_name: current_affiliation_free_input
+  be_label: Current affiliations — Free Input
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: founding_institution_free_input
+  code: 2059
+  attr: founding_institution_free_input
+  kind: :store_model_input
+  meta: false
+  owner: founding_institutions
+  description: Free input value that is imported and exported via EOI
+  exported: false
+  required: false
+  ext_name: founding_institution_free_input
+  be_label: Founding institutions — Free Input
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: recent_grant_free_input
+  code: 2075
+  attr: recent_grant_free_input
+  kind: :store_model_input
+  meta: false
+  owner: recent_grants
+  description: Free input value that is imported and exported via EOI
+  exported: false
+  required: false
+  ext_name: recent_grant_free_input
+  be_label: List grants received in the past year — Free Input
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: top_granting_institution_free_input
+  code: 2074
+  attr: top_granting_institution_free_input
+  kind: :store_model_input
+  meta: false
+  owner: top_granting_institutions
+  description: Free input value that is imported and exported via EOI
+  exported: false
+  required: false
+  ext_name: top_granting_institution_free_input
+  be_label: Top granting institutions — Free Input
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text
+- name: service_provider_free_input
+  code: 2077
+  attr: service_provider_free_input
+  kind: :store_model_input
+  meta: false
+  owner: service_providers
+  description: Free input value that is imported and exported via EOI
+  exported: false
+  required: false
+  ext_name: service_provider_free_input
+  be_label: Registered service providers — Free Input
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  phase_2_status: add
+  input: text
+  vocab_name:
+  original_input: Free text

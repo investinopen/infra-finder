@@ -16,3 +16,5 @@ Anyway::Settings.future.use :unwrap_known_environments
 Anyway::Settings.known_environments << "staging"
 
 FrozenRecord::Base.base_path = Pathname(__dir__).join("..", "..", "frozen_record").realpath
+
+FrozenRecord.deprecated_yaml_erb_backend = false

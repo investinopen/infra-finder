@@ -2,6 +2,10 @@
 
 FactoryBot.define do
   factory :solution do
+    transient do
+      editors { [] }
+    end
+
     association(:provider)
     sequence(:name) { "Solution #{_1}" }
     founded_on { Date.new(2020, 1, 1) }
@@ -23,6 +27,12 @@ FactoryBot.define do
 
     trait :with_key_technologies do
       # key_technology_list { "ruby, postgresql, rust" }
+    end
+
+    after(:create) do |solution, evaluator|
+      evaluator.editors.each do |editor|
+        solution.assign_editor!(editor)
+      end
     end
   end
 end

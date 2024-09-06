@@ -29,6 +29,22 @@ ActiveAdmin.register Solution do
 
   controller do
     include SolutionProperties::Admin::TrackForm
+
+    after_create :create_initial_revision!
+
+    after_update :add_direct_revision!
+
+    # @param [Solution] solution
+    # @return [void]
+    def create_initial_revision!(solution)
+      solution.initialize_revision!(reason: "Created through admin section")
+    end
+
+    # @param [Solution] solution
+    # @return [void]
+    def add_direct_revision!(solution)
+      solution.create_revision!(kind: :direct, reason: "Updated directly through admin section")
+    end
   end
 
   filter :name
@@ -77,6 +93,8 @@ ActiveAdmin.register Solution do
       item "Start Draft", create_draft_admin_solution_path(solution), method: :put
       br
       item "View Drafts", admin_solution_solution_drafts_path(solution)
+      br
+      item "View Revisions", admin_solution_solution_revisions_path(solution)
       if current_user.has_any_admin_access?
         br
         item "Manage Access", admin_provider_provider_editor_assignments_path(solution.provider)
@@ -130,6 +148,10 @@ ActiveAdmin.register Solution do
 
   action_item :view_all_drafts, only: :show, if: proc { current_user.has_any_admin_access? } do
     link_to "View All Drafts", admin_solution_solution_drafts_path(solution)
+  end
+
+  action_item :view_all_revisions, only: :show, if: proc { current_user.has_any_admin_access? } do
+    link_to "View All Revisions", admin_solution_solution_revisions_path(solution)
   end
 
   action_item :manage_access, only: :show, if: proc { current_user.has_any_admin_access? } do

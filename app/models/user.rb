@@ -48,6 +48,8 @@ class User < ApplicationRecord
   has_many :solution_imports, inverse_of: :user, dependent: :nullify
   has_many :assigned_solutions, through: :provider_editor_assignments, source: :solutions
 
+  has_many_readonly :solution_revisions, inverse_of: :user
+
   before_validation :derive_kind!
 
   after_save :maybe_auto_accept_terms!

@@ -8,8 +8,17 @@ module Support
     extend ActiveSupport::Concern
 
     included do
+      extend Dry::Core::ClassAttributes
+
       include StoreModel::Model
       include ActiveModel::Validations::Callbacks
+      include Support::EnhancedStoreModel::EnhancedInspection
+
+      delegate :inspection_filter, to: :class
+
+      defines :filter_attributes, type: Support::Types::Array.of(Support::Types::Any)
+
+      filter_attributes []
     end
 
     # @param [#to_s] attr
@@ -39,7 +48,7 @@ module Support
       as_json
     end
 
-    class_methods do
+    module ClassMethods
       # A better method for generating enums that does not store numeric values.
       #
       # We want to store the actual strings.
@@ -61,6 +70,61 @@ module Support
       def array_attributes
         attribute_names.select do |name|
           /array/.match? attribute_types.fetch(name).try(:type)
+        end
+      end
+
+      def filter_attributes!(*attrs)
+        filter_attributes filter_attributes.concat(attrs)
+
+        @inspection_filter = build_inspection_filter
+      end
+
+      def inspection_filter
+        @inspection_filter ||= build_inspection_filter
+      end
+
+      private
+
+      def build_inspection_filter
+        mask = ActiveRecord::Core.const_get(:InspectionMask).new(ActiveSupport::ParameterFilter::FILTERED)
+
+        ActiveSupport::ParameterFilter.new(filter_attributes, mask:)
+      end
+    end
+
+    # @api private
+    module EnhancedInspection
+      extend ActiveSupport::Concern
+
+      def inspect
+        inspection = attributes.keys.map { |name| "#{name}: #{attribute_for_inspect(name)}" }.join(", ")
+
+        "#<#{self.class} #{inspection}>"
+      end
+
+      private
+
+      def attribute_for_inspect(attr_name)
+        attr_name = attr_name.to_s
+        attr_name = self.class.attribute_aliases[attr_name] || attr_name
+        value = _read_attribute(attr_name)
+        format_for_inspect(attr_name, value)
+      end
+
+      def format_for_inspect(name, value)
+        if value.nil?
+          value.inspect
+        else
+          inspected_value =
+            if value.is_a?(String) && value.length > 50
+              "#{value[0, 50]}...".inspect
+            elsif value.is_a?(Date) || value.is_a?(Time)
+              %("#{value.to_fs(:inspect)}")
+            else
+              value.inspect
+            end
+
+          inspection_filter.filter_param(name, inspected_value)
         end
       end
     end

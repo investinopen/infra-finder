@@ -2,6 +2,7 @@
 
 # The primary content model for this application.
 class Solution < ApplicationRecord
+  include ActiveSnapshot
   include SolutionInterface
   include SluggedByName
   include TimestampScopes
@@ -18,6 +19,7 @@ class Solution < ApplicationRecord
   has_many :comparison_share_items, inverse_of: :solution, dependent: :destroy
   has_many :solution_drafts, -> { in_recent_order }, inverse_of: :solution, dependent: :destroy
   has_many :solution_editor_assignments, inverse_of: :solution, dependent: :destroy
+  has_many_readonly :solution_revisions, -> { in_recent_order }, inverse_of: :solution
 
   expose_ransackable_associations! :provider, :solution_drafts
   expose_ransackable_attributes! :provider_id, :publication
@@ -25,6 +27,9 @@ class Solution < ApplicationRecord
 
   delegate :name, to: :provider, prefix: true
   delegate :assign_editor!, to: :provider
+
+  scope :sans_initial_revision, -> { where.not(id: SolutionRevision.initial_revision.select(:solution_id)) }
+  scope :with_initial_revision, -> { where(id: SolutionRevision.initial_revision.select(:solution_id)) }
 
   scope :with_editor_access_for, ->(user) { joins(:provider).merge(Provider.with_editor_access_for(user)) }
   scope :with_pending_drafts, -> { where(id: SolutionDraft.in_state(:pending).select(:solution_id)) }
@@ -38,6 +43,22 @@ class Solution < ApplicationRecord
   monadic_matcher! def create_draft(...)
     call_operation("solutions.create_draft", self, ...)
   end
+
+  # @!group Revisions
+
+  monadic_operation! def create_revision(**options)
+    call_operation("solutions.revisions.create", self, **options)
+  end
+
+  monadic_operation! def extract_revision_data
+    call_operation("solutions.revisions.extract_data", self)
+  end
+
+  monadic_operation! def initialize_revision(**options)
+    call_operation("solutions.revisions.initialize", self, **options)
+  end
+
+  # @!endgroup
 
   private
 

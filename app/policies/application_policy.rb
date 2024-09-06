@@ -81,6 +81,8 @@ class ApplicationPolicy
       has_role?(:editor, record)
     when Solution, SolutionDraft
       has_role?(:editor, record.provider)
+    when SolutionRevision
+      has_role?(:editor, record.actual_provider)
     else
       # :nocov:
       false

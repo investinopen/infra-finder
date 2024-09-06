@@ -5,6 +5,7 @@ class ApplicationRecord < ActiveRecord::Base
   extend ArelHelpers
   extend DefinesMonadicOperation
 
+  include AssociationHelpers
   include CallsCommonOperation
   include ExposesRansackable
   include LazyOrdering

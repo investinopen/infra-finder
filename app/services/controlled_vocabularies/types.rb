@@ -16,6 +16,14 @@ module ControlledVocabularies
 
     Record = Instance(::ControlledVocabularyRecord)
 
+    RecordList = Array.of(Record)
+
+    RecordSelection = RecordList.constrained(min_size: 1)
+
+    RecordRelation = Support::Types::Relation.of(Inherits(::ControlledVocabularyRecord))
+
+    RecordSet = RecordRelation | RecordSelection
+
     Term = Coercible::String
 
     Terms = Coercible::Array.of(Term)
