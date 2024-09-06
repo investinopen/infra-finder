@@ -3,11 +3,15 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static targets = ["sidebar"];
 
-  initialize() {
-    const el = this.sidebarTarget;
+  connect() {
+    this.form = this.element.querySelector("form");
 
-    if (!el) return;
+    if (this.form) {
+      this.form.addEventListener("submit", this.handleSubmit);
+    }
+  }
 
+  sidebarTargetConnected(element) {
     const observer = new IntersectionObserver(
       ([e]) => {
         e.target.classList.toggle(
@@ -18,6 +22,27 @@ export default class extends Controller {
       { threshold: [1] }
     );
 
-    observer.observe(el);
+    observer.observe(element);
   }
+
+  handleSubmit = (event) => {
+    if (!window._paq || !Array.isArray(window._paq)) return;
+
+    // FormData is pretty difficult to parse here, so just look up checked filters
+    const checked = [
+      ...event.target.querySelectorAll("input[type='checkbox']:checked"),
+    ];
+
+    if (!checked.length) return;
+
+    const events = [];
+
+    for (const el of checked) {
+      const label = el.dataset.eventLabel;
+
+      events.push(["trackEvent", "Filter Applied", label || el.name]);
+    }
+
+    window._paq.push(events);
+  };
 }
