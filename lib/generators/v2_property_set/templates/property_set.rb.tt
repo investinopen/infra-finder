@@ -1,0 +1,17 @@
+<%-
+  # vim: set ft=ruby.eruby nosmartindent noautoindent :
+-%>
+# frozen_string_literal: true
+
+module Solutions
+  module Revisions
+    class V2PropertySet
+      include Support::EnhancedStoreModel
+      include Solutions::Revisions::PropertySet
+
+      <%- SolutionProperty.to_clone.each do |attr| -%>
+      <%= attribute_for(attr) %>
+      <%- end -%>
+    end
+  end
+end

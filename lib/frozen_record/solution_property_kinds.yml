@@ -2,34 +2,43 @@
 - kind: attachment
   assign_method: :direct_write
   diffable: true
+  diff_klass_name: AttachmentDiff
   standard: false
 - kind: blurb
   diffable: false
+  diff_klass_name: TextDiff
   input_kind: :text
   input_html:
     rows: 7
 - kind: boolean
   diffable: true
   input_kind: :boolean
+  diff_klass_name: BooleanDiff
 - kind: contact
   diffable: true
   input_kind: :url
+  diff_klass_name: StringDiff
 - kind: date
   diffable: true
+  diff_klass_name: DateDiff
   input_kind: :datepicker
 - kind: email
   diffable: true
+  diff_klass_name: StringDiff
   input_kind: :email
 - kind: enum
   diffable: true
+  diff_klass_name: EnumDiff
   input_kind: :radio
 - kind: implementation
   assign_method: :direct_write
   diffable: false
+  diff_klass_name: ImplementationDiff
   standard: false
 - kind: implementation_enum
   assign_method: :direct_write
-  diffable: false
+  diffable: true
+  diff_klass_name: EnumDiff
   standard: false
   input_kind: :select
 - kind: implementation_property
@@ -38,18 +47,22 @@
   standard: false
 - kind: integer
   diffable: true
+  diff_klass_name: IntegerDiff
 - kind: money
   assign_method: :direct_write
   diffable: true
+  diff_klass_name: MoneyDiff
   standard: true
 - kind: multi_option
   assign_method: :direct_write
   connection_mode: :multiple
   diffable: true
+  diff_klass_name: StringArrayDiff
   standard: false
 - kind: other_option
   assign_method: :direct_write
   diffable: true
+  diff_klass_name: TextDiff
   standard: false
   input_kind: :text
   input_html:
@@ -58,6 +71,7 @@
   assign_method: :direct_write
   connection_mode: :single
   diffable: true
+  diff_klass_name: EnumDiff
   standard: false
   input_options:
     :include_blank: true
@@ -66,28 +80,33 @@
   standard: true
 - kind: string
   diffable: true
+  diff_klass_name: StringDiff
   standard: true
   input_kind: :string
 - kind: store_model_input
   assign_method: :direct_write
   diffable: true
+  diff_klass_name: TextDiff
   standard: false
   input_kind: :text
   input_html:
     rows: 4
 - kind: store_model_list
   assign_method: :direct_write
-  diffable: true
+  diffable: false
+  diff_klass_name: StoreModelListDiff
   standard: false
 - kind: tag_list
   assign_method: :direct_write
-  diffable: true
+  diffable: false
   standard: false
 - kind: timestamp
   diffable: true
+  diff_klass_name: TimestampDiff
   standard: true
   input_kind: :timepicker
 - kind: url
   diffable: true
+  diff_klass_name: StringDiff
   standard: true
   input_kind: :url

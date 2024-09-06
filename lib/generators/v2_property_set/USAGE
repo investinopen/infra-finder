@@ -1,0 +1,8 @@
+Description:
+    Read from solution properties and generate a property set in the correct shape.
+
+Example:
+    bin/rails generate v2_property_set
+
+    This will create:
+        app/services/solutions/revisions/v2_property_set.rb

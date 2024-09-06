@@ -263,6 +263,16 @@ CREATE TYPE public.publication AS ENUM (
 
 
 --
+-- Name: solution_data_version; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.solution_data_version AS ENUM (
+    'v2',
+    'unknown'
+);
+
+
+--
 -- Name: solution_import_strategy; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -280,6 +290,30 @@ CREATE TYPE public.solution_import_strategy AS ENUM (
 CREATE TYPE public.solution_kind AS ENUM (
     'actual',
     'draft'
+);
+
+
+--
+-- Name: solution_revision_kind; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.solution_revision_kind AS ENUM (
+    'initial',
+    'direct',
+    'draft',
+    'import',
+    'other'
+);
+
+
+--
+-- Name: solution_revision_provider_state; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.solution_revision_provider_state AS ENUM (
+    'same',
+    'initial',
+    'diff'
 );
 
 
@@ -361,6 +395,25 @@ CREATE FUNCTION public.f_unaccent(text) RETURNS text
 
 
 --
+-- Name: is_solution_revision_snapshot(text, jsonb); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.is_solution_revision_snapshot(text, jsonb) RETURNS boolean
+    LANGUAGE sql IMMUTABLE STRICT PARALLEL SAFE
+    AS $_$
+SELECT
+  $1 = 'Solution'
+  AND
+  $2 ? 'kind'
+  AND
+  $2 ? 'diffs'
+  AND
+  $2 ? 'revision'
+;
+$_$;
+
+
+--
 -- Name: normalize_ransackable(text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -376,6 +429,41 @@ CREATE FUNCTION public.normalize_ransackable(text) RETURNS public.citext
 CREATE FUNCTION public.normalize_ransackable(public.citext) RETURNS public.citext
     LANGUAGE sql IMMUTABLE STRICT PARALLEL SAFE
     RETURN (lower(public.f_unaccent(($1)::text)))::public.citext;
+
+
+--
+-- Name: parse_solution_data_version(text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.parse_solution_data_version(text) RETURNS public.solution_data_version
+    LANGUAGE sql IMMUTABLE PARALLEL SAFE
+    AS $_$
+SELECT
+CASE $1
+WHEN 'v2' THEN 'v2'::public.solution_data_version
+ELSE
+  'unknown'::public.solution_data_version
+END;
+$_$;
+
+
+--
+-- Name: parse_solution_revision_kind(text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.parse_solution_revision_kind(text) RETURNS public.solution_revision_kind
+    LANGUAGE sql IMMUTABLE PARALLEL SAFE
+    AS $_$
+SELECT
+CASE $1
+WHEN 'direct' THEN 'direct'::public.solution_revision_kind
+WHEN 'draft' THEN 'draft'::public.solution_revision_kind
+WHEN 'initial' THEN 'initial'::public.solution_revision_kind
+WHEN 'import' THEN 'import'::public.solution_revision_kind
+ELSE
+  'other'::public.solution_revision_kind
+END;
+$_$;
 
 
 SET default_tablespace = '';
@@ -1128,7 +1216,9 @@ CREATE TABLE public.snapshots (
     user_id uuid,
     identifier character varying,
     metadata jsonb,
-    created_at timestamp(6) without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    solution_revision_kind public.solution_revision_kind GENERATED ALWAYS AS (public.parse_solution_revision_kind((metadata ->> 'kind'::text))) STORED NOT NULL,
+    solution_revision_snapshot boolean GENERATED ALWAYS AS (public.is_solution_revision_snapshot((item_type)::text, metadata)) STORED NOT NULL
 );
 
 
@@ -2045,6 +2135,33 @@ CREATE TABLE public.solution_reporting_levels (
     assoc public.citext NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_revisions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_revisions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    provider_id uuid,
+    solution_draft_id uuid,
+    snapshot_id uuid,
+    user_id uuid,
+    kind public.solution_revision_kind DEFAULT 'other'::public.solution_revision_kind NOT NULL,
+    data_version public.solution_data_version DEFAULT 'unknown'::public.solution_data_version NOT NULL,
+    provider_state public.solution_revision_provider_state DEFAULT 'same'::public.solution_revision_provider_state NOT NULL,
+    identifier public.citext,
+    diffs jsonb DEFAULT '[]'::jsonb NOT NULL,
+    data jsonb DEFAULT '{}'::jsonb NOT NULL,
+    note text,
+    reason text,
+    diffs_count bigint GENERATED ALWAYS AS (jsonb_array_length(diffs)) STORED NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT valid_data CHECK ((jsonb_typeof(data) = 'object'::text)),
+    CONSTRAINT valid_diffs CHECK ((jsonb_typeof(diffs) = 'array'::text))
 );
 
 
@@ -3168,6 +3285,14 @@ ALTER TABLE ONLY public.solution_reporting_levels
 
 
 --
+-- Name: solution_revisions solution_revisions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_revisions
+    ADD CONSTRAINT solution_revisions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: solution_security_standards solution_security_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4281,10 +4406,31 @@ CREATE INDEX index_snapshots_on_item ON public.snapshots USING btree (item_type,
 
 
 --
+-- Name: index_snapshots_on_solution_revision_kind; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_snapshots_on_solution_revision_kind ON public.snapshots USING btree (solution_revision_kind);
+
+
+--
+-- Name: index_snapshots_on_solution_revision_snapshot; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_snapshots_on_solution_revision_snapshot ON public.snapshots USING btree (solution_revision_snapshot);
+
+
+--
 -- Name: index_snapshots_on_user; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_snapshots_on_user ON public.snapshots USING btree (user_type, user_id);
+
+
+--
+-- Name: index_snapshots_solution_revision_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_snapshots_solution_revision_ordering ON public.snapshots USING btree (item_id, created_at DESC) WHERE solution_revision_snapshot;
 
 
 --
@@ -4922,6 +5068,48 @@ CREATE INDEX index_solution_reporting_levels_on_reporting_level_id ON public.sol
 --
 
 CREATE INDEX index_solution_reporting_levels_on_solution_id ON public.solution_reporting_levels USING btree (solution_id);
+
+
+--
+-- Name: index_solution_revisions_on_provider_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_revisions_on_provider_id ON public.solution_revisions USING btree (provider_id);
+
+
+--
+-- Name: index_solution_revisions_on_snapshot_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_solution_revisions_on_snapshot_id ON public.solution_revisions USING btree (snapshot_id);
+
+
+--
+-- Name: index_solution_revisions_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_revisions_on_solution_draft_id ON public.solution_revisions USING btree (solution_draft_id);
+
+
+--
+-- Name: index_solution_revisions_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_revisions_on_solution_id ON public.solution_revisions USING btree (solution_id);
+
+
+--
+-- Name: index_solution_revisions_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_revisions_on_user_id ON public.solution_revisions USING btree (user_id);
+
+
+--
+-- Name: index_solution_revisions_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_revisions_ordering ON public.solution_revisions USING btree (solution_id, created_at DESC);
 
 
 --
@@ -6266,6 +6454,14 @@ ALTER TABLE ONLY public.solution_staffings
 
 
 --
+-- Name: solution_revisions fk_rails_3737f05d80; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_revisions
+    ADD CONSTRAINT fk_rails_3737f05d80 FOREIGN KEY (snapshot_id) REFERENCES public.snapshots(id) ON DELETE SET NULL;
+
+
+--
 -- Name: invitation_transitions fk_rails_377ab08668; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6279,6 +6475,14 @@ ALTER TABLE ONLY public.invitation_transitions
 
 ALTER TABLE ONLY public.solution_content_licenses
     ADD CONSTRAINT fk_rails_3c49afced2 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_revisions fk_rails_4081750da4; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_revisions
+    ADD CONSTRAINT fk_rails_4081750da4 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE SET NULL;
 
 
 --
@@ -6458,6 +6662,14 @@ ALTER TABLE ONLY public.solution_draft_primary_funding_sources
 
 
 --
+-- Name: solution_revisions fk_rails_64c472c54c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_revisions
+    ADD CONSTRAINT fk_rails_64c472c54c FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: solution_draft_hosting_strategies fk_rails_66e3788d52; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6615,6 +6827,14 @@ ALTER TABLE ONLY public.solution_draft_security_standards
 
 ALTER TABLE ONLY public.solutions
     ADD CONSTRAINT fk_rails_84c054e1eb FOREIGN KEY (provider_id) REFERENCES public.providers(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: solution_revisions fk_rails_8520c87162; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_revisions
+    ADD CONSTRAINT fk_rails_8520c87162 FOREIGN KEY (provider_id) REFERENCES public.providers(id) ON DELETE SET NULL;
 
 
 --
@@ -7018,6 +7238,14 @@ ALTER TABLE ONLY public.solution_staffings
 
 
 --
+-- Name: solution_revisions fk_rails_e7b83e2c6e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_revisions
+    ADD CONSTRAINT fk_rails_e7b83e2c6e FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_licenses fk_rails_e892108205; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7112,6 +7340,8 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240909171553'),
+('20240909171445'),
 ('20240829191102'),
 ('20240829191007'),
 ('20240829183351'),

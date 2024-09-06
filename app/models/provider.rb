@@ -23,6 +23,7 @@ class Provider < ApplicationRecord
   has_many :invitations, dependent: :destroy, inverse_of: :provider
   has_many :provider_editor_assignments, inverse_of: :provider, dependent: :destroy
   has_many :solutions, inverse_of: :provider, dependent: :restrict_with_error
+  has_many :solution_revisions, inverse_of: :provider, dependent: :nullify
 
   validates :name, presence: true
 

@@ -49,7 +49,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     optional(:description).maybe(:string)
     required(:exported).value(:bool)
     required(:required).value(:bool)
-    optional(:implementation).maybe(:implementation_name)
+    optional(:implementation_name).maybe(:implementation_name)
     optional(:implementation_property).maybe(:implementation_property)
     optional(:store_model_type_name).maybe(:string)
     # The external name set by IOI. Most of these do not conform
@@ -111,7 +111,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   scope :finances, -> { in_use.where(name: FINANCES) }
 
-  scope :for_implementation, ->(implementation) { where(implementation: implementation.to_s) }
+  scope :for_implementation, ->(implementation) { where(implementation_name: implementation.to_s) }
 
   scope :implementation_enums, -> { in_use.where(kind: :implementation_enum) }
   scope :implementation_enum_for, ->(implementation) { implementation_enums.for_implementation(implementation) }
@@ -155,6 +155,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   scope :non_standard, -> { in_use.with_non_standard_kind.sans_meta }
 
   AUTO_EXCLUDE_CSV_KINDS = %i[
+    implementation
     standard
     store_model_input
   ].freeze
@@ -167,7 +168,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   scope :to_extract, -> { in_use.sans_meta.where.not(name: EXCLUDED_EXTRACTIONS) }
 
-  delegate :accessor_klass, :assign_method, :connection_mode, to: :property_kind
+  delegate :accessor_klass, :assign_method, :connection_mode, :diff_klass, to: :property_kind
 
   validate :free_input_property_exists!
   validate :other_property_exists!
@@ -182,7 +183,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   # @api private
   def actual_attribute_name
     if implementation_subproperty?
-      implementation
+      implementation_name
     else
       attribute_name
     end
@@ -222,7 +223,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   end
 
   def for_implementation?
-    implementation.present?
+    implementation_name.present?
   end
 
   # @return [<Symbol>]
@@ -350,8 +351,35 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     :"#{csv_header}_structured"
   end
 
+  # @return [String]
+  memoize def field_label
+    case kind
+    in :implementation
+      "#{be_label} (Implementation Details)"
+    in :other_option
+      input_label
+    else
+      be_label
+    end
+  end
+
+  # @return [Integer]
+  memoize def field_position
+    if owner?
+      owner_property.field_position + 3
+    elsif kind == :implementation
+      implementation.enum_property.field_position + 1
+    else
+      code * 10
+    end
+  end
+
   memoize def free_input_property
     SolutionProperty.find(free_input_name.to_s) if free_input_name.present?
+  end
+
+  memoize def implementation
+    Implementation.find(implementation_name) if implementation_name?
   end
 
   memoize def other_property
@@ -429,6 +457,16 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   class << self
     include Dry::Core::Memoizable
+
+    # @param [#to_s] property_name
+    # @return [Class(Solutions::Revisions::Diffs::BaseDiff)]
+    def diff_klass_for(property_name)
+      prop = find(property_name.to_s)
+
+      prop.diff_klass
+    rescue FrozenRecord::RecordNotFound
+      Solutions::Revisions::Diffs::UnknownDiff
+    end
 
     def each_free_input
       return enum_for(__method__) unless block_given?
@@ -562,6 +600,11 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
         a.concat has_one_associations
         a.concat has_many_associations
       end.then { symbolize_list _1 }
+    end
+
+    # @return [ActiveSupport::HashWithIndifferentAccess{ String => Integer }]
+    memoize def field_ordering
+      SolutionProperty.in_use.map { [_1.name, _1.field_position] }.sort_by(&:last).to_h.with_indifferent_access
     end
 
     def to_validate_csv

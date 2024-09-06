@@ -76,6 +76,9 @@ SimpleCov.start "rails" do
   add_filter "app/components/tag_component.rb"
   add_filter "app/operations/system/set_bucket_lifecycle.rb"
   add_filter "app/services/system/asset_pusher.rb"
+
+  # Deprecated
+  add_filter "app/admin/solution_editor_assignments.rb"
 end
 
 require File.expand_path("../config/environment", __dir__)
@@ -154,6 +157,10 @@ RSpec.configure do |config|
 
   config.after(:context) do
     Faker::UniqueGenerator.clear
+  end
+
+  config.after do
+    RequestStore.store.clear
   end
 
   config.around do |example|

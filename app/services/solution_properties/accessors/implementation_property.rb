@@ -6,13 +6,13 @@ module SolutionProperties
       property_kind! :implementation_property
 
       def apply_value_to(attr, value)
-        implementation = instance.__send__(property.implementation)
+        implementation = instance.__send__(property.implementation_name)
 
         implementation.write_csv_property(property.implementation_property, value)
       end
 
       def to_csv
-        implementation = instance.__send__(property.implementation)
+        implementation = instance.__send__(property.implementation_name)
 
         implementation.read_csv_property(property.implementation_property)
       end
