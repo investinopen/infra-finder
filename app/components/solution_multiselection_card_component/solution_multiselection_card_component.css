@@ -1,0 +1,25 @@
+.multiselection-card {
+  @mixin fluidScaleRem --padding-inline, 32px, 24px;
+
+  background-color: theme("colors.white");
+  @apply rounded-lg;
+  overflow: hidden;
+
+  > h4 {
+    @mixin fluidScaleRem padding-block-start, 24px, 20px;
+    @mixin fluidScaleRem padding-block-end, 20px, 16px;
+    padding-inline: var(--padding-inline);
+    background-color: theme("colors.neutral.20");
+  }
+
+  &__body {
+    padding-inline: var(--padding-inline);
+    @mixin fluidScaleRem padding-block, 24px, 20px;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+  }
+}

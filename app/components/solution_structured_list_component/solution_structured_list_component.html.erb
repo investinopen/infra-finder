@@ -1,26 +1,30 @@
-<div
-  class="multiselection multiselection--columns"
-  data-controller="solution-structured-list-component--solution-structured-list-component">
-  <h3><%= t(".#{list_name}") %></h3>
-  <ul class="t-rte">
-    <% items.each do |item| %>
-      <li>
-        <% if item.url %>
-          <a href="<%= item.url %>">
+<% if items.present? or free_text.present? %>
+  <div
+    class="structured-list<% if !items.present? %> structured-list--free-text<% end %>"
+    data-controller="solution-structured-list-component--solution-structured-list-component">
+    <h3><%= t(".#{list_name}") %></h3>
+    <div class="structured-list__body<% if items.present? %> structured-list__body--boxed<% end %>">
+      <ul class="structured-list__list<% if items.count > 1 %> structured-list__list--columns<% end %> t-rte">
+        <% items.each do |item| %>
+          <li>
+            <% if item.url %>
+              <a href="<%= item.url %>">
+            <% end %>
+              <span><%= item.name %></span>
+            <% if item.url %>
+              </a>
+            <% end %>
+          <% if item.description %>
+            <div><%= simple_format(item.description).html_safe %></div>
+          <% end %>
+          </li>
         <% end %>
-          <span><%= item.name %></span>
-        <% if item.url %>
-          </a>
-        <% end %>
-      <% if item.description %>
-        <div><%= simple_format(item.description).html_safe %></div>
+      </ul>
+      <% if free_text.present? %>
+        <div class="t-rte<% if items.present? %> pt-5<% end %>">
+          <%= simple_format(free_text).html_safe %>
+        </div>
       <% end %>
-      </li>
-    <% end %>
-  </ul>
-  <% if free_text.present? %>
-    <div class="t-rte<% if items.present? %> pt-5<% end %>">
-      <%= simple_format(free_text).html_safe %>
     </div>
-  <% end %>
-</div>
+  </div>
+<% end %>

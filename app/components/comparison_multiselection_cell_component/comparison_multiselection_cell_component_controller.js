@@ -1,4 +1,3 @@
-// import { Controller } from "@hotwired/stimulus";
-import ComparisonBlurbCellController from "../comparison_blurb_cell_component/comparison_blurb_cell_component_controller";
+import ExpandableTextController from "../expandable_text_component/expandable_text_component_controller";
 
-export default class extends ComparisonBlurbCellController {};
+export default class extends ExpandableTextController {};

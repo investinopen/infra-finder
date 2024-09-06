@@ -17,6 +17,7 @@
 @import "./comparison_sticky_header_component/comparison_sticky_header_component.css";
 @import "./comparison_toggle_component/comparison_toggle_component.css";
 @import "./cookie_banner_component/cookie_banner_component.css";
+@import "./expandable_text_component/expandable_text_component.css";
 @import "./flash_message_component/flash_message_component.css";
 @import "./flash_messages_component/flash_messages_component.css";
 @import "./footer_component/footer_component.css";
@@ -24,12 +25,14 @@
 @import "./home_page_component/home_page_component.css";
 @import "./implementation_component/implementation_component.css";
 @import "./implementation_detail_component/implementation_detail_component.css";
+@import "./implementation_statement_component/implementation_statement_component.css";
 @import "./matomo_component/matomo_component.css";
 @import "./open_graph_component/open_graph_component.css";
 @import "./share_bar_component/share_bar_component.css";
 @import "./solution_category_badges_component/solution_category_badges_component.css";
 @import "./solution_component/solution_component.css";
 @import "./solution_details_component/solution_details_component.css";
+@import "./solution_details_grant_card_component/solution_details_grant_card_component.css";
 @import "./solution_details_lozenge_list_component/solution_details_lozenge_list_component.css";
 @import "./solution_details_simple_card_list_component/solution_details_simple_card_list_component.css";
 @import "./solution_details_text_block_component/solution_details_text_block_component.css";
@@ -38,6 +41,7 @@
 @import "./solution_filters_select_all_component/solution_filters_select_all_component.css";
 @import "./solution_location_component/solution_location_component.css";
 @import "./solution_mobile_filters_component/solution_mobile_filters_component.css";
+@import "./solution_multiselection_card_component/solution_multiselection_card_component.css";
 @import "./solution_multiselection_component/solution_multiselection_component.css";
 @import "./solution_nav_component/solution_nav_component.css";
 @import "./solution_sort_component/solution_sort_component.css";

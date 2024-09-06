@@ -65,3 +65,17 @@ use tailwind's text-[name] classes for font sizes. */
     word-break: break-word;
   }
 }
+
+
+.t-other-text {
+  font-size: 0.875rem;
+  line-height: 1.571;
+
+  > h3, strong {
+    display: block;
+    margin-block-end: 0.25em;
+    font: inherit;
+    font-weight: bold;
+    letter-spacing: inherit;
+  }
+}
