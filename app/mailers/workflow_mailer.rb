@@ -6,6 +6,9 @@ class WorkflowMailer < ApplicationMailer
   default subject: -> { t(".subject", solution_name:) },
     to: -> { recipient_email }
 
+  # @return [SolutionDraft]
+  attr_reader :draft
+
   # @return [User]
   attr_reader :initiator
 
@@ -58,7 +61,7 @@ class WorkflowMailer < ApplicationMailer
 
   def extract_common_params!
     @draft = params.fetch(:draft)
-    @solution = draft.solution || params.fetch(:solution)
+    @solution = @draft.solution || params.fetch(:solution)
     @recipient = params.fetch(:recipient)
     @initiator = params.fetch(:initiator)
     @memo = params[:memo].presence

@@ -65,7 +65,7 @@ en:
         reminder_notifications: "Subscribe to this option in order to receive reminders to update your solutions on a regular basis."
         solution_notifications: "Subscribe to this option in order to receive notifications when solution drafts you have access to change state."
     actions:
-      request_review: Request Review and other things
+      request_review: Request Review
       request_revision: Request Editor Revisions
       approve: Approve Changes
       reject: Reject Changes
