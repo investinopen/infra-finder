@@ -38,9 +38,15 @@ export default class extends Controller {
     const events = [];
 
     for (const el of checked) {
-      const label = el.dataset.eventLabel;
+      const eventName = el.dataset.eventName;
+      const eventValue = el.dataset.eventValue;
 
-      events.push(["trackEvent", "Filter Applied", label || el.name]);
+      events.push([
+        "trackEvent",
+        "Filter Applied",
+        eventName,
+        eventValue,
+      ]);
     }
 
     window._paq.push(events);

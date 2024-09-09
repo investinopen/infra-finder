@@ -4,7 +4,7 @@
     <div>
       <% SolutionCategory.filter_select_options.each do |category, id| %>
         <label class="m-checkbox">
-          <%= f.check_box :solution_categories_id_in, { multiple: true, "data-event-label": "#{t(".category_heading")}: #{category}" }, id, '' %>
+          <%= f.check_box :solution_categories_id_in, { multiple: true, "data-event-name": t(".category_heading"), "data-event-value": category }, id, '' %>
           <span><%= category %></span>
         </label>
       <% end %>
@@ -23,27 +23,27 @@
       <%# end %>
       -->
       <label class="m-checkbox">
-        <%= f.check_box :maintenance_active, { "data-event-label": "#{t(".attributes_heading")}: #{t(".maintenance_status")}" }, "true", "" %>
+        <%= f.check_box :maintenance_active, { "data-event-name": t(".attributes_heading"), "data-event-value": t(".maintenance_status") }, "true", "" %>
         <span><%= t(".maintenance_status", raise: true) %></span>
       </label>
       <label class="m-checkbox">
-        <%= f.check_box :open_api_available, { "data-event-label": "#{t(".attributes_heading")}: #{t(".implementations.open_api_available")}" }, "true", "false" %>
+        <%= f.check_box :open_api_available, { "data-event-name": t(".attributes_heading"), "data-event-value": t(".implementations.open_api_available") }, "true", "false" %>
         <span><%= t(".implementations.open_api_available", raise: true) %></span>
       </label>
       <label class="m-checkbox">
-        <%= f.check_box :code_repository_available, { "data-event-label": "#{t(".attributes_heading")}: #{t(".implementations.code_repository_available")}" }, "true", "false" %>
+        <%= f.check_box :code_repository_available, { "data-event-name": t(".attributes_heading"), "data-event-value": t(".implementations.code_repository_available") }, "true", "false" %>
         <span><%= t(".implementations.code_repository_available", raise: true) %></span>
       </label>
       <label class="m-checkbox">
-        <%= f.check_box :open_data_available, { "data-event-label": "#{t(".attributes_heading")}: #{t(".implementations.open_data_available")}" }, "true", "false" %>
+        <%= f.check_box :open_data_available, { "data-event-name": t(".attributes_heading"), "data-event-value": t(".implementations.open_data_available") }, "true", "false" %>
         <span><%= t(".implementations.open_data_available", raise: true) %></span>
       </label>
       <label class="m-checkbox">
-        <%= f.check_box :product_roadmap_available, { "data-event-label": "#{t(".attributes_heading")}: #{t(".implementations.product_roadmap_available")}" }, "true", "false" %>
+        <%= f.check_box :product_roadmap_available, { "data-event-name": t(".attributes_heading"), "data-event-value": t(".implementations.product_roadmap_available") }, "true", "false" %>
         <span><%= t(".implementations.product_roadmap_available", raise: true) %></span>
       </label>
       <label class="m-checkbox">
-        <%= f.check_box :user_documentation_available, { "data-event-label": "#{t(".attributes_heading")}: #{t(".implementations.user_documentation_available")}" }, "true", "false" %>
+        <%= f.check_box :user_documentation_available, { "data-event-name": t(".attributes_heading"), "data-event-value": t(".implementations.user_documentation_available") }, "true", "false" %>
         <span><%= t(".implementations.user_documentation_available", raise: true) %></span>
       </label>
       <!--
@@ -59,15 +59,15 @@
     <summary class="text-h5"><%= t(".community_heading") %></summary>
     <div>
       <label class="m-checkbox">
-        <%= f.check_box :code_of_conduct_available, { "data-event-label": "#{t(".community_heading")}: #{t(".implementations.code_of_conduct_available")}" }, "true", "false" %>
+        <%= f.check_box :code_of_conduct_available, { "data-event-name": t(".community_heading"), "data-event-value": t(".implementations.code_of_conduct_available") }, "true", "false" %>
         <span><%= t(".implementations.code_of_conduct_available", raise: true) %></span>
       </label>
       <label class="m-checkbox">
-        <%= f.check_box :community_engagement_available, { "data-event-label": "#{t(".community_heading")}: #{t(".implementations.community_engagement_available")}" }, "true", "false" %>
+        <%= f.check_box :community_engagement_available, { "data-event-name": t(".community_heading"), "data-event-value": t(".implementations.community_engagement_available") }, "true", "false" %>
         <span><%= t(".implementations.community_engagement_available", raise: true) %></span>
       </label>
       <label class="m-checkbox">
-        <%= f.check_box :contribution_pathways_available, { "data-event-label": "#{t(".community_heading")}: #{t(".user_contributions")}" }, "true", "" %>
+        <%= f.check_box :contribution_pathways_available, { "data-event-name": t(".community_heading"), "data-event-value": t(".user_contributions") }, "true", "" %>
         <span><%= t(".user_contributions", raise: true) %></span>
       </label>
     </div>
@@ -77,19 +77,19 @@
     <summary class="text-h5"><%= t(".policies_heading") %></summary>
     <div>
       <label class="m-checkbox">
-        <%= f.check_box :bylaws_available, { "data-event-label": "#{t(".policies_heading")}: #{t(".implementations.bylaws_available")}" }, "true", "false" %>
+        <%= f.check_box :bylaws_available, { "data-event-name": t(".policies_heading"), "data-event-value": t(".implementations.bylaws_available") }, "true", "false" %>
         <span><%= t(".implementations.bylaws_available", raise: true) %></span>
       </label>
       <label class="m-checkbox">
-        <%= f.check_box :equity_and_inclusion_available, { "data-event-label": "#{t(".policies_heading")}: #{t(".implementations.equity_and_inclusion_available")}" }, "true", "false" %>
+        <%= f.check_box :equity_and_inclusion_available, { "data-event-name": t(".policies_heading"), "data-event-value": t(".implementations.equity_and_inclusion_available") }, "true", "false" %>
         <span><%= t(".implementations.equity_and_inclusion_available", raise: true) %></span>
       </label>
       <label class="m-checkbox">
-        <%= f.check_box :privacy_policy_available, { "data-event-label": "#{t(".policies_heading")}: #{t(".implementations.privacy_policy_available")}" }, "true", "false" %>
+        <%= f.check_box :privacy_policy_available, { "data-event-name": t(".policies_heading"), "data-event-value": t(".implementations.privacy_policy_available") }, "true", "false" %>
         <span><%= t(".implementations.privacy_policy_available", raise: true) %></span>
       </label>
       <label class="m-checkbox">
-        <%= f.check_box :web_accessibility_available, { "data-event-label": "#{t(".policies_heading")}: #{t(".implementations.web_accessibility_available")}" }, "true", "false" %>
+        <%= f.check_box :web_accessibility_available, { "data-event-name": t(".policies_heading"), "data-event-value": t(".implementations.web_accessibility_available") }, "true", "false" %>
         <span><%= t(".implementations.web_accessibility_available", raise: true) %></span>
       </label>
     </div>
