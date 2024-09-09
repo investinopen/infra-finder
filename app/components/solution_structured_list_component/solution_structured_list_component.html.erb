@@ -15,14 +15,14 @@
               </a>
             <% end %>
           <% if item.description %>
-            <div><%= simple_format(item.description).html_safe %></div>
+            <div><%= simple_format(item.description) %></div>
           <% end %>
           </li>
         <% end %>
       </ul>
       <% if free_text.present? %>
         <div class="t-rte<% if items.present? %> pt-5<% end %>">
-          <%= simple_format(free_text).html_safe %>
+          <%= simple_format(free_text) %>
         </div>
       <% end %>
     </div>
