@@ -322,8 +322,13 @@
                   <%= render SolutionDetailsGrantCardComponent.new(grant:) %>
                 </li>
               <% end %>
-            </div>
-          </ul>
+            </ul>
+            <% if solution.recent_grant_free_input.present? %>
+              <div class="grants-free-input t-rte<% if solution.recent_grants.present? %> pt-5<% end %>">
+                <%= simple_format(solution.recent_grant_free_input) %>
+              </div>
+            <% end %>
+          </div>
         <% end %>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.funding_needs, heading: t(".funding.needs")) %>
       </article>

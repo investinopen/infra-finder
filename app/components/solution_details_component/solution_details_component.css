@@ -69,7 +69,7 @@
 }
 
 .solution-cards-wrapper {
-  &:not(:has(.m-card)):not(:has(.org-structure-card)):not(:has(.multiselection-card)) {
+  &:not(:has(.m-card)):not(:has(.org-structure-card)):not(:has(.multiselection-card)):not(:has(.grants-free-input)) {
     display: none;
   }
 }
