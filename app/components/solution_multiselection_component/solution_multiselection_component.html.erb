@@ -19,7 +19,7 @@
           </div>
         <% else %>
           <div class="t-rte<% unless layout == 'columns' %> font-light<% end %>">
-            <%= simple_format(other_value).html_safe %>
+            <%= simple_format(other_value) %>
           </div>
         <% end %>
       <% end %>
