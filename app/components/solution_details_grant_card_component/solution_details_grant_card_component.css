@@ -13,14 +13,14 @@
     gap: 0.75em;
     padding-block: 1.125rem;
     border-block: 1px solid theme("colors.neutral.40");
-
-    > div {
-      display: flex;
-      gap: 0.25em;
-    }
   }
 
   dt {
+    display: inline;
     font-weight: 600;
+  }
+
+  dd {
+    display: inline;
   }
 }
