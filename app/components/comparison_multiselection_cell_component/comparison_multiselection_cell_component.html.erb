@@ -19,7 +19,7 @@
     <% end %>
     <% if other_value.present? %>
       <div <% if selections.present? %> class="pt-3"<% end %>>
-        <% if mode == :multiple %>
+        <% if mode == :multiple and selections.present? %>
           <strong><%= t(".other_label") %></strong>
         <% end %>
         <div class="t-rte">
