@@ -70,7 +70,7 @@
           <div class="py-[2.0625rem] border-y max-w-text">
             <% if solution.service_summary?.present? %>
               <div class="t-rte">
-                <%= simple_format(solution.service_summary).html_safe %>
+                <%= simple_format(solution.service_summary) %>
               </div>
             <% end %>
             <div class="pt-[1.625rem] flex gap-3 flex-wrap">
@@ -97,7 +97,7 @@
         <h2 class="a-underline"><%= t(".mission.heading") %></h2>
         <% if solution.mission? %>
           <div class="t-rte">
-            <%= simple_format(solution.mission).html_safe %>
+            <%= simple_format(solution.mission) %>
           </div>
         <% end %>
         <% if solution.key_achievements.present? %>
@@ -106,7 +106,7 @@
               <%= t(".mission.key_achievements") %>
             </h3>
             <div class="t-rte">
-              <%= simple_format(solution.key_achievements).html_safe %>
+              <%= simple_format(solution.key_achievements) %>
             </div>
           </div>
         <% end %>
