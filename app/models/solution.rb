@@ -53,6 +53,11 @@ class Solution < ApplicationRecord
   end
 
   class << self
+    # @return [<String>]
+    def active_country_codes
+      unscoped.distinct.where.not(country_code: nil).pluck(:country_code)
+    end
+
     # @param [String] name
     # @return [String, nil]
     def identifier_by_name(name)
