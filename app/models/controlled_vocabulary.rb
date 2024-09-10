@@ -70,6 +70,13 @@ class ControlledVocabulary < Support::FrozenRecordHelpers::AbstractRecord
     end
 
     # @return [<(String, String, Hash)>]
+    def active_country_options
+      active_country_codes = Solution.active_country_codes
+
+      country_options.select { |(_, code, _)| code.in?(active_country_codes) }
+    end
+
+    # @return [<(String, String, Hash)>]
     def country_options
       uses_countries.first!.fetch_options!
     end
