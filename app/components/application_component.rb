@@ -9,6 +9,17 @@ class ApplicationComponent < ViewComponent::Base
 
   NBSP = "&nbsp;".html_safe.freeze
 
+  INFRA_SANITIZE_OPTIONS = {
+    tags: %w[p a ul ol li span strong em b i],
+    attributes: %w[href target],
+  }.freeze
+
+  # @param [String] content
+  # @return [ActiveSupport::SafeBuffer]
+  def infra_format(content)
+    simple_format(content, {}, wrapper_tag: "div", sanitize: true, sanitize_options: INFRA_SANITIZE_OPTIONS)
+  end
+
   module AcceptsImplementation
     extend ActiveSupport::Concern
 
