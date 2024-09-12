@@ -66,29 +66,22 @@
           <% end %>
         </div>
         <%= render_category_badges %>
-        <% if solution.service_summary?.present? or solution.board_members_url? or solution.research_organization_registry_url? %>
+        <% if solution.service_summary?.present? or solution.research_organization_registry_url? %>
           <div class="py-[2.0625rem] border-y max-w-text">
             <% if solution.service_summary?.present? %>
               <div class="t-rte">
                 <%= simple_format(solution.service_summary) %>
               </div>
             <% end %>
-            <div class="pt-[1.625rem] flex gap-3 flex-wrap">
-              <% if solution.board_members_url? %>
-                <a href="<%= solution.board_members_url %>" target="_blank" rel="noreferrer" class="m-button m-button--sm">
-                  <span><%= t(".about.board_members_url") %></span>
-                  <span class="sr-only"><%= t(".opens_in_new_window") %></span>
-                  <%= image_tag "icons/24/Link-External.svg", alt: "" %>
-                </a>
-              <% end %>
-              <% if solution.research_organization_registry_url? %>
-                <a href="<%= solution.research_organization_registry_url %>" target="_blank" rel="noreferrer" class="m-button m-button--sm">
+            <% if solution.research_organization_registry_url? %>
+              <div class="pt-[1.625rem]">
+                <a href="<%= solution.research_organization_registry_url %>" target="_blank" rel="noreferrer" class="m-button m-button--sm m-button--fit-to-content">
                   <span><%= t(".about.research_organization_registry_url") %></span>
                   <span class="sr-only"><%= t(".opens_in_new_window") %></span>
                   <%= image_tag "icons/24/Link-External.svg", alt: "" %>
                 </a>
-              <% end %>
-            </div>
+              </div>
+            <% end %>
           </div>
         <% end %>
       </article>
@@ -106,7 +99,7 @@
               <%= t(".mission.key_achievements") %>
             </h3>
             <div class="t-rte">
-              <%= simple_format(solution.key_achievements) %>
+              <%= simple_format(solution.key_achievements, {}, sanitize: true, wrapper_tag: "div") %>
             </div>
           </div>
         <% end %>
@@ -237,6 +230,18 @@
         </div>
         <%= render_multiselection(:board_structures) %>
         <%= render_multiselection(:board_level) %>
+        <% if solution.board_members_url? %>
+          <div>
+            <h3><%= t(".policies.board_members") %></h3>
+            <div>
+              <a href="<%= solution.board_members_url %>" target="_blank" rel="noreferrer" class="m-button m-button--lg m-button--fit-to-content bg-brand-mint">
+                <span><%= t(".policies.board_members_url") %></span>
+                <span class="sr-only"><%= t(".opens_in_new_window") %></span>
+                <%= image_tag "icons/24/Link-External.svg", alt: "" %>
+              </a>
+            </div>
+          </div>
+        <% end %>
         <%= render_multiselection(:community_governances) %>
       </article>
       <article id="additional_information" class="l-container__inner"
@@ -311,7 +316,7 @@
         <%= render_multiselection(:financial_reporting_level) %>
         <%= render_structured_list(:founding_institutions, solution.founding_institution_free_input) %>
         <%= render_structured_list(:top_granting_institutions, solution.top_granting_institution_free_input) %>
-        <% if solution.recent_grants.present? %>
+        <% if solution.recent_grants.present? or solution.recent_grant_free_input.present? %>
           <div class="solution-cards-wrapper">
             <h3>
               <%= t(".funding.recent_grants") %>
