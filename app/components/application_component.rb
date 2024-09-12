@@ -17,7 +17,7 @@ class ApplicationComponent < ViewComponent::Base
   # @param [String] content
   # @return [ActiveSupport::SafeBuffer]
   def infra_format(content)
-    simple_format(content, {}, wrapper_tag: "div", sanitize: true, sanitize_options: INFRA_SANITIZE_OPTIONS)
+    simple_format(content, { class: 't-rte' }, { wrapper_tag: "div", sanitize: true, sanitize_options: INFRA_SANITIZE_OPTIONS })
   end
 
   module AcceptsImplementation

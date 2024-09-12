@@ -69,9 +69,7 @@
         <% if solution.service_summary?.present? or solution.research_organization_registry_url? %>
           <div class="py-[2.0625rem] border-y max-w-text">
             <% if solution.service_summary?.present? %>
-              <div class="t-rte">
-                <%= simple_format(solution.service_summary) %>
-              </div>
+              <%= infra_format(solution.service_summary) %>
             <% end %>
             <% if solution.research_organization_registry_url? %>
               <div class="pt-[1.625rem]">
@@ -89,8 +87,8 @@
         data-solution-details-component--solution-details-component-target="article">
         <h2 class="a-underline"><%= t(".mission.heading") %></h2>
         <% if solution.mission? %>
-          <div class="t-rte">
-            <%= simple_format(solution.mission) %>
+          <div>
+          <%= infra_format(solution.mission) %>
           </div>
         <% end %>
         <% if solution.key_achievements.present? %>
@@ -98,9 +96,7 @@
             <h3>
               <%= t(".mission.key_achievements") %>
             </h3>
-            <div class="t-rte">
-              <%= simple_format(solution.key_achievements, {}, sanitize: true, wrapper_tag: "div") %>
-            </div>
+            <%= infra_format(solution.key_achievements) %>
           </div>
         <% end %>
       </article>
@@ -109,7 +105,7 @@
         <h2 class="a-underline">
           <%= t(".technical.heading") %>
         </h2>
-        <div>
+        <div class="solution-cards-wrapper">
           <div class="solution-cards">
             <%= render_implementation(:code_repository) %>
             <% if solution.maintenance_statuses.present? %>
@@ -160,7 +156,7 @@
       <article id="community" class="l-container__inner"
         data-solution-details-component--solution-details-component-target="article">
         <h2 class="a-underline"><%= t(".community.heading") %></h2>
-        <div>
+        <div class="solution-cards-wrapper">
           <div class="solution-cards">
             <%= render_implementation(:code_of_conduct) %>
             <%= render_implementation(:community_engagement) %>
@@ -329,8 +325,8 @@
               <% end %>
             </ul>
             <% if solution.recent_grant_free_input.present? %>
-              <div class="grants-free-input t-rte<% if solution.recent_grants.present? %> pt-5<% end %>">
-                <%= simple_format(solution.recent_grant_free_input) %>
+              <div class="grants-free-input<% if solution.recent_grants.present? %> pt-5<% end %>">
+                <%= infra_format(solution.recent_grant_free_input) %>
               </div>
             <% end %>
           </div>
