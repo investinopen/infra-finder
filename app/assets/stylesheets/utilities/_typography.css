@@ -17,6 +17,10 @@ use tailwind's text-[name] classes for font sizes. */
 .t-rte {
   @apply max-w-text;
 
+  & + & {
+    margin-block-start: 1.5rem;
+  }
+
   > :where(:not(meta):not(:empty)) + * {
     margin-block-start: 1.5rem;
   }
@@ -48,6 +52,11 @@ use tailwind's text-[name] classes for font sizes. */
     color: var(--color);
   }
 
+  ul > br,
+  ol > br {
+    display: none;
+  }
+
   li + li {
     margin-block-start: var(--rte-li-margin-block-start, 1rem);
   }
@@ -63,6 +72,11 @@ use tailwind's text-[name] classes for font sizes. */
   a {
     text-decoration-line: underline;
     word-break: break-word;
+  }
+
+  > p + br,
+  > li + br {
+    display: none;
   }
 }
 
