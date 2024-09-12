@@ -25,7 +25,7 @@ class Provider < ApplicationRecord
   has_many :solutions, inverse_of: :provider, dependent: :restrict_with_error
   has_many :solution_revisions, inverse_of: :provider, dependent: :nullify
 
-  validates :name, presence: true
+  validates :name, presence: true, length: { maximum: 200 }
 
   validates :url, url: { allow_blank: true }
 

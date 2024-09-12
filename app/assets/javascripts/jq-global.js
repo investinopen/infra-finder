@@ -18,9 +18,17 @@ $(function() {
 
   for (const selector of SELECT2_SELECTORS) {
     $(selector).select2({
+      allowClear: true,
       dropdownAutoWidth: true,
       placeholder: "n/a",
       width: "calc(80% - 22px)",
     });
   }
+
+  $("body.active_admin form.formtastic .date_select.input select").select2({
+    allowClear: true,
+    dropdownAutoWidth: true,
+    placeholder: "n/a",
+    width: "10rem",
+  });
 });
