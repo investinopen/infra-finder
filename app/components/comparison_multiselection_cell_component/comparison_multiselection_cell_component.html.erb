@@ -22,9 +22,7 @@
         <% if mode == :multiple and selections.present? %>
           <strong><%= t(".other_label") %></strong>
         <% end %>
-        <div class="t-rte">
-          <%= simple_format(other_value) %>
-        </div>
+        <%= infra_format(other_value) %>
       </div>
     <% end %>
     <% unless selections.present? or other_value.present? %>
