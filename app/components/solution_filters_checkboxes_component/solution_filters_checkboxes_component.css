@@ -61,3 +61,13 @@
     padding-block-start: 0.5rem;
   }
 }
+
+.location-select {
+  padding-block: 1.25rem;
+  border-block-end-width: 0.0625rem;
+
+  select {
+    inline-size: 100%;
+    margin-block-start: 1rem;
+  }
+}
