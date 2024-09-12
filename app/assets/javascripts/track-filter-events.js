@@ -12,7 +12,20 @@ export default function trackFilterEvents(event) {
 
   const events = [];
 
-  // FormData is pretty difficult to parse here, so just look up checked filters
+  const formData = new FormData(event.target);
+
+  const searchQuery = formData.get("q[name_or_provider_name_cont]");
+
+  if (searchQuery) {
+    events.push([
+      "trackEvent",
+      "Search/Filter Applied",
+      "Search Query",
+      searchQuery,
+    ]);
+  }
+
+  // FormData is pretty difficult to parse for the filters, so just look up checked checkboxes
   const checked = [
     ...event.target.querySelectorAll("input[type='checkbox']:checked"),
   ];
