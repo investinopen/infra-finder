@@ -2340,7 +2340,8 @@ CREATE TABLE public.solutions (
     free_inputs jsonb DEFAULT '{}'::jsonb NOT NULL,
     first_name text,
     last_name text,
-    email public.citext
+    email public.citext,
+    flags jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 
 
@@ -5169,6 +5170,13 @@ CREATE INDEX index_solution_values_frameworks_on_values_framework_id ON public.s
 
 
 --
+-- Name: index_solutions_on_flags; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solutions_on_flags ON public.solutions USING gin (flags);
+
+
+--
 -- Name: index_solutions_on_identifier; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7340,6 +7348,7 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240912170843'),
 ('20240909171553'),
 ('20240909171445'),
 ('20240829191102'),

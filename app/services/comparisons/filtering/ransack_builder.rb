@@ -40,16 +40,21 @@ module Comparisons
 
       wrapped_hook! def prepare
         @search_params = has_filters_for?(:global) ? filters_for!(:global) : {}
+
+        super
       end
 
       wrapped_hook! def apply_or_conditions
         conds = [].tap do |inner|
+          inner << ransack_grouping(:flag)
           inner << ransack_grouping(:technical_attribute)
           inner << ransack_grouping(:community_engagement, m: "or")
           inner << ransack_grouping(:policy, m: "or")
         end.compact
 
-        or_conditions = { g: conds, m: "or" } if conds.any?
+        m = conds.one? ? "and" : "or"
+
+        or_conditions = { g: conds, m:, } if conds.any?
 
         add_final_grouping!(or_conditions)
 
