@@ -95,4 +95,12 @@
     </div>
     <%= render SolutionFiltersSelectAllComponent.new %>
   </details>
+  <div class="location-select">
+    <label for="countries" class="text-h5"><%= t(".location") %></label>
+    <select id="countries">
+      <% ControlledVocabulary.active_country_options.each do |value, label| %>
+        <option value="<%= label %>"><%= value %></option>
+      <% end %>
+    </select>
+  </div>
 </div>

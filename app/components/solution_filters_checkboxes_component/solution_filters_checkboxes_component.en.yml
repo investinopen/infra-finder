@@ -4,6 +4,7 @@ en:
   attributes_heading: Technical Attributes
   community_heading: Community Engagement
   policies_heading: Policies
+  location: Location
   implementations:
     open_api_available: Open API
     open_data_available: Open Data
