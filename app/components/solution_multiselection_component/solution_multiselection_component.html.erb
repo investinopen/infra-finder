@@ -3,7 +3,7 @@
     class="multiselection<% if !selections.present? and other_value.present? %> multiselection--free-text<% end %>"
     data-controller="solution-multiselection-component--solution-multiselection-component">
     <h3><%= t(".#{connection_name}") %></h3>
-    <div class="multiselection__body multiselection__body--<%= layout %>">
+    <div class="multiselection__body<% if selections.present? %> multiselection__body--<%= layout %><% end %>">
       <% if selections.present? %>
         <ul class="multiselection__list multiselection__list--<%= layout %><% if layout == 'columns' %> multiselection__list--columns-<%= column_count %> t-rte<% end %>">
           <% selections.each do |selection| %>
@@ -18,7 +18,7 @@
             <%= render ExpandableTextComponent.new(text: other_value, truncate: 3) %>
           </div>
         <% else %>
-          <div class="t-rte<% unless layout == 'columns' %> font-light<% end %>">
+          <div class="t-rte<% unless selections.present? and layout == 'columns' %> font-light<% end %>">
             <%= simple_format(other_value) %>
           </div>
         <% end %>

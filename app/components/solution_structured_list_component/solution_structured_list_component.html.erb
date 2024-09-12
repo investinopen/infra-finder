@@ -10,7 +10,7 @@
             <% if item.url %>
               <a href="<%= item.url %>">
             <% end %>
-              <span><%= item.name %></span>
+              <span><%= sanitize item.name %></span>
             <% if item.url %>
               </a>
             <% end %>
