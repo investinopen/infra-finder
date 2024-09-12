@@ -47,6 +47,7 @@ module Comparisons
       wrapped_hook! def apply_or_conditions
         conds = [].tap do |inner|
           inner << ransack_grouping(:flag)
+          inner << ransack_grouping(:standard)
           inner << ransack_grouping(:technical_attribute)
           inner << ransack_grouping(:community_engagement, m: "or")
           inner << ransack_grouping(:policy, m: "or")

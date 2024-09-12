@@ -7,6 +7,7 @@ en:
     community: Community Engagement
     flags: Flags
     policies: Policies
+    standards: Standards
   scopes:
     maintenance_active: Actively Maintained
     open_api_available: Open API
@@ -29,3 +30,10 @@ en:
     flagged_free_to_use: Free to use by anyone
     flagged_transparent_governance: Community-governed and transparent
     flagged_nonprofit_operated: Operated by a non-profit
+  standards:
+    authentication_standards: Authentication Standards
+    metadata_standards: Metadata Standards
+    metrics_standards: Metrics Standards
+    persistent_identifier_standards: Persistent Identifier Standards
+    preservation_standards: Preservation Standards
+    security_standards: Security Standards
