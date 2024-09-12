@@ -21,7 +21,12 @@
 - kind: date
   diffable: true
   diff_klass_name: DateDiff
-  input_kind: :datepicker
+  input_kind: :date_select
+  input_options:
+    include_blank: true
+    discard_month: true
+    discard_day: true
+    start_year: 1960
 - kind: email
   diffable: true
   diff_klass_name: StringDiff
