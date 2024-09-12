@@ -18,9 +18,7 @@
             <%= render ExpandableTextComponent.new(text: other_value, truncate: 3) %>
           </div>
         <% else %>
-          <div class="t-rte">
-            <%= simple_format(other_value) %>
-          </div>
+          <%= infra_format(other_value) %>
         <% end %>
       <% end %>
     </div>

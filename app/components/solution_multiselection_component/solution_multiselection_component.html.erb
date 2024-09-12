@@ -18,8 +18,8 @@
             <%= render ExpandableTextComponent.new(text: other_value, truncate: 3) %>
           </div>
         <% else %>
-          <div class="t-rte<% unless selections.present? and layout == 'columns' %> font-light<% end %>">
-            <%= simple_format(other_value) %>
+          <div <% unless selections.present? and layout == 'columns' %> class="font-light"<% end %>>
+            <%= infra_format(other_value) %>
           </div>
         <% end %>
       <% end %>
