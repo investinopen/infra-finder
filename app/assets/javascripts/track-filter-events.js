@@ -8,16 +8,14 @@
  * @param {SubmitEvent} event
  */
 export default function trackFilterEvents(event) {
-  if (!(event?.target instanceof HTMLFormElement) || !window._paq || !Array.isArray(window._paq)) return;
-
-  const events = [];
+  if (!(event?.target instanceof HTMLFormElement) || !_paq?.push) return;
 
   const formData = new FormData(event.target);
 
   const searchQuery = formData.get("q[name_or_provider_name_cont]");
 
   if (searchQuery) {
-    events.push([
+    _paq.push([
       "trackEvent",
       "Search/Filter Applied",
       "Search Query",
@@ -35,16 +33,7 @@ export default function trackFilterEvents(event) {
       const eventName = el.dataset.eventName;
       const eventValue = el.dataset.eventValue;
 
-      events.push([
-        "trackEvent",
-        "Search/Filter Applied",
-        eventName,
-        eventValue,
-      ]);
+      _paq.push(["trackEvent", "Search/Filter Applied", eventName, eventValue]);
     }
-  }
-
-  if (events.length > 0) {
-    window._paq.push(events);
   }
 }

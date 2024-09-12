@@ -126,8 +126,8 @@ export default class extends Controller {
   }
 
   async shared(eventName) {
-    if (window._paq && Array.isArray(window._paq)) {
-      window._paq.push(["trackEvent", "Share", eventName, this.shareUrlValue]);
+    if (_paq?.push) {
+      _paq.push(["trackEvent", "Share", eventName, this.shareUrlValue]);
     }
     
     if (!this.sharedUrlValue) {
