@@ -1,11 +1,14 @@
 ---
 en:
-  category_heading: Solution Category
-  attributes_heading: Technical Attributes
-  community_heading: Community Engagement
-  policies_heading: Policies
   location: Location
-  implementations:
+  headings:
+    attributes: Technical Attributes
+    category: Solution Category
+    community: Community Engagement
+    flags: Flags
+    policies: Policies
+  scopes:
+    maintenance_active: Actively Maintained
     open_api_available: Open API
     open_data_available: Open Data
     code_repository_available: Open Code Repository
@@ -20,7 +23,9 @@ en:
     code_of_conduct_available: Code Of Conduct
     web_accessibility_available: Web Accessibility
     bylaws_available: Bylaws
-  maintenance_status: Actively Maintained
-  readiness_level: Technology Readiness Level
-  user_contributions: Contribution Pathways
-
+    contribution_pathways_available: Contribution Pathways
+    flagged_oss: OSS
+    flagged_open_access_content: Distributes open access content
+    flagged_free_to_use: Free to use by anyone
+    flagged_transparent_governance: Community-governed and transparent
+    flagged_nonprofit_operated: Operated by a non-profit
