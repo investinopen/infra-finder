@@ -8,7 +8,7 @@
  * @param {SubmitEvent} event
  */
 export default function trackFilterEvents(event) {
-  if (!(event?.target instanceof HTMLFormElement) || !_paq?.push) return;
+  if (!(event?.target instanceof HTMLFormElement) || typeof _paq !== "object" || typeof _paq?.push !== "function") return;
 
   const formData = new FormData(event.target);
 
