@@ -11,6 +11,8 @@ class Solution < ApplicationRecord
 
   pg_enum! :publication, as: :publication, allow_blank: false, default: :unpublished
 
+  attribute :flags, Solutions::Flags.to_type
+
   belongs_to :provider, inverse_of: :solutions, counter_cache: true, touch: true
 
   has_many :provider_editor_assignments, through: :provider
@@ -35,6 +37,23 @@ class Solution < ApplicationRecord
   scope :with_pending_drafts, -> { where(id: SolutionDraft.in_state(:pending).select(:solution_id)) }
   scope :with_reviewable_drafts, -> { where(id: SolutionDraft.in_state(:in_review).select(:solution_id)) }
 
+  scope :flagged_with, ->(key, value = true) { where(arel_json_contains(:flags, key => value)) }
+
+  Solutions::Flags.scopes.each do |flag, scope_name|
+    flag_name = :"#{flag}_flag"
+
+    ransacker flag_name, formatter: ->(v) { arel_named_fn("to_jsonb", v) }, type: :boolean do
+      arel_json_get(:flags, flag)
+    end
+
+    expose_ransackable_attributes! flag_name
+
+    scope scope_name, -> { flagged_with(flag, true) }
+
+    expose_ransackable_scopes! scope_name
+  end
+
+  before_validation :derive_flags!
   before_validation :maybe_touch_published_at!, if: :publication_changed?
 
   after_save :purge_comparisons!, if: :unpublished?
@@ -43,6 +62,23 @@ class Solution < ApplicationRecord
   monadic_matcher! def create_draft(...)
     call_operation("solutions.create_draft", self, ...)
   end
+
+  # @!group Flags
+
+  # @see Solutions::CalculateFlags
+  # @see Solutions::FlagsCalculator
+  # @return [Dry::Monads::Success(Solutions::Flags)]
+  monadic_operation! def calculate_flags
+    call_operation("solutions.calculate_flags", self)
+  end
+
+  # @api private
+  # @return [void]
+  def derive_flags!
+    self.flags = calculate_flags!
+  end
+
+  # @!endgroup
 
   # @!group Revisions
 

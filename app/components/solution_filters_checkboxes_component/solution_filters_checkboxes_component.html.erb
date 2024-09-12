@@ -1,100 +1,46 @@
 <div data-controller="solution-filters-checkboxes-component--solution-filters-checkboxes-component">
-  <details data-solution-filters-checkboxes-component--solution-filters-checkboxes-component-target="accordion" class="solution-filters-details">
-    <summary class="text-h5"><%= t(".category_heading") %></summary>
+  <%= accordion(:category) do %>
     <div>
       <% SolutionCategory.filter_select_options.each do |category, id| %>
         <label class="m-checkbox">
-          <%= f.check_box :solution_categories_id_in, { multiple: true, "data-event-name": t(".category_heading"), "data-event-value": category }, id, '' %>
+          <%= f.check_box :solution_categories_id_in, { multiple: true, "data-event-name": t(".headings.category"), "data-event-value": category }, id, "" %>
           <span><%= category %></span>
         </label>
       <% end %>
     </div>
-    <%= render SolutionFiltersSelectAllComponent.new %>
-  </details>
-  <details data-solution-filters-checkboxes-component--solution-filters-checkboxes-component-target="accordion" class="solution-filters-details">
-    <summary class="text-h5"><%= t(".attributes_heading") %></summary>
+  <% end %>
+  <%= accordion(:attributes) do %>
     <div>
-      <!--
-      <%# MaintenanceStatus.filter_select_options.each do |status, id| %>
-        <label class="m-checkbox">
-          <%#= f.check_box :maintenance_status_id_in, { multiple: true }, id, '' %>
-          <span><%#= status %></span>
-        </label>
-      <%# end %>
-      -->
-      <label class="m-checkbox">
-        <%= f.check_box :maintenance_active, { "data-event-name": t(".attributes_heading"), "data-event-value": t(".maintenance_status") }, "true", "" %>
-        <span><%= t(".maintenance_status", raise: true) %></span>
-      </label>
-      <label class="m-checkbox">
-        <%= f.check_box :open_api_available, { "data-event-name": t(".attributes_heading"), "data-event-value": t(".implementations.open_api_available") }, "true", "false" %>
-        <span><%= t(".implementations.open_api_available", raise: true) %></span>
-      </label>
-      <label class="m-checkbox">
-        <%= f.check_box :code_repository_available, { "data-event-name": t(".attributes_heading"), "data-event-value": t(".implementations.code_repository_available") }, "true", "false" %>
-        <span><%= t(".implementations.code_repository_available", raise: true) %></span>
-      </label>
-      <label class="m-checkbox">
-        <%= f.check_box :open_data_available, { "data-event-name": t(".attributes_heading"), "data-event-value": t(".implementations.open_data_available") }, "true", "false" %>
-        <span><%= t(".implementations.open_data_available", raise: true) %></span>
-      </label>
-      <label class="m-checkbox">
-        <%= f.check_box :product_roadmap_available, { "data-event-name": t(".attributes_heading"), "data-event-value": t(".implementations.product_roadmap_available") }, "true", "false" %>
-        <span><%= t(".implementations.product_roadmap_available", raise: true) %></span>
-      </label>
-      <label class="m-checkbox">
-        <%= f.check_box :user_documentation_available, { "data-event-name": t(".attributes_heading"), "data-event-value": t(".implementations.user_documentation_available") }, "true", "false" %>
-        <span><%= t(".implementations.user_documentation_available", raise: true) %></span>
-      </label>
-      <!--
-      <label class="m-checkbox">
-        <%#= f.check_box :readiness_level_id_not_null, {}, "true", "" %>
-        <span><%#= t(".readiness_level", raise: true) %></span>
-      </label>
-      -->
+      <%= boolean_scope :maintenance_active %>
+      <%= boolean_scope :open_api_available %>
+      <%= boolean_scope :code_repository_available %>
+      <%= boolean_scope :open_data_available %>
+      <%= boolean_scope :product_roadmap_available %>
+      <%= boolean_scope :user_documentation_available %>
     </div>
-    <%= render SolutionFiltersSelectAllComponent.new %>
-  </details>
-  <details data-solution-filters-checkboxes-component--solution-filters-checkboxes-component-target="accordion" class="solution-filters-details">
-    <summary class="text-h5"><%= t(".community_heading") %></summary>
+  <% end %>
+  <%= accordion(:community) do %>
     <div>
-      <label class="m-checkbox">
-        <%= f.check_box :code_of_conduct_available, { "data-event-name": t(".community_heading"), "data-event-value": t(".implementations.code_of_conduct_available") }, "true", "false" %>
-        <span><%= t(".implementations.code_of_conduct_available", raise: true) %></span>
-      </label>
-      <label class="m-checkbox">
-        <%= f.check_box :community_engagement_available, { "data-event-name": t(".community_heading"), "data-event-value": t(".implementations.community_engagement_available") }, "true", "false" %>
-        <span><%= t(".implementations.community_engagement_available", raise: true) %></span>
-      </label>
-      <label class="m-checkbox">
-        <%= f.check_box :contribution_pathways_available, { "data-event-name": t(".community_heading"), "data-event-value": t(".user_contributions") }, "true", "" %>
-        <span><%= t(".user_contributions", raise: true) %></span>
-      </label>
+      <%= boolean_scope(:code_of_conduct_available) %>
+      <%= boolean_scope(:community_engagement_available) %>
+      <%= boolean_scope(:contribution_pathways_available) %>
     </div>
-    <%= render SolutionFiltersSelectAllComponent.new %>
-  </details>
-  <details data-solution-filters-checkboxes-component--solution-filters-checkboxes-component-target="accordion" class="solution-filters-details">
-    <summary class="text-h5"><%= t(".policies_heading") %></summary>
+  <% end %>
+  <%= accordion(:policies) do %>
     <div>
-      <label class="m-checkbox">
-        <%= f.check_box :bylaws_available, { "data-event-name": t(".policies_heading"), "data-event-value": t(".implementations.bylaws_available") }, "true", "false" %>
-        <span><%= t(".implementations.bylaws_available", raise: true) %></span>
-      </label>
-      <label class="m-checkbox">
-        <%= f.check_box :equity_and_inclusion_available, { "data-event-name": t(".policies_heading"), "data-event-value": t(".implementations.equity_and_inclusion_available") }, "true", "false" %>
-        <span><%= t(".implementations.equity_and_inclusion_available", raise: true) %></span>
-      </label>
-      <label class="m-checkbox">
-        <%= f.check_box :privacy_policy_available, { "data-event-name": t(".policies_heading"), "data-event-value": t(".implementations.privacy_policy_available") }, "true", "false" %>
-        <span><%= t(".implementations.privacy_policy_available", raise: true) %></span>
-      </label>
-      <label class="m-checkbox">
-        <%= f.check_box :web_accessibility_available, { "data-event-name": t(".policies_heading"), "data-event-value": t(".implementations.web_accessibility_available") }, "true", "false" %>
-        <span><%= t(".implementations.web_accessibility_available", raise: true) %></span>
-      </label>
+      <%= boolean_scope(:bylaws_available) %>
+      <%= boolean_scope(:equity_and_inclusion_available) %>
+      <%= boolean_scope(:privacy_policy_available) %>
+      <%= boolean_scope(:web_accessibility_available) %>
     </div>
-    <%= render SolutionFiltersSelectAllComponent.new %>
-  </details>
+  <% end %>
+  <%= accordion(:flags) do %>
+    <div>
+      <% Solutions::Flags.scopes.each_value do |scope_name| %>
+        <%= boolean_scope scope_name %>
+      <% end %>
+    </div>
+  <% end %>
   <div class="location-select">
     <%= f.label :country_code_eq, t(".location"), class: "text-h5" %>
     <%= f.select :country_code_eq, ControlledVocabulary.active_country_options, include_blank: "Anywhere" %>

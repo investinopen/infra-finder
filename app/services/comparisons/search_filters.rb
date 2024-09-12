@@ -20,6 +20,10 @@ module Comparisons
 
     global_filter! :country_code_eq, :string
 
+    Solutions::Flags.scopes.each_value do |scope_name|
+      flag_filter! scope_name, :boolean
+    end
+
     solution_category_filter! :solution_categories_id_in, :string_array
 
     technical_attribute_filter! :maintenance_active, :boolean
@@ -28,7 +32,6 @@ module Comparisons
     technical_attribute_filter! :open_data_available, :boolean
     technical_attribute_filter! :product_roadmap_available, :boolean
     technical_attribute_filter! :user_documentation_available, :boolean
-    # technical_attribute_filter! :readiness_level_id_not_null, :boolean
 
     community_engagement_filter! :code_of_conduct_available, :boolean
     community_engagement_filter! :community_engagement_available, :boolean

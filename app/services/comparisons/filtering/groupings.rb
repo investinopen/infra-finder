@@ -62,7 +62,9 @@ module Comparisons
 
           return [key, "available"] if value
         when /\Amaintenance_active\z/
-          return attr if value
+          return ["maintenance_statuses_id_in", MaintenanceStatus.where(provides: "active").ids] if value
+        when /\Aflagged_(\S+)\z/
+          return ["#{Regexp.last_match[1]}_flag_eq", true] if value
         else
           # :nocov:
           raise ArgumentError, "Unverified scope: #{attr.inspect}"
@@ -90,6 +92,12 @@ module Comparisons
         # @return [void]
         def community_engagement_filter!(name, ...)
           mapped_filter!(name, :community_engagement)
+
+          attribute(name, ...)
+        end
+
+        def flag_filter!(name, ...)
+          mapped_filter!(name, :flag)
 
           attribute(name, ...)
         end
