@@ -23,6 +23,17 @@ export default function trackFilterEvents(event) {
     ]);
   }
 
+  const locationSelection = formData.get("q[country_code_eq]");
+
+  if (locationSelection) {
+    _paq.push([
+      "trackEvent",
+      "Search/Filter Applied",
+      "Location",
+      locationSelection,
+    ]);
+  }
+
   // FormData is pretty difficult to parse for the filters, so just look up checked checkboxes
   const checked = [
     ...event.target.querySelectorAll("input[type='checkbox']:checked"),
