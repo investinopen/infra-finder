@@ -15,6 +15,10 @@ module SolutionImports
 
       around_execute :with_cache
 
+      around_execute :set_import_active!
+
+      around_execute :skip_editor_validations!
+
       def perform
         context.transient_solutions.each do |solution_row|
           persist_each_solution!(solution_row) do |m|
@@ -23,7 +27,9 @@ module SolutionImports
             end
 
             m.failure do
+              # :nocov:
               raise "Something went wrong"
+              # :nocov:
             end
           end
         end
@@ -37,6 +43,20 @@ module SolutionImports
       def persist_each_solution!(solution_row)
         run_callbacks :each_solution do
           persist_each_solution.(solution_row)
+        end
+      end
+
+      # @return [void]
+      def set_import_active!
+        Solutions::Validations.importing! do
+          yield
+        end
+      end
+
+      # @return [void]
+      def skip_editor_validations!
+        Solutions::Validations.skip_editor_validations! do
+          yield
         end
       end
     end

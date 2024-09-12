@@ -23,3 +23,13 @@
   &.warn, &.warning, &.orange { background: #e29b20; }
   &.error, &.errored, &.red { background: #d45f53; }
 }
+
+.select2-container--default .select2-selection--single .select2-selection__clear {
+  background-image: none;
+  border-radius: 0;
+  box-shadow: unset;
+  color: initial;
+  line-height: unset;
+  padding: 0;
+  text-shadow: unset;
+}

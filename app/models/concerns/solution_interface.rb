@@ -34,16 +34,22 @@ module SolutionInterface
 
     before_validation :set_default_identifier!
 
+    after_commit :clear_editor_validation_application!
+
     validates :website, :research_organization_registry_url, url: { allow_blank: true }
+
+    SolutionProperty.with_max_length.each do |prop|
+      validates prop.attribute_name, length: { maximum: prop.max_length, if: :apply_editor_validations?, unless: :should_skip_editor_validations? }
+    end
+
+    SolutionProperty.with_presence_required.each do |prop|
+      validates prop.attribute_name, presence: prop.required_presence_options
+    end
 
     expose_ransackable_associations!(*SolutionProperty.ransackable_associations)
     expose_ransackable_attributes!(*SolutionProperty.ransackable_attributes)
     expose_ransackable_scopes!("provider", *Implementation.ransackable_scopes)
     expose_ransackable_scopes! :maintenance_active, :maintenance_inactive, :maintenance_unknown
-  end
-
-  def ext!(ext_name)
-    SolutionProperty.find_by!(ext_name: ext_name.to_s)
   end
 
   # @see Solutions:ExtractAttributes
@@ -55,6 +61,26 @@ module SolutionInterface
   # @return [void]
   def set_default_identifier!
     self.identifier ||= SecureRandom.uuid
+  end
+
+  # @return [Boolean]
+  attr_accessor :apply_editor_validations
+
+  alias apply_editor_validations? apply_editor_validations
+
+  # @api private
+  # @return [void]
+  def clear_editor_validation_application!
+    @apply_editor_validations = false
+  end
+
+  # @return [Boolean]
+  attr_accessor :skip_editor_validations
+
+  # @see #skip_editor_validations
+  # @see Solutions::Validations#should_skip_editor_validations?
+  def should_skip_editor_validations?
+    skip_editor_validations.present? || Solutions::Validations.should_skip_editor_validations?
   end
 
   module ClassMethods
