@@ -66,6 +66,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     required(:fe_visibility).value(:visibility)
     required(:phase_2_status).value(:phase_2_status)
     required(:skip_csv_export).value(:bool)
+    optional(:max_length).maybe(:integer) { gt?(0) }
     # External defined input. Does not necessarily correspond to how the field is used,
     # but we store it.
     optional(:input).value(:input)
@@ -153,6 +154,9 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   scope :standard, -> { in_use.with_standard_kind.sans_meta }
   scope :non_standard, -> { in_use.with_non_standard_kind.sans_meta }
+
+  scope :with_presence_required, -> { in_use.sans_meta.where(required: true) }
+  scope :with_max_length, -> { in_use.where.not(max_length: nil) }
 
   AUTO_EXCLUDE_CSV_KINDS = %i[
     implementation
@@ -309,7 +313,9 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
       label: input_label,
       hint: input_hint,
       input_html: property_kind.input_html,
-    }.compact.reverse_merge(property_kind.input_options)
+    }.compact.reverse_merge(property_kind.input_options).tap do |opts|
+      opts[:end_year] = Date.current.year if :start_year.in?(opts)
+    end
   end
 
   def only_for_actual?
@@ -327,6 +333,18 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   def other_option?
     kind == :other_option
+  end
+
+  memoize def required_presence_options
+    {}.tap do |x|
+      x[:if] = :apply_editor_validations?
+
+      if accepts_other?
+        x[:unless] = [:"#{free_input_name}?", :should_skip_editor_validations?]
+      else
+        x[:unless] = :should_skip_editor_validations?
+      end
+    end
   end
 
   # @param [ControlledVocabularies::Types::SourceKind] kind

@@ -170,6 +170,7 @@
     IOI).
   exported: false
   required: true
+  max_length: 200
   ext_name: first_name
   be_label: First Name
   be_position: 0
@@ -190,6 +191,7 @@
     IOI).
   exported: false
   required: true
+  max_length: 200
   ext_name: last_name
   be_label: Last Name
   be_position: 0
@@ -802,6 +804,7 @@
     In some cases, the service may be the same as the provider.
   exported: true
   required: true
+  max_length: 175
   ext_name: service_name
   be_label: Service name
   be_position: 1
@@ -970,6 +973,7 @@
   input: multiselect
   vocab_name: soln_cat
   original_input: Controlled multi-select
+  max_length: 3
 - name: service_summary
   code: 9
   attr:
@@ -978,6 +982,7 @@
   description: Narrative description of the service.
   exported: true
   required: true
+  max_length: 1000
   ext_name: service_summary
   be_label: Service summary
   be_position: 11
@@ -999,6 +1004,7 @@
     of major features or new versions, staff additions or changes in leadership.
   exported: true
   required: false
+  max_length: 1000
   ext_name: key_achievements
   be_label: Key achievements
   be_position: 13
@@ -1018,6 +1024,7 @@
   description: Mission statement or description of problems the service aims to solve.
   exported: true
   required: true
+  max_length: 1000
   ext_name: mission
   be_label: Mission
   be_position: 12
@@ -1815,6 +1822,7 @@
     partners or sponsors and existence of governing boards and committees.
   exported: true
   required: true
+  max_length: 1000
   ext_name: governance_summary
   be_label: Governance summary
   be_position: 51
@@ -2163,6 +2171,7 @@
     provider or a link to a public document.
   exported: true
   required: true
+  max_length: 1000
   ext_name: organizational_history
   be_label: Organizational history
   be_position: 65
@@ -2221,7 +2230,7 @@
   description: Indication of whether any person, company, or institution owns at least
     one share of a service provider's stock
   exported: true
-  required: true
+  required: false
   ext_name: shareholders
   be_label: Shareholders
   be_position: 69
@@ -2242,6 +2251,7 @@
     its goals.
   exported: true
   required: false
+  max_length: 1000
   ext_name: funding_needs
   be_label: Funding needs
   be_position: 71
@@ -2284,6 +2294,7 @@
     field 081
   exported: true
   required: false
+  max_length: 1000
   ext_name: programming_language_other
   be_label: Unknown
   fe_label: N/A
@@ -2304,6 +2315,7 @@
     086
   exported: true
   required: false
+  max_length: 1000
   ext_name: content_licensing_other
   be_label: Unknown
   fe_label: N/A
@@ -2323,6 +2335,7 @@
   description: Records the code license if "other" is selected in field 084
   exported: true
   required: false
+  max_length: 1000
   ext_name: code_license_name_other
   be_label: Unknown
   fe_label: N/A
@@ -2343,6 +2356,7 @@
     field 094
   exported: true
   required: false
+  max_length: 1000
   ext_name: metadata_standards_other
   be_label: Unknown
   fe_label: N/A
@@ -2363,6 +2377,7 @@
     in field 095
   exported: true
   required: false
+  max_length: 1000
   ext_name: pids_other
   be_label: Unknown
   fe_label: N/A
@@ -2383,6 +2398,7 @@
     in field 096
   exported: true
   required: false
+  max_length: 1000
   ext_name: authentication_other
   be_label: Unknown
   fe_label: N/A
@@ -2403,6 +2419,7 @@
     field 098
   exported: true
   required: false
+  max_length: 1000
   ext_name: security_standards_other
   be_label: Unknown
   fe_label: N/A
@@ -2423,6 +2440,7 @@
     in field 112
   exported: true
   required: false
+  max_length: 1000
   ext_name: preservation_standards_other
   be_label: Unknown
   fe_label: N/A
@@ -2443,6 +2461,7 @@
     113
   exported: true
   required: false
+  max_length: 1000
   ext_name: metrics_standards_other
   be_label: Unknown
   fe_label: N/A
@@ -2463,6 +2482,7 @@
     selected in field 083
   exported: true
   required: false
+  max_length: 1000
   ext_name: integrations_other
   be_label: Unknown
   fe_label: N/A
@@ -2483,6 +2503,7 @@
     in field 040
   exported: true
   required: false
+  max_length: 1000
   ext_name: contribution_opportunities_other
   be_label: Unknown
   fe_label: N/A
@@ -2503,6 +2524,7 @@
     in field 038
   exported: true
   required: false
+  max_length: 1000
   ext_name: community_engagement_activities_other
   be_label: Community engagement activities — other
   fe_label: N/A
@@ -2522,6 +2544,7 @@
   description: Records the board structure if "other" is selected in field 050
   exported: true
   required: false
+  max_length: 1000
   ext_name: board_structure_other
   be_label: Board structure — other
   fe_label: N/A
@@ -2541,6 +2564,7 @@
   description: Records the business form if "other" is selected in field 051
   exported: true
   required: false
+  max_length: 1000
   ext_name: business_form_other
   be_label: Business form — other
   fe_label: N/A
@@ -2560,6 +2584,7 @@
   description: Records the primary funding source if "other" is selected in field 061
   exported: true
   required: false
+  max_length: 1000
   ext_name: primary_funding_source_other
   be_label: Primary Funding Source — other
   fe_label: N/A
@@ -2579,6 +2604,7 @@
   description: Records the primary funding source if "other" is selected in field 072
   exported: true
   required: false
+  max_length: 1000
   ext_name: financial_reporting_level_other
   be_label: Financial reporting level — other
   fe_label: N/A
@@ -2598,6 +2624,7 @@
   description: Records the primary funding source if "other" is selected in field 100
   exported: true
   required: false
+  max_length: 1000
   ext_name: board_level_other
   be_label: Board level — other
   fe_label: N/A
@@ -2617,6 +2644,7 @@
   description: Free input value that is imported and exported via EOI
   exported: false
   required: false
+  max_length: 1000
   ext_name: current_affiliation_free_input
   be_label: Current affiliations — Free Input
   fe_label: N/A
@@ -2636,6 +2664,7 @@
   description: Free input value that is imported and exported via EOI
   exported: false
   required: false
+  max_length: 1000
   ext_name: founding_institution_free_input
   be_label: Founding institutions — Free Input
   fe_label: N/A
@@ -2655,6 +2684,7 @@
   description: Free input value that is imported and exported via EOI
   exported: false
   required: false
+  max_length: 1000
   ext_name: recent_grant_free_input
   be_label: List grants received in the past year — Free Input
   fe_label: N/A
@@ -2674,6 +2704,7 @@
   description: Free input value that is imported and exported via EOI
   exported: false
   required: false
+  max_length: 1000
   ext_name: top_granting_institution_free_input
   be_label: Top granting institutions — Free Input
   fe_label: N/A
@@ -2693,6 +2724,7 @@
   description: Free input value that is imported and exported via EOI
   exported: false
   required: false
+  max_length: 1000
   ext_name: service_provider_free_input
   be_label: Registered service providers — Free Input
   fe_label: N/A

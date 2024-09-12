@@ -12,6 +12,17 @@ ActiveAdmin.register SolutionDraft do
   controller do
     include SolutionProperties::Admin::TrackForm
 
+    before_create :maybe_skip_editor_validations!
+
+    before_update :maybe_skip_editor_validations!
+
+    # @param [SolutionDraft] solution_draft
+    # @return [void]
+    def maybe_skip_editor_validations!(solution_draft)
+      solution_draft.apply_editor_validations = current_user.editor?
+      solution_draft.skip_editor_validations = current_user.has_any_admin_access?
+    end
+
     def handle_simple_draft_operation!(operation_name)
       memo = params.dig(operation_name, :memo)
 

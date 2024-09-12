@@ -87,7 +87,9 @@ module Solutions
         target.__send__(:"#{attribute}=", value)
       end
 
-      target.save!
+      Solutions::Validations.skip_editor_validations! do
+        target.save!
+      end
 
       super
     end

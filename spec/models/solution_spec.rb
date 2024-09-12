@@ -114,4 +114,38 @@ RSpec.describe Solution, type: :model do
       expect(described_class.vocab_options_for("bylaws_implementation")).to be_present
     end
   end
+
+  context "when selectively applying editor validations" do
+    let_it_be(:solution, refind: true) { FactoryBot.create :solution }
+
+    before do
+      solution.apply_editor_validations = true
+    end
+
+    it "applies them by default" do
+      solution.mission = Faker::Lorem.characters(number: 1200)
+
+      expect(solution).to be_invalid
+
+      expect(solution.errors).to include :mission
+    end
+
+    context "when importing" do
+      around do |example|
+        Solutions::Validations.importing! do
+          example.run
+        end
+      end
+
+      it "skips editor validations" do
+        expect do
+          solution.mission = Faker::Lorem.characters(number: 1200)
+        end.to keep_the_same(solution, :invalid?)
+
+        expect(solution).to be_valid
+
+        expect(solution.errors).to be_blank
+      end
+    end
+  end
 end
