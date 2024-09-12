@@ -124,6 +124,13 @@ module Comparisons
         end
 
         # @return [void]
+        def standard_filter!(name, ...)
+          mapped_filter!(name, :standard)
+
+          attribute(name, ...)
+        end
+
+        # @return [void]
         def technical_attribute_filter!(name, ...)
           mapped_filter!(name, :technical_attribute)
 

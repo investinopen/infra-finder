@@ -6,6 +6,15 @@ class ControlledVocabularyConnection < Support::FrozenRecordHelpers::AbstractRec
   include Dry::Core::Memoizable
   include ControlledVocabularies::HasStrategy
 
+  STANDARD_VOCABS = %w[
+    standards_auth
+    standards_metadata
+    standards_metrics
+    standards_pids
+    standards_pres
+    standards_sec
+  ].freeze
+
   schema!(types: ControlledVocabularies::TypeRegistry) do
     required(:key).filled(:string)
     required(:name).value(:assoc)
@@ -30,6 +39,8 @@ class ControlledVocabularyConnection < Support::FrozenRecordHelpers::AbstractRec
   scope :single, -> { where(connection_mode: :single) }
 
   scope :accepts_other, -> { where(vocab_name: ControlledVocabulary.accepts_other_names) }
+  scope :standards, -> { where(vocab_name: STANDARD_VOCABS) }
+  scope :actual_standards, -> { for_actual.standards }
 
   alias_attribute :assoc, :name
 
@@ -82,6 +93,10 @@ class ControlledVocabularyConnection < Support::FrozenRecordHelpers::AbstractRec
   end
 
   alias single single?
+
+  memoize def ransack_id_in
+    :"#{assoc}_id_in"
+  end
 
   memoize def property
     SolutionProperty.find name

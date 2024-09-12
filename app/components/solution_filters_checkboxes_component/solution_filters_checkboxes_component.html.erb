@@ -34,6 +34,14 @@
       <%= boolean_scope(:web_accessibility_available) %>
     </div>
   <% end %>
+  <%= accordion(:standards, select_all: false) do %>
+    <% ControlledVocabularyConnection.actual_standards.each do |conn| %>
+      <div>
+        <%= f.label conn.ransack_id_in, t(".standards.#{conn.assoc}", raise: true), class: "text-h5" %>
+        <%= f.select conn.ransack_id_in, conn.fetch_options!, include_blank: false, multiple: true %>
+      </div>
+    <% end %>
+  <% end %>
   <%= accordion(:flags) do %>
     <div>
       <% Solutions::Flags.scopes.each_value do |scope_name| %>

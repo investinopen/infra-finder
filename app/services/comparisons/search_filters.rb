@@ -42,6 +42,10 @@ module Comparisons
     policy_filter! :privacy_policy_available, :boolean
     policy_filter! :web_accessibility_available, :boolean
 
+    ControlledVocabularyConnection.actual_standards.each do |conn|
+      standard_filter! conn.ransack_id_in, :string_array
+    end
+
     strip_attributes
 
     # @param [String, nil] raw_sort
