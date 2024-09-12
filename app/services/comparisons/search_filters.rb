@@ -18,6 +18,8 @@ module Comparisons
 
     global_filter! :name_or_provider_name_cont, :string
 
+    global_filter! :country_code_eq, :string
+
     solution_category_filter! :solution_categories_id_in, :string_array
 
     technical_attribute_filter! :maintenance_active, :boolean

@@ -595,6 +595,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     memoize def ransackable_attributes
       [].tap do |a|
         a.concat(standard_values)
+        a << "country_code"
         a.concat(Implementation.pluck(:name, :enum).flatten)
       end.then { symbolize_list _1 }
     end
