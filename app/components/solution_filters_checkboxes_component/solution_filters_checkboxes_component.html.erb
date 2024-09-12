@@ -96,11 +96,7 @@
     <%= render SolutionFiltersSelectAllComponent.new %>
   </details>
   <div class="location-select">
-    <label for="countries" class="text-h5"><%= t(".location") %></label>
-    <select id="countries">
-      <% ControlledVocabulary.active_country_options.each do |value, label| %>
-        <option value="<%= label %>"><%= value %></option>
-      <% end %>
-    </select>
+    <%= f.label :country_code_eq, t(".location"), class: "text-h5" %>
+    <%= f.select :country_code_eq, ControlledVocabulary.active_country_options, include_blank: "Anywhere" %>
   </div>
 </div>
