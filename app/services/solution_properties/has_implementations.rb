@@ -11,6 +11,8 @@ module SolutionProperties
 
         attribute implementation.name, implementation.type.to_type, default: proc { {} }
 
+        delegate :available_with_url?, :has_url?, to: implementation.name, prefix: implementation.name
+
         validates implementation.name, store_model: true
       end
 

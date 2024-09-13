@@ -26,6 +26,14 @@ module Implementations
       parent.try(:"#{implementation_name}_available?")
     end
 
+    def available_with_url?
+      available? && has_url?
+    end
+
+    def has_url?
+      link_mode != :none && read_url.present?
+    end
+
     def in_progress?
       parent.try(:"#{implementation_name}_in_progress?")
     end
