@@ -16,11 +16,17 @@
     margin-block-start: -1rem;
     padding-block: 1rem;
     padding-inline-end: calc(var(--solution-filters-padding) * 0.25);
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+
+    @supports (scrollbar-gutter: stable) {
+      scrollbar-gutter: stable;
+      padding-inline-end: 0;
+      margin-inline-end: 0;
+    }
 
     &--is-pinned {
       max-block-size: calc(100vh - var(--comparison-bar-height, 0px));
-      overflow-y: auto;
-      overscroll-behavior-y: contain;
     }
   }
 
