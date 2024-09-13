@@ -18,7 +18,7 @@
   @mixin fluidScaleRem --nav-bar-height, 54px, 44px;
 
   /* Solution Filters */
-  --solution-filters-padding: 2.25rem;
+  --solution-filters-padding: min(10.5%, 2.25rem);
 
   /* Root variables from IOI's website */
   --white: theme("colors.white");
