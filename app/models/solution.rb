@@ -72,6 +72,12 @@ class Solution < ApplicationRecord
     call_operation("solutions.calculate_flags", self)
   end
 
+  # @see Solutions::CheckFlags
+  # @return [Dry::Monads::Success(Boolean)]
+  monadic_operation! def check_flags
+    call_operation("solutions.check_flags", self)
+  end
+
   # @api private
   # @return [void]
   def derive_flags!
