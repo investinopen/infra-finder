@@ -1,6 +1,6 @@
 <div data-controller="solution-filters-checkboxes-component--solution-filters-checkboxes-component">
   <%= accordion(:category) do %>
-    <div>
+    <div class="checkbox-group">
       <% SolutionCategory.filter_select_options.each do |category, id| %>
         <label class="m-checkbox">
           <%= f.check_box :solution_categories_id_in, { multiple: true, "data-event-name": t(".headings.category"), "data-event-value": category }, id, "" %>
@@ -10,7 +10,7 @@
     </div>
   <% end %>
   <%= accordion(:attributes) do %>
-    <div>
+    <div class="checkbox-group">
       <%= boolean_scope :maintenance_active %>
       <%= boolean_scope :open_api_available %>
       <%= boolean_scope :code_repository_available %>
@@ -20,14 +20,14 @@
     </div>
   <% end %>
   <%= accordion(:community) do %>
-    <div>
+    <div class="checkbox-group">
       <%= boolean_scope(:code_of_conduct_available) %>
       <%= boolean_scope(:community_engagement_available) %>
       <%= boolean_scope(:contribution_pathways_available) %>
     </div>
   <% end %>
   <%= accordion(:policies) do %>
-    <div>
+    <div class="checkbox-group">
       <%= boolean_scope(:bylaws_available) %>
       <%= boolean_scope(:equity_and_inclusion_available) %>
       <%= boolean_scope(:privacy_policy_available) %>
@@ -36,14 +36,21 @@
   <% end %>
   <%= accordion(:standards, select_all: false) do %>
     <% ControlledVocabularyConnection.actual_standards.each do |conn| %>
-      <div>
-        <%= f.label conn.ransack_id_in, t(".standards.#{conn.assoc}", raise: true), class: "text-h5" %>
-        <%= f.select conn.ransack_id_in, conn.fetch_options!, include_blank: false, multiple: true %>
-      </div>
+      <fieldset>
+        <legend><%= t(".standards.#{conn.name}") %></legend>
+        <div class="checkbox-group">
+          <% conn.fetch_options!.each do |(label, value, options)| %>
+            <label class="m-checkbox">
+              <%= f.check_box conn.ransack_id_in, options.merge(multiple: true, "data-event-name" => t(".standards.#{conn.name}"), "data-event-value" => label), value, "" %>
+              <span><%= label %></span>
+            </label>
+          <% end %>
+        </div>
+      </fieldset>
     <% end %>
   <% end %>
   <%= accordion(:flags) do %>
-    <div>
+    <div class="checkbox-group">
       <% Solutions::Flags.scopes.each_value do |scope_name| %>
         <%= boolean_scope scope_name %>
       <% end %>
