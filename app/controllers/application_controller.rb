@@ -10,12 +10,12 @@ class ApplicationController < ActionController::Base
 
   skip_terms_enforcement false
 
+  protect_from_forgery prepend: true, with: :null_session
+
   before_action :store_user!
   after_action :clear_user!
   before_action :prepare_open_graph!
   before_action :prepare_page_meta!
-
-  protect_from_forgery with: :null_session
 
   include Pundit::Authorization
 
