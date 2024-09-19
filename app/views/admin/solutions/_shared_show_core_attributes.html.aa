@@ -1,6 +1,10 @@
 row :name
 row :founded_on
-row :country_code
+row :country_code do |r|
+  if r.country_code?
+    span r.country_name, title: r.country_code
+  end
+end
 row :member_count
 row :staffing_full_time
 row :staffing_volunteer
