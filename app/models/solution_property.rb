@@ -38,6 +38,11 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     financial_numbers_documented_url
   ].freeze
 
+  STANDARD_VOCABS = %w[
+    countries
+    currencies
+  ].freeze
+
   schema!(types: SolutionProperties::TypeRegistry) do
     required(:name).filled(:string)
     optional(:code).value(:integer)
@@ -143,16 +148,18 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   scope :meta, -> { where(meta: true) }
 
   scope :with_vocab, -> { where.not(vocab_name: [nil, ""]) }
-  scope :with_model_vocab, -> { where.not(vocab_name: [nil, "", "impl_scale", "impl_scale_pricing", "currencies", "countries"]) }
+  scope :with_model_vocab, -> { where.not(vocab_name: [nil, "", "impl_scale", "impl_scale_pricing", *STANDARD_VOCABS]) }
 
   scope :for_connections, -> { in_use.with_vocab.where(input: %w[select multiselect]).order(name: :asc) }
 
   scope :with_standard_kind, -> { where(kind: SolutionPropertyKind.standard_kinds) }
-  scope :with_non_standard_kind, -> { where(kind: SolutionPropertYKind.non_standard_kind) }
+  scope :with_non_standard_kind, -> { where(kind: SolutionPropertyKind.non_standard_kinds) }
 
   scope :should_be_in_admin_form, -> { in_use.sans_meta.sans_implementation_links }
 
-  scope :standard, -> { in_use.with_standard_kind.sans_meta }
+  scope :default_standard, -> { in_use.with_standard_kind.sans_meta }
+  scope :standard_options, -> { in_use.where(kind: :single_option).by_vocab_name(STANDARD_VOCABS) }
+  scope :standard, -> { default_standard.pluck(:name).concat(standard_options.pluck(:name)).then { |name| where(name:) } }
   scope :non_standard, -> { in_use.with_non_standard_kind.sans_meta }
 
   scope :with_presence_required, -> { in_use.sans_meta.where(required: true) }
