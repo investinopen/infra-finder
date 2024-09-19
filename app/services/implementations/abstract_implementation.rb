@@ -70,16 +70,20 @@ module Implementations
 
     # @param [String] new_value
     def write_url(new_value)
+      urls = new_value.present? ? URI.extract(new_value).map { _1.chomp(?,) } : []
+
       case link_mode
       when :many
         if links.empty?
-          self.links = [Implementations::Link.new(url: new_value)]
+          self.links = urls.map { |url| Implementations::Link.new(url:) }
         else
-          links.first.url = new_value
+          urls.each_with_index do |url, index|
+            links[index].url = url
+          end
         end
       when :single
         # :nocov:
-        link.url = new_value
+        link.url = urls.first
         # :nocov:
       else
         # :nocov:

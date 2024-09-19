@@ -9,6 +9,7 @@ module SolutionInterface
   extend ActiveSupport::Concern
   extend DefinesMonadicOperation
 
+  include BooleanEnums
   include ExposesRansackable
   include HasName
   include HasSystemTags

@@ -15,6 +15,7 @@ module SolutionImports
 
     transition from: :pending, to: :invalid
     transition from: :pending, to: :started
+    transition from: :started, to: :invalid
     transition from: :started, to: :success
     transition from: :started, to: :failure
 
