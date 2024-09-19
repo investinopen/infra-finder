@@ -164,10 +164,19 @@ module SolutionImports
 
           with_row_number number do
             logger.tagged("[row:#{number}]") do
-              yield row
+              if empty_row?(row)
+                logger.debug("Skipping empty row")
+              else
+                yield row
+              end
             end
           end
         end
+      end
+
+      # @param [CSV::Row] row
+      def empty_row?(row)
+        row.fields.compact.blank?
       end
     end
   end
