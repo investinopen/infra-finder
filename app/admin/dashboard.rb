@@ -21,7 +21,7 @@ ActiveAdmin.register_page "Dashboard" do
                 end
 
                 column :editor do |r|
-                  link_to r.user.name, admin_user_path(r.user), target: "_blank", rel: "noopener"
+                  link_to r.user.name, admin_user_path(r.user), target: "_blank", rel: "noopener" if r.user
                 end
 
                 column :updated do |r|
@@ -51,7 +51,7 @@ ActiveAdmin.register_page "Dashboard" do
                 end
 
                 column :editor do |r|
-                  link_to r.user.name, admin_user_path(r.user), target: "_blank", rel: "noopener"
+                  link_to r.user.name, admin_user_path(r.user), target: "_blank", rel: "noopener" if r.user
                 end
 
                 column :updated do |r|
