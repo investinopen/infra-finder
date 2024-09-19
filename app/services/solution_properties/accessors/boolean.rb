@@ -5,7 +5,7 @@ module SolutionProperties
     class Boolean < SolutionProperties::Accessors::AbstractAccessor
       property_kind! :boolean
 
-      parse_with! Types::Params::Bool
+      parse_with! Types::Params::Bool.fallback(false)
     end
   end
 end

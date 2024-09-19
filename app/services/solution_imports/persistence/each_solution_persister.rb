@@ -91,6 +91,10 @@ module SolutionImports
         draft.add_imported_tag!
 
         super
+      rescue ActiveRecord::RecordInvalid => e
+        # :nocov:
+        mark_invalid "Problem saving record: #{e.message}"
+        # :nocov:
       end
 
       wrapped_hook! def handle_draft_attachments

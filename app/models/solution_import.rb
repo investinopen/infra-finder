@@ -59,6 +59,17 @@ class SolutionImport < ApplicationRecord
     call_operation("solution_imports.process", self)
   end
 
+  # @return [SolutionImport]
+  def reset!
+    # :nocov:
+    solution_import_transitions.delete_all
+
+    current_state(force_reload: true)
+
+    reload
+    # :nocov:
+  end
+
   # @param [Hash] new_options
   def options_attributes=(new_options)
     self.options = new_options

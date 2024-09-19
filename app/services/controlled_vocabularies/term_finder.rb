@@ -34,7 +34,7 @@ module ControlledVocabularies
     end
 
     wrapped_hook! def find_by_strategy
-      return Success() if term.blank?
+      return Failure[:empty_term] if term.blank?
 
       case strategy
       in "countries"
