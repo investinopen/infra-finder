@@ -24,6 +24,8 @@ module Comparisons
       flag_filter! scope_name, :boolean
     end
 
+    business_form_filter! :business_forms_id_in, :string_array
+
     solution_category_filter! :solution_categories_id_in, :string_array
 
     technical_attribute_filter! :maintenance_active, :boolean

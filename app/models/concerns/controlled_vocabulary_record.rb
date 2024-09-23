@@ -25,6 +25,12 @@ module ControlledVocabularyRecord
     scope :used, -> { where.not(id: unscoped.unused.select(:id)) }
     scope :unused, -> { where.missing(:solutions, :solution_drafts) }
 
+    scope :with_providing, ->(provides) { where(provides:) }
+    scope :sans_providing, ->(provides) { where(arel_table[:provides].eq(nil).or(arel_table[:provides].not_eq(provides))) }
+
+    scope :actual, -> { sans_providing(:other) }
+    scope :other, -> { with_providing(:other) }
+
     friendly_id :slug_candidates, use: %i[history slugged]
 
     expose_ransackable_attributes! :description, on: :admin
