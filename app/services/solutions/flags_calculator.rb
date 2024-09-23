@@ -60,12 +60,14 @@ module Solutions
       super
     end
 
+    # @note Unused
     wrapped_hook! def calculate_transparent_governance
       flags.transparent_governance = proxy.transparent_governance?
 
       super
     end
 
+    # @note Unused
     wrapped_hook! def calculate_nonprofit_operated
       flags.nonprofit_operated = proxy.nonprofit_operated?
 
