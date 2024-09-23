@@ -178,7 +178,7 @@ class ControlledVocabularyConnection < Support::FrozenRecordHelpers::AbstractRec
 
     assoc_name = self.assoc_name
 
-    klass.scope :"#{assoc_name}_provides", ->(provides) { joins(assoc_name).merge(target_model.where(provides:)) }
+    klass.scope :"#{assoc_name}_provides", ->(provides) { joins(assoc_name).merge(target_model.with_providing(provides)) }
   end
 
   class << self

@@ -9,6 +9,13 @@
       <% end %>
     </div>
   <% end %>
+  <%= accordion(:flags) do %>
+    <div class="checkbox-group">
+      <% Solutions::Flags.scopes.each_value do |scope_name| %>
+        <%= boolean_scope scope_name %>
+      <% end %>
+    </div>
+  <% end %>
   <%= accordion(:attributes) do %>
     <div class="checkbox-group">
       <%= boolean_scope :maintenance_active %>
@@ -49,10 +56,13 @@
       </fieldset>
     <% end %>
   <% end %>
-  <%= accordion(:flags) do %>
+  <%= accordion(:business_form) do %>
     <div class="checkbox-group">
-      <% Solutions::Flags.scopes.each_value do |scope_name| %>
-        <%= boolean_scope scope_name %>
+      <% BusinessForm.actual.filter_select_options.each do |business_form, id| %>
+        <label class="m-checkbox">
+          <%= f.check_box :business_forms_id_in, { multiple: true, "data-event-name": t(".headings.business_form"), "data-event-value": business_form }, id, "" %>
+          <span><%= business_form %></span>
+        </label>
       <% end %>
     </div>
   <% end %>

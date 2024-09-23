@@ -62,7 +62,7 @@ module Comparisons
 
           return [key, "available"] if value
         when /\Amaintenance_active\z/
-          return ["maintenance_statuses_id_in", MaintenanceStatus.where(provides: "active").ids] if value
+          return ["maintenance_statuses_id_in", MaintenanceStatus.active_ids] if value
         when /\Aflagged_(\S+)\z/
           return ["#{Regexp.last_match[1]}_flag_eq", true] if value
         else
@@ -88,6 +88,12 @@ module Comparisons
 
       module ClassMethods
         # @!group Filter Mappers
+
+        def business_form_filter!(name, ...)
+          mapped_filter!(name, :business_form)
+
+          attribute(name, ...)
+        end
 
         # @return [void]
         def community_engagement_filter!(name, ...)

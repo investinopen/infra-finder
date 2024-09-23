@@ -19,7 +19,16 @@ module Comparisons
 
     SearchFilters = Types::Hash.fallback { {}.freeze }
 
-    SearchFilterGrouping = Coercible::Symbol.enum(:community_engagement, :flag, :global, :policy, :solution_category, :standard, :technical_attribute)
+    SearchFilterGrouping = Coercible::Symbol.enum(
+      :business_form,
+      :community_engagement,
+      :flag,
+      :global,
+      :policy,
+      :solution_category,
+      :standard,
+      :technical_attribute
+    )
 
     SearchFilterGroupings = Hash.map(Symbol, SearchFilterGrouping)
 

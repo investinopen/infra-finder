@@ -64,6 +64,7 @@ module Comparisons
 
       wrapped_hook! def apply_categories
         add_final_grouping! ransack_grouping(:solution_category)
+        add_final_grouping! ransack_grouping(:business_form)
 
         super
       end
