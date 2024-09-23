@@ -3,9 +3,10 @@ en:
   location: Location
   headings:
     attributes: Technical Attributes
+    business_form: Business or organizational model
     category: Solution Category
     community: Community Engagement
-    flags: Flags
+    flags: Open Attributes
     policies: Policies
     standards: Standards
   scopes:
@@ -25,7 +26,7 @@ en:
     web_accessibility_available: Web Accessibility
     bylaws_available: Bylaws
     contribution_pathways_available: Contribution Pathways
-    flagged_oss: OSS
+    flagged_oss: Open Source Software (OSS)
     flagged_open_access_content: Distributes open access content
     flagged_free_to_use: Free to use by anyone
     flagged_transparent_governance: Community-governed and transparent

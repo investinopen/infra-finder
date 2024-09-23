@@ -20,7 +20,7 @@ module Solutions
     class << self
       # @return [{ Symbol => Symbol }]
       def scopes
-        @scopes ||= attribute_names.to_h { [_1.to_sym, :"flagged_#{_1}"] }
+        @scopes ||= attribute_names.without("transparent_governance", "nonprofit_operated").to_h { [_1.to_sym, :"flagged_#{_1}"] }
       end
     end
   end
