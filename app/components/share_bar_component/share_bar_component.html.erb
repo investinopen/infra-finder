@@ -3,7 +3,7 @@
   data-share-bar-component--share-bar-component-share-mode-value="<%= share_mode %>"
   data-share-bar-component--share-bar-component-share-url-value="<%= share_url %>"
   data-share-bar-component--share-bar-component-shared-url-value="<%= shared_url %>">
-  <div data-share-bar-component--share-bar-component-target="wrapper">
+  <div data-share-bar-component--share-bar-component-target="wrapper" class="flex flex-wrap gap-2">
     <button
       class="m-button m-button--sm a-hidden"
       data-share-bar-component--share-bar-component-target="share"
@@ -12,7 +12,7 @@
       <%= image_tag "icons/16/Share.svg", alt: "" %>
     </button>
     <button
-      class="m-button m-button--sm a-hidden copy-button"
+      class="m-button m-button--sm copy-button"
       data-share-bar-component--share-bar-component-target="copy"
       data-action="click->share-bar-component--share-bar-component#copy">
       <span data-copy-text><%= t(".copy") %></span>
