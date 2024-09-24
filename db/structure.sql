@@ -346,7 +346,7 @@ CREATE TYPE public.user_kind AS ENUM (
     'super_admin',
     'admin',
     'editor',
-    'default',
+    'unassigned',
     'anonymous'
 );
 
@@ -2493,7 +2493,7 @@ CREATE TABLE public.users (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     admin boolean DEFAULT false NOT NULL,
-    kind public.user_kind DEFAULT 'default'::public.user_kind NOT NULL,
+    kind public.user_kind DEFAULT 'unassigned'::public.user_kind NOT NULL,
     accepted_terms_at timestamp without time zone,
     comment_notifications public.subscription DEFAULT 'unsubscribed'::public.subscription NOT NULL,
     comment_notifications_updated_at timestamp without time zone,
@@ -7348,6 +7348,7 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240923193338'),
 ('20240912170843'),
 ('20240909171553'),
 ('20240909171445'),

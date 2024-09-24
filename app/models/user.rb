@@ -24,7 +24,7 @@ class User < ApplicationRecord
     on: :admin
   )
 
-  pg_enum! :kind, as: :user_kind, default: :default, allow_blank: false, suffix: :kind
+  pg_enum! :kind, as: :user_kind, default: :unassigned, allow_blank: false, suffix: :kind
 
   subscription_identified_by! :email
 
@@ -110,7 +110,7 @@ class User < ApplicationRecord
 
   # @return [ExposesRansackable::Types::Allowance]
   def ransackable_allowance
-    return :any if default_kind?
+    return :any if unassigned_kind?
 
     ExposesRansackable::Types::Allowance[kind.to_sym]
   end
@@ -126,7 +126,7 @@ class User < ApplicationRecord
     elsif has_provider_editor_assignments?
       :editor
     else
-      :default
+      :unassigned
     end
   end
 

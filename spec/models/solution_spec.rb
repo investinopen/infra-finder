@@ -10,7 +10,7 @@ RSpec.describe Solution, type: :model do
       expect do
         solution.assign_editor!(user)
       end.to change(ProviderEditorAssignment, :count).by(1)
-        .and change { user.reload.kind }.from("default").to("editor")
+        .and change { user.reload.kind }.from("unassigned").to("editor")
     end
 
     context "when removing an editor" do
@@ -24,7 +24,7 @@ RSpec.describe Solution, type: :model do
         expect do
           assignment.destroy!
         end.to change(ProviderEditorAssignment, :count).by(-1)
-          .and change { user.reload.kind }.from("editor").to("default")
+          .and change { user.reload.kind }.from("editor").to("unassigned")
       end
     end
   end

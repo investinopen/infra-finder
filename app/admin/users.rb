@@ -18,7 +18,7 @@ ActiveAdmin.register User do
   scope "Super Admins", :super_admin_kind, group: :kind
   scope "Admins", :admin_kind, group: :kind
   scope "Editors", :editor_kind, group: :kind
-  scope "Default (End Users)", :default_kind, group: :kind
+  scope "Unassigned", :unassigned_kind, group: :kind
 
   config.sort_order = "name_asc"
 
@@ -108,6 +108,21 @@ ActiveAdmin.register User do
     column :reminder_notifications_updated_at
     column :created_at
     column :updated_at
+  end
+
+  sidebar :user_kinds, if: proc { current_user.has_any_admin_access? } do
+    para "Users can exist as one of four kinds."
+
+    dl do
+      dt status_tag(:super_admin)
+      dd "A super admin has full privileges within the admin section, is able to create and assign other admins, etc."
+      dt status_tag(:admin)
+      dd "A regular admin has access to managing solutions, controlled vocabularies, and inviting editors, but cannot manage user records directly."
+      dt status_tag(:editor)
+      dd "An editor can be assigned to providers, and create drafts for any solution owned by said provider(s)."
+      dt status_tag(:unassigned)
+      dd "Unassigned users have no privileges, and will be unable to access the admin section until they are assigned to a provider. This is the 'default' state for new users."
+    end
   end
 
   action_item :send_reset_password_instructions, only: %i[show edit], if: proc { authorized?(:send_reset_password_instructions, resource) } do
