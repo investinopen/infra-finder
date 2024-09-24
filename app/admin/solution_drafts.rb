@@ -108,7 +108,7 @@ ActiveAdmin.register SolutionDraft do
         end if solution_draft.mutable?
 
         panel "History" do
-          table_for(solution_draft.solution_draft_transitions.reorder(created_at: :desc, sort_key: :desc)) do
+          table_for(solution_draft.solution_draft_transitions.for_admin_history) do
             column :state do |tr|
               status_tag tr.to_state
             end
@@ -118,6 +118,10 @@ ActiveAdmin.register SolutionDraft do
                 concat time_ago_in_words(tr.created_at)
                 concat " ago"
               end
+            end
+
+            column "Memo" do |tr|
+              simple_format tr.memo
             end
           end
         end if solution_draft.solution_draft_transitions.exists?
