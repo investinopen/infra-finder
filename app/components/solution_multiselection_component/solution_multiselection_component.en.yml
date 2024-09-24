@@ -3,6 +3,7 @@ en:
   other_label: "Other: "
   readiness_levels: Technology Readiness Level
   programming_languages: Programming Languages
+  licenses: Code Licenses Used
   content_licenses: Content Licensing
   metadata_standards: Metadata Standards
   persistent_identifier_standards: Persistent Identifier Standards
