@@ -30,9 +30,9 @@ ActiveAdmin.register Solution do
   controller do
     include SolutionProperties::Admin::TrackForm
 
-    before_create :maybe_skip_editor_validations!
+    before_create :apply_editor_validations!
 
-    before_update :maybe_skip_editor_validations!
+    before_update :apply_editor_validations!
 
     after_create :create_initial_revision!
 
@@ -40,9 +40,8 @@ ActiveAdmin.register Solution do
 
     # @param [Solution] solution
     # @return [void]
-    def maybe_skip_editor_validations!(solution)
-      solution.apply_editor_validations = current_user.editor?
-      solution.skip_editor_validations = current_user.has_any_admin_access?
+    def apply_editor_validations!(solution)
+      solution.apply_editor_validations = true
     end
 
     # @param [Solution] solution
