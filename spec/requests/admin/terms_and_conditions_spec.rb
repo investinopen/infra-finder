@@ -8,6 +8,10 @@ RSpec.describe "Terms And Conditions", type: :request, default_auth: true do
     end
   end
 
+  let_it_be(:non_editor, refind: true) do
+    FactoryBot.create(:user, accept_terms_and_conditions: false)
+  end
+
   describe "GET /admin/terms_and_conditions" do
     def make_the_request!
       expect do
@@ -29,6 +33,16 @@ RSpec.describe "Terms And Conditions", type: :request, default_auth: true do
       make_the_request!
 
       expect(response).to redirect_to admin_dashboard_path
+    end
+
+    it "redirects a non-editor away no matter what" do
+      sign_in non_editor
+
+      make_the_request!
+
+      expect(flash[:alert]).to eq I18n.t("admin.access.alerts.non_editor")
+
+      expect(response).to redirect_to root_path
     end
   end
 
@@ -65,6 +79,16 @@ RSpec.describe "Terms And Conditions", type: :request, default_auth: true do
         .and keep_the_same { editor.reload.accepted_terms_at }
 
       expect(response).to have_http_status(:ok)
+    end
+
+    it "redirects a non-editor away no matter what" do
+      sign_in non_editor
+
+      make_the_request!
+
+      expect(flash[:alert]).to eq I18n.t("admin.access.alerts.non_editor")
+
+      expect(response).to redirect_to root_path
     end
   end
 end

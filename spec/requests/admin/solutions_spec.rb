@@ -274,7 +274,7 @@ RSpec.describe "Admin Solutions", type: :request, default_auth: true do
       # sanity check
       expect do
         other_solution.assign_editor!(regular_user)
-      end.to change { regular_user.reload.kind }.from("default").to("editor")
+      end.to change { regular_user.reload.kind }.from("unassigned").to("editor")
 
       sign_in regular_user
 
