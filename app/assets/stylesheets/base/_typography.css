@@ -11,7 +11,7 @@ body {
 
 :is(h1, h2, h3, h4, h5, h6) {
   @apply font-header;
-  @apply max-w-text;
+  max-inline-size: var(--max-inline-size, theme("maxWidth.text"));
 }
 
 h1 {
