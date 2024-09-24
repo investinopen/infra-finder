@@ -2,6 +2,7 @@ en:
   activerecord:
     errors:
       messages:
+        option_limit_exceeded: "Too many options selected"
         term_contains_separator: "contains a separator (|), which breaks import/export parsing"
         unknown_country_code: "does not correspond to a known ISO3166 alpha-2 country code"
         unknown_currency: "does not correspond to a known currency"
