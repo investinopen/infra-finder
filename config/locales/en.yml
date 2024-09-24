@@ -29,6 +29,9 @@
 
 en:
   admin:
+    access:
+      alerts:
+        non_editor: "Insufficient privileges to access the admin section. Please contact support to ensure you have been assigned editor permissions."
     solutions:
       create_draft:
         draft_created: "Draft created."

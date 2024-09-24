@@ -42,14 +42,21 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # @return [void]
   def enforce_acceptance_of_terms!
-    return unless user_signed_in? && current_user.has_unaccepted_terms?
+    return unless !devise_controller? && user_signed_in? && current_user.has_unaccepted_terms?
 
-    return if skip_terms_enforcement?
+    if current_user.unassigned_kind?
+      alert = t("admin.access.alerts.non_editor", raise: true)
 
-    alert = t("admin.terms_and_conditions.accept.alert", raise: true)
+      redirect_to(root_path, alert:)
+    else
+      return if skip_terms_enforcement?
 
-    redirect_to(admin_terms_and_conditions_path, alert:)
+      alert = t("admin.terms_and_conditions.accept.alert", raise: true)
+
+      redirect_to(admin_terms_and_conditions_path, alert:)
+    end
   end
 
   # @return [void]

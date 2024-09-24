@@ -87,5 +87,21 @@ RSpec.describe "Admin Dashboard", type: :request, default_auth: true do
 
       expect(response).to redirect_to(unauthorized_path)
     end
+
+    context "with a user that has not accepted any terms and conditions" do
+      let_it_be(:non_editor, refind: true) do
+        FactoryBot.create(:user, accept_terms_and_conditions: false)
+      end
+
+      it "redirects with the proper message" do
+        sign_in non_editor
+
+        make_the_request!
+
+        expect(flash[:alert]).to eq I18n.t("admin.access.alerts.non_editor")
+
+        expect(response).to redirect_to root_path
+      end
+    end
   end
 end
