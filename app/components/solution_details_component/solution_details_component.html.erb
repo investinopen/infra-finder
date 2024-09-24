@@ -107,7 +107,6 @@
         </h2>
         <div class="solution-cards-wrapper">
           <div class="solution-cards">
-            <%= render_implementation(:code_repository) %>
             <% if solution.maintenance_statuses.present? %>
               <div class="m-card">
                 <h3 class="text-h5"><%= t(".technical.maintenance_status") %></h3>
@@ -118,20 +117,21 @@
                 </div>
               </div>
             <% end %>
+            <%= render_implementation(:code_repository) %>
             <%= render_implementation(:user_documentation) %>
-            <%= render_implementation(:product_roadmap) %>
+            <%= render_implementation(:code_license) %>
             <%= render_implementation(:open_api) %>
             <%= render_implementation(:open_data) %>
-            <%= render_implementation(:code_license) %>
+            <%= render_implementation(:product_roadmap) %>
           </div>
           <h2 class="sr-only"><%= t(".technical.statements") %></h2>
           <div class="flex flex-col">
             <%= render_implementation_statement(:code_repository) %>
             <%= render_implementation_statement(:user_documentation) %>
-            <%= render_implementation_statement(:product_roadmap) %>
+            <%= render_implementation_statement(:code_license) %>
             <%= render_implementation_statement(:open_api) %>
             <%= render_implementation_statement(:open_data) %>
-            <%= render_implementation_statement(:code_license) %>
+            <%= render_implementation_statement(:product_roadmap) %>
           </div>
         </div>
         <%= render_multiselection(:programming_languages) %>
