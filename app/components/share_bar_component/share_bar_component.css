@@ -1,4 +1,4 @@
 .copy-button {
   /* prevents button from growing when inner text changes */
-  min-inline-size: 8.62rem;
+  min-inline-size: 8.6875rem;
 }
