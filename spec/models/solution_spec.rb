@@ -148,4 +148,27 @@ RSpec.describe Solution, type: :model do
       end
     end
   end
+
+  context "when applying editor validations" do
+    let_it_be(:solution, refind: true) { FactoryBot.create :solution }
+
+    before do
+      solution.apply_editor_validations = true
+    end
+
+    context "with restricted category selections" do
+      let_it_be(:solution_categories) { FactoryBot.create_list :solution_category, 4 }
+
+      it "will fail to save too many solution categories" do
+        expect do
+          solution.solution_categories = solution_categories
+
+          solution.save!
+        end.to keep_the_same(SolutionCategoryLink, :count)
+          .and raise_error(ActiveRecord::RecordInvalid, /too many/i)
+
+        expect(solution).to be_invalid
+      end
+    end
+  end
 end
