@@ -1734,7 +1734,8 @@ CREATE TABLE public.solution_draft_transitions (
     to_state character varying NOT NULL,
     metadata jsonb,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    memo text GENERATED ALWAYS AS ((metadata ->> 'memo'::text)) STORED
 );
 
 
@@ -7362,6 +7363,7 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240924180931'),
 ('20240924160448'),
 ('20240923193338'),
 ('20240912170843'),
