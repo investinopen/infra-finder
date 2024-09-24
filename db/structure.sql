@@ -10,6 +10,20 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: custom_numeric; Type: COLLATION; Schema: public; Owner: -
+--
+
+CREATE COLLATION public.custom_numeric (provider = icu, locale = 'en-u-kn-true');
+
+
+--
+-- Name: COLLATION custom_numeric; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON COLLATION public.custom_numeric IS 'A custom collation that supports lexically ordering by integral values found within the string, so that 1, 2, 10 orders correctly.';
+
+
+--
 -- Name: btree_gist; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -476,9 +490,9 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.accessibility_scopes (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     provides public.citext,
     enforced_slug text,
     description text,
@@ -525,9 +539,9 @@ CREATE TABLE public.ar_internal_metadata (
 
 CREATE TABLE public.authentication_standards (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     provides public.citext,
     enforced_slug text,
     description text,
@@ -546,7 +560,7 @@ CREATE TABLE public.authentication_standards (
 CREATE TABLE public.board_structures (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     seed_identifier bigint,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     description text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -554,7 +568,7 @@ CREATE TABLE public.board_structures (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
     provides public.citext
 );
@@ -567,7 +581,7 @@ CREATE TABLE public.board_structures (
 CREATE TABLE public.business_forms (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     seed_identifier bigint,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     description text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -575,7 +589,7 @@ CREATE TABLE public.business_forms (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
     provides public.citext
 );
@@ -587,9 +601,9 @@ CREATE TABLE public.business_forms (
 
 CREATE TABLE public.community_engagement_activities (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     provides public.citext,
     enforced_slug text,
     description text,
@@ -608,7 +622,7 @@ CREATE TABLE public.community_engagement_activities (
 CREATE TABLE public.community_governances (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     seed_identifier bigint,
-    name public.citext,
+    name public.citext COLLATE public.custom_numeric,
     slug public.citext,
     description text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -616,7 +630,7 @@ CREATE TABLE public.community_governances (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
     provides public.citext
 );
@@ -692,9 +706,9 @@ CREATE TABLE public.comparisons (
 
 CREATE TABLE public.content_licenses (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     provides public.citext,
     enforced_slug text,
     description text,
@@ -822,7 +836,7 @@ CREATE TABLE public.good_jobs (
 CREATE TABLE public.hosting_strategies (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     seed_identifier bigint,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
@@ -830,7 +844,7 @@ CREATE TABLE public.hosting_strategies (
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
     provides public.citext
 );
@@ -842,9 +856,9 @@ CREATE TABLE public.hosting_strategies (
 
 CREATE TABLE public.integrations (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     provides public.citext,
     enforced_slug text,
     description text,
@@ -898,7 +912,7 @@ CREATE TABLE public.invitations (
 CREATE TABLE public.licenses (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     seed_identifier bigint,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     description text,
     url text,
@@ -907,7 +921,7 @@ CREATE TABLE public.licenses (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
     provides public.citext
 );
@@ -920,7 +934,7 @@ CREATE TABLE public.licenses (
 CREATE TABLE public.maintenance_statuses (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     seed_identifier bigint,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
@@ -928,7 +942,7 @@ CREATE TABLE public.maintenance_statuses (
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
     provides public.citext
 );
@@ -940,9 +954,9 @@ CREATE TABLE public.maintenance_statuses (
 
 CREATE TABLE public.metadata_standards (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     provides public.citext,
     enforced_slug text,
     description text,
@@ -960,9 +974,9 @@ CREATE TABLE public.metadata_standards (
 
 CREATE TABLE public.metrics_standards (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     provides public.citext,
     enforced_slug text,
     description text,
@@ -980,9 +994,9 @@ CREATE TABLE public.metrics_standards (
 
 CREATE TABLE public.nonprofit_statuses (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     provides public.citext,
     enforced_slug text,
     description text,
@@ -1000,9 +1014,9 @@ CREATE TABLE public.nonprofit_statuses (
 
 CREATE TABLE public.persistent_identifier_standards (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     provides public.citext,
     enforced_slug text,
     description text,
@@ -1020,9 +1034,9 @@ CREATE TABLE public.persistent_identifier_standards (
 
 CREATE TABLE public.preservation_standards (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     provides public.citext,
     enforced_slug text,
     description text,
@@ -1041,7 +1055,7 @@ CREATE TABLE public.preservation_standards (
 CREATE TABLE public.primary_funding_sources (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     seed_identifier bigint,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     description text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -1049,7 +1063,7 @@ CREATE TABLE public.primary_funding_sources (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
     provides public.citext
 );
@@ -1061,9 +1075,9 @@ CREATE TABLE public.primary_funding_sources (
 
 CREATE TABLE public.programming_languages (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     provides public.citext,
     enforced_slug text,
     description text,
@@ -1112,7 +1126,7 @@ CREATE TABLE public.providers (
 CREATE TABLE public.readiness_levels (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     seed_identifier bigint,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     description text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -1120,7 +1134,7 @@ CREATE TABLE public.readiness_levels (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
     provides public.citext
 );
@@ -1132,9 +1146,9 @@ CREATE TABLE public.readiness_levels (
 
 CREATE TABLE public.reporting_levels (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     provides public.citext,
     enforced_slug text,
     description text,
@@ -1175,9 +1189,9 @@ CREATE TABLE public.schema_migrations (
 
 CREATE TABLE public.security_standards (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     provides public.citext,
     enforced_slug text,
     description text,
@@ -1289,7 +1303,7 @@ CREATE TABLE public.solution_business_forms (
 CREATE TABLE public.solution_categories (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     seed_identifier bigint,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     description text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -1297,7 +1311,7 @@ CREATE TABLE public.solution_categories (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
     provides public.citext
 );
@@ -2351,9 +2365,9 @@ CREATE TABLE public.solutions (
 
 CREATE TABLE public.staffings (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     provides public.citext,
     enforced_slug text,
     description text,
@@ -2435,7 +2449,7 @@ CREATE TABLE public.tags (
 CREATE TABLE public.user_contributions (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     seed_identifier bigint,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     description text,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -2443,7 +2457,7 @@ CREATE TABLE public.user_contributions (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
     provides public.citext
 );
@@ -2520,9 +2534,9 @@ CREATE TABLE public.users_roles (
 
 CREATE TABLE public.values_frameworks (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
-    name public.citext NOT NULL,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
-    term public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
     provides public.citext,
     enforced_slug text,
     description text,
@@ -7348,6 +7362,7 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240924160448'),
 ('20240923193338'),
 ('20240912170843'),
 ('20240909171553'),
