@@ -4,6 +4,7 @@ en:
   readiness_levels: Technology Readiness Level
   programming_languages: Programming Languages
   content_licenses: Content Licensing
+  licenses: Code Licenses Used
   metadata_standards: Metadata Standards
   persistent_identifier_standards: Persistent Identifier Standards
   security_standards: Security Standards
