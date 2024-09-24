@@ -31,6 +31,7 @@ class ControlledVocabularyConnection < Support::FrozenRecordHelpers::AbstractRec
   add_index :vocab_name
 
   scope :for_kind, ->(kind) { where(solution_kind: ControlledVocabularies::Types::SourceKind[kind]) }
+  scope :for_vocab_name, ->(vocab) { where(vocab_name: vocab.to_s) }
 
   scope :for_draft, -> { for_kind(:draft) }
   scope :for_actual, -> { for_kind(:actual) }
@@ -45,8 +46,9 @@ class ControlledVocabularyConnection < Support::FrozenRecordHelpers::AbstractRec
   alias_attribute :assoc, :name
 
   delegate :accepts_other?, :fetch_options, :fetch_options!, to: :vocab
-  delegate :input_attr, :other_property, to: :property
+  delegate :input_attr, :max_length, :other_property, to: :property
   delegate :attribute_name, to: :other_property, allow_nil: true, prefix: :other
+  delegate :max_length?, to: :property, prefix: :limits
 
   memoize def assoc_name
     assoc.to_s.pluralize(counter).to_sym
@@ -190,6 +192,18 @@ class ControlledVocabularyConnection < Support::FrozenRecordHelpers::AbstractRec
         name: ControlledVocabularies::Types::Assoc[name],
         solution_kind: ControlledVocabularies::Types::SourceKind[solution_kind]
       ).first!
+    end
+
+    def each_connection_with_length_limits_for(vocab_name:, solution_kind:)
+      # :nocov:
+      return enum_for(__method__, vocab_name:, solution_kind:) unless block_given?
+      # :nocov:
+
+      for_vocab_name(vocab_name).for_kind(solution_kind).multiple.each do |conn|
+        next unless conn.limits_max_length?
+
+        yield conn
+      end
     end
   end
 end
