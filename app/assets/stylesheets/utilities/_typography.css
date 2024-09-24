@@ -11,7 +11,7 @@ use tailwind's text-[name] classes for font sizes. */
     .text-staff
   ) {
   @apply font-header;
-  @apply max-w-text;
+  max-inline-size: var(--max-inline-size, theme("maxWidth.text"));
 }
 
 .t-rte {
