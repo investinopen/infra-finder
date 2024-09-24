@@ -10,7 +10,7 @@ RSpec.describe ProviderEditorAssignment, type: :model do
       expect do
         provider.assign_editor!(user)
       end.to change(described_class, :count).by(1)
-        .and change { user.reload.kind }.from("default").to("editor")
+        .and change { user.reload.kind }.from("unassigned").to("editor")
 
       expect(user).to be_editor
     end
@@ -57,10 +57,10 @@ RSpec.describe ProviderEditorAssignment, type: :model do
         expect do
           assignment.destroy!
         end.to change(described_class, :count).by(-1)
-          .and change { user.reload.kind }.from("editor").to("default")
+          .and change { user.reload.kind }.from("editor").to("unassigned")
 
         expect(user).not_to be_editor
-        expect(user).to be_default_kind
+        expect(user).to be_unassigned_kind
       end
     end
   end
