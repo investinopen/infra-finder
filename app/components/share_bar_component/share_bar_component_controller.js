@@ -95,10 +95,6 @@ export default class extends Controller {
     element.classList.toggle("a-hidden", !this.canShare);
   }
 
-  copyTargetConnected(element) {
-    element.classList.toggle("a-hidden", this.canShare || !this.canCopy);
-  }
-
   async share() {
     try {
       await navigator.share(this.shareData);
