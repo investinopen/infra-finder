@@ -635,7 +635,7 @@
   description: Indication of whether financial information provides to the service
     or tool itself or to its fiscal sponsor or host organization.
   exported: true
-  required: true
+  required: false
   ext_name: financial_reporting_level
   be_label: Financial reporting level
   be_position: 0
