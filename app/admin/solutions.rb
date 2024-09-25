@@ -47,13 +47,13 @@ ActiveAdmin.register Solution do
     # @param [Solution] solution
     # @return [void]
     def create_initial_revision!(solution)
-      solution.initialize_revision!(reason: "Created through admin section")
+      solution.initialize_revision!(reason: "Created through admin section") unless solution.errors.any?
     end
 
     # @param [Solution] solution
     # @return [void]
     def add_direct_revision!(solution)
-      solution.create_revision!(kind: :direct, reason: "Updated directly through admin section")
+      solution.create_revision!(kind: :direct, reason: "Updated directly through admin section") unless solution.errors.any?
     end
   end
 
