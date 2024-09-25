@@ -75,6 +75,18 @@ class ControlledVocabularyConnection < Support::FrozenRecordHelpers::AbstractRec
     single? ? 1 : 2
   end
 
+  memoize def inverse_assoc_name
+    assoc.to_s.singularize.pluralize(inverse_counter).to_sym
+  end
+
+  def inverse_connection_mode
+    single? ? :multiple : :single
+  end
+
+  def inverse_counter
+    single? ? 2 : 1
+  end
+
   # @return [ControlledVocabularies::Linkage]
   memoize def linkage
     return nil unless strategy == "model"
@@ -106,6 +118,16 @@ class ControlledVocabularyConnection < Support::FrozenRecordHelpers::AbstractRec
 
   memoize def vocab
     ControlledVocabulary.find(vocab_name)
+  end
+
+  def build_changed_plurality_migration
+    assoc = { from: assoc_name.to_s, to: inverse_assoc_name.to_s }
+
+    mode = { from: connection_mode, to: inverse_connection_mode }
+
+    single = { from: single?, to: !single? }
+
+    { assoc:, mode:, single:, **linkage.to_plurality_migration, }
   end
 
   private
@@ -184,6 +206,12 @@ class ControlledVocabularyConnection < Support::FrozenRecordHelpers::AbstractRec
   end
 
   class << self
+    def build_changed_plurality_migration_yaml
+      migrations = all.map(&:build_changed_plurality_migration)
+
+      YAML.dump(migrations).indent(2)
+    end
+
     # @param [#to_s] name
     # @param [:actual, :draft] solution_kind
     # @return [ControlledVocabularyConnection]

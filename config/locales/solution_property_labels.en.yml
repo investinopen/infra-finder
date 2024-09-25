@@ -67,7 +67,7 @@ en:
         license_other: Code licenses used — Other
         licenses: Code licenses used
         logo: Service logo
-        maintenance_statuses: Maintenance status
+        maintenance_status: Maintenance status
         member_count: Number of members
         membership_program_url: Link to membership program
         metadata_standard_other: Metadata, markup, and information exchange standards
@@ -101,7 +101,7 @@ en:
         provider_name: Provider
         publication: Publication
         published_at: Published at
-        readiness_levels: Technology readiness level
+        readiness_level: Technology readiness level
         recent_grant_free_input: List grants received in the past year — Free Input
         recent_grants: List grants received in the past year
         research_organization_registry_url: Research Organization Registry URL
@@ -195,7 +195,7 @@ en:
         license_other: Code licenses used — Other
         licenses: Code licenses used
         logo: Service logo
-        maintenance_statuses: Maintenance status
+        maintenance_status: Maintenance status
         member_count: Number of members
         membership_program_url: Link to membership program
         metadata_standard_other: Metadata, markup, and information exchange standards
@@ -229,7 +229,7 @@ en:
         provider_name: Provider
         publication: Publication
         published_at: Published at
-        readiness_levels: Technology readiness level
+        readiness_level: Technology readiness level
         recent_grant_free_input: List grants received in the past year — Free Input
         recent_grants: List grants received in the past year
         research_organization_registry_url: Research Organization Registry URL
