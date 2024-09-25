@@ -39,7 +39,7 @@ module ControlledVocabularies
       raise "only for :multiple-mode connections" unless conn.multiple?
       # :nocov:
 
-      selected, other = public_send(conn.name).partition { !_1.provides_other? }
+      selected, other = public_send(conn.name).reject(&:hidden?).partition { !_1.provides_other? }
 
       other_value = other_value_for(conn.name) if conn.accepts_other?
 
@@ -53,7 +53,7 @@ module ControlledVocabularies
       raise "only for :single-mode connections" unless conn.single?
       # :nocov:
 
-      current = public_send(conn.name)
+      current = public_send(conn.name).then { _1 if _1.present? && _1.visible? }
 
       selected = current unless conn.accepts_other? && current.try(:provides_other?)
 
