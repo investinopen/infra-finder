@@ -37,6 +37,8 @@ module Solutions
       attribute :shareholders, :boolean
       attribute :funding_needs, :string
       attribute :total_assets, ::Solutions::Revisions::MoneyValue.to_type
+      attribute :currency, :string
+      attribute :country_code, :string
       attribute :board_structure_other, :string
       attribute :financial_reporting_level_other, :string
       attribute :license_other, :string
@@ -91,19 +93,19 @@ module Solutions
       attribute :user_documentation_implementation, :string
       attribute :web_accessibility, ::Implementations::WebAccessibility.to_type
       attribute :web_accessibility_implementation, :string
+      attribute :readiness_level, :string
       attribute :staffing_volunteer, :string
       attribute :financial_reporting_level, :string
       attribute :hosting_strategy, :string
+      attribute :maintenance_status, :string
       attribute :board_level, :string
       attribute :nonprofit_status, :string
       attribute :staffing_full_time, :string
       attribute :board_structures, :string_array, default: [].freeze
       attribute :community_governances, :string_array, default: [].freeze
-      attribute :readiness_levels, :string_array, default: [].freeze
       attribute :web_accessibility_applicabilities, :string_array, default: [].freeze
       attribute :solution_categories, :string_array, default: [].freeze
       attribute :licenses, :string_array, default: [].freeze
-      attribute :maintenance_statuses, :string_array, default: [].freeze
       attribute :programming_languages, :string_array, default: [].freeze
       attribute :metadata_standards, :string_array, default: [].freeze
       attribute :persistent_identifier_standards, :string_array, default: [].freeze

@@ -1,7 +1,7 @@
 ---
 en:
-  maintenance_statuses: Maintenance Status
-  readiness_levels: Technology Readiness Level
+  maintenance_status: Maintenance Status
+  readiness_level: Technology Readiness Level
   programming_languages: Programming Languages
   content_licenses: Content Licensing
   licenses: Code Licenses Used

@@ -668,6 +668,8 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
       for_connections.flat_map do |property|
         property => { name:, connection_mode:, vocab_name:, }
 
+        connection_mode = connection_mode.to_s
+
         vocab = ControlledVocabulary.find(vocab_name)
 
         vocab => { strategy:, }

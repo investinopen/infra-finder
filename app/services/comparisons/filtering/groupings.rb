@@ -62,7 +62,7 @@ module Comparisons
 
           return [key, "available"] if value
         when /\Amaintenance_active\z/
-          return ["maintenance_statuses_id_in", MaintenanceStatus.active_ids] if value
+          return ["maintenance_status_id_in", MaintenanceStatus.active_ids] if value
         when /\Aflagged_(\S+)\z/
           return ["#{Regexp.last_match[1]}_flag_eq", true] if value
         else
