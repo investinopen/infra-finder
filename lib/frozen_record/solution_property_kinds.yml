@@ -32,6 +32,7 @@
   diff_klass_name: StringDiff
   input_kind: :email
 - kind: enum
+  connection_mode: :single
   diffable: true
   diff_klass_name: EnumDiff
   input_kind: :radio
@@ -42,6 +43,7 @@
   standard: false
 - kind: implementation_enum
   assign_method: :direct_write
+  connection_mode: :single
   diffable: true
   diff_klass_name: EnumDiff
   standard: false

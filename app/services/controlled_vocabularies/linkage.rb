@@ -48,6 +48,17 @@ module ControlledVocabularies
     end
 
     # @api private
+    # @return [Hash]
+    def to_plurality_migration
+      {
+        indices: indices.to_plurality_migration,
+        link_table_name: link_table_name.to_s,
+        source: source_table_ref.to_plurality_migration,
+        target: target_table_ref.to_plurality_migration,
+      }
+    end
+
+    # @api private
     class Indices < Support::FlexibleStruct
       include Dry::Core::Memoizable
 
@@ -97,6 +108,13 @@ module ControlledVocabularies
       memoize def single_uniqueness_name
         :"udx_#{link_table_name}_single"
       end
+
+      def to_plurality_migration
+        {
+          multiple: name_for(:multiple),
+          single: name_for(:single),
+        }.transform_values(&:to_s)
+      end
     end
 
     # @api private
@@ -121,6 +139,17 @@ module ControlledVocabularies
 
       memoize def reference
         name.to_s.singularize.to_sym
+      end
+
+      memoize def table_name
+        name.to_s
+      end
+
+      def to_plurality_migration
+        {
+          id: id.to_s,
+          table_name:,
+        }
       end
     end
 

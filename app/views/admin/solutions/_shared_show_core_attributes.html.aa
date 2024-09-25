@@ -8,4 +8,4 @@ end
 row :member_count
 row :staffing_full_time
 row :staffing_volunteer
-row :maintenance_statuses
+row :maintenance_status

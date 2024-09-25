@@ -107,13 +107,11 @@
         </h2>
         <div class="solution-cards-wrapper">
           <div class="solution-cards">
-            <% if solution.maintenance_statuses.present? %>
+            <% if solution.maintenance_status.present? %>
               <div class="m-card">
                 <h3 class="text-h5"><%= t(".technical.maintenance_status") %></h3>
                 <div class="flex flex-wrap gap-2">
-                <% solution.maintenance_statuses.each do |status| %>
-                  <div class="m-badge m-badge--sm bg-neutral-20"><%= status.name %></div>
-                <% end %>
+                  <div class="m-badge m-badge--sm bg-neutral-20"><%= solution.maintenance_status.name %></div>
                 </div>
               </div>
             <% end %>
@@ -135,7 +133,7 @@
           </div>
         </div>
         <%= render_multiselection(:programming_languages) %>
-        <%= render_multiselection(:readiness_levels) %>
+        <%= render_multiselection(:readiness_level) %>
         <%= render_multiselection(:licenses) %>
         <%= render_multiselection(:content_licenses) %>
         <div class="solution-cards-wrapper">
