@@ -18,9 +18,12 @@ module ControlledVocabularyRecord
     extend Dry::Core::ClassAttributes
     extend FriendlyId
 
+    defines :auto_hidden_provisions, type: ControlledVocabularies::Types::Provisions
     defines :vocab_name, type: ControlledVocabularies::Types::VocabName
     defines :actual_linkage, type: ControlledVocabularies::Linkage
     defines :draft_linkage, type: ControlledVocabularies::Linkage
+
+    auto_hidden_provisions [].freeze
 
     scope :used, -> { where.not(id: unscoped.unused.select(:id)) }
     scope :unused, -> { where.missing(:solutions, :solution_drafts) }
@@ -43,6 +46,15 @@ module ControlledVocabularyRecord
       :actual_linkage, :draft_linkage, :linkage_for, to: :class
 
     before_validation :derive_counters!
+    before_validation :maybe_auto_hide!
+  end
+
+  def has_auto_hidden_provision?
+    provides? && provides.in?(self.class.auto_hidden_provisions)
+  end
+
+  def provides_none?
+    provides == "none"
   end
 
   def provides_other?
@@ -156,6 +168,11 @@ module ControlledVocabularyRecord
     linkage.link_model.upsert_all(tuples, unique_by:)
   end
 
+  # @return [void]
+  def maybe_auto_hide!
+    self.visibility = :hidden if has_auto_hidden_provision?
+  end
+
   module ClassMethods
     delegate :name, to: :actual_link_association, prefix: true
     delegate :name, to: :draft_link_association, prefix: true
@@ -175,6 +192,16 @@ module ControlledVocabularyRecord
 
     def draft_link_association
       @draft_link_association ||= reflect_on_association(:solution_drafts).through_reflection
+    end
+
+    # @param [<#to_s>] raw_provisions
+    # @return [void]
+    def auto_hide_provisions!(*raw_provisions)
+      provisions = ControlledVocabularies::Types::Provisions[raw_provisions.flatten]
+
+      current = auto_hidden_provisions
+
+      auto_hidden_provisions (current | provisions).freeze
     end
 
     # @param [SolutionInterface, :actual, :draft]
