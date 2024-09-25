@@ -3,11 +3,11 @@ attributes_table title: "Options" do
 
   row :solution_categories
 
-  SolutionProperty.has_many_associations.without(:maintenance_status, :solution_categories, :web_accessibility_applicabilities).each do |option|
+  SolutionProperty.has_many_associations.without(:solution_categories, :web_accessibility_applicabilities).each do |option|
     row option
   end
 
-  SolutionProperty.has_one_associations.without(:staffing_full_time, :staffing_volunteer).each do |option|
+  SolutionProperty.has_one_associations.without(:maintenance_status, :staffing_full_time, :staffing_volunteer).each do |option|
     row option
   end
 end
