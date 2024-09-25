@@ -3,7 +3,7 @@ attributes_table title: "Options" do
 
   row :solution_categories
 
-  SolutionProperty.has_many_associations.without(:maintenance_statuses, :solution_categories, :web_accessibility_applicabilities).each do |option|
+  SolutionProperty.has_many_associations.without(:maintenance_status, :solution_categories, :web_accessibility_applicabilities).each do |option|
     row option
   end
 

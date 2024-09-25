@@ -1,16 +1,4 @@
 ---
-- :key: actual/open_api_implementation
-  :name: open_api_implementation
-  :solution_kind: actual
-  :connection_mode: single
-  :strategy: enum
-  :vocab_name: impl_scale
-- :key: draft/open_api_implementation
-  :name: open_api_implementation
-  :solution_kind: draft
-  :connection_mode: single
-  :strategy: enum
-  :vocab_name: impl_scale
 - :key: actual/authentication_standards
   :name: authentication_standards
   :solution_kind: actual
@@ -95,26 +83,14 @@
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
-- :key: actual/equity_and_inclusion_implementation
-  :name: equity_and_inclusion_implementation
+- :key: actual/code_repository_implementation
+  :name: code_repository_implementation
   :solution_kind: actual
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
-- :key: draft/equity_and_inclusion_implementation
-  :name: equity_and_inclusion_implementation
-  :solution_kind: draft
-  :connection_mode: single
-  :strategy: enum
-  :vocab_name: impl_scale
-- :key: actual/privacy_policy_implementation
-  :name: privacy_policy_implementation
-  :solution_kind: actual
-  :connection_mode: single
-  :strategy: enum
-  :vocab_name: impl_scale
-- :key: draft/privacy_policy_implementation
-  :name: privacy_policy_implementation
+- :key: draft/code_repository_implementation
+  :name: code_repository_implementation
   :solution_kind: draft
   :connection_mode: single
   :strategy: enum
@@ -167,18 +143,6 @@
   :connection_mode: multiple
   :strategy: model
   :vocab_name: cont_lcns
-- :key: actual/user_contributions
-  :name: user_contributions
-  :solution_kind: actual
-  :connection_mode: multiple
-  :strategy: model
-  :vocab_name: user_paths
-- :key: draft/user_contributions
-  :name: user_contributions
-  :solution_kind: draft
-  :connection_mode: multiple
-  :strategy: model
-  :vocab_name: user_paths
 - :key: actual/contribution_pathways_implementation
   :name: contribution_pathways_implementation
   :solution_kind: actual
@@ -215,6 +179,18 @@
   :connection_mode: single
   :strategy: currencies
   :vocab_name: currencies
+- :key: actual/equity_and_inclusion_implementation
+  :name: equity_and_inclusion_implementation
+  :solution_kind: actual
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
+- :key: draft/equity_and_inclusion_implementation
+  :name: equity_and_inclusion_implementation
+  :solution_kind: draft
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
 - :key: actual/financial_reporting_level
   :name: financial_reporting_level
   :solution_kind: actual
@@ -287,16 +263,16 @@
   :connection_mode: multiple
   :strategy: model
   :vocab_name: code_lcns
-- :key: actual/maintenance_statuses
-  :name: maintenance_statuses
+- :key: actual/maintenance_status
+  :name: maintenance_status
   :solution_kind: actual
-  :connection_mode: multiple
+  :connection_mode: single
   :strategy: model
   :vocab_name: maint
-- :key: draft/maintenance_statuses
-  :name: maintenance_statuses
+- :key: draft/maintenance_status
+  :name: maintenance_status
   :solution_kind: draft
-  :connection_mode: multiple
+  :connection_mode: single
   :strategy: model
   :vocab_name: maint
 - :key: actual/metadata_standards
@@ -335,14 +311,14 @@
   :connection_mode: single
   :strategy: model
   :vocab_name: nonprofit_status
-- :key: actual/code_repository_implementation
-  :name: code_repository_implementation
+- :key: actual/open_api_implementation
+  :name: open_api_implementation
   :solution_kind: actual
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
-- :key: draft/code_repository_implementation
-  :name: code_repository_implementation
+- :key: draft/open_api_implementation
+  :name: open_api_implementation
   :solution_kind: draft
   :connection_mode: single
   :strategy: enum
@@ -383,6 +359,18 @@
   :connection_mode: multiple
   :strategy: model
   :vocab_name: standards_pres
+- :key: actual/pricing_implementation
+  :name: pricing_implementation
+  :solution_kind: actual
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale_pricing
+- :key: draft/pricing_implementation
+  :name: pricing_implementation
+  :solution_kind: draft
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale_pricing
 - :key: actual/primary_funding_sources
   :name: primary_funding_sources
   :solution_kind: actual
@@ -395,6 +383,18 @@
   :connection_mode: multiple
   :strategy: model
   :vocab_name: pr_fund
+- :key: actual/privacy_policy_implementation
+  :name: privacy_policy_implementation
+  :solution_kind: actual
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
+- :key: draft/privacy_policy_implementation
+  :name: privacy_policy_implementation
+  :solution_kind: draft
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
 - :key: actual/product_roadmap_implementation
   :name: product_roadmap_implementation
   :solution_kind: actual
@@ -419,16 +419,16 @@
   :connection_mode: multiple
   :strategy: model
   :vocab_name: prgrm_lng
-- :key: actual/readiness_levels
-  :name: readiness_levels
+- :key: actual/readiness_level
+  :name: readiness_level
   :solution_kind: actual
-  :connection_mode: multiple
+  :connection_mode: single
   :strategy: model
   :vocab_name: tech_read
-- :key: draft/readiness_levels
-  :name: readiness_levels
+- :key: draft/readiness_level
+  :name: readiness_level
   :solution_kind: draft
-  :connection_mode: multiple
+  :connection_mode: single
   :strategy: model
   :vocab_name: tech_read
 - :key: actual/security_standards
@@ -479,6 +479,18 @@
   :connection_mode: single
   :strategy: model
   :vocab_name: staffing
+- :key: actual/user_contributions
+  :name: user_contributions
+  :solution_kind: actual
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: user_paths
+- :key: draft/user_contributions
+  :name: user_contributions
+  :solution_kind: draft
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: user_paths
 - :key: actual/user_documentation_implementation
   :name: user_documentation_implementation
   :solution_kind: actual
@@ -491,18 +503,6 @@
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
-- :key: actual/pricing_implementation
-  :name: pricing_implementation
-  :solution_kind: actual
-  :connection_mode: single
-  :strategy: enum
-  :vocab_name: impl_scale_pricing
-- :key: draft/pricing_implementation
-  :name: pricing_implementation
-  :solution_kind: draft
-  :connection_mode: single
-  :strategy: enum
-  :vocab_name: impl_scale_pricing
 - :key: actual/values_frameworks
   :name: values_frameworks
   :solution_kind: actual

@@ -322,10 +322,10 @@
   input: multiselect
   vocab_name: gov_stat
   original_input: Controlled multi-select
-- name: readiness_levels
+- name: readiness_level
   code: 79
-  attr: readiness_levels
-  kind: :multi_option
+  attr: readiness_level
+  kind: :single_option
   meta: false
   description: The service’s readiness for broad adoption, adapted from the framework
     developed by the Horizon 2020 project.
@@ -1076,10 +1076,10 @@
   input: select
   vocab_name: saas
   original_input: Controlled dropdown
-- name: maintenance_statuses
+- name: maintenance_status
   code: 80
-  attr: maintenance_statuses
-  kind: :multi_option
+  attr: maintenance_status
+  kind: :single_option
   meta: false
   description: The service's maintenance status. Evidence of active maintenance may
     include regular commits and issue resolutions in a GitHub repository, activity
