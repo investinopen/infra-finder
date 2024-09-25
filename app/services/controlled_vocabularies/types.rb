@@ -12,6 +12,10 @@ module ControlledVocabularies
 
     EnumMapping = Coercible::Hash.map(Coercible::String, Coercible::String)
 
+    Provision = Coercible::String.constrained(filled: true)
+
+    Provisions = Array.of(Provision)
+
     Strategy = Coercible::String.enum("countries", "currencies", "enum", "model")
 
     Record = Instance(::ControlledVocabularyRecord)
