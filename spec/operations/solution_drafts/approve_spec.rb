@@ -49,6 +49,7 @@ RSpec.describe SolutionDrafts::Approve, type: :operation do
         expect_calling_with(solution_draft, user: admin, memo: "A test memo").to succeed
       end.to change(ActiveSnapshot::Snapshot, :count).by(1)
         .and change(SolutionRevision, :count).by(1)
+        .and change { solution.reload.publication }.from("unpublished").to("published")
     end
   end
 end
