@@ -16,6 +16,9 @@ module SolutionDrafts
     def post_process
       yield assign_attributes.(draft, solution)
 
+      # Auto-publish the solution when approving a draft.
+      solution.published!
+
       yield solution.create_revision(
         kind: :draft,
         solution_draft: draft,

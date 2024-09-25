@@ -14,6 +14,8 @@
   targets: :editors
   legend: >
     Submit the following form if these changes should be approved and applied to the solution.
+
+    This will automatically publish the solution for availability on the frontend (if it hasn't been already).
 - action: :reject
   to_state: :rejected
   targets: :editors
