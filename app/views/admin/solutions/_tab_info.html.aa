@@ -1,7 +1,0 @@
-attributes_table title: "Blurbs" do
-  SolutionProperty.blurb_values.each do |blurb|
-    row blurb do |r|
-      simple_format r.__send__(blurb)
-    end
-  end
-end

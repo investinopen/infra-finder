@@ -13,9 +13,9 @@ class SolutionPropertiesGenerator < Rails::Generators::Base
   def compose_properties
     combined = load_properties
 
-    PROPERTIES_PATH.open("wb+") do |f|
-      f.write combined.to_yaml.gsub(STRIP_USELESS_NEWLINES, "")
-    end
+    content = combined.to_yaml.gsub(STRIP_USELESS_NEWLINES, "")
+
+    create_file PROPERTIES_PATH, content
   end
 
   private

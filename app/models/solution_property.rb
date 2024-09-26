@@ -10,6 +10,8 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   SOURCE_KINDS = %i[actual draft].freeze
 
+  CODED_EXT_PATTERN = /\A(?<code>\d{3})_(?<ext_name>\w+)\z/
+
   CORE = %w[
     name
     founded_on
@@ -70,6 +72,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     optional(:fe_section).maybe(:string)
     required(:fe_visibility).value(:visibility)
     required(:phase_2_status).value(:phase_2_status)
+    required(:skip_admin).value(:bool)
     required(:skip_csv_export).value(:bool)
     optional(:max_length).maybe(:integer) { gt?(0) }
     # External defined input. Does not necessarily correspond to how the field is used,
@@ -85,6 +88,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   default_attributes!(
     exported: false,
     required: false,
+    skip_admin: false,
     skip_csv_export: false,
     meta: false,
     description: nil,
@@ -155,7 +159,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   scope :with_standard_kind, -> { where(kind: SolutionPropertyKind.standard_kinds) }
   scope :with_non_standard_kind, -> { where(kind: SolutionPropertyKind.non_standard_kinds) }
 
-  scope :should_be_in_admin_form, -> { in_use.sans_meta.sans_implementation_links }
+  scope :should_be_in_admin_form, -> { in_use.sans_meta.sans_implementation_links.where(skip_admin: false) }
 
   scope :default_standard, -> { in_use.with_standard_kind.sans_meta }
   scope :standard_options, -> { in_use.where(kind: :single_option).by_vocab_name(STANDARD_VOCABS) }
@@ -505,7 +509,33 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
       end
     end
 
+    # @param [String] name
+    # @return [SolutionProperty]
+    def lookup_coded_ext(name)
+      case name
+      in CODED_EXT_PATTERN
+        code = Regexp.last_match[:code].to_i
+        ext_name = Regexp.last_match[:ext_name]
+
+        find_by!(code:, ext_name:)
+      end
+    end
+
     # @!group Base Groupings
+
+    # @param [:actual, :draft] kind
+    # @return [<String>]
+    def admin_fields_for(kind)
+      should_be_in_admin_form.pluck(:name).tap do |fields|
+        implementation_names = Implementation.pluck(:name)
+
+        if kind == :actual
+          fields << find("publication").name << find("provider_name").name
+        end
+
+        fields.concat(implementation_names)
+      end.uniq.sort.freeze
+    end
 
     # @return [<Symbol>]
     def attachment_values

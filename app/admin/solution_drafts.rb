@@ -10,8 +10,6 @@ ActiveAdmin.register SolutionDraft do
   end
 
   controller do
-    include SolutionProperties::Admin::TrackForm
-
     before_create :apply_editor_validations!
 
     before_update :apply_editor_validations!
@@ -70,7 +68,7 @@ ActiveAdmin.register SolutionDraft do
 
   show do
     tabs do
-      tab :core do
+      tab "Draft Information" do
         attributes_table do
           row :current_state do |draft|
             status_tag draft.current_state
@@ -78,12 +76,9 @@ ActiveAdmin.register SolutionDraft do
 
           row :solution
           row :provider
-          row :user
-
-          render "admin/solutions/shared_show_core_attributes", context: self
-
-          row :created_at
-          row :updated_at
+          row "Editor" do |draft|
+            draft.user
+          end
         end
 
         panel "Pending Changes" do
@@ -127,7 +122,7 @@ ActiveAdmin.register SolutionDraft do
         end if solution_draft.solution_draft_transitions.exists?
       end
 
-      render "admin/solutions/shared_show_tabs", context: self
+      InfraFinder::Container["solution_properties.admin.render"].(render_mode: :show, solution_kind: :draft, view_context: self)
     end
 
     active_admin_comments_for(resource)
