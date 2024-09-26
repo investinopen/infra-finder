@@ -7363,6 +7363,7 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240926052540'),
 ('20240925064508'),
 ('20240924213926'),
 ('20240924180931'),
