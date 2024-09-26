@@ -2,7 +2,7 @@ active_admin_form_for [:admin, resource.solution, resource], builder: Admin::Enh
   f.semantic_errors *f.object.errors.map(&:attribute).uniq
 
   tabs do
-    render("admin/solutions/shared_form_tabs", context: self, f:)
+    InfraFinder::Container["solution_properties.admin.render"].(render_mode: :form, solution_kind: :draft, view_context: self, form: f).value!
   end
 
   f.actions

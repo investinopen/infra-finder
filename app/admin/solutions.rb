@@ -28,8 +28,6 @@ ActiveAdmin.register Solution do
   end
 
   controller do
-    include SolutionProperties::Admin::TrackForm
-
     before_create :apply_editor_validations!
 
     before_update :apply_editor_validations!
@@ -116,23 +114,7 @@ ActiveAdmin.register Solution do
 
   show title: -> { _1.name.html_safe } do
     tabs do
-      tab :core do
-        attributes_table do
-          row :provider
-
-          render "admin/solutions/shared_show_core_attributes", context: self
-
-          row :publication do |r|
-            status_tag r.publication
-          end
-
-          row :published_at
-          row :created_at
-          row :updated_at
-        end
-      end
-
-      render "admin/solutions/shared_show_tabs", context: self
+      InfraFinder::Container["solution_properties.admin.render"].(render_mode: :show, solution_kind: :actual, view_context: self)
     end
 
     active_admin_comments_for(resource)

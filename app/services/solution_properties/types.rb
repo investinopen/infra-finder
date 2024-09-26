@@ -33,6 +33,8 @@ module SolutionProperties
 
     AnyDate = Params::Date | YearToDate
 
+    AdminRenderMode = Coercible::Symbol.enum(:show, :form)
+
     AssignMethod = Coercible::Symbol.enum(:write_attribute, :direct_write)
 
     CSVStrategy = Coercible::Symbol.default(:v2).enum(:v2, :eoi).fallback(:v2)
