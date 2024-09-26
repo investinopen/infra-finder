@@ -186,7 +186,7 @@ module Implementations
           in :many
             arr << { links_attributes: %i[url label] }
           in :single
-            arr << { link: %i[url label] }
+            arr << { link_attributes: %i[url label] }
           else
             # :nocov:
             arr.dup
