@@ -37,10 +37,10 @@ en:
       solution: &solution_hints
         name: "A unique name for this solution"
         financial_information_scope: "To what part of the solution or project does this financial information apply?"
-        key_technology_list: "This is a free-form tagging input. Enter a comma-separated list of technologies."
         licenses: "What type of license(s) does your solution apply to code you develop?"
         logo: "Logos can be uploaded as JPG, PNG, SVG, or WEBP, with a maximum file size of 10 megabytes. They will be converted to PNG and resized to fit for displaying in different situations on the frontend."
-        publication: "This affects whether the solution appears in the frontend. If unpublishing a solution, any active comparisons OR shared comparisons will have that solution removed from them."
+        provider: "Only admins are able to edit this field on an actual solution record. It does not appear in drafts."
+        publication: "This affects whether the solution appears in the frontend. If unpublishing a solution, any active comparisons OR shared comparisons will have that solution removed from them. This property will not appear in draft solutions."
         user_contributions: "In what ways can users currently contribute to your project?"
       solution_draft:
         <<: &solution_hints

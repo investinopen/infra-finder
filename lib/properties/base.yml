@@ -169,7 +169,8 @@
   description: First name of the individual completing the form (and key contact for
     IOI).
   exported: false
-  required: true
+  required: false
+  skip_admin: true
   max_length: 200
   ext_name: first_name
   be_label: First Name
@@ -190,7 +191,8 @@
   description: Last name of the individual completing the form (and key contact for
     IOI).
   exported: false
-  required: true
+  required: false
+  skip_admin: true
   max_length: 200
   ext_name: last_name
   be_label: Last Name
@@ -211,7 +213,8 @@
   description: Email address of the individual completing the form (and key contact
     for IOI).
   exported: false
-  required: true
+  required: false
+  skip_admin: true
   ext_name: email
   be_label: Email
   be_position: 0
@@ -231,7 +234,8 @@
   description: Indication from the submitter that they understand terms and conditions
     of submitting the form.
   exported: false
-  required: true
+  required: false
+  skip_admin: true
   skip_csv_export: true
   ext_name: confirmation
   be_label: Confirmation
@@ -763,6 +767,7 @@
     to a service or provider's website or to the tool itself.
   exported: true
   required: false
+  owner: web_accessibility
   ext_name: web_accessibility_applicability
   be_label: Web accessibility statement applicability
   be_position: 0
