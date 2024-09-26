@@ -2,6 +2,8 @@
 
 module Admin
   class EnhancedFormBuilder < ActiveAdmin::FormBuilder
+    include Dry::Effects.State(:form_access, default: proc { Hash.new { |h, k| h[k] = 0 }.with_indifferent_access })
+
     # @param [#to_s] attr
     def controlled_vocabulary(attr)
       record_property_access!(attr)
@@ -27,8 +29,8 @@ module Admin
 
       record_property_access!(impl.enum)
 
-      inputs impl.title do
-        input(impl.enum, label: "Implemented?", as: :select)
+      template.capture do
+        input(impl.enum, label: impl.enum_property.input_label, as: :select)
 
         store_model(attr, heading: false, name: "Details") do |impf|
           yield impf if block_given?
@@ -74,14 +76,16 @@ module Admin
     end
 
     # @param [#to_s] attr
+    # @return [void]
     def record_property_access!(attr)
       # :nocov:
       return if /\Alinks\z/.match?(attr)
       # :nocov:
 
-      RequestStore.fetch(:property_form_access) do
-        Hash.new { |h, k| h[k] = 0 }.with_indifferent_access
-      end[attr] += 1
+      form_access[attr] += 1
+
+      # We must explicitly return nil here in order to avoid writing the count to the HTML.
+      return nil
     end
 
     # @param [#to_s] attr

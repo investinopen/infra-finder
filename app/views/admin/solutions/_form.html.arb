@@ -10,20 +10,7 @@ active_admin_form_for [:admin, resource], builder: Admin::EnhancedFormBuilder do
   end if f.object.new_record?
 
   tabs do
-    render("admin/solutions/shared_form_tabs", context: self, f:)
-
-    tab "Protected Attributes" do
-      panel "About" do
-        para <<~TEXT
-        This tab is only available to admins when editing a solution directly. Solution editors cannot change the provider at this time.
-        TEXT
-      end
-
-      f.inputs "Ownership" do
-        f.input :provider, as: :select, collection: Provider.to_select_options, required: true, include_blank: true
-        f.input :publication, as: :select
-      end
-    end
+    InfraFinder::Container["solution_properties.admin.render"].(render_mode: :form, solution_kind: :actual, view_context: self, form: f).value!
   end
 
   f.actions
