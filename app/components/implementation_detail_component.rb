@@ -6,4 +6,8 @@
 # @see SolutionDetailsComponent
 class ImplementationDetailComponent < ApplicationComponent
   include AcceptsImplementation
+
+  def render?
+    super && available_or_in_progress?
+  end
 end
