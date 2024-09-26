@@ -12,6 +12,8 @@ module Implementations
 
       attribute :link, Implementations::Link.to_type, default: {}
 
+      accepts_nested_attributes_for :link
+
       validates :link, store_model: true
     end
   end
