@@ -19,8 +19,14 @@ module SolutionProperties
       # @deprecated
       pg_enum! :phase_1_maintenance_status, as: :maintenance_status, prefix: :phase_1_maintenance, allow_blank: false, default: :unknown
 
-      delegate :applies?, :applies_to_solution?, :applies_to_website?,
-        to: :web_accessibility, prefix: :web_accessibility_statement
+      scope :phase_1_web_accessibility_applies, ->(key) do
+        details = { key => true }.symbolize_keys
+
+        where(arel_json_contains(arel_table[:web_accessibility], **details))
+      end
+
+      scope :phase_1_web_accessibility_applies_to_website, -> { phase_1_web_accessibility_applies(:applies_to_website) }
+      scope :phase_1_web_accessibility_applies_to_solution, -> { phase_1_web_accessibility_applies(:applies_to_solution) }
     end
 
     Implementation.each do |impl|
