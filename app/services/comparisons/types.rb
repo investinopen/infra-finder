@@ -24,9 +24,9 @@ module Comparisons
       :community_engagement,
       :flag,
       :global,
+      :hosting_strategy,
       :policy,
       :solution_category,
-      :standard,
       :technical_attribute
     )
 

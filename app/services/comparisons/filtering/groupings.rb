@@ -115,6 +115,12 @@ module Comparisons
           attribute(name, ...)
         end
 
+        def hosting_strategy_filter!(name, ...)
+          mapped_filter!(name, :hosting_strategy)
+
+          attribute(name, ...)
+        end
+
         # @return [void]
         def policy_filter!(name, ...)
           mapped_filter!(name, :policy)
@@ -125,13 +131,6 @@ module Comparisons
         # @return [void]
         def solution_category_filter!(name, ...)
           mapped_filter!(name, :solution_category)
-
-          attribute(name, ...)
-        end
-
-        # @return [void]
-        def standard_filter!(name, ...)
-          mapped_filter!(name, :standard)
 
           attribute(name, ...)
         end

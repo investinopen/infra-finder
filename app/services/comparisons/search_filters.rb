@@ -26,6 +26,8 @@ module Comparisons
 
     business_form_filter! :business_forms_id_in, :string_array
 
+    hosting_strategy_filter! :hosting_strategy_id_in, :string_array
+
     solution_category_filter! :solution_categories_id_in, :string_array
 
     technical_attribute_filter! :maintenance_active, :boolean
@@ -43,10 +45,6 @@ module Comparisons
     policy_filter! :equity_and_inclusion_available, :boolean
     policy_filter! :privacy_policy_available, :boolean
     policy_filter! :web_accessibility_available, :boolean
-
-    ControlledVocabularyConnection.actual_standards.each do |conn|
-      standard_filter! conn.ransack_id_in, :string_array
-    end
 
     strip_attributes
 

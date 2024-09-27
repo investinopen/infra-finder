@@ -42,6 +42,8 @@ module ControlledVocabularies
           f.inputs do
             f.input :name
 
+            f.input :bespoke_filter_position
+
             f.input :visibility, as: :select
 
             f.input :description, as: :text
@@ -72,7 +74,7 @@ module ControlledVocabularies
       end
 
       def define_permitted_params!
-        params = %i[name description term visibility]
+        params = %i[name bespoke_filter_position description term visibility]
 
         permit_params(*params)
       end
@@ -81,6 +83,8 @@ module ControlledVocabularies
         show do
           attributes_table do
             row :name
+
+            row :bespoke_filter_position
 
             row :visibility do |record|
               status_tag record.visibility
