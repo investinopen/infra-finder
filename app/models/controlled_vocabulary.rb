@@ -61,6 +61,14 @@ class ControlledVocabulary < Support::FrozenRecordHelpers::AbstractRecord
     mapping.keys.index_with { _1 }.merge(mapping.invert).with_indifferent_access
   end
 
+  def term_values_list
+    return unless uses_model?
+
+    values = terms.map(&:for_values_list)
+
+    Arel::Nodes::ValuesList.new(values)
+  end
+
   class << self
     include Dry::Core::Memoizable
 
