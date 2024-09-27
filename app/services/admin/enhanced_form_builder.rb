@@ -80,6 +80,7 @@ module Admin
     def record_property_access!(attr)
       # :nocov:
       return if /\Alinks\z/.match?(attr)
+      return unless Rails.env.local?
       # :nocov:
 
       form_access[attr] += 1
