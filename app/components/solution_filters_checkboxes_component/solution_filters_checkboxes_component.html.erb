@@ -41,27 +41,22 @@
       <%= boolean_scope(:web_accessibility_available) %>
     </div>
   <% end %>
-  <%= accordion(:standards, select_all: false) do %>
-    <% ControlledVocabularyConnection.actual_standards.each do |conn| %>
-      <fieldset>
-        <legend><%= t(".standards.#{conn.name}") %></legend>
-        <div class="checkbox-group">
-          <% conn.fetch_options!.each do |(label, value, options)| %>
-            <label class="m-checkbox">
-              <%= f.check_box conn.ransack_id_in, options.merge(multiple: true, "data-event-name" => t(".standards.#{conn.name}"), "data-event-value" => label), value, "" %>
-              <span><%= label %></span>
-            </label>
-          <% end %>
-        </div>
-      </fieldset>
-    <% end %>
-  <% end %>
   <%= accordion(:business_form) do %>
     <div class="checkbox-group">
       <% BusinessForm.actual.filter_select_options.each do |business_form, id| %>
         <label class="m-checkbox">
           <%= f.check_box :business_forms_id_in, { multiple: true, "data-event-name": t(".headings.business_form"), "data-event-value": business_form }, id, "" %>
           <span><%= business_form %></span>
+        </label>
+      <% end %>
+    </div>
+  <% end %>
+  <%= accordion(:hosting_options) do %>
+    <div class="checkbox-group">
+      <% HostingStrategy.in_bespoke_filter_order.actual.filter_select_options.each do |hosting_strategy, id| %>
+        <label class="m-checkbox">
+          <%= f.check_box :hosting_strategy_id_in, { multiple: true, "data-event-name": t(".headings.hosting_options"), "data-event-value": hosting_strategy }, id, "" %>
+          <span><%= hosting_strategy %></span>
         </label>
       <% end %>
     </div>

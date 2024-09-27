@@ -25,6 +25,8 @@ module ControlledVocabularyRecord
 
     auto_hidden_provisions [].freeze
 
+    scope :in_bespoke_filter_order, -> { where.not(bespoke_filter_position: nil).reorder(bespoke_filter_position: :asc, term: :asc) }
+
     scope :used, -> { where.not(id: unscoped.unused.select(:id)) }
     scope :unused, -> { where.missing(:solutions, :solution_drafts) }
 

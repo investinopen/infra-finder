@@ -260,17 +260,21 @@
   strategy: model
   model_name: HostingStrategy
   terms:
+  - term: Through solution provider only
+    slug: "provider-only"
+    bespoke_filter_position: 1
+  - term: Through third party vendor only
+    slug: "third-party-only"
+    bespoke_filter_position: 2
+  - term: Through solution provider or third party vendor
+    slug: "provider-or-third-party"
+    bespoke_filter_position: 3
   - term: Not applicable
     provides: "not_applicable"
-  - term: Services through third party only
-    slug: "third-party-only"
-  - term: Services through service provider or third party
-    slug: "service-provider-or-third-party"
-  - term: Services through service provider only
-    slug: "service-provider-only"
-  - term: No services providers available
+    slug: "not-applicable"
+  - term: No services available
     provides: "none"
-    slug: no-service-providers-available
+    slug: no-services-available
 - name: soln_cat
   strategy: model
   model_name: SolutionCategory
