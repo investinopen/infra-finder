@@ -500,7 +500,8 @@ CREATE TABLE public.accessibility_scopes (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    bespoke_filter_position bigint
 );
 
 
@@ -549,7 +550,8 @@ CREATE TABLE public.authentication_standards (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    bespoke_filter_position bigint
 );
 
 
@@ -570,7 +572,8 @@ CREATE TABLE public.board_structures (
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext
+    provides public.citext,
+    bespoke_filter_position bigint
 );
 
 
@@ -591,7 +594,8 @@ CREATE TABLE public.business_forms (
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext
+    provides public.citext,
+    bespoke_filter_position bigint
 );
 
 
@@ -611,7 +615,8 @@ CREATE TABLE public.community_engagement_activities (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    bespoke_filter_position bigint
 );
 
 
@@ -632,7 +637,8 @@ CREATE TABLE public.community_governances (
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext
+    provides public.citext,
+    bespoke_filter_position bigint
 );
 
 
@@ -716,7 +722,8 @@ CREATE TABLE public.content_licenses (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    bespoke_filter_position bigint
 );
 
 
@@ -846,7 +853,8 @@ CREATE TABLE public.hosting_strategies (
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext
+    provides public.citext,
+    bespoke_filter_position bigint
 );
 
 
@@ -866,7 +874,8 @@ CREATE TABLE public.integrations (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    bespoke_filter_position bigint
 );
 
 
@@ -923,7 +932,8 @@ CREATE TABLE public.licenses (
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext
+    provides public.citext,
+    bespoke_filter_position bigint
 );
 
 
@@ -944,7 +954,8 @@ CREATE TABLE public.maintenance_statuses (
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext
+    provides public.citext,
+    bespoke_filter_position bigint
 );
 
 
@@ -964,7 +975,8 @@ CREATE TABLE public.metadata_standards (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    bespoke_filter_position bigint
 );
 
 
@@ -984,7 +996,8 @@ CREATE TABLE public.metrics_standards (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    bespoke_filter_position bigint
 );
 
 
@@ -1004,7 +1017,8 @@ CREATE TABLE public.nonprofit_statuses (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    bespoke_filter_position bigint
 );
 
 
@@ -1024,7 +1038,8 @@ CREATE TABLE public.persistent_identifier_standards (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    bespoke_filter_position bigint
 );
 
 
@@ -1044,7 +1059,8 @@ CREATE TABLE public.preservation_standards (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    bespoke_filter_position bigint
 );
 
 
@@ -1065,7 +1081,8 @@ CREATE TABLE public.primary_funding_sources (
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext
+    provides public.citext,
+    bespoke_filter_position bigint
 );
 
 
@@ -1085,7 +1102,8 @@ CREATE TABLE public.programming_languages (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    bespoke_filter_position bigint
 );
 
 
@@ -1136,7 +1154,8 @@ CREATE TABLE public.readiness_levels (
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext
+    provides public.citext,
+    bespoke_filter_position bigint
 );
 
 
@@ -1156,7 +1175,8 @@ CREATE TABLE public.reporting_levels (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    bespoke_filter_position bigint
 );
 
 
@@ -1199,7 +1219,8 @@ CREATE TABLE public.security_standards (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    bespoke_filter_position bigint
 );
 
 
@@ -1313,7 +1334,8 @@ CREATE TABLE public.solution_categories (
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext
+    provides public.citext,
+    bespoke_filter_position bigint
 );
 
 
@@ -2379,7 +2401,8 @@ CREATE TABLE public.staffings (
     max_value integer,
     coverage int4range GENERATED ALWAYS AS (public.calculate_staffing_range(min_value, max_value)) STORED,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    bespoke_filter_position bigint
 );
 
 
@@ -2460,7 +2483,8 @@ CREATE TABLE public.user_contributions (
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext
+    provides public.citext,
+    bespoke_filter_position bigint
 );
 
 
@@ -2545,7 +2569,8 @@ CREATE TABLE public.values_frameworks (
     solutions_count bigint DEFAULT 0 NOT NULL,
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    bespoke_filter_position bigint
 );
 
 
@@ -3603,6 +3628,13 @@ CREATE INDEX idx_on_user_contribution_id_e5e19dfc8b ON public.solution_draft_use
 
 
 --
+-- Name: index_accessibility_scopes_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_accessibility_scopes_bespoke_filter_ordering ON public.accessibility_scopes USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
+
+
+--
 -- Name: index_accessibility_scopes_on_provides; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3645,6 +3677,13 @@ CREATE INDEX index_active_admin_comments_on_resource ON public.active_admin_comm
 
 
 --
+-- Name: index_authentication_standards_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_authentication_standards_bespoke_filter_ordering ON public.authentication_standards USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
+
+
+--
 -- Name: index_authentication_standards_on_provides; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3663,6 +3702,13 @@ CREATE UNIQUE INDEX index_authentication_standards_on_slug ON public.authenticat
 --
 
 CREATE UNIQUE INDEX index_authentication_standards_on_term ON public.authentication_standards USING btree (term);
+
+
+--
+-- Name: index_board_structures_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_board_structures_bespoke_filter_ordering ON public.board_structures USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
 
 
 --
@@ -3694,6 +3740,13 @@ CREATE UNIQUE INDEX index_board_structures_on_term ON public.board_structures US
 
 
 --
+-- Name: index_business_forms_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_business_forms_bespoke_filter_ordering ON public.business_forms USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
+
+
+--
 -- Name: index_business_forms_on_provides; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3722,6 +3775,13 @@ CREATE UNIQUE INDEX index_business_forms_on_term ON public.business_forms USING 
 
 
 --
+-- Name: index_community_engagement_activities_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_community_engagement_activities_bespoke_filter_ordering ON public.community_engagement_activities USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
+
+
+--
 -- Name: index_community_engagement_activities_on_provides; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3740,6 +3800,13 @@ CREATE UNIQUE INDEX index_community_engagement_activities_on_slug ON public.comm
 --
 
 CREATE UNIQUE INDEX index_community_engagement_activities_on_term ON public.community_engagement_activities USING btree (term);
+
+
+--
+-- Name: index_community_governances_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_community_governances_bespoke_filter_ordering ON public.community_governances USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
 
 
 --
@@ -3817,6 +3884,13 @@ CREATE INDEX index_comparisons_on_last_seen_at ON public.comparisons USING btree
 --
 
 CREATE UNIQUE INDEX index_comparisons_on_session_id ON public.comparisons USING btree (session_id);
+
+
+--
+-- Name: index_content_licenses_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_content_licenses_bespoke_filter_ordering ON public.content_licenses USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
 
 
 --
@@ -3960,6 +4034,13 @@ CREATE INDEX index_good_jobs_on_scheduled_at ON public.good_jobs USING btree (sc
 
 
 --
+-- Name: index_hosting_strategies_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_hosting_strategies_bespoke_filter_ordering ON public.hosting_strategies USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
+
+
+--
 -- Name: index_hosting_strategies_on_provides; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3985,6 +4066,13 @@ CREATE UNIQUE INDEX index_hosting_strategies_on_slug ON public.hosting_strategie
 --
 
 CREATE UNIQUE INDEX index_hosting_strategies_on_term ON public.hosting_strategies USING btree (term);
+
+
+--
+-- Name: index_integrations_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_integrations_bespoke_filter_ordering ON public.integrations USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
 
 
 --
@@ -4051,6 +4139,13 @@ CREATE UNIQUE INDEX index_invitations_on_user_id ON public.invitations USING btr
 
 
 --
+-- Name: index_licenses_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_licenses_bespoke_filter_ordering ON public.licenses USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
+
+
+--
 -- Name: index_licenses_on_provides; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4076,6 +4171,13 @@ CREATE UNIQUE INDEX index_licenses_on_slug ON public.licenses USING btree (slug)
 --
 
 CREATE UNIQUE INDEX index_licenses_on_term ON public.licenses USING btree (term);
+
+
+--
+-- Name: index_maintenance_statuses_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_maintenance_statuses_bespoke_filter_ordering ON public.maintenance_statuses USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
 
 
 --
@@ -4107,6 +4209,13 @@ CREATE UNIQUE INDEX index_maintenance_statuses_on_term ON public.maintenance_sta
 
 
 --
+-- Name: index_metadata_standards_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_metadata_standards_bespoke_filter_ordering ON public.metadata_standards USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
+
+
+--
 -- Name: index_metadata_standards_on_provides; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4125,6 +4234,13 @@ CREATE UNIQUE INDEX index_metadata_standards_on_slug ON public.metadata_standard
 --
 
 CREATE UNIQUE INDEX index_metadata_standards_on_term ON public.metadata_standards USING btree (term);
+
+
+--
+-- Name: index_metrics_standards_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_metrics_standards_bespoke_filter_ordering ON public.metrics_standards USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
 
 
 --
@@ -4149,6 +4265,13 @@ CREATE UNIQUE INDEX index_metrics_standards_on_term ON public.metrics_standards 
 
 
 --
+-- Name: index_nonprofit_statuses_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_nonprofit_statuses_bespoke_filter_ordering ON public.nonprofit_statuses USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
+
+
+--
 -- Name: index_nonprofit_statuses_on_provides; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4167,6 +4290,13 @@ CREATE UNIQUE INDEX index_nonprofit_statuses_on_slug ON public.nonprofit_statuse
 --
 
 CREATE UNIQUE INDEX index_nonprofit_statuses_on_term ON public.nonprofit_statuses USING btree (term);
+
+
+--
+-- Name: index_persistent_identifier_standards_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_persistent_identifier_standards_bespoke_filter_ordering ON public.persistent_identifier_standards USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
 
 
 --
@@ -4191,6 +4321,13 @@ CREATE UNIQUE INDEX index_persistent_identifier_standards_on_term ON public.pers
 
 
 --
+-- Name: index_preservation_standards_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_preservation_standards_bespoke_filter_ordering ON public.preservation_standards USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
+
+
+--
 -- Name: index_preservation_standards_on_provides; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4209,6 +4346,13 @@ CREATE UNIQUE INDEX index_preservation_standards_on_slug ON public.preservation_
 --
 
 CREATE UNIQUE INDEX index_preservation_standards_on_term ON public.preservation_standards USING btree (term);
+
+
+--
+-- Name: index_primary_funding_sources_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_primary_funding_sources_bespoke_filter_ordering ON public.primary_funding_sources USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
 
 
 --
@@ -4237,6 +4381,13 @@ CREATE UNIQUE INDEX index_primary_funding_sources_on_slug ON public.primary_fund
 --
 
 CREATE UNIQUE INDEX index_primary_funding_sources_on_term ON public.primary_funding_sources USING btree (term);
+
+
+--
+-- Name: index_programming_languages_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_programming_languages_bespoke_filter_ordering ON public.programming_languages USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
 
 
 --
@@ -4303,6 +4454,13 @@ CREATE UNIQUE INDEX index_providers_on_slug ON public.providers USING btree (slu
 
 
 --
+-- Name: index_readiness_levels_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_readiness_levels_bespoke_filter_ordering ON public.readiness_levels USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
+
+
+--
 -- Name: index_readiness_levels_on_provides; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4331,6 +4489,13 @@ CREATE UNIQUE INDEX index_readiness_levels_on_term ON public.readiness_levels US
 
 
 --
+-- Name: index_reporting_levels_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reporting_levels_bespoke_filter_ordering ON public.reporting_levels USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
+
+
+--
 -- Name: index_reporting_levels_on_provides; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4356,6 +4521,13 @@ CREATE UNIQUE INDEX index_reporting_levels_on_term ON public.reporting_levels US
 --
 
 CREATE INDEX index_roles_on_name_and_resource_type_and_resource_id ON public.roles USING btree (name, resource_type, resource_id);
+
+
+--
+-- Name: index_security_standards_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_security_standards_bespoke_filter_ordering ON public.security_standards USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
 
 
 --
@@ -4496,6 +4668,13 @@ CREATE INDEX index_solution_business_forms_on_business_form_id ON public.solutio
 --
 
 CREATE INDEX index_solution_business_forms_on_solution_id ON public.solution_business_forms USING btree (solution_id);
+
+
+--
+-- Name: index_solution_categories_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_categories_bespoke_filter_ordering ON public.solution_categories USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
 
 
 --
@@ -5283,6 +5462,13 @@ CREATE UNIQUE INDEX index_solutions_on_slug ON public.solutions USING btree (slu
 
 
 --
+-- Name: index_staffings_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_staffings_bespoke_filter_ordering ON public.staffings USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
+
+
+--
 -- Name: index_staffings_on_coverage; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5371,6 +5557,13 @@ CREATE INDEX index_taggings_on_tagger_type_and_tagger_id ON public.taggings USIN
 --
 
 CREATE UNIQUE INDEX index_tags_on_name ON public.tags USING btree (name);
+
+
+--
+-- Name: index_user_contributions_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_user_contributions_bespoke_filter_ordering ON public.user_contributions USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
 
 
 --
@@ -5476,6 +5669,13 @@ CREATE INDEX index_users_roles_on_user_id ON public.users_roles USING btree (use
 --
 
 CREATE UNIQUE INDEX index_users_roles_on_user_id_and_role_id ON public.users_roles USING btree (user_id, role_id);
+
+
+--
+-- Name: index_values_frameworks_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_values_frameworks_bespoke_filter_ordering ON public.values_frameworks USING btree (bespoke_filter_position, term) WHERE (bespoke_filter_position IS NOT NULL);
 
 
 --
@@ -6425,7 +6625,7 @@ ALTER TABLE ONLY public.solution_draft_accessibility_scopes
 --
 
 ALTER TABLE ONLY public.solutions
-    ADD CONSTRAINT fk_rails_25e1f3faa1 FOREIGN KEY (phase_1_community_governance_id) REFERENCES public.community_governances(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_25e1f3faa1 FOREIGN KEY (phase_1_community_governance_id) REFERENCES public.community_governances(id) ON DELETE SET NULL;
 
 
 --
@@ -6553,7 +6753,7 @@ ALTER TABLE ONLY public.solution_user_contributions
 --
 
 ALTER TABLE ONLY public.solution_drafts
-    ADD CONSTRAINT fk_rails_496e0d601c FOREIGN KEY (phase_1_community_governance_id) REFERENCES public.community_governances(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_496e0d601c FOREIGN KEY (phase_1_community_governance_id) REFERENCES public.community_governances(id) ON DELETE SET NULL;
 
 
 --
@@ -6601,7 +6801,7 @@ ALTER TABLE ONLY public.solution_accessibility_scopes
 --
 
 ALTER TABLE ONLY public.solutions
-    ADD CONSTRAINT fk_rails_522f0b764c FOREIGN KEY (phase_1_readiness_level_id) REFERENCES public.readiness_levels(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_522f0b764c FOREIGN KEY (phase_1_readiness_level_id) REFERENCES public.readiness_levels(id) ON DELETE SET NULL;
 
 
 --
@@ -6625,7 +6825,7 @@ ALTER TABLE ONLY public.solution_nonprofit_statuses
 --
 
 ALTER TABLE ONLY public.solution_drafts
-    ADD CONSTRAINT fk_rails_57b1e3753d FOREIGN KEY (phase_1_primary_funding_source_id) REFERENCES public.primary_funding_sources(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_57b1e3753d FOREIGN KEY (phase_1_primary_funding_source_id) REFERENCES public.primary_funding_sources(id) ON DELETE SET NULL;
 
 
 --
@@ -6633,7 +6833,7 @@ ALTER TABLE ONLY public.solution_drafts
 --
 
 ALTER TABLE ONLY public.solutions
-    ADD CONSTRAINT fk_rails_57bffcae2d FOREIGN KEY (phase_1_hosting_strategy_id) REFERENCES public.hosting_strategies(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_57bffcae2d FOREIGN KEY (phase_1_hosting_strategy_id) REFERENCES public.hosting_strategies(id) ON DELETE SET NULL;
 
 
 --
@@ -6665,7 +6865,7 @@ ALTER TABLE ONLY public.solution_draft_programming_languages
 --
 
 ALTER TABLE ONLY public.solution_drafts
-    ADD CONSTRAINT fk_rails_5b8c678d1e FOREIGN KEY (phase_1_readiness_level_id) REFERENCES public.readiness_levels(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_5b8c678d1e FOREIGN KEY (phase_1_readiness_level_id) REFERENCES public.readiness_levels(id) ON DELETE SET NULL;
 
 
 --
@@ -6737,7 +6937,7 @@ ALTER TABLE ONLY public.solution_category_draft_links
 --
 
 ALTER TABLE ONLY public.solutions
-    ADD CONSTRAINT fk_rails_73c7b0a3ae FOREIGN KEY (phase_1_maintenance_status_id) REFERENCES public.maintenance_statuses(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_73c7b0a3ae FOREIGN KEY (phase_1_maintenance_status_id) REFERENCES public.maintenance_statuses(id) ON DELETE SET NULL;
 
 
 --
@@ -6809,7 +7009,7 @@ ALTER TABLE ONLY public.solution_draft_licenses
 --
 
 ALTER TABLE ONLY public.solution_drafts
-    ADD CONSTRAINT fk_rails_7e91bf84ef FOREIGN KEY (phase_1_maintenance_status_id) REFERENCES public.maintenance_statuses(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_7e91bf84ef FOREIGN KEY (phase_1_maintenance_status_id) REFERENCES public.maintenance_statuses(id) ON DELETE SET NULL;
 
 
 --
@@ -6993,7 +7193,7 @@ ALTER TABLE ONLY public.solution_draft_programming_languages
 --
 
 ALTER TABLE ONLY public.solution_drafts
-    ADD CONSTRAINT fk_rails_a937b670c8 FOREIGN KEY (phase_1_business_form_id) REFERENCES public.business_forms(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_a937b670c8 FOREIGN KEY (phase_1_business_form_id) REFERENCES public.business_forms(id) ON DELETE SET NULL;
 
 
 --
@@ -7097,7 +7297,7 @@ ALTER TABLE ONLY public.solution_draft_metrics_standards
 --
 
 ALTER TABLE ONLY public.solution_drafts
-    ADD CONSTRAINT fk_rails_bf7a540f25 FOREIGN KEY (phase_1_hosting_strategy_id) REFERENCES public.hosting_strategies(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_bf7a540f25 FOREIGN KEY (phase_1_hosting_strategy_id) REFERENCES public.hosting_strategies(id) ON DELETE SET NULL;
 
 
 --
@@ -7105,7 +7305,7 @@ ALTER TABLE ONLY public.solution_drafts
 --
 
 ALTER TABLE ONLY public.solutions
-    ADD CONSTRAINT fk_rails_c3189e0953 FOREIGN KEY (phase_1_board_structure_id) REFERENCES public.board_structures(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_c3189e0953 FOREIGN KEY (phase_1_board_structure_id) REFERENCES public.board_structures(id) ON DELETE SET NULL;
 
 
 --
@@ -7113,7 +7313,7 @@ ALTER TABLE ONLY public.solutions
 --
 
 ALTER TABLE ONLY public.solutions
-    ADD CONSTRAINT fk_rails_c35caf4647 FOREIGN KEY (phase_1_business_form_id) REFERENCES public.business_forms(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_c35caf4647 FOREIGN KEY (phase_1_business_form_id) REFERENCES public.business_forms(id) ON DELETE SET NULL;
 
 
 --
@@ -7161,7 +7361,7 @@ ALTER TABLE ONLY public.solution_draft_primary_funding_sources
 --
 
 ALTER TABLE ONLY public.solution_drafts
-    ADD CONSTRAINT fk_rails_d15fd7352a FOREIGN KEY (phase_1_board_structure_id) REFERENCES public.board_structures(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_d15fd7352a FOREIGN KEY (phase_1_board_structure_id) REFERENCES public.board_structures(id) ON DELETE SET NULL;
 
 
 --
@@ -7217,7 +7417,7 @@ ALTER TABLE ONLY public.solution_community_governances
 --
 
 ALTER TABLE ONLY public.solutions
-    ADD CONSTRAINT fk_rails_d7b00384c2 FOREIGN KEY (phase_1_primary_funding_source_id) REFERENCES public.primary_funding_sources(id) ON DELETE RESTRICT;
+    ADD CONSTRAINT fk_rails_d7b00384c2 FOREIGN KEY (phase_1_primary_funding_source_id) REFERENCES public.primary_funding_sources(id) ON DELETE SET NULL;
 
 
 --
@@ -7363,6 +7563,8 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240927172612'),
+('20240927170434'),
 ('20240926052540'),
 ('20240925064508'),
 ('20240924213926'),
