@@ -123,7 +123,10 @@ ActiveAdmin.register SolutionImport do
       f.input :source, as: :file, required: true, input_html: { accept: "text/csv" }
       f.input :strategy, as: :select, collection: SolutionImport.strategy_select_options, required: true, include_blank: true
       f.inputs name: "Options", for: :options do |of|
-        of.input :auto_approve, as: :boolean
+        # Changing the default to false for some reason made hints and labels stop displaying. Hard-coding them here.
+        of.input :auto_approve, as: :boolean,
+          hint: t("formtastic.hints.solution_imports/options.auto_approve", raise: true),
+          label: t("formtastic.labels.solution_imports/options.auto_approve", raise: true)
       end
     end
 
