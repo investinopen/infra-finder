@@ -4,6 +4,6 @@ module SolutionImports
   class Options
     include Support::EnhancedStoreModel
 
-    attribute :auto_approve, :boolean, default: true
+    attribute :auto_approve, :boolean, default: false
   end
 end
