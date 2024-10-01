@@ -42,7 +42,7 @@
         </div>
       </div>
     </header>
-    <%= render SolutionNavComponent.new %>
+    <%= render SolutionNavComponent.new(show_community_link: show_community_section?) %>
     <div class="l-container l-container--narrow solution-articles">
       <article id="about" class="l-container__inner solution-articles__about"
         data-solution-details-component--solution-details-component-target="article">
@@ -152,47 +152,49 @@
         <%= render_structured_list(:service_providers, solution.service_provider_free_input) %>
         <%= render_multiselection(:integrations, "columns", 3) %>
       </article>
-      <article id="community" class="l-container__inner"
-        data-solution-details-component--solution-details-component-target="article">
-        <h2 class="a-underline"><%= t(".community.heading") %></h2>
-        <div class="solution-cards-wrapper">
-          <div class="solution-cards">
-            <%= render_implementation(:code_of_conduct) %>
-            <%= render_implementation(:community_engagement) %>
-            <%= render_implementation(:contribution_pathways) %>
+      <% if show_community_section? %>
+        <article id="community" class="l-container__inner"
+          data-solution-details-component--solution-details-component-target="article">
+          <h2 class="a-underline"><%= t(".community.heading") %></h2>
+          <div class="solution-cards-wrapper">
+            <div class="solution-cards">
+              <%= render_implementation(:code_of_conduct) %>
+              <%= render_implementation(:community_engagement) %>
+              <%= render_implementation(:contribution_pathways) %>
+            </div>
+            <h2 class="sr-only"><%= t(".community.statements") %></h2>
+            <div class="flex flex-col">
+              <%= render_implementation_statement(:code_of_conduct) %>
+              <%= render_implementation_statement(:community_engagement) %>
+              <%= render_implementation_statement(:contribution_pathways) %>
+            </div>
           </div>
-          <h2 class="sr-only"><%= t(".community.statements") %></h2>
-          <div class="flex flex-col">
-            <%= render_implementation_statement(:code_of_conduct) %>
-            <%= render_implementation_statement(:community_engagement) %>
-            <%= render_implementation_statement(:contribution_pathways) %>
-          </div>
-        </div>
-        <%= render_multiselection(:community_engagement_activities) %>
-        <%= render_multiselection(:values_frameworks, "columns", 1) %>
-        <% if solution.membership_program_url? %>
-          <div>
-            <h3><%= t(".community.membership_program") %></h3>
+          <%= render_multiselection(:community_engagement_activities) %>
+          <%= render_multiselection(:values_frameworks, "columns", 1) %>
+          <% if solution.membership_program_url? %>
             <div>
-              <a href="<%= solution.membership_program_url %>" target="_blank" rel="noreferrer" class="m-button m-button--lg m-button--fit-to-content bg-brand-mint">
-                <span><%= t(".community.membership_program_url") %></span>
-                <span class="sr-only"><%= t(".opens_in_new_window") %></span>
-                <%= image_tag "icons/24/Link-External.svg", alt: "" %>
-              </a>
+              <h3><%= t(".community.membership_program") %></h3>
+              <div>
+                <a href="<%= solution.membership_program_url %>" target="_blank" rel="noreferrer" class="m-button m-button--lg m-button--fit-to-content bg-brand-mint">
+                  <span><%= t(".community.membership_program_url") %></span>
+                  <span class="sr-only"><%= t(".opens_in_new_window") %></span>
+                  <%= image_tag "icons/24/Link-External.svg", alt: "" %>
+                </a>
+              </div>
             </div>
-          </div>
-        <% end %>
-        <% if solution.scoss? %>
-          <div>
-            <h3><%= t(".community.scoss") %></h3>
-            <div class="m-badge m-badge--white m-badge--fit-to-content">
-              <%= image_tag "icons/16/Checkmark.svg", alt: "" %>
-              <%= t(".community.scoss_true") %>
+          <% end %>
+          <% if solution.scoss? %>
+            <div>
+              <h3><%= t(".community.scoss") %></h3>
+              <div class="m-badge m-badge--white m-badge--fit-to-content">
+                <%= image_tag "icons/16/Checkmark.svg", alt: "" %>
+                <%= t(".community.scoss_true") %>
+              </div>
             </div>
-          </div>
-        <% end %>
-        <%= render_multiselection(:user_contributions) %>
-      </article>
+          <% end %>
+          <%= render_multiselection(:user_contributions) %>
+        </article>
+      <% end %>
       <article id="policies" class="l-container__inner"
         data-solution-details-component--solution-details-component-target="article">
         <h2 class="a-underline"><%= t(".policies.heading") %></h2>

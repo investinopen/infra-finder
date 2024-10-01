@@ -17,11 +17,15 @@
       <a href="#technical" class="m-nav-bar__link" data-turbo="false" data-text="<%= t(".technical") %>">
         <%= t(".technical") %>
       </a>
-    </li><li>
-      <a href="#community" class="m-nav-bar__link" data-turbo="false" data-text="<%= t(".community") %>">
-        <%= t(".community") %>
-      </a>
-    </li><li>
+    </li>
+    <% if show_community_link? %>
+      <li>
+        <a href="#community" class="m-nav-bar__link" data-turbo="false" data-text="<%= t(".community") %>">
+          <%= t(".community") %>
+        </a>
+      </li>
+    <% end %>
+    <li>
       <a href="#policies" class="m-nav-bar__link" data-turbo="false" data-text="<%= t(".policies") %>">
         <%= t(".policies") %>
       </a>

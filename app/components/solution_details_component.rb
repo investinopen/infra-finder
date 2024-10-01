@@ -52,4 +52,19 @@ class SolutionDetailsComponent < ApplicationComponent
   def render_structured_list(name, free_text = nil)
     render SolutionStructuredListComponent.new(solution:, name:, free_text:)
   end
+
+  COMMUNITY_ATTRS = %i[
+    code_of_conduct
+    community_engagement
+    contribution_pathways
+    community_engagement_activities
+    values_frameworks
+    membership_program_url
+    scoss
+    user_contributions
+  ].freeze
+
+  def show_community_section?
+    COMMUNITY_ATTRS.any? { solution.__send__(_1).present? }
+  end
 end
