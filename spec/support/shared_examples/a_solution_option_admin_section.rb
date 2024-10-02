@@ -91,6 +91,58 @@ RSpec.shared_examples_for "a solution option admin section" do |klass|
     end
   end
 
+  describe "POST /admin/#{plural}" do
+    let_it_be(:params) do
+      attrs = {
+        name: "Some Name",
+        term: "Some Term",
+        description: "A description"
+      }
+
+      {
+        described_class.model_name.i18n_key => attrs,
+      }
+    end
+
+    def make_the_request!
+      expect do
+        post url_for([:admin, described_class]), params:
+      end
+    end
+
+    it "creates records for super admins" do
+      sign_in super_admin
+
+      make_the_request!.to change(described_class, :count).by(1)
+
+      expect(response).to redirect_to url_for([:admin, described_class.latest])
+    end
+
+    it "does not create anything for regular admins" do
+      sign_in admin
+
+      make_the_request!.to keep_the_same(described_class, :count)
+
+      expect(response).to redirect_to(unauthorized_path)
+    end
+
+    it "does not create anything for editors" do
+      sign_in editor
+
+      make_the_request!.to keep_the_same(described_class, :count)
+
+      expect(response).to redirect_to(unauthorized_path)
+    end
+
+    it "does not create anything for unassigned users" do
+      sign_in regular_user
+
+      make_the_request!.to keep_the_same(described_class, :count)
+
+      expect(response).to redirect_to(unauthorized_path)
+    end
+  end
+
   describe "GET /admin/#{plural}/:id/edit" do
     def make_the_request!
       expect do
@@ -106,7 +158,7 @@ RSpec.shared_examples_for "a solution option admin section" do |klass|
       expect(response).to have_http_status(:ok)
     end
 
-    it "is visible to admins" do
+    it "is hidden to admins" do
       sign_in admin
 
       make_the_request!

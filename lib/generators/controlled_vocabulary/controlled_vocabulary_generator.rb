@@ -7,12 +7,26 @@ class ControlledVocabularyGenerator < Rails::Generators::Base
 
   class_option :vocab_name, type: :string
 
+  delegate :model_klass, to: :vocab
+  delegate :model_name, to: :model_klass
+  delegate :i18n_key, to: :model_name
+
   def apply!
     Rails::Generators.invoke("controlled_vocabulary_record", [vocab.model_name, "--vocab-name=#{vocab_name}"])
 
     linkages.each do |linkage|
       Rails::Generators.invoke("controlled_vocabulary_link", [linkage.link_model_name, "--kind=#{linkage.kind}", "--vocab-name=#{vocab_name}"])
     end
+  end
+
+  def build_spec!
+    return unless vocab.uses_model?
+
+    i18n_key = vocab.model_klass.model_name.i18n_key
+
+    path = Rails.root.join("spec", "requests", "admin", "#{i18n_key}_spec.rb")
+
+    template "spec.rb", path
   end
 
   private

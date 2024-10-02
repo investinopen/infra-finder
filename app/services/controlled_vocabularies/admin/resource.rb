@@ -28,7 +28,7 @@ module ControlledVocabularies
       def define_filters!
         filter :name
 
-        filter :visibility, as: :select, collection: proc { ApplicationRecord.pg_enum_select_options(:visibility) }
+        filter :term
 
         scope :all
 
@@ -39,12 +39,14 @@ module ControlledVocabularies
 
       def define_form!
         form do |f|
+          f.semantic_errors *f.object.errors.map(&:attribute).uniq
+
           f.inputs do
             f.input :name
 
-            f.input :bespoke_filter_position
+            f.input :term
 
-            f.input :visibility, as: :select
+            f.input :bespoke_filter_position
 
             f.input :description, as: :text
           end
@@ -58,10 +60,6 @@ module ControlledVocabularies
           selectable_column
 
           column :name
-
-          column :visibility, sortable: false do |record|
-            status_tag record.visibility
-          end
 
           column :solutions_count
 
@@ -84,11 +82,9 @@ module ControlledVocabularies
           attributes_table do
             row :name
 
-            row :bespoke_filter_position
+            row :term
 
-            row :visibility do |record|
-              status_tag record.visibility
-            end
+            row :bespoke_filter_position
 
             row :description
 
