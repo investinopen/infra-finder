@@ -1246,7 +1246,7 @@
   description: For services that publish content, a list of licenses used, required,
     or supported by the platform.
   exported: true
-  required: true
+  required: false
   ext_name: content_licensing
   be_label: Content licensing
   be_position: 26
