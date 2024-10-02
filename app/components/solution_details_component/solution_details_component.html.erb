@@ -163,13 +163,14 @@
               <%= render_implementation(:contribution_pathways) %>
             </div>
             <h2 class="sr-only"><%= t(".community.statements") %></h2>
-            <div class="flex flex-col">
+            <div class="flex flex-col mt-6">
               <%= render_implementation_statement(:code_of_conduct) %>
               <%= render_implementation_statement(:community_engagement) %>
               <%= render_implementation_statement(:contribution_pathways) %>
             </div>
           </div>
-          <%= render_multiselection(:community_engagement_activities) %>
+          <%= render_multiselection(:user_contributions, hide_other: true) %>
+          <%= render_multiselection(:community_engagement_activities, hide_other: true) %>
           <%= render_multiselection(:values_frameworks, "columns", 1) %>
           <% if solution.membership_program_url? %>
             <div>
@@ -192,7 +193,15 @@
               </div>
             </div>
           <% end %>
-          <%= render_multiselection(:user_contributions) %>
+          <% if solution.user_contribution_other.present? ||  solution.community_engagement_activity_other.present? %>
+            <div>
+              <h3><%= t(".community.more") %></h3>
+              <div class="flex flex-col">
+                <%= render_multiselection_other(:user_contributions) %>
+                <%= render_multiselection_other(:community_engagement_activities) %>
+              </div>
+            </div>
+          <% end %>
         </article>
       <% end %>
       <article id="policies" class="l-container__inner"

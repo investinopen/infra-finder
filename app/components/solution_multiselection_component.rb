@@ -32,15 +32,22 @@ class SolutionMultiselectionComponent < ApplicationComponent
   # @param [Symbol] name
   # @param [String, nil] layout
   # @param [Number, nil] column_count
-  def initialize(solution:, name:, layout: "default", column_count: 3)
+  # @param [Boolean, nil] hide_other
+  def initialize(solution:, name:, layout: "default", column_count: 3, hide_other: false)
     @solution = solution
     @name = name
     @layout = layout
     @column_count = column_count
+    @hide_other = hide_other
 
     solution.vocab_selected_and_other_for(name) => { selected:, has_other:, other_value:, mode:, conn: }
 
     @selections = Array(selected)
-    @other_value = other_value
+    @other_value = other_value unless hide_other
+  end
+
+  # @return [Boolean]
+  def hide_other?
+    @hide_other
   end
 end
