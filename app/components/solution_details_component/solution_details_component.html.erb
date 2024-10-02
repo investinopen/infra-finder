@@ -311,27 +311,6 @@
         <h2 class="a-underline"><%= t(".funding.heading") %></h2>
         <%= render_multiselection(:primary_funding_sources) %>
         <%= render_multiselection(:financial_reporting_level) %>
-        <%= render_structured_list(:founding_institutions, solution.founding_institution_free_input) %>
-        <%= render_structured_list(:top_granting_institutions, solution.top_granting_institution_free_input) %>
-        <% if solution.recent_grants.present? or solution.recent_grant_free_input.present? %>
-          <div class="solution-cards-wrapper">
-            <h3>
-              <%= t(".funding.recent_grants") %>
-            </h3>
-            <ul class="solution-cards">
-              <% solution.recent_grants.each do |grant| %>
-                <li>
-                  <%= render SolutionDetailsGrantCardComponent.new(grant:) %>
-                </li>
-              <% end %>
-            </ul>
-            <% if solution.recent_grant_free_input.present? %>
-              <div class="grants-free-input<% if solution.recent_grants.present? %> pt-5<% end %>">
-                <%= infra_format(solution.recent_grant_free_input) %>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.funding_needs, heading: t(".funding.needs")) %>
       </article>
     </div>
