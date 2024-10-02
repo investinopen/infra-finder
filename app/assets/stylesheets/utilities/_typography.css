@@ -82,10 +82,12 @@ use tailwind's text-[name] classes for font sizes. */
 
 
 .t-other-text {
+  --rte-li-margin-block-start: 0.5em;
+
   font-size: 0.875rem;
   line-height: 1.571;
 
-  > h3, strong {
+  > :is(h3, h4, strong) {
     display: block;
     margin-block-end: 0.25em;
     font: inherit;
