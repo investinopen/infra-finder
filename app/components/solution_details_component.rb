@@ -41,12 +41,16 @@ class SolutionDetailsComponent < ApplicationComponent
     render SolutionCategoryBadgesComponent.new(solution:)
   end
 
-  def render_multiselection(name, layout = "default", column_count = 3)
-    render SolutionMultiselectionComponent.new(solution:, name:, layout:, column_count:)
+  def render_multiselection(name, layout = "default", column_count = 3, hide_other: false)
+    render SolutionMultiselectionComponent.new(solution:, name:, layout:, column_count:, hide_other:)
   end
 
   def render_multiselection_card(name)
     render SolutionMultiselectionCardComponent.new(solution:, name:)
+  end
+
+  def render_multiselection_other(name)
+    render SolutionMultiselectionOtherComponent.new(solution:, name:)
   end
 
   def render_structured_list(name, free_text = nil)

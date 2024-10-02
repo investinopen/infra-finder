@@ -1,0 +1,6 @@
+<% if other_value.present? %>
+  <div class="implementation-statement t-other-text max-w-text" data-controller="solution-multiselection-other-component--solution-multiselection-other-component">
+    <h4><%= t(".#{connection_name}") %>: </h4>
+    <%= render ExpandableTextComponent.new(text: other_value, truncate: 3) %>
+  </div>
+<% end %>
