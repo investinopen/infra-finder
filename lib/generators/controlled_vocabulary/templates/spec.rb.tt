@@ -1,0 +1,10 @@
+<%-
+  # vim: set ft=ruby.eruby nosmartindent noautoindent :
+-%>
+# frozen_string_literal: true
+
+RSpec.describe "Admin <%= model_name %> Requests", type: :request, default_auth: true do
+  describe <%= model_name.to_s %> do
+    include_examples "a solution option admin section", <%= model_name.to_s %>
+  end
+end

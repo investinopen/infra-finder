@@ -1,0 +1,405 @@
+---
+en:
+  formtastic:
+    labels:
+      accessibility_scope:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      authentication_standard:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      board_structure:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      business_form:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      community_engagement_activity:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      community_governance:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      content_license:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      hosting_strategy:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      integration:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      license:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      maintenance_status:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      metadata_standard:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      metrics_standard:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      nonprofit_status:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      persistent_identifier_standard:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      preservation_standard:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      primary_funding_source:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      programming_language:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      readiness_level:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      reporting_level:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      security_standard:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      solution_category:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      staffing:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      user_contribution:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+      values_framework:
+        name: Name / Label
+        term: Import / Export Term
+        bespoke_filter_position: Special Filter Position
+        description: Admin Description
+    hints:
+      accessibility_scope:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      authentication_standard:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      board_structure:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      business_form:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      community_engagement_activity:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      community_governance:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      content_license:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      hosting_strategy:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      integration:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      license:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      maintenance_status:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      metadata_standard:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      metrics_standard:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      nonprofit_status:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      persistent_identifier_standard:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      preservation_standard:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      primary_funding_source:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      programming_language:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      readiness_level:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      reporting_level:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      security_standard:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      solution_category:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      staffing:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      user_contribution:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
+      values_framework:
+        name: The name of the controlled vocabulary term. This is used as a label
+          in dropdowns and on the frontend
+        term: The exact-match term used for looking up this specific record when importing
+          from CSV. In most cases it will match the name, but it is used only when
+          importing and exporting in CSV.
+        bespoke_filter_position: Used for specific ordering of options on the filters
+          on the frontend. Right now, it only applies to Hosting Strategies. If left
+          blank, this option will not appear.
+        description: Internal usage only. Appears in details about the controlled
+          vocabulary, never on the frontend.
