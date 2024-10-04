@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :solution_import do
     transient do
-      auto_approve { true }
+      auto_approve { false }
     end
 
     options { { auto_approve:, } }

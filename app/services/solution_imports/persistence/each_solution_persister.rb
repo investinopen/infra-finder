@@ -60,7 +60,7 @@ module SolutionImports
         yield draft.request_review
 
         # :nocov:
-        yield draft.approve if auto_approve? || new_record
+        yield draft.approve if auto_approve?
         # :nocov:
 
         super

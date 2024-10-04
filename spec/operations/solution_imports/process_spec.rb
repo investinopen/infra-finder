@@ -51,11 +51,12 @@ RSpec.describe SolutionImports::Process, type: :operation do
         expect do
           expect_calling_with(solution_import).to succeed
         end.to change { solution_import.current_state(force_reload: true) }.from("pending").to("success")
-          .and change(Solution, :count).by(1)
+          .and change(Solution.unpublished, :count).by(1)
           .and change(Provider, :count).by(1)
           .and change(SolutionDraft, :count).by(2)
-          .and change(SolutionDraft.approved, :count).by(1)
-          .and change(SolutionDraft.in_review, :count).by(1)
+          .and change(SolutionDraft.in_review, :count).by(2)
+          .and keep_the_same(Solution.published, :count)
+          .and keep_the_same(SolutionDraft.approved, :count)
 
         aggregate_failures do
           expect(solution_import).to have_attributes(providers_count: 2, solutions_count: 2)
@@ -93,7 +94,10 @@ RSpec.describe SolutionImports::Process, type: :operation do
             expect_calling_with(solution_import).to succeed
           end
         end.to change { solution_import.current_state(force_reload: true) }.from("pending").to("success")
-          .and change(Solution, :count).by(59)
+          .and change(Solution.unpublished, :count).by(59)
+          .and change(SolutionDraft.in_review, :count).by(59)
+          .and keep_the_same(Solution.published, :count)
+          .and keep_the_same(SolutionDraft.approved, :count)
           .and change(Provider, :count).by(53)
 
         aggregate_failures do
