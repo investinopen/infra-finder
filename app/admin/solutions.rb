@@ -40,6 +40,7 @@ ActiveAdmin.register Solution do
     # @return [void]
     def apply_editor_validations!(solution)
       solution.apply_editor_validations = true
+      solution.skip_editor_validations = solution.persisted? && current_user.has_any_admin_access?
     end
 
     # @param [Solution] solution
