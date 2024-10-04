@@ -1,6 +1,4 @@
-<% if implementation.statement? %>
-  <div class="implementation-statement t-other-text max-w-text" data-controller="implementation-statement-component--implementation-statement-component">
-    <h3><%= t(".#{implementation_name}") %>: </h3>
-    <%= render ExpandableTextComponent.new(text: implementation.statement, truncate: 3) %>
-  </div>
-<% end %>
+<div class="implementation-statement t-other-text max-w-text" data-controller="implementation-statement-component--implementation-statement-component">
+  <h3><%= t(".#{implementation_name}") %>: </h3>
+  <%= render ExpandableTextComponent.new(text: implementation.statement, truncate: 3) %>
+</div>

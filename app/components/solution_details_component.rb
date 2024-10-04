@@ -30,7 +30,7 @@ class SolutionDetailsComponent < ApplicationComponent
   # @param [Solutions::Types::Implementation] name
   # @return [String]
   def render_implementation_statement(name)
-    render ImplementationStatementComponent.new(solution:, name:)
+    # render ImplementationStatementComponent.new(solution:, name:)
   end
 
   def render_location

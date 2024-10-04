@@ -201,8 +201,6 @@ module SolutionProperties
               view_context.status_tag record.__send__(implementation.enum)
             end
 
-            view_context.row :statement
-
             view_context.row :link do
               view_context.attributes_table_for impl.link do
                 view_context.row(:label)

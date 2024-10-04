@@ -35,10 +35,6 @@ module Admin
         store_model(attr, heading: false, name: "Details") do |impf|
           yield impf if block_given?
 
-          if obj_type.has_statement?
-            impf.input :statement, as: :text
-          end
-
           if obj_type.has_many_links?
             heading = obj_type.human_attribute_name(:links)
 
