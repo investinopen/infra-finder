@@ -168,7 +168,6 @@ module SolutionProperties
           else
             smlf.input :name, as: :string, required: true
             smlf.input :url, as: :url, required: true
-            smlf.input :description, as: :text, required: false, input_html: { rows: 2 }
           end
         end
       end
@@ -269,8 +268,6 @@ module SolutionProperties
             view_context.column :url do |r|
               simple_link(r.url)
             end
-
-            view_context.column :description
           end
         end
       end
