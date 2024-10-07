@@ -680,7 +680,7 @@
   description: List of any external partners or organizations directly involved in
     running or governing the service.
   exported: true
-  required: true
+  required: false
   store_model_type_name: Solutions::Institution
   ext_name: affiliations
   be_label: Current affiliations
