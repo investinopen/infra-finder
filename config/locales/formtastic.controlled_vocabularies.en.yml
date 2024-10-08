@@ -6,126 +6,151 @@ en:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       authentication_standard:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       board_structure:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       business_form:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       community_engagement_activity:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       community_governance:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       content_license:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       hosting_strategy:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       integration:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       license:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       maintenance_status:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       metadata_standard:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       metrics_standard:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       nonprofit_status:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       persistent_identifier_standard:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       preservation_standard:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       primary_funding_source:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       programming_language:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       readiness_level:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       reporting_level:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       security_standard:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       solution_category:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       staffing:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       user_contribution:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
       values_framework:
         name: Name / Label
         term: Import / Export Term
         bespoke_filter_position: Special Filter Position
+        provides: Special Logic
         description: Admin Description
     hints:
       accessibility_scope:
@@ -137,6 +162,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       authentication_standard:
@@ -148,6 +176,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       board_structure:
@@ -159,6 +190,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       business_form:
@@ -170,6 +204,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       community_engagement_activity:
@@ -181,6 +218,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       community_governance:
@@ -192,6 +232,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       content_license:
@@ -203,6 +246,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       hosting_strategy:
@@ -214,6 +260,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       integration:
@@ -225,6 +274,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       license:
@@ -236,6 +288,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       maintenance_status:
@@ -247,6 +302,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       metadata_standard:
@@ -258,6 +316,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       metrics_standard:
@@ -269,6 +330,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       nonprofit_status:
@@ -280,6 +344,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       persistent_identifier_standard:
@@ -291,6 +358,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       preservation_standard:
@@ -302,6 +372,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       primary_funding_source:
@@ -313,6 +386,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       programming_language:
@@ -324,6 +400,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       readiness_level:
@@ -335,6 +414,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       reporting_level:
@@ -346,6 +428,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       security_standard:
@@ -357,6 +442,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       solution_category:
@@ -368,6 +456,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       staffing:
@@ -379,6 +470,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       user_contribution:
@@ -390,6 +484,9 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.
       values_framework:
@@ -401,5 +498,8 @@ en:
         bespoke_filter_position: Used for specific ordering of options on the filters
           on the frontend. Right now, it only applies to Hosting Strategies. If left
           blank, this option will not appear.
+        provides: Some controlled vocabulary records need to behave in a certain way
+          within code, like 'Other' options. Specifying a value here will allow that
+          option to behave as expected.
         description: Internal usage only. Appears in details about the controlled
           vocabulary, never on the frontend.

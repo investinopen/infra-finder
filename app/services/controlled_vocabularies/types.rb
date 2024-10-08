@@ -12,7 +12,7 @@ module ControlledVocabularies
 
     EnumMapping = Coercible::Hash.map(Coercible::String, Coercible::String)
 
-    Provision = Coercible::String.constrained(filled: true)
+    Provision = ApplicationRecord.dry_pg_enum(:controlled_vocabulary_provision)
 
     Provisions = Array.of(Provision)
 

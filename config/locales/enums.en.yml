@@ -5,6 +5,14 @@ en:
       unavailable: Unavailable
       email: Email
       website: Website
+    controlled_vocabulary_provision:
+      active: "Active: Represents an 'active' state within the vocabulary (e.g. Maintenance Status)"
+      applies_to_solution: "Applies to solution / tool / project?: used for web accessibility statement scope"
+      applies_to_website: "Applies to website?: used for web accessibility statement scope"
+      "none": "None: Represents 'none' in the vocabulary and can be easily filtered out"
+      not_applicable: "Not Applicable: Represents 'n/a' in the vocabulary and can be easily filtered out"
+      other: "Other: Represents 'other' in the vocabulary and triggers special sorting logic and handling on the frontend"
+      unknown: "Unknown: Represents 'unknown' in the vocabulary and can be easily filtered out"
     financial_information_scope:
       unknown: Unknown
       not_applicable: Not Applicable

@@ -12,11 +12,15 @@ class ComparisonMultiselectionCellComponent < ApplicationComponent
   # @return [Boolean]
   attr_reader :has_value
 
+  alias has_value? has_value
+
   # @return [Symbol]
   attr_reader :mode
 
   # @return [Boolean]
   attr_reader :truncate
+
+  alias truncate? truncate
 
   # @param [Solution] solution
   # @param [Symbol] name
@@ -25,8 +29,16 @@ class ComparisonMultiselectionCellComponent < ApplicationComponent
 
     @selections = Array(selected)
     @other_value = other_value
-    @has_value = (@selections.present? or @other_value.present?)
+    @has_value = (@selections.present? || @other_value.present?)
     @mode = mode
     @truncate = truncate
+  end
+
+  def should_render_list?
+    mode == :multiple && selections.many?
+  end
+
+  def should_truncate?
+    has_value? && truncate?
   end
 end

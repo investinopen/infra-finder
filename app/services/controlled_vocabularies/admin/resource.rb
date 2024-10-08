@@ -46,6 +46,10 @@ module ControlledVocabularies
 
             f.input :term
 
+            f.input :provides, as: :select,
+              collection: ApplicationRecord.pg_enum_select_options(:controlled_vocabulary_provision, sort_alpha: true),
+              required: false, include_blank: true
+
             f.input :bespoke_filter_position
 
             f.input :description, as: :text
@@ -72,7 +76,7 @@ module ControlledVocabularies
       end
 
       def define_permitted_params!
-        params = %i[name bespoke_filter_position description term visibility]
+        params = %i[name bespoke_filter_position description provides term visibility]
 
         permit_params(*params)
       end
@@ -83,6 +87,8 @@ module ControlledVocabularies
             row :name
 
             row :term
+
+            row :provides
 
             row :bespoke_filter_position
 

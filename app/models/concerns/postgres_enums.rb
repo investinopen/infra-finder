@@ -84,10 +84,12 @@ module PostgresEnums
 
     # @param [#to_s] enum_name
     # @return [<String>]
-    def pg_enum_select_options(enum_name, skip: [])
+    def pg_enum_select_options(enum_name, sort_alpha: false, skip: [])
       skips = Array(skip).compact_blank.map(&:to_s)
 
       values = pg_enum_values(enum_name).without(skips)
+
+      values = values.sort if sort_alpha
 
       scope = "pg_enums.#{enum_name}"
 

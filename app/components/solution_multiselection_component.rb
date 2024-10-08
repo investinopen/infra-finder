@@ -50,4 +50,12 @@ class SolutionMultiselectionComponent < ApplicationComponent
   def hide_other?
     @hide_other
   end
+
+  def only_other?
+    selections.blank? && other_value.present?
+  end
+
+  def render?
+    selections.present? || other_value.present?
+  end
 end
