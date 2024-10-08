@@ -192,7 +192,7 @@ class ControlledVocabularyConnection < Support::FrozenRecordHelpers::AbstractRec
     conditions = { assoc:, single:, }
 
     klass.has_many link_assoc_name, -> { where(conditions) }, class_name: linkage.link_model_name, dependent: :destroy, inverse_of: linkage.source_reference
-    klass.has_many assoc_name, -> { lazily_order(:name) }, through: link_assoc_name, source: linkage.target_reference
+    klass.has_many assoc_name, -> { in_default_order }, through: link_assoc_name, source: linkage.target_reference
   end
 
   # @param [Class(ApplicationRecord)] klass

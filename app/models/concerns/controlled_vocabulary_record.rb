@@ -18,6 +18,8 @@ module ControlledVocabularyRecord
     extend Dry::Core::ClassAttributes
     extend FriendlyId
 
+    pg_enum! :provides, as: :controlled_vocabulary_provision, allow_blank: true, default: nil, prefix: :provides
+
     defines :auto_hidden_provisions, type: ControlledVocabularies::Types::Provisions
     defines :vocab_name, type: ControlledVocabularies::Types::VocabName
     defines :actual_linkage, type: ControlledVocabularies::Linkage
@@ -26,6 +28,8 @@ module ControlledVocabularyRecord
     auto_hidden_provisions [].freeze
 
     scope :in_bespoke_filter_order, -> { where.not(bespoke_filter_position: nil).reorder(bespoke_filter_position: :asc, term: :asc) }
+    scope :in_default_order, -> { in_provision_order.lazily_order(:name) }
+    scope :in_filter_order, -> { in_provision_order.lazily_order(:name) }
 
     scope :used, -> { where.not(id: unscoped.unused.select(:id)) }
     scope :unused, -> { where.missing(:solutions, :solution_drafts) }
@@ -35,6 +39,8 @@ module ControlledVocabularyRecord
 
     scope :actual, -> { sans_providing(:other) }
     scope :other, -> { with_providing(:other) }
+
+    filter_collection_order_scope :in_filter_order
 
     friendly_id :slug_candidates, use: %i[history slugged]
 
@@ -53,14 +59,6 @@ module ControlledVocabularyRecord
 
   def has_auto_hidden_provision?
     provides? && provides.in?(self.class.auto_hidden_provisions)
-  end
-
-  def provides_none?
-    provides == "none"
-  end
-
-  def provides_other?
-    provides == "other"
   end
 
   def slug_candidates
@@ -219,6 +217,10 @@ module ControlledVocabularyRecord
       end
     end
 
+    def order_for_select_options
+      in_filter_order
+    end
+
     def policy_class
       ControlledVocabularyRecordPolicy
     end
@@ -234,6 +236,21 @@ module ControlledVocabularyRecord
         "data-vocab-name", arel_quote(vocab_name),
         "data-provides", arel_table[:provides]
       )
+    end
+
+    # @return [ActiveRecord::Relation<ControlledVocabularyRecord>]
+    def in_provision_order
+      expr = arel_case do |stmt|
+        stmt.when(arel_is_other).then(100)
+        stmt.else(0)
+      end.asc
+
+      order(expr)
+    end
+
+    # @api private
+    def arel_is_other
+      arel_table[:provides].eq("other")
     end
 
     private

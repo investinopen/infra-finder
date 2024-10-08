@@ -7,6 +7,7 @@ class ControlledVocabulariesGenerator < Rails::Generators::Base
     name: "Name / Label",
     term: "Import / Export Term",
     bespoke_filter_position: "Special Filter Position",
+    provides: "Special Logic",
     description: "Admin Description",
   }.freeze
 
@@ -14,6 +15,7 @@ class ControlledVocabulariesGenerator < Rails::Generators::Base
     name: "The name of the controlled vocabulary term. This is used as a label in dropdowns and on the frontend",
     term: "The exact-match term used for looking up this specific record when importing from CSV. In most cases it will match the name, but it is used only when importing and exporting in CSV.",
     bespoke_filter_position: "Used for specific ordering of options on the filters on the frontend. Right now, it only applies to Hosting Strategies. If left blank, this option will not appear.",
+    provides: "Some controlled vocabulary records need to behave in a certain way within code, like 'Other' options. Specifying a value here will allow that option to behave as expected.",
     description: "Internal usage only. Appears in details about the controlled vocabulary, never on the frontend."
   }.freeze
 

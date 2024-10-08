@@ -5,9 +5,9 @@
   style="--truncate:5;">
   <div
     data-comparison-multiselection-cell-component--comparison-multiselection-cell-component-target="text"
-    <% if has_value and truncate %> data-truncate class="line-clamp-6 print:line-clamp-none expandable-text__text"<% end %>>
+    <% if should_truncate? %> data-truncate class="line-clamp-6 print:line-clamp-none expandable-text__text"<% end %>>
     <% if selections.present? %>
-      <% if mode == :multiple and selections.count > 1 %>
+      <% if should_render_list? %>
         <ul class="t-rte">
           <% selections.each do |selection| %>
             <li><%= selection.name %></li>
@@ -19,18 +19,18 @@
     <% end %>
     <% if other_value.present? %>
       <div <% if selections.present? %> class="pt-3"<% end %>>
-        <% if mode == :multiple and selections.present? %>
+        <% if mode == :multiple && selections.present? %>
           <strong><%= t(".other_label") %></strong>
         <% end %>
         <%= infra_format(other_value) %>
       </div>
     <% end %>
-    <% unless selections.present? or other_value.present? %>
+    <% unless has_value? %>
       <%= image_tag "icons/20/Minus.svg", alt: "" %>
       <span class="sr-only"><%= t(".unavailable") %></span>
     <% end %>
   </div>
-  <% if has_value and truncate %>
+  <% if should_truncate? %>
     <button data-comparison-multiselection-cell-component--comparison-multiselection-cell-component-target="toggle"
       class="a-link mt-[0.75em] hidden print:hidden"
       data-action="click->comparison-multiselection-cell-component--comparison-multiselection-cell-component#toggleExpand">

@@ -159,6 +159,21 @@ CREATE TYPE public.contact_method AS ENUM (
 
 
 --
+-- Name: controlled_vocabulary_provision; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.controlled_vocabulary_provision AS ENUM (
+    'other',
+    'unknown',
+    'not_applicable',
+    'none',
+    'active',
+    'applies_to_website',
+    'applies_to_solution'
+);
+
+
+--
 -- Name: financial_information_scope; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -493,7 +508,7 @@ CREATE TABLE public.accessibility_scopes (
     name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     enforced_slug text,
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
@@ -543,7 +558,7 @@ CREATE TABLE public.authentication_standards (
     name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     enforced_slug text,
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
@@ -572,7 +587,7 @@ CREATE TABLE public.board_structures (
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     bespoke_filter_position bigint
 );
 
@@ -594,7 +609,7 @@ CREATE TABLE public.business_forms (
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     bespoke_filter_position bigint
 );
 
@@ -608,7 +623,7 @@ CREATE TABLE public.community_engagement_activities (
     name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     enforced_slug text,
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
@@ -637,7 +652,7 @@ CREATE TABLE public.community_governances (
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     bespoke_filter_position bigint
 );
 
@@ -715,7 +730,7 @@ CREATE TABLE public.content_licenses (
     name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     enforced_slug text,
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
@@ -853,7 +868,7 @@ CREATE TABLE public.hosting_strategies (
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     bespoke_filter_position bigint
 );
 
@@ -867,7 +882,7 @@ CREATE TABLE public.integrations (
     name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     enforced_slug text,
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
@@ -932,7 +947,7 @@ CREATE TABLE public.licenses (
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     bespoke_filter_position bigint
 );
 
@@ -954,7 +969,7 @@ CREATE TABLE public.maintenance_statuses (
     solution_drafts_count bigint DEFAULT 0 NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     bespoke_filter_position bigint
 );
 
@@ -968,7 +983,7 @@ CREATE TABLE public.metadata_standards (
     name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     enforced_slug text,
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
@@ -989,7 +1004,7 @@ CREATE TABLE public.metrics_standards (
     name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     enforced_slug text,
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
@@ -1010,7 +1025,7 @@ CREATE TABLE public.nonprofit_statuses (
     name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     enforced_slug text,
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
@@ -1031,7 +1046,7 @@ CREATE TABLE public.persistent_identifier_standards (
     name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     enforced_slug text,
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
@@ -1052,7 +1067,7 @@ CREATE TABLE public.preservation_standards (
     name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     enforced_slug text,
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
@@ -1081,7 +1096,7 @@ CREATE TABLE public.primary_funding_sources (
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     bespoke_filter_position bigint
 );
 
@@ -1095,7 +1110,7 @@ CREATE TABLE public.programming_languages (
     name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     enforced_slug text,
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
@@ -1154,7 +1169,7 @@ CREATE TABLE public.readiness_levels (
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     bespoke_filter_position bigint
 );
 
@@ -1168,7 +1183,7 @@ CREATE TABLE public.reporting_levels (
     name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     enforced_slug text,
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
@@ -1212,7 +1227,7 @@ CREATE TABLE public.security_standards (
     name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     enforced_slug text,
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
@@ -1334,7 +1349,7 @@ CREATE TABLE public.solution_categories (
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     bespoke_filter_position bigint
 );
 
@@ -2391,7 +2406,7 @@ CREATE TABLE public.staffings (
     name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     enforced_slug text,
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
@@ -2483,7 +2498,7 @@ CREATE TABLE public.user_contributions (
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
     enforced_slug public.citext,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     bespoke_filter_position bigint
 );
 
@@ -2562,7 +2577,7 @@ CREATE TABLE public.values_frameworks (
     name public.citext NOT NULL COLLATE public.custom_numeric,
     slug public.citext NOT NULL,
     term public.citext NOT NULL COLLATE public.custom_numeric,
-    provides public.citext,
+    provides public.controlled_vocabulary_provision,
     enforced_slug text,
     description text,
     visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
@@ -7563,6 +7578,7 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20241007211713'),
 ('20240927172612'),
 ('20240927170434'),
 ('20240926052540'),
