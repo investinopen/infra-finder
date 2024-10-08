@@ -58,9 +58,6 @@ class SolutionDetailsComponent < ApplicationComponent
   end
 
   COMMUNITY_ATTRS = %i[
-    code_of_conduct
-    community_engagement
-    contribution_pathways
     community_engagement_activities
     values_frameworks
     membership_program_url
@@ -68,7 +65,15 @@ class SolutionDetailsComponent < ApplicationComponent
     user_contributions
   ].freeze
 
+  COMMUNITY_IMPLEMENTATIONS = %i[
+    code_of_conduct
+    community_engagement
+    contribution_pathways
+  ].freeze
+
   def show_community_section?
-    COMMUNITY_ATTRS.any? { solution.__send__(_1).present? }
+    COMMUNITY_ATTRS.any? { solution.__send__(_1).present? } || COMMUNITY_IMPLEMENTATIONS.any? do |implementation|
+      solution.__send__(implementation).in_progress? || solution.__send__(implementation).available?
+    end
   end
 end
