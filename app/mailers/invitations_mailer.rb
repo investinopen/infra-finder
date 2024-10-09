@@ -12,6 +12,7 @@ class InvitationsMailer < ApplicationMailer
     @token = token
 
     @reset_url = edit_user_password_url(@user, reset_password_token: @token)
+    @instructions_url = LocationsConfig.instructions
 
     mail to: invitation.email
   end

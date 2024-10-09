@@ -8,6 +8,8 @@ class LocationsConfig < ApplicationConfig
 
   attr_config root: "http://localhost:6856"
 
+  attr_config instructions: "https://hackmd.io/@investinopen/rkPyYb411g"
+
   memoize def root_domain
     uri = URI(root)
 

@@ -2,4 +2,6 @@
 
 <p><%= t(".edit_provider", name: @provider.name) %></p>
 
-<p><%= t(".reset_password_html", reset_link: link_to("change your password", @reset_url)) %></p>
+<p><%= t(".reset_password_html", reset_link: link_to(t(".reset_password_link_text"), @reset_url)) %></p>
+
+<p><%= t(".instructions_html", instructions_link: link_to(t(".instructions_link_text"), @instructions_url)) %></p>

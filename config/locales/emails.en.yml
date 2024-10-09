@@ -7,8 +7,12 @@ en:
     welcome:
       subject: "[Infra Finder] You have been invited to contribute to Infra Finder"
       hello: "Hello, %{name}!"
-      edit_provider: "You have been invited to edit solutions for %{name}."
+      welcome: "Welcome to Infra Finder from Invest in Open Infrastructure."
+      edit_provider: "You've been invited to become an editor for %{name}."
       reset_password_html: "To complete registration, please %{reset_link} in our admin interface."
+      reset_password_link_text: "change your password"
+      instructions_html: "Once you've logged in, please refer to %{instructions_link} to use the Infra Finder Admin."
+      instructions_link_text: "these instructions"
   workflow_mailer:
     shared:
       salutation: "Hi, %{recipient_name},"
