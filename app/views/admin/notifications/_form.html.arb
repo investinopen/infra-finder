@@ -3,6 +3,8 @@ active_admin_form_for current_user, url: admin_notifications_update_preferences_
 
   f.inputs "Notifications" do
     f.object.each_subscription_option do |option|
+      next if option.kind == :reminder_notifications
+
       f.input option.kind, as: :select, collection: ApplicationRecord.pg_enum_select_options(:subscription), include_blank: false
     end
   end

@@ -54,6 +54,8 @@ ActiveAdmin.register User do
       end
 
       f.object.each_subscription_option do |option|
+        next if option.hidden?
+
         f.input option.kind, as: :select, collection: ApplicationRecord.pg_enum_select_options(:subscription), include_blank: false
       end
     end
@@ -79,6 +81,16 @@ ActiveAdmin.register User do
       row :last_sign_in_at
       row :last_sign_in_ip
 
+      User.subscription_options.each_value do |option|
+        next if option.hidden?
+
+        row option.kind do |u|
+          status_tag u.__send__ option.kind
+        end
+
+        row option.timestamp
+      end
+
       row :created_at
       row :updated_at
 
@@ -100,12 +112,14 @@ ActiveAdmin.register User do
     column :last_sign_in_at
     column :last_sign_in_ip
     column :locked_at
-    column :comment_notifications
-    column :comment_notifications_updated_at
-    column :solution_notifications
-    column :solution_notifications_updated_at
-    column :reminder_notifications
-    column :reminder_notifications_updated_at
+
+    User.subscription_options.each_value do |option|
+      next if option.hidden?
+
+      column option.kind
+      column option.timestamp
+    end
+
     column :created_at
     column :updated_at
   end
