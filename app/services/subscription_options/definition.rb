@@ -2,6 +2,7 @@
 
 module SubscriptionOptions
   class Definition
+    include Dry::Core::Equalizer.new(:kind)
     include Dry::Core::Memoizable
     include Support::Typing
 
@@ -10,10 +11,14 @@ module SubscriptionOptions
     include Dry::Initializer[undefined: false].define -> do
       param :kind, Types::Kind
 
+      option :hidden, Types::Bool, default: proc { false }
+
       option :timestamp, Types::Column, default: proc { :"#{kind}_updated_at" }
 
       option :suffix, Types::Column, default: proc { :"to_#{kind}" }
     end
+
+    alias hidden? hidden
 
     def enum_options
       {

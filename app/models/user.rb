@@ -30,7 +30,7 @@ class User < ApplicationRecord
 
   subscription_option! :comment_notifications
 
-  subscription_option! :reminder_notifications
+  subscription_option! :reminder_notifications, hidden: true
 
   subscription_option! :solution_notifications
 

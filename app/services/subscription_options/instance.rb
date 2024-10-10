@@ -13,6 +13,8 @@ module SubscriptionOptions
 
     attribute? :option, SubscriptionOptions::Definition::Type.optional
 
+    delegate :hidden?, to: :option, allow_nil: true
+
     def all?
       mode == :all
     end
