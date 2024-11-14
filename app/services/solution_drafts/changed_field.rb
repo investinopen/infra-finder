@@ -42,9 +42,21 @@ module SolutionDrafts
 
       case field_kind
       in :attachment
-        context.image_tag value.url
+        context.image_tag value.url, class: "solution-property--image-diff"
+      in :blurb
+        context.content_tag(:div, class: "solution-property--diff-wrapper") do
+          value.html_safe
+        end
+      in :boolean
+        value
+      in :multi_option
+        value
+      in :single_option
+        value
       else
-        return value
+        context.content_tag(:div, class: "solution-property--diff-wrapper") do
+          value
+        end
       end
     end
   end

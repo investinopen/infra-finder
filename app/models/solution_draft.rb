@@ -83,7 +83,9 @@ class SolutionDraft < ApplicationRecord
   end
 
   def should_check?
-    SolutionProperty.to_clone.any? do |attr|
+    return true if saved_change_to_attribute? :free_inputs
+
+    SolutionProperty.to_clone.without(SolutionProperty.free_input_names).any? do |attr|
       case attr
       when *SolutionProperty.attachment_values
         saved_change_to_attribute? :"#{attr}_data"
