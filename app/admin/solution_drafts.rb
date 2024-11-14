@@ -84,7 +84,6 @@ ActiveAdmin.register SolutionDraft do
         panel "Pending Changes" do
           para <<~TEXT.html_safe
           The following is a brief overview of the changes in this draft (if any).
-          Fields are presented in alphabetical order.
           TEXT
 
           table_for solution_draft.changed_fields do

@@ -601,6 +601,10 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
       each_free_input.map(&:free_input_name)
     end
 
+    memoize def store_model_list_names
+      store_model_lists.pluck(:name)
+    end
+
     # @return [Hash]
     def generate_locale
       mapping = in_use.order(name: :asc).each_with_object({}) do |prop, h|
@@ -645,16 +649,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
         a.concat Implementation.pluck(:name, :enum).flatten
         a.concat has_one_associations
         a.concat has_many_associations
-      end.then { symbolize_list _1 }
-    end
-
-    memoize def to_clone_draft
-      [].tap do |a|
-        a.concat standard_values
-        a.concat free_input_names
-        a.concat Implementation.pluck(:name, :enum).flatten
-        a.concat has_one_associations
-        a.concat has_many_associations
+        a.concat store_model_list_names
       end.then { symbolize_list _1 }
     end
 

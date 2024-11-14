@@ -33,3 +33,17 @@
   padding: 0;
   text-shadow: unset;
 }
+
+.solution-property--image-preview {
+  max-width: 20vw;
+}
+
+.solution-property--image-diff {
+  max-width: 10vw;
+}
+
+.solution-property--diff-wrapper {
+  display: block;
+  max-width: 30vw;
+  overflow-x: scroll;
+}

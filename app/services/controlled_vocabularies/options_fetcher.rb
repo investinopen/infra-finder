@@ -87,7 +87,7 @@ module ControlledVocabularies
             "data-iso-code" => c.iso_code
           )
 
-          ["#{c.name} (#{c.iso_code})", c.id, props]
+          ["#{c.name} (#{c.iso_code})", c.iso_code, props]
         end
       end
 

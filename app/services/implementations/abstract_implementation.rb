@@ -181,7 +181,7 @@ module Implementations
 
       # @return [Array]
       def strong_params
-        attribute_names.without("link", "links", "statement").map(&:to_sym).tap do |arr|
+        attribute_names.without("link", "links").map(&:to_sym).tap do |arr|
           case link_mode
           in :many
             arr << { links_attributes: %i[url label] }

@@ -224,7 +224,7 @@ module SolutionProperties
 
         case kind
         when :attachment
-          view_context.image_tag(value.url) if value.present?
+          view_context.image_tag(value.url, class: "solution-property--image-preview") if value.present?
         when :blurb, :other_option, :store_model_input
           view_context.simple_format(value) if value.present?
         when :contact

@@ -5,7 +5,7 @@
   diff_klass_name: AttachmentDiff
   standard: false
 - kind: blurb
-  diffable: false
+  diffable: true
   diff_klass_name: TextDiff
   input_kind: :text
   input_html:
