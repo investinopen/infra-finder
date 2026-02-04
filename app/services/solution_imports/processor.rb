@@ -51,7 +51,7 @@ module SolutionImports
     wrapped_hook! def check_state
       import.current_state(force_reload: true)
 
-      return Failure[:invalid_state, import.current_state] unless import.in_state?(:pending)
+      return Failure[:fatal_error, import.current_state] unless import.in_state?(:pending)
 
       super
     end

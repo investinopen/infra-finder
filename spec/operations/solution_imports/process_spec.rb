@@ -73,7 +73,7 @@ RSpec.describe SolutionImports::Process, type: :operation do
 
       it "will fail to process" do
         expect do
-          expect_calling_with(solution_import).to be_a_monadic_failure.with_key(:invalid_state)
+          expect_calling_with(solution_import).to be_a_monadic_failure.with_key(:fatal_error)
         end.to keep_the_same { solution_import.current_state(force_reload: true) }
       end
     end
@@ -115,7 +115,7 @@ RSpec.describe SolutionImports::Process, type: :operation do
 
       it "will fail to process" do
         expect do
-          expect_calling_with(solution_import).to be_a_monadic_failure.with_key(:invalid_state)
+          expect_calling_with(solution_import).to be_a_monadic_failure.with_key(:fatal_error)
         end.to keep_the_same { solution_import.current_state(force_reload: true) }
       end
     end
