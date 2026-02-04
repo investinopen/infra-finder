@@ -71,7 +71,7 @@ services:
       - bundle_cache:/bundle
       - minio_storage:/srv/minio
       - node_cache:/srv/app/node_modules
-      - infra-finder-sync:/srv/app:nocopy
+      - ./:/srv/app
     ports:
       - "6856:6333"
     restart: unless-stopped
@@ -100,7 +100,7 @@ services:
     volumes:
       - bundle_cache:/bundle
       - node_cache:/srv/app/node_modules
-      - infra-finder-sync:/srv/app:nocopy
+      - ./:/srv/app
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "-s", "-o", "/dev/null", "http://localhost:7001/status/started"]
@@ -127,7 +127,7 @@ services:
     volumes:
       - bundle_cache:/bundle
       - node_cache:/srv/app/node_modules
-      - infra-finder-sync:/srv/app:nocopy
+      - ./:/srv/app
     restart: unless-stopped
     stdin_open: true
   spec:
@@ -154,7 +154,7 @@ services:
     volumes:
       - bundle_cache:/bundle
       - node_cache:/srv/app/node_modules
-      - infra-finder-sync:/srv/app:nocopy
+      - ./:/srv/app
     restart: unless-stopped
   mailcatcher:
     image: "sj26/mailcatcher:v0.8.2"
@@ -228,11 +228,9 @@ services:
     volumes:
       - bundle_cache:/bundle
       - node_cache:/srv/app/node_modules
-      - infra-finder-sync:/srv/app:nocopy
+      - ./:/srv/app
 
 volumes:
-  infra-finder-sync:
-    external: true
   bundle_cache:
     driver: local
   minio_storage:

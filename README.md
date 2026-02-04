@@ -4,7 +4,7 @@
 
 ## Setting up for local development
 
-Ensure you have docker, docker-compose, and docker-sync (`gem install docker-sync`) installed.
+Ensure you have docker and docker-compose (a part of most modern docker installations now) installed.
 
 ### Credentials
 
@@ -22,12 +22,10 @@ bin/rails credentials:edit --environment production
 
 ### Starting
 
-`docker-sync` must always be running in order to have changes persist between your host and the docker container.
+The entire stack can be run via `docker compose`.
 
 ```bash
-docker-sync start
-
-# Now launch / build the containers.
+# Launch / build the containers.
 docker-compose up -d
 ```
 

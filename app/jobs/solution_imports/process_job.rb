@@ -5,6 +5,7 @@ module SolutionImports
   class ProcessJob < ApplicationJob
     queue_as :import
 
+    # @param [SolutionImport] solution_import
     # @return [void]
     def perform(solution_import)
       solution_import.process!

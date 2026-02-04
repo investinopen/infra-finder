@@ -7,7 +7,7 @@ rm -f /srv/app/tmp/pids/server.pid
 
 bundle check || bundle install
 
-bundle binstubs --all --path="$BUNDLE_BIN"
+bundle binstubs --all
 
 corepack enable
 

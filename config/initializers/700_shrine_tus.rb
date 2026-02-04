@@ -3,8 +3,6 @@
 require "shrine/storage/memory"
 require "shrine/storage/s3"
 require "shrine/storage/url"
-require "tus/server"
-require "tus/storage/s3"
 
 aws_credentials = S3Config.to_h
 
@@ -21,17 +19,6 @@ shared_s3_options = {
 cache_s3_options = { **shared_s3_options, prefix: "cache" }
 store_s3_options = { **shared_s3_options, prefix: "store" }
 derivative_s3_options = { **shared_s3_options, prefix: "derivatives" }
-
-Tus::Server.plugin :hooks
-
-Tus::Server.opts[:redirect_download] = true
-Tus::Server.opts[:storage] = Tus::Storage::S3.new(
-  concurrency: { concatenation: 20 },
-  logger: Rails.logger,
-  **cache_s3_options
-)
-
-Tus::Server.opts[:max_size] = 3.gigabytes
 
 Shrine.storages = {
   cache: Shrine::Storage::S3.new(**cache_s3_options),
@@ -64,8 +51,6 @@ if UploadConfig.has_mapped_host?
 else
   Shrine.plugin(:url_options, cache: { public: true }, store: { public: true })
 end
-
-Shrine.plugin :tus
 
 Shrine::Attacher.promote_block do
   Processing::PromoteAttachmentJob.perform_later(self.class.name, record.class.name, record.id, name, file_data)

@@ -12,7 +12,16 @@ RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends nodejs 
 
 RUN corepack enable
 
-RUN gem update --system && gem install bundler:2.5.6
+ENV BUNDLE_PATH=/bundle \
+    BUNDLE_BIN=/bundle/bin \
+    GEM_HOME=/bundle
+ENV PATH="${BUNDLE_BIN}:${PATH}"
+
+RUN gem update --system '4.0.5'
+RUN gem install bundler -v '~> 4.0'
+
+RUN bundle config set bin /bundle/bin --global
+RUN bundle config set default_cli_command install --global
 
 WORKDIR /srv/app
 COPY Gemfile /srv/app/Gemfile
@@ -22,11 +31,6 @@ COPY . /srv/app
 COPY docker/entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
-
-ENV BUNDLE_PATH=/bundle \
-    BUNDLE_BIN=/bundle/bin \
-    GEM_HOME=/bundle
-ENV PATH="${BUNDLE_BIN}:${PATH}"
 
 EXPOSE 6333
 
