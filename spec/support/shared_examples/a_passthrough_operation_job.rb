@@ -59,10 +59,29 @@ RSpec.shared_examples_for "a pass-through operation job" do |operation_path|
   context "when the operation is a failure" do
     let(:operation_result) { Dry::Monads.Failure("any failure") }
 
-    it "fails (re-enqueuing the job)" do
-      expect_running_the_job.to raise_error Dry::Monads::UnwrapError
+    before do
+      allow(Rollbar).to receive(:error)
+      allow(Rollbar).to receive(:info)
+    end
+
+    it "fails and logs as error" do
+      expect_running_the_job.to execute_safely.and have_enqueued_no_jobs(described_class)
 
       expect(operation).to have_received(:call).with(*operation_args, **job_kwargs).once
+      expect(Rollbar).to have_received(:error).with(a_kind_of(Dry::Monads::UnwrapError), hash_including(:queue, :job_id, :arguments, :job_class)).once
+      expect(Rollbar).not_to have_received(:info)
+    end
+
+    context "when the operation is a fatal error" do
+      let(:operation_result) { Dry::Monads::Failure[:fatal_error, "a fatal error"] }
+
+      it "fails and logs as info" do
+        expect_running_the_job.to execute_safely.and have_enqueued_no_jobs(described_class)
+
+        expect(operation).to have_received(:call).with(*operation_args, **job_kwargs).once
+        expect(Rollbar).to have_received(:info).with(a_kind_of(Utility::HaltedJobError), hash_including(:queue, :job_id, :arguments, :job_class)).once
+        expect(Rollbar).not_to have_received(:error)
+      end
     end
   end
 end

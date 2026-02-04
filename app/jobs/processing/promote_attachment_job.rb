@@ -10,8 +10,6 @@ module Processing
 
     discard_on Vips::Error
 
-    retry_on ActiveRecord::StatementInvalid, wait: :polynomially_longer, attempts: 10
-
     queue_with_priority 200
 
     # @return [void]
