@@ -66,4 +66,8 @@ class ImageUploader < Shrine
       vips.resize_to_limit!(width, height)
     end
   end
+
+  Attacher.promote_block do
+    Processing::PromoteAttachmentJob.perform_later(self.class.name, record.class.name, record.id, name, file_data)
+  end
 end
