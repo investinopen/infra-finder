@@ -4,7 +4,6 @@
 class ImportSourceUploader < Shrine
   plugin :add_metadata
   plugin :refresh_metadata
-  plugin :remote_url, max_size: 100.megabytes
   plugin :signature
   plugin :validation_helpers
   plugin :restore_cached_data
@@ -17,7 +16,7 @@ class ImportSourceUploader < Shrine
     validate_mime_type %w[text/csv]
   end
 
-  Attacher.promote_block { promote }
-
-  Attacher.destroy_block { destroy }
+  Attacher.promote_block do
+    promote
+  end
 end

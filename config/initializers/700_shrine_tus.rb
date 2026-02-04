@@ -53,7 +53,7 @@ else
 end
 
 Shrine::Attacher.promote_block do
-  Processing::PromoteAttachmentJob.perform_later(self.class.name, record.class.name, record.id, name, file_data)
+  atomic_promote
 end
 
 Shrine::Attacher.destroy_block do

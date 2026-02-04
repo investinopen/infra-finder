@@ -34,6 +34,8 @@ class SolutionImport < ApplicationRecord
 
   delegate :auto_approve?, to: :options
 
+  after_save :promote_source!, if: :should_promote_source?
+
   after_commit :asynchronously_process!, on: :create, unless: :skip_process?
 
   # @!attribute [rw] skip_process
@@ -73,6 +75,22 @@ class SolutionImport < ApplicationRecord
   # @param [Hash] new_options
   def options_attributes=(new_options)
     self.options = new_options
+  end
+
+  private
+
+  # @return [Boolean]
+  def should_promote_source?
+    source_attacher.attached? && source.storage_key == :cache
+  end
+
+  # @note We should not have to do this, but for some reason in this application,
+  #   the automatic promotion on create is not working as expected. Backgrounding
+  #   works fine, but the synchronous promotion does not occur. So we will call it
+  #   manually here.
+  # @return [void]
+  def promote_source!
+    source_attacher.atomic_promote
   end
 
   class << self

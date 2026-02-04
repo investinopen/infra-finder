@@ -12,4 +12,15 @@ RSpec.describe SolutionImport, type: :model do
       FactoryBot.create(:solution_import, skip_process: true)
     end.not_to have_enqueued_job(SolutionImports::ProcessJob)
   end
+
+  specify "it synchronously promotes the import when created" do
+    import = FactoryBot.build(:solution_import, skip_process: true)
+
+    expect do
+      import.save!
+    end.to change(described_class, :count).by(1)
+      .and change { import.source.storage_key }.from(:cache).to(:store)
+      .and have_enqueued_no_jobs(SolutionImports::ProcessJob)
+      .and have_enqueued_no_jobs(Processing::PromoteAttachmentJob)
+  end
 end
