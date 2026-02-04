@@ -9,7 +9,7 @@ module BooleanEnums
       truthy
     when false
       falsey
-    when nil
+    when nil, "nil", "null", ""
       null
     when Support::Types::Params::Bool
       actual = Support::Types::Params::Bool[new_value]

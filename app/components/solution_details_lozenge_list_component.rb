@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class SolutionDetailsLozengeListComponent < ApplicationComponent
-  include AcceptsSolution
-
   # @return [String, nil]
   attr_reader :heading
 

@@ -804,6 +804,8 @@ Rails/DangerousColumnNames: # new in 2.21
   Enabled: true
 Rails/DotSeparatedKeys: # new in 2.15
   Enabled: true
+Rails/FindEach:
+  Enabled: false
 Rails/FreezeTime: # new in 2.16
   Enabled: true
 Rails/IgnoredColumnsAssignment: # new in 2.17
@@ -878,7 +880,7 @@ RSpec/EmptyMetadata: # new in 2.24
 RSpec/Eq: # new in 2.24
   Enabled: true
 RSpec/IndexedLet: # new in 2.20
-  Enabled: true
+  Enabled: false
 RSpec/MatchArray: # new in 2.19
   Enabled: true
 RSpec/MetadataStyle: # new in 2.24

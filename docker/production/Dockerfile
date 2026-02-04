@@ -21,9 +21,6 @@ RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends nodejs 
 
 WORKDIR /srv/app
 
-RUN bundle config set app_config .bundle
-RUN bundle config set path .cache/bundle
-
 ARG RAILS_ENV=production
 
 ENV BUNDLE_PATH=/bundle \
@@ -40,7 +37,14 @@ ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
 
 RUN corepack enable
 
-RUN gem update --system && gem install bundler:2.5.6
+RUN gem update --system '4.0.5'
+RUN gem install bundler ~> '4.0'
+
+RUN bundle config set bin /bundle/bin --global
+RUN bundle config set default_cli_command install --global
+
+RUN bundle config set app_config .bundle --global
+RUN bundle config set path .cache/bundle --global
 
 COPY Gemfile Gemfile.lock ./
 
@@ -49,7 +53,7 @@ RUN --mount=type=cache,id=-gem-cache,sharing=locked,target=.cache/bundle \
     mkdir -p vendor && \
     cp -ar .cache/bundle /bundle
 
-RUN bundle config set path /bundle
+RUN bundle config set path /bundle --global
 
 COPY package.json yarn.lock ./
 

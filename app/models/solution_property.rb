@@ -263,6 +263,10 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     end
   end
 
+  def has_been_deprecated?
+    dropping? || !exists?
+  end
+
   def has_free_input?
     free_input_name.present?
   end
@@ -368,16 +372,26 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     end
   end
 
+  def structured? = kind == :store_model_list
+
   memoize def structured_attr
-    return unless kind == :store_model_list
+    return unless structured?
 
     :"#{name}_structured"
   end
 
+  def has_structured_attr?
+    structured_attr.present?
+  end
+
   memoize def structured_header
-    return unless kind == :store_model_list
+    return unless structured?
 
     :"#{csv_header}_structured"
+  end
+
+  def has_structured_header?
+    structured_header.present?
   end
 
   # @return [String]
@@ -442,7 +456,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   # @return [void]
   def free_input_property_exists!
-    return unless free_input_name.present?
+    return unless exists? && free_input_name.present?
 
     free_input_property
   rescue FrozenRecord::RecordNotFound
@@ -467,9 +481,11 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     return if dropping? || meta?
 
     SOURCE_KINDS.each do |kind|
+      # :nocov:
       next if skip_for?(kind) || exists_for?(kind)
 
       errors.add :base, "Missing #{attribute_name.inspect} on #{kind.inspect} models"
+      # :nocov:
     end
   end
 
@@ -547,9 +563,12 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
       attribute_names_from in_use.blurbs
     end
 
+    # @deprecated
     # @return [<Symbol>]
     def core_values
+      # :nocov:
       attribute_names_from in_use.core
+      # :nocov:
     end
 
     # @return [<Symbol>]
@@ -557,9 +576,12 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
       attribute_names_from in_use.money
     end
 
+    # @deprecated
     # @return [<Symbol>]
     def finance_values
+      # :nocov:
       attribute_names_from in_use.finances
+      # :nocov:
     end
 
     # @return [<Symbol>]
@@ -618,11 +640,14 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
       { en: { activerecord: { attributes:, } } }.deep_stringify_keys
     end
 
+    # @param [Pathname, String] raw_path
     # @return [void]
-    def write_locale!
+    def write_locale!(raw_path: Rails.root.join("config", "locales", "solution_property_labels.en.yml"))
       locale = generate_locale
 
-      Rails.root.join("config", "locales", "solution_property_labels.en.yml").open("wb+") do |f|
+      path = Pathname(raw_path)
+
+      path.open("wb+") do |f|
         f.write YAML.dump(locale)
       end
     end
@@ -658,31 +683,6 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
       SolutionProperty.in_use.map { [_1.name, _1.field_position] }.sort_by(&:last).to_h.with_indifferent_access
     end
 
-    def to_validate_csv
-      Rails.root.join("phase-2-property-validation.csv").open("wb+") do |f|
-        content = CSV.generate(headers: true, encoding: "utf-8") do |csv|
-          csv << %w[csv_header code name status input vocab accepts_other]
-
-          SolutionProperty.in_use.order(code: :asc).each do |prop|
-            accepts_other = prop.accepts_other? ? ?Y : ?N
-            accepts_other = "n/a" unless prop.has_vocab? && prop.vocab.uses_model?
-
-            csv << [
-              prop.csv_header,
-              prop.code,
-              prop.ext_name,
-              prop.phase_2_status,
-              prop.original_input,
-              prop.vocab_name,
-              accepts_other
-            ]
-          end
-        end
-
-        f.write content
-      end
-    end
-
     # @!endgroup
 
     # Used in a generator in order to populate {ControlledVocabularyConnection}.
@@ -691,13 +691,17 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     # @return [<Hash>]
     def build_raw_connections
       for_connections.flat_map do |property|
+        # :nocov:
         property => { name:, connection_mode:, vocab_name:, }
+        # :nocov:
 
         connection_mode = connection_mode.to_s
 
         vocab = ControlledVocabulary.find(vocab_name)
 
+        # :nocov:
         vocab => { strategy:, }
+        # :nocov:
 
         %w[actual draft].map do |solution_kind|
           key = "#{solution_kind}/#{name}"

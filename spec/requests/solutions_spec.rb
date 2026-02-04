@@ -12,7 +12,14 @@ RSpec.describe SolutionsController, type: :request do
   end
 
   describe "GET /solutions/:id" do
-    let_it_be(:solution) { FactoryBot.create :solution, :published }
+    let_it_be(:solution) do
+      FactoryBot.create(
+        :solution,
+        :published,
+        scoss: true,
+        user_contribution_other: "Test other contribution"
+      )
+    end
 
     it "renders a successful response" do
       get solution_url(solution)
