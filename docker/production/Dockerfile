@@ -38,7 +38,7 @@ ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
 RUN corepack enable
 
 RUN gem update --system '4.0.5'
-RUN gem install bundler ~> '4.0'
+RUN gem install bundler -v '~> 4.0'
 
 RUN bundle config set bin /bundle/bin --global
 RUN bundle config set default_cli_command install --global
