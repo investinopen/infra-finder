@@ -33,6 +33,7 @@
   --blue: theme("colors.brand.blue");
   --orange: theme("colors.brand.orange");
   --orange2: theme("colors.brand.orange-tint");
+  --red: theme("colors.red");
 
   --font1: theme("fontFamily.body");
   --font2: theme("fontFamily.header");

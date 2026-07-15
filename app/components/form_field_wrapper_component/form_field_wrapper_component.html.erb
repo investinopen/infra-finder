@@ -1,0 +1,6 @@
+<%= tag.div class: ["form-field-wrapper", class_name, ("form-field-wrapper--required" if required?)] do %>
+  <%= content %>
+  <% if description.present? %>
+    <span class="form-field-wrapper__description"><%= description %></span>
+  <% end %>
+<% end %>
