@@ -1,0 +1,8 @@
+.save-draft__button {
+  /* The surrounding back-to-top row is pointer-events: none; re-enable here */
+  pointer-events: all;
+
+  @media screen and (max-width: theme("screens.md")) {
+    padding-inline: 1rem;
+  }
+}
