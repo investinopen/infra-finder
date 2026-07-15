@@ -22,7 +22,7 @@
   <div class="l-container l-container--narrow pt-6">
     <div class="l-container__inner">
       <%= form_for solution_intake, html: { id: form_id } do |f| %>
-        <%= render IntakeFormSectionComponent.new(title: "Overview", anchor: "overview") do |section| %>
+        <%= render IntakeFormSectionComponent.new(title: "Overview", anchor: "overview", help: true, help_href: "#overview") do |section| %>
           <% section.with_field(description: "Your first name", required: true) do %>
             <%= f.label :contact_first_name %>
             <%= f.text_field :contact_first_name, required: true %>
@@ -65,49 +65,49 @@
           <% end %>
         <% end %>
 
-        <%= render IntakeFormSectionComponent.new(title: "About", anchor: "about") do |section| %>
+        <%= render IntakeFormSectionComponent.new(title: "About", anchor: "about", help_href: "#about") do |section| %>
           <% section.with_field do %>
             <%= f.label :name %>
             <%= f.text_field :name %>
           <% end %>
         <% end %>
 
-        <%= render IntakeFormSectionComponent.new(title: "Mission", anchor: "mission") do |section| %>
+        <%= render IntakeFormSectionComponent.new(title: "Mission", anchor: "mission", help_href: "#mission") do |section| %>
           <% section.with_field do %>
             <%= f.label :name %>
             <%= f.text_field :name %>
           <% end %>
         <% end %>
 
-        <%= render IntakeFormSectionComponent.new(title: "Technical attributes", anchor: "technical") do |section| %>
+        <%= render IntakeFormSectionComponent.new(title: "Technical attributes", anchor: "technical", help_href: "#technical") do |section| %>
           <% section.with_field do %>
             <%= f.label :name %>
             <%= f.text_field :name %>
           <% end %>
         <% end %>
 
-        <%= render IntakeFormSectionComponent.new(title: "Community engagement", anchor: "community") do |section| %>
+        <%= render IntakeFormSectionComponent.new(title: "Community engagement", anchor: "community", help_href: "#community") do |section| %>
           <% section.with_field do %>
             <%= f.label :name %>
             <%= f.text_field :name %>
           <% end %>
         <% end %>
 
-        <%= render IntakeFormSectionComponent.new(title: "Policies and governance", anchor: "policies") do |section| %>
+        <%= render IntakeFormSectionComponent.new(title: "Policies and governance", anchor: "policies", help_href: "#policies") do |section| %>
           <% section.with_field do %>
             <%= f.label :name %>
             <%= f.text_field :name %>
           <% end %>
         <% end %>
 
-        <%= render IntakeFormSectionComponent.new(title: "Financial information", anchor: "financial") do |section| %>
+        <%= render IntakeFormSectionComponent.new(title: "Financial information", anchor: "financial", help_href: "#financial") do |section| %>
           <% section.with_field do %>
             <%= f.label :name %>
             <%= f.text_field :name %>
           <% end %>
         <% end %>
 
-        <%= render IntakeFormSectionComponent.new(title: "Consent", anchor: "consent") do |section| %>
+        <%= render IntakeFormSectionComponent.new(title: "Consent", anchor: "consent", help_href: "#consent") do |section| %>
           <% section.with_field do %>
             <%= f.label :name %>
             <%= f.text_field :name %>

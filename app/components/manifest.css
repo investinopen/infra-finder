@@ -28,6 +28,7 @@
 @import "./implementation_detail_component/implementation_detail_component.css";
 @import "./implementation_statement_component/implementation_statement_component.css";
 @import "./intake_form_component/intake_form_component.css";
+@import "./intake_form_help_component/intake_form_help_component.css";
 @import "./intake_form_nav_component/intake_form_nav_component.css";
 @import "./intake_form_section_component/intake_form_section_component.css";
 @import "./intake_save_draft_button_component/intake_save_draft_button_component.css";

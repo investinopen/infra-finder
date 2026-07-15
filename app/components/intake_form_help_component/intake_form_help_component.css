@@ -1,0 +1,41 @@
+.help-details {
+  display: contents;
+}
+
+.help-details__summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
+.help-details__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  color: var(--black);
+
+  @apply transition-colors;
+
+  &:hover {
+    color: var(--yellow);
+    background-color: var(--black);
+  }
+}
+
+.help-details[open] .help-details__icon {
+  color: var(--yellow);
+  background-color: var(--black);
+}
+
+.help-details__content {
+  margin-block-start: 0.75rem;
+}
