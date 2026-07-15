@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class BackToTopComponent < ApplicationComponent
+  # An optional action rendered alongside back-to-top
+  renders_one :action
+
   # @return [String, nil]
   attr_reader :class_name
 

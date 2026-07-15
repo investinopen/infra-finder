@@ -18,12 +18,17 @@
     justify-content: flex-end;
     margin-inline: auto;
     padding: 1.5rem;
+    gap: 1rem;
   }
 
   &__link {
     inline-size: 100vw;
     max-inline-size: 13.625rem;
     pointer-events: all;
+
+    &:not(:only-child) {
+      max-inline-size: 12rem;
+    }
 
     @media screen and (max-width: theme("screens.md")) {
       gap: 0;
