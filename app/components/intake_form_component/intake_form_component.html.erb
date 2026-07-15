@@ -66,9 +66,14 @@
         <% end %>
 
         <%= render IntakeFormSectionComponent.new(title: "About", anchor: "about", help_href: "#about") do |section| %>
-          <% section.with_field do %>
-            <%= f.label :name %>
-            <%= f.text_field :name %>
+          <% section.with_field(required: true, description: "Year that the solution was first made available to users.") do %>
+            <%= f.label :founded_on, "Launch year" %>
+            <%= f.text_field :founded_on, required: true %>
+          <% end %>
+          <%# TODO multiselect [soln_cat]: Solution category (up to 3) %>
+          <% section.with_field(class_name: "wide", required: true, description: "An overview of the functions of the solution and its role in supporting research.") do %>
+            <%= f.label :service_summary, "Solution summary" %>
+            <%= f.text_area :service_summary, required: true, maxlength: 1000, rows: 5 %>
           <% end %>
         <% end %>
 
@@ -84,38 +89,272 @@
         <% end %>
 
         <%= render IntakeFormSectionComponent.new(title: "Technical attributes", anchor: "technical", help_href: "#technical") do |section| %>
-          <% section.with_field do %>
-            <%= f.label :name %>
-            <%= f.text_field :name %>
+          <%# TODO select [impl_scale]: Open code repository %>
+          <% section.with_field(description: "Provide a public link to your primary code repository. Links should start with https://.") do %>
+            <%= f.label :open_code_repository_url, "Link to open code repository" %>
+            <%= f.text_field :open_code_repository_url %>
           <% end %>
+          <%# TODO select [maint]: Maintenance status %>
+          <%# TODO select [impl_scale]: Technical documentation %>
+          <% section.with_field(description: "Provide a public link to your technical documentation. Links should start with https://.") do %>
+            <%= f.label :technical_user_documentation_url, "Link to technical documentation" %>
+            <%= f.text_field :technical_user_documentation_url %>
+          <% end %>
+          <%# TODO select [impl_scale]: Open product roadmap %>
+          <% section.with_field(description: "Provide a public link to your product roadmap. Links should start with https://.") do %>
+            <%= f.label :product_roadmap_url, "Link to product roadmap" %>
+            <%= f.text_field :product_roadmap_url %>
+          <% end %>
+          <%# TODO select [impl_scale]: Open APIs %>
+          <% section.with_field(description: "Provide a public link to your primary API. Separate multiple links with a comma. Links should start with https://.") do %>
+            <%= f.label :api_url, "Link to API(s)" %>
+            <%= f.text_field :api_url %>
+          <% end %>
+          <%# TODO select [impl_scale]: Open data statement %>
+          <% section.with_field(description: "Public link to open data statement. Links should start with https://.") do %>
+            <%= f.label :open_data_statement_url, "Link to open data statement" %>
+            <%= f.text_field :open_data_statement_url %>
+          <% end %>
+          <%# TODO checkbox [prgrm_lng]: Primary programming languages %>
+          <% section.with_field do %>
+            <%= f.label :other_programming_languages, "If \"other,\" please list the primary programming languages used in the tool or solution's source code" %>
+            <%= f.text_field :other_programming_languages %>
+          <% end %>
+          <%# TODO checkbox [cont_lcns]: Content licenses %>
+          <% section.with_field do %>
+            <%= f.label :other_content_licenses, "If \"other,\" please list the content licenses you use, require, or support" %>
+            <%= f.text_field :other_content_licenses %>
+          <% end %>
+          <%# TODO select [impl_scale]: Open code license %>
+          <% section.with_field(description: "Link to the code license attached to the tool's primary source code repository. Links should start with https://.") do %>
+            <%= f.label :code_license_url, "Link to code license" %>
+            <%= f.text_field :code_license_url %>
+          <% end %>
+          <%# TODO checkbox [code_lcns]: Code license types %>
+          <% section.with_field do %>
+            <%= f.label :other_code_licenses, "If \"other,\" please list to the code license(s) attached to the tool's primary source code repository" %>
+            <%= f.text_field :other_code_licenses %>
+          <% end %>
+          <%# TODO checkbox [standards_metadata]: Metadata/markup/information exchange standards %>
+          <% section.with_field do %>
+            <%= f.label :other_metadata_standards, "What other metadata, markup, and information exchange standards do you support?" %>
+            <%= f.text_field :other_metadata_standards %>
+          <% end %>
+          <%# TODO checkbox [standards_pids]: Persistent identifiers %>
+          <% section.with_field do %>
+            <%= f.label :other_persistent_identifier_standards, "What other persistent identifiers do you support?" %>
+            <%= f.text_field :other_persistent_identifier_standards %>
+          <% end %>
+          <%# TODO checkbox [standards_auth]: Authentication protocols %>
+          <% section.with_field do %>
+            <%= f.label :other_authentication_standards, "What other authentication protocols do you support?" %>
+            <%= f.text_field :other_authentication_standards %>
+          <% end %>
+          <%# TODO checkbox [standards_sec]: Security standards %>
+          <% section.with_field do %>
+            <%= f.label :other_security_standards, "What other security standards do you support?" %>
+            <%= f.text_field :other_security_standards %>
+          <% end %>
+          <%# TODO checkbox [standards_pres]: Preservation standards %>
+          <% section.with_field do %>
+            <%= f.label :other_preservation_standards, "What other preservation standards do you support?" %>
+            <%= f.text_field :other_preservation_standards %>
+          <% end %>
+          <%# TODO checkbox [standards_metrics]: Metrics reporting %>
+          <% section.with_field do %>
+            <%= f.label :other_metrics_standards, "What other metrics reporting standards do you support?" %>
+            <%= f.text_field :other_metrics_standards %>
+          <% end %>
+          <%# TODO select [saas]: Hosting/SaaS options %>
+          <% section.with_field(description: "Link to a public registry of approved third party vendors or to a description of SaaS options available. Links should start with https://.") do %>
+            <%= f.label :vendor_registry_url, "Link to vendor registry or SaaS description" %>
+            <%= f.text_field :vendor_registry_url %>
+          <% end %>
+          <%# TODO checkbox [integrations]: Integrations and compatibility %>
+          <% section.with_field do %>
+            <%= f.label :other_integrations, "List the other solutions your solution can integrate or is compatible with" %>
+            <%= f.text_field :other_integrations %>
+          <% end %>
+          <%# TODO select [tech_read]: Technology readiness level %>
         <% end %>
 
         <%= render IntakeFormSectionComponent.new(title: "Community engagement", anchor: "community", help_href: "#community") do |section| %>
-          <% section.with_field do %>
-            <%= f.label :name %>
-            <%= f.text_field :name %>
+          <%# TODO select [impl_scale]: Code of conduct %>
+          <% section.with_field(description: "Link to the public code of conduct and reporting guidelines. Links should start with https://.") do %>
+            <%= f.label :code_of_conduct_url, "Link to code of conduct" %>
+            <%= f.text_field :code_of_conduct_url %>
           <% end %>
+          <%# TODO select [impl_scale]: Commitment to community engagement %>
+          <%# TODO checkbox [user_paths]: User contribution opportunities %>
+          <% section.with_field do %>
+            <%= f.label :other_user_contributions, "List other user contribution opportunities" %>
+            <%= f.text_field :other_user_contributions %>
+          <% end %>
+          <% section.with_field(description: "Link to publicly available documentation of the ways in which users can meaningfully contribute to the development or delivery of the solution. Links should start with https://.") do %>
+            <%= f.label :contribution_guidelines, "Link to user contribution guidelines" %>
+            <%= f.text_field :contribution_guidelines %>
+          <% end %>
+          <%# TODO checkbox [comm_eng]: Community engagement activities %>
+          <% section.with_field do %>
+            <%= f.label :other_community_engagement_activities, "List other community engagement activities" %>
+            <%= f.text_field :other_community_engagement_activities %>
+          <% end %>
+          <% section.with_field(description: "Link to public information about community engagement activities. Links should start with https://.") do %>
+            <%= f.label :community_engagement_url, "Link to community engagement activities" %>
+            <%= f.text_field :community_engagement_url %>
+          <% end %>
+          <%# TODO checkbox [values]: Values frameworks %>
+          <% section.with_field(description: "Public link to a list of current members and/or information about membership. Links should start with https://.") do %>
+            <%= f.label :membership_program_url, "Link to membership program" %>
+            <%= f.text_field :membership_program_url %>
+          <% end %>
+          <% section.with_field(description: "Number of organizations and/or individuals actively participating in the membership or sponsorship program?") do %>
+            <%= f.label :number_of_members, "Number of members" %>
+            <%= f.text_field :number_of_members %>
+          <% end %>
+          <%# TODO select [yes/no/not sure]: SCOSS participation %>
         <% end %>
 
         <%= render IntakeFormSectionComponent.new(title: "Policies and governance", anchor: "policies", help_href: "#policies") do |section| %>
+          <%# TODO select [impl_scale]: Bylaws %>
+          <% section.with_field(description: "Link(s) to public documentation of bylaws or other governance rules that describe how organizational decisions are made and by whom, member rights and responsibilities, and/or other processes and policies relevant to community regulation. Links should start with https://. Multiple links should be separated by a comma.") do %>
+            <%= f.label :community_governance_url, "Link to bylaws" %>
+            <%= f.text_field :community_governance_url %>
+          <% end %>
+          <%# TODO select [impl_scale]: Commitment to equity and inclusion %>
+          <% section.with_field(description: "Public link to statement and/or evidence of activities supporting diversity, equity, and inclusion. Links should start with https://.") do %>
+            <%= f.label :commitment_to_equity_url, "Link to diversity, equity, inclusion, and antiracism statement or policy" %>
+            <%= f.text_field :commitment_to_equity_url %>
+          <% end %>
+          <%# TODO select [impl_scale]: Privacy policy %>
+          <% section.with_field(description: "Public link to privacy policy. Links should start with https://.") do %>
+            <%= f.label :commitment_to_privacy_url, "Link to privacy policy" %>
+            <%= f.text_field :commitment_to_privacy_url %>
+          <% end %>
+          <%# TODO select [impl_scale]: Web accessibility %>
+          <% section.with_field(description: "Public link to web accessibility policy. Links should start with https://.") do %>
+            <%= f.label :web_accessibility_url, "Link to web accessibility policy" %>
+            <%= f.text_field :web_accessibility_url %>
+          <% end %>
+          <%# TODO select [acc_scope]: Web accessibility statement applicability %>
+          <%# TODO select [impl_scale]: Governance records %>
+          <% section.with_field(description: "Public link to governance records, including board meeting minutes, records of major decisions, elections, or other indications of an active governance process. Links should start with https://.") do %>
+            <%= f.label :governance_records_url, "Link to governance records" %>
+            <%= f.text_field :governance_records_url %>
+          <% end %>
+          <%# TODO select [impl_scale]: Governance structure %>
+          <% section.with_field(description: "Public description of how the solution is organized and managed, such as the roles, responsibilities, decision-making, and communication mechanisms of the stakeholders. Links should start with https://.") do %>
+            <%= f.label :governance_structure_url, "Link to governance structure" %>
+            <%= f.text_field :governance_structure_url %>
+          <% end %>
+          <%# TODO select [impl_scale_pricing]: Transparent pricing %>
+          <% section.with_field(description: "A public link to pricing or fees. Links should start with https://.") do %>
+            <%= f.label :pricing_url, "Pricing information" %>
+            <%= f.text_field :pricing_url %>
+          <% end %>
+          <% section.with_field(class_name: "wide", required: true, description: "Brief narrative overview of the history of the solution and/or provider or a link to a public document.") do %>
+            <%= f.label :organizational_history, "Organizational history" %>
+            <%= f.text_area :organizational_history, required: true, maxlength: 1000, rows: 5 %>
+          <% end %>
+          <%# TODO select [bus_form]: Business form %>
           <% section.with_field do %>
-            <%= f.label :name %>
-            <%= f.text_field :name %>
+            <%= f.label :other_business_form, "How would you describe your business form?" %>
+            <%= f.text_field :other_business_form %>
+          <% end %>
+          <%# TODO select [nonprofit_status]: Non-profit status %>
+          <%# TODO select [staffing]: Staff - full time equivalent %>
+          <%# TODO select [staffing]: Volunteers %>
+          <%# TODO select [gov_stat]: Community governance type %>
+          <%# TODO select [board]: Board structure %>
+          <% section.with_field do %>
+            <%= f.label :other_board_structure, "Describe your board structure" %>
+            <%= f.text_field :other_board_structure %>
+          <% end %>
+          <% section.with_field(description: "Link to a list of the organization's current board members. Links should start with https://.") do %>
+            <%= f.label :board_members_url, "List of board members" %>
+            <%= f.text_field :board_members_url %>
+          <% end %>
+          <%# TODO select [rprt_lvl]: Board oversight level %>
+          <% section.with_field do %>
+            <%= f.label :other_board_oversight, "How would you describe the purview of your board?" %>
+            <%= f.text_field :other_board_oversight %>
+          <% end %>
+          <% section.with_field(class_name: "wide", required: true, description: "List of any external partners or organizations directly involved in running or governing the solution.") do %>
+            <%= f.label :affiliations, "Affiliations" %>
+            <%= f.text_area :affiliations, required: true, maxlength: 1000, rows: 5 %>
+          <% end %>
+          <% section.with_field(class_name: "wide", description: "Organizations and/or individuals that had a direct role in founding or launching the solution.") do %>
+            <%= f.label :founders, "Founders" %>
+            <%= f.text_area :founders, maxlength: 1000, rows: 5 %>
           <% end %>
         <% end %>
 
         <%= render IntakeFormSectionComponent.new(title: "Financial information", anchor: "financial", help_href: "#financial") do |section| %>
+          <%# TODO select [yes/no/not sure]: Shareholders %>
+          <%# TODO select [pr_fund]: Primary funding source %>
           <% section.with_field do %>
-            <%= f.label :name %>
-            <%= f.text_field :name %>
+            <%= f.label :other_primary_funding_source, "What is your primary source of funding?" %>
+            <%= f.text_field :other_primary_funding_source %>
+          <% end %>
+          <% section.with_field(class_name: "wide", description: "Description of ways in which investment can help the solution achieve its goals.") do %>
+            <%= f.label :funding_needs, "Funding needs" %>
+            <%= f.text_area :funding_needs, maxlength: 1000, rows: 5 %>
+          <% end %>
+          <%# TODO select [currencies]: Currency %>
+          <% section.with_field(description: "Month and year of time period for which financial information is being reported (for example 07-2023 to 06-2024).") do %>
+            <%= f.label :financial_reporting_period, "Financial reporting period" %>
+            <%= f.text_field :financial_reporting_period %>
+          <% end %>
+          <% section.with_field(description: "The amount of money that the organization spent on its programs, administration, fundraising, and other activities during the year. For US-based organizations, Part IX, line 25 from an IRS Form 990.") do %>
+            <%= f.label :annual_expenses, "Annual expenses in local currency" %>
+            <%= f.text_field :annual_expenses %>
+          <% end %>
+          <% section.with_field(description: "The amount of money that the organization received from all sources during the most recent complete fiscal year, such as contributions, grants, program service fees, investment income, etc. For US-based non-profits, Part VIII, line 12 from an IRS Form 990.") do %>
+            <%= f.label :annual_revenue, "Annual revenue in local currency" %>
+            <%= f.text_field :annual_revenue %>
+          <% end %>
+          <% section.with_field(description: "The amount of money that the organization received from interest, dividends, rents, royalties, and gains or losses from the sale of investments during the year. For US-based non-profits, Part VIII, lines 3, 4, and 7d from an IRS Form 990.") do %>
+            <%= f.label :investment_income, "Investment income in local currency" %>
+            <%= f.text_field :investment_income %>
+          <% end %>
+          <% section.with_field(description: "The amount of money that the organization received from other sources not included in the above categories during the year. For US-based non-profits, Part VIII, lines 5, 6d, 8c, 9c, 10c, and 11e from an IRS Form 990.") do %>
+            <%= f.label :other_revenue, "Other revenue in local currency" %>
+            <%= f.text_field :other_revenue %>
+          <% end %>
+          <% section.with_field(description: "The amount of money that the organization received from charging fees or selling goods or services related to its mission or programs during the year. For US-based non-profits, Part VIII, line 2g from an IRS Form 990.") do %>
+            <%= f.label :program_revenue, "Program revenue in local currency" %>
+            <%= f.text_field :program_revenue %>
+          <% end %>
+          <% section.with_field(description: "The amount of money that the organization received from donors and grantmakers during the year. For US-based non-profits, Part VIII, line 1h from an IRS Form 990.") do %>
+            <%= f.label :total_contributions, "Total contributions in local currency" %>
+            <%= f.text_field :total_contributions %>
+          <% end %>
+          <% section.with_field(description: "The amount of money that the organization owes to others at the end of the year, such as loans, mortgages, accounts payable, deferred revenue, etc. For US-based non-profits, Part X, line 26 from an IRS Form 990.") do %>
+            <%= f.label :total_liabilities, "Total liabilities in local currency" %>
+            <%= f.text_field :total_liabilities %>
+          <% end %>
+          <% section.with_field(description: "The value of everything that the organization owns at the end of the year, such as cash, investments, property, equipment, etc. For US-based non-profits, Part X, line 16 from an IRS Form 990.") do %>
+            <%= f.label :total_assets, "Total assets in local currency" %>
+            <%= f.text_field :total_assets %>
+          <% end %>
+          <%# TODO select [yes/no]: Permission to share financial numbers %>
+          <%# TODO select [rprt_lvl]: Financial reporting level %>
+          <% section.with_field do %>
+            <%= f.label :other_financial_reporting_level, "To what entity does your financial information apply?" %>
+            <%= f.text_field :other_financial_reporting_level %>
+          <% end %>
+          <% section.with_field(description: "Link to publicly or privately available documentation that validates the financial numbers reported. Examples include annual reports or IRS Form 990 for US-based non-profits. Links should start with https://.") do %>
+            <%= f.label :financial_documentation_url, "Financial documentation" %>
+            <%= f.text_field :financial_documentation_url %>
+          <% end %>
+          <% section.with_field(class_name: "wide", description: "List or organizations that have provided the greatest amount of grant funds to the solution or provider in the past year.") do %>
+            <%= f.label :top_granting_institutions, "Top granting institutions" %>
+            <%= f.text_area :top_granting_institutions, maxlength: 1000, rows: 5 %>
           <% end %>
         <% end %>
 
         <%= render IntakeFormSectionComponent.new(title: "Consent", anchor: "consent", help_href: "#consent") do |section| %>
-          <% section.with_field do %>
-            <%= f.label :name %>
-            <%= f.text_field :name %>
-          <% end %>
+          <%# TODO checkbox: Consent acknowledgment (agreement required) %>
         <% end %>
 
         <%= f.submit "Submit", class:"m-button m-button--lg bg-black" %>
