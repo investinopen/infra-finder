@@ -73,9 +73,13 @@
         <% end %>
 
         <%= render IntakeFormSectionComponent.new(title: "Mission", anchor: "mission", help_href: "#mission") do |section| %>
-          <% section.with_field do %>
-            <%= f.label :name %>
-            <%= f.text_field :name %>
+          <% section.with_field(class_name: "wide", required: true, description: "Mission statement or description of problems the solution addresses.") do %>
+            <%= f.label :mission %>
+            <%= f.text_area :mission, required: true, maxlength: 1000, rows: 5 %>
+          <% end %>
+          <% section.with_field(class_name: "wide", description: "Narrative description of up to three recent milestones or achievements that demonstrate growth or progress, such as usage or adoption milestones, deployment of major features or new versions, staff additions or changes in leadership.") do %>
+            <%= f.label :key_achievements %>
+            <%= f.text_area :key_achievements, maxlength: 1000, rows: 5 %>
           <% end %>
         <% end %>
 

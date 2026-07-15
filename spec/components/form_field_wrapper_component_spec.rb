@@ -38,4 +38,17 @@ RSpec.describe FormFieldWrapperComponent, type: :component do
 
     expect(rendered.at_css(".form-field-wrapper__description")).to be_nil
   end
+
+  it "renders a hidden counter target in the description row" do
+    rendered = render_inline(described_class.new(description: "Help text")) do
+      "<textarea maxlength='1000'></textarea>".html_safe
+    end
+
+    counter = rendered.at_css(".form-field-wrapper__counter")
+
+    expect(counter).to be_present
+    expect(counter.key?("hidden")).to be(true)
+    expect(counter["data-form-field-wrapper-component--form-field-wrapper-component-target"])
+      .to eq("counter")
+  end
 end

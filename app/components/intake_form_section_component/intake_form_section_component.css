@@ -10,7 +10,7 @@
     display: block;
   }
 
-  :is(input, select) {
+  :is(input, select, textarea) {
     width: 100%;
   }
 }
