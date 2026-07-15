@@ -31,6 +31,7 @@ const colors = {
   black: "hsla(0, 0%, 0%, 1)",
   white: "hsla(0, 0%, 100%, 1)",
   light: "var(--color-light)",
+  red: "hsla(12, 100%, 67%, 1)"
 };
 
 const headerProps = {

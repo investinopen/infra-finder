@@ -21,6 +21,7 @@ import ExpandableTextComponent__ExpandableTextComponentController from "./expand
 import FlashMessageComponent__FlashMessageComponentController from "./flash_message_component/flash_message_component_controller";
 import FlashMessagesComponent__FlashMessagesComponentController from "./flash_messages_component/flash_messages_component_controller";
 import FooterComponent__FooterComponentController from "./footer_component/footer_component_controller";
+import FormFieldWrapperComponent__FormFieldWrapperComponentController from "./form_field_wrapper_component/form_field_wrapper_component_controller";
 import HeaderComponent__HeaderComponentController from "./header_component/header_component_controller";
 import HomePageComponent__HomePageComponentController from "./home_page_component/home_page_component_controller";
 import ImplementationComponent__ImplementationComponentController from "./implementation_component/implementation_component_controller";
@@ -68,6 +69,7 @@ application.register("expandable-text-component--expandable-text-component", Exp
 application.register("flash-message-component--flash-message-component", FlashMessageComponent__FlashMessageComponentController);
 application.register("flash-messages-component--flash-messages-component", FlashMessagesComponent__FlashMessagesComponentController);
 application.register("footer-component--footer-component", FooterComponent__FooterComponentController);
+application.register("form-field-wrapper-component--form-field-wrapper-component", FormFieldWrapperComponent__FormFieldWrapperComponentController);
 application.register("header-component--header-component", HeaderComponent__HeaderComponentController);
 application.register("home-page-component--home-page-component", HomePageComponent__HomePageComponentController);
 application.register("implementation-component--implementation-component", ImplementationComponent__ImplementationComponentController);
