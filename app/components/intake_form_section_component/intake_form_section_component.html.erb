@@ -1,0 +1,9 @@
+<%= tag.fieldset id: anchor, class: "form-section", data: { controller: "intake-form-section-component--intake-form-section-component" } do %>
+  <legend class="form-section__legend text-h2 a-underline mb-10 sm:mb-[3.75rem]"><%= title %></legend>
+
+  <div class="form-grid">
+    <% fields.each do |field| %>
+      <%= field %>
+    <% end %>
+  </div>
+<% end %>

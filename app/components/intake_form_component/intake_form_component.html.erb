@@ -1,5 +1,121 @@
-<%= semantic_form_for solution_intake, html: form_html_options do |f| %>
-  <%= f.inputs do %>
-    <%= f.input :name, input_html: save_on_blur_options %>
-  <% end %>
-<% end %>
+<section data-controller="intake-form-component--intake-form-component">
+  <div class="l-container l-container--narrow">
+    <div class="l-container__inner">
+      <header class="intake-header">
+        <h1 class="text-lg font-semibold">Infra Finder Intake Form</h1>
+        <span class="text-h1 block">We'd love for you to be in Infra Finder</span>
+        <div class="a-underline"></div>
+      </header>
+      <div class="intake-instructions t-rte">
+        <p>
+          Required fields are marked with a red asterisk (<span class="required"></span>). Other fields are highly encouraged when applicable.
+        </p>
+        <p>
+          You can <a target="blank" href="https://drive.google.com/file/d/1yUuTJTQ8uxG96zFTyoHThEhRmKeWIOGF/view?usp=drive_link">download a full copy of the intake form</a> to preview questions as you gather information.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <%= render IntakeFormNavComponent.new %>
+
+  <div class="l-container l-container--narrow pt-6">
+    <div class="l-container__inner">
+      <%= form_for solution_intake, html: { id: form_id } do |f| %>
+        <%= render IntakeFormSectionComponent.new(title: "Overview", anchor: "overview") do |section| %>
+          <% section.with_field(description: "Your first name", required: true) do %>
+            <%= f.label :contact_first_name %>
+            <%= f.text_field :contact_first_name, required: true %>
+          <% end %>
+          <% section.with_field(description: "Your last name", required: true) do %>
+            <%= f.label :contact_last_name %>
+            <%= f.text_field :contact_last_name, required: true %>
+          <% end %>
+          <% section.with_field(description: "Your email address formatted as example@example.com", required: true) do %>
+            <%= f.label :contact_email %>
+            <%= f.text_field :contact_email, required: true %>
+          <% end %>
+          <% section.with_field(class_name: "start", description: "A solution is a tool, product, or infrastructure component. In some cases, the solution may be the same as the provider.", required: true) do %>
+            <%= f.label :solution_name %>
+            <%= f.text_field :solution_name, required: true %>
+          <% end %>
+          <% section.with_field(description: "A provider is a formal or informal organization responsible for running a solution. In some cases, the provider may be the same as the solution.", required: true) do %>
+            <%= f.label :provider_name %>
+            <%= f.text_field :provider_name, required: true %>
+          <% end %>
+          <% section.with_field(description: "Public link to a logo or other image representing the solution. The logo should display properly on a light background.") do %>
+            <%= f.label :logo %>
+            <%= f.text_field :logo %>
+          <% end %>
+          <% section.with_field(description: "Location of incorporation of the solution or provider or geographical area of primary activity.") do %>
+            <%= f.label :country_code, "Location" %>
+            <%= f.select :country_code, ControlledVocabulary.active_country_options, include_blank: "Select a location"  %>
+          <% end %>
+          <% section.with_field(description: "Primary web presence of the solution. URL should start with https://.", required: true) do %>
+            <%= f.label :website %>
+            <%= f.text_field :website, required: true %>
+          <% end %>
+          <% section.with_field(description: "Contact form or email address potential adopters can use to get additional information (https://www.example.com OR example@email.com)") do %>
+            <%= f.label :public_contact_information %>
+            <%= f.text_field :public_contact %>
+          <% end %>
+          <% section.with_field(description: "URL for the provider or solution's Research Organization Registry identifier.") do %>
+            <%= f.label :ror, "Research Organization Registry ID" %>
+            <%= f.text_field :ror %>
+          <% end %>
+        <% end %>
+
+        <%= render IntakeFormSectionComponent.new(title: "About", anchor: "about") do |section| %>
+          <% section.with_field do %>
+            <%= f.label :name %>
+            <%= f.text_field :name %>
+          <% end %>
+        <% end %>
+
+        <%= render IntakeFormSectionComponent.new(title: "Mission", anchor: "mission") do |section| %>
+          <% section.with_field do %>
+            <%= f.label :name %>
+            <%= f.text_field :name %>
+          <% end %>
+        <% end %>
+
+        <%= render IntakeFormSectionComponent.new(title: "Technical attributes", anchor: "technical") do |section| %>
+          <% section.with_field do %>
+            <%= f.label :name %>
+            <%= f.text_field :name %>
+          <% end %>
+        <% end %>
+
+        <%= render IntakeFormSectionComponent.new(title: "Community engagement", anchor: "community") do |section| %>
+          <% section.with_field do %>
+            <%= f.label :name %>
+            <%= f.text_field :name %>
+          <% end %>
+        <% end %>
+
+        <%= render IntakeFormSectionComponent.new(title: "Policies and governance", anchor: "policies") do |section| %>
+          <% section.with_field do %>
+            <%= f.label :name %>
+            <%= f.text_field :name %>
+          <% end %>
+        <% end %>
+
+        <%= render IntakeFormSectionComponent.new(title: "Financial information", anchor: "financial") do |section| %>
+          <% section.with_field do %>
+            <%= f.label :name %>
+            <%= f.text_field :name %>
+          <% end %>
+        <% end %>
+
+        <%= render IntakeFormSectionComponent.new(title: "Consent", anchor: "consent") do |section| %>
+          <% section.with_field do %>
+            <%= f.label :name %>
+            <%= f.text_field :name %>
+          <% end %>
+        <% end %>
+
+        <%= f.submit "Submit", class:"m-button m-button--lg bg-black" %>
+      <% end %>
+    </div>
+  </div>
+</section>

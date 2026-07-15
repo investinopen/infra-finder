@@ -1,0 +1,27 @@
+.form-section {
+  padding-block-end: 3.25rem;
+  scroll-margin-top: 4.25rem;
+
+  &__legend {
+    padding-block-start: 2.5rem;
+  }
+
+  label {
+    display: block;
+  }
+
+  input {
+    width: 100%;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 3rem;
+  @mixin fluidScaleRem column-gap, 80px, 48px;
+
+  @media screen and (max-width: theme("screens.md")) {
+    grid-template-columns: 100%;
+  }
+}
