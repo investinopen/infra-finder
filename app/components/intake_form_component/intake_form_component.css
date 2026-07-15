@@ -1,1 +1,24 @@
-/* Add styles for this component */
+.intake-header {
+  @apply space-y-4;
+
+  padding-block: 3.25rem;
+  max-width: theme("maxWidth.text");
+
+  > *:last-child {
+    padding-block-start: .5rem;
+  }
+}
+
+.intake-instructions {
+  @apply space-y-2;
+
+  padding-block-end: 2rem;
+}
+
+.required {
+  &::after {
+    content: "*";
+    margin-inline: .25rem;
+    color: var(--red);
+  }
+}
