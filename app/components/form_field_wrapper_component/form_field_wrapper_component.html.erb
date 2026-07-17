@@ -1,4 +1,4 @@
-<%= tag.div class: ["form-field-wrapper", class_name, ("form-field-wrapper--required" if required?)], data: { controller: "form-field-wrapper-component--form-field-wrapper-component" } do %>
+<%= tag.div class: ["form-field-wrapper", class_name, ("form-field-wrapper--required" if required?)], data: { controller: "form-field-wrapper-component--form-field-wrapper-component", condition_field:, condition_value: } do %>
   <%= content %>
   <% if description.present? %>
     <div class="form-field-wrapper__meta">
