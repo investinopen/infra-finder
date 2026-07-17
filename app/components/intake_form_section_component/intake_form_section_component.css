@@ -18,8 +18,34 @@
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  row-gap: 3rem;
   @mixin fluidScaleRem column-gap, 80px, 48px;
+
+  > .form-field-wrapper {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 5;
+    padding-block-end: 3rem;
+
+    > label {
+      grid-row: 1;
+    }
+
+    > :is(input, select, textarea) {
+      grid-row: 2;
+    }
+
+    > .form-field-wrapper__meta {
+      grid-row: 3;
+    }
+
+    > .form-field-wrapper {
+      grid-row: 4;
+
+      + .form-field-wrapper {
+        grid-row: 5;
+      }
+    }
+  }
 
   @media screen and (max-width: theme("screens.md")) {
     grid-template-columns: 100%;

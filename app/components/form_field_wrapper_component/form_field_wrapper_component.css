@@ -4,10 +4,19 @@
   gap: 0.125rem;
   min-width: 0;
 
-  &--required label::after {
+  &[hidden] {
+    display: none;
+  }
+
+  &--required > label::after {
     content: "*";
     margin-inline: 0.25rem;
     color: var(--red);
+  }
+
+  /* a conditional field nested inside its trigger's grid cell */
+  & & {
+    margin-block-start: 3rem;
   }
 
   &__meta {
