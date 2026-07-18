@@ -138,10 +138,13 @@
             <%= f.label :other_programming_languages, "If \"other,\" please list the primary programming languages used in the tool or solution's source code" %>
             <%= f.text_field :other_programming_languages %>
           <% end %>
-          <%# TODO checkbox [cont_lcns]: Content licenses %>
           <% section.with_field do %>
-            <%= f.label :other_content_licenses, "If \"other,\" please list the content licenses you use, require, or support" %>
-            <%= f.text_field :other_content_licenses %>
+            <%= tag.label "If you publish content, what licenses do you use, require, or support?", id: "content-licenses-label" %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :content_licenses, vocab_name: "cont_lcns", labelled_by: "content-licenses-label") %>
+            <%= render FormFieldWrapperComponent.new(condition: { field: :content_licenses, value: vocab_option_value("cont_lcns", "Other") }) do %>
+              <%= f.label :other_content_licenses, "If \"other,\" please list the content licenses you use, require, or support" %>
+              <%= f.text_field :other_content_licenses %>
+            <% end %>
           <% end %>
           <% section.with_field(required: true, description: "Indication of whether the solution applies a standard open software license to its primary source code.") do %>
             <%= f.label :code_license_implementation, "Open code license" %>
@@ -150,41 +153,59 @@
               <%= f.label :code_license_url, "Link to code license" %>
               <%= f.text_field :code_license_url %>
             <% end %>
-          <% end %>
-          <%# TODO checkbox [code_lcns]: Code license types (conditional: code_license_implementation == available) %>
-          <% section.with_field do %>
-            <%= f.label :other_code_licenses, "If \"other,\" please list to the code license(s) attached to the tool's primary source code repository" %>
-            <%= f.text_field :other_code_licenses %>
+            <%= render FormFieldWrapperComponent.new(condition: { field: :code_license_implementation, value: "available" }) do %>
+              <%= tag.label "What types of code license are attached to the tool's primary source code repository?", id: "licenses-label" %>
+              <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :licenses, vocab_name: "code_lcns", labelled_by: "licenses-label") %>
+              <%= render FormFieldWrapperComponent.new(condition: { field: :licenses, value: vocab_option_value("code_lcns", "Other") }) do %>
+                <%= f.label :other_code_licenses, "If \"other,\" please list to the code license(s) attached to the tool's primary source code repository" %>
+                <%= f.text_field :other_code_licenses %>
+              <% end %>
+            <% end %>
           <% end %>
           <%# TODO checkbox [standards_metadata]: Metadata/markup/information exchange standards %>
           <% section.with_field do %>
             <%= f.label :other_metadata_standards, "What other metadata, markup, and information exchange standards do you support?" %>
             <%= f.text_field :other_metadata_standards %>
           <% end %>
-          <%# TODO checkbox [standards_pids]: Persistent identifiers %>
           <% section.with_field do %>
-            <%= f.label :other_persistent_identifier_standards, "What other persistent identifiers do you support?" %>
-            <%= f.text_field :other_persistent_identifier_standards %>
+            <%= tag.label "Persistent identifiers", id: "persistent-identifier-standards-label" %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :persistent_identifier_standards, vocab_name: "standards_pids", labelled_by: "persistent-identifier-standards-label") %>
+            <%= render FormFieldWrapperComponent.new(condition: { field: :persistent_identifier_standards, value: vocab_option_value("standards_pids", "Other") }) do %>
+              <%= f.label :other_persistent_identifier_standards, "What other persistent identifiers do you support?" %>
+              <%= f.text_field :other_persistent_identifier_standards %>
+            <% end %>
           <% end %>
-          <%# TODO checkbox [standards_auth]: Authentication protocols %>
           <% section.with_field do %>
-            <%= f.label :other_authentication_standards, "What other authentication protocols do you support?" %>
-            <%= f.text_field :other_authentication_standards %>
+            <%= tag.label "Authentication protocols", id: "authentication-standards-label" %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :authentication_standards, vocab_name: "standards_auth", labelled_by: "authentication-standards-label") %>
+            <%= render FormFieldWrapperComponent.new(condition: { field: :authentication_standards, value: vocab_option_value("standards_auth", "Other") }) do %>
+              <%= f.label :other_authentication_standards, "What other authentication protocols do you support?" %>
+              <%= f.text_field :other_authentication_standards %>
+            <% end %>
           <% end %>
-          <%# TODO checkbox [standards_sec]: Security standards %>
-          <% section.with_field do %>
-            <%= f.label :other_security_standards, "What other security standards do you support?" %>
-            <%= f.text_field :other_security_standards %>
+          <% section.with_field(class_name: "wide") do %>
+            <%= tag.label "Security standards", id: "security-standards-label" %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :security_standards, vocab_name: "standards_sec", labelled_by: "security-standards-label") %>
+            <%= render FormFieldWrapperComponent.new(condition: { field: :security_standards, value: vocab_option_value("standards_sec", "Other") }) do %>
+              <%= f.label :other_security_standards, "What other security standards do you support?" %>
+              <%= f.text_field :other_security_standards %>
+            <% end %>
           <% end %>
-          <%# TODO checkbox [standards_pres]: Preservation standards %>
           <% section.with_field do %>
-            <%= f.label :other_preservation_standards, "What other preservation standards do you support?" %>
-            <%= f.text_field :other_preservation_standards %>
+            <%= tag.label "Preservation standards", id: "preservation-standards-label" %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :preservation_standards, vocab_name: "standards_pres", labelled_by: "preservation-standards-label") %>
+            <%= render FormFieldWrapperComponent.new(condition: { field: :preservation_standards, value: vocab_option_value("standards_pres", "Other") }) do %>
+              <%= f.label :other_preservation_standards, "What other preservation standards do you support?" %>
+              <%= f.text_field :other_preservation_standards %>
+            <% end %>
           <% end %>
-          <%# TODO checkbox [standards_metrics]: Metrics reporting %>
           <% section.with_field do %>
-            <%= f.label :other_metrics_standards, "What other metrics reporting standards do you support?" %>
-            <%= f.text_field :other_metrics_standards %>
+            <%= tag.label "Metrics reporting", id: "metrics-standards-label" %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :metrics_standards, vocab_name: "standards_metrics", labelled_by: "metrics-standards-label") %>
+            <%= render FormFieldWrapperComponent.new(condition: { field: :metrics_standards, value: vocab_option_value("standards_metrics", "Other") }) do %>
+              <%= f.label :other_metrics_standards, "What other metrics reporting standards do you support?" %>
+              <%= f.text_field :other_metrics_standards %>
+            <% end %>
           <% end %>
           <% section.with_field(required: true, description: "Indication of whether the software can be hosted, deployed, configured, maintained, or otherwise serviced by a vendor, whether the solution provider or a third party.") do %>
             <%= f.label :hosting_strategy, "Hosting and software as a service (SaaS) options" %>
@@ -222,10 +243,13 @@
               <%= f.text_field :community_engagement_url %>
             <% end %>
           <% end %>
-          <%# TODO checkbox [user_paths]: User contribution opportunities %>
-          <% section.with_field do %>
-            <%= f.label :other_user_contributions, "List other user contribution opportunities" %>
-            <%= f.text_field :other_user_contributions %>
+          <% section.with_field(required: true, description: "Inventory of ways in which users can meaningfully contribute to the development or delivery of the solution. SELECT ALL THAT APPLY.") do %>
+            <%= tag.label "User contribution opportunities", id: "user-contributions-label" %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :user_contributions, vocab_name: "user_paths", labelled_by: "user-contributions-label") %>
+            <%= render FormFieldWrapperComponent.new(condition: { field: :user_contributions, value: vocab_option_value("user_paths", "Other") }) do %>
+              <%= f.label :other_user_contributions, "List other user contribution opportunities" %>
+              <%= f.text_field :other_user_contributions %>
+            <% end %>
           <% end %>
           <% section.with_field(description: "Link to publicly available documentation of the ways in which users can meaningfully contribute to the development or delivery of the solution. Links should start with https://.") do %>
             <%= f.label :contribution_guidelines, "Link to user contribution guidelines" %>

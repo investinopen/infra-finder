@@ -10,7 +10,7 @@ export default class extends Controller {
 
   disconnect() {
     this.field?.removeEventListener("input", this.update);
-    this.trigger?.removeEventListener("change", this.updateVisibility);
+    this.triggers?.forEach((t) => t.removeEventListener("change", this.updateVisibility));
   }
 
   connectCounter() {
@@ -27,14 +27,15 @@ export default class extends Controller {
     const { conditionField, conditionValue } = this.element.dataset;
     if (!conditionField) return;
 
-    this.trigger = this.element
-      .closest("form")
-      ?.querySelector(`[name$="[${conditionField}]"], [name="${conditionField}"]`);
-    if (!this.trigger) return;
+    const selector = `[name$="[${conditionField}]"], [name="${conditionField}"], [name$="[${conditionField}][]"]`;
+    const matches = this.element.closest("form")?.querySelectorAll(selector) ?? [];
+
+    this.triggers = [...matches].filter((el) => el.type !== "hidden");
+    if (!this.triggers.length) return;
 
     this.conditionValues = (conditionValue || "").split(" ");
     this.updateVisibility = this.updateVisibility.bind(this);
-    this.trigger.addEventListener("change", this.updateVisibility);
+    this.triggers.forEach((t) => t.addEventListener("change", this.updateVisibility));
     this.updateVisibility();
   }
 
@@ -43,6 +44,10 @@ export default class extends Controller {
   }
 
   updateVisibility() {
-    this.element.hidden = !this.conditionValues.includes(this.trigger.value);
+    const selected = this.triggers
+      .filter((t) => t.type !== "checkbox" || t.checked)
+      .map((t) => t.value);
+
+    this.element.hidden = !selected.some((value) => this.conditionValues.includes(value));
   }
 }
