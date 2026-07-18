@@ -30,12 +30,14 @@
       grid-row: 1;
     }
 
-    > :is(input, select, textarea) {
+    > :is(input, select, textarea, .intake-checkbox-group) {
       grid-row: 2;
+      align-self: start;
     }
 
     > .form-field-wrapper__meta {
       grid-row: 3;
+      align-self: start;
     }
 
     > .form-field-wrapper {

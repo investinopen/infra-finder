@@ -1,0 +1,8 @@
+<%= tag.div class: "intake-checkbox-group", role: "group", aria: { labelledby: labelled_by } do %>
+  <% options.each do |(label, value, _props)| %>
+    <label class="m-checkbox">
+      <%= form.check_box attr, { multiple: true, include_hidden: false }, value, nil %>
+      <span><%= label %></span>
+    </label>
+  <% end %>
+<% end %>
