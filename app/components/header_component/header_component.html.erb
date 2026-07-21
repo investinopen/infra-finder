@@ -1,86 +1,531 @@
 <%= turbo_frame_tag "site-header", target: "_top" do %>
-<header class="header-section l-container">
-  <div class="l-container__inner header-nav">
-    <nav class="header-nav" id="primary-nav">
-      <a href="https://investinopen.org" id="home-link">
-        <%= image_tag "logos/ioi-logo-dark.svg", alt: "Invest in Open Infrastructure" %>
-      </a>
-      <input id="toggle" class="header-checkbox" type="checkbox">
-      <label class="header-toggle" for="toggle">
-        <span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </span>
-      </label>
-      <ul class="header-nav-list">
-        <li class="header-nav-item">
-          <span class="spacer">About IOI</span>
-          <a href="https://investinopen.org/about">About IOI</a>
-          <ul>
-            <li class="np-about">
-              <span class="spacer">About Us</span>
-              <a href="https://investinopen.org/about">About Us</a>
-            </li>
-            <li class="np-team">
-              <span class="spacer">Our Team</span>
-              <a href="https://investinopen.org/about/team">Our Team</a>
-            </li>
-            <li class="np-governance">
-              <span class="spacer">Our Governance</span>
-              <a href="https://investinopen.org/about/governance">Our Governance</a>
-            </li>
-            <li class="np-funding">
-              <span class="spacer">How We're Funded</span>
-              <a href="https://investinopen.org/about/funding">How We're Funded</a>
-            </li>
-            <li class="np-how-we-work">
-              <span class="spacer">How We Work</span>
-              <a href="https://investinopen.org/about/how-we-work">How We Work</a>
-            </li>
-            <li class="np-strategic-plan-2021-2024">
-              <span class="spacer">Strategic Plan</span>
-              <a href="https://investinopen.org/about/strategic-plan/2024-2027">Strategic Plan</a>
-            </li>
-          </ul>
-        </li>
-        <li class="header-nav-item">
-          <span class="spacer">What We Do</span>
-          <a class="cursor-arrow">What We Do</a>
-          <ul>
-            <li class="np-funding-pilots">
-                <span class="spacer">Funding Pilots</span>
-                <a href="https://investinopen.org/funding-pilots">Funding Pilots</a>
-            </li>
-            <li class="np-strategic-support">
-                <span class="spacer">Strategic Support</span>
-                <a href="https://investinopen.org/strategic-support">Strategic Support</a>
-            </li>
-            <li class="np-data-room">
-                <span class="spacer">Data Room</span>
-                <a href="https://investinopen.org/data-room">Data Room</a>
-            </li>
-          </ul>
-        </li>
-        <li class="header-nav-item">
-          <span class="spacer">Our Impact</span>
-          <a href="https://investinopen.org/our-impact">Our Impact</a>
-        </li>
-        <li class="header-nav-item">
-          <span class="spacer"><%= t(".finder_link") %></span>
-          <%= nav_link "Infra Finder", solutions_path, active: :exclusive %>
-        </li>
-        <li class="header-nav-item">
-          <span class="spacer">News &amp; Updates</span>
-          <a href="https://investinopen.org/blog">News &amp; Updates</a>
+<!-- Static IOI header for Infra Finder -->
+<style>
+  .ioi-static-header,
+  .ioi-static-header * {
+    box-sizing: border-box;
+  }
 
+  .ioi-static-header {
+    --ioi-black: #000;
+    --ioi-white: #fff;
+    --ioi-yellow: #ffdc16;
+    --ioi-green: #83fed1;
+    --ioi-charcoal: #202020;
+    --ioi-nav-height: 5.4rem;
+    width: 100%;
+    background: var(--ioi-black);
+    color: var(--ioi-white);
+    font-family: Inter, Arial, Helvetica, sans-serif;
+  }
+
+  .ioi-static-header__inner {
+    display: grid;
+    grid-template-columns: minmax(10.5rem, 13.5rem) minmax(0, 1fr) auto;
+    gap: clamp(1rem, 2vw, 2rem);
+    align-items: center;
+    width: min(100% - 4rem, 100rem);
+    min-height: var(--ioi-nav-height);
+    margin: 0 auto;
+  }
+
+  .ioi-static-header__logo {
+    display: inline-flex;
+    width: clamp(10.5rem, 15vw, 13.5rem);
+    max-width: 100%;
+    align-items: center;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .ioi-static-header__logo img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .ioi-static-header__nav {
+    justify-self: center;
+  }
+
+  .ioi-static-header__nav-list,
+  .ioi-static-header__actions {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ioi-static-header__nav-list {
+    gap: clamp(0.25rem, 1.1vw, 1.25rem);
+  }
+
+  .ioi-static-header__nav-item {
+    position: relative;
+  }
+
+  .ioi-static-header__checkbox,
+  .ioi-static-header__toggle,
+  .ioi-static-header__submenu-checkbox,
+  .ioi-static-header__submenu-toggle {
+    display: none;
+  }
+
+  .ioi-static-header__actions {
+    gap: 1rem;
+  }
+
+  .ioi-static-header a {
+    color: inherit;
+  }
+
+  .ioi-static-header__nav-link {
+    display: inline-flex;
+    gap: 0;
+    align-items: center;
+    height: var(--ioi-nav-height);
+    padding: 0 1.25rem;
+    color: var(--ioi-white);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 160ms ease;
+  }
+
+  .ioi-static-header__submenu {
+    position: absolute;
+    top: calc(var(--ioi-nav-height) - 1.25rem);
+    left: 0;
+    z-index: 10;
+    min-width: 18rem;
+    margin: 0;
+    padding: 0.75rem 0;
+    border-radius: 0.75rem;
+    background: var(--ioi-white);
+    box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.2);
+    list-style: none;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 120ms ease;
+  }
+
+  .ioi-static-header__nav-item:hover .ioi-static-header__submenu,
+  .ioi-static-header__nav-item:focus-within .ioi-static-header__submenu {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .ioi-static-header__submenu a {
+    display: flex;
+    width: 100%;
+    min-height: 2.65rem;
+    align-items: center;
+    padding: 0.3rem 1.75rem;
+    color: var(--ioi-black);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.2;
+    text-decoration: none;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 0.35rem;
+    white-space: nowrap;
+    transition: color 120ms ease, text-decoration-color 120ms ease;
+  }
+
+  .ioi-static-header__submenu a:hover,
+  .ioi-static-header__submenu a:focus-visible {
+    color: var(--ioi-black);
+    text-decoration-line: underline;
+    text-decoration-color: var(--ioi-yellow);
+  }
+
+  .ioi-static-header__nav-link:hover,
+  .ioi-static-header__nav-link:focus-visible {
+    color: var(--ioi-yellow);
+    text-decoration: none;
+  }
+
+  .ioi-static-header__caret {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin: -0.25rem 0 0 0.65rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 150ms ease, margin 150ms ease;
+  }
+
+  .ioi-static-header__nav-item:hover .ioi-static-header__caret,
+  .ioi-static-header__nav-item:focus-within .ioi-static-header__caret {
+    margin-top: 0.25rem;
+    transform: rotate(225deg);
+  }
+
+  .ioi-static-header__search,
+  .ioi-static-header__contact {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+
+  .ioi-static-header__search {
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 999px;
+    background: var(--ioi-charcoal);
+    color: var(--ioi-white);
+    transition: background 160ms ease, color 160ms ease;
+  }
+
+  .ioi-static-header__search svg {
+    display: block;
+    width: 1.35rem;
+    height: 1.35rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .ioi-static-header__search:hover,
+  .ioi-static-header__search:focus-visible {
+    background: var(--ioi-yellow);
+    color: var(--ioi-black);
+  }
+
+  .ioi-static-header__contact {
+    min-height: 3rem;
+    padding: 0 1.45rem;
+    border-radius: 999px;
+    background: var(--ioi-yellow);
+    color: var(--ioi-black);
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 160ms ease, color 160ms ease;
+  }
+
+  .ioi-static-header__contact:hover,
+  .ioi-static-header__contact:focus-visible {
+    background: var(--ioi-green);
+    color: var(--ioi-black);
+    text-decoration: none;
+  }
+
+  @media (max-width: 1180px) {
+    .ioi-static-header__inner {
+      width: min(100% - 3rem, 100rem);
+    }
+
+    .ioi-static-header__nav-link {
+      padding: 0 0.85rem;
+    }
+
+    .ioi-static-header__actions {
+      gap: 0.75rem;
+    }
+  }
+
+  @media (max-width: 980px) {
+    .ioi-static-header__inner {
+      position: relative;
+      grid-template-columns: 1fr auto;
+      min-height: auto;
+      padding: 1rem 0;
+    }
+
+    .ioi-static-header__toggle {
+      position: relative;
+      z-index: 20;
+      display: block;
+      width: 52px;
+      height: 46px;
+      margin: 0;
+      padding: 0 8px 2px;
+      border: 1px solid var(--ioi-white);
+      border-radius: 0.75rem;
+      background: var(--ioi-black);
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+
+    .ioi-static-header__toggle > span {
+      position: relative;
+      top: 50%;
+      display: block;
+      width: 100%;
+    }
+
+    .ioi-static-header__toggle-bar {
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: 3px;
+      background: var(--ioi-white);
+      transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1), top 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) 0.2s;
+    }
+
+    .ioi-static-header__toggle-bar:nth-child(1) {
+      top: -10px;
+    }
+
+    .ioi-static-header__toggle-bar:nth-child(3) {
+      top: 10px;
+    }
+
+    .ioi-static-header__checkbox:checked ~ .ioi-static-header__toggle .ioi-static-header__toggle-bar {
+      top: 0;
+      transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) 0.3s, top 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+
+    .ioi-static-header__checkbox:checked ~ .ioi-static-header__toggle .ioi-static-header__toggle-bar:nth-child(1),
+    .ioi-static-header__checkbox:checked ~ .ioi-static-header__toggle .ioi-static-header__toggle-bar:nth-child(2) {
+      transform: rotate(45deg);
+    }
+
+    .ioi-static-header__checkbox:checked ~ .ioi-static-header__toggle .ioi-static-header__toggle-bar:nth-child(3) {
+      transform: rotate(-45deg);
+    }
+
+    .ioi-static-header__nav {
+      position: absolute;
+      top: calc(50% + 23px + 0.5rem);
+      right: 0;
+      grid-column: 1 / -1;
+      justify-self: start;
+      order: 3;
+      z-index: 15;
+      display: none;
+      width: min(22rem, calc(100vw - 2rem));
+      max-height: calc(100vh - (50% + 23px + 0.5rem));
+      padding: 0.85rem 0;
+      border: 1px solid var(--ioi-white);
+      border-radius: 0.75rem;
+      background: var(--ioi-black);
+      box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.28);
+      overflow: auto;
+    }
+
+    .ioi-static-header__checkbox:checked ~ .ioi-static-header__nav {
+      display: block;
+    }
+
+    .ioi-static-header__nav-list {
+      display: block;
+    }
+
+    .ioi-static-header__nav-item {
+      display: block;
+      padding: 0;
+    }
+
+    .ioi-static-header__nav-item--has-submenu {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 3rem;
+    }
+
+    .ioi-static-header__nav-link {
+      grid-column: 1;
+      grid-row: 1;
+      height: auto;
+      min-height: 2.75rem;
+      padding: 0.7rem 1.1rem;
+      color: var(--ioi-white);
+      text-align: left;
+      white-space: normal;
+    }
+
+    .ioi-static-header__nav-link:hover,
+    .ioi-static-header__nav-link:focus-visible {
+      color: var(--ioi-yellow);
+    }
+
+    .ioi-static-header__caret {
+      display: none;
+    }
+
+    .ioi-static-header__submenu-toggle {
+      grid-column: 2;
+      grid-row: 1;
+      display: flex;
+      width: 100%;
+      min-height: 2.75rem;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      background: transparent;
+      color: var(--ioi-white);
+      cursor: pointer;
+      transition: color 150ms ease;
+    }
+
+    .ioi-static-header__submenu-toggle::after {
+      content: "";
+      width: 0.55rem;
+      height: 0.55rem;
+      margin-top: -0.25rem;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(45deg);
+      transform-origin: center;
+      transition: margin 150ms ease, transform 150ms ease;
+    }
+
+    .ioi-static-header__submenu-checkbox:checked + .ioi-static-header__submenu-toggle::after {
+      margin-top: 0.25rem;
+      transform: rotate(225deg);
+    }
+
+    .ioi-static-header__submenu-toggle:hover,
+    .ioi-static-header__submenu-toggle:focus-visible {
+      color: var(--ioi-yellow);
+    }
+
+    .ioi-static-header__submenu {
+      position: static;
+      display: none;
+      grid-column: 1 / -1;
+      min-width: 0;
+      margin: 0.1rem 0 0.45rem;
+      padding: 0.25rem 0;
+      border-radius: 0;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: none;
+      opacity: 1;
+      pointer-events: auto;
+      transform: none;
+    }
+
+    .ioi-static-header__submenu-checkbox:checked ~ .ioi-static-header__submenu {
+      display: block;
+    }
+
+    .ioi-static-header__submenu a {
+      min-height: 2.35rem;
+      padding: 0.55rem 1.1rem 0.55rem 1.85rem;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 0.95rem;
+      text-decoration: none;
+    }
+
+    .ioi-static-header__submenu a:hover,
+    .ioi-static-header__submenu a:focus-visible {
+      color: var(--ioi-yellow);
+      text-decoration: none;
+    }
+
+    .ioi-static-header__actions {
+      display: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .ioi-static-header__inner {
+      width: min(100% - 2rem, 100rem);
+      gap: 0.85rem 1rem;
+    }
+
+    .ioi-static-header__logo {
+      width: 11.5rem;
+    }
+
+    .ioi-static-header__nav-link {
+      min-height: 2.75rem;
+      font-size: 0.95rem;
+    }
+
+    .ioi-static-header__submenu a {
+      font-size: 0.86rem;
+      line-height: 1.25;
+      white-space: normal;
+    }
+  }
+
+  @media (max-width: 460px) {
+    .ioi-static-header__inner {
+      grid-template-columns: 1fr auto;
+    }
+  }
+</style>
+
+<header class="ioi-static-header" role="banner">
+  <div class="ioi-static-header__inner">
+    <a class="ioi-static-header__logo" href="https://investinopen.org/" aria-label="Invest in Open Infrastructure">
+      <img src="https://investinopen.org/assets/redesign/ioi-logo-light.svg" alt="Invest in Open Infrastructure">
+    </a>
+
+    <input id="ioi-static-header-toggle" class="ioi-static-header__checkbox" type="checkbox" aria-label="Toggle navigation">
+    <label class="ioi-static-header__toggle" for="ioi-static-header-toggle" tabindex="0" aria-label="Toggle navigation">
+      <span>
+        <span class="ioi-static-header__toggle-bar"></span>
+        <span class="ioi-static-header__toggle-bar"></span>
+        <span class="ioi-static-header__toggle-bar"></span>
+      </span>
+    </label>
+
+    <nav class="ioi-static-header__nav" aria-label="Primary navigation">
+      <ul class="ioi-static-header__nav-list">
+        <li class="ioi-static-header__nav-item ioi-static-header__nav-item--has-submenu">
+          <a class="ioi-static-header__nav-link" href="https://investinopen.org/our-approach/">
+            Our Approach <span class="ioi-static-header__caret" aria-hidden="true"></span>
+          </a>
+          <input id="ioi-static-header-approach-submenu" class="ioi-static-header__submenu-checkbox" type="checkbox" aria-label="Toggle Our Approach submenu">
+          <label class="ioi-static-header__submenu-toggle" for="ioi-static-header-approach-submenu" aria-label="Toggle Our Approach submenu"></label>
+          <ul class="ioi-static-header__submenu" aria-label="Our Approach submenu">
+            <li><a href="https://investinopen.org/our-approach/strategic-consulting/">Strategic Consulting</a></li>
+            <li><a href="https://investinopen.org/our-approach/coordinated-funding/">Coordinated Funding</a></li>
+          </ul>
         </li>
-        <li class="header-nav-item">
-          <span class="spacer">Get Involved</span>
-          <a href="https://investinopen.org/get-involved">Get Involved</a>
+        <li class="ioi-static-header__nav-item ioi-static-header__nav-item--has-submenu">
+          <a class="ioi-static-header__nav-link" href="https://investinopen.org/our-work/">
+            Our Work <span class="ioi-static-header__caret" aria-hidden="true"></span>
+          </a>
+          <input id="ioi-static-header-work-submenu" class="ioi-static-header__submenu-checkbox" type="checkbox" aria-label="Toggle Our Work submenu">
+          <label class="ioi-static-header__submenu-toggle" for="ioi-static-header-work-submenu" aria-label="Toggle Our Work submenu"></label>
+          <ul class="ioi-static-header__submenu" aria-label="Our Work submenu">
+            <li><%= nav_link "Infra Finder", solutions_path, active: :exclusive %></li>
+            <li><a href="https://investinopen.org/our-work/state-of-oi/">State of Open Infrastructure</a></li>
+          </ul>
+        </li>
+        <li class="ioi-static-header__nav-item">
+          <a class="ioi-static-header__nav-link" href="https://investinopen.org/blog/">News &amp; Updates</a>
+        </li>
+        <li class="ioi-static-header__nav-item ioi-static-header__nav-item--has-submenu">
+          <a class="ioi-static-header__nav-link" href="https://investinopen.org/about/">
+            About IOI <span class="ioi-static-header__caret" aria-hidden="true"></span>
+          </a>
+          <input id="ioi-static-header-about-submenu" class="ioi-static-header__submenu-checkbox" type="checkbox" aria-label="Toggle About IOI submenu">
+          <label class="ioi-static-header__submenu-toggle" for="ioi-static-header-about-submenu" aria-label="Toggle About IOI submenu"></label>
+          <ul class="ioi-static-header__submenu" aria-label="About IOI submenu">
+            <li><a href="https://investinopen.org/about/team/">Our Team</a></li>
+            <li><a href="https://investinopen.org/about/governance/">Our Governance</a></li>
+            <li><a href="https://investinopen.org/about/funding/">How We're Funded</a></li>
+            <li><a href="https://investinopen.org/about/strategic-plans/">Strategic Plan</a></li>
+            <li><a href="https://investinopen.org/about/our-impact/">Our Impact</a></li>
+          </ul>
         </li>
       </ul>
     </nav>
+
+    <div class="ioi-static-header__actions">
+      <a class="ioi-static-header__search" href="https://investinopen.org/#/search" aria-label="Search IOI">
+        <svg aria-hidden="true" viewBox="0 0 24 24">
+          <circle cx="10.8" cy="10.8" r="6.4"></circle>
+          <path d="m16 16 5 5"></path>
+        </svg>
+      </a>
+      <a class="ioi-static-header__contact" href="https://investinopen.org/contact-us/">Get In Touch</a>
+    </div>
   </div>
 </header>
 <nav aria-labelledby="nav-infra-finder" class="m-nav-bar m-nav-bar--centered bg-brand-mint l-container">
