@@ -68,11 +68,13 @@ module ControlledVocabularies
 
     SourceKind = Coercible::Symbol.enum(
       :actual,
-      :draft
+      :draft,
+      :intake
     ).constructor do |value|
       case value
       in /\Asolutions?\z/i then :actual
       in /\Asolution_?drafts?\z/i then :draft
+      in /\Asolution_?intakes?\z/i then :intake
       else
         value
       end
@@ -80,11 +82,13 @@ module ControlledVocabularies
 
     SourceTable = Coercible::Symbol.enum(
       :solutions,
-      :solution_drafts
+      :solution_drafts,
+      :solution_intakes
     ).constructor do |value|
       case value
       in /\Aactual\z/i then :solutions
       in /\Adraft\z/i then :solution_drafts
+      in /\Aintake\z/i then :solution_intakes
       else
         value
       end

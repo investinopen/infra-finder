@@ -17,12 +17,12 @@ Dry::Rails.container do
     Dry::Files.new memory: Rails.env.test?
   end
 
-  register :hashids, memoize: true do
-    Hashids.new SecurityConfig.hash_salt
-  end
-
   register :node_verifier, memoize: true do
     Support::System[:node_verifier]
+  end
+
+  register :sqids, memoize: true do
+    Sqids.new
   end
 
   namespace :s3 do

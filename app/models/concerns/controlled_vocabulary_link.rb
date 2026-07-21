@@ -16,7 +16,7 @@ module ControlledVocabularyLink
 
     defines :option_association_name, type: ControlledVocabularies::Types::Symbol
     defines :solution_kind, type: Solutions::Types::Kind
-    defines :solution_association_name, type: Solutions::Types::Symbol.enum(:solution, :solution_draft)
+    defines :solution_association_name, type: Solutions::Types::Symbol.enum(:solution, :solution_draft, :solution_intake)
 
     delegate :option_association,
       :solution_association,
@@ -82,6 +82,12 @@ module ControlledVocabularyLink
     # @return [void]
     def links_vocab_with_draft!(name)
       links_vocab_with!(name, kind: :draft)
+    end
+
+    # @param [ControlledVocabularies::Types::VocabName] name
+    # @return [void]
+    def links_vocab_with_intake!(name)
+      links_vocab_with!(name, kind: :intake)
     end
 
     def option_association

@@ -11,6 +11,12 @@
   :connection_mode: multiple
   :strategy: model
   :vocab_name: standards_auth
+- :key: intake/authentication_standards
+  :name: authentication_standards
+  :solution_kind: intake
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: standards_auth
 - :key: actual/board_level
   :name: board_level
   :solution_kind: actual
@@ -20,6 +26,12 @@
 - :key: draft/board_level
   :name: board_level
   :solution_kind: draft
+  :connection_mode: single
+  :strategy: model
+  :vocab_name: rprt_lvl
+- :key: intake/board_level
+  :name: board_level
+  :solution_kind: intake
   :connection_mode: single
   :strategy: model
   :vocab_name: rprt_lvl
@@ -35,6 +47,12 @@
   :connection_mode: multiple
   :strategy: model
   :vocab_name: board
+- :key: intake/board_structures
+  :name: board_structures
+  :solution_kind: intake
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: board
 - :key: actual/business_forms
   :name: business_forms
   :solution_kind: actual
@@ -44,6 +62,12 @@
 - :key: draft/business_forms
   :name: business_forms
   :solution_kind: draft
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: bus_form
+- :key: intake/business_forms
+  :name: business_forms
+  :solution_kind: intake
   :connection_mode: multiple
   :strategy: model
   :vocab_name: bus_form
@@ -59,6 +83,12 @@
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
+- :key: intake/bylaws_implementation
+  :name: bylaws_implementation
+  :solution_kind: intake
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
 - :key: actual/code_license_implementation
   :name: code_license_implementation
   :solution_kind: actual
@@ -68,6 +98,12 @@
 - :key: draft/code_license_implementation
   :name: code_license_implementation
   :solution_kind: draft
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
+- :key: intake/code_license_implementation
+  :name: code_license_implementation
+  :solution_kind: intake
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
@@ -83,6 +119,12 @@
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
+- :key: intake/code_of_conduct_implementation
+  :name: code_of_conduct_implementation
+  :solution_kind: intake
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
 - :key: actual/code_repository_implementation
   :name: code_repository_implementation
   :solution_kind: actual
@@ -92,6 +134,12 @@
 - :key: draft/code_repository_implementation
   :name: code_repository_implementation
   :solution_kind: draft
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
+- :key: intake/code_repository_implementation
+  :name: code_repository_implementation
+  :solution_kind: intake
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
@@ -107,6 +155,12 @@
   :connection_mode: multiple
   :strategy: model
   :vocab_name: comm_eng
+- :key: intake/community_engagement_activities
+  :name: community_engagement_activities
+  :solution_kind: intake
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: comm_eng
 - :key: actual/community_engagement_implementation
   :name: community_engagement_implementation
   :solution_kind: actual
@@ -116,6 +170,12 @@
 - :key: draft/community_engagement_implementation
   :name: community_engagement_implementation
   :solution_kind: draft
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
+- :key: intake/community_engagement_implementation
+  :name: community_engagement_implementation
+  :solution_kind: intake
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
@@ -131,6 +191,12 @@
   :connection_mode: multiple
   :strategy: model
   :vocab_name: gov_stat
+- :key: intake/community_governances
+  :name: community_governances
+  :solution_kind: intake
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: gov_stat
 - :key: actual/content_licenses
   :name: content_licenses
   :solution_kind: actual
@@ -140,6 +206,12 @@
 - :key: draft/content_licenses
   :name: content_licenses
   :solution_kind: draft
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: cont_lcns
+- :key: intake/content_licenses
+  :name: content_licenses
+  :solution_kind: intake
   :connection_mode: multiple
   :strategy: model
   :vocab_name: cont_lcns
@@ -155,6 +227,12 @@
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
+- :key: intake/contribution_pathways_implementation
+  :name: contribution_pathways_implementation
+  :solution_kind: intake
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
 - :key: actual/country_code
   :name: country_code
   :solution_kind: actual
@@ -164,6 +242,12 @@
 - :key: draft/country_code
   :name: country_code
   :solution_kind: draft
+  :connection_mode: single
+  :strategy: countries
+  :vocab_name: countries
+- :key: intake/country_code
+  :name: country_code
+  :solution_kind: intake
   :connection_mode: single
   :strategy: countries
   :vocab_name: countries
@@ -179,6 +263,12 @@
   :connection_mode: single
   :strategy: currencies
   :vocab_name: currencies
+- :key: intake/currency
+  :name: currency
+  :solution_kind: intake
+  :connection_mode: single
+  :strategy: currencies
+  :vocab_name: currencies
 - :key: actual/equity_and_inclusion_implementation
   :name: equity_and_inclusion_implementation
   :solution_kind: actual
@@ -188,6 +278,12 @@
 - :key: draft/equity_and_inclusion_implementation
   :name: equity_and_inclusion_implementation
   :solution_kind: draft
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
+- :key: intake/equity_and_inclusion_implementation
+  :name: equity_and_inclusion_implementation
+  :solution_kind: intake
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
@@ -203,6 +299,12 @@
   :connection_mode: single
   :strategy: model
   :vocab_name: rprt_lvl
+- :key: intake/financial_reporting_level
+  :name: financial_reporting_level
+  :solution_kind: intake
+  :connection_mode: single
+  :strategy: model
+  :vocab_name: rprt_lvl
 - :key: actual/governance_records_implementation
   :name: governance_records_implementation
   :solution_kind: actual
@@ -212,6 +314,12 @@
 - :key: draft/governance_records_implementation
   :name: governance_records_implementation
   :solution_kind: draft
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
+- :key: intake/governance_records_implementation
+  :name: governance_records_implementation
+  :solution_kind: intake
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
@@ -227,6 +335,12 @@
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
+- :key: intake/governance_structure_implementation
+  :name: governance_structure_implementation
+  :solution_kind: intake
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
 - :key: actual/hosting_strategy
   :name: hosting_strategy
   :solution_kind: actual
@@ -236,6 +350,12 @@
 - :key: draft/hosting_strategy
   :name: hosting_strategy
   :solution_kind: draft
+  :connection_mode: single
+  :strategy: model
+  :vocab_name: saas
+- :key: intake/hosting_strategy
+  :name: hosting_strategy
+  :solution_kind: intake
   :connection_mode: single
   :strategy: model
   :vocab_name: saas
@@ -251,6 +371,12 @@
   :connection_mode: multiple
   :strategy: model
   :vocab_name: integrations
+- :key: intake/integrations
+  :name: integrations
+  :solution_kind: intake
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: integrations
 - :key: actual/licenses
   :name: licenses
   :solution_kind: actual
@@ -260,6 +386,12 @@
 - :key: draft/licenses
   :name: licenses
   :solution_kind: draft
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: code_lcns
+- :key: intake/licenses
+  :name: licenses
+  :solution_kind: intake
   :connection_mode: multiple
   :strategy: model
   :vocab_name: code_lcns
@@ -275,6 +407,12 @@
   :connection_mode: single
   :strategy: model
   :vocab_name: maint
+- :key: intake/maintenance_status
+  :name: maintenance_status
+  :solution_kind: intake
+  :connection_mode: single
+  :strategy: model
+  :vocab_name: maint
 - :key: actual/metadata_standards
   :name: metadata_standards
   :solution_kind: actual
@@ -284,6 +422,12 @@
 - :key: draft/metadata_standards
   :name: metadata_standards
   :solution_kind: draft
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: standards_metadata
+- :key: intake/metadata_standards
+  :name: metadata_standards
+  :solution_kind: intake
   :connection_mode: multiple
   :strategy: model
   :vocab_name: standards_metadata
@@ -299,6 +443,12 @@
   :connection_mode: multiple
   :strategy: model
   :vocab_name: standards_metrics
+- :key: intake/metrics_standards
+  :name: metrics_standards
+  :solution_kind: intake
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: standards_metrics
 - :key: actual/nonprofit_status
   :name: nonprofit_status
   :solution_kind: actual
@@ -308,6 +458,12 @@
 - :key: draft/nonprofit_status
   :name: nonprofit_status
   :solution_kind: draft
+  :connection_mode: single
+  :strategy: model
+  :vocab_name: nonprofit_status
+- :key: intake/nonprofit_status
+  :name: nonprofit_status
+  :solution_kind: intake
   :connection_mode: single
   :strategy: model
   :vocab_name: nonprofit_status
@@ -323,6 +479,12 @@
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
+- :key: intake/open_api_implementation
+  :name: open_api_implementation
+  :solution_kind: intake
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
 - :key: actual/open_data_implementation
   :name: open_data_implementation
   :solution_kind: actual
@@ -332,6 +494,12 @@
 - :key: draft/open_data_implementation
   :name: open_data_implementation
   :solution_kind: draft
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
+- :key: intake/open_data_implementation
+  :name: open_data_implementation
+  :solution_kind: intake
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
@@ -347,6 +515,12 @@
   :connection_mode: multiple
   :strategy: model
   :vocab_name: standards_pids
+- :key: intake/persistent_identifier_standards
+  :name: persistent_identifier_standards
+  :solution_kind: intake
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: standards_pids
 - :key: actual/preservation_standards
   :name: preservation_standards
   :solution_kind: actual
@@ -356,6 +530,12 @@
 - :key: draft/preservation_standards
   :name: preservation_standards
   :solution_kind: draft
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: standards_pres
+- :key: intake/preservation_standards
+  :name: preservation_standards
+  :solution_kind: intake
   :connection_mode: multiple
   :strategy: model
   :vocab_name: standards_pres
@@ -371,6 +551,12 @@
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale_pricing
+- :key: intake/pricing_implementation
+  :name: pricing_implementation
+  :solution_kind: intake
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale_pricing
 - :key: actual/primary_funding_sources
   :name: primary_funding_sources
   :solution_kind: actual
@@ -380,6 +566,12 @@
 - :key: draft/primary_funding_sources
   :name: primary_funding_sources
   :solution_kind: draft
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: pr_fund
+- :key: intake/primary_funding_sources
+  :name: primary_funding_sources
+  :solution_kind: intake
   :connection_mode: multiple
   :strategy: model
   :vocab_name: pr_fund
@@ -395,6 +587,12 @@
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
+- :key: intake/privacy_policy_implementation
+  :name: privacy_policy_implementation
+  :solution_kind: intake
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
 - :key: actual/product_roadmap_implementation
   :name: product_roadmap_implementation
   :solution_kind: actual
@@ -404,6 +602,12 @@
 - :key: draft/product_roadmap_implementation
   :name: product_roadmap_implementation
   :solution_kind: draft
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
+- :key: intake/product_roadmap_implementation
+  :name: product_roadmap_implementation
+  :solution_kind: intake
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
@@ -419,6 +623,12 @@
   :connection_mode: multiple
   :strategy: model
   :vocab_name: prgrm_lng
+- :key: intake/programming_languages
+  :name: programming_languages
+  :solution_kind: intake
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: prgrm_lng
 - :key: actual/readiness_level
   :name: readiness_level
   :solution_kind: actual
@@ -428,6 +638,12 @@
 - :key: draft/readiness_level
   :name: readiness_level
   :solution_kind: draft
+  :connection_mode: single
+  :strategy: model
+  :vocab_name: tech_read
+- :key: intake/readiness_level
+  :name: readiness_level
+  :solution_kind: intake
   :connection_mode: single
   :strategy: model
   :vocab_name: tech_read
@@ -443,6 +659,12 @@
   :connection_mode: multiple
   :strategy: model
   :vocab_name: standards_sec
+- :key: intake/security_standards
+  :name: security_standards
+  :solution_kind: intake
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: standards_sec
 - :key: actual/solution_categories
   :name: solution_categories
   :solution_kind: actual
@@ -452,6 +674,12 @@
 - :key: draft/solution_categories
   :name: solution_categories
   :solution_kind: draft
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: soln_cat
+- :key: intake/solution_categories
+  :name: solution_categories
+  :solution_kind: intake
   :connection_mode: multiple
   :strategy: model
   :vocab_name: soln_cat
@@ -467,6 +695,12 @@
   :connection_mode: single
   :strategy: model
   :vocab_name: staffing
+- :key: intake/staffing_full_time
+  :name: staffing_full_time
+  :solution_kind: intake
+  :connection_mode: single
+  :strategy: model
+  :vocab_name: staffing
 - :key: actual/staffing_volunteer
   :name: staffing_volunteer
   :solution_kind: actual
@@ -476,6 +710,12 @@
 - :key: draft/staffing_volunteer
   :name: staffing_volunteer
   :solution_kind: draft
+  :connection_mode: single
+  :strategy: model
+  :vocab_name: staffing
+- :key: intake/staffing_volunteer
+  :name: staffing_volunteer
+  :solution_kind: intake
   :connection_mode: single
   :strategy: model
   :vocab_name: staffing
@@ -491,6 +731,12 @@
   :connection_mode: multiple
   :strategy: model
   :vocab_name: user_paths
+- :key: intake/user_contributions
+  :name: user_contributions
+  :solution_kind: intake
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: user_paths
 - :key: actual/user_documentation_implementation
   :name: user_documentation_implementation
   :solution_kind: actual
@@ -500,6 +746,12 @@
 - :key: draft/user_documentation_implementation
   :name: user_documentation_implementation
   :solution_kind: draft
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
+- :key: intake/user_documentation_implementation
+  :name: user_documentation_implementation
+  :solution_kind: intake
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale
@@ -515,6 +767,12 @@
   :connection_mode: multiple
   :strategy: model
   :vocab_name: values
+- :key: intake/values_frameworks
+  :name: values_frameworks
+  :solution_kind: intake
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: values
 - :key: actual/web_accessibility_applicabilities
   :name: web_accessibility_applicabilities
   :solution_kind: actual
@@ -527,6 +785,12 @@
   :connection_mode: multiple
   :strategy: model
   :vocab_name: acc_scope
+- :key: intake/web_accessibility_applicabilities
+  :name: web_accessibility_applicabilities
+  :solution_kind: intake
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: acc_scope
 - :key: actual/web_accessibility_implementation
   :name: web_accessibility_implementation
   :solution_kind: actual
@@ -536,6 +800,12 @@
 - :key: draft/web_accessibility_implementation
   :name: web_accessibility_implementation
   :solution_kind: draft
+  :connection_mode: single
+  :strategy: enum
+  :vocab_name: impl_scale
+- :key: intake/web_accessibility_implementation
+  :name: web_accessibility_implementation
+  :solution_kind: intake
   :connection_mode: single
   :strategy: enum
   :vocab_name: impl_scale

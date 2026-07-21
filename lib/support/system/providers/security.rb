@@ -6,10 +6,6 @@ Support::System.register_provider(:security) do
   end
 
   start do
-    register :hashids, memoize: true do
-      Hashids.new SecurityConfig.hash_salt
-    end
-
     register :node_verifier, memoize: true do
       ActiveSupport::MessageVerifier.new SecurityConfig.node_salt, digest: "SHA256"
     end

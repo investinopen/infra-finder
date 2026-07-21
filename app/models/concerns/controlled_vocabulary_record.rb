@@ -22,8 +22,7 @@ module ControlledVocabularyRecord
 
     defines :auto_hidden_provisions, type: ControlledVocabularies::Types::Provisions
     defines :vocab_name, type: ControlledVocabularies::Types::VocabName
-    defines :actual_linkage, type: ControlledVocabularies::Linkage
-    defines :draft_linkage, type: ControlledVocabularies::Linkage
+    defines :actual_linkage, :draft_linkage, :intake_linkage, type: ControlledVocabularies::Linkage
 
     auto_hidden_provisions [].freeze
 
@@ -51,7 +50,7 @@ module ControlledVocabularyRecord
 
     delegate :actual_link_association, :actual_link_association_name,
       :draft_link_association, :draft_link_association_name,
-      :actual_linkage, :draft_linkage, :linkage_for, to: :class
+      :actual_linkage, :draft_linkage, :intake_linkage, :linkage_for, to: :class
 
     before_validation :derive_counters!
     before_validation :maybe_auto_hide!
@@ -75,7 +74,11 @@ module ControlledVocabularyRecord
     __send__(draft_link_association_name)
   end
 
-  # @param [:actual, :draft] kind
+  def intake_links
+    __send__(intake_link_association_name)
+  end
+
+  # @param [:actual, :draft, :intake] kind
   # @return [ActiveRecord::Reflection::HasManyReflection]
   def link_association_for(kind)
     case kind
@@ -83,6 +86,8 @@ module ControlledVocabularyRecord
       actual_link_association
     in :draft
       draft_link_association
+    in :intake
+      intake_link_association
     else
       # :nocov:
       raise "invalid solution kind: #{kind}"
@@ -115,12 +120,13 @@ module ControlledVocabularyRecord
   # @param [String] assoc
   # @return [Hash]
   def connect_multiple!(*records, assoc:)
-    records.uniq.group_by(&:solution_kind).reverse_merge(actual: [], draft: []) => { actual:, draft:, }
+    records.uniq.group_by(&:solution_kind).reverse_merge(actual: [], draft: [], intake: []) => { actual:, draft:, intake: }
 
     res = {}
 
     res[:actual] = connect_multiple_through!(*actual, assoc:, linkage: actual_linkage)
     res[:draft] = connect_multiple_through!(*draft, assoc:, linkage: draft_linkage)
+    res[:intake] = connect_multiple_through!(*intake, assoc:, linkage: intake_linkage)
 
     return res
   end
@@ -194,6 +200,10 @@ module ControlledVocabularyRecord
       @draft_link_association ||= reflect_on_association(:solution_drafts).through_reflection
     end
 
+    def intake_link_association
+      @intake_link_association ||= reflect_on_association(:solution_intakes).through_reflection
+    end
+
     # @param [<#to_s>] raw_provisions
     # @return [void]
     def auto_hide_provisions!(*raw_provisions)
@@ -212,6 +222,8 @@ module ControlledVocabularyRecord
         actual_linkage
       in :draft
         draft_linkage
+      in :intake
+        intake_linkage
       in HAS_SOLUTION_KIND
         linkage_for(record_or_kind.solution_kind)
       end
@@ -260,16 +272,19 @@ module ControlledVocabularyRecord
       ControlledVocabularies::Linkage.for_record(vocab_name) => {
         actual_linkage:,
         draft_linkage:,
+        intake_linkage:,
       }
 
       actual_linkage actual_linkage
       draft_linkage draft_linkage
+      intake_linkage intake_linkage
     end
 
     # @return [void]
     def derive_associations!
       derive_associations_for! actual_linkage
       derive_associations_for! draft_linkage
+      derive_associations_for! intake_linkage
     end
 
     # @param [ControlledVocabularies::Linkage] linkage

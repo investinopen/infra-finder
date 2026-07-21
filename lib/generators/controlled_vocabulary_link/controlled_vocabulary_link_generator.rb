@@ -5,7 +5,7 @@ class ControlledVocabularyLinkGenerator < Rails::Generators::NamedBase
 
   source_root File.expand_path("templates", __dir__)
 
-  class_option :kind, type: :string, desc: "draft|actual", default: "actual"
+  class_option :kind, type: :string, desc: "draft|actual|intake", default: "actual"
 
   class_option :vocab_name, type: :string
 

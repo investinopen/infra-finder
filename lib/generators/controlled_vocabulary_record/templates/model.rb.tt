@@ -1,10 +1,54 @@
-<%-
-  # vim: set ft=ruby.eruby nosmartindent noautoindent :
--%>
 # frozen_string_literal: true
 
 class <%= class_name %> < ApplicationRecord
   include ControlledVocabularyRecord
+  <%- case vocab_name.to_sym -%>
+  <%- when :bus_form -%>
+
+  NONPROFIT_TERMS = [
+    "Fiscal sponsorship (academic institution)",
+    "Fiscal sponsorship (non-profit)",
+    "Non-profit organization",
+    "Individual maintainer",
+    "Volunteer community",
+    "Intergovernmental organization",
+  ].freeze
+  <%- when :maint -%>
+
+  scope :active, -> { with_providing(:active) }
+  <%- end -%>
 
   uses_vocab! <%= vocab_name.to_sym.inspect %>
+  <%- case vocab_name.to_sym -%>
+  <%- when :acc_scope -%>
+
+  def applies_to_solution?
+    provides_applies_to_solution?
+  end
+
+  def applies_to_website?
+    provides_applies_to_website?
+  end
+  <%- when :bus_form -%>
+
+  scope :counts_for_nonprofit_operated, -> { where(term: NONPROFIT_TERMS) }
+
+  def counts_for_nonprofit_operated?
+    term.in?(NONPROFIT_TERMS)
+  end
+  <%- when :code_lcns -%>
+
+  auto_hide_provisions! :none
+  <%- when :maint -%>
+
+  class << self
+    # @return [<String>]
+    def active_ids
+      active.ids
+    end
+  end
+  <%- when :saas -%>
+
+  auto_hide_provisions! :none, :not_applicable, :unknown
+  <%- end -%>
 end

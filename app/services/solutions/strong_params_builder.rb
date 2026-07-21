@@ -5,6 +5,7 @@ module Solutions
     include Dry::Initializer[undefined: false].define -> do
       option :current_user, Types::User.optional, optional: true
       option :draft, Types::Bool, default: proc { false }
+      option :intake, Types::Bool, default: proc { false }
 
       option :_user_kind, ::Users::Types::Kind, as: :user_kind, default: proc { Users::Types::Kind[current_user&.kind] }
     end
@@ -12,6 +13,7 @@ module Solutions
     ALLOWED_USER_KINDS = {
       actual: %i[super_admin admin],
       draft: %i[super_admin admin editor],
+      intake: %i[super_admin admin editor],
     }.freeze
 
     # @return [<Users::Types::Kind>]
@@ -40,7 +42,7 @@ module Solutions
     end
 
     wrapped_hook! def prepare
-      @solution_kind = Solutions::Types::Kind[draft ? :draft : :actual]
+      @solution_kind = derive_solution_kind
 
       @allowed_user_kinds = ALLOWED_USER_KINDS.fetch(solution_kind)
 
@@ -65,13 +67,11 @@ module Solutions
 
     # @!group Solution Predicates
 
-    def actual?
-      solution_kind == :actual
-    end
+    def actual? = solution_kind == :actual
 
-    def draft?
-      solution_kind == :draft
-    end
+    def draft? = solution_kind == :draft
+
+    def intake? = solution_kind == :intake
 
     # @!endgroup
 
@@ -85,6 +85,16 @@ module Solutions
 
     def add_actuals!
       @params << :provider_id << :publication
+    end
+
+    def derive_solution_kind
+      if draft
+        :draft
+      elsif intake
+        :intake
+      else
+        :actual
+      end.then { Solutions::Types::Kind[_1] }
     end
 
     def initialize_common_strong_params

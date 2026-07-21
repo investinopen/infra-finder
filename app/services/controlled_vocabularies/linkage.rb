@@ -28,12 +28,13 @@ module ControlledVocabularies
     end
 
     memoize def link_table_name
-      if target == :solution_categories
-        if source == :solution_drafts
-          :solution_category_draft_links
-        else
-          :solution_category_links
-        end
+      case [source, target]
+      in :solution_drafts, :solution_categories
+        :solution_category_draft_links
+      in :solution_intakes, :solution_categories
+        :solution_category_intake_links
+      in :solutions, :solution_categories
+        :solution_category_links
       else
         :"#{source_reference}_#{target}"
       end
@@ -155,7 +156,7 @@ module ControlledVocabularies
 
     class << self
       # @param [ControlledVocabularies::Types::VocabName] name
-      # @param [:actual, :draft] :kind
+      # @param [:actual, :draft, :intake] :kind
       # @return [ControlledVocabularies::Linkage]
       def for_link(vocab_name, kind)
         vocab = ControlledVocabulary.uses_model.find(vocab_name.to_s)
@@ -170,7 +171,9 @@ module ControlledVocabularies
 
         draft_linkage = for_link(vocab_name, :draft)
 
-        { actual_linkage:, draft_linkage:, }
+        intake_linkage = for_link(vocab_name, :intake)
+
+        { actual_linkage:, draft_linkage:, intake_linkage: }
       end
     end
   end
