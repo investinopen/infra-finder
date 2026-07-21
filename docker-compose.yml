@@ -20,7 +20,7 @@ services:
       retries: 5
   redis:
     platform: "linux/amd64"
-    image: bitnami/redis:6.2.7-debian-10-r34
+    image: redis:6.2
     environment:
       - "ALLOW_EMPTY_PASSWORD=yes"
     logging:
@@ -36,7 +36,7 @@ services:
       retries: 5
   test-redis:
     platform: "linux/amd64"
-    image: bitnami/redis:6.2.7-debian-10-r34
+    image: redis:6.2
     environment:
       - "ALLOW_EMPTY_PASSWORD=yes"
     logging:
