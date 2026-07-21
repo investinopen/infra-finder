@@ -206,7 +206,7 @@
     padding: 0 1.45rem;
     border-radius: 999px;
     background: var(--ioi-yellow);
-    color: var(--ioi-black);
+    color: var(--ioi-black) !important;
     font-size: 1rem;
     font-weight: 800;
     line-height: 1;
@@ -535,7 +535,7 @@
         <%= nav_link t(".solutions_link"), solutions_path, active: :exclusive, class: "m-nav-bar__link", data: { text: t(".solutions_link") } %>
       </li>
       <li>
-        <a class="m-nav-bar__link" href="https://investinopen.org/data-room/about-infra-finder" data-text="<%= t(".about_link") %>">
+        <a class="m-nav-bar__link" href="https://investinopen.org/about-infra-finder/" data-text="<%= t(".about_link") %>">
           <%= t(".about_link") %>
         </a>
       </li>
@@ -550,7 +550,7 @@
         </a>
       </li>
       <li>
-        <a class="m-nav-bar__link" href="https://investinopen.org/data-room/about-infra-finder#support" data-text="<%= t(".support_link") %>">
+        <a class="m-nav-bar__link" href="https://investinopen.org/about-infra-finder/#support" data-text="<%= t(".support_link") %>">
           <%= t(".support_link") %>
         </a>
       </li>
