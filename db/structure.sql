@@ -1,5 +1,3 @@
-\restrict A8K109qETlaEbTe4cVOVl2TSaT5rJk6EPSAtWWUWxxsWfd6WfeYtJ8niT8MJZ6f
-
 -- Dumped from database version 15.5
 -- Dumped by pg_dump version 15.15 (Debian 15.15-1.pgdg11+1)
 
@@ -318,12 +316,25 @@ CREATE TYPE public.solution_import_strategy AS ENUM (
 
 
 --
+-- Name: solution_intake_state; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.solution_intake_state AS ENUM (
+    'pending',
+    'in_review',
+    'approved',
+    'rejected'
+);
+
+
+--
 -- Name: solution_kind; Type: TYPE; Schema: public; Owner: -
 --
 
 CREATE TYPE public.solution_kind AS ENUM (
     'actual',
-    'draft'
+    'draft',
+    'intake'
 );
 
 
@@ -1375,6 +1386,21 @@ CREATE TABLE public.solution_category_draft_links (
 
 
 --
+-- Name: solution_category_intake_links; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_category_intake_links (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    solution_category_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: solution_category_links; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2013,6 +2039,477 @@ CREATE SEQUENCE public.solution_imports_identifier_seq
 --
 
 ALTER SEQUENCE public.solution_imports_identifier_seq OWNED BY public.solution_imports.identifier;
+
+
+--
+-- Name: solution_intake_accessibility_scopes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_accessibility_scopes (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    accessibility_scope_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_authentication_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_authentication_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    authentication_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_board_structures; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_board_structures (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    board_structure_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_business_forms; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_business_forms (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    business_form_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_community_engagement_activities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_community_engagement_activities (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    community_engagement_activity_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_community_governances; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_community_governances (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    community_governance_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_content_licenses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_content_licenses (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    content_license_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_hosting_strategies; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_hosting_strategies (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    hosting_strategy_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_integrations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_integrations (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    integration_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_licenses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_licenses (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    license_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_maintenance_statuses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_maintenance_statuses (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    maintenance_status_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_metadata_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_metadata_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    metadata_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_metrics_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_metrics_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    metrics_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_nonprofit_statuses; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_nonprofit_statuses (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    nonprofit_status_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_persistent_identifier_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_persistent_identifier_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    persistent_identifier_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_preservation_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_preservation_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    preservation_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_primary_funding_sources; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_primary_funding_sources (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    primary_funding_source_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_programming_languages; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_programming_languages (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    programming_language_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_readiness_levels; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_readiness_levels (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    readiness_level_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_reporting_levels; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_reporting_levels (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    reporting_level_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_security_standards; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_security_standards (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    security_standard_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_staffings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_staffings (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    staffing_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_transitions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_transitions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    most_recent boolean NOT NULL,
+    sort_key integer NOT NULL,
+    from_state public.solution_intake_state,
+    to_state public.solution_intake_state NOT NULL,
+    metadata jsonb,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_user_contributions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_user_contributions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    user_contribution_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_values_frameworks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_values_frameworks (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    values_framework_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intakes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intakes (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    provider_id uuid,
+    solution_id uuid,
+    editor_id uuid,
+    snowflake bigint NOT NULL,
+    slug text NOT NULL,
+    contact_method public.contact_method DEFAULT 'unavailable'::public.contact_method NOT NULL,
+    state public.solution_intake_state DEFAULT 'pending'::public.solution_intake_state NOT NULL,
+    name public.citext NOT NULL,
+    normalized_name public.citext GENERATED ALWAYS AS (public.normalize_ransackable(name)) STORED NOT NULL,
+    first_name text,
+    last_name text,
+    email public.citext,
+    scoss boolean DEFAULT false NOT NULL,
+    shareholders boolean DEFAULT false NOT NULL,
+    founded_on date,
+    member_count bigint,
+    logo_data jsonb,
+    current_staffing numeric(19,2),
+    website text,
+    contact text,
+    board_members_url text,
+    governance_summary text,
+    membership_program_url text,
+    research_organization_registry_url text,
+    mission text,
+    key_achievements text,
+    organizational_history text,
+    funding_needs text,
+    service_summary text,
+    financial_date_range text,
+    financial_date_range_started_on date,
+    financial_date_range_ended_on date,
+    financial_numbers_publishability public.financial_numbers_publishability DEFAULT 'unknown'::public.financial_numbers_publishability NOT NULL,
+    financial_information_scope public.financial_information_scope DEFAULT 'unknown'::public.financial_information_scope NOT NULL,
+    financial_numbers_documented_url text,
+    current_affiliations jsonb DEFAULT '[]'::jsonb NOT NULL,
+    founding_institutions jsonb DEFAULT '[]'::jsonb NOT NULL,
+    service_providers jsonb DEFAULT '[]'::jsonb NOT NULL,
+    recent_grants jsonb DEFAULT '[]'::jsonb NOT NULL,
+    top_granting_institutions jsonb DEFAULT '[]'::jsonb NOT NULL,
+    bylaws_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    bylaws jsonb DEFAULT '{}'::jsonb NOT NULL,
+    code_of_conduct_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    code_of_conduct jsonb DEFAULT '{}'::jsonb NOT NULL,
+    code_license_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    code_license jsonb DEFAULT '{}'::jsonb NOT NULL,
+    code_repository_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    code_repository jsonb DEFAULT '{}'::jsonb NOT NULL,
+    community_engagement_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    community_engagement jsonb DEFAULT '{}'::jsonb NOT NULL,
+    equity_and_inclusion_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    equity_and_inclusion jsonb DEFAULT '{}'::jsonb NOT NULL,
+    governance_records_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    governance_records jsonb DEFAULT '{}'::jsonb NOT NULL,
+    governance_structure_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    governance_structure jsonb DEFAULT '{}'::jsonb NOT NULL,
+    open_api_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    open_api jsonb DEFAULT '{}'::jsonb NOT NULL,
+    open_data_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    open_data jsonb DEFAULT '{}'::jsonb NOT NULL,
+    product_roadmap_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    product_roadmap jsonb DEFAULT '{}'::jsonb NOT NULL,
+    pricing_implementation public.pricing_implementation_status DEFAULT 'unknown'::public.pricing_implementation_status NOT NULL,
+    pricing jsonb DEFAULT '{}'::jsonb NOT NULL,
+    privacy_policy_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    privacy_policy jsonb DEFAULT '{}'::jsonb NOT NULL,
+    contribution_pathways_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    contribution_pathways jsonb DEFAULT '{}'::jsonb NOT NULL,
+    user_documentation_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    user_documentation jsonb DEFAULT '{}'::jsonb NOT NULL,
+    web_accessibility_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    web_accessibility jsonb DEFAULT '{}'::jsonb NOT NULL,
+    country_code public.citext,
+    currency public.citext DEFAULT 'USD'::public.citext NOT NULL,
+    annual_expenses_cents bigint DEFAULT 0 NOT NULL,
+    annual_revenue_cents bigint DEFAULT 0 NOT NULL,
+    investment_income_cents bigint DEFAULT 0 NOT NULL,
+    other_revenue_cents bigint DEFAULT 0 NOT NULL,
+    program_revenue_cents bigint DEFAULT 0 NOT NULL,
+    total_assets_cents bigint DEFAULT 0 NOT NULL,
+    total_contributions_cents bigint DEFAULT 0 NOT NULL,
+    total_liabilities_cents bigint DEFAULT 0 NOT NULL,
+    free_inputs jsonb DEFAULT '{}'::jsonb NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
 
 
 --
@@ -2978,6 +3475,14 @@ ALTER TABLE ONLY public.solution_category_draft_links
 
 
 --
+-- Name: solution_category_intake_links solution_category_intake_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_category_intake_links
+    ADD CONSTRAINT solution_category_intake_links_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: solution_category_links solution_category_links_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3250,6 +3755,214 @@ ALTER TABLE ONLY public.solution_imports
 
 
 --
+-- Name: solution_intake_accessibility_scopes solution_intake_accessibility_scopes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_accessibility_scopes
+    ADD CONSTRAINT solution_intake_accessibility_scopes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_authentication_standards solution_intake_authentication_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_authentication_standards
+    ADD CONSTRAINT solution_intake_authentication_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_board_structures solution_intake_board_structures_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_board_structures
+    ADD CONSTRAINT solution_intake_board_structures_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_business_forms solution_intake_business_forms_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_business_forms
+    ADD CONSTRAINT solution_intake_business_forms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_community_engagement_activities solution_intake_community_engagement_activities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_community_engagement_activities
+    ADD CONSTRAINT solution_intake_community_engagement_activities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_community_governances solution_intake_community_governances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_community_governances
+    ADD CONSTRAINT solution_intake_community_governances_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_content_licenses solution_intake_content_licenses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_content_licenses
+    ADD CONSTRAINT solution_intake_content_licenses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_hosting_strategies solution_intake_hosting_strategies_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_hosting_strategies
+    ADD CONSTRAINT solution_intake_hosting_strategies_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_integrations solution_intake_integrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_integrations
+    ADD CONSTRAINT solution_intake_integrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_licenses solution_intake_licenses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_licenses
+    ADD CONSTRAINT solution_intake_licenses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_maintenance_statuses solution_intake_maintenance_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_maintenance_statuses
+    ADD CONSTRAINT solution_intake_maintenance_statuses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_metadata_standards solution_intake_metadata_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_metadata_standards
+    ADD CONSTRAINT solution_intake_metadata_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_metrics_standards solution_intake_metrics_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_metrics_standards
+    ADD CONSTRAINT solution_intake_metrics_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_nonprofit_statuses solution_intake_nonprofit_statuses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_nonprofit_statuses
+    ADD CONSTRAINT solution_intake_nonprofit_statuses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_persistent_identifier_standards solution_intake_persistent_identifier_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_persistent_identifier_standards
+    ADD CONSTRAINT solution_intake_persistent_identifier_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_preservation_standards solution_intake_preservation_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_preservation_standards
+    ADD CONSTRAINT solution_intake_preservation_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_primary_funding_sources solution_intake_primary_funding_sources_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_primary_funding_sources
+    ADD CONSTRAINT solution_intake_primary_funding_sources_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_programming_languages solution_intake_programming_languages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_programming_languages
+    ADD CONSTRAINT solution_intake_programming_languages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_readiness_levels solution_intake_readiness_levels_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_readiness_levels
+    ADD CONSTRAINT solution_intake_readiness_levels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_reporting_levels solution_intake_reporting_levels_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_reporting_levels
+    ADD CONSTRAINT solution_intake_reporting_levels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_security_standards solution_intake_security_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_security_standards
+    ADD CONSTRAINT solution_intake_security_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_staffings solution_intake_staffings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_staffings
+    ADD CONSTRAINT solution_intake_staffings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_transitions solution_intake_transitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_transitions
+    ADD CONSTRAINT solution_intake_transitions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_user_contributions solution_intake_user_contributions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_user_contributions
+    ADD CONSTRAINT solution_intake_user_contributions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_values_frameworks solution_intake_values_frameworks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_values_frameworks
+    ADD CONSTRAINT solution_intake_values_frameworks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intakes solution_intakes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intakes
+    ADD CONSTRAINT solution_intakes_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: solution_integrations solution_integrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3466,6 +4179,13 @@ ALTER TABLE ONLY public.values_frameworks
 
 
 --
+-- Name: idx_on_accessibility_scope_id_2a0b373388; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_accessibility_scope_id_2a0b373388 ON public.solution_intake_accessibility_scopes USING btree (accessibility_scope_id);
+
+
+--
 -- Name: idx_on_accessibility_scope_id_8cfeee5e03; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3480,10 +4200,24 @@ CREATE INDEX idx_on_authentication_standard_id_83b18b5410 ON public.solution_dra
 
 
 --
+-- Name: idx_on_authentication_standard_id_c0c1c96d2e; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_authentication_standard_id_c0c1c96d2e ON public.solution_intake_authentication_standards USING btree (authentication_standard_id);
+
+
+--
 -- Name: idx_on_authentication_standard_id_f729ce6a4d; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX idx_on_authentication_standard_id_f729ce6a4d ON public.solution_authentication_standards USING btree (authentication_standard_id);
+
+
+--
+-- Name: idx_on_community_engagement_activity_id_7cf93b161b; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_community_engagement_activity_id_7cf93b161b ON public.solution_intake_community_engagement_activities USING btree (community_engagement_activity_id);
 
 
 --
@@ -3501,6 +4235,13 @@ CREATE INDEX idx_on_community_engagement_activity_id_a6b7e59278 ON public.soluti
 
 
 --
+-- Name: idx_on_community_governance_id_3f8de92848; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_community_governance_id_3f8de92848 ON public.solution_intake_community_governances USING btree (community_governance_id);
+
+
+--
 -- Name: idx_on_community_governance_id_9be13ea80c; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3515,6 +4256,20 @@ CREATE INDEX idx_on_community_governance_id_ea4df91232 ON public.solution_draft_
 
 
 --
+-- Name: idx_on_hosting_strategy_id_c3f1223acf; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_hosting_strategy_id_c3f1223acf ON public.solution_intake_hosting_strategies USING btree (hosting_strategy_id);
+
+
+--
+-- Name: idx_on_maintenance_status_id_68c2d80a70; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_maintenance_status_id_68c2d80a70 ON public.solution_intake_maintenance_statuses USING btree (maintenance_status_id);
+
+
+--
 -- Name: idx_on_maintenance_status_id_ba7aa33ae5; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3522,10 +4277,24 @@ CREATE INDEX idx_on_maintenance_status_id_ba7aa33ae5 ON public.solution_draft_ma
 
 
 --
+-- Name: idx_on_metadata_standard_id_5bccdab60f; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_metadata_standard_id_5bccdab60f ON public.solution_intake_metadata_standards USING btree (metadata_standard_id);
+
+
+--
 -- Name: idx_on_metadata_standard_id_b63801d884; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX idx_on_metadata_standard_id_b63801d884 ON public.solution_draft_metadata_standards USING btree (metadata_standard_id);
+
+
+--
+-- Name: idx_on_nonprofit_status_id_39d6aaf6fa; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_nonprofit_status_id_39d6aaf6fa ON public.solution_intake_nonprofit_statuses USING btree (nonprofit_status_id);
 
 
 --
@@ -3543,10 +4312,24 @@ CREATE INDEX idx_on_persistent_identifier_standard_id_971588cbf6 ON public.solut
 
 
 --
+-- Name: idx_on_persistent_identifier_standard_id_ebb5d6d1da; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_persistent_identifier_standard_id_ebb5d6d1da ON public.solution_intake_persistent_identifier_standards USING btree (persistent_identifier_standard_id);
+
+
+--
 -- Name: idx_on_preservation_standard_id_4448d346db; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX idx_on_preservation_standard_id_4448d346db ON public.solution_draft_preservation_standards USING btree (preservation_standard_id);
+
+
+--
+-- Name: idx_on_preservation_standard_id_a40943ef46; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_preservation_standard_id_a40943ef46 ON public.solution_intake_preservation_standards USING btree (preservation_standard_id);
 
 
 --
@@ -3571,6 +4354,20 @@ CREATE INDEX idx_on_primary_funding_source_id_67d9414fd7 ON public.solution_prim
 
 
 --
+-- Name: idx_on_primary_funding_source_id_b02a2c2bb9; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_primary_funding_source_id_b02a2c2bb9 ON public.solution_intake_primary_funding_sources USING btree (primary_funding_source_id);
+
+
+--
+-- Name: idx_on_programming_language_id_8bbb7c88d8; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_programming_language_id_8bbb7c88d8 ON public.solution_intake_programming_languages USING btree (programming_language_id);
+
+
+--
 -- Name: idx_on_programming_language_id_988c7525dd; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3589,6 +4386,13 @@ CREATE INDEX idx_on_programming_language_id_ea4ddae88c ON public.solution_draft_
 --
 
 CREATE INDEX idx_on_security_standard_id_6b1dbe0a20 ON public.solution_draft_security_standards USING btree (security_standard_id);
+
+
+--
+-- Name: idx_on_security_standard_id_f239b6ae17; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_security_standard_id_f239b6ae17 ON public.solution_intake_security_standards USING btree (security_standard_id);
 
 
 --
@@ -3638,6 +4442,76 @@ CREATE INDEX idx_on_solution_draft_id_dcea24e157 ON public.solution_draft_commun
 --
 
 CREATE INDEX idx_on_solution_draft_id_f1434c4565 ON public.solution_draft_programming_languages USING btree (solution_draft_id);
+
+
+--
+-- Name: idx_on_solution_intake_id_24288d3cfd; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_intake_id_24288d3cfd ON public.solution_intake_primary_funding_sources USING btree (solution_intake_id);
+
+
+--
+-- Name: idx_on_solution_intake_id_4d1a4fa30d; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_intake_id_4d1a4fa30d ON public.solution_intake_preservation_standards USING btree (solution_intake_id);
+
+
+--
+-- Name: idx_on_solution_intake_id_6817da5694; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_intake_id_6817da5694 ON public.solution_intake_programming_languages USING btree (solution_intake_id);
+
+
+--
+-- Name: idx_on_solution_intake_id_7a44b75ab9; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_intake_id_7a44b75ab9 ON public.solution_intake_accessibility_scopes USING btree (solution_intake_id);
+
+
+--
+-- Name: idx_on_solution_intake_id_917c3a21be; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_intake_id_917c3a21be ON public.solution_intake_authentication_standards USING btree (solution_intake_id);
+
+
+--
+-- Name: idx_on_solution_intake_id_9cf32e315f; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_intake_id_9cf32e315f ON public.solution_intake_community_governances USING btree (solution_intake_id);
+
+
+--
+-- Name: idx_on_solution_intake_id_af6dc3cafd; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_intake_id_af6dc3cafd ON public.solution_intake_maintenance_statuses USING btree (solution_intake_id);
+
+
+--
+-- Name: idx_on_solution_intake_id_b84b574853; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_intake_id_b84b574853 ON public.solution_intake_community_engagement_activities USING btree (solution_intake_id);
+
+
+--
+-- Name: idx_on_solution_intake_id_e46c43cd43; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_intake_id_e46c43cd43 ON public.solution_intake_persistent_identifier_standards USING btree (solution_intake_id);
+
+
+--
+-- Name: idx_on_user_contribution_id_5020f52959; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_user_contribution_id_5020f52959 ON public.solution_intake_user_contributions USING btree (user_contribution_id);
 
 
 --
@@ -4740,6 +5614,20 @@ CREATE INDEX index_solution_category_draft_links_on_solution_draft_id ON public.
 
 
 --
+-- Name: index_solution_category_intake_links_on_solution_category_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_category_intake_links_on_solution_category_id ON public.solution_category_intake_links USING btree (solution_category_id);
+
+
+--
+-- Name: index_solution_category_intake_links_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_category_intake_links_on_solution_intake_id ON public.solution_category_intake_links USING btree (solution_intake_id);
+
+
+--
 -- Name: index_solution_category_links_on_solution_category_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5143,6 +6031,230 @@ CREATE UNIQUE INDEX index_solution_imports_on_identifier ON public.solution_impo
 --
 
 CREATE INDEX index_solution_imports_on_user_id ON public.solution_imports USING btree (user_id);
+
+
+--
+-- Name: index_solution_intake_board_structures_on_board_structure_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_board_structures_on_board_structure_id ON public.solution_intake_board_structures USING btree (board_structure_id);
+
+
+--
+-- Name: index_solution_intake_board_structures_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_board_structures_on_solution_intake_id ON public.solution_intake_board_structures USING btree (solution_intake_id);
+
+
+--
+-- Name: index_solution_intake_business_forms_on_business_form_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_business_forms_on_business_form_id ON public.solution_intake_business_forms USING btree (business_form_id);
+
+
+--
+-- Name: index_solution_intake_business_forms_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_business_forms_on_solution_intake_id ON public.solution_intake_business_forms USING btree (solution_intake_id);
+
+
+--
+-- Name: index_solution_intake_content_licenses_on_content_license_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_content_licenses_on_content_license_id ON public.solution_intake_content_licenses USING btree (content_license_id);
+
+
+--
+-- Name: index_solution_intake_content_licenses_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_content_licenses_on_solution_intake_id ON public.solution_intake_content_licenses USING btree (solution_intake_id);
+
+
+--
+-- Name: index_solution_intake_hosting_strategies_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_hosting_strategies_on_solution_intake_id ON public.solution_intake_hosting_strategies USING btree (solution_intake_id);
+
+
+--
+-- Name: index_solution_intake_integrations_on_integration_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_integrations_on_integration_id ON public.solution_intake_integrations USING btree (integration_id);
+
+
+--
+-- Name: index_solution_intake_integrations_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_integrations_on_solution_intake_id ON public.solution_intake_integrations USING btree (solution_intake_id);
+
+
+--
+-- Name: index_solution_intake_licenses_on_license_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_licenses_on_license_id ON public.solution_intake_licenses USING btree (license_id);
+
+
+--
+-- Name: index_solution_intake_licenses_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_licenses_on_solution_intake_id ON public.solution_intake_licenses USING btree (solution_intake_id);
+
+
+--
+-- Name: index_solution_intake_metadata_standards_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_metadata_standards_on_solution_intake_id ON public.solution_intake_metadata_standards USING btree (solution_intake_id);
+
+
+--
+-- Name: index_solution_intake_metrics_standards_on_metrics_standard_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_metrics_standards_on_metrics_standard_id ON public.solution_intake_metrics_standards USING btree (metrics_standard_id);
+
+
+--
+-- Name: index_solution_intake_metrics_standards_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_metrics_standards_on_solution_intake_id ON public.solution_intake_metrics_standards USING btree (solution_intake_id);
+
+
+--
+-- Name: index_solution_intake_nonprofit_statuses_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_nonprofit_statuses_on_solution_intake_id ON public.solution_intake_nonprofit_statuses USING btree (solution_intake_id);
+
+
+--
+-- Name: index_solution_intake_readiness_levels_on_readiness_level_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_readiness_levels_on_readiness_level_id ON public.solution_intake_readiness_levels USING btree (readiness_level_id);
+
+
+--
+-- Name: index_solution_intake_readiness_levels_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_readiness_levels_on_solution_intake_id ON public.solution_intake_readiness_levels USING btree (solution_intake_id);
+
+
+--
+-- Name: index_solution_intake_reporting_levels_on_reporting_level_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_reporting_levels_on_reporting_level_id ON public.solution_intake_reporting_levels USING btree (reporting_level_id);
+
+
+--
+-- Name: index_solution_intake_reporting_levels_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_reporting_levels_on_solution_intake_id ON public.solution_intake_reporting_levels USING btree (solution_intake_id);
+
+
+--
+-- Name: index_solution_intake_security_standards_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_security_standards_on_solution_intake_id ON public.solution_intake_security_standards USING btree (solution_intake_id);
+
+
+--
+-- Name: index_solution_intake_staffings_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_staffings_on_solution_intake_id ON public.solution_intake_staffings USING btree (solution_intake_id);
+
+
+--
+-- Name: index_solution_intake_staffings_on_staffing_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_staffings_on_staffing_id ON public.solution_intake_staffings USING btree (staffing_id);
+
+
+--
+-- Name: index_solution_intake_transitions_parent_most_recent; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_solution_intake_transitions_parent_most_recent ON public.solution_intake_transitions USING btree (solution_intake_id, most_recent) WHERE most_recent;
+
+
+--
+-- Name: index_solution_intake_transitions_parent_sort; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_solution_intake_transitions_parent_sort ON public.solution_intake_transitions USING btree (solution_intake_id, sort_key);
+
+
+--
+-- Name: index_solution_intake_user_contributions_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_user_contributions_on_solution_intake_id ON public.solution_intake_user_contributions USING btree (solution_intake_id);
+
+
+--
+-- Name: index_solution_intake_values_frameworks_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_values_frameworks_on_solution_intake_id ON public.solution_intake_values_frameworks USING btree (solution_intake_id);
+
+
+--
+-- Name: index_solution_intake_values_frameworks_on_values_framework_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_values_frameworks_on_values_framework_id ON public.solution_intake_values_frameworks USING btree (values_framework_id);
+
+
+--
+-- Name: index_solution_intakes_on_editor_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intakes_on_editor_id ON public.solution_intakes USING btree (editor_id);
+
+
+--
+-- Name: index_solution_intakes_on_provider_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intakes_on_provider_id ON public.solution_intakes USING btree (provider_id);
+
+
+--
+-- Name: index_solution_intakes_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_solution_intakes_on_slug ON public.solution_intakes USING btree (slug);
+
+
+--
+-- Name: index_solution_intakes_on_snowflake; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_solution_intakes_on_snowflake ON public.solution_intakes USING btree (snowflake);
+
+
+--
+-- Name: index_solution_intakes_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_solution_intakes_on_solution_id ON public.solution_intakes USING btree (solution_id);
 
 
 --
@@ -5811,6 +6923,20 @@ CREATE UNIQUE INDEX udx_solution_category_draft_links_single ON public.solution_
 
 
 --
+-- Name: udx_solution_category_intake_links_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_category_intake_links_multi ON public.solution_category_intake_links USING btree (solution_intake_id, solution_category_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_category_intake_links_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_category_intake_links_single ON public.solution_category_intake_links USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
 -- Name: udx_solution_category_links_multi; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6217,6 +7343,342 @@ CREATE UNIQUE INDEX udx_solution_hosting_strategies_single ON public.solution_ho
 
 
 --
+-- Name: udx_solution_intake_accessibility_scopes_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_accessibility_scopes_multi ON public.solution_intake_accessibility_scopes USING btree (solution_intake_id, accessibility_scope_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_accessibility_scopes_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_accessibility_scopes_single ON public.solution_intake_accessibility_scopes USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_authentication_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_authentication_standards_multi ON public.solution_intake_authentication_standards USING btree (solution_intake_id, authentication_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_authentication_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_authentication_standards_single ON public.solution_intake_authentication_standards USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_board_structures_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_board_structures_multi ON public.solution_intake_board_structures USING btree (solution_intake_id, board_structure_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_board_structures_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_board_structures_single ON public.solution_intake_board_structures USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_business_forms_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_business_forms_multi ON public.solution_intake_business_forms USING btree (solution_intake_id, business_form_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_business_forms_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_business_forms_single ON public.solution_intake_business_forms USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_community_engagement_activities_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_community_engagement_activities_multi ON public.solution_intake_community_engagement_activities USING btree (solution_intake_id, community_engagement_activity_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_community_engagement_activities_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_community_engagement_activities_single ON public.solution_intake_community_engagement_activities USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_community_governances_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_community_governances_multi ON public.solution_intake_community_governances USING btree (solution_intake_id, community_governance_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_community_governances_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_community_governances_single ON public.solution_intake_community_governances USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_content_licenses_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_content_licenses_multi ON public.solution_intake_content_licenses USING btree (solution_intake_id, content_license_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_content_licenses_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_content_licenses_single ON public.solution_intake_content_licenses USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_hosting_strategies_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_hosting_strategies_multi ON public.solution_intake_hosting_strategies USING btree (solution_intake_id, hosting_strategy_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_hosting_strategies_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_hosting_strategies_single ON public.solution_intake_hosting_strategies USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_integrations_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_integrations_multi ON public.solution_intake_integrations USING btree (solution_intake_id, integration_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_integrations_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_integrations_single ON public.solution_intake_integrations USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_licenses_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_licenses_multi ON public.solution_intake_licenses USING btree (solution_intake_id, license_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_licenses_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_licenses_single ON public.solution_intake_licenses USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_maintenance_statuses_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_maintenance_statuses_multi ON public.solution_intake_maintenance_statuses USING btree (solution_intake_id, maintenance_status_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_maintenance_statuses_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_maintenance_statuses_single ON public.solution_intake_maintenance_statuses USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_metadata_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_metadata_standards_multi ON public.solution_intake_metadata_standards USING btree (solution_intake_id, metadata_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_metadata_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_metadata_standards_single ON public.solution_intake_metadata_standards USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_metrics_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_metrics_standards_multi ON public.solution_intake_metrics_standards USING btree (solution_intake_id, metrics_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_metrics_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_metrics_standards_single ON public.solution_intake_metrics_standards USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_nonprofit_statuses_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_nonprofit_statuses_multi ON public.solution_intake_nonprofit_statuses USING btree (solution_intake_id, nonprofit_status_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_nonprofit_statuses_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_nonprofit_statuses_single ON public.solution_intake_nonprofit_statuses USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_persistent_identifier_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_persistent_identifier_standards_multi ON public.solution_intake_persistent_identifier_standards USING btree (solution_intake_id, persistent_identifier_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_persistent_identifier_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_persistent_identifier_standards_single ON public.solution_intake_persistent_identifier_standards USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_preservation_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_preservation_standards_multi ON public.solution_intake_preservation_standards USING btree (solution_intake_id, preservation_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_preservation_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_preservation_standards_single ON public.solution_intake_preservation_standards USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_primary_funding_sources_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_primary_funding_sources_multi ON public.solution_intake_primary_funding_sources USING btree (solution_intake_id, primary_funding_source_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_primary_funding_sources_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_primary_funding_sources_single ON public.solution_intake_primary_funding_sources USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_programming_languages_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_programming_languages_multi ON public.solution_intake_programming_languages USING btree (solution_intake_id, programming_language_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_programming_languages_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_programming_languages_single ON public.solution_intake_programming_languages USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_readiness_levels_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_readiness_levels_multi ON public.solution_intake_readiness_levels USING btree (solution_intake_id, readiness_level_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_readiness_levels_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_readiness_levels_single ON public.solution_intake_readiness_levels USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_reporting_levels_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_reporting_levels_multi ON public.solution_intake_reporting_levels USING btree (solution_intake_id, reporting_level_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_reporting_levels_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_reporting_levels_single ON public.solution_intake_reporting_levels USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_security_standards_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_security_standards_multi ON public.solution_intake_security_standards USING btree (solution_intake_id, security_standard_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_security_standards_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_security_standards_single ON public.solution_intake_security_standards USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_staffings_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_staffings_multi ON public.solution_intake_staffings USING btree (solution_intake_id, staffing_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_staffings_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_staffings_single ON public.solution_intake_staffings USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_user_contributions_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_user_contributions_multi ON public.solution_intake_user_contributions USING btree (solution_intake_id, user_contribution_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_user_contributions_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_user_contributions_single ON public.solution_intake_user_contributions USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_values_frameworks_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_values_frameworks_multi ON public.solution_intake_values_frameworks USING btree (solution_intake_id, values_framework_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_values_frameworks_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_values_frameworks_single ON public.solution_intake_values_frameworks USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
 -- Name: udx_solution_integrations_multi; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6465,6 +7927,14 @@ ALTER TABLE ONLY public.solution_accessibility_scopes
 
 
 --
+-- Name: solution_intake_accessibility_scopes fk_rails_0c7ec3a0ec; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_accessibility_scopes
+    ADD CONSTRAINT fk_rails_0c7ec3a0ec FOREIGN KEY (accessibility_scope_id) REFERENCES public.accessibility_scopes(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_category_links fk_rails_0ca6b07585; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6486,6 +7956,14 @@ ALTER TABLE ONLY public.solution_draft_board_structures
 
 ALTER TABLE ONLY public.solution_community_engagement_activities
     ADD CONSTRAINT fk_rails_0e89b57f6e FOREIGN KEY (community_engagement_activity_id) REFERENCES public.community_engagement_activities(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_preservation_standards fk_rails_0f0c8c559c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_preservation_standards
+    ADD CONSTRAINT fk_rails_0f0c8c559c FOREIGN KEY (preservation_standard_id) REFERENCES public.preservation_standards(id) ON DELETE CASCADE;
 
 
 --
@@ -6561,11 +8039,27 @@ ALTER TABLE ONLY public.solution_category_draft_links
 
 
 --
+-- Name: solution_intake_reporting_levels fk_rails_17ba800080; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_reporting_levels
+    ADD CONSTRAINT fk_rails_17ba800080 FOREIGN KEY (reporting_level_id) REFERENCES public.reporting_levels(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_programming_languages fk_rails_185ad16ab8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_programming_languages
     ADD CONSTRAINT fk_rails_185ad16ab8 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_authentication_standards fk_rails_1bab33286e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_authentication_standards
+    ADD CONSTRAINT fk_rails_1bab33286e FOREIGN KEY (authentication_standard_id) REFERENCES public.authentication_standards(id) ON DELETE CASCADE;
 
 
 --
@@ -6601,6 +8095,14 @@ ALTER TABLE ONLY public.solution_draft_readiness_levels
 
 
 --
+-- Name: solution_intake_programming_languages fk_rails_1d9493b317; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_programming_languages
+    ADD CONSTRAINT fk_rails_1d9493b317 FOREIGN KEY (programming_language_id) REFERENCES public.programming_languages(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_draft_accessibility_scopes fk_rails_1ddc052973; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6622,6 +8124,14 @@ ALTER TABLE ONLY public.solution_maintenance_statuses
 
 ALTER TABLE ONLY public.solution_draft_persistent_identifier_standards
     ADD CONSTRAINT fk_rails_1f919eaeba FOREIGN KEY (persistent_identifier_standard_id) REFERENCES public.persistent_identifier_standards(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_integrations fk_rails_200af96505; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_integrations
+    ADD CONSTRAINT fk_rails_200af96505 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
 
 
 --
@@ -6662,6 +8172,14 @@ ALTER TABLE ONLY public.solution_editor_assignments
 
 ALTER TABLE ONLY public.invitations
     ADD CONSTRAINT fk_rails_2a8e93f297 FOREIGN KEY (provider_id) REFERENCES public.providers(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_nonprofit_statuses fk_rails_2ac263ae90; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_nonprofit_statuses
+    ADD CONSTRAINT fk_rails_2ac263ae90 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
 
 
 --
@@ -6713,11 +8231,27 @@ ALTER TABLE ONLY public.invitation_transitions
 
 
 --
+-- Name: solution_intakes fk_rails_3b6b788e69; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intakes
+    ADD CONSTRAINT fk_rails_3b6b788e69 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE SET NULL;
+
+
+--
 -- Name: solution_content_licenses fk_rails_3c49afced2; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_content_licenses
     ADD CONSTRAINT fk_rails_3c49afced2 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_readiness_levels fk_rails_400a2c0ca6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_readiness_levels
+    ADD CONSTRAINT fk_rails_400a2c0ca6 FOREIGN KEY (readiness_level_id) REFERENCES public.readiness_levels(id) ON DELETE CASCADE;
 
 
 --
@@ -6745,6 +8279,22 @@ ALTER TABLE ONLY public.solution_user_contributions
 
 
 --
+-- Name: solution_intake_programming_languages fk_rails_42cee06fbc; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_programming_languages
+    ADD CONSTRAINT fk_rails_42cee06fbc FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_readiness_levels fk_rails_4322f3d988; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_readiness_levels
+    ADD CONSTRAINT fk_rails_4322f3d988 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_primary_funding_sources fk_rails_44cf17a7f6; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6766,6 +8316,14 @@ ALTER TABLE ONLY public.solution_draft_hosting_strategies
 
 ALTER TABLE ONLY public.solution_user_contributions
     ADD CONSTRAINT fk_rails_4642c0eaf4 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_accessibility_scopes fk_rails_479da57937; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_accessibility_scopes
+    ADD CONSTRAINT fk_rails_479da57937 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
 
 
 --
@@ -6793,11 +8351,35 @@ ALTER TABLE ONLY public.users_roles
 
 
 --
+-- Name: solution_intake_community_governances fk_rails_4afeb07dfa; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_community_governances
+    ADD CONSTRAINT fk_rails_4afeb07dfa FOREIGN KEY (community_governance_id) REFERENCES public.community_governances(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_persistent_identifier_standards fk_rails_4ba166e868; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_persistent_identifier_standards
+    ADD CONSTRAINT fk_rails_4ba166e868 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_draft_reporting_levels fk_rails_4e11fcb854; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_draft_reporting_levels
     ADD CONSTRAINT fk_rails_4e11fcb854 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_category_intake_links fk_rails_4e68fdd568; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_category_intake_links
+    ADD CONSTRAINT fk_rails_4e68fdd568 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
 
 
 --
@@ -6897,6 +8479,22 @@ ALTER TABLE ONLY public.solution_persistent_identifier_standards
 
 
 --
+-- Name: solution_intake_metrics_standards fk_rails_5ce538c476; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_metrics_standards
+    ADD CONSTRAINT fk_rails_5ce538c476 FOREIGN KEY (metrics_standard_id) REFERENCES public.metrics_standards(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_primary_funding_sources fk_rails_609befc703; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_primary_funding_sources
+    ADD CONSTRAINT fk_rails_609befc703 FOREIGN KEY (primary_funding_source_id) REFERENCES public.primary_funding_sources(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_draft_primary_funding_sources fk_rails_614e311856; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6910,6 +8508,14 @@ ALTER TABLE ONLY public.solution_draft_primary_funding_sources
 
 ALTER TABLE ONLY public.solution_revisions
     ADD CONSTRAINT fk_rails_64c472c54c FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: solution_intake_staffings fk_rails_65e38b96ce; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_staffings
+    ADD CONSTRAINT fk_rails_65e38b96ce FOREIGN KEY (staffing_id) REFERENCES public.staffings(id) ON DELETE CASCADE;
 
 
 --
@@ -6937,11 +8543,27 @@ ALTER TABLE ONLY public.solution_hosting_strategies
 
 
 --
+-- Name: solution_intake_metrics_standards fk_rails_6900e0d446; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_metrics_standards
+    ADD CONSTRAINT fk_rails_6900e0d446 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_draft_integrations fk_rails_6cfe5f279e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_draft_integrations
     ADD CONSTRAINT fk_rails_6cfe5f279e FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_metadata_standards fk_rails_70a117c43f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_metadata_standards
+    ADD CONSTRAINT fk_rails_70a117c43f FOREIGN KEY (metadata_standard_id) REFERENCES public.metadata_standards(id) ON DELETE CASCADE;
 
 
 --
@@ -6990,6 +8612,14 @@ ALTER TABLE ONLY public.solution_integrations
 
 ALTER TABLE ONLY public.solution_imports
     ADD CONSTRAINT fk_rails_7928c4b4bd FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: solution_intake_board_structures fk_rails_7a00293fe5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_board_structures
+    ADD CONSTRAINT fk_rails_7a00293fe5 FOREIGN KEY (board_structure_id) REFERENCES public.board_structures(id) ON DELETE CASCADE;
 
 
 --
@@ -7057,6 +8687,22 @@ ALTER TABLE ONLY public.comparison_share_items
 
 
 --
+-- Name: solution_intake_security_standards fk_rails_7fe942488d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_security_standards
+    ADD CONSTRAINT fk_rails_7fe942488d FOREIGN KEY (security_standard_id) REFERENCES public.security_standards(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_values_frameworks fk_rails_80cab16681; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_values_frameworks
+    ADD CONSTRAINT fk_rails_80cab16681 FOREIGN KEY (values_framework_id) REFERENCES public.values_frameworks(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_draft_security_standards fk_rails_837f6d3800; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7081,6 +8727,22 @@ ALTER TABLE ONLY public.solution_revisions
 
 
 --
+-- Name: solution_intake_authentication_standards fk_rails_85ea78b914; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_authentication_standards
+    ADD CONSTRAINT fk_rails_85ea78b914 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_board_structures fk_rails_874f47948f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_board_structures
+    ADD CONSTRAINT fk_rails_874f47948f FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_reporting_levels fk_rails_878f5a3eff; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7089,11 +8751,27 @@ ALTER TABLE ONLY public.solution_reporting_levels
 
 
 --
+-- Name: solution_intake_licenses fk_rails_879559d1db; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_licenses
+    ADD CONSTRAINT fk_rails_879559d1db FOREIGN KEY (license_id) REFERENCES public.licenses(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_security_standards fk_rails_8997e6fa8b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_security_standards
     ADD CONSTRAINT fk_rails_8997e6fa8b FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_maintenance_statuses fk_rails_89a0234af6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_maintenance_statuses
+    ADD CONSTRAINT fk_rails_89a0234af6 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
 
 
 --
@@ -7113,11 +8791,27 @@ ALTER TABLE ONLY public.solution_draft_transitions
 
 
 --
+-- Name: solution_intake_reporting_levels fk_rails_901a72668f; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_reporting_levels
+    ADD CONSTRAINT fk_rails_901a72668f FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_draft_persistent_identifier_standards fk_rails_908287340a; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_draft_persistent_identifier_standards
     ADD CONSTRAINT fk_rails_908287340a FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_nonprofit_statuses fk_rails_93f93ddf7d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_nonprofit_statuses
+    ADD CONSTRAINT fk_rails_93f93ddf7d FOREIGN KEY (nonprofit_status_id) REFERENCES public.nonprofit_statuses(id) ON DELETE CASCADE;
 
 
 --
@@ -7137,11 +8831,35 @@ ALTER TABLE ONLY public.solution_draft_staffings
 
 
 --
+-- Name: solution_intake_business_forms fk_rails_961983c14c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_business_forms
+    ADD CONSTRAINT fk_rails_961983c14c FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_readiness_levels fk_rails_96b3a498a7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_readiness_levels
     ADD CONSTRAINT fk_rails_96b3a498a7 FOREIGN KEY (readiness_level_id) REFERENCES public.readiness_levels(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_transitions fk_rails_976a334374; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_transitions
+    ADD CONSTRAINT fk_rails_976a334374 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_security_standards fk_rails_99a9254011; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_security_standards
+    ADD CONSTRAINT fk_rails_99a9254011 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
 
 
 --
@@ -7177,11 +8895,27 @@ ALTER TABLE ONLY public.solution_readiness_levels
 
 
 --
+-- Name: solution_intake_preservation_standards fk_rails_9dc81f8656; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_preservation_standards
+    ADD CONSTRAINT fk_rails_9dc81f8656 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
 -- Name: comparison_share_items fk_rails_9df2127bc4; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.comparison_share_items
     ADD CONSTRAINT fk_rails_9df2127bc4 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_values_frameworks fk_rails_9efbdff164; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_values_frameworks
+    ADD CONSTRAINT fk_rails_9efbdff164 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
 
 
 --
@@ -7217,6 +8951,14 @@ ALTER TABLE ONLY public.solution_drafts
 
 
 --
+-- Name: solution_intakes fk_rails_ad02a2135c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intakes
+    ADD CONSTRAINT fk_rails_ad02a2135c FOREIGN KEY (editor_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: solution_draft_values_frameworks fk_rails_b02a77e849; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7249,6 +8991,22 @@ ALTER TABLE ONLY public.solution_metrics_standards
 
 
 --
+-- Name: solution_intake_user_contributions fk_rails_b4607dcfb2; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_user_contributions
+    ADD CONSTRAINT fk_rails_b4607dcfb2 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_category_intake_links fk_rails_b57dfbd337; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_category_intake_links
+    ADD CONSTRAINT fk_rails_b57dfbd337 FOREIGN KEY (solution_category_id) REFERENCES public.solution_categories(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_draft_user_contributions fk_rails_b604ad2471; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7270,6 +9028,14 @@ ALTER TABLE ONLY public.solution_business_forms
 
 ALTER TABLE ONLY public.solution_authentication_standards
     ADD CONSTRAINT fk_rails_b7b7c1db7d FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_hosting_strategies fk_rails_b976593828; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_hosting_strategies
+    ADD CONSTRAINT fk_rails_b976593828 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
 
 
 --
@@ -7297,6 +9063,14 @@ ALTER TABLE ONLY public.subscription_transitions
 
 
 --
+-- Name: solution_intake_metadata_standards fk_rails_bd017aa680; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_metadata_standards
+    ADD CONSTRAINT fk_rails_bd017aa680 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_draft_content_licenses fk_rails_be3a5110c9; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7310,6 +9084,22 @@ ALTER TABLE ONLY public.solution_draft_content_licenses
 
 ALTER TABLE ONLY public.solution_draft_metrics_standards
     ADD CONSTRAINT fk_rails_be8337f63f FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_integrations fk_rails_beed41c529; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_integrations
+    ADD CONSTRAINT fk_rails_beed41c529 FOREIGN KEY (integration_id) REFERENCES public.integrations(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_content_licenses fk_rails_beee02b3f0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_content_licenses
+    ADD CONSTRAINT fk_rails_beee02b3f0 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
 
 
 --
@@ -7345,11 +9135,27 @@ ALTER TABLE ONLY public.solution_values_frameworks
 
 
 --
+-- Name: solution_intake_community_governances fk_rails_c6281e1c23; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_community_governances
+    ADD CONSTRAINT fk_rails_c6281e1c23 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_draft_user_contributions fk_rails_c74d8d1a1b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_draft_user_contributions
     ADD CONSTRAINT fk_rails_c74d8d1a1b FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_licenses fk_rails_ca1e2d8268; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_licenses
+    ADD CONSTRAINT fk_rails_ca1e2d8268 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
 
 
 --
@@ -7366,6 +9172,14 @@ ALTER TABLE ONLY public.solution_draft_metrics_standards
 
 ALTER TABLE ONLY public.invitations
     ADD CONSTRAINT fk_rails_cb5fd998bd FOREIGN KEY (admin_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: solution_intake_user_contributions fk_rails_ced366f7a7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_user_contributions
+    ADD CONSTRAINT fk_rails_ced366f7a7 FOREIGN KEY (user_contribution_id) REFERENCES public.user_contributions(id) ON DELETE CASCADE;
 
 
 --
@@ -7401,6 +9215,14 @@ ALTER TABLE ONLY public.comparison_items
 
 
 --
+-- Name: solution_intake_primary_funding_sources fk_rails_d53457bfae; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_primary_funding_sources
+    ADD CONSTRAINT fk_rails_d53457bfae FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_board_structures fk_rails_d53d13de17; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7414,6 +9236,14 @@ ALTER TABLE ONLY public.solution_board_structures
 
 ALTER TABLE ONLY public.solution_draft_values_frameworks
     ADD CONSTRAINT fk_rails_d5c238e008 FOREIGN KEY (values_framework_id) REFERENCES public.values_frameworks(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_persistent_identifier_standards fk_rails_d713bbb824; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_persistent_identifier_standards
+    ADD CONSTRAINT fk_rails_d713bbb824 FOREIGN KEY (persistent_identifier_standard_id) REFERENCES public.persistent_identifier_standards(id) ON DELETE CASCADE;
 
 
 --
@@ -7446,6 +9276,14 @@ ALTER TABLE ONLY public.solutions
 
 ALTER TABLE ONLY public.solution_draft_staffings
     ADD CONSTRAINT fk_rails_da8213030d FOREIGN KEY (staffing_id) REFERENCES public.staffings(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_community_engagement_activities fk_rails_dcd9a85e03; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_community_engagement_activities
+    ADD CONSTRAINT fk_rails_dcd9a85e03 FOREIGN KEY (community_engagement_activity_id) REFERENCES public.community_engagement_activities(id) ON DELETE CASCADE;
 
 
 --
@@ -7489,6 +9327,14 @@ ALTER TABLE ONLY public.solution_revisions
 
 
 --
+-- Name: solution_intake_hosting_strategies fk_rails_e82297315c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_hosting_strategies
+    ADD CONSTRAINT fk_rails_e82297315c FOREIGN KEY (hosting_strategy_id) REFERENCES public.hosting_strategies(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_licenses fk_rails_e892108205; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7513,11 +9359,35 @@ ALTER TABLE ONLY public.users_roles
 
 
 --
+-- Name: solution_intake_maintenance_statuses fk_rails_ec43106c36; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_maintenance_statuses
+    ADD CONSTRAINT fk_rails_ec43106c36 FOREIGN KEY (maintenance_status_id) REFERENCES public.maintenance_statuses(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_draft_security_standards fk_rails_ec4adfd750; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_draft_security_standards
     ADD CONSTRAINT fk_rails_ec4adfd750 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_content_licenses fk_rails_f06b32116d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_content_licenses
+    ADD CONSTRAINT fk_rails_f06b32116d FOREIGN KEY (content_license_id) REFERENCES public.content_licenses(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_community_engagement_activities fk_rails_f1331d6f64; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_community_engagement_activities
+    ADD CONSTRAINT fk_rails_f1331d6f64 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
 
 
 --
@@ -7529,11 +9399,27 @@ ALTER TABLE ONLY public.solution_integrations
 
 
 --
+-- Name: solution_intakes fk_rails_f41e04cb99; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intakes
+    ADD CONSTRAINT fk_rails_f41e04cb99 FOREIGN KEY (provider_id) REFERENCES public.providers(id) ON DELETE SET NULL;
+
+
+--
 -- Name: user_transitions fk_rails_f626c47310; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.user_transitions
     ADD CONSTRAINT fk_rails_f626c47310 FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_staffings fk_rails_f6697c208e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_staffings
+    ADD CONSTRAINT fk_rails_f6697c208e FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
 
 
 --
@@ -7569,6 +9455,14 @@ ALTER TABLE ONLY public.solution_preservation_standards
 
 
 --
+-- Name: solution_intake_business_forms fk_rails_fe53ff8050; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_business_forms
+    ADD CONSTRAINT fk_rails_fe53ff8050 FOREIGN KEY (business_form_id) REFERENCES public.business_forms(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_draft_integrations fk_rails_fee9c6ba03; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7580,11 +9474,12 @@ ALTER TABLE ONLY public.solution_draft_integrations
 -- PostgreSQL database dump complete
 --
 
-\unrestrict A8K109qETlaEbTe4cVOVl2TSaT5rJk6EPSAtWWUWxxsWfd6WfeYtJ8niT8MJZ6f
-
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260720163043'),
+('20260717172945'),
+('20260717172537'),
 ('20241007211713'),
 ('20240927172612'),
 ('20240927170434'),

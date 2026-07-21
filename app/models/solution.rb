@@ -21,6 +21,7 @@ class Solution < ApplicationRecord
   has_many :comparison_share_items, inverse_of: :solution, dependent: :destroy
   has_many :solution_drafts, -> { in_recent_order }, inverse_of: :solution, dependent: :destroy
   has_many :solution_editor_assignments, inverse_of: :solution, dependent: :destroy
+  has_one :solution_intake, inverse_of: :solution, dependent: :nullify
   has_many_readonly :solution_revisions, -> { in_recent_order }, inverse_of: :solution
 
   expose_ransackable_associations! :provider, :solution_drafts

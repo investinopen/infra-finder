@@ -61,6 +61,8 @@ module SolutionInterface
   # @api private
   # @return [void]
   def set_default_identifier!
+    return if solution_kind == :intake
+
     self.identifier ||= SecureRandom.uuid
   end
 

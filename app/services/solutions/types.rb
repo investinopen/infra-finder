@@ -10,7 +10,9 @@ module Solutions
 
     Draft = ModelInstance("SolutionDraft")
 
-    AnySolution = Actual | Draft
+    Intake = ModelInstance("SolutionIntake")
+
+    AnySolution = Actual | Draft | Intake
 
     DataVersion = ApplicationRecord.dry_pg_enum(:solution_data_version)
 

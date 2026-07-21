@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :solution_draft do
-    association(:service)
+    association(:solution)
   end
 end

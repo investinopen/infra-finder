@@ -703,7 +703,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
         vocab => { strategy:, }
         # :nocov:
 
-        %w[actual draft].map do |solution_kind|
+        ApplicationRecord.pg_enum_values("solution_kind").map do |solution_kind|
           key = "#{solution_kind}/#{name}"
 
           { key:, name:, solution_kind:, connection_mode:, strategy:, vocab_name:, }

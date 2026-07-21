@@ -15,7 +15,10 @@ module Solutions
     # @return [SolutionDraft]
     attr_reader :draft
 
-    # @return [:apply_draft, :populate_draft]
+    # @return [SolutionIntake]
+    attr_reader :intake
+
+    # @return [:accept_intake, :apply_draft, :populate_draft]
     attr_reader :action
 
     # @return [ActiveSupport::HashWithIndifferentAccess]
@@ -48,6 +51,8 @@ module Solutions
     end
 
     wrapped_hook! def prepare
+      @actual = @draft = @intake = nil
+
       @source_kind = source.solution_kind
       @target_kind = target.solution_kind
 
@@ -58,7 +63,7 @@ module Solutions
 
     wrapped_hook! def validate
       # :nocov:
-      return Failure[:mismatched_solution_draft, actual, draft] if actual != draft.solution
+      return Failure[:mismatched_solution_draft, actual, draft] if draft.present? && actual != draft.solution
       # :nocov:
 
       super
@@ -99,6 +104,8 @@ module Solutions
     # @return [Dry::Monads::Success(ActiveSupport::HashWithIndifferentAccess)]
     def filter_attributes_by_action
       case action
+      in :accept_intake
+        Success source_attributes
       in :apply_draft
         Success source_attributes.slice(*draft_overrides)
       in :populate_draft
@@ -118,6 +125,11 @@ module Solutions
         @draft = source
 
         Success :apply_draft
+      elsif source_kind == :intake && target_kind == :actual
+        @actual = target
+        @intake = source
+
+        Success :accept_intake
       else
         # :nocov:
         Failure[:invalid_solution_assignment, [source_kind, target_kind]]
