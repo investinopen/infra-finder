@@ -53,6 +53,7 @@ import SolutionsComponent__SolutionsComponentController from "./solutions_compon
 import SubnavBarComponent__SubnavBarComponentController from "./subnav_bar_component/subnav_bar_component_controller";
 import TagComponent__TagComponentController from "./tag_component/tag_component_controller";
 import TagListComponent__TagListComponentController from "./tag_list_component/tag_list_component_controller";
+import TypeaheadComponent__TypeaheadComponentController from "./typeahead_component/typeahead_component_controller";
 
 application.register("back-to-top-component--back-to-top-component", BackToTopComponent__BackToTopComponentController);
 application.register("comparison-bar-component--comparison-bar-component", ComparisonBarComponent__ComparisonBarComponentController);
@@ -105,3 +106,4 @@ application.register("solutions-component--solutions-component", SolutionsCompon
 application.register("subnav-bar-component--subnav-bar-component", SubnavBarComponent__SubnavBarComponentController);
 application.register("tag-component--tag-component", TagComponent__TagComponentController);
 application.register("tag-list-component--tag-list-component", TagListComponent__TagListComponentController);
+application.register("typeahead-component--typeahead-component", TypeaheadComponent__TypeaheadComponentController);

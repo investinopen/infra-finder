@@ -19,6 +19,13 @@
     margin-block-start: 3rem;
   }
 
+  &:has(&:not([hidden])) {
+    background-color: hsl(51, 100%, 88.75%);
+    box-shadow:
+      0 0 0 10px hsl(51, 100%, 88.75%),
+      0 0 0 11px var(--black);
+  }
+
   &__meta {
     display: flex;
     align-items: flex-start;

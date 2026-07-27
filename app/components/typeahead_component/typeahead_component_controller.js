@@ -1,0 +1,54 @@
+import { Controller } from "@hotwired/stimulus";
+import TomSelect from "tom-select";
+
+export default class extends Controller {
+  static values = {
+    maxItems: Number,
+    placeholder: String,
+    maxItemsPlaceholder: String,
+  };
+
+  connect() {
+    this.select = new TomSelect(this.element, {
+      plugins: { remove_button: { tabindex: 0 } },
+      maxItems:
+        this.hasMaxItemsValue && this.maxItemsValue > 0
+          ? this.maxItemsValue
+          : null,
+      placeholder: this.hasPlaceholderValue ? this.placeholderValue : undefined,
+      hideSelected: true,
+      closeAfterSelect: true,
+      hidePlaceholder: false,
+    });
+
+    // Skip default TomSelect active item behavior and replace with remove click
+    this.select.setActiveItem = () => {};
+    this.select.control.addEventListener("keydown", this.onRemoveKeydown);
+
+    if (this.hasMaxItemsPlaceholderValue && this.maxItemsValue > 0) {
+      this.select.on("item_add", this.refreshPlaceholder);
+      this.select.on("item_remove", this.refreshPlaceholder);
+      this.refreshPlaceholder();
+    }
+  }
+
+  disconnect() {
+    this.select?.control?.removeEventListener("keydown", this.onRemoveKeydown);
+    this.select?.destroy();
+  }
+
+  refreshPlaceholder = () => {
+    const full = this.select.items.length >= this.maxItemsValue;
+    const placeholder = full ? this.maxItemsPlaceholderValue : this.placeholderValue;
+    this.select.settings.placeholder = placeholder;
+    this.select.control_input.setAttribute("placeholder", placeholder);
+  };
+
+  onRemoveKeydown = (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const remove = event.target.closest(".remove");
+    if (!remove) return;
+    event.preventDefault();
+    remove.click();
+  };
+}
