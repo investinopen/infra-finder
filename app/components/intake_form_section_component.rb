@@ -8,6 +8,8 @@ class IntakeFormSectionComponent < ApplicationComponent
   # `section.with_field(class_name: "wide") { ... }`.
   renders_many :fields, FormFieldWrapperComponent
 
+  renders_many :text_blocks
+
   # @return [String]
   attr_reader :title
 

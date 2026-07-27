@@ -1,0 +1,77 @@
+.typeahead-component {
+  select {
+    display: none;
+  }
+
+  .ts-wrapper {
+    position: relative;
+  }
+
+  .ts-dropdown {
+    position: absolute;
+    top: 3.125rem;
+    background: theme("colors.white");
+    border: 1px solid theme("colors.neutral.60");
+    padding: 0.5rem 0.75rem ;
+    max-inline-size: 100%;
+    inline-size: 100%;
+    max-block-size: 20rem;
+    overflow: auto;
+
+    .active {
+      background-color: theme("colors.brand.blue-tint");
+      color: theme("colors.black");
+      padding-inline: 0.5rem;
+      margin-inline-start: -0.5rem;
+      inline-size: calc(100% + 1rem);
+      cursor: pointer;
+    }
+  }
+
+  .ts-control {
+    gap: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .ts-control input {
+    border: 1px solid theme("colors.neutral.60");
+    background-color: var(--accent-color);
+    padding: 0.5rem 0.75rem;
+    min-block-size: 2.75rem;
+    order: -1;
+    min-inline-size: 100%;
+
+    &:not(:only-child) {
+      margin-block-end: 0.5rem;
+    }
+  }
+
+  /*.m-badge--sm styles for selected */
+  .item {
+    @apply rounded-xs;
+    @apply text-xxs;
+    @apply font-semibold;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    cursor: default;
+    padding-block: 0.4375rem;
+    padding-inline: 0.875rem ;
+    background-color: var(--yellow);
+    color: theme("colors.black");
+  }
+
+  .item .remove {
+    cursor: pointer;
+    color: theme("colors.neutral.70");
+    font-size: 1.125rem;
+    line-height: 1;
+    @apply transition-colors;
+
+    &:hover {
+      color: theme("colors.black");
+    }
+  }
+}
