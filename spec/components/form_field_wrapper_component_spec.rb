@@ -30,13 +30,13 @@ RSpec.describe FormFieldWrapperComponent, type: :component do
       "<input>".html_safe
     end
 
-    expect(rendered.at_css(".form-field-wrapper__description").text).to eq("Help text")
+    expect(rendered.at_css(".field-description").text).to eq("Help text")
   end
 
   it "omits the description span when not given" do
     rendered = render_inline(described_class.new) { "<input>".html_safe }
 
-    expect(rendered.at_css(".form-field-wrapper__description")).to be_nil
+    expect(rendered.at_css(".field-description")).to be_nil
   end
 
   it "renders a hidden counter target in the description row" do
@@ -44,7 +44,7 @@ RSpec.describe FormFieldWrapperComponent, type: :component do
       "<textarea maxlength='1000'></textarea>".html_safe
     end
 
-    counter = rendered.at_css(".form-field-wrapper__counter")
+    counter = rendered.at_css(".field-counter")
 
     expect(counter).to be_present
     expect(counter.key?("hidden")).to be(true)
