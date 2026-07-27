@@ -22,3 +22,12 @@
     color: var(--red);
   }
 }
+
+.consent-checkbox.m-checkbox {
+  display: inline-flex;
+
+  span::before {
+    border: 1px solid var(--black);
+    background-position: center;
+  }
+}

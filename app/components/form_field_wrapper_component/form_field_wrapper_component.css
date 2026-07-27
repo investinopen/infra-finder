@@ -1,8 +1,14 @@
 .form-field-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
-  min-width: 0;
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 5;
+  align-content: start;
+  margin-block-end: 3rem;
+
+  label {
+    grid-row: 1;
+    margin-block-end: 0.125rem;
+  }
 
   &[hidden] {
     display: none;
@@ -14,35 +20,11 @@
     color: var(--red);
   }
 
-  /* a conditional field nested inside its trigger's grid cell */
-  & & {
-    margin-block-start: 3rem;
-  }
-
-  &:has(&:not([hidden])) {
+  &:has(.conditional-field-wrapper:not([hidden])) {
     background-color: hsl(51, 100%, 88.75%);
     box-shadow:
       0 0 0 10px hsl(51, 100%, 88.75%),
       0 0 0 11px var(--black);
-  }
-
-  &__meta {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-block-start: 0.325rem;
-    font-size: 0.825rem;
-    color: var(--grey2);
-    line-height: 1.3;
-    font-weight: 400;
-
-    @mixin fluidScaleRem gap, 80px, 40px;
-  }
-
-  &__counter {
-    flex: 0 0 auto;
-    white-space: nowrap;
-    font-variant-numeric: tabular-nums;
   }
 
   :is(input, select, textarea) {
@@ -64,7 +46,56 @@
     &::placeholder {
       color: var(--grey2);
     }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
   }
+
+  :is(input[type=number]) {
+    appearance: textfield;
+  }
+}
+
+.conditional-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  margin-block-start: 3rem;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.field-content {
+  grid-row: 2;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-inline-size: 100%;
+}
+
+.field-meta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-block-start: 0.325rem;
+  font-size: 0.825rem;
+  color: var(--grey2);
+  line-height: 1.3;
+  font-weight: 400;
+
+  @mixin fluidScaleRem gap, 80px, 40px;
+}
+
+.field-counter {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .wide {

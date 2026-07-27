@@ -2,9 +2,15 @@
 
 class IntakeFormSectionComponentPreview < ViewComponent::Preview
   def default
-    render(IntakeFormSectionComponent.new(title: "About your solution")) do |section|
-      section.with_field { "<label>Name</label><input type='text'>".html_safe }
-      section.with_field { "<label>URL</label><input type='url'>".html_safe }
+    render(IntakeFormSectionComponent.new(title: "About your solution")) do
+      safe_join([
+                  render(FormFieldWrapperComponent.new(description: "Your full name")) do
+                    "<label>Name</label><input type='text'>".html_safe
+                  end,
+                  render(FormFieldWrapperComponent.new(description: "Homepage URL")) do
+                    "<label>URL</label><input type='url'>".html_safe
+                  end
+                ])
     end
   end
 end

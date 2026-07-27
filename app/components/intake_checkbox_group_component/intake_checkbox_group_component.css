@@ -4,6 +4,10 @@
   gap: 1rem;
   padding: 1rem;
 
+  .conditional-field-wrapper & {
+    padding-block-end: 0;
+  }
+
   .m-checkbox {
     span {
       @apply text-xxs;
@@ -17,10 +21,10 @@
     }
   }
 
-  .wide > & {
+  .wide > .field-content > & {
     display: block;
-    columns: 16rem 2;
-    @mixin fluidScaleRem column-gap, 112px, 80px;
+    columns: 10rem 3;
+    @mixin fluidScaleRem column-gap, 50px, 30px;
 
     .m-checkbox {
       display: block;

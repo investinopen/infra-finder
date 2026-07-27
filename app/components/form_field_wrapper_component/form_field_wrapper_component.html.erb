@@ -1,9 +1,15 @@
-<%= tag.div class: ["form-field-wrapper", class_name, ("form-field-wrapper--required" if required?)], data: { controller: "form-field-wrapper-component--form-field-wrapper-component", condition_field:, condition_value: } do %>
-  <%= content %>
-  <% if description.present? %>
-    <div class="form-field-wrapper__meta">
-      <span><%= description %></span>
-      <span class="form-field-wrapper__counter" data-form-field-wrapper-component--form-field-wrapper-component-target="counter" hidden></span>
-    </div>
+<%= tag.div class: [(conditional? ? "conditional-field-wrapper" : "form-field-wrapper"), class_name, ("form-field-wrapper--required" if required?)], data: { controller: "form-field-wrapper-component--form-field-wrapper-component", condition_field:, condition_value: } do %>
+  <%= label %>
+  <div class="field-content">
+    <%= content %>
+    <% if description.present? %>
+      <div class="field-meta">
+        <span class="field-description"><%= description %></span>
+        <span class="field-counter" data-form-field-wrapper-component--form-field-wrapper-component-target="counter" hidden></span>
+      </div>
+    <% end %>
+  </div>
+  <% conditional_fields.each do |conditional_field| %>
+    <%= conditional_field %>
   <% end %>
 <% end %>

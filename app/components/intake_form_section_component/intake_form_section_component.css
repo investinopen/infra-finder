@@ -16,38 +16,10 @@
 }
 
 .form-grid {
+  @mixin fluidScaleRem --_form-col-gap, 80px, 48px;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  @mixin fluidScaleRem column-gap, 80px, 48px;
-
-  > .form-field-wrapper {
-    display: grid;
-    grid-template-rows: subgrid;
-    grid-row: span 5;
-    padding-block-end: 3rem;
-
-    > label {
-      grid-row: 1;
-    }
-
-    > :is(input, select, textarea, .intake-checkbox-group) {
-      grid-row: 2;
-      align-self: start;
-    }
-
-    > .form-field-wrapper__meta {
-      grid-row: 3;
-      align-self: start;
-    }
-
-    > .form-field-wrapper {
-      grid-row: 4;
-
-      + .form-field-wrapper {
-        grid-row: 5;
-      }
-    }
-  }
+  column-gap: var(--_form-col-gap);
 
   @media screen and (max-width: theme("screens.md")) {
     grid-template-columns: 100%;
