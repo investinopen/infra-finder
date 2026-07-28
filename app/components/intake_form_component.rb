@@ -3,18 +3,46 @@
 class IntakeFormComponent < ApplicationComponent
   FORM_ID = "solution-intake-form"
 
+  CONTROLLER = "intake-form-component--intake-form-component"
+
+  SAVE_EVENT = "intake:save"
+
   # @return [SolutionIntake]
   attr_reader :solution_intake
 
-  # @api private
-  # @return [String]
-  attr_reader :form_id
-
   # @param [SolutionIntake] solution_intake
-  # @param [String] form_id
-  def initialize(solution_intake:, form_id: FORM_ID)
+  def initialize(solution_intake:)
     @solution_intake = solution_intake
-    @form_id = form_id
+  end
+
+  # @api private
+  # @return [Hash]
+  def form_data
+    {
+      controller: CONTROLLER,
+      action: [
+        "#{SAVE_EVENT}@window->#{CONTROLLER}#save",
+        "input->#{CONTROLLER}#markDirty",
+        "change->#{CONTROLLER}#markDirty",
+        "turbo:submit-start->#{CONTROLLER}#saveStart",
+        "turbo:submit-end->#{CONTROLLER}#saveEnd",
+      ].join(" "),
+    }
+  end
+
+  # @api private
+  # @return [Hash]
+  def consent_data
+    {
+      "#{CONTROLLER}-target": "consent",
+      action: "change->#{CONTROLLER}#toggleSubmit",
+    }
+  end
+
+  # @api private
+  # @return [Hash]
+  def submit_data
+    { "#{CONTROLLER}-target": "submit" }
   end
 
   # @param [String] vocab_name

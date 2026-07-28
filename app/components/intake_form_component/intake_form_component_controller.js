@@ -3,8 +3,24 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static targets = ["consent", "submit"];
 
+  static values = {
+    autosaveInterval: { type: Number, default: 2 * 60 * 1000 },
+  };
+
   connect() {
     this.toggleSubmit();
+
+    this.dirty = false;
+    this.saving = false;
+    this.draftMode = null;
+    this.autosaveTimer = setInterval(
+      () => this.autosave(),
+      this.autosaveIntervalValue,
+    );
+  }
+
+  disconnect() {
+    clearInterval(this.autosaveTimer);
   }
 
   toggleSubmit() {
@@ -13,20 +29,67 @@ export default class extends Controller {
     this.submitTarget.disabled = !this.consentTarget.checked;
   }
 
+  markDirty() {
+    this.dirty = true;
+  }
+
+  autosave() {
+    if (!this.dirty) return;
+
+    this.submitDraft("auto");
+  }
+
   /**
-   * Persist the record on blur, skipping validations server-side.
+   * Entry point for the `intake:save` event from
+   * IntakeSaveDraftButtonComponent.
    */
   save() {
-    const skipValidations = document.createElement("input");
+    this.submitDraft("manual");
+  }
 
-    skipValidations.type = "hidden";
-    skipValidations.name = "skip_validations";
-    skipValidations.value = "true";
+  submitDraft(mode) {
+    if (this.saving) return;
 
-    this.element.appendChild(skipValidations);
+    this.draftMode = mode;
 
-    this.element.requestSubmit();
+    const submitter = document.createElement("button");
 
-    skipValidations.remove();
+    submitter.type = "submit";
+    submitter.name = "skip_validations";
+    submitter.value = "true";
+    submitter.formNoValidate = true;
+    submitter.hidden = true;
+
+    this.element.appendChild(submitter);
+    this.element.requestSubmit(submitter);
+    submitter.remove();
+  }
+
+  saveStart() {
+    this.saving = true;
+    this.dirty = false;
+
+    if (!this.draftMode) return;
+
+    this.dispatch("saving", {
+      prefix: "intake",
+      target: window,
+      detail: { auto: this.draftMode === "auto" },
+    });
+  }
+
+  saveEnd({ detail: { success } }) {
+    this.saving = false;
+
+    if (!success) this.dirty = true;
+
+    if (this.draftMode) {
+      this.dispatch(success ? "saved" : "save-failed", {
+        prefix: "intake",
+        target: window,
+      });
+    }
+
+    this.draftMode = null;
   }
 }

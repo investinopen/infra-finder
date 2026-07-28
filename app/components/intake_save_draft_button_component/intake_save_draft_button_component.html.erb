@@ -1,8 +1,6 @@
-<button type="submit"
-  form="<%= form_id %>"
-  formnovalidate
-  name="skip_validations"
-  value="true"
-  class="m-button m-button--lg bg-brand-yellow save-draft__button">
-  <%= t(".save_draft") %>
-</button>
+<%= tag.button type: "button",
+      class: "m-button m-button--lg m-button--center bg-brand-yellow save-draft__button",
+      aria: { live: "polite" },
+      data: button_data do %>
+  <%= labels[:idle] %>
+<% end %>
