@@ -195,6 +195,12 @@
               <%= implementation_url_field(f, :open_data) %>
             <% end %>
           <% end %>
+          <%= render FormFieldWrapperComponent.new(description: "The solution's readiness for broad adoption, adapted from the framework developed by the Horizon 2020 project.") do |field| %>
+            <% field.with_label do %>
+              <%= f.label :readiness_level_id, "Technology readiness level" %>
+            <% end %>
+            <%= f.select :readiness_level_id, vocab_options("tech_read"), include_blank: "Select a level" %>
+          <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide") do |field| %>
             <% field.with_label do %>
               <%= tag.label " Primary programming languages used in the tool or solution's source code", id: "programming-languages-label" %>
@@ -320,23 +326,17 @@
               <%= f.text_field :metrics_standard_other, maxlength: max_length(:metrics_standard_other) %>
             <% end %>
           <% end %>
-          <%= render FormFieldWrapperComponent.new(required: true, class_name: "start", description: "Indication of whether the software can be hosted, deployed, configured, maintained, or otherwise serviced by a vendor, whether the solution provider or a third party.") do |field| %>
+          <%= render FormFieldWrapperComponent.new(required: true, class_name: "wide", description: "Indication of whether the software can be hosted, deployed, configured, maintained, or otherwise serviced by a vendor, whether the solution provider or a third party.") do |field| %>
             <% field.with_label do %>
               <%= f.label :hosting_strategy_id, "Hosting and software as a service (SaaS) options" %>
             <% end %>
             <%= f.select :hosting_strategy_id, vocab_options("saas"), { include_blank: "Select an option" }, required: true %>
-            <% field.with_conditional_field(condition: { field: :hosting_strategy_id, value: vocab_option_values("saas", "Through third party vendor only", "Through solution provider or third party vendor") }, description: "Link to a public registry of approved third party vendors or to a description of SaaS options available. Links should start with https://.") do |field| %>
+            <% field.with_conditional_field(condition: { field: :hosting_strategy_id, value: vocab_option_values("saas", "Through third party vendor only", "Through solution provider or third party vendor") }) do |field| %>
               <% field.with_label do %>
-                <%= f.label :service_provider_free_input, "Link to vendor registry or SaaS description" %>
+                <%= tag.label "Service providers", id: "service-providers-label" %>
               <% end %>
-              <%= f.text_field :service_provider_free_input, maxlength: max_length(:service_provider_free_input) %>
+              <%= render IntakeStructuredListComponent.new(form: f, attr: :service_providers, fields: [:name, :url], labelled_by: "service-providers-label", description: "Link to a public registry of approved third party vendors or to a description of SaaS options available. Links should start with https://.") %>
             <% end %>
-          <% end %>
-          <%= render FormFieldWrapperComponent.new(description: "The solution's readiness for broad adoption, adapted from the framework developed by the Horizon 2020 project.") do |field| %>
-            <% field.with_label do %>
-              <%= f.label :readiness_level_id, "Technology readiness level" %>
-            <% end %>
-            <%= f.select :readiness_level_id, vocab_options("tech_read"), include_blank: "Select a level" %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide") do |field| %>
             <% field.with_label do %>
@@ -590,17 +590,17 @@
             <% end %>
             <%= f.text_field :board_members_url %>
           <% end %>
-          <%= render FormFieldWrapperComponent.new(class_name: "wide", required: true, description: "List of any external partners or organizations directly involved in running or governing the solution.") do |field| %>
+          <%= render FormFieldWrapperComponent.new(class_name: "wide", required: true) do |field| %>
             <% field.with_label do %>
-              <%= f.label :current_affiliation_free_input, "Affiliations" %>
+              <%= tag.label "Affiliations", id: "current-affiliations-label" %>
             <% end %>
-            <%= f.text_area :current_affiliation_free_input, required: true, maxlength: max_length(:current_affiliation_free_input), rows: 5 %>
+            <%= render IntakeStructuredListComponent.new(form: f, attr: :current_affiliations, fields: [:name, :url], labelled_by: "current-affiliations-label", description: "List of any external partners or organizations directly involved in running or governing the solution.") %>
           <% end %>
-          <%= render FormFieldWrapperComponent.new(class_name: "wide", description: "Organizations and/or individuals that had a direct role in founding or launching the solution.") do |field| %>
+          <%= render FormFieldWrapperComponent.new(class_name: "wide") do |field| %>
             <% field.with_label do %>
-              <%= f.label :founding_institution_free_input, "Founders" %>
+              <%= tag.label "Founders", id: "founding-institutions-label" %>
             <% end %>
-            <%= f.text_area :founding_institution_free_input, maxlength: max_length(:founding_institution_free_input), rows: 5 %>
+            <%= render IntakeStructuredListComponent.new(form: f, attr: :founding_institutions, fields: [:name, :url], labelled_by: "founding-institutions-label", description: "Organizations and/or individuals that had a direct role in founding or launching the solution.") %>
           <% end %>
         <% end %>
 
@@ -713,11 +713,11 @@
             <% end %>
             <%= f.text_field :financial_numbers_documented_url %>
           <% end %>
-          <%= render FormFieldWrapperComponent.new(class_name: "wide", description: "List or organizations that have provided the greatest amount of grant funds to the solution or provider in the past year.") do |field| %>
+          <%= render FormFieldWrapperComponent.new(class_name: "wide") do |field| %>
             <% field.with_label do %>
-              <%= f.label :top_granting_institution_free_input, "Top granting institutions" %>
+              <%= tag.label "Top granting institutions", id: "top-granting-institutions-label" %>
             <% end %>
-            <%= f.text_area :top_granting_institution_free_input, maxlength: max_length(:top_granting_institution_free_input), rows: 5 %>
+            <%= render IntakeStructuredListComponent.new(form: f, attr: :top_granting_institutions, fields: [:name, :url], labelled_by: "top-granting-institutions-label", description: "List or organizations that have provided the greatest amount of grant funds to the solution or provider in the past year.") %>
           <% end %>
         <% end %>
 
