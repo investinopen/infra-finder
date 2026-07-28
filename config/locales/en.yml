@@ -86,6 +86,9 @@ en:
     link_messages:
       many: "This implementation can have many links associated with it."
       single: "This implementation supports only a single associated link."
+  solution_intakes:
+    update:
+      draft_not_saved: "We were unable to save your draft. Please try again."
   solutions:
     index:
       open_graph_description: >

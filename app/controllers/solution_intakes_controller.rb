@@ -11,7 +11,13 @@ class SolutionIntakesController < ApplicationController
 
     @solution_intake.assign_attributes(solution_intake_params)
 
-    if @solution_intake.save(validate: !skip_validations?)
+    saved = @solution_intake.save(validate: !skip_validations?)
+
+    if skip_validations?
+      flash.now[:alert] = t(".draft_not_saved") unless saved
+
+      render :update, formats: :turbo_stream, status: saved ? :ok : :unprocessable_entity
+    elsif saved
       redirect_to @solution_intake
     else
       render :show, status: :unprocessable_entity
