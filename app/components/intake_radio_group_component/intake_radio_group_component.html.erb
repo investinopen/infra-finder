@@ -1,0 +1,8 @@
+<%= tag.div class: "intake-radio-group", role: "radiogroup", aria: { labelledby: labelled_by } do %>
+  <% options.each do |(label, value)| %>
+    <label class="m-radio">
+      <%= form.radio_button attr, value %>
+      <span><%= label %></span>
+    </label>
+  <% end %>
+<% end %>
