@@ -1,6 +1,18 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
+  static targets = ["consent", "submit"];
+
+  connect() {
+    this.toggleSubmit();
+  }
+
+  toggleSubmit() {
+    if (!this.hasSubmitTarget || !this.hasConsentTarget) return;
+
+    this.submitTarget.disabled = !this.consentTarget.checked;
+  }
+
   /**
    * Persist the record on blur, skipping validations server-side.
    */

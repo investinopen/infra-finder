@@ -39,4 +39,28 @@ class IntakeFormComponent < ApplicationComponent
   def vocab_option_values(vocab_name, *labels)
     labels.map { vocab_option_value(vocab_name, _1) }
   end
+
+  # @param [ActionView::Helpers::FormBuilder] f
+  # @param [Symbol] name the implementation attribute name
+  # @return [ActiveSupport::SafeBuffer]
+  def implementation_url_field(f, name, **options)
+    store = f.object.public_send(name)
+
+    if store.respond_to?(:links)
+      field_name = "#{f.object_name}[#{name}_attributes][links][][url]"
+      value = store.links.first&.url
+    else
+      field_name = "#{f.object_name}[#{name}_attributes][link][url]"
+      value = store.link&.url
+    end
+
+    helpers.url_field_tag(field_name, value, id: implementation_url_field_id(f, name), **options)
+  end
+
+  # @param [ActionView::Helpers::FormBuilder] f
+  # @param [Symbol] name
+  # @return [String] the DOM id shared by {#implementation_url_field} and its label's `for`
+  def implementation_url_field_id(f, name)
+    "#{f.object_name}_#{name}_url"
+  end
 end
