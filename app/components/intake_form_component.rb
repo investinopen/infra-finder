@@ -40,6 +40,15 @@ class IntakeFormComponent < ApplicationComponent
     labels.map { vocab_option_value(vocab_name, _1) }
   end
 
+  # Equivalent of {#vocab_options} for plain enums
+  # @param [Symbol] attr
+  # @return [<(String, String)>]
+  def enum_options(attr)
+    solution_intake.class.public_send(attr.to_s.pluralize).keys.map do |value|
+      [I18n.t("pg_enums.#{attr}.#{value}"), value]
+    end
+  end
+
   # @param [ActionView::Helpers::FormBuilder] f
   # @param [Symbol] name the implementation attribute name
   # @return [ActiveSupport::SafeBuffer]

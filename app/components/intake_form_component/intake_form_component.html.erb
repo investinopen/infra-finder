@@ -55,9 +55,9 @@
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "Public link to a logo or other image representing the solution. The logo should display properly on a light background.") do |field| %>
             <% field.with_label do %>
-              <%= f.label :logo %>
+              <%= f.label :logo_remote_url, "Logo" %>
             <% end %>
-            <%= f.text_field :logo %>
+            <%= f.url_field :logo_remote_url %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "Location of incorporation of the solution or provider or geographical area of primary activity.") do |field| %>
             <% field.with_label do %>
@@ -693,7 +693,7 @@
             <% field.with_label do %>
               <%= f.label :financial_numbers_publishability, "Permission to share financial numbers" %>
             <% end %>
-            <%= f.select :financial_numbers_publishability, ["Yes", "No"], include_blank: "Select an option" %>
+            <%= f.select :financial_numbers_publishability, enum_options(:financial_numbers_publishability) %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "Indication of whether financial information applies to the solution itself or to its fiscal sponsor or host organization.") do |field| %>
             <% field.with_label do %>
