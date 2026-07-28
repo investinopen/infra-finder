@@ -50,6 +50,18 @@ class SolutionIntake < ApplicationRecord
     InfraFinder::Container[:sqids].encode([flake])
   end
 
+  # @return [Integer, nil]
+  def launch_year
+    founded_on&.year
+  end
+
+  # User form uses a plain number input for this value
+  # @param [String, Integer, nil] value
+  # @return [void]
+  def launch_year=(value)
+    self.founded_on = value.present? ? Date.new(value.to_i) : nil
+  end
+
   private
 
   # @return [void]
