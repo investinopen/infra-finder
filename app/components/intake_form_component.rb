@@ -19,7 +19,8 @@ class IntakeFormComponent < ApplicationComponent
   # @return [Hash]
   def form_data
     {
-      controller: CONTROLLER,
+      controller: "#{CONTROLLER} nav-scroll",
+      "nav-scroll-nav-value": IntakeFormNavComponent::NAV_ID,
       action: [
         "#{SAVE_EVENT}@window->#{CONTROLLER}#save",
         "input->#{CONTROLLER}#markDirty",

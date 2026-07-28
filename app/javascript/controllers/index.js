@@ -3,4 +3,6 @@
 // ./bin/rails generate stimulus controllerName
 
 import { application } from "./application"
+import NavScrollController from "./nav_scroll_controller";
 
+application.register("nav-scroll", NavScrollController);
