@@ -27,13 +27,13 @@
             <% field.with_label do %>
               <%= f.label :first_name %>
             <% end %>
-            <%= f.text_field :first_name, required: true %>
+            <%= f.text_field :first_name, required: true, maxlength: max_length(:first_name) %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "Your last name", required: true) do |field| %>
             <% field.with_label do %>
               <%= f.label :last_name %>
             <% end %>
-            <%= f.text_field :last_name, required: true %>
+            <%= f.text_field :last_name, required: true, maxlength: max_length(:last_name) %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "Your email address formatted as example@example.com", required: true) do |field| %>
             <% field.with_label do %>
@@ -43,9 +43,9 @@
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "start", description: "A solution is a tool, product, or infrastructure component. In some cases, the solution may be the same as the provider.", required: true) do |field| %>
             <% field.with_label do %>
-              <%= f.label :name %>
+              <%= f.label :name, "Solution name" %>
             <% end %>
-            <%= f.text_field :name, required: true %>
+            <%= f.text_field :name, required: true, maxlength: max_length(:name) %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "A provider is a formal or informal organization responsible for running a solution. In some cases, the provider may be the same as the solution.") do |field| %>
             <% field.with_label do %>
@@ -103,13 +103,13 @@
             <% field.with_label do %>
               <%= tag.label "Solution category", id: "solution-categories-label" %>
             <% end %>
-            <%= render TypeaheadComponent.new(form: f, attr: :solution_categories, vocab_name: "soln_cat", max_items: 3, labelled_by: "solution-categories-label", placeholder: "Type to search categories…", max_items_placeholder: "Max selected. Remove a category to search...") %>
+            <%= render TypeaheadComponent.new(form: f, attr: :solution_category_ids, vocab_name: "soln_cat", max_items: 3, labelled_by: "solution-categories-label", placeholder: "Type to search categories…", max_items_placeholder: "Max selected. Remove a category to search...") %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide", required: true, description: "An overview of the functions of the solution and its role in supporting research.") do |field| %>
             <% field.with_label do %>
               <%= f.label :service_summary, "Solution summary" %>
             <% end %>
-            <%= f.text_area :service_summary, required: true, maxlength: 1000, rows: 5 %>
+            <%= f.text_area :service_summary, required: true, maxlength: max_length(:service_summary), rows: 5 %>
           <% end %>
         <% end %>
 
@@ -118,13 +118,13 @@
             <% field.with_label do %>
               <%= f.label :mission %>
             <% end %>
-            <%= f.text_area :mission, required: true, maxlength: 1000, rows: 5 %>
+            <%= f.text_area :mission, required: true, maxlength: max_length(:mission), rows: 5 %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide", description: "Narrative description of up to three recent milestones or achievements that demonstrate growth or progress, such as usage or adoption milestones, deployment of major features or new versions, staff additions or changes in leadership.") do |field| %>
             <% field.with_label do %>
               <%= f.label :key_achievements %>
             <% end %>
-            <%= f.text_area :key_achievements, maxlength: 1000, rows: 5 %>
+            <%= f.text_area :key_achievements, maxlength: max_length(:key_achievements), rows: 5 %>
           <% end %>
         <% end %>
 
@@ -133,7 +133,7 @@
             <% field.with_label do %>
               <%= f.label :code_repository_implementation, "Open code repository" %>
             <% end %>
-            <%= f.select :code_repository_implementation, vocab_options("impl_scale"), { include_blank: "Select a status" }, required: true %>
+            <%= f.select :code_repository_implementation, vocab_options("impl_scale") %>
             <% field.with_conditional_field(condition: { field: :code_repository_implementation, value: "available" }, description: "Provide a public link to your primary code repository. Links should start with https://.") do |field| %>
               <% field.with_label do %>
                 <%= f.label :code_repository, "Link to open code repository", for: implementation_url_field_id(f, :code_repository) %>
@@ -143,15 +143,15 @@
           <% end %>
           <%= render FormFieldWrapperComponent.new(required: true, description: "The solution's maintenance status. Evidence of active maintenance may include regular commits and issue resolutions in a GitHub repository, activity in community and support forums.") do |field| %>
             <% field.with_label do %>
-              <%= f.label :maintenance_status %>
+              <%= f.label :maintenance_status_id, "Maintenance status" %>
             <% end %>
-            <%= f.select :maintenance_status, vocab_options("maint"), { include_blank: "Select a status" }, required: true %>
+            <%= f.select :maintenance_status_id, vocab_options("maint"), selected: solution_intake.maintenance_status_id || vocab_option_value("maint", "Unknown") %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(required: true, description: "Does your solution maintain public documentation that meaningfully describes the process for users to install, configure, maintain, and troubleshoot the code for running the solution. OR, in the case of solutions not reliant on client installs, documentation that meaningfully describes how users perform tasks on the platform to utilize the solution?") do |field| %>
             <% field.with_label do %>
               <%= f.label :user_documentation_implementation, "Technical documentation" %>
             <% end %>
-            <%= f.select :user_documentation_implementation, vocab_options("impl_scale"), { include_blank: "Select a status" }, required: true %>
+            <%= f.select :user_documentation_implementation, vocab_options("impl_scale") %>
             <% field.with_conditional_field(condition: { field: :user_documentation_implementation, value: "available" }, description: "Provide a public link to your technical documentation. Links should start with https://.") do |field| %>
               <% field.with_label do %>
                 <%= f.label :user_documentation, "Link to technical documentation", for: implementation_url_field_id(f, :user_documentation) %>
@@ -163,7 +163,7 @@
             <% field.with_label do %>
               <%= f.label :product_roadmap_implementation, "Open product roadmap" %>
             <% end %>
-            <%= f.select :product_roadmap_implementation, vocab_options("impl_scale"), { include_blank: "Select a status" }, required: true %>
+            <%= f.select :product_roadmap_implementation, vocab_options("impl_scale") %>
             <% field.with_conditional_field(condition: { field: :product_roadmap_implementation, value: "available" }, description: "Provide a public link to your product roadmap. Links should start with https://.") do |field| %>
               <% field.with_label do %>
                 <%= f.label :product_roadmap, "Link to product roadmap", for: implementation_url_field_id(f, :product_roadmap) %>
@@ -175,7 +175,7 @@
             <% field.with_label do %>
               <%= f.label :open_api_implementation, "Open APIs" %>
             <% end %>
-            <%= f.select :open_api_implementation, vocab_options("impl_scale"), { include_blank: "Select a status" }, required: true %>
+            <%= f.select :open_api_implementation, vocab_options("impl_scale") %>
             <% field.with_conditional_field(condition: { field: :open_api_implementation, value: "available" }, description: "Provide a public link to your primary API. Separate multiple links with a comma. Links should start with https://.") do |field| %>
               <% field.with_label do %>
                 <%= f.label :open_api, "Link to API(s)", for: implementation_url_field_id(f, :open_api) %>
@@ -187,7 +187,7 @@
             <% field.with_label do %>
               <%= f.label :open_data_implementation, "Open data statement" %>
             <% end %>
-            <%= f.select :open_data_implementation, vocab_options("impl_scale"), { include_blank: "Select a status" }, required: true %>
+            <%= f.select :open_data_implementation, vocab_options("impl_scale") %>
             <% field.with_conditional_field(condition: { field: :open_data_implementation, value: "available" }, description: "Public link to open data statement. Links should start with https://.") do |field| %>
               <% field.with_label do %>
                 <%= f.label :open_data, "Link to open data statement", for: implementation_url_field_id(f, :open_data) %>
@@ -199,31 +199,31 @@
             <% field.with_label do %>
               <%= tag.label " Primary programming languages used in the tool or solution's source code", id: "programming-languages-label" %>
             <% end %>
-            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :programming_languages, vocab_name: "prgrm_lng", labelled_by: "programming-languages-label") %>
-            <% field.with_conditional_field(condition: { field: :programming_languages, value: vocab_option_value("prgrm_lng", "Other") }) do |field| %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :programming_language_ids, vocab_name: "prgrm_lng", labelled_by: "programming-languages-label") %>
+            <% field.with_conditional_field(condition: { field: :programming_language_ids, value: vocab_option_value("prgrm_lng", "Other") }) do |field| %>
               <% field.with_label do %>
                 <%= f.label :programming_language_other, "If \"other,\" please list the primary programming languages used in the tool or solution's source code" %>
               <% end %>
-              <%= f.text_field :programming_language_other %>
+              <%= f.text_field :programming_language_other, maxlength: max_length(:programming_language_other) %>
             <% end %>
           <% end %>
           <%= render FormFieldWrapperComponent.new do |field| %>
             <% field.with_label do %>
               <%= tag.label "If you publish content, what licenses do you use, require, or support?", id: "content-licenses-label" %>
             <% end %>
-            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :content_licenses, vocab_name: "cont_lcns", labelled_by: "content-licenses-label") %>
-            <% field.with_conditional_field(condition: { field: :content_licenses, value: vocab_option_value("cont_lcns", "Other") }) do |field| %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :content_license_ids, vocab_name: "cont_lcns", labelled_by: "content-licenses-label") %>
+            <% field.with_conditional_field(condition: { field: :content_license_ids, value: vocab_option_value("cont_lcns", "Other") }) do |field| %>
               <% field.with_label do %>
                 <%= f.label :content_license_other, "If \"other,\" please list the content licenses you use, require, or support" %>
               <% end %>
-              <%= f.text_field :content_license_other %>
+              <%= f.text_field :content_license_other, maxlength: max_length(:content_license_other) %>
             <% end %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(required: true, class_name: "wide", description: "Indication of whether the solution applies a standard open software license to its primary source code.") do |field| %>
             <% field.with_label do %>
               <%= f.label :code_license_implementation, "Open code license" %>
             <% end %>
-            <%= f.select :code_license_implementation, vocab_options("impl_scale"), { include_blank: "Select a status" }, required: true %>
+            <%= f.select :code_license_implementation, vocab_options("impl_scale") %>
             <% field.with_conditional_field(condition: { field: :code_license_implementation, value: "available" }, description: "Link to the code license attached to the tool's primary source code repository. Links should start with https://.") do |field| %>
               <% field.with_label do %>
                 <%= f.label :code_license, "Link to code license", for: implementation_url_field_id(f, :code_license) %>
@@ -234,12 +234,12 @@
               <% field.with_label do %>
                 <%= tag.label "What types of code license are attached to the tool's primary source code repository?", id: "licenses-label" %>
               <% end %>
-              <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :licenses, vocab_name: "code_lcns", labelled_by: "licenses-label") %>
-              <%= render FormFieldWrapperComponent.new(condition: { field: :licenses, value: vocab_option_value("code_lcns", "Other") }, conditional: true) do |field| %>
+              <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :license_ids, vocab_name: "code_lcns", labelled_by: "licenses-label") %>
+              <%= render FormFieldWrapperComponent.new(condition: { field: :license_ids, value: vocab_option_value("code_lcns", "Other") }, conditional: true) do |field| %>
                 <% field.with_label do %>
                   <%= f.label :license_other, "If \"other,\" please list to the code license(s) attached to the tool's primary source code repository" %>
                 <% end %>
-                <%= f.text_field :license_other %>
+                <%= f.text_field :license_other, maxlength: max_length(:license_other) %>
               <% end %>
             <% end %>
           <% end %>
@@ -252,97 +252,97 @@
             <% field.with_label do %>
               <%= tag.label "Metadata, markup, and information exchange standards", id: "metadata-standards-label" %>
             <% end %>
-            <%= render TypeaheadComponent.new(form: f, attr: :metadata_standards, vocab_name: "standards_metadata", labelled_by: "metadata-standards-label", placeholder: "Type to search standards…") %>
-            <% field.with_conditional_field(condition: { field: :metadata_standards, value: vocab_option_value("standards_metadata", "Other") }) do |field| %>
+            <%= render TypeaheadComponent.new(form: f, attr: :metadata_standard_ids, vocab_name: "standards_metadata", labelled_by: "metadata-standards-label", placeholder: "Type to search standards…") %>
+            <% field.with_conditional_field(condition: { field: :metadata_standard_ids, value: vocab_option_value("standards_metadata", "Other") }) do |field| %>
               <% field.with_label do %>
                 <%= f.label :metadata_standard_other, "What other metadata, markup, and information exchange standards do you support?" %>
               <% end %>
-              <%= f.text_field :metadata_standard_other %>
+              <%= f.text_field :metadata_standard_other, maxlength: max_length(:metadata_standard_other) %>
             <% end %>
           <% end %>
           <%= render FormFieldWrapperComponent.new do |field| %>
             <% field.with_label do %>
               <%= tag.label "Security standards", id: "security-standards-label" %>
             <% end %>
-            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :security_standards, vocab_name: "standards_sec", labelled_by: "security-standards-label") %>
-            <% field.with_conditional_field(condition: { field: :security_standards, value: vocab_option_value("standards_sec", "Other") }) do |field| %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :security_standard_ids, vocab_name: "standards_sec", labelled_by: "security-standards-label") %>
+            <% field.with_conditional_field(condition: { field: :security_standard_ids, value: vocab_option_value("standards_sec", "Other") }) do |field| %>
               <% field.with_label do %>
                 <%= f.label :security_standard_other, "What other security standards do you support?" %>
               <% end %>
-              <%= f.text_field :security_standard_other %>
+              <%= f.text_field :security_standard_other, maxlength: max_length(:security_standard_other) %>
             <% end %>
           <% end %>
           <%= render FormFieldWrapperComponent.new do |field| %>
             <% field.with_label do %>
               <%= tag.label "Authentication protocols", id: "authentication-standards-label" %>
             <% end %>
-            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :authentication_standards, vocab_name: "standards_auth", labelled_by: "authentication-standards-label") %>
-            <% field.with_conditional_field(condition: { field: :authentication_standards, value: vocab_option_value("standards_auth", "Other") }) do |field| %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :authentication_standard_ids, vocab_name: "standards_auth", labelled_by: "authentication-standards-label") %>
+            <% field.with_conditional_field(condition: { field: :authentication_standard_ids, value: vocab_option_value("standards_auth", "Other") }) do |field| %>
               <% field.with_label do %>
                 <%= f.label :authentication_standard_other, "What other authentication protocols do you support?" %>
               <% end %>
-              <%= f.text_field :authentication_standard_other %>
+              <%= f.text_field :authentication_standard_other, maxlength: max_length(:authentication_standard_other) %>
             <% end %>
           <% end %>
           <%= render FormFieldWrapperComponent.new do |field| %>
             <% field.with_label do %>
               <%= tag.label "Persistent identifiers", id: "persistent-identifier-standards-label" %>
             <% end %>
-            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :persistent_identifier_standards, vocab_name: "standards_pids", labelled_by: "persistent-identifier-standards-label") %>
-            <% field.with_conditional_field(condition: { field: :persistent_identifier_standards, value: vocab_option_value("standards_pids", "Other") }) do |field| %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :persistent_identifier_standard_ids, vocab_name: "standards_pids", labelled_by: "persistent-identifier-standards-label") %>
+            <% field.with_conditional_field(condition: { field: :persistent_identifier_standard_ids, value: vocab_option_value("standards_pids", "Other") }) do |field| %>
               <% field.with_label do %>
                 <%= f.label :persistent_identifier_standard_other, "What other persistent identifiers do you support?" %>
               <% end %>
-              <%= f.text_field :persistent_identifier_standard_other %>
+              <%= f.text_field :persistent_identifier_standard_other, maxlength: max_length(:persistent_identifier_standard_other) %>
             <% end %>
           <% end %>
           <%= render FormFieldWrapperComponent.new do |field| %>
             <% field.with_label do %>
               <%= tag.label "Preservation standards", id: "preservation-standards-label" %>
             <% end %>
-            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :preservation_standards, vocab_name: "standards_pres", labelled_by: "preservation-standards-label") %>
-            <% field.with_conditional_field(condition: { field: :preservation_standards, value: vocab_option_value("standards_pres", "Other") }) do |field| %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :preservation_standard_ids, vocab_name: "standards_pres", labelled_by: "preservation-standards-label") %>
+            <% field.with_conditional_field(condition: { field: :preservation_standard_ids, value: vocab_option_value("standards_pres", "Other") }) do |field| %>
               <% field.with_label do %>
                 <%= f.label :preservation_standard_other, "What other preservation standards do you support?" %>
               <% end %>
-              <%= f.text_field :preservation_standard_other %>
+              <%= f.text_field :preservation_standard_other, maxlength: max_length(:preservation_standard_other) %>
             <% end %>
           <% end %>
           <%= render FormFieldWrapperComponent.new do |field| %>
             <% field.with_label do %>
               <%= tag.label "Metrics reporting", id: "metrics-standards-label" %>
             <% end %>
-            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :metrics_standards, vocab_name: "standards_metrics", labelled_by: "metrics-standards-label") %>
-            <% field.with_conditional_field(condition: { field: :metrics_standards, value: vocab_option_value("standards_metrics", "Other") }) do |field| %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :metrics_standard_ids, vocab_name: "standards_metrics", labelled_by: "metrics-standards-label") %>
+            <% field.with_conditional_field(condition: { field: :metrics_standard_ids, value: vocab_option_value("standards_metrics", "Other") }) do |field| %>
               <% field.with_label do %>
                 <%= f.label :metrics_standard_other, "What other metrics reporting standards do you support?" %>
               <% end %>
-              <%= f.text_field :metrics_standard_other %>
+              <%= f.text_field :metrics_standard_other, maxlength: max_length(:metrics_standard_other) %>
             <% end %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(required: true, class_name: "start", description: "Indication of whether the software can be hosted, deployed, configured, maintained, or otherwise serviced by a vendor, whether the solution provider or a third party.") do |field| %>
             <% field.with_label do %>
-              <%= f.label :hosting_strategy, "Hosting and software as a service (SaaS) options" %>
+              <%= f.label :hosting_strategy_id, "Hosting and software as a service (SaaS) options" %>
             <% end %>
-            <%= f.select :hosting_strategy, vocab_options("saas"), { include_blank: "Select an option" }, required: true %>
-            <% field.with_conditional_field(condition: { field: :hosting_strategy, value: vocab_option_values("saas", "Through third party vendor only", "Through solution provider or third party vendor") }, description: "Link to a public registry of approved third party vendors or to a description of SaaS options available. Links should start with https://.") do |field| %>
+            <%= f.select :hosting_strategy_id, vocab_options("saas"), { include_blank: "Select an option" }, required: true %>
+            <% field.with_conditional_field(condition: { field: :hosting_strategy_id, value: vocab_option_values("saas", "Through third party vendor only", "Through solution provider or third party vendor") }, description: "Link to a public registry of approved third party vendors or to a description of SaaS options available. Links should start with https://.") do |field| %>
               <% field.with_label do %>
                 <%= f.label :service_provider_free_input, "Link to vendor registry or SaaS description" %>
               <% end %>
-              <%= f.text_field :service_provider_free_input %>
+              <%= f.text_field :service_provider_free_input, maxlength: max_length(:service_provider_free_input) %>
             <% end %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "The solution's readiness for broad adoption, adapted from the framework developed by the Horizon 2020 project.") do |field| %>
             <% field.with_label do %>
-              <%= f.label :readiness_level, "Technology readiness level" %>
+              <%= f.label :readiness_level_id, "Technology readiness level" %>
             <% end %>
-            <%= f.select :readiness_level, vocab_options("tech_read"), include_blank: "Select a level" %>
+            <%= f.select :readiness_level_id, vocab_options("tech_read"), include_blank: "Select a level" %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide") do |field| %>
             <% field.with_label do %>
               <%= tag.label "Integrations and compatibility", id: "integrations-label" %>
             <% end %>
-            <%= render TypeaheadComponent.new(form: f, attr: :integrations, vocab_name: "integrations", labelled_by: "integrations-label", placeholder: "Type to search integrations…") %>
+            <%= render TypeaheadComponent.new(form: f, attr: :integration_ids, vocab_name: "integrations", labelled_by: "integrations-label", placeholder: "Type to search integrations…") %>
           <% end %>
         <% end %>
 
@@ -351,7 +351,7 @@
             <% field.with_label do %>
               <%= f.label :code_of_conduct_implementation, "Code of conduct" %>
             <% end %>
-            <%= f.select :code_of_conduct_implementation, vocab_options("impl_scale"), { include_blank: "Select a status" }, required: true %>
+            <%= f.select :code_of_conduct_implementation, vocab_options("impl_scale") %>
             <% field.with_conditional_field(condition: { field: :code_of_conduct_implementation, value: "available" }, description: "Link to the public code of conduct and reporting guidelines. Links should start with https://.") do |field| %>
               <% field.with_label do %>
                 <%= f.label :code_of_conduct, "Link to code of conduct", for: implementation_url_field_id(f, :code_of_conduct) %>
@@ -363,7 +363,7 @@
             <% field.with_label do %>
               <%= f.label :community_engagement_implementation, "Commitment to community engagement" %>
             <% end %>
-            <%= f.select :community_engagement_implementation, vocab_options("impl_scale"), { include_blank: "Select a status" }, required: true %>
+            <%= f.select :community_engagement_implementation, vocab_options("impl_scale") %>
             <% field.with_conditional_field(condition: { field: :community_engagement_implementation, value: "available" }, description: "Link to public information about community engagement activities. Links should start with https://.") do |field| %>
               <% field.with_label do %>
                 <%= f.label :community_engagement, "Link to community engagement activities", for: implementation_url_field_id(f, :community_engagement) %>
@@ -374,25 +374,25 @@
               <% field.with_label do %>
                 <%= tag.label "Community engagement activities", id: "community-engagement-activities-label" %>
               <% end %>
-              <%= render TypeaheadComponent.new(form: f, attr: :community_engagement_activities, vocab_name: "comm_eng", labelled_by: "community-engagement-activities-label", placeholder: "Type to search activities…") %>
+              <%= render TypeaheadComponent.new(form: f, attr: :community_engagement_activity_ids, vocab_name: "comm_eng", labelled_by: "community-engagement-activities-label", placeholder: "Type to search activities…") %>
             <% end %>
-            <% field.with_conditional_field(condition: { field: :community_engagement_activities, value: vocab_option_value("comm_eng", "Other") }) do |field| %>
+            <% field.with_conditional_field(condition: { field: :community_engagement_activity_ids, value: vocab_option_value("comm_eng", "Other") }) do |field| %>
               <% field.with_label do %>
                 <%= f.label :community_engagement_activity_other, "List other community engagement activities" %>
               <% end %>
-              <%= f.text_field :community_engagement_activity_other %>
+              <%= f.text_field :community_engagement_activity_other, maxlength: max_length(:community_engagement_activity_other) %>
             <% end %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(required: true, class_name: "wide", description: "Inventory of ways in which users can meaningfully contribute to the development or delivery of the solution. SELECT ALL THAT APPLY.") do |field| %>
             <% field.with_label do %>
               <%= tag.label "User contribution opportunities", id: "user-contributions-label" %>
             <% end %>
-            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :user_contributions, vocab_name: "user_paths", labelled_by: "user-contributions-label") %>
-            <% field.with_conditional_field(condition: { field: :user_contributions, value: vocab_option_value("user_paths", "Other") }) do |field| %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :user_contribution_ids, vocab_name: "user_paths", labelled_by: "user-contributions-label") %>
+            <% field.with_conditional_field(condition: { field: :user_contribution_ids, value: vocab_option_value("user_paths", "Other") }) do |field| %>
               <% field.with_label do %>
                 <%= f.label :user_contribution_other, "List other user contribution opportunities" %>
               <% end %>
-              <%= f.text_field :user_contribution_other %>
+              <%= f.text_field :user_contribution_other, maxlength: max_length(:user_contribution_other) %>
             <% end %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide", description: "Link to publicly available documentation of the ways in which users can meaningfully contribute to the development or delivery of the solution. Links should start with https://.") do |field| %>
@@ -405,7 +405,7 @@
             <% field.with_label do %>
               <%= tag.label "Values frameworks", id: "values-frameworks-label" %>
             <% end %>
-            <%= render TypeaheadComponent.new(form: f, attr: :values_frameworks, vocab_name: "values", labelled_by: "values-frameworks-label", placeholder: "Type to search frameworks…") %>
+            <%= render TypeaheadComponent.new(form: f, attr: :values_framework_ids, vocab_name: "values", labelled_by: "values-frameworks-label", placeholder: "Type to search frameworks…") %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "Public link to a list of current members and/or information about membership. Links should start with https://.") do |field| %>
             <% field.with_label do %>
@@ -423,7 +423,7 @@
             <% field.with_label do %>
               <%= f.label :scoss, "SCOSS participation" %>
             <% end %>
-            <%= f.select :scoss, [["Yes", true], ["No", false]], { include_blank: "Select an option" }, required: true %>
+            <%= f.select :scoss, [["Yes", true], ["No", false]] %>
           <% end %>
         <% end %>
 
@@ -432,7 +432,7 @@
             <% field.with_label do %>
               <%= f.label :bylaws_implementation, "Bylaws" %>
             <% end %>
-            <%= f.select :bylaws_implementation, vocab_options("impl_scale"), { include_blank: "Select a status" }, required: true %>
+            <%= f.select :bylaws_implementation, vocab_options("impl_scale") %>
             <% field.with_conditional_field(condition: { field: :bylaws_implementation, value: "available" }, description: "Link(s) to public documentation of bylaws or other governance rules that describe how organizational decisions are made and by whom, member rights and responsibilities, and/or other processes and policies relevant to community regulation. Links should start with https://. Multiple links should be separated by a comma.") do |field| %>
               <% field.with_label do %>
                 <%= f.label :bylaws, "Link to bylaws", for: implementation_url_field_id(f, :bylaws) %>
@@ -444,7 +444,7 @@
             <% field.with_label do %>
               <%= f.label :equity_and_inclusion_implementation, "Commitment to equity and inclusion" %>
             <% end %>
-            <%= f.select :equity_and_inclusion_implementation, vocab_options("impl_scale"), { include_blank: "Select a status" }, required: true %>
+            <%= f.select :equity_and_inclusion_implementation, vocab_options("impl_scale") %>
             <% field.with_conditional_field(condition: { field: :equity_and_inclusion_implementation, value: "available" }, description: "Public link to statement and/or evidence of activities supporting diversity, equity, and inclusion. Links should start with https://.") do |field| %>
               <% field.with_label do %>
                 <%= f.label :equity_and_inclusion, "Link to diversity, equity, inclusion, and antiracism statement or policy", for: implementation_url_field_id(f, :equity_and_inclusion) %>
@@ -456,7 +456,7 @@
             <% field.with_label do %>
               <%= f.label :privacy_policy_implementation, "Privacy policy" %>
             <% end %>
-            <%= f.select :privacy_policy_implementation, vocab_options("impl_scale"), { include_blank: "Select a status" }, required: true %>
+            <%= f.select :privacy_policy_implementation, vocab_options("impl_scale") %>
             <% field.with_conditional_field(condition: { field: :privacy_policy_implementation, value: "available" }, description: "Public link to privacy policy. Links should start with https://.") do |field| %>
               <% field.with_label do %>
                 <%= f.label :privacy_policy, "Link to privacy policy", for: implementation_url_field_id(f, :privacy_policy) %>
@@ -468,7 +468,7 @@
             <% field.with_label do %>
               <%= f.label :web_accessibility_implementation, "Web accessibility" %>
             <% end %>
-            <%= f.select :web_accessibility_implementation, vocab_options("impl_scale"), { include_blank: "Select a status" }, required: true %>
+            <%= f.select :web_accessibility_implementation, vocab_options("impl_scale") %>
             <% field.with_conditional_field(condition: { field: :web_accessibility_implementation, value: "available" }, description: "Public link to web accessibility policy. Links should start with https://.") do |field| %>
               <% field.with_label do %>
                 <%= f.label :web_accessibility, "Link to web accessibility policy", for: implementation_url_field_id(f, :web_accessibility) %>
@@ -477,16 +477,16 @@
             <% end %>
             <% field.with_conditional_field(condition: { field: :web_accessibility_implementation, value: "available" }, description: "Indication of whether the web accessibility statement applies solely to a solution or provider's website or to the tool itself.") do |field| %>
               <% field.with_label do %>
-                <%= f.label :web_accessibility_applicabilities, "Web accessibility statement applicability" %>
+                <%= f.label :web_accessibility_applicability_ids, "Web accessibility statement applicability" %>
               <% end %>
-              <%= f.select :web_accessibility_applicabilities, vocab_options("acc_scope"), include_blank: "Select an option" %>
+              <%= f.select :web_accessibility_applicability_ids, vocab_options("acc_scope"), { include_blank: "Select an option" }, name: "#{f.object_name}[web_accessibility_applicability_ids][]" %>
             <% end %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(required: true, description: "Does your solution maintain public governance records, including board meeting minutes, records of major decisions, elections, or other indications of an active governance process?") do |field| %>
             <% field.with_label do %>
               <%= f.label :governance_records_implementation, "Governance records" %>
             <% end %>
-            <%= f.select :governance_records_implementation, vocab_options("impl_scale"), { include_blank: "Select a status" }, required: true %>
+            <%= f.select :governance_records_implementation, vocab_options("impl_scale") %>
             <% field.with_conditional_field(condition: { field: :governance_records_implementation, value: "available" }, description: "Public link to governance records, including board meeting minutes, records of major decisions, elections, or other indications of an active governance process. Links should start with https://.") do |field| %>
               <% field.with_label do %>
                 <%= f.label :governance_records, "Link to governance records", for: implementation_url_field_id(f, :governance_records) %>
@@ -498,7 +498,7 @@
             <% field.with_label do %>
               <%= f.label :governance_structure_implementation, "Governance structure" %>
             <% end %>
-            <%= f.select :governance_structure_implementation, vocab_options("impl_scale"), { include_blank: "Select a status" }, required: true %>
+            <%= f.select :governance_structure_implementation, vocab_options("impl_scale") %>
             <% field.with_conditional_field(condition: { field: :governance_structure_implementation, value: "available" }, description: "Public description of how the solution is organized and managed, such as the roles, responsibilities, decision-making, and communication mechanisms of the stakeholders. Links should start with https://.") do |field| %>
               <% field.with_label do %>
                 <%= f.label :governance_structure, "Link to governance structure", for: implementation_url_field_id(f, :governance_structure) %>
@@ -510,7 +510,7 @@
             <% field.with_label do %>
               <%= f.label :pricing_implementation, "Transparent pricing" %>
             <% end %>
-            <%= f.select :pricing_implementation, vocab_options("impl_scale_pricing"), { include_blank: "Select a status" }, required: true %>
+            <%= f.select :pricing_implementation, vocab_options("impl_scale_pricing") %>
             <% field.with_conditional_field(condition: { field: :pricing_implementation, value: "available" }, description: "A public link to pricing or fees. Links should start with https://.") do |field| %>
               <% field.with_label do %>
                 <%= f.label :pricing, "Pricing information", for: implementation_url_field_id(f, :pricing) %>
@@ -522,66 +522,66 @@
             <% field.with_label do %>
               <%= f.label :organizational_history, "Organizational history" %>
             <% end %>
-            <%= f.text_area :organizational_history, required: true, maxlength: 1000, rows: 5 %>
+            <%= f.text_area :organizational_history, required: true, maxlength: max_length(:organizational_history), rows: 5 %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(required: true) do |field| %>
             <% field.with_label do %>
-              <%= f.label :business_forms, "Business form" %>
+              <%= f.label :business_form_ids, "Business form" %>
             <% end %>
-            <%= f.select :business_forms, vocab_options("bus_form"), { include_blank: "Select a business form" }, required: true %>
-            <% field.with_conditional_field(condition: { field: :business_forms, value: vocab_option_value("bus_form", "Non-profit organization") }, description: "Does the solution or provider have a specific non-profit designation or status in the country of incorporation?") do |field| %>
+            <%= f.select :business_form_ids, vocab_options("bus_form"), { include_blank: "Select a business form" }, name: "#{f.object_name}[business_form_ids][]", required: true %>
+            <% field.with_conditional_field(condition: { field: :business_form_ids, value: vocab_option_value("bus_form", "Non-profit organization") }, description: "Does the solution or provider have a specific non-profit designation or status in the country of incorporation?") do |field| %>
               <% field.with_label do %>
-                <%= f.label :nonprofit_status, "Non-profit status" %>
+                <%= f.label :nonprofit_status_id, "Non-profit status" %>
               <% end %>
-              <%= f.select :nonprofit_status, vocab_options("nonprofit_status"), include_blank: "Select a status" %>
+              <%= f.select :nonprofit_status_id, vocab_options("nonprofit_status"), include_blank: "Select a status" %>
             <% end %>
-            <% field.with_conditional_field(condition: { field: :business_forms, value: vocab_option_value("bus_form", "Other") }) do |field| %>
+            <% field.with_conditional_field(condition: { field: :business_form_ids, value: vocab_option_value("bus_form", "Other") }) do |field| %>
               <% field.with_label do %>
                 <%= f.label :business_form_other, "How would you describe your business form?" %>
               <% end %>
-              <%= f.text_field :business_form_other %>
+              <%= f.text_field :business_form_other, maxlength: max_length(:business_form_other) %>
             <% end %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "The current number of full-time equivalent (FTE) compensated employees.") do |field| %>
             <% field.with_label do %>
-              <%= f.label :staffing_full_time, "Staff - full time equivalent" %>
+              <%= f.label :staffing_full_time_id, "Staff - full time equivalent" %>
             <% end %>
-            <%= f.select :staffing_full_time, vocab_options("staffing"), include_blank: "Select a range" %>
+            <%= f.select :staffing_full_time_id, vocab_options("staffing"), include_blank: "Select a range" %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "The current number of full-time equivalent (FTE) uncompensated volunteers whose work serves an essential business function.") do |field| %>
             <% field.with_label do %>
-              <%= f.label :staffing_volunteer, "Volunteers" %>
+              <%= f.label :staffing_volunteer_id, "Volunteers" %>
             <% end %>
-            <%= f.select :staffing_volunteer, vocab_options("staffing"), include_blank: "Select a range" %>
+            <%= f.select :staffing_volunteer_id, vocab_options("staffing"), include_blank: "Select a range" %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(required: true, description: "Public documentation of a community-driven governance structure, including evidence of community representation in governing bodies.") do |field| %>
             <% field.with_label do %>
-              <%= f.label :community_governances, "Community governance type" %>
+              <%= f.label :community_governance_ids, "Community governance type" %>
             <% end %>
-            <%= f.select :community_governances, vocab_options("gov_stat"), { include_blank: "Select a type" }, required: true %>
+            <%= f.select :community_governance_ids, vocab_options("gov_stat"), { include_blank: "Select a type" }, name: "#{f.object_name}[community_governance_ids][]", required: true %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "Structure of the solution or provider's governing board.") do |field| %>
             <% field.with_label do %>
-              <%= f.label :board_structures, "Board structure" %>
+              <%= f.label :board_structure_ids, "Board structure" %>
             <% end %>
-            <%= f.select :board_structures, vocab_options("board"), include_blank: "Select a structure" %>
-            <% field.with_conditional_field(condition: { field: :board_structures, value: vocab_option_value("board", "Other") }) do |field| %>
+            <%= f.select :board_structure_ids, vocab_options("board"), { include_blank: "Select a structure" }, name: "#{f.object_name}[board_structure_ids][]" %>
+            <% field.with_conditional_field(condition: { field: :board_structure_ids, value: vocab_option_value("board", "Other") }) do |field| %>
               <% field.with_label do %>
                 <%= f.label :board_structure_other, "Describe your board structure" %>
               <% end %>
-              <%= f.text_field :board_structure_other %>
+              <%= f.text_field :board_structure_other, maxlength: max_length(:board_structure_other) %>
             <% end %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "Indication of whether the governing body is affiliated with the provider or the solution.") do |field| %>
             <% field.with_label do %>
-              <%= f.label :board_level, "Board oversight level" %>
+              <%= f.label :board_level_id, "Board oversight level" %>
             <% end %>
-            <%= f.select :board_level, vocab_options("rprt_lvl"), include_blank: "Select a level" %>
-            <% field.with_conditional_field(condition: { field: :board_level, value: vocab_option_value("rprt_lvl", "Other") }) do |field| %>
+            <%= f.select :board_level_id, vocab_options("rprt_lvl"), include_blank: "Select a level" %>
+            <% field.with_conditional_field(condition: { field: :board_level_id, value: vocab_option_value("rprt_lvl", "Other") }) do |field| %>
               <% field.with_label do %>
                 <%= f.label :board_level_other, "How would you describe the purview of your board?" %>
               <% end %>
-              <%= f.text_field :board_level_other %>
+              <%= f.text_field :board_level_other, maxlength: max_length(:board_level_other) %>
             <% end %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide", description: "Link to a list of the organization's current board members. Links should start with https://.") do |field| %>
@@ -594,13 +594,13 @@
             <% field.with_label do %>
               <%= f.label :current_affiliation_free_input, "Affiliations" %>
             <% end %>
-            <%= f.text_area :current_affiliation_free_input, required: true, maxlength: 1000, rows: 5 %>
+            <%= f.text_area :current_affiliation_free_input, required: true, maxlength: max_length(:current_affiliation_free_input), rows: 5 %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide", description: "Organizations and/or individuals that had a direct role in founding or launching the solution.") do |field| %>
             <% field.with_label do %>
               <%= f.label :founding_institution_free_input, "Founders" %>
             <% end %>
-            <%= f.text_area :founding_institution_free_input, maxlength: 1000, rows: 5 %>
+            <%= f.text_area :founding_institution_free_input, maxlength: max_length(:founding_institution_free_input), rows: 5 %>
           <% end %>
         <% end %>
 
@@ -609,25 +609,25 @@
             <% field.with_label do %>
               <%= f.label :shareholders %>
             <% end %>
-            <%= f.select :shareholders, ["Yes", "No", "Not sure"], { include_blank: "Select an option" }, required: true %>
+            <%= f.select :shareholders, [["Yes", true], ["No", false]] %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(required: true, description: "Indication of whether the solution is primarily funded through program service revenue or contributions.") do |field| %>
             <% field.with_label do %>
-              <%= f.label :primary_funding_sources, "Primary funding source" %>
+              <%= f.label :primary_funding_source_ids, "Primary funding source" %>
             <% end %>
-            <%= f.select :primary_funding_sources, vocab_options("pr_fund"), { include_blank: "Select a source" }, required: true %>
-            <% field.with_conditional_field(condition: { field: :primary_funding_sources, value: vocab_option_value("pr_fund", "Other") }) do |field| %>
+            <%= f.select :primary_funding_source_ids, vocab_options("pr_fund"), { include_blank: "Select a source" }, name: "#{f.object_name}[primary_funding_source_ids][]", required: true %>
+            <% field.with_conditional_field(condition: { field: :primary_funding_source_ids, value: vocab_option_value("pr_fund", "Other") }) do |field| %>
               <% field.with_label do %>
                 <%= f.label :primary_funding_source_other, "What is your primary source of funding?" %>
               <% end %>
-              <%= f.text_field :primary_funding_source_other %>
+              <%= f.text_field :primary_funding_source_other, maxlength: max_length(:primary_funding_source_other) %>
             <% end %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide", description: "Description of ways in which investment can help the solution achieve its goals.") do |field| %>
             <% field.with_label do %>
               <%= f.label :funding_needs, "Funding needs" %>
             <% end %>
-            <%= f.text_area :funding_needs, maxlength: 1000, rows: 5 %>
+            <%= f.text_area :funding_needs, maxlength: max_length(:funding_needs), rows: 5 %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "In what currency are you reporting financial information? See list of ISO 4217 currency codes at https://www.iban.com/currency-codes.") do |field| %>
             <% field.with_label do %>
@@ -697,14 +697,14 @@
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "Indication of whether financial information applies to the solution itself or to its fiscal sponsor or host organization.") do |field| %>
             <% field.with_label do %>
-              <%= f.label :financial_reporting_level %>
+              <%= f.label :financial_reporting_level_id, "Financial reporting level" %>
             <% end %>
-            <%= f.select :financial_reporting_level, vocab_options("rprt_lvl"), include_blank: "Select a level" %>
-            <% field.with_conditional_field(condition: { field: :financial_reporting_level, value: vocab_option_value("rprt_lvl", "Other") }) do |field| %>
+            <%= f.select :financial_reporting_level_id, vocab_options("rprt_lvl"), include_blank: "Select a level" %>
+            <% field.with_conditional_field(condition: { field: :financial_reporting_level_id, value: vocab_option_value("rprt_lvl", "Other") }) do |field| %>
               <% field.with_label do %>
                 <%= f.label :financial_reporting_level_other, "To what entity does your financial information apply?" %>
               <% end %>
-              <%= f.text_field :financial_reporting_level_other %>
+              <%= f.text_field :financial_reporting_level_other, maxlength: max_length(:financial_reporting_level_other) %>
             <% end %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "Link to publicly or privately available documentation that validates the financial numbers reported. Examples include annual reports or IRS Form 990 for US-based non-profits. Links should start with https://.") do |field| %>
@@ -717,7 +717,7 @@
             <% field.with_label do %>
               <%= f.label :top_granting_institution_free_input, "Top granting institutions" %>
             <% end %>
-            <%= f.text_area :top_granting_institution_free_input, maxlength: 1000, rows: 5 %>
+            <%= f.text_area :top_granting_institution_free_input, maxlength: max_length(:top_granting_institution_free_input), rows: 5 %>
           <% end %>
         <% end %>
 

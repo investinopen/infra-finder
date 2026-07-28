@@ -2,12 +2,12 @@
   <%= label %>
   <div class="field-content">
     <%= content %>
-    <% if description.present? %>
-      <div class="field-meta">
+    <div class="field-meta">
+      <% if description.present? %>
         <span class="field-description"><%= description %></span>
-        <span class="field-counter" data-form-field-wrapper-component--form-field-wrapper-component-target="counter" hidden></span>
-      </div>
-    <% end %>
+      <% end %>
+      <span class="field-counter" data-form-field-wrapper-component--form-field-wrapper-component-target="counter" hidden></span>
+    </div>
   </div>
   <% conditional_fields.each do |conditional_field| %>
     <%= conditional_field %>

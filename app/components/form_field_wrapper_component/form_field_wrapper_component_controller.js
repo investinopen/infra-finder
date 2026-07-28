@@ -14,7 +14,9 @@ export default class extends Controller {
   }
 
   connectCounter() {
-    this.field = this.element.querySelector("textarea[maxlength], input[maxlength]");
+    this.field = this.element.querySelector(
+      ":scope > .field-content textarea[maxlength], :scope > .field-content input[maxlength]"
+    );
     if (!this.field || !this.hasCounterTarget) return;
 
     this.update = this.update.bind(this);

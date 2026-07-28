@@ -63,4 +63,14 @@ class IntakeFormComponent < ApplicationComponent
   def implementation_url_field_id(f, name)
     "#{f.object_name}_#{name}_url"
   end
+
+  # Sync form max-length to model
+  # @param [Symbol] attr
+  # @return [Integer, nil]
+  def max_length(attr)
+    solution_intake.class
+      .validators_on(attr)
+      .find { |v| v.is_a?(ActiveModel::Validations::LengthValidator) }
+      &.options&.dig(:maximum)
+  end
 end
