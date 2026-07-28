@@ -1,6 +1,10 @@
 .intake-form-nav {
   @mixin fluidScaleRem --nav-bar-inline-padding, 28px, 8px;
+
   @mixin fluidScaleRem --nav-bar-height, 60px, 50px;
+
+  --nav-bar-underline-width: 0.225rem;
+  --nav-bar-underline-offset: 0.25rem;
 
   position: sticky;
   top: -1px;
@@ -8,5 +12,16 @@
 
   @media print {
     position: static;
+  }
+
+  .m-nav-bar__link[data-active="true"] {
+    text-decoration-line: underline;
+    text-decoration-thickness: var(--nav-bar-underline-width);
+    text-decoration-skip-ink: none;
+    text-underline-offset: var(--nav-bar-underline-offset);
+
+    &:not(:hover) {
+      @apply font-normal;
+    }
   }
 }

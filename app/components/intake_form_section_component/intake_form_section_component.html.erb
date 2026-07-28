@@ -1,4 +1,4 @@
-<%= tag.fieldset id: anchor, class: "form-section", data: { controller: "intake-form-section-component--intake-form-section-component" } do %>
+<%= tag.fieldset id: anchor, class: "form-section", data: { controller: "intake-form-section-component--intake-form-section-component", "nav-scroll-target": ("section" if anchor.present?) } do %>
   <legend class="form-section__legend text-h2 a-underline mb-10 sm:mb-[3.75rem]">
       <%= title %>
       <% if help? %>

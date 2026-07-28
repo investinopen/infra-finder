@@ -1,10 +1,20 @@
 import { Controller } from "@hotwired/stimulus";
 
+/**
+ * Tracks which section target is currently under a sticky in-page nav and
+ * marks the matching nav link with `data-active`.
+ *
+ * Attach to the element wrapping the sections, point `navValue` at the id of
+ * the nav, and give each section a `section` target. Section ids must match
+ * the hrefs of the nav's anchors.
+ */
 export default class extends Controller {
-  static targets = ["article"];
+  static targets = ["section"];
+
+  static values = { nav: String };
 
   get navEl() {
-    return document.getElementById("solution-nav");
+    return document.getElementById(this.navValue);
   }
 
   get navAnchors() {
@@ -16,9 +26,11 @@ export default class extends Controller {
     return mq.matches;
   }
 
-  connect() {
-    this.observer;
+  initialize() {
+    this.observers = new Map();
+  }
 
+  connect() {
     const self = this;
     this.state = new Proxy(
       {
@@ -46,15 +58,28 @@ export default class extends Controller {
     this.bindHashChange();
   }
 
-  articleTargetConnected(element) {
+  disconnect() {
+    for (const observer of this.observers.values()) observer.disconnect();
+    this.observers.clear();
+
+    window.removeEventListener("hashchange", this.handleHashChange);
+  }
+
+  sectionTargetConnected(element) {
     if (!this.navEl) return;
 
-    this.observer = new IntersectionObserver(this.intersect, {
+    const observer = new IntersectionObserver(this.intersect, {
       rootMargin: `${this.navEl.offsetHeight * -1}px`,
       threshold: 0,
     });
 
-    this.observer.observe(element);
+    observer.observe(element);
+    this.observers.set(element, observer);
+  }
+
+  sectionTargetDisconnected(element) {
+    this.observers.get(element)?.disconnect();
+    this.observers.delete(element);
   }
 
   intersect = ([e]) => {
@@ -63,9 +88,9 @@ export default class extends Controller {
 
     this.state.prevYPosition = window.scrollY;
 
-    // get next article when scrolling down, or current when scrolling up
+    // get next section when scrolling down, or current when scrolling up
     const entryTarget =
-      this.state.direction === "down" ? this.getTargetArticle(e) : e.target;
+      this.state.direction === "down" ? this.getTargetSection(e) : e.target;
 
     if (this.shouldUpdate(e)) this.state.activeId = entryTarget.id;
   };
@@ -80,11 +105,11 @@ export default class extends Controller {
     const newUrl = new URL(event.newURL);
     const targetId = newUrl.hash.replace("#", "");
 
-    const articleIsActive = this.articleTargets.some(
-      (article) => article.id === targetId
+    const sectionIsActive = this.sectionTargets.some(
+      (section) => section.id === targetId
     );
 
-    if (articleIsActive)
+    if (sectionIsActive)
       setTimeout(() => {
         this.state.activeId = targetId;
       }, 200);
@@ -93,6 +118,7 @@ export default class extends Controller {
   processActiveChange() {
     for (const anchor of this.navAnchors) {
       const targetId = anchor.getAttribute("href")?.replace("#", "");
+
       anchor.setAttribute("data-active", targetId === this.state.activeId);
     }
   }
@@ -109,15 +135,15 @@ export default class extends Controller {
     return false;
   }
 
-  getTargetArticle(entry) {
-    const index = this.articleTargets.findIndex(
-      (article) => article === entry.target
+  getTargetSection(entry) {
+    const index = this.sectionTargets.findIndex(
+      (section) => section === entry.target
     );
 
-    if (index >= this.articleTargets.length - 1) {
+    if (index >= this.sectionTargets.length - 1) {
       return entry.target;
     } else {
-      return this.articleTargets[index + 1];
+      return this.sectionTargets[index + 1];
     }
   }
 }
