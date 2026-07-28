@@ -421,9 +421,9 @@
           <% end %>
           <%= render FormFieldWrapperComponent.new(required: true, description: "Is your solution part of The Global Sustainability Coalition for Open Science Services (SCOSS) network (https://scoss.org/)?") do |field| %>
             <% field.with_label do %>
-              <%= f.label :scoss, "SCOSS participation" %>
+              <%= tag.label "SCOSS participation", id: "scoss-label" %>
             <% end %>
-            <%= f.select :scoss, [["Yes", true], ["No", false]] %>
+            <%= render IntakeRadioGroupComponent.new(form: f, attr: :scoss, options: [["Yes", true], ["No", false]], labelled_by: "scoss-label") %>
           <% end %>
         <% end %>
 
@@ -607,9 +607,9 @@
         <%= render IntakeFormSectionComponent.new(title: "Financial information", anchor: "financial", help_href: "https://docs.google.com/document/d/1afiDj8pw2qxJcj7e6vhIRfP7Ra7gY0FYtsZ5DivQfwM/edit#heading=h.dd6akwyl2dxu") do %>
           <%= render FormFieldWrapperComponent.new(required: true, description: "Does any person, company, or institution own at least one share of your solution or provider's stock?") do |field| %>
             <% field.with_label do %>
-              <%= f.label :shareholders %>
+              <%= tag.label "Shareholders", id: "shareholders-label" %>
             <% end %>
-            <%= f.select :shareholders, [["Yes", true], ["No", false]] %>
+            <%= render IntakeRadioGroupComponent.new(form: f, attr: :shareholders, options: [["Yes", true], ["No", false]], labelled_by: "shareholders-label") %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(required: true, description: "Indication of whether the solution is primarily funded through program service revenue or contributions.") do |field| %>
             <% field.with_label do %>
