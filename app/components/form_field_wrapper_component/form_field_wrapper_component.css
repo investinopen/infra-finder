@@ -90,12 +90,17 @@
   font-weight: 400;
 
   @mixin fluidScaleRem gap, 80px, 40px;
+
+  &:not(:has(> :not([hidden]))) {
+    display: none;
+  }
 }
 
 .field-counter {
   flex: 0 0 auto;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
+  margin-inline-start: auto;
 }
 
 .wide {
