@@ -31,3 +31,7 @@
     background-position: center;
   }
 }
+
+input[type="submit"]:disabled {
+  opacity: 0.5;
+}
