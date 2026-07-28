@@ -31,6 +31,7 @@ import IntakeFormComponent__IntakeFormComponentController from "./intake_form_co
 import IntakeFormHelpComponent__IntakeFormHelpComponentController from "./intake_form_help_component/intake_form_help_component_controller";
 import IntakeFormNavComponent__IntakeFormNavComponentController from "./intake_form_nav_component/intake_form_nav_component_controller";
 import IntakeFormSectionComponent__IntakeFormSectionComponentController from "./intake_form_section_component/intake_form_section_component_controller";
+import IntakeLogoFieldComponent__IntakeLogoFieldComponentController from "./intake_logo_field_component/intake_logo_field_component_controller";
 import IntakeRadioGroupComponent__IntakeRadioGroupComponentController from "./intake_radio_group_component/intake_radio_group_component_controller";
 import IntakeSaveDraftButtonComponent__IntakeSaveDraftButtonComponentController from "./intake_save_draft_button_component/intake_save_draft_button_component_controller";
 import ShareBarComponent__ShareBarComponentController from "./share_bar_component/share_bar_component_controller";
@@ -85,6 +86,7 @@ application.register("intake-form-component--intake-form-component", IntakeFormC
 application.register("intake-form-help-component--intake-form-help-component", IntakeFormHelpComponent__IntakeFormHelpComponentController);
 application.register("intake-form-nav-component--intake-form-nav-component", IntakeFormNavComponent__IntakeFormNavComponentController);
 application.register("intake-form-section-component--intake-form-section-component", IntakeFormSectionComponent__IntakeFormSectionComponentController);
+application.register("intake-logo-field-component--intake-logo-field-component", IntakeLogoFieldComponent__IntakeLogoFieldComponentController);
 application.register("intake-radio-group-component--intake-radio-group-component", IntakeRadioGroupComponent__IntakeRadioGroupComponentController);
 application.register("intake-save-draft-button-component--intake-save-draft-button-component", IntakeSaveDraftButtonComponent__IntakeSaveDraftButtonComponentController);
 application.register("share-bar-component--share-bar-component", ShareBarComponent__ShareBarComponentController);

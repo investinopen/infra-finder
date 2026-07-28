@@ -1,0 +1,30 @@
+<% c = controller_id %>
+<div class="intake-logo-field" data-controller="<%= c %>">
+  <div class="intake-logo-field__modes" role="radiogroup" aria-label="Logo source">
+    <label class="m-radio">
+      <input type="radio" name="logo_source" value="file" checked
+             data-<%= c %>-target="mode" data-action="change-><%= c %>#update">
+      <span>Upload a file</span>
+    </label>
+    <label class="m-radio">
+      <input type="radio" name="logo_source" value="url"
+             data-<%= c %>-target="mode" data-action="change-><%= c %>#update">
+      <span>Link to an image</span>
+    </label>
+  </div>
+
+  <% if logo_url %>
+    <figure class="intake-logo-field__preview-wrapper">
+      <img class="intake-logo-field__preview" src="<%= logo_url %>" alt="Current logo">
+      <figcaption>Current logo. To replace it, select a new file or enter a link below, then Save Draft.</figcaption>
+    </figure>
+  <% end %>
+
+  <div class="intake-logo-field__panel" data-<%= c %>-target="filePanel">
+    <%= form.file_field :logo, accept:, data: { "#{c}-target": "fileInput", action: "change->#{c}#showFilename" } %>
+  </div>
+
+  <div class="intake-logo-field__panel" hidden data-<%= c %>-target="urlPanel">
+    <%= form.url_field :logo_remote_url, data: { "#{c}-target": "urlInput" } %>
+  </div>
+</div>
