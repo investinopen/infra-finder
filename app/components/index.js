@@ -34,6 +34,7 @@ import IntakeFormSectionComponent__IntakeFormSectionComponentController from "./
 import IntakeLogoFieldComponent__IntakeLogoFieldComponentController from "./intake_logo_field_component/intake_logo_field_component_controller";
 import IntakeRadioGroupComponent__IntakeRadioGroupComponentController from "./intake_radio_group_component/intake_radio_group_component_controller";
 import IntakeSaveDraftButtonComponent__IntakeSaveDraftButtonComponentController from "./intake_save_draft_button_component/intake_save_draft_button_component_controller";
+import IntakeStructuredListComponent__IntakeStructuredListComponentController from "./intake_structured_list_component/intake_structured_list_component_controller";
 import ShareBarComponent__ShareBarComponentController from "./share_bar_component/share_bar_component_controller";
 import SolutionCategoryBadgesComponent__SolutionCategoryBadgesComponentController from "./solution_category_badges_component/solution_category_badges_component_controller";
 import SolutionComponent__SolutionComponentController from "./solution_component/solution_component_controller";
@@ -89,6 +90,7 @@ application.register("intake-form-section-component--intake-form-section-compone
 application.register("intake-logo-field-component--intake-logo-field-component", IntakeLogoFieldComponent__IntakeLogoFieldComponentController);
 application.register("intake-radio-group-component--intake-radio-group-component", IntakeRadioGroupComponent__IntakeRadioGroupComponentController);
 application.register("intake-save-draft-button-component--intake-save-draft-button-component", IntakeSaveDraftButtonComponent__IntakeSaveDraftButtonComponentController);
+application.register("intake-structured-list-component--intake-structured-list-component", IntakeStructuredListComponent__IntakeStructuredListComponentController);
 application.register("share-bar-component--share-bar-component", ShareBarComponent__ShareBarComponentController);
 application.register("solution-category-badges-component--solution-category-badges-component", SolutionCategoryBadgesComponent__SolutionCategoryBadgesComponentController);
 application.register("solution-component--solution-component", SolutionComponent__SolutionComponentController);

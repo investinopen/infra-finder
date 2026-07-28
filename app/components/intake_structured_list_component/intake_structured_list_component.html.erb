@@ -1,0 +1,19 @@
+<% c = controller_id %>
+<%= tag.div class: "intake-structured-list", role: "group", aria: { labelledby: labelled_by },
+      data: { controller: c, "#{c}-index-value": rows.size } do %>
+  <% if description.present? %>
+    <p class="intake-structured-list__description"><%= description %></p>
+  <% end %>
+
+  <ul class="intake-structured-list__rows" data-<%= c %>-target="rows">
+    <% rows.each_with_index do |item, i| %>
+      <%= render_row(item, i) %>
+    <% end %>
+  </ul>
+
+  <%= tag.input type: "hidden", name: "#{form.object_name}[#{attr}_attributes][__empty__][#{fields.first}]", value: "" %>
+
+  <template data-<%= c %>-target="template"><%= render_row(element_class.new, "__INDEX__") %></template>
+
+  <button type="button" class="m-button m-button--sm bg-brand-yellow intake-structured-list__add" data-action="<%= c %>#add">Add row</button>
+<% end %>
