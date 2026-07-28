@@ -88,9 +88,9 @@
         <%= render IntakeFormSectionComponent.new(title: "About", anchor: "about", help_href: "https://docs.google.com/document/d/1afiDj8pw2qxJcj7e6vhIRfP7Ra7gY0FYtsZ5DivQfwM/edit#heading=h.4tpeirkftzoe") do %>
           <%= render FormFieldWrapperComponent.new(required: true, description: "Year that the solution was first made available to users.") do |field| %>
             <% field.with_label do %>
-              <%= f.label :founded_on, "Launch year" %>
+              <%= f.label :launch_year, "Launch year" %>
             <% end %>
-            <%= f.text_field :founded_on, required: true %>
+            <%= f.number_field :launch_year, required: true, min: 1960, max: Date.current.year %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide") do %>
             <p class="t-rte">
