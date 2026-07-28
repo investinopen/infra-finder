@@ -21,7 +21,7 @@
 
   <div class="l-container l-container--narrow pt-6">
     <div class="l-container__inner">
-      <%= form_for solution_intake, html: { id: form_id, data: { controller: "intake-form-component--intake-form-component" } } do |f| %>
+      <%= form_for solution_intake, html: { id: form_id, multipart: true, data: { controller: "intake-form-component--intake-form-component" } } do |f| %>
         <%= render IntakeFormSectionComponent.new(title: "Overview", anchor: "overview", help: true, help_href: "https://docs.google.com/document/d/1afiDj8pw2qxJcj7e6vhIRfP7Ra7gY0FYtsZ5DivQfwM/edit#heading=h.8wl1najndesi") do %>
           <%= render FormFieldWrapperComponent.new(description: "Your first name", required: true) do |field| %>
             <% field.with_label do %>
@@ -53,11 +53,11 @@
             <% end %>
             <%= f.text_field :provider_name, readonly: true, name: nil %>
           <% end %>
-          <%= render FormFieldWrapperComponent.new(description: "Public link to a logo or other image representing the solution. The logo should display properly on a light background.") do |field| %>
+          <%= render FormFieldWrapperComponent.new(description: "Upload a logo image, or provide a public link to one. The logo should display properly on a light background.") do |field| %>
             <% field.with_label do %>
-              <%= f.label :logo_remote_url, "Logo" %>
+              <%= tag.label "Logo" %>
             <% end %>
-            <%= f.url_field :logo_remote_url %>
+            <%= render IntakeLogoFieldComponent.new(form: f) %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "Location of incorporation of the solution or provider or geographical area of primary activity.") do |field| %>
             <% field.with_label do %>
