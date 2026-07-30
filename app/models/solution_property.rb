@@ -6,9 +6,9 @@
 # @see SolutionPropertyKind
 class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   include ActiveModel::Validations
-  include Dry::Core::Memoizable
+  include Comparable
 
-  SOURCE_KINDS = %i[actual draft].freeze
+  SOURCE_KINDS = SolutionProperties::Types::SourceKind.values.freeze
 
   CODED_EXT_PATTERN = /\A(?<code>\d{3})_(?<ext_name>\w+)\z/
 
@@ -45,9 +45,11 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     currencies
   ].freeze
 
+  type_registry SolutionProperties::TypeRegistry
+
   schema!(types: SolutionProperties::TypeRegistry) do
     required(:name).filled(:string)
-    optional(:code).value(:integer)
+    required(:code).value(:integer) { gt?(0) }
     optional(:attr).maybe(:string)
     optional(:kind).maybe(:kind)
     required(:meta).value(:bool)
@@ -71,18 +73,69 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     optional(:fe_position).maybe(:integer)
     optional(:fe_section).maybe(:string)
     required(:fe_visibility).value(:visibility)
-    required(:phase_2_status).value(:phase_2_status)
     required(:skip_admin).value(:bool)
     required(:skip_csv_export).value(:bool)
+
     optional(:max_length).maybe(:integer) { gt?(0) }
+
     # External defined input. Does not necessarily correspond to how the field is used,
     # but we store it.
     optional(:input).value(:input)
+
     # The name of the {ControlledVocabulary} associated with this option,
     # if applicable.
     optional(:vocab_name).maybe(:vocab_name)
-    # Used to derive input from original spreadsheet.
-    optional(:original_input).maybe(:string)
+
+    # @!group Calculated attributes
+
+    required(:attribute_name).filled(:string)
+
+    optional(:csv_header).maybe(:string)
+
+    required(:structured).value(:bool)
+
+    optional(:structured_attr).maybe(:symbol)
+    optional(:structured_header).maybe(:symbol)
+
+    required(:property_kind).value(SolutionPropertyKind::Type)
+
+    optional(:implementation).maybe(:implementation)
+
+    required(:for_implementation).value(:bool)
+
+    required(:implementation_subproperty).value(:bool)
+
+    # @api private
+    required(:actual_attribute_name).filled(:string)
+
+    optional(:vocab).maybe(:vocab)
+
+    required(:has_vocab).value(:bool)
+
+    required(:accepts_other).value(:bool)
+
+    optional(:free_input_name).maybe(:symbol)
+
+    required(:has_free_input).value(:bool)
+
+    required(:free_input_accessors).array(:symbol)
+
+    # The name of the attribute to use when in an active admin form input.
+    #
+    # For has_one through associations, we need to return our special `:"#{assoc_name}_id"` keys.
+    # @return [Symbol]
+    required(:input_attr).filled(:symbol)
+
+    optional(:input_kind).maybe(:symbol)
+
+    required(:only_for_actual).value(:bool)
+    required(:only_for_draft).value(:bool)
+
+    required(:skip_for_actual).value(:bool)
+    required(:skip_for_draft).value(:bool)
+    required(:skip_for_intake).value(:bool)
+
+    # @!endgroup Calculated attributes
   end
 
   default_attributes!(
@@ -94,22 +147,130 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     description: nil,
     fe_position: 0,
     fe_visibility: "hidden",
-    phase_2_status: "none",
     vocab_name: nil
   )
+
+  calculates! :attribute_name do |record|
+    record["attr"].presence || record["name"]
+  end
+
+  calculates! :csv_header do |record|
+    code = record.fetch("code")
+    ext_name = record.fetch("ext_name", record.fetch("attr"))
+
+    "%<code>03d_%<ext_name>s" % { code:, ext_name: }
+  end
+
+  calculates! :structured do |record|
+    record["kind"].to_sym == :store_model_list
+  end
+
+  calculates! :structured_attr do |record|
+    :"#{record["name"]}_structured" if record["kind"].to_sym == :store_model_list
+  end
+
+  calculates! :structured_header do |record|
+    :"#{record["csv_header"]}_structured" if record["kind"].to_sym == :store_model_list
+  end
+
+  calculates! :implementation do |record|
+    Implementation.find(record["implementation_name"]) if record["implementation_name"].present?
+  end
+
+  calculates! :for_implementation do |record|
+    record["implementation_name"].present? && record["implementation"].present?
+  end
+
+  calculates! :implementation_subproperty do |record|
+    record["for_implementation"] && record["implementation_property"].present? && record["implementation_property"] != "enum"
+  end
+
+  calculates! :property_kind do |record|
+    SolutionPropertyKind.find(record["kind"])
+  end
+
+  calculates! :vocab do |record|
+    ControlledVocabulary.find(record["vocab_name"]) if record["vocab_name"].present?
+  end
+
+  calculates! :has_vocab do |record|
+    record["vocab"].present?
+  end
+
+  calculates! :accepts_other do |record|
+    record["vocab"].present? && record["vocab"].accepts_other?
+  end
+
+  calculates! :free_input_name do |record|
+    base = record["attribute_name"].to_s.singularize
+
+    if record["accepts_other"]
+      :"#{base}_other"
+    elsif record["kind"].to_sym == :store_model_list
+      :"#{base}_free_input"
+    end
+  end
+
+  calculates! :has_free_input do |record|
+    record["free_input_name"].present?
+  end
+
+  calculates! :free_input_accessors do |record|
+    next Dry::Core::Constants::EMPTY_ARRAY unless record["has_free_input"]
+
+    [
+      record["free_input_name"],
+      :"#{record["free_input_name"]}=",
+      :"#{record["free_input_name"]}?"
+    ]
+  end
+
+  calculates! :actual_attribute_name do |record|
+    if record["implementation_subproperty"]
+      record["implementation_name"]
+    else
+      record["attribute_name"]
+    end
+  end
+
+  calculates! :input_attr do |record|
+    if record["kind"].to_sym == :single_option && record["vocab"].present? && record["vocab"].uses_model?
+      :"#{record["attribute_name"]}_id"
+    else
+      record["attribute_name"].to_sym
+    end
+  end
+
+  calculates! :input_kind do |record|
+    record["property_kind"].input_kind_for(record)
+  end
+
+  calculates! :only_for_actual do |record|
+    record["only"]&.to_sym == :actual
+  end
+
+  calculates! :only_for_draft do |record|
+    record["only"]&.to_sym == :draft
+  end
+
+  calculates! :skip_for_actual do |record|
+    record["only_for_draft"]
+  end
+
+  calculates! :skip_for_draft do |record|
+    record["only_for_actual"]
+  end
+
+  calculates! :skip_for_intake do |record|
+    record["only_for_actual"] || record["only_for_draft"]
+  end
 
   self.primary_key = :name
 
   add_index :name, unique: true
   add_index :ext_name, unique: true
 
-  scope :changing_labels, -> { where(phase_2_status: "change_label") }
-  scope :changing_inputs, -> { where(phase_2_status: "change_input") }
-  scope :changing_vocabs, -> { where(phase_2_status: "change_vocab") }
-
-  scope :dropping, -> { where(phase_2_status: "drop") }
-
-  scope :in_use, -> { where.not(phase_2_status: "drop") }
+  scope :in_use, -> { all }
 
   scope :attachments, -> { in_use.where(kind: :attachment) }
 
@@ -191,30 +352,8 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   validate :required_owner_property_exists!
   validates :owner, presence: { if: :other_option? }
 
-  def accepts_other?
-    has_vocab? && vocab.accepts_other?
-  end
-
-  # @api private
-  def actual_attribute_name
-    if implementation_subproperty?
-      implementation_name
-    else
-      attribute_name
-    end
-  end
-
-  # @return [String]
-  memoize def attribute_name
-    attr.presence || name
-  end
-
-  memoize def csv_header
-    "%<code>03d_%<ext_name>s" % { code:, ext_name:, }
-  end
-
-  def dropping?
-    phase_2_status == "drop"
+  def <=>(other)
+    comparison_tuple <=> other.comparison_tuple
   end
 
   def exists?
@@ -223,7 +362,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   # @param [ControlledVocabularies::Types::SourceKind] kind
   def exists_for?(kind)
-    record = kind.to_sym == :draft ? SolutionDraft.new : Solution.new
+    record = self.class.solution_record_for(kind)
 
     record.respond_to?(actual_attribute_name)
   end
@@ -237,64 +376,10 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     end
   end
 
-  def for_implementation?
-    implementation_name.present?
-  end
-
-  # @return [<Symbol>]
-  memoize def free_input_accessors
-    return [] unless has_free_input?
-
-    [
-      free_input_name,
-      :"#{free_input_name}=",
-      :"#{free_input_name}?"
-    ]
-  end
-
-  # @return [Symbol, nil]
-  memoize def free_input_name
-    base = attribute_name.to_s.singularize
-
-    if accepts_other?
-      :"#{base}_other"
-    elsif kind === :store_model_list
-      :"#{base}_free_input"
-    end
-  end
-
-  def has_been_deprecated?
-    dropping? || !exists?
-  end
-
-  def has_free_input?
-    free_input_name.present?
-  end
-
-  def has_vocab?
-    vocab.present?
-  end
-
-  def implementation_subproperty?
-    for_implementation? && implementation_property != "enum"
-  end
-
-  # The name of the attribute to use when in an active admin form input.
-  #
-  # For has_one through associations, we need to return our special `:"#{assoc_name}_id"` keys.
-  # @return [Symbol]
-  memoize def input_attr
-    if kind == :single_option && vocab.uses_model?
-      :"#{attribute_name}_id"
-    else
-      attribute_name
-    end
-  end
-
   # @!attribute [r] input_hint
   # The hint to display in ActiveAdmin when rendering the property.
   # @return [String]
-  memoize def input_hint
+  def input_hint
     path = "solution_properties.static.input_hint.#{kind}"
 
     options = { default: description, raise: true }
@@ -302,15 +387,9 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     I18n.t(path, **options)
   end
 
-  # @!attribute [r] input_kind
-  # @see SolutionPropertyKind#input_kind_for
-  # @return [Symbol, nil]
-  memoize def input_kind
-    property_kind.input_kind_for(self)
-  end
-
   # @!attribute [r] input_label
-  memoize def input_label
+  # @return [String]
+  def input_label
     path = "solution_properties.static.input_label.#{kind}"
 
     options = { default: be_label, raise: true }
@@ -322,7 +401,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   # @!attribute [r] input_options
   # @return [Hash]
-  memoize def input_options
+  def input_options
     {
       as: input_kind,
       label: input_label,
@@ -333,24 +412,12 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     end
   end
 
-  def only_for_actual?
-    only_for? :actual
-  end
-
-  def only_for_draft?
-    only_for? :draft
-  end
-
   # @param [ControlledVocabularies::Types::SourceKind] kind
-  def only_for?(kind)
-    only == kind.to_sym
-  end
+  def only_for?(kind) = only == kind.to_sym
 
-  def other_option?
-    kind == :other_option
-  end
+  def other_option? = kind == :other_option
 
-  memoize def required_presence_options
+  def required_presence_options
     {}.tap do |x|
       x[:if] = :apply_editor_validations?
 
@@ -367,35 +434,19 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     case kind.to_sym
     when :actual then only_for?(:draft)
     when :draft then only_for?(:actual)
+    when :intake
+      only_for?(:actual) || only_for?(:draft)
     else
       false
     end
   end
 
-  def structured? = kind == :store_model_list
+  def has_structured_attr? = structured_attr?
 
-  memoize def structured_attr
-    return unless structured?
-
-    :"#{name}_structured"
-  end
-
-  def has_structured_attr?
-    structured_attr.present?
-  end
-
-  memoize def structured_header
-    return unless structured?
-
-    :"#{csv_header}_structured"
-  end
-
-  def has_structured_header?
-    structured_header.present?
-  end
+  def has_structured_header? = structured_header?
 
   # @return [String]
-  memoize def field_label
+  def field_label
     case kind
     in :implementation
       "#{be_label} (Implementation Details)"
@@ -407,7 +458,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   end
 
   # @return [Integer]
-  memoize def field_position
+  def field_position
     if owner?
       owner_property.field_position + 3
     elsif kind == :implementation
@@ -417,30 +468,27 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     end
   end
 
-  memoize def free_input_property
-    SolutionProperty.find(free_input_name.to_s) if free_input_name.present?
+  # @return [SolutionProperty, nil]
+  def free_input_property
+    memoize :free_input_property do
+      SolutionProperty.find(free_input_name.to_s) if free_input_name?
+    end
   end
 
-  memoize def implementation
-    Implementation.find(implementation_name) if implementation_name?
+  # @return [SolutionProperty, nil]
+  def other_property
+    memoize :other_property do
+      return unless accepts_other?
+
+      SolutionProperty.find(free_input_name.to_s)
+    end
   end
 
-  memoize def other_property
-    SolutionProperty.find(free_input_name.to_s) if accepts_other?
-  end
-
-  memoize def owner_property
-    SolutionProperty.find(owner) if owner?
-  end
-
-  # @return [SolutionPropertyKind]
-  memoize def property_kind
-    SolutionPropertyKind.find(kind)
-  end
-
-  # @return [ControlledVocabulary, nil]
-  memoize def vocab
-    ControlledVocabulary.find(vocab_name) if vocab_name?
+  # @return [SolutionProperty, nil]
+  def owner_property
+    memoize :owner_property do
+      SolutionProperty.find(owner) if owner?
+    end
   end
 
   # @!group Accessor Logic
@@ -451,6 +499,27 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   end
 
   # @!endgroup
+
+  protected
+
+  def comparison_code
+    @comparison_code ||= owner_property&.code || code
+  end
+
+  def primary_code
+    @primary_code ||= comparison_code == code ? 0 : 1
+  end
+
+  def comparison_tuple
+   @comparison_tuple ||= begin
+      [].tap do |tuple|
+        tuple << comparison_code
+        tuple << primary_code
+        tuple << code
+        tuple << name.to_s
+      end.freeze
+    end
+  end
 
   private
 
@@ -478,7 +547,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   # @return [void]
   def property_exists_on_models!
-    return if dropping? || meta?
+    return if meta?
 
     SOURCE_KINDS.each do |kind|
       # :nocov:
@@ -612,18 +681,18 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
       attribute_names_from with_model_vocab.where(kind: :single_option)
     end
 
-    memoize def eager_load_associations
-      [
+    def eager_load_associations
+      @eager_load_associations ||= [
         *has_many_associations,
         *has_one_associations,
       ].then { symbolize_list _1 }
     end
 
-    memoize def free_input_names
+    def free_input_names
       each_free_input.map(&:free_input_name)
     end
 
-    memoize def store_model_list_names
+    def store_model_list_names
       store_model_lists.pluck(:name)
     end
 
@@ -652,22 +721,22 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
       end
     end
 
-    memoize def ransackable_associations
-      [
+    def ransackable_associations
+      @ransackable_associations ||= [
         *eager_load_associations
       ].then { symbolize_list _1 }
     end
 
-    memoize def ransackable_attributes
-      [].tap do |a|
+    def ransackable_attributes
+      @ransackable_attributes ||= [].tap do |a|
         a.concat(standard_values)
         a << "country_code"
         a.concat(Implementation.pluck(:name, :enum).flatten)
       end.then { symbolize_list _1 }
     end
 
-    memoize def to_clone
-      [].tap do |a|
+    def to_clone
+      @to_clone ||= [].tap do |a|
         a.concat attachment_values
         a.concat standard_values
         a.concat free_input_names
@@ -678,9 +747,20 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
       end.then { symbolize_list _1 }
     end
 
+    # @return [<SolutionProperty>]
+    def in_property_order
+      return enum_for(__method__) unless block_given?
+
+      clones = to_clone.map(&:to_s)
+
+      where(name: clones).to_a.sort.each do |prop|
+        yield prop
+      end
+    end
+
     # @return [ActiveSupport::HashWithIndifferentAccess{ String => Integer }]
-    memoize def field_ordering
-      SolutionProperty.in_use.map { [_1.name, _1.field_position] }.sort_by(&:last).to_h.with_indifferent_access
+    def field_ordering
+      @field_ordering ||= SolutionProperty.in_use.map { [_1.name, _1.field_position] }.sort_by(&:last).to_h.with_indifferent_access
     end
 
     # @!endgroup
@@ -711,6 +791,23 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
       end
     end
 
+    # @param [:draft, :intake, :actual] solution_kind
+    # @return [Solution, SolutionDraft, SolutionIntake]
+    def solution_record_for(solution_kind)
+      solution_records.compute_if_absent solution_kind do |kind|
+        case solution_kind
+        in :intake
+          SolutionIntake.new.freeze
+        in :draft
+          SolutionDraft.new.freeze
+        in :actual
+          Solution.new.freeze
+        else
+          raise ArgumentError, "Unknown solution kind: #{solution_kind.inspect}"
+        end
+      end
+    end
+
     private
 
     # @return [<Symbol>]
@@ -721,6 +818,10 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     # @return [<Symbol>]
     def symbolize_list(value)
       value.uniq.map(&:to_sym).freeze
+    end
+
+    def solution_records
+      @solution_records ||= Concurrent::Map.new
     end
   end
 end

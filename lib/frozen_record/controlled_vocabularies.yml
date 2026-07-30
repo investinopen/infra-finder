@@ -48,6 +48,7 @@
   accepts_other: true
   terms:
   - term: Commercial (for-profit)
+  - term: Distributed institutional partnership
   - term: Fiscal sponsorship (academic institution)
   - term: Fiscal sponsorship (non-profit)
   - term: Non-profit organization
@@ -282,6 +283,7 @@
   - term: Annotations system
   - term: Archive information management system
   - term: Authoring tool
+  - term: Data resource
   - term: Digital asset management system
   - term: Digital library, collection or exhibit platform
   - term: Discovery system
@@ -374,6 +376,14 @@
   - term: National Information Standards Organization (NISO) Recommended Practice
       RP-22-2015, Access License and Indicators
   - term: XML Exchange Table Model Document Type Definition
+  - term: Repository-Developed Metadata Schema(s)"
+    slug: rdms
+  - term: ABCD (Access to Biological Collection Data)
+    slug: abcd
+  - term: Brain Imaging Data Structure (BIDS)
+    slug: bids
+  - term: Schema.org
+    slug: schema-dot-org
   - term: Other
     provides: "other"
 - name: standards_metrics
@@ -461,3 +471,133 @@
   - term: Principles for Open Scholarly Infrastructure (POSI)
   - term: San Francisco Declaration on Research Assessment (DORA)
   - term: UN Sustainable Development Goals
+- name: access
+  strategy: model
+  model_name: AccessCondition
+  terms:
+  - term: Open without restrictions
+    slug: open
+  - term: Fee required
+    slug: fee-required
+  - term: Registration required
+    slug: registration-required
+  - term: Institutional membership available
+    slug: institutional-membership
+  - term: Fee waiver available
+    slug: fee-waiver
+  - term: Other
+    slug: other
+    provides: other
+- name: fos
+  strategy: model
+  model_name: DomainRelevance
+  terms:
+  - term: Mathematics
+    slug: math
+  - term: Computer and information sciences
+    slug: computer-science
+  - term: Physical sciences
+    slug: physical-science
+  - term: Chemical sciences
+    slug: chemical-science
+  - term: Earth and related environmental sciences
+    slug: environmental-science
+  - term: Biological sciences
+    slug: biological-science
+  - term: Other natural sciences
+    slug: natural-science
+  - term: Civil engineering
+    slug: civil-engineering
+  - term: Electrical engineering, electronic engineering, information engineering
+    slug: electrical-engineering
+  - term: Mechanical engineering
+    slug: mechanical-engineering
+  - term: Chemical engineering
+    slug: chemical-engineering
+  - term: Materials engineering
+    slug: materials-engineering
+  - term: Medical engineering
+    slug: medical-engineering
+  - term: Environmental engineering
+    slug: environmental-engineering
+  - term: Environmental biotechnology
+    slug: environmental-biotech
+  - term: Industrial biotechnology
+    slug: industrial-biotech
+  - term: Nano technology
+    slug: nanotech
+  - term: Other engineering and technologies
+    slug: engineering-other
+  - term: Basic medicine
+    slug: basic-medicine
+  - term: Clinical medicine
+    slug: clinical-medicine
+  - term: Health sciences
+    slug: health-science
+  - term: Health biotechnology
+    slug: health-biotech
+  - term: Other medical sciences
+    slug: medicine-other
+  - term: Agriculture, forestry, and fisheries
+    slug: agriculture-forestry-fisheries
+  - term: Animal and dairy science
+    slug: animal-dairy-science
+  - term: Veterinary science
+    slug: veterinary-science
+  - term: Agricultural biotechnology
+    slug: agricultural-biotech
+  - term: Other agricultural sciences
+    slug: agriculture-other
+  - term: Psychology
+    slug: psychology
+  - term: Economics and business
+    slug: economics
+  - term: Educational sciences
+    slug: education
+  - term: Sociology
+    slug: sociology
+  - term: Law
+    slug: law
+  - term: Political science
+    slug: polisci
+  - term: Social and economic geography
+    slug: social-economic-geography
+  - term: Media and communications
+    slug: media-communications
+  - term: Other social sciences
+    slug: social-science-other
+  - term: History and archaeology
+    slug: history-archaeology
+  - term: Languages and literature
+    slug: languages-literature
+  - term: Philosophy, ethics and religion
+    slug: philsophy-ethics-religion
+  - term: Arts (arts, history of arts, performing arts, music)
+    slug: arts
+  - term: Other humanities
+    slug: humanities
+  - term: Generalist (no disciplinary-focus)
+    slug: generalist
+- name: rev_src
+  strategy: model
+  model_name: RevenueSource
+  terms:
+  - term: Individual memberships
+    slug: memberships-individual
+  - term: Institutional memberships
+    slug: memberships-institutional
+  - term: Grants (public)
+    slug: grants-public
+  - term: Grants (private)
+    slug: grants-private
+  - term: Earned/commercial revenue
+    slug: revenue-commercial
+  - term: Corporate sponsorship
+    slug: sponsorship-corporate
+  - term: Investment and endowment income
+    slug: investment
+  - term: In-kind contributions
+    slug: contributions-in-kind
+  - term: Other
+    slug: other
+    provides: other

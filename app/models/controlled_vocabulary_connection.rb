@@ -35,6 +35,7 @@ class ControlledVocabularyConnection < Support::FrozenRecordHelpers::AbstractRec
 
   scope :for_draft, -> { for_kind(:draft) }
   scope :for_actual, -> { for_kind(:actual) }
+  scope :for_intake, -> { for_kind(:intake) }
 
   scope :multiple, -> { where(connection_mode: :multiple) }
   scope :single, -> { where(connection_mode: :single) }

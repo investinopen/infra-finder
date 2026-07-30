@@ -8,8 +8,9 @@ module Solutions
     class V2PropertySet
       include Support::EnhancedStoreModel
       include Solutions::Revisions::PropertySet
+      include Dry::Core::Constants
 
-      <%- SolutionProperty.to_clone.each do |attr| -%>
+      <%- SolutionProperty.in_property_order.each do |attr| -%>
       <%= attribute_for(attr) %>
       <%- end -%>
     end

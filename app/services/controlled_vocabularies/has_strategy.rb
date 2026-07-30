@@ -15,17 +15,13 @@ module ControlledVocabularies
       scope :uses_model, -> { by_strategy("model") }
     end
 
-    def uses_enum?
-      uses?("enum")
-    end
+    def uses_enum? = uses?("enum")
 
-    def uses_model?
-      uses?("model")
-    end
+    def uses_model? = uses?("model")
 
-    # @param [ControlledVocabularies::Types::Strategy]
+    # @param [ControlledVocabularies::Types::Strategy] strategy
     def uses?(strategy)
-      self.strategy == strategy
+      self.strategy == strategy.to_s
     end
   end
 end

@@ -1,4 +1,22 @@
 ---
+- :key: actual/access_conditions
+  :name: access_conditions
+  :solution_kind: actual
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: access
+- :key: draft/access_conditions
+  :name: access_conditions
+  :solution_kind: draft
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: access
+- :key: intake/access_conditions
+  :name: access_conditions
+  :solution_kind: intake
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: access
 - :key: actual/authentication_standards
   :name: authentication_standards
   :solution_kind: actual
@@ -269,6 +287,24 @@
   :connection_mode: single
   :strategy: currencies
   :vocab_name: currencies
+- :key: actual/domain_relevances
+  :name: domain_relevances
+  :solution_kind: actual
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: fos
+- :key: draft/domain_relevances
+  :name: domain_relevances
+  :solution_kind: draft
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: fos
+- :key: intake/domain_relevances
+  :name: domain_relevances
+  :solution_kind: intake
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: fos
 - :key: actual/equity_and_inclusion_implementation
   :name: equity_and_inclusion_implementation
   :solution_kind: actual
@@ -647,6 +683,24 @@
   :connection_mode: single
   :strategy: model
   :vocab_name: tech_read
+- :key: actual/revenue_sources
+  :name: revenue_sources
+  :solution_kind: actual
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: rev_src
+- :key: draft/revenue_sources
+  :name: revenue_sources
+  :solution_kind: draft
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: rev_src
+- :key: intake/revenue_sources
+  :name: revenue_sources
+  :solution_kind: intake
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: rev_src
 - :key: actual/security_standards
   :name: security_standards
   :solution_kind: actual

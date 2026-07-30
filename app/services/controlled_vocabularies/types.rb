@@ -28,14 +28,19 @@ module ControlledVocabularies
 
     RecordSet = RecordRelation | RecordSelection
 
+    Tag = Coercible::String.constrained(filled: true, format: /[^,]+/)
+
+    Tags = Array.of(Tag).default(Dry::Core::Constants::EMPTY_ARRAY)
+
     Term = Coercible::String
 
-    Terms = Coercible::Array.of(Term)
+    Terms = Coercible::Array.of(Term).default(Dry::Core::Constants::EMPTY_ARRAY)
 
     Visibility = ApplicationRecord.dry_pg_enum(:visibility, default: "visible")
 
     VocabName = Coercible::String.enum(
       "acc_scope",
+      "access",
       "board",
       "bus_form",
       "code_lcns",
@@ -43,6 +48,7 @@ module ControlledVocabularies
       "cont_lcns",
       "countries",
       "currencies",
+      "fos",
       "gov_stat",
       "impl_scale",
       "impl_scale_pricing",
@@ -51,6 +57,7 @@ module ControlledVocabularies
       "nonprofit_status",
       "pr_fund",
       "prgrm_lng",
+      "rev_src",
       "rprt_lvl",
       "saas",
       "soln_cat",
@@ -95,6 +102,7 @@ module ControlledVocabularies
     end
 
     TargetTable = Coercible::Symbol.enum(
+      :access_conditions,
       :accessibility_scopes,
       :authentication_standards,
       :board_structures,
@@ -102,6 +110,7 @@ module ControlledVocabularies
       :community_engagement_activities,
       :community_governances,
       :content_licenses,
+      :domain_relevances,
       :hosting_strategies,
       :integrations,
       :licenses,
@@ -115,6 +124,7 @@ module ControlledVocabularies
       :programming_languages,
       :readiness_levels,
       :reporting_levels,
+      :revenue_sources,
       :security_standards,
       :solution_categories,
       :staffings,

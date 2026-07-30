@@ -1,0 +1,296 @@
+---
+- name: pricing_url
+  code: 34
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public link to prices or fees.
+  exported: true
+  required: false
+  implementation_name: pricing
+  implementation_property: links
+  ext_name: transparent_pricing_url
+  be_label: Link to pricing
+  be_position: 6
+  fe_label: Pricing info
+  fe_position: 6
+  fe_section: 001 Header
+  fe_visibility: visible
+  input: url
+- name: code_license_url
+  code: 85
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Link to the code license attached to the tool's primary source code
+    repository.
+  exported: true
+  required: false
+  implementation_name: code_license
+  implementation_property: link
+  ext_name: code_license_url
+  be_label: Code license
+  be_position: 28
+  fe_label: N/A
+  fe_position: 28
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  input: url
+- name: open_code_repository_url
+  code: 19
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public link to code repository.
+  exported: true
+  required: false
+  implementation_name: code_repository
+  implementation_property: links
+  ext_name: open_code_repository_url
+  be_label: Link to code repository
+  be_position: 15
+  fe_label: Open code repository
+  fe_position: 15
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  input: url
+- name: api_url
+  code: 89
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Link to public APIs.
+  exported: true
+  required: false
+  implementation_name: open_api
+  implementation_property: links
+  ext_name: api_url
+  be_label: Link to open APIs and/or API documentation
+  be_position: 22
+  fe_label: Open API
+  fe_position: 22
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  input: url
+- name: open_data_statement_url
+  code: 21
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public link to open data statement.
+  exported: true
+  required: false
+  implementation_name: open_data
+  implementation_property: links
+  ext_name: open_data_statement_url
+  be_label: Link to open data statement
+  be_position: 24
+  fe_label: Open Data Statement - Learn More
+  fe_position: 24
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  input: url
+- name: product_roadmap_url
+  code: 91
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Link to public product roadmap.
+  exported: true
+  required: false
+  implementation_name: product_roadmap
+  implementation_property: links
+  ext_name: product_roadmap_url
+  be_label: Link to product roadmap
+  be_position: 20
+  fe_label: Open Product Roadmap
+  fe_position: 20
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  input: url
+- name: technical_user_documentation_url
+  code: 23
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public link to technical user documentation.
+  exported: true
+  required: false
+  implementation_name: user_documentation
+  implementation_property: links
+  ext_name: technical_user_documentation_url
+  be_label: Link to technical user documentation
+  be_position: 18
+  fe_label: Technical documentation
+  fe_position: 18
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  input: url
+- name: code_of_conduct_url
+  code: 43
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Link to the public code of conduct and reporting guidelines.
+  exported: true
+  required: false
+  implementation_name: code_of_conduct
+  implementation_property: links
+  ext_name: code_of_conduct_url
+  be_label: Link to code of conduct
+  be_position: 41
+  fe_label: Code of Conduct
+  fe_position: 41
+  fe_section: 005 Community Engagement
+  fe_visibility: visible
+  input: url
+- name: community_engagement_url
+  code: 116
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Link to public information about community engagement activities.
+  exported: true
+  required: false
+  implementation_name: community_engagement
+  implementation_property: links
+  ext_name: community_engagement_url
+  be_label: Link to community engagement activities
+  be_position: 43
+  fe_label: Community engagement activities
+  fe_position: 43
+  fe_section: 005 Community engagement
+  fe_visibility: visible
+  input: url
+- name: contribution_guidelines
+  code: 41
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Link to publicly available documentation of the ways in which users
+    can meaningfully contribute to the development or delivery of the service.
+  exported: true
+  required: false
+  implementation_name: contribution_pathways
+  implementation_property: links
+  ext_name: contribution_guidelines
+  be_label: User Contribution Pathways - URL
+  be_position: 45
+  fe_label: Contribution Guidelines or Fora - Website
+  fe_position: 45
+  fe_section: 005 Community Engagement
+  fe_visibility: visible
+  input: url
+- name: community_governance_url
+  code: 49
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public documentation of bylaws or other governance rules.
+  exported: true
+  required: false
+  implementation_name: bylaws
+  implementation_property: links
+  ext_name: community_governance_url
+  be_label: Link to bylaws or other governance documentation
+  be_position: 53
+  fe_label: N/A
+  fe_position: 53
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  input: url
+- name: commitment_to_equity_url
+  code: 36
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public link to statement and/or evidence of activities supporting diversity,
+    equity, and inclusion.
+  exported: true
+  required: false
+  implementation_name: equity_and_inclusion
+  implementation_property: links
+  ext_name: commitment_to_equity_url
+  be_label: Link to diversity, equity, inclusion, and antiracism statement or policy
+  be_position: 55
+  fe_label: DEI Statement - Website
+  fe_position: 55
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  input: url
+- name: governance_records_url
+  code: 28
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public link to governance records, including board meeting minutes,
+    records of major decisions, elections, or other indications of an active governance
+    process.
+  exported: true
+  required: false
+  implementation_name: governance_records
+  implementation_property: links
+  ext_name: governance_records_url
+  be_label: Link to governance records
+  be_position: 61
+  fe_label: N/A
+  fe_position: 61
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  input: url
+- name: governance_structure_url
+  code: 25
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public description of how the service is organized and managed, such
+    as the roles, responsibilities, decision-making, and communication mechanisms
+    of the stakeholders.
+  exported: true
+  required: false
+  implementation_name: governance_structure
+  implementation_property: links
+  ext_name: governance_structure_url
+  be_label: Link to governance structure and processes
+  be_position: 63
+  fe_label: Governance Structure & Processes
+  fe_position: 63
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  input: url
+- name: commitment_to_privacy_url
+  code: 45
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public link to privacy policy.
+  exported: true
+  required: false
+  implementation_name: privacy_policy
+  implementation_property: links
+  ext_name: commitment_to_privacy_url
+  be_label: Link to privacy policy
+  be_position: 57
+  fe_label: Privacy Policy
+  fe_position: 57
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  input: url
+- name: web_accessibility_url
+  code: 30
+  attr:
+  kind: :implementation_property
+  meta: false
+  description: Public link to web accessibility statement.
+  exported: true
+  required: false
+  implementation_name: web_accessibility
+  implementation_property: links
+  ext_name: web_accessibility_url
+  be_label: Link to web accessibility statement
+  be_position: 59
+  fe_label: Web Accessibility Statement - Website
+  fe_position: 59
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  input: url

@@ -516,6 +516,27 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: access_conditions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.access_conditions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    provides public.controlled_vocabulary_provision,
+    bespoke_filter_position bigint,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
+    enforced_slug public.citext,
+    description text,
+    solutions_count bigint NOT NULL,
+    solution_drafts_count bigint NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: accessibility_scopes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -755,6 +776,27 @@ CREATE TABLE public.content_licenses (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     bespoke_filter_position bigint
+);
+
+
+--
+-- Name: domain_relevances; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.domain_relevances (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    provides public.controlled_vocabulary_provision,
+    bespoke_filter_position bigint,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
+    enforced_slug public.citext,
+    description text,
+    solutions_count bigint NOT NULL,
+    solution_drafts_count bigint NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -1212,6 +1254,27 @@ CREATE TABLE public.reporting_levels (
 
 
 --
+-- Name: revenue_sources; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.revenue_sources (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    provides public.controlled_vocabulary_provision,
+    bespoke_filter_position bigint,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
+    enforced_slug public.citext,
+    description text,
+    solutions_count bigint NOT NULL,
+    solution_drafts_count bigint NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: roles; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1285,6 +1348,21 @@ CREATE TABLE public.snapshots (
     created_at timestamp(6) without time zone NOT NULL,
     solution_revision_kind public.solution_revision_kind GENERATED ALWAYS AS (public.parse_solution_revision_kind((metadata ->> 'kind'::text))) STORED NOT NULL,
     solution_revision_snapshot boolean GENERATED ALWAYS AS (public.is_solution_revision_snapshot((item_type)::text, metadata)) STORED NOT NULL
+);
+
+
+--
+-- Name: solution_access_conditions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_access_conditions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    access_condition_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -1461,6 +1539,36 @@ CREATE TABLE public.solution_content_licenses (
 
 
 --
+-- Name: solution_domain_relevances; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_domain_relevances (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    domain_relevance_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_access_conditions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_access_conditions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    access_condition_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: solution_draft_accessibility_scopes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1558,6 +1666,21 @@ CREATE TABLE public.solution_draft_content_licenses (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     solution_draft_id uuid NOT NULL,
     content_license_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_draft_domain_relevances; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_domain_relevances (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    domain_relevance_id uuid NOT NULL,
     single boolean DEFAULT false NOT NULL,
     assoc public.citext NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -1761,6 +1884,21 @@ CREATE TABLE public.solution_draft_reporting_levels (
 
 
 --
+-- Name: solution_draft_revenue_sources; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_revenue_sources (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    revenue_source_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: solution_draft_security_standards; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1951,7 +2089,9 @@ CREATE TABLE public.solution_drafts (
     free_inputs jsonb DEFAULT '{}'::jsonb NOT NULL,
     first_name text,
     last_name text,
-    email public.citext
+    email public.citext,
+    fiscal_host text,
+    registries jsonb DEFAULT '[]'::jsonb NOT NULL
 );
 
 
@@ -2039,6 +2179,21 @@ CREATE SEQUENCE public.solution_imports_identifier_seq
 --
 
 ALTER SEQUENCE public.solution_imports_identifier_seq OWNED BY public.solution_imports.identifier;
+
+
+--
+-- Name: solution_intake_access_conditions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_access_conditions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    access_condition_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
 
 
 --
@@ -2139,6 +2294,21 @@ CREATE TABLE public.solution_intake_content_licenses (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     solution_intake_id uuid NOT NULL,
     content_license_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_intake_domain_relevances; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_domain_relevances (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    domain_relevance_id uuid NOT NULL,
     single boolean DEFAULT false NOT NULL,
     assoc public.citext NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -2342,6 +2512,21 @@ CREATE TABLE public.solution_intake_reporting_levels (
 
 
 --
+-- Name: solution_intake_revenue_sources; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_revenue_sources (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    revenue_source_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: solution_intake_security_standards; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2508,7 +2693,9 @@ CREATE TABLE public.solution_intakes (
     total_liabilities_cents bigint DEFAULT 0 NOT NULL,
     free_inputs jsonb DEFAULT '{}'::jsonb NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    fiscal_host text,
+    registries jsonb DEFAULT '[]'::jsonb NOT NULL
 );
 
 
@@ -2685,6 +2872,21 @@ CREATE TABLE public.solution_reporting_levels (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     solution_id uuid NOT NULL,
     reporting_level_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solution_revenue_sources; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_revenue_sources (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    revenue_source_id uuid NOT NULL,
     single boolean DEFAULT false NOT NULL,
     assoc public.citext NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -2895,7 +3097,9 @@ CREATE TABLE public.solutions (
     first_name text,
     last_name text,
     email public.citext,
-    flags jsonb DEFAULT '{}'::jsonb NOT NULL
+    flags jsonb DEFAULT '{}'::jsonb NOT NULL,
+    fiscal_host text,
+    registries jsonb DEFAULT '[]'::jsonb NOT NULL
 );
 
 
@@ -3099,6 +3303,14 @@ ALTER TABLE ONLY public.solution_imports ALTER COLUMN identifier SET DEFAULT nex
 
 
 --
+-- Name: access_conditions access_conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.access_conditions
+    ADD CONSTRAINT access_conditions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: accessibility_scopes accessibility_scopes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3200,6 +3412,14 @@ ALTER TABLE ONLY public.comparisons
 
 ALTER TABLE ONLY public.content_licenses
     ADD CONSTRAINT content_licenses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: domain_relevances domain_relevances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.domain_relevances
+    ADD CONSTRAINT domain_relevances_pkey PRIMARY KEY (id);
 
 
 --
@@ -3387,6 +3607,14 @@ ALTER TABLE ONLY public.reporting_levels
 
 
 --
+-- Name: revenue_sources revenue_sources_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.revenue_sources
+    ADD CONSTRAINT revenue_sources_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: roles roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3424,6 +3652,14 @@ ALTER TABLE ONLY public.snapshot_items
 
 ALTER TABLE ONLY public.snapshots
     ADD CONSTRAINT snapshots_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_access_conditions solution_access_conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_access_conditions
+    ADD CONSTRAINT solution_access_conditions_pkey PRIMARY KEY (id);
 
 
 --
@@ -3515,6 +3751,22 @@ ALTER TABLE ONLY public.solution_content_licenses
 
 
 --
+-- Name: solution_domain_relevances solution_domain_relevances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_domain_relevances
+    ADD CONSTRAINT solution_domain_relevances_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_access_conditions solution_draft_access_conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_access_conditions
+    ADD CONSTRAINT solution_draft_access_conditions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: solution_draft_accessibility_scopes solution_draft_accessibility_scopes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3568,6 +3820,14 @@ ALTER TABLE ONLY public.solution_draft_community_governances
 
 ALTER TABLE ONLY public.solution_draft_content_licenses
     ADD CONSTRAINT solution_draft_content_licenses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_draft_domain_relevances solution_draft_domain_relevances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_domain_relevances
+    ADD CONSTRAINT solution_draft_domain_relevances_pkey PRIMARY KEY (id);
 
 
 --
@@ -3675,6 +3935,14 @@ ALTER TABLE ONLY public.solution_draft_reporting_levels
 
 
 --
+-- Name: solution_draft_revenue_sources solution_draft_revenue_sources_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_revenue_sources
+    ADD CONSTRAINT solution_draft_revenue_sources_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: solution_draft_security_standards solution_draft_security_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3755,6 +4023,14 @@ ALTER TABLE ONLY public.solution_imports
 
 
 --
+-- Name: solution_intake_access_conditions solution_intake_access_conditions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_access_conditions
+    ADD CONSTRAINT solution_intake_access_conditions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: solution_intake_accessibility_scopes solution_intake_accessibility_scopes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3808,6 +4084,14 @@ ALTER TABLE ONLY public.solution_intake_community_governances
 
 ALTER TABLE ONLY public.solution_intake_content_licenses
     ADD CONSTRAINT solution_intake_content_licenses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_domain_relevances solution_intake_domain_relevances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_domain_relevances
+    ADD CONSTRAINT solution_intake_domain_relevances_pkey PRIMARY KEY (id);
 
 
 --
@@ -3912,6 +4196,14 @@ ALTER TABLE ONLY public.solution_intake_readiness_levels
 
 ALTER TABLE ONLY public.solution_intake_reporting_levels
     ADD CONSTRAINT solution_intake_reporting_levels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_intake_revenue_sources solution_intake_revenue_sources_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_revenue_sources
+    ADD CONSTRAINT solution_intake_revenue_sources_pkey PRIMARY KEY (id);
 
 
 --
@@ -4056,6 +4348,14 @@ ALTER TABLE ONLY public.solution_readiness_levels
 
 ALTER TABLE ONLY public.solution_reporting_levels
     ADD CONSTRAINT solution_reporting_levels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solution_revenue_sources solution_revenue_sources_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_revenue_sources
+    ADD CONSTRAINT solution_revenue_sources_pkey PRIMARY KEY (id);
 
 
 --
@@ -4522,6 +4822,34 @@ CREATE INDEX idx_on_user_contribution_id_e5e19dfc8b ON public.solution_draft_use
 
 
 --
+-- Name: index_access_conditions_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_access_conditions_bespoke_filter_ordering ON public.access_conditions USING btree (bespoke_filter_position, term);
+
+
+--
+-- Name: index_access_conditions_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_access_conditions_on_provides ON public.access_conditions USING btree (provides);
+
+
+--
+-- Name: index_access_conditions_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_access_conditions_on_slug ON public.access_conditions USING btree (slug);
+
+
+--
+-- Name: index_access_conditions_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_access_conditions_on_term ON public.access_conditions USING btree (term);
+
+
+--
 -- Name: index_accessibility_scopes_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4806,6 +5134,34 @@ CREATE UNIQUE INDEX index_content_licenses_on_slug ON public.content_licenses US
 --
 
 CREATE UNIQUE INDEX index_content_licenses_on_term ON public.content_licenses USING btree (term);
+
+
+--
+-- Name: index_domain_relevances_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_domain_relevances_bespoke_filter_ordering ON public.domain_relevances USING btree (bespoke_filter_position, term);
+
+
+--
+-- Name: index_domain_relevances_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_domain_relevances_on_provides ON public.domain_relevances USING btree (provides);
+
+
+--
+-- Name: index_domain_relevances_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_domain_relevances_on_slug ON public.domain_relevances USING btree (slug);
+
+
+--
+-- Name: index_domain_relevances_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_domain_relevances_on_term ON public.domain_relevances USING btree (term);
 
 
 --
@@ -5411,6 +5767,34 @@ CREATE UNIQUE INDEX index_reporting_levels_on_term ON public.reporting_levels US
 
 
 --
+-- Name: index_revenue_sources_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_revenue_sources_bespoke_filter_ordering ON public.revenue_sources USING btree (bespoke_filter_position, term);
+
+
+--
+-- Name: index_revenue_sources_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_revenue_sources_on_provides ON public.revenue_sources USING btree (provides);
+
+
+--
+-- Name: index_revenue_sources_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_revenue_sources_on_slug ON public.revenue_sources USING btree (slug);
+
+
+--
+-- Name: index_revenue_sources_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_revenue_sources_on_term ON public.revenue_sources USING btree (term);
+
+
+--
 -- Name: index_roles_on_name_and_resource_type_and_resource_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5513,6 +5897,20 @@ CREATE INDEX index_snapshots_on_user ON public.snapshots USING btree (user_type,
 --
 
 CREATE INDEX index_snapshots_solution_revision_ordering ON public.snapshots USING btree (item_id, created_at DESC) WHERE solution_revision_snapshot;
+
+
+--
+-- Name: index_solution_access_conditions_on_access_condition_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_access_conditions_on_access_condition_id ON public.solution_access_conditions USING btree (access_condition_id);
+
+
+--
+-- Name: index_solution_access_conditions_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_access_conditions_on_solution_id ON public.solution_access_conditions USING btree (solution_id);
 
 
 --
@@ -5670,6 +6068,34 @@ CREATE INDEX index_solution_content_licenses_on_solution_id ON public.solution_c
 
 
 --
+-- Name: index_solution_domain_relevances_on_domain_relevance_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_domain_relevances_on_domain_relevance_id ON public.solution_domain_relevances USING btree (domain_relevance_id);
+
+
+--
+-- Name: index_solution_domain_relevances_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_domain_relevances_on_solution_id ON public.solution_domain_relevances USING btree (solution_id);
+
+
+--
+-- Name: index_solution_draft_access_conditions_on_access_condition_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_access_conditions_on_access_condition_id ON public.solution_draft_access_conditions USING btree (access_condition_id);
+
+
+--
+-- Name: index_solution_draft_access_conditions_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_access_conditions_on_solution_draft_id ON public.solution_draft_access_conditions USING btree (solution_draft_id);
+
+
+--
 -- Name: index_solution_draft_accessibility_scopes_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5716,6 +6142,20 @@ CREATE INDEX index_solution_draft_content_licenses_on_content_license_id ON publ
 --
 
 CREATE INDEX index_solution_draft_content_licenses_on_solution_draft_id ON public.solution_draft_content_licenses USING btree (solution_draft_id);
+
+
+--
+-- Name: index_solution_draft_domain_relevances_on_domain_relevance_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_domain_relevances_on_domain_relevance_id ON public.solution_draft_domain_relevances USING btree (domain_relevance_id);
+
+
+--
+-- Name: index_solution_draft_domain_relevances_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_domain_relevances_on_solution_draft_id ON public.solution_draft_domain_relevances USING btree (solution_draft_id);
 
 
 --
@@ -5828,6 +6268,20 @@ CREATE INDEX index_solution_draft_reporting_levels_on_reporting_level_id ON publ
 --
 
 CREATE INDEX index_solution_draft_reporting_levels_on_solution_draft_id ON public.solution_draft_reporting_levels USING btree (solution_draft_id);
+
+
+--
+-- Name: index_solution_draft_revenue_sources_on_revenue_source_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_revenue_sources_on_revenue_source_id ON public.solution_draft_revenue_sources USING btree (revenue_source_id);
+
+
+--
+-- Name: index_solution_draft_revenue_sources_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_revenue_sources_on_solution_draft_id ON public.solution_draft_revenue_sources USING btree (solution_draft_id);
 
 
 --
@@ -6034,6 +6488,20 @@ CREATE INDEX index_solution_imports_on_user_id ON public.solution_imports USING 
 
 
 --
+-- Name: index_solution_intake_access_conditions_on_access_condition_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_access_conditions_on_access_condition_id ON public.solution_intake_access_conditions USING btree (access_condition_id);
+
+
+--
+-- Name: index_solution_intake_access_conditions_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_access_conditions_on_solution_intake_id ON public.solution_intake_access_conditions USING btree (solution_intake_id);
+
+
+--
 -- Name: index_solution_intake_board_structures_on_board_structure_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6073,6 +6541,20 @@ CREATE INDEX index_solution_intake_content_licenses_on_content_license_id ON pub
 --
 
 CREATE INDEX index_solution_intake_content_licenses_on_solution_intake_id ON public.solution_intake_content_licenses USING btree (solution_intake_id);
+
+
+--
+-- Name: index_solution_intake_domain_relevances_on_domain_relevance_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_domain_relevances_on_domain_relevance_id ON public.solution_intake_domain_relevances USING btree (domain_relevance_id);
+
+
+--
+-- Name: index_solution_intake_domain_relevances_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_domain_relevances_on_solution_intake_id ON public.solution_intake_domain_relevances USING btree (solution_intake_id);
 
 
 --
@@ -6164,6 +6646,20 @@ CREATE INDEX index_solution_intake_reporting_levels_on_reporting_level_id ON pub
 --
 
 CREATE INDEX index_solution_intake_reporting_levels_on_solution_intake_id ON public.solution_intake_reporting_levels USING btree (solution_intake_id);
+
+
+--
+-- Name: index_solution_intake_revenue_sources_on_revenue_source_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_revenue_sources_on_revenue_source_id ON public.solution_intake_revenue_sources USING btree (revenue_source_id);
+
+
+--
+-- Name: index_solution_intake_revenue_sources_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_revenue_sources_on_solution_intake_id ON public.solution_intake_revenue_sources USING btree (solution_intake_id);
 
 
 --
@@ -6395,6 +6891,20 @@ CREATE INDEX index_solution_reporting_levels_on_reporting_level_id ON public.sol
 --
 
 CREATE INDEX index_solution_reporting_levels_on_solution_id ON public.solution_reporting_levels USING btree (solution_id);
+
+
+--
+-- Name: index_solution_revenue_sources_on_revenue_source_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_revenue_sources_on_revenue_source_id ON public.solution_revenue_sources USING btree (revenue_source_id);
+
+
+--
+-- Name: index_solution_revenue_sources_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_revenue_sources_on_solution_id ON public.solution_revenue_sources USING btree (solution_id);
 
 
 --
@@ -6853,6 +7363,20 @@ CREATE INDEX taggings_taggable_content_idx ON public.taggings USING btree (tagga
 
 
 --
+-- Name: udx_solution_access_conditions_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_access_conditions_multi ON public.solution_access_conditions USING btree (solution_id, access_condition_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_access_conditions_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_access_conditions_single ON public.solution_access_conditions USING btree (solution_id, assoc) WHERE single;
+
+
+--
 -- Name: udx_solution_accessibility_scopes_multi; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6993,6 +7517,34 @@ CREATE UNIQUE INDEX udx_solution_content_licenses_single ON public.solution_cont
 
 
 --
+-- Name: udx_solution_domain_relevances_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_domain_relevances_multi ON public.solution_domain_relevances USING btree (solution_id, domain_relevance_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_domain_relevances_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_domain_relevances_single ON public.solution_domain_relevances USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_access_conditions_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_access_conditions_multi ON public.solution_draft_access_conditions USING btree (solution_draft_id, access_condition_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_access_conditions_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_access_conditions_single ON public.solution_draft_access_conditions USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
 -- Name: udx_solution_draft_accessibility_scopes_multi; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7088,6 +7640,20 @@ CREATE UNIQUE INDEX udx_solution_draft_content_licenses_multi ON public.solution
 --
 
 CREATE UNIQUE INDEX udx_solution_draft_content_licenses_single ON public.solution_draft_content_licenses USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_draft_domain_relevances_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_domain_relevances_multi ON public.solution_draft_domain_relevances USING btree (solution_draft_id, domain_relevance_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_domain_relevances_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_domain_relevances_single ON public.solution_draft_domain_relevances USING btree (solution_draft_id, assoc) WHERE single;
 
 
 --
@@ -7273,6 +7839,20 @@ CREATE UNIQUE INDEX udx_solution_draft_reporting_levels_single ON public.solutio
 
 
 --
+-- Name: udx_solution_draft_revenue_sources_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_revenue_sources_multi ON public.solution_draft_revenue_sources USING btree (solution_draft_id, revenue_source_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_revenue_sources_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_revenue_sources_single ON public.solution_draft_revenue_sources USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
 -- Name: udx_solution_draft_security_standards_multi; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7340,6 +7920,20 @@ CREATE UNIQUE INDEX udx_solution_hosting_strategies_multi ON public.solution_hos
 --
 
 CREATE UNIQUE INDEX udx_solution_hosting_strategies_single ON public.solution_hosting_strategies USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_access_conditions_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_access_conditions_multi ON public.solution_intake_access_conditions USING btree (solution_intake_id, access_condition_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_access_conditions_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_access_conditions_single ON public.solution_intake_access_conditions USING btree (solution_intake_id, assoc) WHERE single;
 
 
 --
@@ -7438,6 +8032,20 @@ CREATE UNIQUE INDEX udx_solution_intake_content_licenses_multi ON public.solutio
 --
 
 CREATE UNIQUE INDEX udx_solution_intake_content_licenses_single ON public.solution_intake_content_licenses USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_domain_relevances_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_domain_relevances_multi ON public.solution_intake_domain_relevances USING btree (solution_intake_id, domain_relevance_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_domain_relevances_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_domain_relevances_single ON public.solution_intake_domain_relevances USING btree (solution_intake_id, assoc) WHERE single;
 
 
 --
@@ -7620,6 +8228,20 @@ CREATE UNIQUE INDEX udx_solution_intake_reporting_levels_multi ON public.solutio
 --
 
 CREATE UNIQUE INDEX udx_solution_intake_reporting_levels_single ON public.solution_intake_reporting_levels USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
+-- Name: udx_solution_intake_revenue_sources_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_revenue_sources_multi ON public.solution_intake_revenue_sources USING btree (solution_intake_id, revenue_source_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_revenue_sources_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_revenue_sources_single ON public.solution_intake_revenue_sources USING btree (solution_intake_id, assoc) WHERE single;
 
 
 --
@@ -7847,6 +8469,20 @@ CREATE UNIQUE INDEX udx_solution_reporting_levels_single ON public.solution_repo
 
 
 --
+-- Name: udx_solution_revenue_sources_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_revenue_sources_multi ON public.solution_revenue_sources USING btree (solution_id, revenue_source_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_revenue_sources_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_revenue_sources_single ON public.solution_revenue_sources USING btree (solution_id, assoc) WHERE single;
+
+
+--
 -- Name: udx_solution_security_standards_multi; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7951,6 +8587,14 @@ ALTER TABLE ONLY public.solution_draft_board_structures
 
 
 --
+-- Name: solution_intake_domain_relevances fk_rails_0dca3227ec; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_domain_relevances
+    ADD CONSTRAINT fk_rails_0dca3227ec FOREIGN KEY (domain_relevance_id) REFERENCES public.domain_relevances(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_community_engagement_activities fk_rails_0e89b57f6e; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7964,6 +8608,14 @@ ALTER TABLE ONLY public.solution_community_engagement_activities
 
 ALTER TABLE ONLY public.solution_intake_preservation_standards
     ADD CONSTRAINT fk_rails_0f0c8c559c FOREIGN KEY (preservation_standard_id) REFERENCES public.preservation_standards(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_access_conditions fk_rails_0f7ec213c1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_access_conditions
+    ADD CONSTRAINT fk_rails_0f7ec213c1 FOREIGN KEY (access_condition_id) REFERENCES public.access_conditions(id) ON DELETE CASCADE;
 
 
 --
@@ -8111,6 +8763,14 @@ ALTER TABLE ONLY public.solution_draft_accessibility_scopes
 
 
 --
+-- Name: solution_intake_domain_relevances fk_rails_1e078f7395; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_domain_relevances
+    ADD CONSTRAINT fk_rails_1e078f7395 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_maintenance_statuses fk_rails_1e9fba19ac; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8148,6 +8808,14 @@ ALTER TABLE ONLY public.solution_draft_business_forms
 
 ALTER TABLE ONLY public.solution_draft_accessibility_scopes
     ADD CONSTRAINT fk_rails_208a2f36e3 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_access_conditions fk_rails_23115e63c3; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_access_conditions
+    ADD CONSTRAINT fk_rails_23115e63c3 FOREIGN KEY (access_condition_id) REFERENCES public.access_conditions(id) ON DELETE CASCADE;
 
 
 --
@@ -8191,6 +8859,14 @@ ALTER TABLE ONLY public.solution_draft_community_engagement_activities
 
 
 --
+-- Name: solution_intake_revenue_sources fk_rails_2e6c346ea6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_revenue_sources
+    ADD CONSTRAINT fk_rails_2e6c346ea6 FOREIGN KEY (revenue_source_id) REFERENCES public.revenue_sources(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_drafts fk_rails_2eda529d66; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8212,6 +8888,14 @@ ALTER TABLE ONLY public.solution_draft_board_structures
 
 ALTER TABLE ONLY public.solution_staffings
     ADD CONSTRAINT fk_rails_34006937dc FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_access_conditions fk_rails_347b8c63fe; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_access_conditions
+    ADD CONSTRAINT fk_rails_347b8c63fe FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
 
 
 --
@@ -8487,11 +9171,27 @@ ALTER TABLE ONLY public.solution_intake_metrics_standards
 
 
 --
+-- Name: solution_access_conditions fk_rails_5f14a753ea; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_access_conditions
+    ADD CONSTRAINT fk_rails_5f14a753ea FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_intake_primary_funding_sources fk_rails_609befc703; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_intake_primary_funding_sources
     ADD CONSTRAINT fk_rails_609befc703 FOREIGN KEY (primary_funding_source_id) REFERENCES public.primary_funding_sources(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_revenue_sources fk_rails_60eb5ead29; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_revenue_sources
+    ADD CONSTRAINT fk_rails_60eb5ead29 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
 
 
 --
@@ -8548,6 +9248,14 @@ ALTER TABLE ONLY public.solution_hosting_strategies
 
 ALTER TABLE ONLY public.solution_intake_metrics_standards
     ADD CONSTRAINT fk_rails_6900e0d446 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_domain_relevances fk_rails_6c82c943ba; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_domain_relevances
+    ADD CONSTRAINT fk_rails_6c82c943ba FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
 
 
 --
@@ -8644,6 +9352,14 @@ ALTER TABLE ONLY public.solution_draft_reporting_levels
 
 ALTER TABLE ONLY public.solution_draft_preservation_standards
     ADD CONSTRAINT fk_rails_7ccd99eb55 FOREIGN KEY (preservation_standard_id) REFERENCES public.preservation_standards(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_domain_relevances fk_rails_7dff07b6cb; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_domain_relevances
+    ADD CONSTRAINT fk_rails_7dff07b6cb FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
 
 
 --
@@ -8775,11 +9491,27 @@ ALTER TABLE ONLY public.solution_intake_maintenance_statuses
 
 
 --
+-- Name: solution_draft_revenue_sources fk_rails_8bd3eddb58; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_revenue_sources
+    ADD CONSTRAINT fk_rails_8bd3eddb58 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_metadata_standards fk_rails_8bd7a107b0; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_metadata_standards
     ADD CONSTRAINT fk_rails_8bd7a107b0 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_access_conditions fk_rails_8cb521dca7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_access_conditions
+    ADD CONSTRAINT fk_rails_8cb521dca7 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
 
 
 --
@@ -8868,6 +9600,14 @@ ALTER TABLE ONLY public.solution_intake_security_standards
 
 ALTER TABLE ONLY public.solution_community_engagement_activities
     ADD CONSTRAINT fk_rails_9b4ffde830 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_revenue_sources fk_rails_9b7efd4638; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_revenue_sources
+    ADD CONSTRAINT fk_rails_9b7efd4638 FOREIGN KEY (revenue_source_id) REFERENCES public.revenue_sources(id) ON DELETE CASCADE;
 
 
 --
@@ -9039,6 +9779,14 @@ ALTER TABLE ONLY public.solution_intake_hosting_strategies
 
 
 --
+-- Name: solution_draft_domain_relevances fk_rails_ba97b28a4c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_domain_relevances
+    ADD CONSTRAINT fk_rails_ba97b28a4c FOREIGN KEY (domain_relevance_id) REFERENCES public.domain_relevances(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_hosting_strategies fk_rails_bab15c6db8; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -9151,6 +9899,22 @@ ALTER TABLE ONLY public.solution_draft_user_contributions
 
 
 --
+-- Name: solution_intake_access_conditions fk_rails_c8cc8cd9a1; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_access_conditions
+    ADD CONSTRAINT fk_rails_c8cc8cd9a1 FOREIGN KEY (access_condition_id) REFERENCES public.access_conditions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_revenue_sources fk_rails_c944e3f80e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_revenue_sources
+    ADD CONSTRAINT fk_rails_c944e3f80e FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_intake_licenses fk_rails_ca1e2d8268; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -9180,6 +9944,14 @@ ALTER TABLE ONLY public.invitations
 
 ALTER TABLE ONLY public.solution_intake_user_contributions
     ADD CONSTRAINT fk_rails_ced366f7a7 FOREIGN KEY (user_contribution_id) REFERENCES public.user_contributions(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_domain_relevances fk_rails_cf423a1bee; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_domain_relevances
+    ADD CONSTRAINT fk_rails_cf423a1bee FOREIGN KEY (domain_relevance_id) REFERENCES public.domain_relevances(id) ON DELETE CASCADE;
 
 
 --
@@ -9407,6 +10179,14 @@ ALTER TABLE ONLY public.solution_intakes
 
 
 --
+-- Name: solution_draft_revenue_sources fk_rails_f4bbd00c86; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_revenue_sources
+    ADD CONSTRAINT fk_rails_f4bbd00c86 FOREIGN KEY (revenue_source_id) REFERENCES public.revenue_sources(id) ON DELETE CASCADE;
+
+
+--
 -- Name: user_transitions fk_rails_f626c47310; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -9477,6 +10257,7 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260728192303'),
 ('20260720163043'),
 ('20260717172945'),
 ('20260717172537'),

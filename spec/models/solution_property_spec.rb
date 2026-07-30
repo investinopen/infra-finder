@@ -9,11 +9,6 @@ RSpec.describe SolutionProperty, type: :model do
     end
   end
 
-  shared_examples_for "a deprecated property" do
-    it { is_expected.to have_been_deprecated }
-    it { is_expected.to be_dropping }
-  end
-
   shared_examples_for "a property available to draft and actual" do
     it { is_expected.not_to be_only_for_draft }
     it { is_expected.not_to be_only_for_actual }
@@ -38,10 +33,8 @@ RSpec.describe SolutionProperty, type: :model do
     it { is_expected.not_to be_skip_for :anything }
   end
 
-  shared_examples_for "a non-deprecated property" do
+  shared_examples_for "an existing property" do
     it { is_expected.to exist }
-    it { is_expected.not_to have_been_deprecated }
-    it { is_expected.not_to be_dropping }
   end
 
   shared_examples_for "a non-free-input property" do
@@ -126,7 +119,7 @@ RSpec.describe SolutionProperty, type: :model do
   context "with a property that accepts other" do
     subject(:property) { described_class.find("programming_languages") }
 
-    it_behaves_like "a non-deprecated property"
+    it_behaves_like "an existing property"
     it_behaves_like "a non-implementation"
     it_behaves_like "a non-structured property"
     it_behaves_like "a property that accepts other"
@@ -135,7 +128,7 @@ RSpec.describe SolutionProperty, type: :model do
   context "with an other option" do
     subject(:property) { described_class.find("programming_language_other") }
 
-    it_behaves_like "a non-deprecated property"
+    it_behaves_like "an existing property"
     it_behaves_like "a non-implementation"
     it_behaves_like "a non-structured property"
     it_behaves_like "a non-free-input property"
@@ -143,19 +136,6 @@ RSpec.describe SolutionProperty, type: :model do
     it_behaves_like "an owned property" do
       let(:owner_property_name) { "programming_languages" }
     end
-  end
-
-  context "with a deprecated / dropped property" do
-    subject(:property) { described_class.find("special_certifications_or_statuses") }
-
-    it_behaves_like "a deprecated property"
-    it_behaves_like "a non-implementation"
-    it_behaves_like "a non-other property"
-    it_behaves_like "a top-level property"
-    it_behaves_like "a non-structured property"
-    it_behaves_like "a non-free-input property"
-    it_behaves_like "a private export"
-    it_behaves_like "a property available to draft and actual"
   end
 
   describe ".build_raw_connections" do

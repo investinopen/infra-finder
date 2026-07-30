@@ -67,14 +67,14 @@ module SolutionProperties
       :store_model_list,
       :tag_list,
       :timestamp,
-      :url
+      :url,
     )
 
     Owner = Coercible::String
 
-    Phase2Status = Coercible::String.default("none").enum("add", "change_input", "change_label", "change_vocab", "drop", "keep", "none").fallback("none")
-
     SolutionKind = ApplicationRecord.dry_pg_enum(:solution_kind, symbolize: true)
+
+    SourceKind = ControlledVocabularies::Types::SourceKind
 
     Visibility = Coercible::String.default("hidden").enum("visible", "hidden").fallback("hidden").constructor do |value|
       case value

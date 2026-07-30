@@ -12,7 +12,7 @@ module ControlledVocabularies
 
     attribute? :slug, Types::String.optional
 
-    attribute? :tags, Types::Array.of(Types::Term).default([].freeze)
+    attribute? :tags, Types::Tags
 
     attribute? :visibility, Types::Visibility
 
