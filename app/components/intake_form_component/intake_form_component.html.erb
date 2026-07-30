@@ -83,6 +83,12 @@
             <% end %>
             <%= f.text_field :research_organization_registry_url %>
           <% end %>
+          <%= render FormFieldWrapperComponent.new(class_name: "wide") do |field| %>
+            <% field.with_label do %>
+              <%= tag.label "Persistent identifiers", id: "registries-label" %>
+            <% end %>
+            <%= render IntakeStructuredListComponent.new(form: f, attr: :registries, fields: [:name, :url], labelled_by: "registries-label", description: "Identifiers from other registries, such as re3data or FAIRsharing.") %>
+          <% end %>
         <% end %>
 
         <%= render IntakeFormSectionComponent.new(title: "About", anchor: "about", help_href: "https://docs.google.com/document/d/1afiDj8pw2qxJcj7e6vhIRfP7Ra7gY0FYtsZ5DivQfwM/edit#heading=h.4tpeirkftzoe") do %>
@@ -104,6 +110,12 @@
               <%= tag.label "Solution category", id: "solution-categories-label" %>
             <% end %>
             <%= render TypeaheadComponent.new(form: f, attr: :solution_category_ids, vocab_name: "soln_cat", max_items: 3, labelled_by: "solution-categories-label", placeholder: "Type to search categories…", max_items_placeholder: "Max selected. Remove a category to search...") %>
+          <% end %>
+          <%= render FormFieldWrapperComponent.new(required: true) do |field| %>
+            <% field.with_label do %>
+              <%= tag.label "Domain relevance", id: "domain-relevances-label" %>
+            <% end %>
+            <%= render TypeaheadComponent.new(form: f, attr: :domain_relevance_ids, vocab_name: "fos", labelled_by: "domain-relevances-label", placeholder: "Type to search domains…", description: "The research domain or domains that most closely reflect the focus of the solution.") %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide", required: true, description: "An overview of the functions of the solution and its role in supporting research.") do |field| %>
             <% field.with_label do %>
@@ -383,7 +395,7 @@
               <%= f.text_field :community_engagement_activity_other, maxlength: max_length(:community_engagement_activity_other) %>
             <% end %>
           <% end %>
-          <%= render FormFieldWrapperComponent.new(required: true, class_name: "wide", description: "Inventory of ways in which users can meaningfully contribute to the development or delivery of the solution. SELECT ALL THAT APPLY.") do |field| %>
+          <%= render FormFieldWrapperComponent.new(required: true, class_name: "wide", description: "Inventory of ways in which users can meaningfully contribute to the development or delivery of the solution. Select all that apply.") do |field| %>
             <% field.with_label do %>
               <%= tag.label "User contribution opportunities", id: "user-contributions-label" %>
             <% end %>
@@ -518,6 +530,12 @@
               <%= implementation_url_field(f, :pricing) %>
             <% end %>
           <% end %>
+          <%= render FormFieldWrapperComponent.new(description: "Conditions under which users may access, acquire, or use the solution. Select all that apply.") do |field| %>
+            <% field.with_label do %>
+              <%= tag.label "Access conditions", id: "access-conditions-label" %>
+            <% end %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :access_condition_ids, vocab_name: "access", labelled_by: "access-conditions-label") %>
+          <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide", required: true, description: "Brief narrative overview of the history of the solution and/or provider or a link to a public document.") do |field| %>
             <% field.with_label do %>
               <%= f.label :organizational_history, "Organizational history" %>
@@ -628,11 +646,23 @@
               <%= f.text_field :primary_funding_source_other, maxlength: max_length(:primary_funding_source_other) %>
             <% end %>
           <% end %>
+          <%= render FormFieldWrapperComponent.new(class_name: "wide", required: true, description: "Sources of financial and other support that contribute to the solution's operations, research and development, and other activities. Select all that apply.") do |field| %>
+            <% field.with_label do %>
+              <%= tag.label "Revenue sources", id: "revenue-sources-label" %>
+            <% end %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :revenue_source_ids, vocab_name: "rev_src", labelled_by: "revenue-sources-label") %>
+          <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide", description: "Description of ways in which investment can help the solution achieve its goals.") do |field| %>
             <% field.with_label do %>
               <%= f.label :funding_needs, "Funding needs" %>
             <% end %>
             <%= f.text_area :funding_needs, maxlength: max_length(:funding_needs), rows: 5 %>
+          <% end %>
+          <%= render FormFieldWrapperComponent.new(class_name: "wide", description: "The legally registered organisation that holds money on behalf of the solution.") do |field| %>
+            <% field.with_label do %>
+              <%= f.label :fiscal_host, "Fiscal host" %>
+            <% end %>
+            <%= f.text_area :fiscal_host, maxlength: max_length(:fiscal_host), rows: 5 %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "In what currency are you reporting financial information? See list of ISO 4217 currency codes at https://www.iban.com/currency-codes.") do |field| %>
             <% field.with_label do %>
