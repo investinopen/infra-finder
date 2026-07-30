@@ -2,25 +2,25 @@
 - kind: attachment
   assign_method: :direct_write
   diffable: true
-  diff_klass_name: AttachmentDiff
+  differ: AttachmentDiff
   standard: false
 - kind: blurb
   diffable: true
-  diff_klass_name: TextDiff
+  differ: TextDiff
   input_kind: :text
   input_html:
     rows: 7
 - kind: boolean
   diffable: true
   input_kind: :boolean
-  diff_klass_name: BooleanDiff
+  differ: BooleanDiff
 - kind: contact
   diffable: true
   input_kind: :url
-  diff_klass_name: StringDiff
+  differ: StringDiff
 - kind: date
   diffable: true
-  diff_klass_name: DateDiff
+  differ: DateDiff
   input_kind: :date_select
   input_options:
     include_blank: true
@@ -29,23 +29,23 @@
     start_year: 1960
 - kind: email
   diffable: true
-  diff_klass_name: StringDiff
+  differ: StringDiff
   input_kind: :email
 - kind: enum
   connection_mode: :single
   diffable: true
-  diff_klass_name: EnumDiff
+  differ: EnumDiff
   input_kind: :radio
 - kind: implementation
   assign_method: :direct_write
   diffable: false
-  diff_klass_name: ImplementationDiff
+  differ: ImplementationDiff
   standard: false
 - kind: implementation_enum
   assign_method: :direct_write
   connection_mode: :single
   diffable: true
-  diff_klass_name: EnumDiff
+  differ: EnumDiff
   standard: false
   input_kind: :select
 - kind: implementation_property
@@ -54,22 +54,22 @@
   standard: false
 - kind: integer
   diffable: true
-  diff_klass_name: IntegerDiff
+  differ: IntegerDiff
 - kind: money
   assign_method: :direct_write
   diffable: true
-  diff_klass_name: MoneyDiff
+  differ: MoneyDiff
   standard: true
 - kind: multi_option
   assign_method: :direct_write
   connection_mode: :multiple
   diffable: true
-  diff_klass_name: StringArrayDiff
+  differ: StringArrayDiff
   standard: false
 - kind: other_option
   assign_method: :direct_write
   diffable: true
-  diff_klass_name: TextDiff
+  differ: TextDiff
   standard: false
   input_kind: :text
   input_html:
@@ -78,7 +78,7 @@
   assign_method: :direct_write
   connection_mode: :single
   diffable: true
-  diff_klass_name: EnumDiff
+  differ: EnumDiff
   standard: false
   input_options:
     :include_blank: true
@@ -87,13 +87,13 @@
   standard: true
 - kind: string
   diffable: true
-  diff_klass_name: StringDiff
+  differ: StringDiff
   standard: true
   input_kind: :string
 - kind: store_model_input
   assign_method: :direct_write
   diffable: true
-  diff_klass_name: TextDiff
+  differ: TextDiff
   standard: false
   input_kind: :text
   input_html:
@@ -101,7 +101,7 @@
 - kind: store_model_list
   assign_method: :direct_write
   diffable: false
-  diff_klass_name: StoreModelListDiff
+  differ: StoreModelListDiff
   standard: false
 - kind: tag_list
   assign_method: :direct_write
@@ -109,11 +109,11 @@
   standard: false
 - kind: timestamp
   diffable: true
-  diff_klass_name: TimestampDiff
+  differ: TimestampDiff
   standard: true
   input_kind: :timepicker
 - kind: url
   diffable: true
-  diff_klass_name: StringDiff
+  differ: StringDiff
   standard: true
   input_kind: :url

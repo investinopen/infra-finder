@@ -1,0 +1,121 @@
+---
+- name: service_summary
+  code: 9
+  attr:
+  kind: :blurb
+  meta: false
+  description: Narrative description of the service.
+  exported: true
+  required: true
+  max_length: 1000
+  ext_name: service_summary
+  be_label: Service summary
+  be_position: 11
+  fe_label:
+  fe_position: 11
+  fe_section: 002 About
+  fe_visibility: visible
+  input: text
+- name: key_achievements
+  code: 16
+  attr:
+  kind: :blurb
+  meta: false
+  description: Narrative description of up to three recent milestones or achievements
+    that demonstrate growth or progress, such as usage or adoption milestones, deployment
+    of major features or new versions, staff additions or changes in leadership.
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: key_achievements
+  be_label: Key achievements
+  be_position: 13
+  fe_label: Key achievements
+  fe_position: 13
+  fe_section: 003 Mission
+  fe_visibility: visible
+  input: text
+- name: mission
+  code: 15
+  attr:
+  kind: :blurb
+  meta: false
+  description: Mission statement or description of problems the service aims to solve.
+  exported: true
+  required: true
+  max_length: 1000
+  ext_name: mission
+  be_label: Mission
+  be_position: 12
+  fe_label: Mission
+  fe_position: 12
+  fe_section: 003 Mission
+  fe_visibility: visible
+  input: text
+- name: governance_summary
+  code: 27
+  attr:
+  kind: :blurb
+  meta: false
+  description: Description of the governance structure of the service, including major
+    partners or sponsors and existence of governing boards and committees.
+  exported: true
+  required: true
+  max_length: 1000
+  ext_name: governance_summary
+  be_label: Governance summary
+  be_position: 51
+  fe_label: Governance Summary
+  fe_position: 51
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  input: text
+- name: organizational_history
+  code: 57
+  attr:
+  kind: :blurb
+  meta: false
+  description: Brief brief narrative overview of the history of the service and/or
+    provider or a link to a public document.
+  exported: true
+  required: true
+  max_length: 1000
+  ext_name: organizational_history
+  be_label: Organizational history
+  be_position: 65
+  fe_label: Organizational History
+  fe_position: 65
+  fe_section: 007 Additional Information
+  fe_visibility: visible
+  input: text
+- name: funding_needs
+  code: 17
+  attr:
+  kind: :blurb
+  meta: false
+  description: Description of ways in which investment can help the service achieve
+    its goals.
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: funding_needs
+  be_label: Funding needs
+  be_position: 71
+  fe_label: Funding needs
+  fe_position: 71
+  fe_section: '008 Funding'
+  fe_visibility: visible
+  input: text
+- kind: :blurb
+  code: 118
+  name: fiscal_host
+  attr: fiscal_host
+  ext_name: fiscal_host
+  meta: false
+  description: |-
+    The legally registered organisation that holds money on behalf of the solution.
+  be_label: Fiscal host
+  fe_label: Fiscal host
+  fe_visibility: visible
+  input: text
+  max_length: 1000

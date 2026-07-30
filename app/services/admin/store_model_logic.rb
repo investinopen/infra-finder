@@ -55,6 +55,10 @@ module Admin
         end
 
       atype.model_klass
+    rescue KeyError
+      # :nocov:
+      raise "Cannot find store model attribute type for #{key} on #{obj.class}"
+      # :nocov:
     end
 
     # @api private

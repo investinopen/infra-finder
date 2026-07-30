@@ -14,20 +14,21 @@ module SolutionInterface
   include HasName
   include HasSystemTags
   include SolutionImportable
-  include SolutionProperties::HasContact
-  include SolutionProperties::HasControlledVocabularyConnections
-  include SolutionProperties::HasCountryCode
-  include SolutionProperties::HasFinance
-  include SolutionProperties::HasFreeInputs
-  include SolutionProperties::HasImplementations
-  include SolutionProperties::HasLogo
-  include SolutionProperties::HasStoreModelLists
-  include SolutionProperties::HasSolutionKind
-  include SolutionProperties::HasTextFields
-  include StoreModelIntrospection
 
   included do
     extend Dry::Core::ClassAttributes
+
+    include SolutionProperties::HasContact
+    include SolutionProperties::HasControlledVocabularyConnections
+    include SolutionProperties::HasCountryCode
+    include SolutionProperties::HasFinance
+    include SolutionProperties::HasFreeInputs
+    include SolutionProperties::HasImplementations
+    include SolutionProperties::HasLogo
+    include SolutionProperties::HasStoreModelLists
+    include SolutionProperties::HasSolutionKind
+    include SolutionProperties::HasTextFields
+    include StoreModelIntrospection
 
     has_normalized_name!
 

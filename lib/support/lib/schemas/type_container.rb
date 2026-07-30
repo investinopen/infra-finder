@@ -12,6 +12,8 @@ module Support
 
         add! :bigdecimal, Support::Types::BigDecimal
 
+        add! :dry_type, Support::Types::DryType
+
         add! :safe_string, Types::SafeString
 
         add_model! "User"

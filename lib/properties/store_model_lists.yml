@@ -1,0 +1,111 @@
+---
+- name: current_affiliations
+  code: 58
+  attr: current_affiliations
+  kind: :store_model_list
+  meta: false
+  description: |-
+    List of any external partners or organizations directly involved in
+    running or governing the service.
+  exported: true
+  required: false
+  store_model_type_name: Solutions::Institution
+  ext_name: affiliations
+  be_label: Current affiliations
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: founding_institutions
+  code: 59
+  attr: founding_institutions
+  kind: :store_model_list
+  meta: false
+  description: |-
+    Organizations and/or individuals that had a direct role in founding
+    or launching the service.
+  exported: true
+  required: false
+  store_model_type_name: Solutions::Institution
+  ext_name: founders
+  be_label: Founding institutions
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: recent_grants
+  code: 75
+  attr: recent_grants
+  kind: :store_model_list
+  meta: false
+  description: |-
+    List of grants received in the past year, including award title; date
+    (start, end dates); funder; amount; grant activities (research and development,
+    operations, strategy/governance/business planning, other); link to award or award
+    announcement, if available.
+  exported: false
+  required: false
+  store_model_type_name: Solutions::Grant
+  ext_name: grants_list
+  be_label: List grants received in the past year
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: top_granting_institutions
+  code: 74
+  attr: top_granting_institutions
+  kind: :store_model_list
+  meta: false
+  description: |-
+    List of organizations that have provided the greatest amount of grant
+    funds to the service or provider in the past year.
+  exported: false
+  required: false
+  store_model_type_name: Solutions::Institution
+  ext_name: granting_institutions
+  be_label: Top granting institutions
+  be_position: 0
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: service_providers
+  code: 77
+  attr: service_providers
+  kind: :store_model_list
+  meta: false
+  description: |-
+    Link to a public registry of approved third party service providers
+    or to a description of services available.
+  exported: true
+  required: false
+  store_model_type_name: Solutions::ServiceProvider
+  ext_name: registered_service_providers
+  be_label: Registered service providers
+  be_position: 38
+  fe_label: Service Providers
+  fe_position: 38
+  fe_section: 004 Technical Attributes
+  fe_visibility: visible
+  input: url
+- name: registries
+  code: 121
+  attr: registries
+  kind: :store_model_list
+  meta: false
+  description: |-
+    Identifiers from other registries, such as re3data, FAIRSharing
+  ext_name: registry_ids
+  be_label: Persistent identifiers of the resource
+  fe_label: Records in other registries
+  fe_visibility: visible
+  store_model_type_name: Solutions::Registry
+  input: text

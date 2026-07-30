@@ -6,7 +6,17 @@ class SolutionPropertiesGenerator < Rails::Generators::Base
 
   PROPERTY_SET_PATH = Rails.root.join("lib", "properties").freeze
 
-  PROP_NAMES = %w[base implementations].freeze
+  PROP_NAMES = %w[
+    base
+    blurbs
+    implementation_enums
+    implementation_properties
+    implementations
+    other_options
+    store_model_inputs
+    store_model_lists
+    vocabs
+  ].freeze
 
   STRIP_USELESS_NEWLINES = /\s+$/m
 
@@ -27,6 +37,11 @@ class SolutionPropertiesGenerator < Rails::Generators::Base
       props = YAML.load_file PROPERTY_SET_PATH.join(filename)
 
       combined.concat props
+    end.sort_by do |prop|
+      code = prop.fetch("code", 100_000_000)
+      name = prop.fetch("name")
+
+      [code, name]
     end
   end
 end

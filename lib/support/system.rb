@@ -34,6 +34,7 @@ module Support
         inflections.acronym("API")
         inflections.acronym("EOI")
         inflections.acronym("HTML")
+        inflections.acronym("SQL")
         inflections.acronym("URL")
       end
     end

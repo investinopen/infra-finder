@@ -8,22 +8,47 @@ module Support
     # @abstract
     class AbstractRecord < FrozenRecord::Base
       extend Dry::Core::ClassAttributes
+      extend DefinesMonadicOperation
+
+      include Dry::Core::Constants
+      include ::Support::DefinesKlassNamePair
+      include ::Support::Typing
 
       self.abstract_class = true
 
       include ArelHelpers
 
+      defines :calculated_attributes, type: Types::CalculatedAttributes
       defines :default_attributes, type: Types::DefaultAttributes
       defines :default_sql_values, type: Types::DefaultSQLValues
       defines :schema, type: Types::Schema.optional
+      defines :sort_mapping, type: Types::Array.of(Types::String)
+      defines :type_registry, type: Types::TypeRegistry
 
-      default_attributes({})
+      calculated_attributes EMPTY_HASH
 
-      default_sql_values []
+      default_attributes EMPTY_HASH
+
+      default_sql_values EMPTY_ARRAY
 
       schema nil
 
-      def deconstruct_keys(keys)
+      sort_mapping EMPTY_ARRAY
+
+      scope :none, -> { where(_non_existing_: :match) }
+
+      type_registry Support::FrozenRecordHelpers::DefaultTypeRegistry
+
+      def initialize(...)
+        @memoized = Concurrent::Map.new
+
+        super
+      end
+
+      # @see #slice
+      # @param [<Symbol>] keys
+      # @return [{ Symbol => Object }]
+      def deconstruct_keys(*keys)
         slice(*keys)
       end
 
@@ -59,6 +84,11 @@ module Support
         end
       end
 
+      protected
+
+      # @return [Concurrent::Map]
+      attr_reader :memoized
+
       private
 
       def arel_table
@@ -75,6 +105,10 @@ module Support
         arel_quote value.to_json
       end
 
+      def memoize(key, &)
+        memoized.compute_if_absent(key, &)
+      end
+
       class << self
         # @note We repurpose this built-in method to apply our schema
         def assign_defaults!(record)
@@ -84,6 +118,14 @@ module Support
 
           record.reverse_merge!(default_attributes.deep_stringify_keys)
 
+          calculated_attributes.each do |attr, calculator|
+            # simplecov:disable
+            next if record.key?(attr)
+            # simplecov:enable
+
+            record[attr] = calculator.(record)
+          end
+
           result = schema.call record
 
           return result.to_monad.value! if result.failure?
@@ -91,11 +133,40 @@ module Support
           result.to_h.stringify_keys
         end
 
+        def calculates!(attr, &calculator)
+          calculated = calculated_attributes.merge(attr.to_s => calculator)
+
+          calculated_attributes calculated
+        end
+
+        def calculates_format!(attr, format)
+          calculates! attr do |record|
+            format % record.symbolize_keys
+          end
+        end
+
+        def calculates_id_from!(*fields, attr: :id, separator: ?#)
+          fields.flatten!
+
+          format = fields.map do |field|
+            "%<#{field}>s"
+          end.join(separator)
+
+          calculates_format! attr, format
+        end
+
         def default_attributes!(**defaults)
           default_attributes defaults.deep_stringify_keys
         end
 
-        def schema!(types: ::Shared::TypeRegistry, &block)
+        # @api private
+        # @return [void]
+        def extract_sort_mapping!
+          sort_mapping schema.key_map.keys.map(&:name).freeze
+        end
+
+        # @return [void]
+        def schema!(types: type_registry, &block)
           defined = Dry::Schema.Params do
             config.types = types
 
@@ -103,6 +174,28 @@ module Support
           end
 
           schema defined
+        ensure
+          extract_sort_mapping!
+        end
+
+        # @param [<Hash>, Hash] input
+        # @return [<Hash>, Hash, Object]
+        def sort_attributes_in(input)
+          case input
+          when Array
+            input.map { sort_attributes_in _1 }
+          when Hash
+            input.sort_by do |attr_name, _|
+              [
+                sort_mapping.index(attr_name) || 10_000,
+                attr_name
+              ]
+            end.to_h
+          else
+            # simplecov:disable
+            input
+            # simplecov:enable
+          end
         end
 
         # @return [<Hash>]

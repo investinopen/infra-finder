@@ -1,0 +1,349 @@
+---
+- name: code_license_implementation
+  code: 104
+  attr: code_license_implementation
+  kind: :implementation_enum
+  meta: false
+  description: |-
+    Indication of whether the service applies a standard open software
+    license to its primary source code.
+  exported: true
+  required: true
+  ext_name: code_license_status
+  implementation_property: "enum"
+  implementation_name: "code_license"
+  be_label: Code license status
+  be_position: 27
+  fe_label: Code license
+  fe_position: 27
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  input: select
+  vocab_name: impl_scale
+- name: code_repository_implementation
+  code: 18
+  attr: code_repository_implementation
+  kind: :implementation_enum
+  meta: false
+  description: |-
+    A public repository where the source code of the service is stored and shared
+    shared openly, allowing anyone to access, inspect, modify, or contribute to it.
+  exported: true
+  required: true
+  ext_name: open_code_repository_status
+  implementation_name: "code_repository"
+  implementation_property: "enum"
+  be_label: Open code repository
+  be_position: 14
+  fe_label: Open code repository
+  fe_position: 14
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  input: select
+  vocab_name: impl_scale
+- name: open_api_implementation
+  code: 88
+  attr: open_api_implementation
+  kind: :implementation_enum
+  meta: false
+  description: |-
+    Public availability of application programming interfaces (APIs) that
+    provides developers with programmatic access to content and/or metadata.
+  exported: true
+  required: true
+  implementation_name: open_api
+  implementation_property: enum
+  ext_name: api_status
+  be_label: Open API
+  be_position: 21
+  fe_label: Open API
+  fe_position: 21
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  input: select
+  vocab_name: impl_scale
+- name: open_data_implementation
+  code: 20
+  attr: open_data_implementation
+  kind: :implementation_enum
+  meta: false
+  description: |-
+    Public statement describing the service's commitment to the use and
+    availability of their data, allowing the data to be accessed to the extent possible
+  exported: true
+  required: true
+  implementation_name: open_data
+  implementation_property: enum
+  ext_name: open_data_statement_status
+  be_label: Open data statement
+  be_position: 23
+  fe_label: Open Data Statement
+  fe_position: 23
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  input: select
+  vocab_name: impl_scale
+- name: product_roadmap_implementation
+  code: 90
+  attr: product_roadmap_implementation
+  kind: :implementation_enum
+  meta: false
+  description: |-
+    Publicly available documentation outlining the priorities and progress
+    for product development.
+  exported: true
+  required: true
+  implementation_name: product_roadmap
+  implementation_property: enum
+  ext_name: product_roadmap_status
+  be_label: Open product roadmap
+  be_position: 19
+  fe_label: Open Product Roadmap
+  fe_position: 19
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  input: select
+  vocab_name: impl_scale
+- name: user_documentation_implementation
+  code: 22
+  attr: user_documentation_implementation
+  kind: :implementation_enum
+  meta: false
+  description: |-
+    Public documentation that meaningfully describes the process users
+    to install, configure, maintain, and troubleshoot the code for running the service.
+    OR, in the case of those services not reliant on client installs, documentation
+    that meaningfully describes how users perform tasks on the platform to utilise
+    the service.
+  exported: true
+  required: true
+  implementation_name: user_documentation
+  implementation_property: enum
+  ext_name: technical_user_documentation_status
+  be_label: Technical user documentation
+  be_position: 17
+  fe_label: Technical documentation
+  fe_position: 17
+  fe_section: 004 Technical attributes
+  fe_visibility: visible
+  input: select
+  vocab_name: impl_scale
+- name: code_of_conduct_implementation
+  code: 42
+  attr: code_of_conduct_implementation
+  kind: :implementation_enum
+  meta: false
+  description: |-
+    A public document describing the expectations, norms, rules, and responsibilities
+    for individuals participating in physical and digital communities. It should also
+    provide explicit pathways for reporting violations and indicate how reports will
+    be addressed and resolved.
+  exported: true
+  required: true
+  implementation_name: code_of_conduct
+  implementation_property: enum
+  ext_name: code_of_conduct_status
+  be_label: Code of conduct
+  be_position: 40
+  fe_label: Code of Conduct
+  fe_position: 40
+  fe_section: 005 Community Engagement
+  fe_visibility: visible
+  input: select
+  vocab_name: impl_scale
+- name: community_engagement_implementation
+  code: 37
+  attr: community_engagement_implementation
+  kind: :implementation_enum
+  meta: false
+  description: |-
+    Public stated interest in and evidence of available resources for engaging
+    with the service's stakeholder community in a meaningful way. This may include
+    staff explicitly tasked with community engagement, evidence of regular community
+    involvement in major decisions, and community-driven governance.
+  exported: true
+  required: true
+  implementation_name: community_engagement
+  implementation_property: enum
+  ext_name: community_engagement_status
+  be_label: Organizational commitment to community engagement
+  be_position: 42
+  fe_label: Organizational commitment to community engagement
+  fe_position: 42
+  fe_section: 005 Community Engagement
+  fe_visibility: visible
+  input: select
+  vocab_name: impl_scale
+- name: contribution_pathways_implementation
+  code: 39
+  attr: contribution_pathways_implementation
+  kind: :implementation_enum
+  meta: false
+  description: |-
+    Implementation status of publicly advertised ways for users meaningfully
+    contribute to the development or delivery of the service.
+  exported: true
+  required: true
+  implementation_name: contribution_pathways
+  implementation_property: enum
+  ext_name: contribution_pathways
+  be_label: User Contribution Pathways - Implemented?
+  be_position: 44
+  fe_label: Contribution Guidelines or Fora
+  fe_position: 44
+  fe_section: 005 Community engagement
+  fe_visibility: visible
+  input: select
+  vocab_name: impl_scale
+- name: bylaws_implementation
+  code: 108
+  attr: bylaws_implementation
+  kind: :implementation_enum
+  meta: false
+  description: |-
+    Implementation status of the organization's bylaws.
+  exported: true
+  required: true
+  implementation_name: bylaws
+  implementation_property: enum
+  ext_name: bylaws_status
+  be_label: Bylaws implementation status
+  be_position: 52
+  fe_label: Bylaws
+  fe_position: 52
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  input: select
+  vocab_name: impl_scale
+- name: equity_and_inclusion_implementation
+  code: 35
+  attr: equity_and_inclusion_implementation
+  kind: :implementation_enum
+  meta: false
+  description: |-
+    Public statement on diversity, equity, and inclusion and documentation
+    of clear initiatives, programs, or other activities aimed at measuring and increasing
+    the diversity of their users, community members, and other key stakeholders.
+  exported: true
+  required: true
+  implementation_name: equity_and_inclusion
+  implementation_property: enum
+  ext_name: commitment_to_equity_status
+  be_label: Commitment to equity and inclusion
+  be_position: 54
+  fe_label: DEI Statement
+  fe_position: 54
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  input: select
+  vocab_name: impl_scale
+- name: governance_records_implementation
+  code: 26
+  attr: governance_records_implementation
+  kind: :implementation_enum
+  meta: false
+  description: |-
+    Indication of whether the service maintains public governance records,
+    including board meeting minutes, records of major decisions, elections, or other
+    indications of an active governance process.
+  exported: true
+  required: true
+  implementation_name: governance_records
+  implementation_property: enum
+  ext_name: governance_records_status
+  be_label: Governance records
+  be_position: 60
+  fe_label: N/A
+  fe_position: 60
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  input: select
+  vocab_name: impl_scale
+- name: governance_structure_implementation
+  code: 24
+  attr: governance_structure_implementation
+  kind: :implementation_enum
+  meta: false
+  description: |-
+    Availability of a public description of how the service is organized
+    and managed, such as the roles, responsibilities, decision-making, and communication
+    mechanisms of the stakeholders.
+  exported: true
+  required: true
+  implementation_name: governance_structure
+  implementation_property: enum
+  ext_name: governance_structure_status
+  be_label: Governance structure and processes
+  be_position: 62
+  fe_label: Governance Structure & Processes
+  fe_position: 62
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  input: select
+  vocab_name: impl_scale
+- name: pricing_implementation
+  code: 33
+  attr: pricing_implementation
+  kind: :implementation_enum
+  meta: false
+  description: |-
+    For services that charge a fee for service or use, public documentation
+    of prices and fees in a way that allows users to meaningfully evaluate the costs
+    associated with using their service.
+  exported: true
+  required: true
+  implementation_name: pricing
+  implementation_property: enum
+  ext_name: transparent_pricing_status
+  be_label: Transparent pricing and cost expectations
+  be_position: 64
+  fe_label: Pricing info
+  fe_position: 64
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  input: select
+  vocab_name: impl_scale_pricing
+- name: privacy_policy_implementation
+  code: 44
+  attr: privacy_policy_implementation
+  kind: :implementation_enum
+  meta: false
+  description: |-
+    The service maintains a public policy or policies regarding the collection
+    and use of user data or personal information. Privacy policies should indicate
+    whether personal information is ever sold, how users can opt out of data collection,
+    and how the service complies with applicable laws (e.g., GDPR).
+  exported: true
+  required: true
+  implementation_name: privacy_policy
+  implementation_property: enum
+  ext_name: commitment_to_privacy_status
+  be_label: Privacy policy
+  be_position: 56
+  fe_label: Privacy Policy
+  fe_position: 56
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  input: select
+  vocab_name: impl_scale
+- name: web_accessibility_implementation
+  code: 29
+  attr: web_accessibility_implementation
+  kind: :implementation_enum
+  meta: false
+  description: |-
+    Public statement describing the organization’s commitment and actions
+    to making their sites accessible to all users regardless of their abilities.
+  exported: true
+  required: true
+  implementation_name: web_accessibility
+  implementation_property: enum
+  ext_name: web_accessibility_status
+  be_label: Web accessibility statement
+  be_position: 58
+  fe_label: Web Accessibility Statement
+  fe_position: 58
+  fe_section: 006 Policies & Governance
+  fe_visibility: visible
+  input: select
+  vocab_name: impl_scale

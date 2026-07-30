@@ -1,0 +1,307 @@
+---
+- name: programming_language_other
+  code: 981
+  attr: programming_language_other
+  kind: :other_option
+  meta: false
+  owner: programming_languages
+  description: |-
+    Records the primary programming language if "other" is selected in field 081
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: programming_language_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: content_license_other
+  code: 986
+  attr: content_license_other
+  kind: :other_option
+  meta: false
+  owner: content_licenses
+  description: |-
+    Records the supported content licenses if "other" is selected in field 086
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: content_licensing_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: license_other
+  code: 984
+  attr: license_other
+  kind: :other_option
+  meta: false
+  owner: licenses
+  description: |-
+    Records the code license if "other" is selected in field 084
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: code_license_name_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: metadata_standard_other
+  code: 994
+  attr: metadata_standard_other
+  kind: :other_option
+  meta: false
+  owner: metadata_standards
+  description: Records the supported metadata standards if "other" is selected in
+    field 094
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: metadata_standards_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: persistent_identifier_standard_other
+  code: 995
+  attr: persistent_identifier_standard_other
+  kind: :other_option
+  meta: false
+  owner: persistent_identifier_standards
+  description: |-
+    Records the supported persistent identifiers if "other" is selected in field 095
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: pids_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: authentication_standard_other
+  code: 996
+  attr: authentication_standard_other
+  kind: :other_option
+  meta: false
+  owner: authentication_standards
+  description: |-
+    Records the supported authentication standards if "other" is selected in field 096
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: authentication_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: security_standard_other
+  code: 998
+  attr: security_standard_other
+  kind: :other_option
+  meta: false
+  owner: security_standards
+  description: |-
+    Records the supported security standards if "other" is selected in field 098
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: security_standards_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: preservation_standard_other
+  code: 912
+  attr: preservation_standard_other
+  kind: :other_option
+  meta: false
+  owner: preservation_standards
+  description: |-
+    Records the supported preservation standards if "other" is selected in field 112
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: preservation_standards_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: metrics_standard_other
+  code: 913
+  attr: metrics_standard_other
+  kind: :other_option
+  meta: false
+  owner: metrics_standards
+  description: |-
+    Records the supported metrics standards if "other" is selected in field 113
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: metrics_standards_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: integration_other
+  code: 983
+  attr: integration_other
+  kind: :other_option
+  meta: false
+  owner: integrations
+  description: |-
+    Records the supported integrations and compatibility if "other" is selected in field 083
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: integrations_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: user_contribution_other
+  code: 940
+  attr: user_contribution_other
+  kind: :other_option
+  meta: false
+  owner: user_contributions
+  description: |-
+    Records additional contribution opportunities if "other" is selected in field 040
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: contribution_opportunities_other
+  be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: community_engagement_activity_other
+  code: 938
+  attr: community_engagement_activity_other
+  kind: :other_option
+  meta: false
+  owner: community_engagement_activities
+  description: |-
+    Records additional community engagement activities if "other" is selected in field 038
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: community_engagement_activities_other
+  be_label: Community engagement activities — other
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: board_structure_other
+  code: 950
+  attr: board_structure_other
+  kind: :other_option
+  meta: false
+  owner: board_structures
+  description: |-
+    Records the board structure if "other" is selected in field 050
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: board_structure_other
+  be_label: Board structure — other
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: business_form_other
+  code: 951
+  attr: business_form_other
+  kind: :other_option
+  meta: false
+  owner: business_forms
+  description: |-
+    Records the business form if "other" is selected in field 051
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: business_form_other
+  be_label: Business form — other
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: primary_funding_source_other
+  code: 961
+  attr: primary_funding_source_other
+  kind: :other_option
+  meta: false
+  owner: primary_funding_sources
+  description: |-
+    Records the primary funding source if "other" is selected in field 061
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: primary_funding_source_other
+  be_label: Primary Funding Source — other
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: financial_reporting_level_other
+  code: 972
+  attr: financial_reporting_level_other
+  kind: :other_option
+  meta: false
+  owner: financial_reporting_level
+  description: |-
+    Records the primary funding source if "other" is selected in field 072
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: financial_reporting_level_other
+  be_label: Financial reporting level — other
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: board_level_other
+  code: 900
+  attr: board_level_other
+  kind: :other_option
+  meta: false
+  owner: board_level
+  description: |-
+    Records the board level if "other" is selected in field 100
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: board_level_other
+  be_label: Board level — other
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text

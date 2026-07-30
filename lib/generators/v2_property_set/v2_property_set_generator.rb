@@ -24,14 +24,12 @@ class V2PropertySetGenerator < Rails::Generators::Base
 
   private
 
-  def attribute_for(attr)
-    name = attr.to_s
-
-    prop = SolutionProperty.find name
-
+  # @param [SolutionProperty] prop
+  # @return [void]
+  def attribute_for(prop)
     type = type_for(prop)
 
-    %[attribute #{name.to_sym.inspect}, #{type}]
+    %[attribute #{prop.name.to_sym.inspect}, #{type}]
   end
 
   # @param [SolutionProperty] prop
@@ -50,7 +48,7 @@ class V2PropertySetGenerator < Rails::Generators::Base
     when :store_model_list
       store_model_list_type_for(prop)
     when :multi_option
-      %{:string_array, default: [].freeze}
+      %{:string_array, default: EMPTY_ARRAY}
     else
       SIMPLE_MAPPING.fetch(prop.kind, :any_json).inspect
     end
@@ -65,6 +63,6 @@ class V2PropertySetGenerator < Rails::Generators::Base
   end
 
   def store_model_list_type_for(prop)
-    %{::#{prop.store_model_type_name}.to_array_type, default: [].freeze}
+    %{::#{prop.store_model_type_name}.to_array_type, default: EMPTY_ARRAY}
   end
 end

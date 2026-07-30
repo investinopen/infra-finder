@@ -3,7 +3,6 @@
 # @see SolutionProperty
 class SolutionPropertyKind < Support::FrozenRecordHelpers::AbstractRecord
   include ActiveModel::Validations
-  include Dry::Core::Memoizable
 
   Matcher = SolutionProperties::Types.Instance(self).constructor do |value|
     case value
@@ -17,6 +16,8 @@ class SolutionPropertyKind < Support::FrozenRecordHelpers::AbstractRecord
     end
   end
 
+  type_registry SolutionProperties::TypeRegistry
+
   schema!(types: SolutionProperties::TypeRegistry) do
     required(:kind).value(:kind)
     required(:assign_method).value(:assign_method)
@@ -26,13 +27,13 @@ class SolutionPropertyKind < Support::FrozenRecordHelpers::AbstractRecord
     optional(:input_html).maybe(:hash)
     optional(:input_options).maybe(:hash)
     optional(:connection_mode).maybe(:connection_mode)
-    required(:diff_klass_name).value(:string)
+    required(:differ).value(:string)
   end
 
   default_attributes!(
     assign_method: :write_attribute,
     diffable: false,
-    diff_klass_name: "UnknownDiff",
+    differ: "UnknownDiff",
     input_kind: nil,
     input_html: {},
     input_options: {},
@@ -51,21 +52,20 @@ class SolutionPropertyKind < Support::FrozenRecordHelpers::AbstractRecord
 
   scope :non_standard, -> { where(standard: false) }
 
-  # @return [Class(SolutionProperties::Accessors::AbstractAccessor)]
-  memoize def accessor_klass
-    "solution_properties/accessors/#{kind}".classify.constantize
+  klass_name_pair! :accessor do
+    "solution_properties/accessors/#{kind}".classify
   end
 
-  # @param [SolutionProperty] property
+  # @param [{ String => Object}] record
   # @return [Symbol, nil]
-  def input_kind_for(property)
+  def input_kind_for(record)
     return input_kind if input_kind?
 
     case kind
     when :multi_option
-      multi_option_input_kind_for(property)
+      multi_option_input_kind_for(record)
     when :single_option
-      single_option_input_kind_for(property)
+      single_option_input_kind_for(record)
     end
   end
 
@@ -77,21 +77,21 @@ class SolutionPropertyKind < Support::FrozenRecordHelpers::AbstractRecord
     super.try(:symbolize_keys)
   end
 
-  memoize def diff_klass
-    "::Solutions::Revisions::Diffs::#{diff_klass_name}".constantize
+  klass_name_pair! :diff do
+    "::Solutions::Revisions::Diffs::#{differ}"
   end
 
   private
 
-  # @param [SolutionProperty] _property
+  # @param [{ String => Object}] _record
   # @return [Symbol, nil]
-  def multi_option_input_kind_for(_property)
+  def multi_option_input_kind_for(_record)
     :check_boxes
   end
 
-  # @param [SolutionProperty] _property
+  # @param [{ String => Object}] _record
   # @return [Symbol, nil]
-  def single_option_input_kind_for(_property)
+  def single_option_input_kind_for(_record)
     :select
   end
 

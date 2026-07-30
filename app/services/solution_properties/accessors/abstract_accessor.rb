@@ -99,6 +99,8 @@ module SolutionProperties
       end
 
       def assign_value_from_csv!(attribute_name, source_header, skip_missing: true, **options, &)
+        return if source_header.blank?
+
         options[:csv_header] = source_header
         options[:csv_row] = csv_row
 

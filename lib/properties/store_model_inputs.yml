@@ -1,0 +1,103 @@
+---
+- name: current_affiliation_free_input
+  code: 2058
+  attr: current_affiliation_free_input
+  kind: :store_model_input
+  meta: false
+  owner: current_affiliations
+  description: Free input value that is imported and exported via EOI
+  exported: false
+  required: false
+  max_length: 1000
+  ext_name: current_affiliation_free_input
+  be_label: Current affiliations — Free Input
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: founding_institution_free_input
+  code: 2059
+  attr: founding_institution_free_input
+  kind: :store_model_input
+  meta: false
+  owner: founding_institutions
+  description: Free input value that is imported and exported via EOI
+  exported: false
+  required: false
+  max_length: 1000
+  ext_name: founding_institution_free_input
+  be_label: Founding institutions — Free Input
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: recent_grant_free_input
+  code: 2075
+  attr: recent_grant_free_input
+  kind: :store_model_input
+  meta: false
+  owner: recent_grants
+  description: Free input value that is imported and exported via EOI
+  exported: false
+  required: false
+  max_length: 1000
+  ext_name: recent_grant_free_input
+  be_label: List grants received in the past year — Free Input
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: top_granting_institution_free_input
+  code: 2074
+  attr: top_granting_institution_free_input
+  kind: :store_model_input
+  meta: false
+  owner: top_granting_institutions
+  description: Free input value that is imported and exported via EOI
+  exported: false
+  required: false
+  max_length: 1000
+  ext_name: top_granting_institution_free_input
+  be_label: Top granting institutions — Free Input
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: service_provider_free_input
+  code: 2077
+  attr: service_provider_free_input
+  kind: :store_model_input
+  meta: false
+  owner: service_providers
+  description: Free input value that is imported and exported via EOI
+  exported: false
+  required: false
+  max_length: 1000
+  ext_name: service_provider_free_input
+  be_label: Registered service providers — Free Input
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: registry_free_input
+  code: 2121
+  attr: registry_free_input
+  kind: :store_model_input
+  meta: false
+  owner: registries
+  description: Free input value that is imported and exported via EOI
+  exported: false
+  required: false
+  max_length: 1000
+  ext_name: registry_free_input
+  be_label: Persistent identifiers of the resource — Free Input
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text

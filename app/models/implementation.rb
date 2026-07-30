@@ -5,7 +5,7 @@
 class Implementation < Support::FrozenRecordHelpers::AbstractRecord
   extend DefinesMonadicOperation
 
-  include Dry::Core::Memoizable
+  type_registry Implementations::TypeRegistry
 
   schema!(types: Implementations::TypeRegistry) do
     required(:name).filled(:implementation_name)
@@ -13,9 +13,71 @@ class Implementation < Support::FrozenRecordHelpers::AbstractRecord
     required(:type_name).filled(:string)
     required(:enum_type).value(:enum_type)
     required(:code).value(:integer)
+
+    required(:type).value(:class)
+
+    required(:data_dry_type).value(:dry_type)
+    required(:enum_dry_type).value(:dry_type)
+    required(:ransackable_scopes).array(:string)
+    required(:structured_attr).value(:symbol)
+    required(:structured_header).value(:symbol)
+    required(:title).filled(:string)
+    required(:vocab_name).filled(:string)
+    required(:vocab).value(ControlledVocabulary::Type)
+    required(:web_accessibility).value(:bool)
   end
 
   default_attributes!(enum_type: "implementation_status")
+
+  calculates! :data_dry_type do |record|
+    Implementations::Types::Data
+  end
+
+  calculates! :enum_dry_type do |record|
+    case record["enum_type"]
+    in "pricing_implementation_status"
+      Implementations::Types::PricingStatus
+    else
+      Implementations::Types::Status
+    end
+  end
+
+  calculates! :type do |record|
+    record["type_name"].constantize
+  end
+
+  calculates! :ransackable_scopes do |record|
+    EXPOSED_SCOPE_SUFFIXES.map { "#{record["name"]}_#{_1}" }
+  end
+
+  calculates! :structured_attr do |record|
+    :"#{record["name"]}_structured"
+  end
+
+  calculates! :structured_header do |record|
+    :"#{record["name"]}_structured"
+  end
+
+  calculates! :title do |record|
+    Solution.human_attribute_name(record["name"])
+  end
+
+  calculates! :vocab_name do |record|
+    case record["enum_type"]
+    in "pricing_implementation_status"
+      "impl_scale_pricing"
+    else
+      "impl_scale"
+    end
+  end
+
+  calculates! :vocab do |record|
+    ControlledVocabulary.find(record["vocab_name"])
+  end
+
+  calculates! :web_accessibility do |record|
+    /\Aweb_accessibility\z/.match?(record["name"])
+  end
 
   self.primary_key = :name
 
@@ -32,7 +94,6 @@ class Implementation < Support::FrozenRecordHelpers::AbstractRecord
     required: false,
     fe_position: 0,
     fe_visibility: "hidden",
-    phase_2_status: "none",
   }.freeze
 
   EXPOSED_SCOPE_SUFFIXES = %w[available].freeze
@@ -40,11 +101,6 @@ class Implementation < Support::FrozenRecordHelpers::AbstractRecord
   PROPERTIES_PATH = Rails.root.join("lib", "properties", "implementations.yml")
 
   delegate :has_any_links?, :has_many_links?, :has_no_links?, :has_single_link?, :has_statement?, :link_mode, :linked?, :unlinked?, to: :type
-
-  # @return [Dry::Types::Type]
-  def data_dry_type
-    Implementations::Types::Data
-  end
 
   def each_property
     # :nocov:
@@ -56,64 +112,15 @@ class Implementation < Support::FrozenRecordHelpers::AbstractRecord
     end
   end
 
-  # @return [Dry::Types::Type]
-  def enum_dry_type
-    case enum_type
-    in "pricing_implementation_status"
-      Implementations::Types::PricingStatus
-    else
-      Implementations::Types::Status
-    end
-  end
-
+  # @!attribute [r] enum_property
   # @return [SolutionProperty]
-  memoize def enum_property
-    SolutionProperty.find enum
-  end
-
-  def nested_attributes
-    :"#{name}_attributes"
-  end
-
-  # @return [<String>]
-  memoize def ransackable_scopes
-    EXPOSED_SCOPE_SUFFIXES.map { "#{name}_#{_1}" }
-  end
-
-  memoize def structured_attr
-    :"#{name}_structured"
-  end
-
-  memoize def structured_header
-    :"#{name}_structured"
-  end
-
-  def title
-    Solution.human_attribute_name(name)
-  end
-
-  # @return [Class]
-  memoize def type
-    type_name.constantize
-  end
-
-  # @return [ControlledVocabulary]
-  memoize def vocab
-    ControlledVocabulary.find vocab_name
-  end
-
-  def vocab_name
-    case enum_type
-    in "pricing_implementation_status"
-      "impl_scale_pricing"
-    else
-      "impl_scale"
+  def enum_property
+    memoize :enum_property do
+      SolutionProperty.find(enum)
     end
   end
 
-  def web_accessibility?
-    /\Aweb_accessibility\z/.match?(name)
-  end
+  def nested_attributes = :"#{name}_attributes"
 
   def to_solution_property_definition
     DEFAULT_SOLUTION_PROPERTY.merge(
