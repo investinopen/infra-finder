@@ -39,6 +39,12 @@
   @apply text-xs;
 }
 
+.intake-structured-list__field--required > label::after {
+  content: "*";
+  margin-inline: 0.25rem;
+  color: var(--red);
+}
+
 .intake-structured-list__remove {
   @apply text-xxs;
   max-inline-size: max-content;
