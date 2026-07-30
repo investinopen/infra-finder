@@ -69,7 +69,7 @@
             <% field.with_label do %>
               <%= f.label :website %>
             <% end %>
-            <%= f.text_field :website, required: true %>
+            <%= f.url_field :website, required: true %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "Contact form or email address potential adopters can use to get additional information (https://www.example.com OR example@email.com)") do |field| %>
             <% field.with_label do %>
@@ -81,7 +81,7 @@
             <% field.with_label do %>
               <%= f.label :research_organization_registry_url, "Research Organization Registry ID" %>
             <% end %>
-            <%= f.text_field :research_organization_registry_url %>
+            <%= f.url_field :research_organization_registry_url %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide") do |field| %>
             <% field.with_label do %>
@@ -423,7 +423,7 @@
             <% field.with_label do %>
               <%= f.label :membership_program_url, "Link to membership program" %>
             <% end %>
-            <%= f.text_field :membership_program_url %>
+            <%= f.url_field :membership_program_url %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "Number of organizations and/or individuals actively participating in the membership or sponsorship program?") do |field| %>
             <% field.with_label do %>
@@ -606,7 +606,7 @@
             <% field.with_label do %>
               <%= f.label :board_members_url, "List of board members" %>
             <% end %>
-            <%= f.text_field :board_members_url %>
+            <%= f.url_field :board_members_url %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide", required: true) do |field| %>
             <% field.with_label do %>
@@ -746,7 +746,7 @@
             <% field.with_label do %>
               <%= f.label :financial_numbers_documented_url, "Financial documentation" %>
             <% end %>
-            <%= f.text_field :financial_numbers_documented_url %>
+            <%= f.url_field :financial_numbers_documented_url %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide") do |field| %>
             <% field.with_label do %>
