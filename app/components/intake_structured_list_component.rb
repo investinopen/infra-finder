@@ -38,6 +38,11 @@ class IntakeStructuredListComponent < ApplicationComponent
     CONTROLLER
   end
 
+  # @return [String]
+  def description_id
+    form.field_id(attr, "description")
+  end
+
   # @return [Class] the store-model class backing each row
   def element_class
     SolutionProperty.find(attr.to_s).store_model_type_name.constantize
@@ -67,16 +72,26 @@ class IntakeStructuredListComponent < ApplicationComponent
   def render_field(item, index, field)
     id = field_id(index, field)
     value = item.public_send(field)
+    required = required_field?(field)
+    options = { id: }
+    options[:aria] = { required: true } if required
+
     input =
       if field.to_s == "url"
-        helpers.url_field_tag(field_name(index, field), value, id:)
+        helpers.url_field_tag(field_name(index, field), value, **options)
       else
-        helpers.text_field_tag(field_name(index, field), value, id:)
+        helpers.text_field_tag(field_name(index, field), value, **options)
       end
 
-    helpers.content_tag(:div, class: "intake-structured-list__field") do
+    classes = ["intake-structured-list__field", ("intake-structured-list__field--required" if required)]
+
+    helpers.content_tag(:div, class: classes) do
       helpers.safe_join([helpers.label_tag(id, field_label(field)), input])
     end
+  end
+
+  def required_field?(field)
+    element_class.validators_on(field).any?(ActiveModel::Validations::PresenceValidator)
   end
 
   def remove_button

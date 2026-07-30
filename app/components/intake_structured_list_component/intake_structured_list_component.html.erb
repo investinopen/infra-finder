@@ -1,8 +1,9 @@
 <% c = controller_id %>
-<%= tag.div class: "intake-structured-list", role: "group", aria: { labelledby: labelled_by },
+<%= tag.div class: "intake-structured-list", role: "group",
+      aria: { labelledby: labelled_by, describedby: (description_id if description.present?) },
       data: { controller: c, "#{c}-index-value": rows.size } do %>
   <% if description.present? %>
-    <p class="intake-structured-list__description"><%= description %></p>
+    <p class="intake-structured-list__description" id="<%= description_id %>"><%= description %></p>
   <% end %>
 
   <ul class="intake-structured-list__rows" data-<%= c %>-target="rows">

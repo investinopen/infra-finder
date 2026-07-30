@@ -6,6 +6,7 @@ export default class extends Controller {
     maxItems: Number,
     placeholder: String,
     maxItemsPlaceholder: String,
+    description: String,
   };
 
   connect() {
@@ -24,6 +25,17 @@ export default class extends Controller {
     // Skip default TomSelect active item behavior and replace with remove click
     this.select.setActiveItem = () => {};
     this.select.control.addEventListener("keydown", this.onRemoveKeydown);
+
+    if (this.hasDescriptionValue) {
+      this.select.control.dataset.description = this.descriptionValue;
+    }
+
+    // TomSelect carries `aria-labelledby` over only from a `label[for]`, which these
+    // fields don't use, and never carries `aria-describedby`.
+    for (const attribute of ["aria-labelledby", "aria-describedby"]) {
+      const value = this.element.getAttribute(attribute);
+      if (value) this.select.focus_node.setAttribute(attribute, value);
+    }
 
     if (this.hasMaxItemsPlaceholderValue && this.maxItemsValue > 0) {
       this.select.on("item_add", this.refreshPlaceholder);

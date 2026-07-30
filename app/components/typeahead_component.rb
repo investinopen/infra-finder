@@ -22,6 +22,9 @@ class TypeaheadComponent < ApplicationComponent
   # @return [String, nil]
   attr_reader :max_items_placeholder
 
+  # @return [String, nil]
+  attr_reader :description
+
   # @param [ActionView::Helpers::FormBuilder] form
   # @param [Symbol] attr
   # @param [String] vocab_name
@@ -29,8 +32,9 @@ class TypeaheadComponent < ApplicationComponent
   # @param [Integer, nil] max_items
   # @param [String, nil] placeholder
   # @param [String, nil] max_items_placeholder shown once `max_items` is reached
+  # @param [String, nil] description
   def initialize(form:, attr:, vocab_name:, labelled_by: nil, max_items: nil, placeholder: nil,
-                 max_items_placeholder: nil)
+                 max_items_placeholder: nil, description: nil)
     @form = form
     @attr = attr
     @vocab_name = vocab_name
@@ -38,10 +42,16 @@ class TypeaheadComponent < ApplicationComponent
     @max_items = max_items
     @placeholder = placeholder || "Type to search..."
     @max_items_placeholder = max_items_placeholder
+    @description = description
   end
 
   # @return [<(String, String, Hash)>]
   def options
     ControlledVocabulary.find(@vocab_name).fetch_options!
+  end
+
+  # @return [String]
+  def description_id
+    form.field_id(attr, "description")
   end
 end

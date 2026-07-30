@@ -1,13 +1,17 @@
 <% data = { controller: "typeahead-component--typeahead-component" }
    data["typeahead-component--typeahead-component-max-items-value"] = max_items if max_items
    data["typeahead-component--typeahead-component-placeholder-value"] = placeholder if placeholder.present?
-   data["typeahead-component--typeahead-component-max-items-placeholder-value"] = max_items_placeholder if max_items_placeholder.present? %>
+   data["typeahead-component--typeahead-component-max-items-placeholder-value"] = max_items_placeholder if max_items_placeholder.present?
+   data["typeahead-component--typeahead-component-description-value"] = description if description.present? %>
 <%= tag.div class: "typeahead-component" do %>
   <%= form.select attr,
         options.map { |label, value, _props| [label, value] },
         { include_hidden: false },
         multiple: true,
         class: "typeahead-component__select",
-        aria: { labelledby: labelled_by },
+        aria: { labelledby: labelled_by, describedby: (description_id if description.present?) },
         data: data %>
+  <% if description.present? %>
+    <%= tag.span description, id: description_id, class: "sr-only" %>
+  <% end %>
 <% end %>
