@@ -25,6 +25,11 @@ class TypeaheadComponent < ApplicationComponent
   # @return [String, nil]
   attr_reader :description
 
+  # @return [Boolean]
+  attr_reader :required
+
+  alias required? required
+
   # @param [ActionView::Helpers::FormBuilder] form
   # @param [Symbol] attr
   # @param [String] vocab_name
@@ -34,7 +39,7 @@ class TypeaheadComponent < ApplicationComponent
   # @param [String, nil] max_items_placeholder shown once `max_items` is reached
   # @param [String, nil] description
   def initialize(form:, attr:, vocab_name:, labelled_by: nil, max_items: nil, placeholder: nil,
-                 max_items_placeholder: nil, description: nil)
+                 max_items_placeholder: nil, description: nil, required: false)
     @form = form
     @attr = attr
     @vocab_name = vocab_name
@@ -43,6 +48,7 @@ class TypeaheadComponent < ApplicationComponent
     @placeholder = placeholder || "Type to search..."
     @max_items_placeholder = max_items_placeholder
     @description = description
+    @required = required
   end
 
   # @return [<(String, String, Hash)>]
