@@ -1,0 +1,9 @@
+<%= tag.div class: "intake-error-summary", role: "alert", tabindex: "-1", data: { controller: CONTROLLER } do %>
+  <h2 class="text-h5">We couldn't submit your intake</h2>
+  <p>Please correct the following, then try again.</p>
+  <ul class="intake-error-summary__list">
+    <% entries.each do |entry| %>
+      <li data-field-name="<%= entry.field_name %>"><%= entry.message %></li>
+    <% end %>
+  </ul>
+<% end %>
