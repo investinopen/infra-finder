@@ -1,0 +1,29 @@
+<section>
+  <div class="l-container l-container--narrow">
+    <div class="l-container__inner">
+      <header class="intake-header">
+        <h1 class="text-lg font-semibold">Infra Finder Intake Form</h1>
+        <% if in_review? %>
+          <span class="text-h1 block">Submission received. Thank you!</span>
+        <% else %>
+          <span class="text-h1 block">This intake is closed</span>
+        <% end %>
+        <div class="a-underline"></div>
+      </header>
+      <div class="intake-instructions t-rte">
+        <% if in_review? %>
+          <p>
+            <strong><%= solution_intake.name %></strong> has been submitted to Invest in Open Infrastructure for review.
+          </p>
+        <% else %>
+          <p>
+            <strong><%= solution_intake.name %></strong> has been reviewed. Please contact Invest in Open Infrastructure for any follow up.
+          </p>
+        <% end %>
+        <p>
+          <a href="<%= root_path %>">Return to Infra Finder</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

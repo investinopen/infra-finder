@@ -2,12 +2,14 @@
 
 # @see SolutionIntake
 class SolutionIntakesController < ApplicationController
+  before_action :find_solution_intake!
+
   def show
-    @solution_intake = SolutionIntake.find(params[:id])
+    render :confirmation unless @solution_intake.pending?
   end
 
   def update
-    @solution_intake = SolutionIntake.find(params[:id])
+    return redirect_to @solution_intake, status: :see_other unless @solution_intake.pending?
 
     @solution_intake.assign_attributes(solution_intake_params)
 
@@ -18,13 +20,19 @@ class SolutionIntakesController < ApplicationController
 
       render :update, formats: :turbo_stream, status: saved ? :ok : :unprocessable_entity
     elsif saved
-      redirect_to @solution_intake
+      @solution_intake.transition_to! :in_review
+
+      redirect_to @solution_intake, status: :see_other
     else
       render :show, status: :unprocessable_entity
     end
   end
 
   private
+
+  def find_solution_intake!
+    @solution_intake = SolutionIntake.find(params[:id])
+  end
 
   def skip_validations?
     params[:skip_validations].present?
