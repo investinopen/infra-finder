@@ -3,6 +3,10 @@
 class IntakeFormComponent < ApplicationComponent
   FORM_ID = "solution-intake-form"
 
+  # The layout sets `turbo-visit-control: reload`, so Turbo never renders a page
+  # snapshot — a rejected submission has to come back as a stream targeting this.
+  WRAPPER_ID = "solution-intake"
+
   CONTROLLER = "intake-form-component--intake-form-component"
 
   SAVE_EVENT = "intake:save"
@@ -44,6 +48,13 @@ class IntakeFormComponent < ApplicationComponent
   # @return [Hash]
   def submit_data
     { "#{CONTROLLER}-target": "submit" }
+  end
+
+  # Consent isn't persisted, so a rejected submission has to carry it back or the
+  # submit button re-renders disabled.
+  # @return [Boolean]
+  def consented?
+    helpers.params[:terms_and_privacy_agreement].present?
   end
 
   # @param [String] vocab_name
