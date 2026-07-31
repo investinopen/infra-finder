@@ -2,7 +2,8 @@
    data["typeahead-component--typeahead-component-max-items-value"] = max_items if max_items
    data["typeahead-component--typeahead-component-placeholder-value"] = placeholder if placeholder.present?
    data["typeahead-component--typeahead-component-max-items-placeholder-value"] = max_items_placeholder if max_items_placeholder.present?
-   data["typeahead-component--typeahead-component-description-value"] = description if description.present? %>
+   data["typeahead-component--typeahead-component-description-value"] = description if description.present?
+   data["typeahead-component--typeahead-component-required-value"] = true if required? %>
 <%= tag.div class: "typeahead-component" do %>
   <%= form.select attr,
         options.map { |label, value, _props| [label, value] },

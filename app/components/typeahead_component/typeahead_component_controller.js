@@ -7,6 +7,7 @@ export default class extends Controller {
     placeholder: String,
     maxItemsPlaceholder: String,
     description: String,
+    required: Boolean,
   };
 
   connect() {
@@ -42,6 +43,12 @@ export default class extends Controller {
       this.select.on("item_remove", this.refreshPlaceholder);
       this.refreshPlaceholder();
     }
+
+    if (this.requiredValue) {
+      this.select.on("item_add", this.refreshValidity);
+      this.select.on("item_remove", this.refreshValidity);
+      this.refreshValidity();
+    }
   }
 
   disconnect() {
@@ -54,6 +61,14 @@ export default class extends Controller {
     const placeholder = full ? this.maxItemsPlaceholderValue : this.placeholderValue;
     this.select.settings.placeholder = placeholder;
     this.select.control_input.setAttribute("placeholder", placeholder);
+  };
+
+  // The select TomSelect replaces is hidden, so `required` on it would block submission
+  // with no focusable control to report against. The visible combobox carries it instead.
+  refreshValidity = () => {
+    this.select.focus_node.setCustomValidity(
+      this.select.items.length ? "" : "Please select at least one option.",
+    );
   };
 
   onRemoveKeydown = (event) => {

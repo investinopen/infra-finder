@@ -2,6 +2,8 @@
 
 # @see IntakeFormComponent
 class IntakeCheckboxGroupComponent < ApplicationComponent
+  CONTROLLER = "intake-checkbox-group-component--intake-checkbox-group-component"
+
   # @return [ActionView::Helpers::FormBuilder]
   attr_reader :form
 
@@ -15,11 +17,23 @@ class IntakeCheckboxGroupComponent < ApplicationComponent
   # @param [Symbol] attr
   # @param [String] vocab_name
   # @param [String, nil] labelled_by
-  def initialize(form:, attr:, vocab_name:, labelled_by: nil)
+  # @param [Boolean] required whether at least one option must be checked
+  def initialize(form:, attr:, vocab_name:, labelled_by: nil, required: false)
     @form = form
     @attr = attr
     @vocab_name = vocab_name
     @labelled_by = labelled_by
+    @required = required
+  end
+
+  # @return [Boolean]
+  def required?
+    @required
+  end
+
+  # @return [Hash]
+  def group_data
+    required? ? { controller: CONTROLLER } : {}
   end
 
   # @return [<(String, String, Hash)>]
