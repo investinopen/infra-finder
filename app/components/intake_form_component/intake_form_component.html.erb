@@ -22,6 +22,7 @@
   <div class="l-container l-container--narrow pt-6">
     <div class="l-container__inner">
       <%= form_for solution_intake, html: { id: FORM_ID, multipart: true, data: form_data } do |f| %>
+        <%= render IntakeErrorSummaryComponent.new(solution_intake:) %>
         <%= render IntakeFormSectionComponent.new(title: "Overview", anchor: "overview", help: true, help_href: "https://docs.google.com/document/d/1afiDj8pw2qxJcj7e6vhIRfP7Ra7gY0FYtsZ5DivQfwM/edit#heading=h.8wl1najndesi") do %>
           <%= render FormFieldWrapperComponent.new(description: "Your first name", required: true) do |field| %>
             <% field.with_label do %>
@@ -109,13 +110,13 @@
             <% field.with_label do %>
               <%= tag.label "Solution category", id: "solution-categories-label" %>
             <% end %>
-            <%= render TypeaheadComponent.new(form: f, attr: :solution_category_ids, vocab_name: "soln_cat", max_items: 3, labelled_by: "solution-categories-label", placeholder: "Type to search categories…", max_items_placeholder: "Max selected. Remove a category to search...") %>
+            <%= render TypeaheadComponent.new(form: f, attr: :solution_category_ids, vocab_name: "soln_cat", max_items: 3, labelled_by: "solution-categories-label", placeholder: "Type to search categories…", max_items_placeholder: "Max selected. Remove a category to search...", required: true) %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(required: true) do |field| %>
             <% field.with_label do %>
               <%= tag.label "Domain relevance", id: "domain-relevances-label" %>
             <% end %>
-            <%= render TypeaheadComponent.new(form: f, attr: :domain_relevance_ids, vocab_name: "fos", labelled_by: "domain-relevances-label", placeholder: "Type to search domains…", description: "The research domain or domains that most closely reflect the focus of the solution.") %>
+            <%= render TypeaheadComponent.new(form: f, attr: :domain_relevance_ids, vocab_name: "fos", labelled_by: "domain-relevances-label", placeholder: "Type to search domains…", description: "The research domain or domains that most closely reflect the focus of the solution.", required: true) %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide", required: true, description: "An overview of the functions of the solution and its role in supporting research.") do |field| %>
             <% field.with_label do %>
@@ -399,7 +400,7 @@
             <% field.with_label do %>
               <%= tag.label "User contribution opportunities", id: "user-contributions-label" %>
             <% end %>
-            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :user_contribution_ids, vocab_name: "user_paths", labelled_by: "user-contributions-label") %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :user_contribution_ids, vocab_name: "user_paths", labelled_by: "user-contributions-label", required: true) %>
             <% field.with_conditional_field(condition: { field: :user_contribution_ids, value: vocab_option_value("user_paths", "Other") }) do |field| %>
               <% field.with_label do %>
                 <%= f.label :user_contribution_other, "List other user contribution opportunities" %>
@@ -650,7 +651,7 @@
             <% field.with_label do %>
               <%= tag.label "Revenue sources", id: "revenue-sources-label" %>
             <% end %>
-            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :revenue_source_ids, vocab_name: "rev_src", labelled_by: "revenue-sources-label") %>
+            <%= render IntakeCheckboxGroupComponent.new(form: f, attr: :revenue_source_ids, vocab_name: "rev_src", labelled_by: "revenue-sources-label", required: true) %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide", description: "Description of ways in which investment can help the solution achieve its goals.") do |field| %>
             <% field.with_label do %>
