@@ -39,6 +39,26 @@ RSpec.describe FormFieldWrapperComponent, type: :component do
     expect(rendered.at_css(".field-description")).to be_nil
   end
 
+  it "renders a hidden error target for its controller to fill" do
+    rendered = render_inline(described_class.new) { "<input>".html_safe }
+
+    error = rendered.at_css(".field-content > .field-error")
+
+    expect(error).to be_present
+    expect(error.key?("hidden")).to be(true)
+    expect(error["data-form-field-wrapper-component--form-field-wrapper-component-target"])
+      .to eq("error")
+  end
+
+  it "places the error below the description row" do
+    rendered = render_inline(described_class.new(description: "Help text")) do
+      "<input>".html_safe
+    end
+
+    expect(rendered.css(".field-content > *").pluck("class"))
+      .to eq([nil, "field-meta", "field-error"])
+  end
+
   it "renders a hidden counter target in the description row" do
     rendered = render_inline(described_class.new(description: "Help text")) do
       "<textarea maxlength='1000'></textarea>".html_safe

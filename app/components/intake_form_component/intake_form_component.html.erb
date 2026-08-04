@@ -40,7 +40,7 @@
             <% field.with_label do %>
               <%= f.label :email %>
             <% end %>
-            <%= f.text_field :email, required: true %>
+            <%= f.email_field :email, required: true %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "start", description: "A solution is a tool, product, or infrastructure component. In some cases, the solution may be the same as the provider.", required: true) do |field| %>
             <% field.with_label do %>
@@ -609,7 +609,7 @@
             <% end %>
             <%= f.url_field :board_members_url %>
           <% end %>
-          <%= render FormFieldWrapperComponent.new(class_name: "wide", required: true) do |field| %>
+          <%= render FormFieldWrapperComponent.new(class_name: "wide") do |field| %>
             <% field.with_label do %>
               <%= tag.label "Affiliations", id: "current-affiliations-label" %>
             <% end %>

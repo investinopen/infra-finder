@@ -17,10 +17,33 @@ export default class extends Controller {
       () => this.autosave(),
       this.autosaveIntervalValue,
     );
+
+    this.element.addEventListener("invalid", this.onInvalid, true);
   }
 
   disconnect() {
     clearInterval(this.autosaveTimer);
+    this.element.removeEventListener("invalid", this.onInvalid, true);
+  }
+
+  onInvalid = (event) => {
+    if (this.reporting) return;
+
+    this.reporting = true;
+
+    const first = event.target;
+
+    setTimeout(() => {
+      this.reporting = false;
+      this.reveal(first);
+    });
+  };
+
+  reveal(field) {
+    if (field.closest("[hidden]")) return;
+
+    field.scrollIntoView({ block: "center", behavior: "smooth" });
+    field.focus({ preventScroll: true });
   }
 
   toggleSubmit() {
@@ -59,6 +82,8 @@ export default class extends Controller {
     submitter.value = "true";
     submitter.formNoValidate = true;
     submitter.hidden = true;
+
+    console.log(submitter)
 
     this.element.appendChild(submitter);
     this.element.requestSubmit(submitter);
