@@ -8,6 +8,11 @@
     padding-block-end: 0;
   }
 
+  &[aria-invalid="true"] {
+    --outline-color: var(--red);
+    @mixin a-default-outline;
+  }
+
   .m-checkbox {
     span {
       @apply text-xxs;

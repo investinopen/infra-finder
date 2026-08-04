@@ -25,6 +25,7 @@ class IntakeFormComponent < ApplicationComponent
     {
       controller: "#{CONTROLLER} nav-scroll",
       "nav-scroll-nav-value": IntakeFormNavComponent::NAV_ID,
+      field_errors:,
       action: [
         "#{SAVE_EVENT}@window->#{CONTROLLER}#save",
         "input->#{CONTROLLER}#markDirty",
@@ -48,6 +49,12 @@ class IntakeFormComponent < ApplicationComponent
   # @return [Hash]
   def submit_data
     { "#{CONTROLLER}-target": "submit" }
+  end
+
+  # @api private
+  # @return [String] JSON
+  def field_errors
+    SolutionIntakes::FormErrors.new(solution_intake).field_data.to_json
   end
 
   # Consent isn't persisted, so a rejected submission has to carry it back or the

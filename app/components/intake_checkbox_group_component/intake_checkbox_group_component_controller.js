@@ -11,6 +11,7 @@ export default class extends Controller {
     this.form?.removeEventListener("change", this.refresh);
     this.boxes.forEach((box) => {
       box.required = false;
+      box.setCustomValidity("");
     });
   }
 
@@ -23,6 +24,7 @@ export default class extends Controller {
 
     this.boxes.forEach((box) => {
       box.required = !satisfied;
+      box.setCustomValidity(satisfied ? "" : "Please select at least one option.");
     });
   };
 }
