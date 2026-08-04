@@ -17,5 +17,13 @@ module Implementations
     def requires_statement?
       false
     end
+
+    module ClassMethods
+      def build_dry_schema
+        super.tap do |schema|
+          schema[:statement?] = Implementations::Types::Statement
+        end
+      end
+    end
   end
 end

@@ -5,7 +5,7 @@ ActiveAdmin.register SolutionIntake do
 
   actions :all
 
-  permit_params :name, :provider_id
+  permit_params :name, :provider_id, :first_name, :last_name, :email
 
   filter :provider, include_blank: true
 
@@ -30,7 +30,7 @@ ActiveAdmin.register SolutionIntake do
     column :updated_at
 
     actions do |intake|
-      item "User Form", solution_intake_path(intake), target: "_blank"
+      item "User Form", edit_solution_intake_path(intake), target: "_blank"
     end
   end
 
@@ -38,6 +38,9 @@ ActiveAdmin.register SolutionIntake do
     f.inputs do
       f.input :name
       f.input :provider
+      f.input :first_name, as: :string
+      f.input :last_name, as: :string
+      f.input :email, as: :email
     end
 
     f.actions
@@ -50,6 +53,11 @@ ActiveAdmin.register SolutionIntake do
       row :current_state do |intake|
         status_tag intake.current_state
       end
+
+      row :first_name
+      row :last_name
+      row :email
+
       row :created_at
       row :updated_at
     end

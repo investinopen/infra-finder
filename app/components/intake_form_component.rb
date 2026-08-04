@@ -103,10 +103,10 @@ class IntakeFormComponent < ApplicationComponent
     store = f.object.public_send(name)
 
     if store.respond_to?(:links)
-      field_name = "#{f.object_name}[#{name}_attributes][links][][url]"
+      field_name = "#{f.object_name}[#{name}_attributes][links_attributes][0][url]"
       value = store.links.first&.url
     else
-      field_name = "#{f.object_name}[#{name}_attributes][link][url]"
+      field_name = "#{f.object_name}[#{name}_attributes][link_attributes][url]"
       value = store.link&.url
     end
 

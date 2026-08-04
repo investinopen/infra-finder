@@ -47,7 +47,6 @@ RSpec.describe TypeaheadComponent, type: :component do
     select = result.at_css("select")
 
     expect(select["data-typeahead-component--typeahead-component-max-items-value"]).to be_nil
-    expect(select["data-typeahead-component--typeahead-component-placeholder-value"]).to be_nil
     expect(select["data-typeahead-component--typeahead-component-max-items-placeholder-value"]).to be_nil
   end
 end

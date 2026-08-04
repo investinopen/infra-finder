@@ -6,3 +6,8 @@
 require_relative "config/application"
 
 Rails.application.load_tasks
+
+# Run static error page generation after every asset precompile
+Rake::Task["assets:precompile"].enhance do
+  Rake::Task["app:static_error_pages"].invoke
+end

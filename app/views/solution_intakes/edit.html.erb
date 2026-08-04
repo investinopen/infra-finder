@@ -1,0 +1,8 @@
+<div class="l-back-container">
+  <%= render IntakeFormComponent.new(solution_intake: @solution_intake) %>
+  <%= render BackToTopComponent.new(is_narrow: true) do |component| %>
+    <% component.with_action do %>
+      <%= render IntakeSaveDraftButtonComponent.new %>
+    <% end %>
+  <% end %>
+</div>

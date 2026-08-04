@@ -6,7 +6,7 @@ ActiveAdmin.register SolutionDraft do
   actions :all, except: %i[new create]
 
   permit_params do
-    SolutionDraft.build_strong_params(current_user:, draft: true)
+    SolutionDraft.build_strong_params(current_user:)
   end
 
   controller do

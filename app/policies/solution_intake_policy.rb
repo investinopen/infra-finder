@@ -2,39 +2,45 @@
 
 # @see SolutionIntake
 class SolutionIntakePolicy < ApplicationPolicy
-  def index?
-    admin_or_editor?
-  end
+  def index? = has_any_admin_access?
 
-  def create?
-    has_any_admin_access?
-  end
+  def show? = allowed_for?(:pending, :in_review, must_be_mutable: false)
 
-  def update?
-    has_any_admin_access?
-  end
+  def create? = has_any_admin_access?
 
-  def fetch_public?
-    has_any_admin_access?
-  end
+  def edit? = allowed_for?(:pending, must_be_mutable: true)
 
-  def create_draft?
-    admin_or_editor_for_record?
-  end
+  def update? = allowed_for?(:pending, must_be_mutable: true)
 
-  def publish_all?
-    has_any_admin_access?
-  end
+  def approve? = has_any_admin_access? && can_transition_to?(:approved)
 
-  def unpublish_all?
-    has_any_admin_access?
-  end
+  def reject? = has_any_admin_access? && can_transition_to?(:rejected)
+
+  def reset? = has_any_admin_access? && can_transition_to?(:pending)
+
+  def approve_all? = has_any_admin_access?
+
+  def reject_all? = has_any_admin_access?
 
   def batch_action?
-    return publish_all? if record == :publish_all
-    return unpublish_all? if record == :unpublish_all
+    return approve_all? if record == :approve_all
+    return reject_all? if record == :reject_all
 
     super
+  end
+
+  private
+
+  def allowed_for?(*states, must_be_mutable: false)
+    return true if record.in_state?(*states)
+
+    return false if must_be_mutable && !record.mutable?
+
+    has_any_admin_access?
+  end
+
+  def can_transition_to?(state)
+    record.try(:can_transition_to?, state)
   end
 
   class Scope < Scope
@@ -42,7 +48,7 @@ class SolutionIntakePolicy < ApplicationPolicy
       if has_any_admin_access?
         scope.all
       else
-        scope.none
+        scope.in_state(:pending, :in_review)
       end
     end
   end

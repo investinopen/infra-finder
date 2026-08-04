@@ -12,6 +12,13 @@ module Implementations
 
     LinkMode = Coercible::Symbol.enum(:many, :single, :none)
 
+    LinkSchema = Coercible::Hash.schema(
+      label?: String.optional,
+      url?: String.optional,
+    ).default(Dry::Core::Constants::EMPTY_HASH).fallback(Dry::Core::Constants::EMPTY_HASH)
+
+    LinksSchema = SolutionProperties::Schemas::Types::NestedAttributeList[LinkSchema]
+
     Name = ApplicationRecord.dry_pg_enum(:implementation_name)
 
     Property = Coercible::String.enum(
@@ -23,6 +30,8 @@ module Implementations
     )
 
     PricingStatus = ApplicationRecord.dry_pg_enum(:pricing_implementation_status)
+
+    Statement = Coercible::String.optional.default(nil).fallback(nil)
 
     Status = ApplicationRecord.dry_pg_enum(:implementation_status)
   end

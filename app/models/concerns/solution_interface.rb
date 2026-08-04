@@ -44,7 +44,7 @@ module SolutionInterface
       validates prop.attribute_name, length: { maximum: prop.max_length, if: :apply_editor_validations?, unless: :should_skip_editor_validations? }
     end
 
-    SolutionProperty.with_presence_required.each do |prop|
+    SolutionProperty.with_presence_required_for(solution_kind).each do |prop|
       validates prop.attribute_name, presence: prop.required_presence_options
     end
 
@@ -98,13 +98,13 @@ module SolutionInterface
       InfraFinder::Container["admin.export_csv"].(SolutionInterface.private_csv_builder, all.with_all_facets_loaded).value!
     end
 
-    # @see Solutions::StrongParamsBuilder
+    # @see SolutionProperties::BuildStrongParams
+    # @see SolutionProperties::StrongParamsBuilder
     # @param [{ Symbol => Object }] options
     # @option options [User, nil] current_user
-    # @option options [Boolean] draft
     # @return [Array]
     def build_strong_params(...)
-      InfraFinder::Container["solutions.build_strong_params"].(...).value_or([])
+      InfraFinder::Container["solution_properties.build_strong_params"].(solution_kind, ...).value_or([])
     end
 
     # @see Solutions::DeriveFieldKind
