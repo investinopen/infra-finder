@@ -7,5 +7,7 @@ class SolutionIntakeTransition < ApplicationRecord
 
   set_up_transition! :solution_intake, inverse_of: :solution_intake_transitions
 
+  attribute :metadata, SolutionIntakes::TransitionMetadata.to_type
+
   scope :for_admin_history, -> { reorder(created_at: :asc, sort_key: :asc) }
 end

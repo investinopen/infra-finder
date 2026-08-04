@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= yield(:title) || "Error" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= favicon_link_tag "favicon/apple-touch-icon.png", rel: "apple-touch-icon", type: "image/png" %>
+    <%= favicon_link_tag "favicon/favicon-32x32.png", rel: "icon", sizes: "32x32", type: "image/png" %>
+    <%= favicon_link_tag "favicon/favicon.ico", rel: "icon" %>
+    <meta name="apple-mobile-web-app-title" content="Infra Finder">
+    <meta name="application-name" content="Infra Finder">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+
+    <%= stylesheet_link_tag "application" %>
+  </head>
+  <body>
+    <%= render HeaderComponent.new %>
+    <main id="main" tabindex="-1">
+      <%= yield %>
+    </main>
+    <%= render FooterComponent.new %>
+  </body>
+</html>

@@ -13,9 +13,12 @@ module SolutionIntakes
     state :rejected
 
     transition from: :pending, to: :in_review
+
     transition from: :in_review, to: :pending
     transition from: :in_review, to: :approved
     transition from: :in_review, to: :rejected
+
+    transition from: :rejected, to: :pending
 
     after_transition do |solution_intake, transition|
       solution_intake.update_column :state, transition.to_state

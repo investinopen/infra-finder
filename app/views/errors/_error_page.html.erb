@@ -1,0 +1,17 @@
+<% content_for :title, t("error_pages.#{key}.title") %>
+<section>
+  <div class="l-container l-container--narrow">
+    <div class="l-container__inner">
+      <header class="pt-10">
+        <h1 class="text-h1"><%= t("error_pages.#{key}.header") %></h1>
+        <div class="a-underline"></div>
+      </header>
+      <div class="t-rte pt-6 pb-20">
+        <p><%= t("error_pages.#{key}.title") %></p>
+        <p>
+          <%= link_to "Return to Infra Finder", root_path %>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

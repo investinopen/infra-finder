@@ -6,6 +6,7 @@ ruby "3.2.3"
 
 # STDLIB
 gem "csv", "~> 3.3.5"
+gem "sorted_set", "~> 1.1"
 
 # Rails / Database
 gem "rails", "~> 7.1.6"
@@ -69,6 +70,7 @@ gem "email_validator", "~> 2.2.4"
 gem "hashdiff", "~> 1.2.1"
 gem "money-rails", "1.15.0"
 gem "nokogiri", "~> 1.19.0"
+gem "noticed", "~> 3.0"
 gem "oj", "~> 3.16.1"
 gem "pg_search", "~> 2.3.6"
 gem "premailer", "~> 1.27.0"

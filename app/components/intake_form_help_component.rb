@@ -17,6 +17,6 @@ class IntakeFormHelpComponent < ApplicationComponent
 
   # @return [String] accessible name
   def summary_label
-    for_title.present? ? "Help for #{for_title} section" : "Section help"
+    for_title.present? ? "Help for the #{for_title} section" : "Section help"
   end
 end

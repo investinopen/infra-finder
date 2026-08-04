@@ -500,6 +500,25 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   # @!endgroup
 
+  INTAKE_SKIPPED_PRESENCE = %w[
+    board_structures
+    founded_on
+    governance_summary
+    readiness_level
+  ].freeze
+
+  # @param [:actual, :draft, :intake] solution_kind
+  def validate_presence_for?(solution_kind)
+    return false unless required?
+
+    case solution_kind
+    in :intake
+      !name.in?(INTAKE_SKIPPED_PRESENCE)
+    else
+      true
+    end
+  end
+
   protected
 
   def comparison_code
@@ -511,14 +530,12 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   end
 
   def comparison_tuple
-   @comparison_tuple ||= begin
-      [].tap do |tuple|
-        tuple << comparison_code
-        tuple << primary_code
-        tuple << code
-        tuple << name.to_s
-      end.freeze
-    end
+    @comparison_tuple ||= [].tap do |tuple|
+      tuple << comparison_code
+      tuple << primary_code
+      tuple << code
+      tuple << name.to_s
+    end.freeze
   end
 
   private
@@ -755,6 +772,16 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
       where(name: clones).to_a.sort.each do |prop|
         yield prop
+      end
+    end
+
+    # @param [:actual, :draft, :intake] solution_kind
+    # @return [<SolutionProperty>]
+    def with_presence_required_for(solution_kind)
+      records = with_presence_required.to_a
+
+      records.select do |prop|
+        prop.validate_presence_for?(solution_kind)
       end
     end
 

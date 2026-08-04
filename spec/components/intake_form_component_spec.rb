@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 RSpec.describe IntakeFormComponent, type: :component do
+  before_all do
+    InfraFinder::Container["controlled_vocabularies.upsert_all_records"].().value!
+  end
+
   let_it_be(:solution_intake) { FactoryBot.create(:solution_intake) }
 
   it "renders a form that submits to the intake's update path" do

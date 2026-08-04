@@ -149,6 +149,14 @@ module Implementations
         name.demodulize.underscore
       end
 
+      def dry_schema
+        @dry_schema ||= build_dry_schema
+      end
+
+      def dry_type
+        @dry_type ||= build_dry_type
+      end
+
       def inherited(subclass)
         super if defined?(super)
 
@@ -207,6 +215,31 @@ module Implementations
 
       def with_statement!
         include Implementations::WithStatement
+      end
+
+      private
+
+      # @abstract
+      # @return [Hash]
+      def build_dry_schema
+        {}
+      end
+
+      def build_dry_type
+        schema = dry_schema
+
+        Implementations::Types::Hash.schema(**schema).with_key_transform do |key|
+          transformed = handle_dry_key_transform(key).to_sym
+
+          transformed
+        end
+      end
+
+      # @abstract
+      # @param [String, Symbol] key
+      # @return [#to_sym]
+      def handle_dry_key_transform(key)
+        key.to_sym
       end
     end
   end

@@ -91,7 +91,17 @@ class ApplicationController < ActionController::Base
     response.headers["Expires"] = "Mon, 01 Jan 1990 00:00:00 GMT"
   end
 
+  # @return [void]
+  def forbidden!(_error = nil)
+    render "errors/403", status: :forbidden
+  end
+
   class << self
+    # @return [void]
+    def handles_forbidden!
+      rescue_from Pundit::NotAuthorizedError, with: :forbidden!
+    end
+
     # @param [<Symbol>] actions
     # @return [void]
     def uncacheable!(*actions)

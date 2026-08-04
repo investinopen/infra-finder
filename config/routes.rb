@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :solution_intakes, only: %i[show update], path: "intake"
+  resources :solution_intakes, only: %i[show edit update], path: "intake"
 
   resource :solution_search, only: %i[show create destroy]
 

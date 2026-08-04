@@ -78,6 +78,25 @@ en:
     other:
       label: "%{label} — Other"
       hint: "Please provide a value here when selecting \"other\"."
+  error_pages:
+    forbidden:
+      header: "Access Forbidden"
+      title: "The action you attempted was not allowed (403)"
+    not_found:
+      header: "Not Found"
+      title: "The page you were looking for doesn't exist (404)"
+    unprocessable_content:
+      header: "Invalid Request"
+      title: "The request was invalid (422)"
+    internal_server_error:
+      header: "Server Error"
+      title: "The server encountered an error (500)"
+    service_unavailable:
+      header: "Service Unavailable"
+      title: "The server is currently unavailable (503)"
+    gateway_timeout:
+      header: "Gateway Timeout"
+      title: "The server took too long to respond (504)"
   globals:
     app_title: "Infra Finder"
     site_title: "Invest in Open Infrastructure"

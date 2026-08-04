@@ -76,6 +76,8 @@ module SolutionProperties
 
     SourceKind = ControlledVocabularies::Types::SourceKind
 
+    User = ModelInstance("User")
+
     Visibility = Coercible::String.default("hidden").enum("visible", "hidden").fallback("hidden").constructor do |value|
       case value
       when "not visible" then "hidden"

@@ -6,7 +6,7 @@ ActiveAdmin.register Solution do
   scope_to :current_user, association_method: :assigned_solutions, unless: proc { current_user.has_any_admin_access? }
 
   permit_params do
-    Solution.build_strong_params(current_user:, draft: false)
+    Solution.build_strong_params(current_user:)
   end
 
   member_action :create_draft, method: :put do

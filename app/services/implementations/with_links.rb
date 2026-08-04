@@ -22,5 +22,13 @@ module Implementations
     def display_links
       links.presence || [Implementations::Link.new]
     end
+
+    module ClassMethods
+      def build_dry_schema
+        super.tap do |schema|
+          schema[:links_attributes?] = Implementations::Types::LinksSchema
+        end
+      end
+    end
   end
 end
