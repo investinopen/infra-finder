@@ -5,12 +5,13 @@ export default class extends Controller {
 
   static values = {
     autosaveInterval: { type: Number, default: 2 * 60 * 1000 },
+    dirty: Boolean,
   };
 
   connect() {
     this.toggleSubmit();
 
-    this.dirty = false;
+    this.dirty = this.dirtyValue;
     this.saving = false;
     this.draftMode = null;
     this.autosaveTimer = setInterval(
@@ -56,6 +57,13 @@ export default class extends Controller {
     this.dirty = true;
   }
 
+  confirmExit(event) {
+    if (!this.dirty) return;
+
+    event.preventDefault();
+    event.returnValue = "";
+  }
+
   autosave() {
     if (!this.dirty) return;
 
@@ -82,8 +90,6 @@ export default class extends Controller {
     submitter.value = "true";
     submitter.formNoValidate = true;
     submitter.hidden = true;
-
-    console.log(submitter)
 
     this.element.appendChild(submitter);
     this.element.requestSubmit(submitter);
