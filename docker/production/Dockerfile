@@ -23,37 +23,30 @@ WORKDIR /srv/app
 
 ARG RAILS_ENV=production
 
-ENV BUNDLE_PATH=/bundle \
-    BUNDLE_BIN=/bundle/bin \
-    GEM_HOME=/bundle \
+ENV BUNDLE_WITHOUT=development:test \
     NODE_ENV=production \
     RACK_ENV=production \
     RAILS_ENV="${RAILS_ENV:-production}" \
     RAILS_LOG_TO_STDOUT=true \
     RAILS_SERVE_STATIC_FILES=true \
     PORT=8080
-ENV PATH="${BUNDLE_BIN}:${PATH}"
 ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
 
 RUN corepack enable
 
-RUN gem update --system '4.0.5'
-RUN gem install bundler -v '~> 4.0'
+RUN gem update --system '4.0.18'
 
-RUN bundle config set bin /bundle/bin --global
-RUN bundle config set default_cli_command install --global
-
-RUN bundle config set app_config .bundle --global
-RUN bundle config set path .cache/bundle --global
+RUN bundle config set --local without 'development test' && \
+    bundle config set --local jobs $(nproc) && \
+    bundle config set --local default_cli_command install
 
 COPY Gemfile Gemfile.lock ./
 
-RUN --mount=type=cache,id=-gem-cache,sharing=locked,target=.cache/bundle \
-    bundle install -j 2 && \
-    mkdir -p vendor && \
-    cp -ar .cache/bundle /bundle
-
-RUN bundle config set path /bundle --global
+RUN --mount=type=cache,target=/usr/local/bundle/cache \
+    --mount=type=cache,target=/srv/app/vendor/cache \
+    bundle cache && \
+    bundle install && \
+    bundle clean --force
 
 COPY package.json yarn.lock ./
 
@@ -61,8 +54,9 @@ RUN yarn install --immutable
 
 COPY . /srv/app
 
-RUN --mount=type=secret,id=masterkey \
-    RAILS_MASTER_KEY="$(cat /run/secrets/masterkey)" bin/rails assets:precompile
+RUN SECRET_KEY_BASE_DUMMY=1 bin/rails assets:precompile
+
+RUN bundle exec bootsnap precompile --gemfile app/ lib/ config/
 
 EXPOSE 8080
 
