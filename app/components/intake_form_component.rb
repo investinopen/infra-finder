@@ -76,8 +76,7 @@ class IntakeFormComponent < ApplicationComponent
   # @param [String] label
   # @return [String]
   def vocab_option_value(vocab_name, label)
-    vocab_options(vocab_name).find { |(l, _)| l == label }&.second or
-      raise ArgumentError, "no option labeled #{label.inspect} in vocabulary #{vocab_name.inspect}"
+    vocab_options(vocab_name).find { |(l, _)| l == label }&.second or nil
   end
 
   # @param [String] vocab_name
