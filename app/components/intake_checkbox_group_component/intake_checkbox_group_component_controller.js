@@ -22,9 +22,11 @@ export default class extends Controller {
   refresh = () => {
     const satisfied = this.element.closest("[hidden]") !== null || this.boxes.some((box) => box.checked);
 
-    this.boxes.forEach((box) => {
-      box.required = !satisfied;
-      box.setCustomValidity(satisfied ? "" : "Please select at least one option.");
-    });
+    const [first] = this.boxes;
+
+    if (!first) return;
+
+    first.required = !satisfied;
+    first.setCustomValidity(satisfied ? "" : "Please select at least one option.");
   };
 }
