@@ -55,6 +55,33 @@ RSpec.describe IntakeFormComponent, type: :component do
     end
   end
 
+  describe "#form_data" do
+    subject(:component) { described_class.new(solution_intake:) }
+
+    it "asks the client to confirm navigating away" do
+      expect(component.form_data[:action])
+        .to include("beforeunload@window->#{described_class::CONTROLLER}#confirmExit")
+    end
+  end
+
+  describe "#dirty?" do
+    let(:solution_intake) { SolutionIntake.new }
+
+    subject(:component) { described_class.new(solution_intake:) }
+
+    it "is false for an intake the server has accepted" do
+      expect(component.dirty?).to be(false)
+      expect(component.form_data).to include("#{described_class::CONTROLLER}-dirty-value": false)
+    end
+
+    it "is true when a rejected submission renders its values back" do
+      solution_intake.errors.add(:name, :blank)
+
+      expect(component.dirty?).to be(true)
+      expect(component.form_data).to include("#{described_class::CONTROLLER}-dirty-value": true)
+    end
+  end
+
   describe "#field_errors" do
     let(:solution_intake) { SolutionIntake.new }
 
