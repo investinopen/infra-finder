@@ -64,7 +64,7 @@
             <% field.with_label do %>
               <%= f.label :country_code, "Location" %>
             <% end %>
-            <%= f.select :country_code, ControlledVocabulary.country_options, include_blank: "Select a location"  %>
+            <%= f.select :country_code, ControlledVocabulary.country_options, include_blank: "Select a location" %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "Primary web presence of the solution. URL should start with https://.", required: true) do |field| %>
             <% field.with_label do %>
