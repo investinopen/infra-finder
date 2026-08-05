@@ -26,10 +26,12 @@ class IntakeFormComponent < ApplicationComponent
       controller: "#{CONTROLLER} nav-scroll",
       "nav-scroll-nav-value": IntakeFormNavComponent::NAV_ID,
       field_errors:,
+      "#{CONTROLLER}-dirty-value": dirty?,
       action: [
         "#{SAVE_EVENT}@window->#{CONTROLLER}#save",
         "input->#{CONTROLLER}#markDirty",
         "change->#{CONTROLLER}#markDirty",
+        "beforeunload@window->#{CONTROLLER}#confirmExit",
         "turbo:submit-start->#{CONTROLLER}#saveStart",
         "turbo:submit-end->#{CONTROLLER}#saveEnd",
       ].join(" "),
@@ -54,7 +56,13 @@ class IntakeFormComponent < ApplicationComponent
   # @api private
   # @return [String] JSON
   def field_errors
-    SolutionIntakes::FormErrors.new(solution_intake).field_data.to_json
+    form_errors.field_data.to_json
+  end
+
+  # @api private
+  # @return [Boolean]
+  def dirty?
+    form_errors.any?
   end
 
   # Consent isn't persisted, so a rejected submission has to carry it back or the
@@ -129,5 +137,12 @@ class IntakeFormComponent < ApplicationComponent
       .validators_on(attr)
       .find { |v| v.is_a?(ActiveModel::Validations::LengthValidator) }
       &.options&.dig(:maximum)
+  end
+
+  private
+
+  # @return [SolutionIntakes::FormErrors]
+  def form_errors
+    @form_errors ||= SolutionIntakes::FormErrors.new(solution_intake)
   end
 end
