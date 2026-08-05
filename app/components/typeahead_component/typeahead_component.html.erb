@@ -11,7 +11,7 @@
         multiple: true,
         class: "typeahead-component__select",
         aria: { labelledby: labelled_by, describedby: (description_id if description.present?) },
-        data: data %>
+        data: %>
   <% if description.present? %>
     <%= tag.span description, id: description_id, class: "sr-only" %>
   <% end %>
