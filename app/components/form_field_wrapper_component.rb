@@ -41,7 +41,11 @@ class FormFieldWrapperComponent < ApplicationComponent
   def condition_value
     return if condition.blank?
 
-    Array(condition.fetch(:value)).join(" ")
+    values = Array(condition.fetch(:value)).compact_blank
+
+    return if values.empty?
+
+    values.join(" ")
   end
 
   # @return [Boolean]
