@@ -44,13 +44,19 @@ export default class extends Controller {
     const { conditionField, conditionValue } = this.element.dataset;
     if (!conditionField) return;
 
+    this.conditionValues = (conditionValue || "").split(" ").filter(Boolean);
+
+    if (!this.conditionValues.length) {
+      this.element.hidden = true;
+      return;
+    }
+
     const selector = `[name$="[${conditionField}]"], [name="${conditionField}"], [name$="[${conditionField}][]"]`;
     const matches = this.element.closest("form")?.querySelectorAll(selector) ?? [];
 
     this.triggers = [...matches].filter((el) => el.type !== "hidden");
     if (!this.triggers.length) return;
 
-    this.conditionValues = (conditionValue || "").split(" ");
     this.updateVisibility = this.updateVisibility.bind(this);
     this.triggers.forEach((t) => t.addEventListener("change", this.updateVisibility));
     this.updateVisibility();
@@ -104,9 +110,13 @@ export default class extends Controller {
   }
 
   updateVisibility() {
+    // `value` on a `select multiple` reports only the first selected option, so the
+    // whole selection has to be read off `selectedOptions`.
     const selected = this.triggers
       .filter((t) => t.type !== "checkbox" || t.checked)
-      .map((t) => t.value);
+      .flatMap((t) =>
+        t.multiple && t.selectedOptions ? [...t.selectedOptions].map((o) => o.value) : [t.value]
+      );
 
     this.element.hidden = !selected.some((value) => this.conditionValues.includes(value));
 

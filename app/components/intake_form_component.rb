@@ -70,21 +70,22 @@ class IntakeFormComponent < ApplicationComponent
     ControlledVocabulary.find(vocab_name).fetch_options!
   end
 
-  # Look up the submitted value for a vocabulary option by its label,
-  # e.g. for wiring a conditional field to a specific choice.
+  # Look up the submitted value for a vocabulary option by its canonical `term`,
+  # for wiring a conditional field
   # @param [String] vocab_name
-  # @param [String] label
-  # @return [String]
-  def vocab_option_value(vocab_name, label)
-    vocab_options(vocab_name).find { |(l, _)| l == label }&.second or
-      raise ArgumentError, "no option labeled #{label.inspect} in vocabulary #{vocab_name.inspect}"
+  # @param [String] term
+  # @return [String, nil]
+  def vocab_option_value(vocab_name, term)
+    found = ControlledVocabulary.find(vocab_name).find_term(term).value_or(nil)
+
+    found.is_a?(ApplicationRecord) ? found.id : found
   end
 
   # @param [String] vocab_name
-  # @param [<String>] labels
-  # @return [<String>]
-  def vocab_option_values(vocab_name, *labels)
-    labels.map { vocab_option_value(vocab_name, _1) }
+  # @param [<String>] terms
+  # @return [<String, nil>]
+  def vocab_option_values(vocab_name, *terms)
+    terms.map { vocab_option_value(vocab_name, _1) }
   end
 
   # Equivalent of {#vocab_options} for plain enums

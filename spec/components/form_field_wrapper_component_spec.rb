@@ -71,4 +71,46 @@ RSpec.describe FormFieldWrapperComponent, type: :component do
     expect(counter["data-form-field-wrapper-component--form-field-wrapper-component-target"])
       .to eq("counter")
   end
+
+  describe "condition" do
+    def wrapper_for(condition)
+      rendered = render_inline(described_class.new(condition:, conditional: true)) do
+        "<input>".html_safe
+      end
+
+      rendered.at_css(".conditional-field-wrapper")
+    end
+
+    it "exposes the trigger field and value to its controller" do
+      wrapper = wrapper_for({ field: :business_form_ids, value: "abc123" })
+
+      expect(wrapper["data-condition-field"]).to eq("business_form_ids")
+      expect(wrapper["data-condition-value"]).to eq("abc123")
+    end
+
+    it "joins multiple accepted values with a space" do
+      wrapper = wrapper_for({ field: :hosting_strategy_id, value: %w[abc123 def456] })
+
+      expect(wrapper["data-condition-value"]).to eq("abc123 def456")
+    end
+
+    it "omits the value when the option could not be resolved" do
+      wrapper = wrapper_for({ field: :business_form_ids, value: nil })
+
+      expect(wrapper["data-condition-field"]).to eq("business_form_ids")
+      expect(wrapper.key?("data-condition-value")).to be(false)
+    end
+
+    it "drops unresolved values from a multi-value condition" do
+      wrapper = wrapper_for({ field: :hosting_strategy_id, value: [nil, "def456"] })
+
+      expect(wrapper["data-condition-value"]).to eq("def456")
+    end
+
+    it "omits the value when every option in a multi-value condition is unresolved" do
+      wrapper = wrapper_for({ field: :hosting_strategy_id, value: [nil, nil] })
+
+      expect(wrapper.key?("data-condition-value")).to be(false)
+    end
+  end
 end
