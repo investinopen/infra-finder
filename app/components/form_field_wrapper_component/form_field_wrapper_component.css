@@ -66,6 +66,10 @@
   :is(input[type=number]) {
     appearance: textfield;
   }
+
+  :is(textarea) {
+    white-space: pre-wrap;
+  }
 }
 
 .conditional-field-wrapper {
