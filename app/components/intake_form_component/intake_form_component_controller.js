@@ -5,14 +5,10 @@ const WRAPPER_SELECTOR = ".form-field-wrapper, .conditional-field-wrapper";
 export default class extends Controller {
   static targets = ["consent", "submit"];
 
-  static values = {
-    dirty: Boolean,
-  };
-
   connect() {
     this.toggleSubmit();
 
-    this.dirty = this.dirtyValue;
+    this.dirty = false;
     this.saving = false;
     this.queued = false;
     this.draftMode = null;

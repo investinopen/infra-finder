@@ -3,9 +3,10 @@
 RSpec.describe IntakeErrorSummaryComponent, type: :component do
   let(:solution_intake) { SolutionIntake.new }
 
-  it "renders nothing when the intake has no errors" do
+  it "renders an empty container the update stream can replace" do
     rendered = render_inline(described_class.new(solution_intake:))
 
+    expect(rendered.at_css("##{described_class::ID}")).to be_present
     expect(rendered.at_css(".intake-error-summary")).to be_nil
   end
 
@@ -14,6 +15,13 @@ RSpec.describe IntakeErrorSummaryComponent, type: :component do
       solution_intake.errors.add(:name, :blank)
       solution_intake.code_repository.errors.add(:links, :invalid)
       solution_intake.errors.add(:code_repository, :invalid)
+    end
+
+    it "says nothing about a draft save, which marks its fields inline instead" do
+      rendered = render_inline(described_class.new(solution_intake:, draft: true))
+
+      expect(rendered.at_css("##{described_class::ID}")).to be_present
+      expect(rendered.at_css(".intake-error-summary")).to be_nil
     end
 
     it "renders an alert that takes focus" do

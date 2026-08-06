@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-# A draft save answers with a stream that deliberately leaves the form in place, so
-# server-side field errors have no re-rendered form to come back on. This element holds
-# them instead, and is the only place they live: the stream replaces it, reconnecting
-# tells the client a fresh set has arrived, and the field wrappers read it from here.
-#
 # @see SolutionIntakesController#update
 # @see FormFieldWrapperComponent
 class IntakeFieldErrorsComponent < ApplicationComponent

@@ -329,6 +329,15 @@ RSpec.describe "SolutionIntakes", type: :request, default_auth: true do
             expect(response.body).to include("solution_intake[website]")
           end
         end
+
+        it "leaves the summary empty rather than pulling focus out of the form" do
+          make_the_request!
+
+          aggregate_failures do
+            expect(response.body).to include(IntakeErrorSummaryComponent::ID)
+            expect(response.body).not_to include("intake-error-summary__list")
+          end
+        end
       end
     end
 
@@ -355,7 +364,7 @@ RSpec.describe "SolutionIntakes", type: :request, default_auth: true do
         let!(:skip_validations) { false }
         let!(:solution_intake_params) { partial_intake_params }
 
-        it "returns an error" do
+        it "streams the errors back onto the form the user is still looking at" do
           expect do
             make_the_request!
           end.to keep_the_same { solution_intake.reload.first_name }
@@ -363,7 +372,10 @@ RSpec.describe "SolutionIntakes", type: :request, default_auth: true do
 
           aggregate_failures do
             expect(response).to have_http_status(:unprocessable_content)
-            expect(response.media_type).to eq(Mime[:html].to_s)
+            expect(response.media_type).to eq(Mime[:turbo_stream].to_s)
+            expect(response.body).to include(IntakeErrorSummaryComponent::ID)
+            expect(response.body).to include("intake-error-summary__list")
+            expect(response.body).to include(IntakeFieldErrorsComponent::ID)
           end
         end
       end
@@ -372,7 +384,7 @@ RSpec.describe "SolutionIntakes", type: :request, default_auth: true do
         let!(:skip_validations) { false }
         let!(:solution_intake_params) { {} }
 
-        it "returns an error" do
+        it "streams the errors back onto the form the user is still looking at" do
           expect do
             make_the_request!
           end.to keep_the_same { solution_intake.reload.first_name }
@@ -380,7 +392,10 @@ RSpec.describe "SolutionIntakes", type: :request, default_auth: true do
 
           aggregate_failures do
             expect(response).to have_http_status(:unprocessable_content)
-            expect(response.media_type).to eq(Mime[:html].to_s)
+            expect(response.media_type).to eq(Mime[:turbo_stream].to_s)
+            expect(response.body).to include(IntakeErrorSummaryComponent::ID)
+            expect(response.body).to include("intake-error-summary__list")
+            expect(response.body).to include(IntakeFieldErrorsComponent::ID)
           end
         end
       end

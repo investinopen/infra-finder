@@ -70,24 +70,6 @@ RSpec.describe IntakeFormComponent, type: :component do
     end
   end
 
-  describe "#dirty?" do
-    let(:solution_intake) { SolutionIntake.new }
-
-    subject(:component) { described_class.new(solution_intake:) }
-
-    it "is false for an intake the server has accepted" do
-      expect(component.dirty?).to be(false)
-      expect(component.form_data).to include("#{described_class::CONTROLLER}-dirty-value": false)
-    end
-
-    it "is true when a rejected submission renders its values back" do
-      solution_intake.errors.add(:name, :blank)
-
-      expect(component.dirty?).to be(true)
-      expect(component.form_data).to include("#{described_class::CONTROLLER}-dirty-value": true)
-    end
-  end
-
   describe "field errors" do
     it "renders the single element the field wrappers read their errors from" do
       rendered = render_inline(described_class.new(solution_intake:))
