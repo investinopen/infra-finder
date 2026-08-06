@@ -122,7 +122,7 @@
             <% field.with_label do %>
               <%= f.label :service_summary, "Solution summary" %>
             <% end %>
-            <%= f.text_area :service_summary, required: true, maxlength: max_length(:service_summary), rows: 5 %>
+            <%= f.text_area :service_summary, required: true, maxlength: max_length(:service_summary), rows: 5, wrap: "soft" %>
           <% end %>
         <% end %>
 
@@ -131,13 +131,13 @@
             <% field.with_label do %>
               <%= f.label :mission %>
             <% end %>
-            <%= f.text_area :mission, required: true, maxlength: max_length(:mission), rows: 5 %>
+            <%= f.text_area :mission, required: true, maxlength: max_length(:mission), rows: 5, wrap: "soft" %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide", description: "Narrative description of up to three recent milestones or achievements that demonstrate growth or progress, such as usage or adoption milestones, deployment of major features or new versions, staff additions or changes in leadership.") do |field| %>
             <% field.with_label do %>
               <%= f.label :key_achievements %>
             <% end %>
-            <%= f.text_area :key_achievements, maxlength: max_length(:key_achievements), rows: 5 %>
+            <%= f.text_area :key_achievements, maxlength: max_length(:key_achievements), rows: 5, wrap: "soft" %>
           <% end %>
         <% end %>
 
@@ -541,7 +541,7 @@
             <% field.with_label do %>
               <%= f.label :organizational_history, "Organizational history" %>
             <% end %>
-            <%= f.text_area :organizational_history, required: true, maxlength: max_length(:organizational_history), rows: 5 %>
+            <%= f.text_area :organizational_history, required: true, maxlength: max_length(:organizational_history), rows: 5, wrap: "soft" %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(required: true) do |field| %>
             <% field.with_label do %>
@@ -657,13 +657,13 @@
             <% field.with_label do %>
               <%= f.label :funding_needs, "Funding needs" %>
             <% end %>
-            <%= f.text_area :funding_needs, maxlength: max_length(:funding_needs), rows: 5 %>
+            <%= f.text_area :funding_needs, maxlength: max_length(:funding_needs), rows: 5, wrap: "soft" %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(class_name: "wide", description: "The legally registered organisation that holds money on behalf of the solution.") do |field| %>
             <% field.with_label do %>
               <%= f.label :fiscal_host, "Fiscal host" %>
             <% end %>
-            <%= f.text_area :fiscal_host, maxlength: max_length(:fiscal_host), rows: 5 %>
+            <%= f.text_area :fiscal_host, maxlength: max_length(:fiscal_host), rows: 5, wrap: "soft" %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "In what currency are you reporting financial information? See list of ISO 4217 currency codes at https://www.iban.com/currency-codes.") do |field| %>
             <% field.with_label do %>
