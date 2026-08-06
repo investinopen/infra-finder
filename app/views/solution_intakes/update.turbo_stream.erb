@@ -1,6 +1,9 @@
 <%= turbo_stream.update "flash-messages" do %>
   <%= render FlashMessagesComponent.new(flash:) %>
 <% end %>
+<%= turbo_stream.replace IntakeErrorSummaryComponent::ID do %>
+  <%= render IntakeErrorSummaryComponent.new(solution_intake: @solution_intake, draft: @draft) %>
+<% end %>
 <%= turbo_stream.replace IntakeFieldErrorsComponent::ID do %>
   <%= render IntakeFieldErrorsComponent.new(solution_intake: @solution_intake) %>
 <% end %>
