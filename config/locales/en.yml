@@ -107,7 +107,7 @@ en:
       single: "This implementation supports only a single associated link."
   solution_intakes:
     update:
-      draft_not_saved: "We were unable to save your draft. Please try again."
+      draft_not_saved: "We were unable to save your draft. Please correct the indicated errors and try again."
   solutions:
     index:
       open_graph_description: >

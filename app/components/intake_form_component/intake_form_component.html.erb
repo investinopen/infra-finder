@@ -23,6 +23,7 @@
     <div class="l-container__inner">
       <%= form_for solution_intake, html: { id: FORM_ID, multipart: true, data: form_data } do |f| %>
         <%= render IntakeErrorSummaryComponent.new(solution_intake:) %>
+        <%= render IntakeFieldErrorsComponent.new(solution_intake:) %>
         <%= render IntakeFormSectionComponent.new(title: "Overview", anchor: "overview", help: true, help_href: "https://docs.google.com/document/d/1afiDj8pw2qxJcj7e6vhIRfP7Ra7gY0FYtsZ5DivQfwM/edit#heading=h.8wl1najndesi") do %>
           <%= render FormFieldWrapperComponent.new(description: "Your first name", required: true) do |field| %>
             <% field.with_label do %>

@@ -1,10 +1,11 @@
 import { Controller } from "@hotwired/stimulus";
 
+const WRAPPER_SELECTOR = ".form-field-wrapper, .conditional-field-wrapper";
+
 export default class extends Controller {
   static targets = ["consent", "submit"];
 
   static values = {
-    autosaveInterval: { type: Number, default: 2 * 60 * 1000 },
     dirty: Boolean,
   };
 
@@ -13,21 +14,20 @@ export default class extends Controller {
 
     this.dirty = this.dirtyValue;
     this.saving = false;
+    this.queued = false;
     this.draftMode = null;
-    this.autosaveTimer = setInterval(
-      () => this.autosave(),
-      this.autosaveIntervalValue,
-    );
+    this.trackedWrapper = null;
+    this.validatingOnBlur = false;
 
     this.element.addEventListener("invalid", this.onInvalid, true);
   }
 
   disconnect() {
-    clearInterval(this.autosaveTimer);
     this.element.removeEventListener("invalid", this.onInvalid, true);
   }
 
   onInvalid = (event) => {
+    if (this.validatingOnBlur) return;
     if (this.reporting) return;
 
     this.reporting = true;
@@ -64,6 +64,66 @@ export default class extends Controller {
     event.returnValue = "";
   }
 
+  /**
+   * A wrapper can own several controls — a checkbox group, the logo field's file/link
+   * radios — so focus is tracked per wrapper rather than per control.
+   */
+  fieldFocus(event) {
+    const wrapper = event.target.closest(WRAPPER_SELECTOR);
+
+    if (!wrapper || wrapper === this.trackedWrapper) return;
+
+    this.trackedWrapper = wrapper;
+    this.trackedSnapshot = this.snapshot(wrapper);
+  }
+
+  fieldBlur(event) {
+    const wrapper = this.trackedWrapper;
+
+    if (!wrapper || event.target.closest(WRAPPER_SELECTOR) !== wrapper) return;
+    if (wrapper.contains(event.relatedTarget)) return;
+
+    this.trackedWrapper = null;
+
+    if (event.relatedTarget?.type === "submit") return;
+    if (wrapper.closest("[hidden]")) return;
+
+    if (this.snapshot(wrapper) === this.trackedSnapshot) return;
+
+    // Render html validation error for user to fix; don't save
+    if (!this.validate(wrapper)) return;
+
+    this.autosave();
+  }
+
+  controlsIn(wrapper) {
+    return [...wrapper.querySelectorAll("input, select, textarea")].filter(
+      (el) => el.closest(WRAPPER_SELECTOR) === wrapper,
+    );
+  }
+
+  snapshot(wrapper) {
+    return this.controlsIn(wrapper)
+      .map((el) =>
+        el.type === "checkbox" || el.type === "radio" ? `${el.checked}` : el.value,
+      )
+      .join("\u0000");
+  }
+
+  validate(wrapper) {
+    this.validatingOnBlur = true;
+
+    // Every control is checked rather than short-circuiting on the first failure, so a
+    // group reports all of its messages the way a real submit does.
+    const results = this.controlsIn(wrapper)
+      .filter((el) => el.willValidate)
+      .map((el) => el.checkValidity());
+
+    this.validatingOnBlur = false;
+
+    return results.every(Boolean);
+  }
+
   autosave() {
     if (!this.dirty) return;
 
@@ -79,7 +139,12 @@ export default class extends Controller {
   }
 
   submitDraft(mode) {
-    if (this.saving) return;
+    // A blur can land while the previous save is still in flight; queue it
+    if (this.saving) {
+      this.queued = true;
+
+      return;
+    }
 
     this.draftMode = mode;
 
@@ -122,5 +187,11 @@ export default class extends Controller {
     }
 
     this.draftMode = null;
+
+    if (this.queued) {
+      this.queued = false;
+
+      this.autosave();
+    }
   }
 }
