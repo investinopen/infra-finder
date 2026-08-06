@@ -87,7 +87,7 @@ export default class extends Controller {
 
     if (event.relatedTarget?.type === "submit") return;
     if (wrapper.closest("[hidden]")) return;
-
+    if (this.hasConsentTarget && wrapper.contains(this.consentTarget)) return;
     if (this.snapshot(wrapper) === this.trackedSnapshot) return;
 
     // Render html validation error for user to fix; don't save
