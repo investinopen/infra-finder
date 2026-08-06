@@ -23,6 +23,7 @@ export default class extends Controller {
     this.element.removeEventListener("invalid", this.onInvalid, true);
     this.element.removeEventListener("input", this.onEdit);
     this.element.removeEventListener("change", this.onEdit);
+    window.removeEventListener("intake:field-errors", this.onServerErrors);
   }
 
   connectCounter() {
@@ -85,6 +86,7 @@ export default class extends Controller {
     this.element.addEventListener("invalid", this.onInvalid, true);
     this.element.addEventListener("input", this.onEdit);
     this.element.addEventListener("change", this.onEdit);
+    window.addEventListener("intake:field-errors", this.onServerErrors);
 
     this.showServerErrors();
   }
@@ -180,23 +182,35 @@ export default class extends Controller {
     else this.clearError();
   }
 
+  onServerErrors = () => this.showServerErrors();
+
   showServerErrors() {
-    const payload = this.element.closest("form")?.dataset?.fieldErrors;
-    if (!payload) return;
+    if (!this.hasErrorTarget) return;
+    if (this.errorSource === "constraint") return;
+
+    const items = this.serverErrorItems();
+
+    if (items.length) this.showErrors(items, "server");
+    else if (this.errorSource === "server") this.clearError();
+  }
+
+  serverErrorItems() {
+    const errorsElement = this.element.closest("form")?.querySelector("[data-field-errors]");
+    if (!errorsElement) return [];
 
     let errors;
 
     try {
-      errors = JSON.parse(payload);
+      errors = JSON.parse(errorsElement.dataset.fieldErrors || "[]");
     } catch {
-      return;
+      return [];
     }
 
-    if (!errors.length) return;
+    if (!errors.length) return [];
 
     const controls = this.ownControls();
 
-    const items = errors
+    return errors
       .map(({ name, message }) => {
         // Fields bound to a collection post as `name[]`, which the error attribute omits.
         const control = controls.find((el) => el.name === name || el.name === `${name}[]`);
@@ -204,8 +218,6 @@ export default class extends Controller {
         return control ? { control, message } : null;
       })
       .filter(Boolean);
-
-    if (items.length) this.showErrors(items, "server");
   }
 
   constraintItem(control) {

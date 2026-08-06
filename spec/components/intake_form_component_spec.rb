@@ -62,6 +62,12 @@ RSpec.describe IntakeFormComponent, type: :component do
       expect(component.form_data[:action])
         .to include("beforeunload@window->#{described_class::CONTROLLER}#confirmExit")
     end
+
+    it "delegates autosave to focus entering and leaving a field" do
+      expect(component.form_data[:action])
+        .to include("focusin->#{described_class::CONTROLLER}#fieldFocus")
+        .and include("focusout->#{described_class::CONTROLLER}#fieldBlur")
+    end
   end
 
   describe "#dirty?" do
@@ -82,24 +88,14 @@ RSpec.describe IntakeFormComponent, type: :component do
     end
   end
 
-  describe "#field_errors" do
-    let(:solution_intake) { SolutionIntake.new }
+  describe "field errors" do
+    it "renders the single element the field wrappers read their errors from" do
+      rendered = render_inline(described_class.new(solution_intake:))
 
-    subject(:component) { described_class.new(solution_intake:) }
+      elements = rendered.css("form [data-field-errors]")
 
-    it "is an empty payload when the intake is valid" do
-      expect(component.field_errors).to eq("[]")
-    end
-
-    it "addresses each error by the name of the input that posts it" do
-      solution_intake.errors.add(:name, :blank)
-
-      expect(JSON.parse(component.field_errors))
-        .to eq([{ "name" => "solution_intake[name]", "message" => "can't be blank" }])
-    end
-
-    it "is exposed to the client on the form element" do
-      expect(component.form_data).to include(field_errors: component.field_errors)
+      expect(elements.length).to eq(1)
+      expect(elements.first["id"]).to eq(IntakeFieldErrorsComponent::ID)
     end
   end
 end

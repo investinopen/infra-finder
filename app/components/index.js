@@ -29,6 +29,7 @@ import ImplementationDetailComponent__ImplementationDetailComponentController fr
 import ImplementationStatementComponent__ImplementationStatementComponentController from "./implementation_statement_component/implementation_statement_component_controller";
 import IntakeCheckboxGroupComponent__IntakeCheckboxGroupComponentController from "./intake_checkbox_group_component/intake_checkbox_group_component_controller";
 import IntakeErrorSummaryComponent__IntakeErrorSummaryComponentController from "./intake_error_summary_component/intake_error_summary_component_controller";
+import IntakeFieldErrorsComponent__IntakeFieldErrorsComponentController from "./intake_field_errors_component/intake_field_errors_component_controller";
 import IntakeFormComponent__IntakeFormComponentController from "./intake_form_component/intake_form_component_controller";
 import IntakeFormHelpComponent__IntakeFormHelpComponentController from "./intake_form_help_component/intake_form_help_component_controller";
 import IntakeFormNavComponent__IntakeFormNavComponentController from "./intake_form_nav_component/intake_form_nav_component_controller";
@@ -86,6 +87,7 @@ application.register("implementation-detail-component--implementation-detail-com
 application.register("implementation-statement-component--implementation-statement-component", ImplementationStatementComponent__ImplementationStatementComponentController);
 application.register("intake-checkbox-group-component--intake-checkbox-group-component", IntakeCheckboxGroupComponent__IntakeCheckboxGroupComponentController);
 application.register("intake-error-summary-component--intake-error-summary-component", IntakeErrorSummaryComponent__IntakeErrorSummaryComponentController);
+application.register("intake-field-errors-component--intake-field-errors-component", IntakeFieldErrorsComponent__IntakeFieldErrorsComponentController);
 application.register("intake-form-component--intake-form-component", IntakeFormComponent__IntakeFormComponentController);
 application.register("intake-form-help-component--intake-form-help-component", IntakeFormHelpComponent__IntakeFormHelpComponentController);
 application.register("intake-form-nav-component--intake-form-nav-component", IntakeFormNavComponent__IntakeFormNavComponentController);

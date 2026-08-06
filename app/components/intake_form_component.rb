@@ -11,13 +11,7 @@ class IntakeFormComponent < ApplicationComponent
 
   SAVE_EVENT = "intake:save"
 
-  # @return [SolutionIntake]
-  attr_reader :solution_intake
-
-  # @param [SolutionIntake] solution_intake
-  def initialize(solution_intake:)
-    @solution_intake = solution_intake
-  end
+  include AcceptsSolutionIntake
 
   # @api private
   # @return [Hash]
@@ -25,12 +19,13 @@ class IntakeFormComponent < ApplicationComponent
     {
       controller: "#{CONTROLLER} nav-scroll",
       "nav-scroll-nav-value": IntakeFormNavComponent::NAV_ID,
-      field_errors:,
       "#{CONTROLLER}-dirty-value": dirty?,
       action: [
         "#{SAVE_EVENT}@window->#{CONTROLLER}#save",
         "input->#{CONTROLLER}#markDirty",
         "change->#{CONTROLLER}#markDirty",
+        "focusin->#{CONTROLLER}#fieldFocus",
+        "focusout->#{CONTROLLER}#fieldBlur",
         "beforeunload@window->#{CONTROLLER}#confirmExit",
         "turbo:submit-start->#{CONTROLLER}#saveStart",
         "turbo:submit-end->#{CONTROLLER}#saveEnd",
@@ -51,12 +46,6 @@ class IntakeFormComponent < ApplicationComponent
   # @return [Hash]
   def submit_data
     { "#{CONTROLLER}-target": "submit" }
-  end
-
-  # @api private
-  # @return [String] JSON
-  def field_errors
-    form_errors.field_data.to_json
   end
 
   # @api private
@@ -137,12 +126,5 @@ class IntakeFormComponent < ApplicationComponent
       .validators_on(attr)
       .find { |v| v.is_a?(ActiveModel::Validations::LengthValidator) }
       &.options&.dig(:maximum)
-  end
-
-  private
-
-  # @return [SolutionIntakes::FormErrors]
-  def form_errors
-    @form_errors ||= SolutionIntakes::FormErrors.new(solution_intake)
   end
 end
