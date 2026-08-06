@@ -33,6 +33,8 @@ class SolutionIntakesController < ApplicationController
 
     request_context = SolutionIntakes::RequestContext.from(params)
 
+    @draft = request_context.draft?
+
     case request_context.update!(@solution_intake)
     in Success(:draft)
       render(:update, formats: :turbo_stream, status: :ok)
@@ -43,7 +45,7 @@ class SolutionIntakesController < ApplicationController
 
       render(:update, formats: :turbo_stream, status: :unprocessable_content)
     else
-      render(:invalid, formats: :turbo_stream, status: :unprocessable_content)
+      render(:update, formats: :turbo_stream, status: :unprocessable_content)
     end
   end
 

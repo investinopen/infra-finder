@@ -2,11 +2,12 @@ import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
   connect() {
-    this.element.focus();
+    const summary = this.element.querySelector(".intake-error-summary");
+    if (!summary) return;
 
-    this.element
-      .querySelectorAll("li[data-field-name]")
-      .forEach((item) => this.linkToField(item));
+    summary.focus();
+
+    summary.querySelectorAll("li[data-field-name]").forEach((item) => this.linkToField(item));
   }
 
   linkToField(item) {
