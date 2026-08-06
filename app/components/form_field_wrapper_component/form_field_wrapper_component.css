@@ -58,8 +58,7 @@
     }
 
     &[aria-invalid="true"] {
-      --outline-color: var(--red);
-      @mixin a-default-outline;
+      --border-color: var(--red);
     }
   }
 

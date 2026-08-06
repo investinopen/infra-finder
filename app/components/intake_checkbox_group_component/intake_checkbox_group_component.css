@@ -9,8 +9,7 @@
   }
 
   &[aria-invalid="true"] {
-    --outline-color: var(--red);
-    @mixin a-default-outline;
+    border: 2px solid var(--red);
   }
 
   .m-checkbox {
