@@ -770,7 +770,7 @@
           <%= render FormFieldWrapperComponent.new(class_name: "wide", required: true) do |field| %>
             <% field.with_label do %>
               <label class="m-checkbox consent-checkbox">
-                <%= check_box_tag "terms_and_privacy_agreement", "1", consented?, required: true, data: consent_data %>
+                <%= check_box_tag "terms_and_privacy_agreement", "1", consented?, aria: { required: true }, data: consent_data %>
                 <span>I agree to the terms &amp; conditions and privacy policy.</span>
               </label>
             <% end %>
