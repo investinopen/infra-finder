@@ -663,7 +663,7 @@
             <% field.with_label do %>
               <%= f.label :fiscal_host, "Fiscal host" %>
             <% end %>
-            <%= f.text_area :fiscal_host, maxlength: max_length(:fiscal_host), rows: 5, wrap: "soft" %>
+            <%= f.text_field :fiscal_host, maxlength: max_length(:fiscal_host) %>
           <% end %>
           <%= render FormFieldWrapperComponent.new(description: "In what currency are you reporting financial information? See list of ISO 4217 currency codes at https://www.iban.com/currency-codes.") do |field| %>
             <% field.with_label do %>
