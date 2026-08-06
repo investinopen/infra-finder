@@ -311,6 +311,27 @@ RSpec.describe "SolutionIntakes", type: :request, default_auth: true do
       end
     end
 
+    shared_examples_for "a rejected draft save" do
+      context "when a value the browser accepts fails a server validation" do
+        let!(:skip_validations) { true }
+        let!(:should_transition_to_in_review) { false }
+        let!(:solution_intake_params) { partial_intake_params.merge(website: "ftp://example.com") }
+
+        it "streams the field errors back so the form can mark the field" do
+          expect do
+            make_the_request!
+          end.to keep_the_same { solution_intake.reload.first_name }
+
+          aggregate_failures do
+            expect(response).to have_http_status(:unprocessable_content)
+            expect(response.media_type).to eq(Mime[:turbo_stream].to_s)
+            expect(response.body).to include(IntakeFieldErrorsComponent::ID)
+            expect(response.body).to include("solution_intake[website]")
+          end
+        end
+      end
+    end
+
     shared_examples_for "a successful submission" do
       context "with full params" do
         let!(:skip_validations) { false }
@@ -370,6 +391,7 @@ RSpec.describe "SolutionIntakes", type: :request, default_auth: true do
 
       context "for an anonymous user" do
         include_examples "a successful draft save"
+        include_examples "a rejected draft save"
         include_examples "a successful submission"
       end
 
@@ -377,6 +399,7 @@ RSpec.describe "SolutionIntakes", type: :request, default_auth: true do
         include_context "as an admin user"
 
         include_examples "a successful draft save"
+        include_examples "a rejected draft save"
         include_examples "a successful submission"
       end
     end
@@ -397,6 +420,7 @@ RSpec.describe "SolutionIntakes", type: :request, default_auth: true do
         include_context "as an admin user"
 
         include_examples "a successful draft save"
+        include_examples "a rejected draft save"
         include_examples "a successful submission"
       end
     end

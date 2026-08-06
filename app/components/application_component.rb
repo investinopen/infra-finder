@@ -121,6 +121,24 @@ class ApplicationComponent < ViewComponent::Base
     end
   end
 
+  # @see SolutionIntakes::FormErrors
+  module AcceptsSolutionIntake
+    # @return [SolutionIntake]
+    attr_reader :solution_intake
+
+    # @param [SolutionIntake] solution_intake
+    def initialize(solution_intake:)
+      @solution_intake = solution_intake
+    end
+
+    private
+
+    # @return [SolutionIntakes::FormErrors]
+    def form_errors
+      @form_errors ||= SolutionIntakes::FormErrors.new(solution_intake)
+    end
+  end
+
   module GeneratesSolutionSearch
     extend ActiveSupport::Concern
 
