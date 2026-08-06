@@ -43,7 +43,7 @@ class SolutionIntakesController < ApplicationController
 
       render(:update, formats: :turbo_stream, status: :unprocessable_content)
     else
-      render :edit, status: :unprocessable_content
+      render(:invalid, formats: :turbo_stream, status: :unprocessable_content)
     end
   end
 
