@@ -26,7 +26,7 @@ class ImageUploader < Shrine
   plugin :add_metadata
   plugin :default_url
   plugin :refresh_metadata
-  plugin :remote_url, max_size: 10.megabytes
+  plugin :remote_url, max_size: 20.megabytes
   plugin :remove_invalid
   plugin :store_dimensions, analyzer: :ruby_vips
   plugin :signature
@@ -46,7 +46,7 @@ class ImageUploader < Shrine
   Attacher.validate do
     validate_mime_type ALLOWED_MIME_TYPES
 
-    validate_max_size 10.megabytes
+    validate_max_size 20.megabytes
 
     InfraFinder::Container["attachments.check_image"].(file) do |m|
       m.success do

@@ -75,7 +75,7 @@ module SolutionProperties
         @param_set << key
 
         if intake?
-          @param_set << :"#{key}_url"
+          @param_set << :"#{key}_remote_url"
         end
       end
 

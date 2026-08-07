@@ -72,6 +72,10 @@ module SolutionProperties
 
         add_to_schema!(SolutionProperty.attachment_values)
 
+        SolutionProperty.attachment_values.each do |field|
+          add_to_schema!(:"#{field}_remote_url", type: Types::OptionalString)
+        end
+
         add_to_schema!(SolutionProperty.free_input_names, type: Types::OptionalString)
 
         super
