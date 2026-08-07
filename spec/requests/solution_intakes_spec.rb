@@ -7,6 +7,19 @@ RSpec.describe "SolutionIntakes", type: :request, default_auth: true do
     InfraFinder::Container["controlled_vocabularies.upsert_all_records"].().value!
   end
 
+  let(:logo_file) { Rails.root.join("spec", "data", "lorempixel.jpg") }
+
+  let(:logo_remote_url) { "https://example.com/logo.jpg" }
+
+  before do
+    stub_request(:get, logo_remote_url)
+      .to_return(
+        status: 200,
+        body: File.read(logo_file),
+        headers: { "Content-Type" => "image/jpeg" }
+      )
+  end
+
   shared_context "as an admin user" do
     before do
       sign_in admin
@@ -180,7 +193,8 @@ RSpec.describe "SolutionIntakes", type: :request, default_auth: true do
         name: solution_intake.name,
         first_name: "Ada",
         last_name: "Lovelace",
-        email: "ada@example.com"
+        email: "ada@example.com",
+        logo_remote_url:,
       )
     end
 
@@ -351,6 +365,7 @@ RSpec.describe "SolutionIntakes", type: :request, default_auth: true do
             make_the_request!
           end.to change { solution_intake.reload.first_name }.from(nil).to("Ada")
             .and maybe_transition_to_in_review
+            .and change { solution_intake.reload.logo.present? }.from(false).to(true)
 
           aggregate_failures do
             expect(response).to have_http_status(:see_other)
