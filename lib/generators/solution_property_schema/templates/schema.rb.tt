@@ -1,0 +1,39 @@
+# frozen_string_literal: true
+
+module SolutionProperties
+  module Schemas
+    # dry-types and schemas for working with inputs against a {<%= class_name %>} / <%= solution_kind %>-type record.
+    #
+    # @see ::<%= class_name %>
+    module <%= schema_module_name %>
+      <%- if attr_mapping? -%>
+      # Used by {ATTR_REMAP} in order map nested attributes,
+      # as well as any attribute aliases.
+      # @return [{ Symbol => Symbol }]
+      ATTR_MAPPING = {
+      <%- each_attr_mapping_entry do |entry| -%>
+        <%= entry %>,
+      <%- end -%>
+      }.freeze
+
+      # A proc suitable for use with `with_key_transform`.
+      #
+      # @see ATTR_MAPPING
+      # @return [Proc]
+      ATTR_REMAP = ->(key) do
+        key = key.to_sym
+
+        ATTR_MAPPING.fetch(key, key)
+      end
+
+      <%- end -%>
+      # A hash schema matching the known, settable properties of a {<%= class_name %>}.
+      # @return [Dry::Types::Hash{Symbol => Object}]
+      Params = ::Inputs::Types::BaseSchema.schema(
+      <%- schema_attributes.each do |attr, type_expr| -%>
+        <%= quote_symbolic_hash_key(attr) %>: ::<%= type_expr %>,
+      <%- end -%>
+      )<%- if attr_mapping? -%>.with_key_transform(&ATTR_REMAP)<%- end %>
+    end
+  end
+end

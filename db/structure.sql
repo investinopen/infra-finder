@@ -311,6 +311,7 @@ CREATE TYPE public.solution_data_version AS ENUM (
 CREATE TYPE public.solution_import_strategy AS ENUM (
     'legacy',
     'eoi',
+    'intake',
     'v2'
 );
 
@@ -1092,6 +1093,48 @@ CREATE TABLE public.nonprofit_statuses (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     bespoke_filter_position bigint
+);
+
+
+--
+-- Name: noticed_events; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.noticed_events (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    name public.ltree NOT NULL,
+    type text NOT NULL,
+    record_type character varying,
+    record_id uuid,
+    provider_id uuid,
+    solution_id uuid,
+    solution_draft_id uuid,
+    solution_intake_id uuid,
+    user_id uuid,
+    params jsonb DEFAULT '{}'::jsonb NOT NULL,
+    notifications_count bigint DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: noticed_notifications; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.noticed_notifications (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    type text NOT NULL,
+    event_id uuid NOT NULL,
+    recipient_type character varying NOT NULL,
+    recipient_id uuid NOT NULL,
+    email_deliverable boolean DEFAULT false NOT NULL,
+    read_at timestamp without time zone,
+    seen_at timestamp without time zone,
+    email_contact jsonb DEFAULT '{}'::jsonb NOT NULL,
+    details jsonb DEFAULT '{}'::jsonb NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -1929,6 +1972,21 @@ CREATE TABLE public.solution_draft_staffings (
 
 
 --
+-- Name: solution_draft_status_certifications; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_draft_status_certifications (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_draft_id uuid NOT NULL,
+    status_certification_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: solution_draft_transitions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2158,7 +2216,8 @@ CREATE TABLE public.solution_imports (
     messages jsonb DEFAULT '[]'::jsonb NOT NULL,
     metadata jsonb DEFAULT '{}'::jsonb NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    intakes_count bigint DEFAULT 0 NOT NULL
 );
 
 
@@ -2557,6 +2616,21 @@ CREATE TABLE public.solution_intake_staffings (
 
 
 --
+-- Name: solution_intake_status_certifications; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_intake_status_certifications (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_intake_id uuid NOT NULL,
+    status_certification_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: solution_intake_transitions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2569,7 +2643,8 @@ CREATE TABLE public.solution_intake_transitions (
     to_state public.solution_intake_state NOT NULL,
     metadata jsonb,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    user_id uuid
 );
 
 
@@ -2952,6 +3027,21 @@ CREATE TABLE public.solution_staffings (
 
 
 --
+-- Name: solution_status_certifications; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_status_certifications (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    status_certification_id uuid NOT NULL,
+    single boolean DEFAULT false NOT NULL,
+    assoc public.citext NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: solution_user_contributions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3124,6 +3214,28 @@ CREATE TABLE public.staffings (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     bespoke_filter_position bigint
+);
+
+
+--
+-- Name: status_certifications; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.status_certifications (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    visibility public.visibility DEFAULT 'hidden'::public.visibility NOT NULL,
+    provides public.controlled_vocabulary_provision,
+    bespoke_filter_position bigint,
+    name public.citext NOT NULL COLLATE public.custom_numeric,
+    slug public.citext NOT NULL,
+    term public.citext NOT NULL COLLATE public.custom_numeric,
+    enforced_slug public.citext,
+    description text,
+    solutions_count bigint DEFAULT 0 NOT NULL,
+    solution_drafts_count bigint DEFAULT 0 NOT NULL,
+    solution_intakes_count bigint DEFAULT 0 NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -3543,6 +3655,22 @@ ALTER TABLE ONLY public.nonprofit_statuses
 
 
 --
+-- Name: noticed_events noticed_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.noticed_events
+    ADD CONSTRAINT noticed_events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: noticed_notifications noticed_notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.noticed_notifications
+    ADD CONSTRAINT noticed_notifications_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: persistent_identifier_standards persistent_identifier_standards_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3959,6 +4087,14 @@ ALTER TABLE ONLY public.solution_draft_staffings
 
 
 --
+-- Name: solution_draft_status_certifications solution_draft_status_certifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_status_certifications
+    ADD CONSTRAINT solution_draft_status_certifications_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: solution_draft_transitions solution_draft_transitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4223,6 +4359,14 @@ ALTER TABLE ONLY public.solution_intake_staffings
 
 
 --
+-- Name: solution_intake_status_certifications solution_intake_status_certifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_status_certifications
+    ADD CONSTRAINT solution_intake_status_certifications_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: solution_intake_transitions solution_intake_transitions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4383,6 +4527,14 @@ ALTER TABLE ONLY public.solution_staffings
 
 
 --
+-- Name: solution_status_certifications solution_status_certifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_status_certifications
+    ADD CONSTRAINT solution_status_certifications_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: solution_user_contributions solution_user_contributions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4412,6 +4564,14 @@ ALTER TABLE ONLY public.solutions
 
 ALTER TABLE ONLY public.staffings
     ADD CONSTRAINT staffings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: status_certifications status_certifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.status_certifications
+    ADD CONSTRAINT status_certifications_pkey PRIMARY KEY (id);
 
 
 --
@@ -4703,6 +4863,13 @@ CREATE INDEX idx_on_solution_draft_id_117fe11f0d ON public.solution_draft_primar
 
 
 --
+-- Name: idx_on_solution_draft_id_2b1894ad52; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_draft_id_2b1894ad52 ON public.solution_draft_status_certifications USING btree (solution_draft_id);
+
+
+--
 -- Name: idx_on_solution_draft_id_2d748b32cd; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4742,6 +4909,13 @@ CREATE INDEX idx_on_solution_draft_id_dcea24e157 ON public.solution_draft_commun
 --
 
 CREATE INDEX idx_on_solution_draft_id_f1434c4565 ON public.solution_draft_programming_languages USING btree (solution_draft_id);
+
+
+--
+-- Name: idx_on_solution_intake_id_0186c07e2e; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_solution_intake_id_0186c07e2e ON public.solution_intake_status_certifications USING btree (solution_intake_id);
 
 
 --
@@ -4805,6 +4979,27 @@ CREATE INDEX idx_on_solution_intake_id_b84b574853 ON public.solution_intake_comm
 --
 
 CREATE INDEX idx_on_solution_intake_id_e46c43cd43 ON public.solution_intake_persistent_identifier_standards USING btree (solution_intake_id);
+
+
+--
+-- Name: idx_on_status_certification_id_2bc8059336; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_status_certification_id_2bc8059336 ON public.solution_draft_status_certifications USING btree (status_certification_id);
+
+
+--
+-- Name: idx_on_status_certification_id_966ba743f3; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_status_certification_id_966ba743f3 ON public.solution_intake_status_certifications USING btree (status_certification_id);
+
+
+--
+-- Name: idx_on_status_certification_id_df3f4f3016; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_status_certification_id_df3f4f3016 ON public.solution_status_certifications USING btree (status_certification_id);
 
 
 --
@@ -5540,6 +5735,62 @@ CREATE UNIQUE INDEX index_nonprofit_statuses_on_slug ON public.nonprofit_statuse
 --
 
 CREATE UNIQUE INDEX index_nonprofit_statuses_on_term ON public.nonprofit_statuses USING btree (term);
+
+
+--
+-- Name: index_noticed_events_on_provider_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_noticed_events_on_provider_id ON public.noticed_events USING btree (provider_id);
+
+
+--
+-- Name: index_noticed_events_on_record; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_noticed_events_on_record ON public.noticed_events USING btree (record_type, record_id);
+
+
+--
+-- Name: index_noticed_events_on_solution_draft_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_noticed_events_on_solution_draft_id ON public.noticed_events USING btree (solution_draft_id);
+
+
+--
+-- Name: index_noticed_events_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_noticed_events_on_solution_id ON public.noticed_events USING btree (solution_id);
+
+
+--
+-- Name: index_noticed_events_on_solution_intake_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_noticed_events_on_solution_intake_id ON public.noticed_events USING btree (solution_intake_id);
+
+
+--
+-- Name: index_noticed_events_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_noticed_events_on_user_id ON public.noticed_events USING btree (user_id);
+
+
+--
+-- Name: index_noticed_notifications_on_event_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_noticed_notifications_on_event_id ON public.noticed_notifications USING btree (event_id);
+
+
+--
+-- Name: index_noticed_notifications_on_recipient; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_noticed_notifications_on_recipient ON public.noticed_notifications USING btree (recipient_type, recipient_id);
 
 
 --
@@ -6684,6 +6935,13 @@ CREATE INDEX index_solution_intake_staffings_on_staffing_id ON public.solution_i
 
 
 --
+-- Name: index_solution_intake_transitions_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_transitions_on_user_id ON public.solution_intake_transitions USING btree (user_id);
+
+
+--
 -- Name: index_solution_intake_transitions_parent_most_recent; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6978,6 +7236,13 @@ CREATE INDEX index_solution_staffings_on_staffing_id ON public.solution_staffing
 
 
 --
+-- Name: index_solution_status_certifications_on_solution_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_status_certifications_on_solution_id ON public.solution_status_certifications USING btree (solution_id);
+
+
+--
 -- Name: index_solution_user_contributions_on_solution_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7136,6 +7401,34 @@ CREATE UNIQUE INDEX index_staffings_on_slug ON public.staffings USING btree (slu
 --
 
 CREATE UNIQUE INDEX index_staffings_on_term ON public.staffings USING btree (term);
+
+
+--
+-- Name: index_status_certifications_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_status_certifications_bespoke_filter_ordering ON public.status_certifications USING btree (bespoke_filter_position, term);
+
+
+--
+-- Name: index_status_certifications_on_provides; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_status_certifications_on_provides ON public.status_certifications USING btree (provides);
+
+
+--
+-- Name: index_status_certifications_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_status_certifications_on_slug ON public.status_certifications USING btree (slug);
+
+
+--
+-- Name: index_status_certifications_on_term; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_status_certifications_on_term ON public.status_certifications USING btree (term);
 
 
 --
@@ -7881,6 +8174,20 @@ CREATE UNIQUE INDEX udx_solution_draft_staffings_single ON public.solution_draft
 
 
 --
+-- Name: udx_solution_draft_status_certifications_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_status_certifications_multi ON public.solution_draft_status_certifications USING btree (solution_draft_id, status_certification_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_draft_status_certifications_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_draft_status_certifications_single ON public.solution_draft_status_certifications USING btree (solution_draft_id, assoc) WHERE single;
+
+
+--
 -- Name: udx_solution_draft_user_contributions_multi; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -8273,6 +8580,20 @@ CREATE UNIQUE INDEX udx_solution_intake_staffings_single ON public.solution_inta
 
 
 --
+-- Name: udx_solution_intake_status_certifications_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_status_certifications_multi ON public.solution_intake_status_certifications USING btree (solution_intake_id, status_certification_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_intake_status_certifications_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_intake_status_certifications_single ON public.solution_intake_status_certifications USING btree (solution_intake_id, assoc) WHERE single;
+
+
+--
 -- Name: udx_solution_intake_user_contributions_multi; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -8511,6 +8832,20 @@ CREATE UNIQUE INDEX udx_solution_staffings_single ON public.solution_staffings U
 
 
 --
+-- Name: udx_solution_status_certifications_multi; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_status_certifications_multi ON public.solution_status_certifications USING btree (solution_id, status_certification_id, assoc) WHERE (NOT single);
+
+
+--
+-- Name: udx_solution_status_certifications_single; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX udx_solution_status_certifications_single ON public.solution_status_certifications USING btree (solution_id, assoc) WHERE single;
+
+
+--
 -- Name: udx_solution_user_contributions_multi; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -8536,6 +8871,22 @@ CREATE UNIQUE INDEX udx_solution_values_frameworks_multi ON public.solution_valu
 --
 
 CREATE UNIQUE INDEX udx_solution_values_frameworks_single ON public.solution_values_frameworks USING btree (solution_id, assoc) WHERE single;
+
+
+--
+-- Name: noticed_events fk_rails_05e303c326; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.noticed_events
+    ADD CONSTRAINT fk_rails_05e303c326 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE SET NULL;
+
+
+--
+-- Name: noticed_events fk_rails_062aecb7f3; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.noticed_events
+    ADD CONSTRAINT fk_rails_062aecb7f3 FOREIGN KEY (provider_id) REFERENCES public.providers(id) ON DELETE SET NULL;
 
 
 --
@@ -8779,6 +9130,14 @@ ALTER TABLE ONLY public.solution_maintenance_statuses
 
 
 --
+-- Name: noticed_notifications fk_rails_1efc0112aa; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.noticed_notifications
+    ADD CONSTRAINT fk_rails_1efc0112aa FOREIGN KEY (event_id) REFERENCES public.noticed_events(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_draft_persistent_identifier_standards fk_rails_1f919eaeba; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -8808,6 +9167,14 @@ ALTER TABLE ONLY public.solution_draft_business_forms
 
 ALTER TABLE ONLY public.solution_draft_accessibility_scopes
     ADD CONSTRAINT fk_rails_208a2f36e3 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: noticed_events fk_rails_20fce8ad53; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.noticed_events
+    ADD CONSTRAINT fk_rails_20fce8ad53 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE SET NULL;
 
 
 --
@@ -9203,6 +9570,14 @@ ALTER TABLE ONLY public.solution_draft_primary_funding_sources
 
 
 --
+-- Name: noticed_events fk_rails_615f976d47; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.noticed_events
+    ADD CONSTRAINT fk_rails_615f976d47 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE SET NULL;
+
+
+--
 -- Name: solution_revisions fk_rails_64c472c54c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -9248,6 +9623,14 @@ ALTER TABLE ONLY public.solution_hosting_strategies
 
 ALTER TABLE ONLY public.solution_intake_metrics_standards
     ADD CONSTRAINT fk_rails_6900e0d446 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_intake_status_certifications fk_rails_69f8d3b066; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_status_certifications
+    ADD CONSTRAINT fk_rails_69f8d3b066 FOREIGN KEY (solution_intake_id) REFERENCES public.solution_intakes(id) ON DELETE CASCADE;
 
 
 --
@@ -9523,6 +9906,14 @@ ALTER TABLE ONLY public.solution_draft_transitions
 
 
 --
+-- Name: solution_intake_transitions fk_rails_8e73996218; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_transitions
+    ADD CONSTRAINT fk_rails_8e73996218 FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: solution_intake_reporting_levels fk_rails_901a72668f; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -9691,6 +10082,14 @@ ALTER TABLE ONLY public.solution_drafts
 
 
 --
+-- Name: solution_intake_status_certifications fk_rails_ab1bcb0040; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_intake_status_certifications
+    ADD CONSTRAINT fk_rails_ab1bcb0040 FOREIGN KEY (status_certification_id) REFERENCES public.status_certifications(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_intakes fk_rails_ad02a2135c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -9851,11 +10250,27 @@ ALTER TABLE ONLY public.solution_intake_content_licenses
 
 
 --
+-- Name: solution_status_certifications fk_rails_beff3fe896; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_status_certifications
+    ADD CONSTRAINT fk_rails_beff3fe896 FOREIGN KEY (status_certification_id) REFERENCES public.status_certifications(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_drafts fk_rails_bf7a540f25; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.solution_drafts
     ADD CONSTRAINT fk_rails_bf7a540f25 FOREIGN KEY (phase_1_hosting_strategy_id) REFERENCES public.hosting_strategies(id) ON DELETE SET NULL;
+
+
+--
+-- Name: noticed_events fk_rails_c17aef23a3; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.noticed_events
+    ADD CONSTRAINT fk_rails_c17aef23a3 FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -9936,6 +10351,14 @@ ALTER TABLE ONLY public.solution_draft_metrics_standards
 
 ALTER TABLE ONLY public.invitations
     ADD CONSTRAINT fk_rails_cb5fd998bd FOREIGN KEY (admin_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: solution_status_certifications fk_rails_cebff081d5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_status_certifications
+    ADD CONSTRAINT fk_rails_cebff081d5 FOREIGN KEY (solution_id) REFERENCES public.solutions(id) ON DELETE CASCADE;
 
 
 --
@@ -10035,6 +10458,14 @@ ALTER TABLE ONLY public.solution_community_governances
 
 
 --
+-- Name: solution_draft_status_certifications fk_rails_d75c9f9218; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_status_certifications
+    ADD CONSTRAINT fk_rails_d75c9f9218 FOREIGN KEY (solution_draft_id) REFERENCES public.solution_drafts(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solutions fk_rails_d7b00384c2; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -10056,6 +10487,14 @@ ALTER TABLE ONLY public.solution_draft_staffings
 
 ALTER TABLE ONLY public.solution_intake_community_engagement_activities
     ADD CONSTRAINT fk_rails_dcd9a85e03 FOREIGN KEY (community_engagement_activity_id) REFERENCES public.community_engagement_activities(id) ON DELETE CASCADE;
+
+
+--
+-- Name: solution_draft_status_certifications fk_rails_de50969e76; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.solution_draft_status_certifications
+    ADD CONSTRAINT fk_rails_de50969e76 FOREIGN KEY (status_certification_id) REFERENCES public.status_certifications(id) ON DELETE CASCADE;
 
 
 --
@@ -10257,6 +10696,12 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260810193515'),
+('20260810185151'),
+('20260810173230'),
+('20260806025551'),
+('20260806025550'),
+('20260806022152'),
 ('20260728192303'),
 ('20260720163043'),
 ('20260717172945'),

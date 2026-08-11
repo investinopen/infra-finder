@@ -37,7 +37,22 @@ module SolutionProperties
 
     AssignMethod = Coercible::Symbol.enum(:write_attribute, :direct_write)
 
-    CSVStrategy = Coercible::Symbol.default(:v2).enum(:v2, :eoi).fallback(:v2)
+    AssignmentKind = Coercible::Symbol.enum(:attachment, :standard)
+
+    AttributeName = Coercible::Symbol
+
+    CSVHeader = Coercible::String
+
+    CSVRow = Instance(::CSV::Row)
+
+    CSVStrategy = Coercible::Symbol.default(:v2).enum(:v2, :eoi, :intake).fallback(:v2)
+
+    EnumType = Coercible::Symbol.enum(
+      :financial_numbers_publishability,
+      :implementation_status,
+      :pricing_implementation_status,
+      :publication
+    )
 
     Field = Coercible::Symbol
 

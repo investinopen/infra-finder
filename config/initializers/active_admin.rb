@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+StoreModel.config.active_admin_compatibility = true
+
 ActiveAdmin.setup do |config|
   # == Site Title
   #

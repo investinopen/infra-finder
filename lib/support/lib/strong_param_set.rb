@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-module Utility
+module Support
   class StrongParamSet
+    include Support::Typing
     include Enumerable
 
     alias to_ary to_a
@@ -38,7 +39,7 @@ module Utility
     end
 
     # @param [Symbol, String] key
-    # @param [Utility::StrongParamSet]
+    # @param [Support::StrongParamSet]
     def [](key)
       array!(key) unless has_mapped?(key)
 
@@ -50,14 +51,14 @@ module Utility
     end
 
     # @param [Symbol, String] key
-    # @return [Utility::StrongParamSet]
+    # @return [Support::StrongParamSet]
     def array!(key)
       self[key] = Dry::Core::Constants::EMPTY_ARRAY
 
       return self
     end
 
-    # @return [Utility::StrongParamSet]
+    # @return [Support::StrongParamSet]
     def clear
       @list.clear
       @map.clear
@@ -158,8 +159,6 @@ module Utility
 
     # @!endgroup
 
-    protected
-
     # @param [Symbol, String, Hash, Array] input
     # @return [void]
     def allow!(input)
@@ -213,6 +212,23 @@ module Utility
       end
     end
 
+    # @param [Support::StrongParamSet] original
+    # @return [void]
+    def initialize_copy(original)
+      super
+
+      @list = original.instance_variable_get(:@list).dup
+      @map_keys = original.instance_variable_get(:@map_keys).dup
+      @map = original.instance_variable_get(:@map).each_with_object({}.with_indifferent_access) do |(key, value), map|
+        map[key] = value.dup
+      end
+
+      @depth = original.instance_variable_get(:@depth)
+      @nested = original.instance_variable_get(:@nested)
+
+      recalculate!
+    end
+
     # @return [void]
     def recalculate!
       @mode = detect_mode
@@ -227,7 +243,7 @@ module Utility
 
       @map_keys << key
 
-      @map[key] ||= Utility::StrongParamSet.new(depth: @depth + 1)
+      @map[key] ||= Support::StrongParamSet.new(depth: @depth + 1)
 
       @map[key].allow! value
     end

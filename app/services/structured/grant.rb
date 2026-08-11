@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-module Solutions
-  class Grant
-    include Support::EnhancedStoreModel
-
+module Structured
+  # Used by the following properties:
+  # - `recent_grants`
+  class Grant < Structured::Model
     attribute :name, :string
     attribute :starts_on, :date
     attribute :ends_on, :date
@@ -18,8 +18,6 @@ module Solutions
     attribute :award_announcement_url, :string
 
     attribute :notes, :string
-
-    strip_attributes
 
     validates :award_announcement_url, url: { allow_blank: true }
   end

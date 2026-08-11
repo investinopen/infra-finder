@@ -9,21 +9,17 @@ module Implementations
     extend ActiveSupport::Concern
 
     included do
+      extend Dry::Core::ClassAttributes
+
+      defines :requires_statement, type: Implementations::Types::Bool
+
+      requires_statement false
+
       attribute :statement, :string
 
       validates :statement, presence: { if: :requires_statement? }
     end
 
-    def requires_statement?
-      false
-    end
-
-    module ClassMethods
-      def build_dry_schema
-        super.tap do |schema|
-          schema[:statement?] = Implementations::Types::Statement
-        end
-      end
-    end
+    def requires_statement? = self.class.requires_statement
   end
 end

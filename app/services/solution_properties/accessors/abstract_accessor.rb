@@ -7,6 +7,8 @@ module SolutionProperties
       extend Dry::Core::ClassAttributes
       extend Dry::Initializer
 
+      include Support::Typing
+
       include Dry::Effects.Reader(:csv_row)
       include Dry::Effects::Handler.Reader(:csv_row)
 
@@ -24,7 +26,7 @@ module SolutionProperties
 
       csv_parse_type Types::Any
 
-      param :property, Types.Instance(::SolutionProperty)
+      param :property, ::SolutionProperty::Type
 
       option :csv_strategy, Types::CSVStrategy, default: -> { :modern }
 
@@ -38,7 +40,7 @@ module SolutionProperties
 
       # @!group Interface
 
-      # @param [Solution, SolutionDraft] instance
+      # @param [Solution, SolutionDraft, SolutionIntake] instance
       # @param [SolutionProperties::Assignment] assignment
       # @return [void]
       def apply_assignment!(instance, assignment)
@@ -47,7 +49,7 @@ module SolutionProperties
         end
       end
 
-      # @param [Solution, SolutionDraft] instance
+      # @param [Solution, SolutionDraft, SolutionIntake] instance
       # @param [Object] value
       # @return [void]
       def apply_value!(instance, value)
@@ -189,7 +191,7 @@ module SolutionProperties
         end
       end
 
-      # @param [Solution, SolutionDraft] instance
+      # @param [Solution, SolutionDraft, SolutionIntake] instance
       # @return [void]
       def with_instance!(instance)
         with_instance(Solutions::Types::AnySolution[instance]) do

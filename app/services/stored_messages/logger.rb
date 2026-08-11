@@ -2,6 +2,8 @@
 
 module StoredMessages
   class Logger < ::Logger
+    include Support::Typing
+
     # @return [StoredMessages::LogDevice]
     attr_reader :device
 

@@ -1,0 +1,41 @@
+# frozen_string_literal: true
+
+module SolutionProperties
+  # A concern consumed by {SolutionInterface} which describes the
+  # various complex store models backing certain properties.
+  #
+  # @see SolutionProperty.store_model_lists
+  module HasStoreModelLists
+    extend ActiveSupport::Concern
+
+    include SolutionProperties::HasStructuredAttributes
+
+    # A list of structured model attribute names.
+    # @return [<Symbol>]
+    STRUCTURED_MODEL_NAMES = [
+    <%- store_model_lists.each do |prop| -%>
+      <%= quote_symbol(prop.name) %>,
+    <%- end -%>
+    ].freeze
+
+    included do
+      <%- store_model_lists.each do |prop| -%>
+      attribute <%= quote_symbol(prop.name) %>, ::<%= prop.store_model_type_name %>.to_array_type, default: proc { Dry::Core::Constants::EMPTY_ARRAY }
+
+      <%- end -%>
+      accepts_nested_attributes_for *STRUCTURED_MODEL_NAMES, reject_if: :all_blank
+
+      validates *STRUCTURED_MODEL_NAMES, store_model: { if: :apply_editor_validations? }
+    end
+    <%- store_model_lists.each do |prop| -%>
+
+    # @!attribute [rw] <%= prop.structured_attr %>
+    # @return [String]
+    def <%= prop.structured_attr %> = structured_data_read(<%= quote_symbol(prop.name) %>)
+
+    def <%= prop.structured_attr %>=(json)
+      structured_data_write! <%= quote_symbol(prop.name) %>, json
+    end
+    <%- end -%>
+  end
+end

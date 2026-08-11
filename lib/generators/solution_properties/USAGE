@@ -1,8 +1,15 @@
 Description:
-    Explain the generator
+    Regenerate all solution properties and dependent
+    records for the application.
+
+    This calls out to the following generators in addition to its own tasks:
+    * `solution_property_definitions`
+    * `schemas`
 
 Example:
-    bin/rails generate solution_properties Thing
+    bin/rails generate solution_properties
 
     This will create:
-        what/will/it/create
+        app/services/solution_properties/free_inputs.rb
+        app/services/solution_properties/has_implementations.rb
+        app/services/solution_properties/has_store_model_lists.rb

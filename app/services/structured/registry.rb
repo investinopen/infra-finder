@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Solutions
+module Structured
   # A registry represents an external public registered URL that
   # can be used to identify information about the solution.
   #
@@ -10,15 +10,12 @@ module Solutions
   #
   # A URL _must_ be provided, other attributes are optional.
   #
-  # @see Solutions#registries
-  class Registry
-    include Support::EnhancedStoreModel
-
+  # Used by the following properties:
+  # - `registries`
+  class Registry < Structured::Model
     attribute :name, :string
     attribute :description, :string
     attribute :url, :string
-
-    strip_attributes
 
     validates :url, presence: true, url: { allow_blank: false }
   end

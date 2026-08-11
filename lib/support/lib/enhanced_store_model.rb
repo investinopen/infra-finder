@@ -7,25 +7,26 @@ module Support
   module EnhancedStoreModel
     extend ActiveSupport::Concern
 
+    include DefinesSchemaNamespace
+
     included do
       extend Dry::Core::ClassAttributes
 
       include StoreModel::Model
       include ActiveModel::Validations::Callbacks
       include Support::EnhancedStoreModel::EnhancedInspection
+      include Support::EnhancedStoreModel::EnhancedStrongParams
 
       delegate :inspection_filter, to: :class
 
       defines :filter_attributes, type: Support::Types::Array.of(Support::Types::Any)
 
-      filter_attributes []
+      filter_attributes Dry::Core::Constants::EMPTY_ARRAY
     end
 
     # @param [#to_s] attr
     # @return [Object]
-    def [](attr)
-      public_send(attr)
-    end
+    def [](attr) = public_send(attr)
 
     # @param [#to_s] attr
     # @param [Object]
@@ -44,9 +45,7 @@ module Support
       end
     end
 
-    def to_hash
-      as_json
-    end
+    def to_hash = as_json
 
     module ClassMethods
       # A better method for generating enums that does not store numeric values.
@@ -74,7 +73,7 @@ module Support
       end
 
       def filter_attributes!(*attrs)
-        filter_attributes filter_attributes.concat(attrs)
+        filter_attributes [*filter_attributes, *attrs].uniq.freeze
 
         @inspection_filter = build_inspection_filter
       end
@@ -125,6 +124,55 @@ module Support
             end
 
           inspection_filter.filter_param(name, inspected_value)
+        end
+      end
+    end
+
+    module EnhancedStrongParams
+      extend ActiveSupport::Concern
+
+      include WithStrongParamSet
+
+      module ClassMethods
+        # @param [#to_s] name
+        # @param [#to_s, nil] type
+        # @param [Boolean] strong
+        # @param [{ Symbol => Object }] options
+        # @return [void]
+        def attribute(name, type = nil, strong: strong_params_default_allowed, **options)
+          super(name, type, **options)
+
+          return unless strong
+
+          type = attribute_types.fetch(name.to_s)
+
+          case type
+          in StoreModel::Types::Base => store_model_type
+            case store_model_type.type
+            in /polymorphic/
+              # intentionally skipped, we can't derive polymorphic params
+              # and we don't need to since they aren't used in forms
+            else
+              strong_param_set[name] = store_model_type.model_klass.strong_params
+            end
+          else
+            strong_param_set << name
+          end
+        end
+
+        private
+
+        # @param [Symbol] attribute
+        # @param [Hash] options
+        # @return [void]
+        def define_store_model_attr_accessors(attribute, options)
+          super
+
+          type = nested_attribute_type(attribute)
+
+          return unless type.kind_of?(StoreModel::Types::Base)
+
+          strong_param_set[:"#{attribute}_attributes"] = type.model_klass.strong_params
         end
       end
     end

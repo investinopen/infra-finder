@@ -1,0 +1,12 @@
+Description:
+    Generate types and schemas related to solution properties.
+
+Example:
+    bin/rails generate schemas
+
+    This will create:
+        app/services/implementations/schemas/*.rb
+        app/services/solution_properties/schemas/actual.rb
+        app/services/solution_properties/schemas/draft.rb
+        app/services/solution_properties/schemas/intake.rb
+        app/services/structured/schemas/*.rb

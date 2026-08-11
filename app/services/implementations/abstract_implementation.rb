@@ -6,6 +6,7 @@ module Implementations
     extend Dry::Core::ClassAttributes
 
     include Support::EnhancedStoreModel
+    include Structured::CSVConversion
 
     defines :implementation_name, type: Solutions::Types::Symbol.optional
 
@@ -22,45 +23,31 @@ module Implementations
       :unlinked?,
       to: :class
 
-    def available?
-      parent.try(:"#{implementation_name}_available?")
-    end
+    def available? = parent.try(:"#{implementation_name}_available?")
 
-    def available_with_url?
-      available? && has_url?
-    end
+    def available_with_url? = available? && has_url?
 
-    def has_url?
-      link_mode != :none && read_url.present?
-    end
+    def has_url? = link_mode != :none && read_url.present?
 
-    def in_progress?
-      parent.try(:"#{implementation_name}_in_progress?")
-    end
+    def in_progress? = parent.try(:"#{implementation_name}_in_progress?")
 
     # @api private
     # @return [Symbol]
-    def implementation_name
-      self.class.implementation_name
-    end
+    def implementation_name = self.class.implementation_name
 
     # @return [Solutions::Types::ImplementationLinkMode]
-    def link_mode
-      self.class.link_mode
-    end
+    def link_mode = self.class.link_mode
 
-    def requires_populated_link?
-      false
-    end
+    def requires_populated_link? = false
 
+    # @api private
+    # @return [String]
     def read_url
       case link_mode
       when :many
         links.try(:first).try(:url)
       when :single
-        # :nocov:
         link.try(:url)
-        # :nocov:
       else
         # :nocov:
         raise "no link for #{implementation_name}"
@@ -69,6 +56,7 @@ module Implementations
     end
 
     # @param [String] new_value
+    # @return [void]
     def write_url(new_value)
       urls = new_value.present? ? URI.extract(new_value).map { _1.chomp(?,) } : []
 
@@ -92,7 +80,7 @@ module Implementations
       end
     end
 
-    # @param ["links", "statement"] property_name
+    # @param ["link", "links", "statement"] property_name
     # @return [String, nil]
     def read_csv_property(property_name)
       case property_name
@@ -107,7 +95,7 @@ module Implementations
       end
     end
 
-    # @param ["links", "statement"] property_name
+    # @param ["link", "links", "statement"] property_name
     # @param [String] new_value
     # @return [String, nil]
     def write_csv_property(property_name, new_value)
@@ -123,85 +111,20 @@ module Implementations
       end
     end
 
-    # @return [String]
-    def to_csv
-      as_json.transform_values do |value|
-        cast_to_csv(value)
-      end.compact.to_json
-    end
-
-    private
-
-    def cast_to_csv(value)
-      case value
-      when Array
-        value.map { cast_to_csv(_1) }.compact_blank
-      when Hash
-        value.transform_values { cast_to_csv(_1) }.compact
-      when false then value
-      else
-        value.presence
-      end
-    end
-
     class << self
-      def derive_implementation_name
-        name.demodulize.underscore
-      end
-
-      def dry_schema
-        @dry_schema ||= build_dry_schema
-      end
-
-      def dry_type
-        @dry_type ||= build_dry_type
-      end
-
-      def inherited(subclass)
-        super if defined?(super)
-
-        subclass.implementation_name subclass.derive_implementation_name.to_sym
-      end
-
-      def has_any_links?
-        link_mode != :none
-      end
+      def has_any_links? = link_mode != :none
 
       alias linked? has_any_links?
 
-      def has_many_links?
-        link_mode == :many
-      end
+      def has_many_links? = link_mode == :many
 
-      def has_no_links?
-        link_mode == :none
-      end
+      def has_no_links? = link_mode == :none
 
       alias unlinked? has_no_links?
 
-      def has_single_link?
-        link_mode == :single
-      end
+      def has_single_link? = link_mode == :single
 
-      def has_statement?
-        self < Implementations::WithStatement
-      end
-
-      # @return [Array]
-      def strong_params
-        attribute_names.without("link", "links").map(&:to_sym).tap do |arr|
-          case link_mode
-          in :many
-            arr << { links_attributes: %i[url label] }
-          in :single
-            arr << { link_attributes: %i[url label] }
-          else
-            # :nocov:
-            arr.dup
-            # :nocov:
-          end
-        end
-      end
+      def has_statement? = self < Implementations::WithStatement
 
       # @return [void]
       def with_link!
@@ -213,33 +136,26 @@ module Implementations
         include Implementations::WithLinks
       end
 
+      # @return [void]
       def with_statement!
         include Implementations::WithStatement
       end
 
-      private
+      protected
 
-      # @abstract
-      # @return [Hash]
-      def build_dry_schema
-        {}
+      def derive_implementation_name = name.demodulize.underscore.to_sym
+
+      # @return [void]
+      def derive_implementation_name!
+        implementation_name derive_implementation_name
       end
 
-      def build_dry_type
-        schema = dry_schema
+      # @param [Class<AbstractImplementation>] subclass
+      # @return [void]
+      def inherited(subclass)
+        super if defined?(super)
 
-        Implementations::Types::Hash.schema(**schema).with_key_transform do |key|
-          transformed = handle_dry_key_transform(key).to_sym
-
-          transformed
-        end
-      end
-
-      # @abstract
-      # @param [String, Symbol] key
-      # @return [#to_sym]
-      def handle_dry_key_transform(key)
-        key.to_sym
+        subclass.derive_implementation_name!
       end
     end
   end
