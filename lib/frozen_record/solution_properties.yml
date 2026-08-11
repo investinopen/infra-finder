@@ -1052,7 +1052,7 @@
     running or governing the service.
   exported: true
   required: false
-  store_model_type_name: Solutions::Institution
+  store_model_type_name: Structured::Institution
   ext_name: affiliations
   be_label: Current affiliations
   be_position: 0
@@ -1071,7 +1071,7 @@
     or launching the service.
   exported: true
   required: false
-  store_model_type_name: Solutions::Institution
+  store_model_type_name: Structured::Institution
   ext_name: founders
   be_label: Founding institutions
   be_position: 0
@@ -1334,7 +1334,7 @@
     funds to the service or provider in the past year.
   exported: false
   required: false
-  store_model_type_name: Solutions::Institution
+  store_model_type_name: Structured::Institution
   ext_name: granting_institutions
   be_label: Top granting institutions
   be_position: 0
@@ -1355,7 +1355,7 @@
     announcement, if available.
   exported: false
   required: false
-  store_model_type_name: Solutions::Grant
+  store_model_type_name: Structured::Grant
   ext_name: grants_list
   be_label: List grants received in the past year
   be_position: 0
@@ -1394,7 +1394,7 @@
     or to a description of services available.
   exported: true
   required: false
-  store_model_type_name: Solutions::ServiceProvider
+  store_model_type_name: Structured::ServiceProvider
   ext_name: registered_service_providers
   be_label: Registered service providers
   be_position: 38
@@ -2002,7 +2002,7 @@
   be_label: Persistent identifiers of the resource
   fe_label: Records in other registries
   fe_visibility: visible
-  store_model_type_name: Solutions::Registry
+  store_model_type_name: Structured::Registry
   input: text
 - name: revenue_sources
   code: 122
@@ -2018,6 +2018,20 @@
   be_label: Revenue sources
   fe_label: Revenue sources
   vocab_name: rev_src
+- name: status_certifications
+  code: 123
+  attr: status_certifications
+  kind: :multi_option
+  meta: false
+  exported: true
+  required: false
+  ext_name: status_certification
+  input: multiselect
+  description: Certifications, seals, or other formal recognition of the infrastructure's
+    adherence to community standards or best practices.
+  be_label: Status certifications
+  fe_label: Status certifications
+  vocab_name: status_certifications
 - name: board_level_other
   code: 900
   attr: board_level_other
@@ -2315,6 +2329,23 @@
   max_length: 1000
   ext_name: security_standards_other
   be_label: Unknown
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
+- name: revenue_source_other
+  code: 1022
+  attr: revenue_source_other
+  kind: :other_option
+  meta: false
+  owner: revenue_sources
+  description: Records the revenue source if "other" is selected in field 122
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: revenue_source_other
+  be_label: Revenue source — other
   fe_label: N/A
   fe_position: 0
   fe_section: 000 RESEARCH

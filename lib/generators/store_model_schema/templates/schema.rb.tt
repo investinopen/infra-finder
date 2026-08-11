@@ -1,0 +1,54 @@
+# frozen_string_literal: true
+
+<% formatted_namespace_name do -%>
+  module Schemas
+    # @see ::<%= class_name %>
+    module <%= base_class_name %>
+      <%- if attr_mapping? -%>
+      # Used by {ATTR_REMAP} in order map nested attributes,
+      # as well as any attribute aliases.
+      # @return [{ Symbol => Symbol }]
+      ATTR_MAPPING = {
+      <%- each_attr_mapping_entry do |entry| -%>
+        <%= entry %>,
+      <%- end -%>
+      }.freeze
+
+      # A proc suitable for use with `with_key_transform`.
+      #
+      # @see ATTR_MAPPING
+      # @return [Proc]
+      ATTR_REMAP = ->(key) do
+        key = key.to_sym
+
+        ATTR_MAPPING.fetch(key, key)
+      end
+
+      <%- end -%>
+      # A type matching the known, settable properties of a {<%= class_name %>}.
+      # @return [Dry::Types::Hash{Symbol => Object}]
+      Type = ::Inputs::Types::BaseSchema.schema(
+      <%- schema_attributes.each do |attr, type_expr| -%>
+        <%= quote_symbolic_hash_key(attr) %>: ::<%= type_expr %>,
+      <%- end -%>
+      )<%- if attr_mapping? -%>.with_key_transform(&ATTR_REMAP)<%- end %>
+
+      # This type will transparently handle accepting an array of hashes for {Type}.
+      #
+      # @see ::Inputs::Types::List
+      # @return [Dry::Types::Type<Type>]
+      List = ::Inputs::Types::List[Type]
+
+      # This type will transparently handle nested attributes for {Type},
+      # ensuring that the input is coerced into a hash with string index keys
+      # and values of {Type}.
+      #
+      # @see ::Inputs::Types::NestedAttributesList
+      # @return [Dry::Types::Type{ String => Type }]
+      NestedAttributesList = ::Inputs::Types::NestedAttributesList[Type]
+
+      # A constant suitable for matching against strong params for this store model.
+      StrongParams = <%= quote_strong_params(klass.strong_params, indentation: 6) %>.freeze
+    end
+  end
+<%- end %>

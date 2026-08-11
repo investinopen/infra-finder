@@ -4,7 +4,7 @@
 module WorksWithComparisons
   extend ActiveSupport::Concern
 
-  include CallsCommonOperation
+  include ::Support::CallsCommonOperation
 
   included do
     extend Dry::Core::ClassAttributes

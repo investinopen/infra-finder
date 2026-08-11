@@ -2,13 +2,22 @@
 
 module SolutionProperties
   class Assignment < Support::FlexibleStruct
-    attribute :accessor, Types.Instance(::SolutionProperties::Accessors::AbstractAccessor)
-    attribute :property, Types.Instance(::SolutionProperty)
-    attribute :attribute_name, Types::Coercible::Symbol
+    attribute :accessor, ::SolutionProperties::Accessors::AbstractAccessor::Type
+    attribute :property, ::SolutionProperty::Type
+    attribute :attribute_name, Types::AttributeName
     attribute :value, Types::Any.optional
 
-    attribute? :csv_header, Types::Coercible::String
-    attribute? :csv_row, Types.Instance(::CSV::Row)
+    attribute? :csv_header, Types::CSVHeader
+    attribute? :csv_row, Types::CSVRow
+
+    # @return [SolutionProperties::Types::AssignmentKind]
+    attr_reader :kind
+
+    def initialize(...)
+      super
+
+      @kind = derive_assignment_kind
+    end
 
     # @param [Solution, SolutionDraft] instance
     # @return [void]
@@ -16,32 +25,19 @@ module SolutionProperties
       accessor.apply_assignment! instance, self
     end
 
-    def attachment?
-      property.kind == :attachment
-    end
+    def attachment? = kind == :attachment
 
-    def standard?
-      !attachment?
-    end
+    def standard? = kind == :standard
 
     private
 
-    # @param [Solution, SolutionDraft] instance
-    # @return [void]
-    def assign_attachment_to!(instance)
-      return if value.blank?
-
-      attacher = instance.__send__(:"#{attribute_name}_attacher")
-
-      attacher.remote_url = value
-
-      attacher.add_metadata "original_import_url" => value
-    end
-
-    # @param [Solution, SolutionDraft] instance
-    # @return [void]
-    def assign_standard_to!(instance)
-      instance.public_send(:"#{attribute_name}=", value)
+    def derive_assignment_kind
+      case property.kind
+      in :attachment
+        :attachment
+      else
+        :standard
+      end
     end
   end
 end

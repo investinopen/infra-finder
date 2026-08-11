@@ -1,47 +1,48 @@
 # frozen_string_literal: true
 
-# Combine solution property sets within `lib/properties`.
 class SolutionPropertiesGenerator < Rails::Generators::Base
-  PROPERTIES_PATH = Rails.root.join("lib", "frozen_record", "solution_properties.yml")
+  include SolutionProperties::Generators
 
-  PROPERTY_SET_PATH = Rails.root.join("lib", "properties").freeze
+  source_root File.expand_path("templates", __dir__)
 
-  PROP_NAMES = %w[
-    base
-    blurbs
-    implementation_enums
-    implementation_properties
-    implementations
-    other_options
-    store_model_inputs
-    store_model_lists
-    vocabs
-  ].freeze
+  # @return [void]
+  def regenerate_definitions!
+    Rails::Generators.invoke("solution_property_definitions")
 
-  STRIP_USELESS_NEWLINES = /\s+$/m
+    reload_records!
+  end
 
-  def compose_properties
-    combined = load_properties
+  # @return [void]
+  def regenerate_schemas!
+    Rails::Generators.invoke("schemas")
+  end
 
-    content = combined.to_yaml.gsub(STRIP_USELESS_NEWLINES, "")
+  # @return [void]
+  def generate_has_implementations!
+    template "has_implementations.rb.tt", Rails.root.join("app", "services", "solution_properties", "has_implementations.rb")
+  end
 
-    create_file PROPERTIES_PATH, content
+  # @return [void]
+  def generate_has_store_model_lists!
+    template "has_store_model_lists.rb.tt", Rails.root.join("app", "services", "solution_properties", "has_store_model_lists.rb")
+  end
+
+  # @return [void]
+  def generate_free_inputs!
+    template "free_inputs.rb.tt", Rails.root.join("app", "services", "solution_properties", "free_inputs.rb")
+  end
+
+  def regenerate_property_sets!
+    Rails::Generators.invoke("v2_property_set")
   end
 
   private
 
-  def load_properties
-    PROP_NAMES.each_with_object([]) do |name, combined|
-      filename = "#{name}.yml"
-
-      props = YAML.load_file PROPERTY_SET_PATH.join(filename)
-
-      combined.concat props
-    end.sort_by do |prop|
-      code = prop.fetch("code", 100_000_000)
-      name = prop.fetch("name")
-
-      [code, name]
+  def free_input_attrs
+    @free_input_attrs ||= Support::Generators::AttrMapping.new.tap do |mapping|
+      SolutionProperty.each_free_input do |prop|
+        mapping[prop.free_input_name] = :string
+      end
     end
   end
 end

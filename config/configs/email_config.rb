@@ -3,11 +3,13 @@
 class EmailConfig < ApplicationConfig
   attr_config origin: "do-not-reply@castironcoding.com"
 
-  attr_config external: false
+  attr_config allowed_domains: Dry::Core::Constants::EMPTY_ARRAY,
+    enabled: false, external: false
 
-  attr_config :address, :port, :password, :username
+  attr_config :address, :allowed_domains, :port, :password, :username
 
-  coerce_types external: :boolean, port: :integer
+  coerce_types enabled: :boolean, external: :boolean, port: :integer,
+    allowed_domains: { type: :string, array: true }
 
   alias user_name username
   alias external? external

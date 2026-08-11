@@ -305,3 +305,21 @@
   fe_section: 000 RESEARCH
   fe_visibility: hidden
   input: text
+- name: revenue_source_other
+  code: 1022
+  attr: revenue_source_other
+  kind: :other_option
+  meta: false
+  owner: revenue_sources
+  description: |-
+    Records the revenue source if "other" is selected in field 122
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: revenue_source_other
+  be_label: Revenue source — other
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text

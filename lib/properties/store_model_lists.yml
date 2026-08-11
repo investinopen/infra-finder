@@ -9,7 +9,7 @@
     running or governing the service.
   exported: true
   required: false
-  store_model_type_name: Solutions::Institution
+  store_model_type_name: Structured::Institution
   ext_name: affiliations
   be_label: Current affiliations
   be_position: 0
@@ -28,7 +28,7 @@
     or launching the service.
   exported: true
   required: false
-  store_model_type_name: Solutions::Institution
+  store_model_type_name: Structured::Institution
   ext_name: founders
   be_label: Founding institutions
   be_position: 0
@@ -49,7 +49,7 @@
     announcement, if available.
   exported: false
   required: false
-  store_model_type_name: Solutions::Grant
+  store_model_type_name: Structured::Grant
   ext_name: grants_list
   be_label: List grants received in the past year
   be_position: 0
@@ -68,7 +68,7 @@
     funds to the service or provider in the past year.
   exported: false
   required: false
-  store_model_type_name: Solutions::Institution
+  store_model_type_name: Structured::Institution
   ext_name: granting_institutions
   be_label: Top granting institutions
   be_position: 0
@@ -87,7 +87,7 @@
     or to a description of services available.
   exported: true
   required: false
-  store_model_type_name: Solutions::ServiceProvider
+  store_model_type_name: Structured::ServiceProvider
   ext_name: registered_service_providers
   be_label: Registered service providers
   be_position: 38
@@ -107,5 +107,5 @@
   be_label: Persistent identifiers of the resource
   fe_label: Records in other registries
   fe_visibility: visible
-  store_model_type_name: Solutions::Registry
+  store_model_type_name: Structured::Registry
   input: text

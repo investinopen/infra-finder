@@ -8,39 +8,83 @@ module SolutionProperties
   module HasStoreModelLists
     extend ActiveSupport::Concern
 
+    include SolutionProperties::HasStructuredAttributes
+
+    # A list of structured model attribute names.
+    # @return [<Symbol>]
+    STRUCTURED_MODEL_NAMES = [
+      :current_affiliations,
+      :founding_institutions,
+      :recent_grants,
+      :registries,
+      :service_providers,
+      :top_granting_institutions,
+    ].freeze
+
     included do
-      SolutionProperty.store_model_lists.each do |prop|
-        attribute prop.name.to_sym, prop.store_model_type_name.constantize.to_array_type, default: proc { [] }
+      attribute :current_affiliations, ::Structured::Institution.to_array_type, default: proc { Dry::Core::Constants::EMPTY_ARRAY }
 
-        validates prop.name.to_sym, store_model: true
-      end
+      attribute :founding_institutions, ::Structured::Institution.to_array_type, default: proc { Dry::Core::Constants::EMPTY_ARRAY }
+
+      attribute :recent_grants, ::Structured::Grant.to_array_type, default: proc { Dry::Core::Constants::EMPTY_ARRAY }
+
+      attribute :registries, ::Structured::Registry.to_array_type, default: proc { Dry::Core::Constants::EMPTY_ARRAY }
+
+      attribute :service_providers, ::Structured::ServiceProvider.to_array_type, default: proc { Dry::Core::Constants::EMPTY_ARRAY }
+
+      attribute :top_granting_institutions, ::Structured::Institution.to_array_type, default: proc { Dry::Core::Constants::EMPTY_ARRAY }
+
+      accepts_nested_attributes_for *STRUCTURED_MODEL_NAMES, reject_if: :all_blank
+
+      validates *STRUCTURED_MODEL_NAMES, store_model: { if: :apply_editor_validations? }
     end
 
-    SolutionProperty.store_model_lists.each do |prop|
-      class_eval <<~RUBY, __FILE__, __LINE__ + 1
-      def #{prop.name}_attributes=(list_attributes)
-        self[#{prop.name.inspect}] = parse_list_items_from(list_attributes)
-      end
+    # @!attribute [rw] current_affiliations_structured
+    # @return [String]
+    def current_affiliations_structured = structured_data_read(:current_affiliations)
 
-      def #{prop.structured_attr}
-        #{prop.name}.as_json.compact_blank.to_json
-      end
-
-      def #{prop.structured_attr}=(json)
-        return if json.blank?
-
-        self[#{prop.name.inspect}] = JSON.parse(json)
-      end
-      RUBY
+    def current_affiliations_structured=(json)
+      structured_data_write! :current_affiliations, json
     end
 
-    private
+    # @!attribute [rw] founding_institutions_structured
+    # @return [String]
+    def founding_institutions_structured = structured_data_read(:founding_institutions)
 
-    # @param [Hash] attributes
-    def parse_list_items_from(attributes)
-      attributes.values.select do |item|
-        item.present? && item.values.any? { _1.present? || _1 == false }
-      end
+    def founding_institutions_structured=(json)
+      structured_data_write! :founding_institutions, json
+    end
+
+    # @!attribute [rw] recent_grants_structured
+    # @return [String]
+    def recent_grants_structured = structured_data_read(:recent_grants)
+
+    def recent_grants_structured=(json)
+      structured_data_write! :recent_grants, json
+    end
+
+    # @!attribute [rw] registries_structured
+    # @return [String]
+    def registries_structured = structured_data_read(:registries)
+
+    def registries_structured=(json)
+      structured_data_write! :registries, json
+    end
+
+    # @!attribute [rw] service_providers_structured
+    # @return [String]
+    def service_providers_structured = structured_data_read(:service_providers)
+
+    def service_providers_structured=(json)
+      structured_data_write! :service_providers, json
+    end
+
+    # @!attribute [rw] top_granting_institutions_structured
+    # @return [String]
+    def top_granting_institutions_structured = structured_data_read(:top_granting_institutions)
+
+    def top_granting_institutions_structured=(json)
+      structured_data_write! :top_granting_institutions, json
     end
   end
 end

@@ -6,7 +6,7 @@ class ApplicationRecord < ActiveRecord::Base
   extend DefinesMonadicOperation
 
   include AssociationHelpers
-  include CallsCommonOperation
+  include ::Support::CallsCommonOperation
   include ExposesRansackable
   include LazyOrdering
   include PostgresEnums

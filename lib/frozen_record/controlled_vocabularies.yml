@@ -581,6 +581,7 @@
 - name: rev_src
   strategy: model
   model_name: RevenueSource
+  accepts_other: true
   terms:
   - term: Individual memberships
     slug: memberships-individual
@@ -601,3 +602,13 @@
   - term: Other
     slug: other
     provides: other
+- name: status_certifications
+  strategy: model
+  model_name: StatusCertification
+  terms:
+  - term: CoreTrustSeal
+    slug: core-trust-seal
+  - term: Global Core Biodata Resource
+    slug: global-core-biodata-resource
+  - term: ELIXIR Core Data Resource
+    slug: elixir-core-data-resource

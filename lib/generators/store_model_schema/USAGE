@@ -1,0 +1,9 @@
+Description:
+    Generate supplementary dry.rb types for handling store models
+    through Rails forms.
+
+Example:
+    bin/rails generate store_model_schema Structured::Grant
+
+    This will create:
+        app/services/structured/schemas/grant.rb

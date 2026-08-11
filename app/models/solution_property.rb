@@ -7,6 +7,7 @@
 class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   include ActiveModel::Validations
   include Comparable
+  include Support::Typing
 
   SOURCE_KINDS = SolutionProperties::Types::SourceKind.values.freeze
 
@@ -47,7 +48,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   type_registry SolutionProperties::TypeRegistry
 
-  schema!(types: SolutionProperties::TypeRegistry) do
+  schema! do
     required(:name).filled(:string)
     required(:code).value(:integer) { gt?(0) }
     optional(:attr).maybe(:string)
@@ -114,6 +115,8 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
     required(:accepts_other).value(:bool)
 
+    optional(:enum_type).maybe(:enum_type)
+
     optional(:free_input_name).maybe(:symbol)
 
     required(:has_free_input).value(:bool)
@@ -130,6 +133,8 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
     required(:only_for_actual).value(:bool)
     required(:only_for_draft).value(:bool)
+
+    required(:schema_input_key).value(:symbol)
 
     required(:skip_for_actual).value(:bool)
     required(:skip_for_draft).value(:bool)
@@ -201,6 +206,17 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     record["vocab"].present? && record["vocab"].accepts_other?
   end
 
+  calculates! :enum_type do |record|
+    case record["kind"].to_sym
+    in :enum
+      record["name"].to_sym
+    in :implementation_enum
+      record.fetch("implementation").enum_type
+    else
+      nil
+    end
+  end
+
   calculates! :free_input_name do |record|
     base = record["attribute_name"].to_s.singularize
 
@@ -251,6 +267,20 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   calculates! :only_for_draft do |record|
     record["only"]&.to_sym == :draft
+  end
+
+  calculates! :schema_input_key do |record|
+    name = record.fetch("name")
+    actual_attribute_name = record.fetch("actual_attribute_name")
+
+    case record["kind"]
+    in :multi_option
+      :"#{name.to_s.singularize}_ids"
+    in :single_option
+      :"#{name.to_s.singularize}_id"
+    else
+      actual_attribute_name.to_sym
+    end
   end
 
   calculates! :skip_for_actual do |record|
@@ -438,6 +468,14 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
       only_for?(:actual) || only_for?(:draft)
     else
       false
+    end
+  end
+
+  klass_name_pair! :store_model_type do
+    if kind == :store_model_list
+      store_model_type_name
+    else
+      raise "#{name} is not a store model list property"
     end
   end
 

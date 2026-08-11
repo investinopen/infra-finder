@@ -7,7 +7,9 @@
 class SolutionIntake < ApplicationRecord
   extend FriendlyId
 
+  include SolutionImportable
   include SolutionInterface
+  include Notifiable
   include TimestampScopes
   include UsesStatesman
 
@@ -17,11 +19,14 @@ class SolutionIntake < ApplicationRecord
 
   has_state_machine!
 
+  belongs_to :editor, class_name: "User", inverse_of: :solution_intake_sources, optional: true
   belongs_to :solution, inverse_of: :solution_intake, optional: true
-  belongs_to :provider, inverse_of: :solution_intakes
+  belongs_to :provider, inverse_of: :solution_intakes, optional: true
 
   expose_ransackable_associations! :provider, :solution
   expose_ransackable_attributes! :provider_id, :solution_id, :name
+
+  scope :missing_provider, -> { where(provider_id: nil) }
 
   before_validation :set_snowflake!, on: :create
 
@@ -34,7 +39,7 @@ class SolutionIntake < ApplicationRecord
 
   friendly_id :snowflake
 
-  delegate :name, to: :provider, prefix: true
+  delegate :name, to: :provider, prefix: true, allow_nil: true
   delegate :assign_editor!, to: :provider
 
   # @!group State Management

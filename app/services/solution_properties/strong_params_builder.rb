@@ -25,7 +25,7 @@ module SolutionProperties
     # @return [<Symbol, Hash>]
     attr_reader :params
 
-    # @return [Utility::StrongParamSet]
+    # @return [Support::StrongParamSet]
     attr_reader :param_set
 
     standard_execution!
@@ -54,7 +54,7 @@ module SolutionProperties
     wrapped_hook! def prepare
       @allowed_user_kinds = ALLOWED_USER_KINDS.fetch(solution_kind)
 
-      @param_set = Utility::StrongParamSet.new
+      @param_set = Support::StrongParamSet.new
 
       @params = []
 

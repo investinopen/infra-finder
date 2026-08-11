@@ -1,0 +1,47 @@
+# frozen_string_literal: true
+
+module SolutionProperties
+  # Define and expose implementation enums and store models for {SolutionInterface}.
+  module HasImplementations
+    extend ActiveSupport::Concern
+
+    include SolutionProperties::HasStructuredAttributes
+
+    # A list of implementation model attribute names.
+    # @return [<Symbol>]
+    IMPLEMENTATION_MODEL_NAMES = [
+    <%- implementations.each do |prop| -%>
+      <%= quote_symbol(prop.name) %>,
+    <%- end -%>
+    ].freeze
+
+    included do
+      <%- implementations.each do |implementation| -%>
+      pg_enum! <%= quote_symbol(implementation.enum) %>, as: <%= quote_symbol(implementation.enum_type) %>, default: :unknown, prefix: <%= quote_symbol(implementation.name) %>
+
+      <%- end -%>
+      <%- implementations.each do |implementation| -%>
+      attribute <%= quote_symbol(implementation.name) %>, <%= implementation.type %>.to_type, default: proc { Dry::Core::Constants::EMPTY_HASH }
+
+      <%- end -%>
+      <%- implementations.each do |implementation| -%>
+      delegate :available_with_url?, :has_url?, to: <%= quote_symbol(implementation.name) %>, prefix: <%= quote_symbol(implementation.name) %>
+
+      <%- end -%>
+      accepts_nested_attributes_for *IMPLEMENTATION_MODEL_NAMES, reject_if: :all_blank, update_only: true
+
+      validates *IMPLEMENTATION_MODEL_NAMES, store_model: { if: :apply_editor_validations? }
+    end
+    <%- implementations.each do |prop| -%>
+
+    # @!attribute [rw] <%= prop.structured_attr %>
+    # @return [String]
+    def <%= prop.structured_attr %> = structured_data_read(<%= quote_symbol(prop.name) %>)
+
+    # @param [String] json
+    def <%= prop.structured_attr %>=(json)
+      structured_data_write! <%= quote_symbol(prop.name) %>, json
+    end
+    <%- end -%>
+  end
+end

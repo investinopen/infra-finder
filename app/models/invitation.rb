@@ -25,7 +25,7 @@ class Invitation < ApplicationRecord
   belongs_to :user, optional: true, inverse_of: :invitation
 
   validates :email, :first_name, :last_name, presence: true
-  validates :email, email: { mode: :rfc }, uniqueness: true
+  validates :email, email: true, uniqueness: true
   validates :user_id, uniqueness: { allow_blank: true }
 
   validate :user_must_be_persisted!, on: :finalize
