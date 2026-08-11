@@ -253,6 +253,9 @@ Naming/BlockForwarding:
 Naming/ConstantName:
   Enabled: false
 
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
 Naming/MethodParameterName:
   Enabled: false
 

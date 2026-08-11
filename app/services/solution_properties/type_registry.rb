@@ -5,6 +5,7 @@ module SolutionProperties
   TypeRegistry = Support::Schemas::TypeContainer.new.configure do |tc|
     tc.add! :assign_method, SolutionProperties::Types::AssignMethod
     tc.add! :connection_mode, ControlledVocabularies::Types::ConnectionMode
+    tc.add! :enum_type, SolutionProperties::Types::EnumType
     tc.add! :implementation, ::Implementation::Type
     tc.add! :implementation_name, Implementations::Types::Name
     tc.add! :implementation_property, Implementations::Types::Property

@@ -68,6 +68,7 @@ module ControlledVocabularies
       "standards_pids",
       "standards_pres",
       "standards_sec",
+      "status_certifications",
       "tech_read",
       "user_paths",
       "values"
@@ -128,6 +129,7 @@ module ControlledVocabularies
       :security_standards,
       :solution_categories,
       :staffings,
+      :status_certifications,
       :user_contributions,
       :values_frameworks
     )

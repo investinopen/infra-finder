@@ -588,3 +588,17 @@
   be_label: Revenue sources
   fe_label: Revenue sources
   vocab_name: rev_src
+- name: status_certifications
+  code: 123
+  attr: status_certifications
+  kind: :multi_option
+  meta: false
+  exported: true
+  required: false
+  ext_name: status_certification
+  input: multiselect
+  description: |-
+    Certifications, seals, or other formal recognition of the infrastructure's adherence to community standards or best practices.
+  be_label: Status certifications
+  fe_label: Status certifications
+  vocab_name: status_certifications

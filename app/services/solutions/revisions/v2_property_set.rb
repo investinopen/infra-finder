@@ -50,9 +50,9 @@ module Solutions
       attribute :staffing_volunteer, :string
       attribute :founded_on, :date
       attribute :organizational_history, :string
-      attribute :current_affiliations, ::Solutions::Institution.to_array_type, default: EMPTY_ARRAY
+      attribute :current_affiliations, ::Structured::Institution.to_array_type, default: EMPTY_ARRAY
       attribute :current_affiliation_free_input, :string
-      attribute :founding_institutions, ::Solutions::Institution.to_array_type, default: EMPTY_ARRAY
+      attribute :founding_institutions, ::Structured::Institution.to_array_type, default: EMPTY_ARRAY
       attribute :founding_institution_free_input, :string
       attribute :primary_funding_sources, :string_array, default: EMPTY_ARRAY
       attribute :primary_funding_source_other, :string
@@ -69,12 +69,12 @@ module Solutions
       attribute :financial_reporting_level, :string
       attribute :financial_reporting_level_other, :string
       attribute :financial_numbers_documented_url, :string
-      attribute :top_granting_institutions, ::Solutions::Institution.to_array_type, default: EMPTY_ARRAY
+      attribute :top_granting_institutions, ::Structured::Institution.to_array_type, default: EMPTY_ARRAY
       attribute :top_granting_institution_free_input, :string
-      attribute :recent_grants, ::Solutions::Grant.to_array_type, default: EMPTY_ARRAY
+      attribute :recent_grants, ::Structured::Grant.to_array_type, default: EMPTY_ARRAY
       attribute :recent_grant_free_input, :string
       attribute :hosting_strategy, :string
-      attribute :service_providers, ::Solutions::ServiceProvider.to_array_type, default: EMPTY_ARRAY
+      attribute :service_providers, ::Structured::ServiceProvider.to_array_type, default: EMPTY_ARRAY
       attribute :service_provider_free_input, :string
       attribute :member_count, :big_integer
       attribute :readiness_level, :string
@@ -112,9 +112,11 @@ module Solutions
       attribute :fiscal_host, :string
       attribute :domain_relevances, :string_array, default: EMPTY_ARRAY
       attribute :access_conditions, :string_array, default: EMPTY_ARRAY
-      attribute :registries, ::Solutions::Registry.to_array_type, default: EMPTY_ARRAY
+      attribute :registries, ::Structured::Registry.to_array_type, default: EMPTY_ARRAY
       attribute :registry_free_input, :string
       attribute :revenue_sources, :string_array, default: EMPTY_ARRAY
+      attribute :revenue_source_other, :string
+      attribute :status_certifications, :string_array, default: EMPTY_ARRAY
       attribute :bylaws, ::Implementations::Bylaws.to_type
       attribute :code_license, ::Implementations::CodeLicense.to_type
       attribute :code_of_conduct, ::Implementations::CodeOfConduct.to_type

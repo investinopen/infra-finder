@@ -1,0 +1,13 @@
+Description:
+    Compose and generate the application's solution property definition file
+    from the various solutions.
+
+    The source files can be found in `lib/properties` and are mostly organized
+    by type, in order to make the actual properties easier to reason about when
+    making changes.
+
+Example:
+    bin/rails generate solution_property_definitions
+
+    This will create:
+        lib/frozen_record/solution_properties.yml

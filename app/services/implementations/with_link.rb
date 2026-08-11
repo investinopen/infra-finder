@@ -16,13 +16,5 @@ module Implementations
 
       validates :link, store_model: true
     end
-
-    module ClassMethods
-      def build_dry_schema
-        super.tap do |schema|
-          schema[:link?] = Implementations::Types::LinkSchema.optional
-        end
-      end
-    end
   end
 end

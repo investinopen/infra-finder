@@ -773,6 +773,24 @@
   :connection_mode: single
   :strategy: model
   :vocab_name: staffing
+- :key: actual/status_certifications
+  :name: status_certifications
+  :solution_kind: actual
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: status_certifications
+- :key: draft/status_certifications
+  :name: status_certifications
+  :solution_kind: draft
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: status_certifications
+- :key: intake/status_certifications
+  :name: status_certifications
+  :solution_kind: intake
+  :connection_mode: multiple
+  :strategy: model
+  :vocab_name: status_certifications
 - :key: actual/user_contributions
   :name: user_contributions
   :solution_kind: actual

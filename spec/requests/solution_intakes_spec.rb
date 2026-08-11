@@ -203,7 +203,7 @@ RSpec.describe "SolutionIntakes", type: :request, default_auth: true do
     end
 
     def parameterize_intake_params(input)
-      InfraFinder::Container["solution_intakes.parameterize"].(input)
+      SolutionProperties::Schemas::Intake::Params[input]
     end
 
     # @return [void]

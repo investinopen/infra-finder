@@ -3,7 +3,7 @@
 # @abstract
 class ApplicationController < ActionController::Base
   extend Dry::Core::ClassAttributes
-  include CallsCommonOperation
+  include ::Support::CallsCommonOperation
   include WorksWithComparisons
 
   defines :skip_terms_enforcement, type: Support::Types::Bool

@@ -49,7 +49,7 @@ RSpec.describe SolutionIntakes::FormErrors do
 
   context "with an error on a store model list row" do
     before do
-      solution_intake.current_affiliations = [Solutions::Institution.new(url: "nope")]
+      solution_intake.current_affiliations = [Structured::Institution.new(url: "nope")]
       solution_intake.current_affiliations.first.errors.add(:url, :invalid)
       solution_intake.errors.add(:current_affiliations, :invalid)
     end

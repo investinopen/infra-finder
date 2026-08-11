@@ -1,0 +1,7 @@
+---
+en:
+  errors:
+    messages:
+      invalid_email: "must be a valid email address"
+      invalid_email_domain: "must be a valid email address with a valid domain"
+      invalid_email_structure: "must be an email with no display name or comments"

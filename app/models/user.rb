@@ -3,6 +3,7 @@
 class User < ApplicationRecord
   include HasName
   include HasSubscriptionOption
+  include Notifiable
   include TimestampScopes
   include UsesStatesman
 
@@ -49,6 +50,9 @@ class User < ApplicationRecord
   has_many :assigned_solutions, through: :provider_editor_assignments, source: :solutions
 
   has_many_readonly :solution_revisions, inverse_of: :user
+
+  has_many :solution_intake_sources, inverse_of: :editor, class_name: "SolutionIntake", foreign_key: :editor_id, dependent: :nullify
+  has_many :solution_intake_transitions, inverse_of: :user, dependent: :nullify
 
   before_validation :derive_kind!
 

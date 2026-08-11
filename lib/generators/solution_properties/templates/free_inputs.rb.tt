@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+module SolutionProperties
+  # A store model that encapsulates free inputs and stores them on the record.
+  class FreeInputs
+    include Support::EnhancedStoreModel
+
+    strip_attributes allow_empty: false, collapse_spaces: true, replace_newlines: false
+    <%- free_input_attrs.each_quoted do |attr, type| -%>
+
+    attribute <%= attr %>, <%= type %>
+    <%- end -%>
+  end
+end

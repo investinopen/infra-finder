@@ -10,7 +10,7 @@ module SolutionIntakes
 
     InputBool = Params::Bool.default(false).fallback(false)
 
-    IntakeParams = InfraFinder::Container["solution_properties.schemas.build_params"].intake
+    IntakeParams = SolutionProperties::Schemas::Intake::Params
 
     IntakeState = ApplicationRecord.dry_pg_enum(:solution_intake_state, symbolize: true, default: :pending)
   end

@@ -7,7 +7,7 @@ module SolutionProperties
       include Support::Typing
       include Dry::Core::Equalizer.new(:attribute_name)
       include Dry::Initializer[undefined: false].define -> do
-        param :property, Types.Instance(::SolutionProperty)
+        param :property, ::SolutionProperty::Type
 
         option :input_name, Types::Coercible::Symbol, default: proc { property.attribute_name.to_sym }
       end
@@ -155,7 +155,7 @@ module SolutionProperties
       def render_form_store_model_list!
         form.store_model_list_property attribute_name.to_sym do |smlf|
           case property.store_model_type_name
-          when "Solutions::Grant"
+          when "Structured::Grant"
             smlf.input :name, as: :string, required: false
             smlf.input :starts_on, as: :datepicker, required: false
             smlf.input :ends_on, as: :datepicker, required: false
