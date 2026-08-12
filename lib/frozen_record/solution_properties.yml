@@ -1952,7 +1952,7 @@
   fe_section: 005 Community engagement
   fe_visibility: visible
   input: url
-- kind: :blurb
+- kind: :string
   code: 118
   name: fiscal_host
   attr: fiscal_host
@@ -1964,7 +1964,6 @@
   fe_label: Fiscal host
   fe_visibility: visible
   input: text
-  max_length: 1000
 - name: domain_relevances
   code: 119
   attr: domain_relevances

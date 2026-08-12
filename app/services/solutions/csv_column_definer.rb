@@ -46,6 +46,7 @@ module Solutions
       solution_column! :financial_numbers_documented_url
       solution_column! :financial_date_range
       solution_column! :shareholders
+      solution_column! :fiscal_host
     end
 
     define_columns! def blurbs

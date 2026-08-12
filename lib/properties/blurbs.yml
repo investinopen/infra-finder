@@ -106,16 +106,3 @@
   fe_section: '008 Funding'
   fe_visibility: visible
   input: text
-- kind: :blurb
-  code: 118
-  name: fiscal_host
-  attr: fiscal_host
-  ext_name: fiscal_host
-  meta: false
-  description: |-
-    The legally registered organisation that holds money on behalf of the solution.
-  be_label: Fiscal host
-  fe_label: Fiscal host
-  fe_visibility: visible
-  input: text
-  max_length: 1000
