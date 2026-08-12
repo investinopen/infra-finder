@@ -14,13 +14,23 @@ module SolutionImports
     include Dry::Effects::Handler.Reader(:logger)
     include Dry::Effects::Handler.Resolve
 
+    include Dry::Effects::Handler.State(:extracted_intakes)
     include Dry::Effects::Handler.State(:extracted_providers)
     include Dry::Effects::Handler.State(:extracted_solutions)
+    include Dry::Effects::Handler.State(:intakes_count)
     include Dry::Effects::Handler.State(:providers_count)
     include Dry::Effects::Handler.State(:solutions_count)
 
+    defines :provider_required, type: Types::Bool
+
+    provider_required true
+
+    defines :solution_kind, type: SolutionProperties::Types::SolutionKind
+
+    solution_kind :actual
+
     option :import, Types::SolutionImport
-    option :logger, Types.Instance(StoredMessages::Logger)
+    option :logger, StoredMessages::Logger::Type
     option :user, Types::User.optional, optional: true
 
     defines :strategy, type: Types::Strategy.optional
@@ -28,10 +38,16 @@ module SolutionImports
     define_model_callbacks :extraction, :persistence
 
     # @return [Integer]
+    attr_accessor :intakes_count
+
+    # @return [Integer]
     attr_accessor :providers_count
 
     # @return [Integer]
     attr_accessor :solutions_count
+
+    # @return [<SolutionImports::Transient::IntakeRow>]
+    attr_reader :transient_intakes
 
     # @return [<SolutionImports::Transient::ProviderRow>]
     attr_reader :transient_providers
@@ -42,26 +58,31 @@ module SolutionImports
     def initialize(...)
       super
 
+      @intakes_count = 0
       @providers_count = 0
       @solutions_count = 0
 
+      @transient_intakes = []
       @transient_providers = []
       @transient_solutions = []
     end
 
+    def provider_optional? = !provider_required?
+
+    def provider_required? = self.class.provider_required
+
+    # @return [:actual, :intake]
+    def solution_kind = self.class.solution_kind
+
     # @return [SolutionImports::Types::Strategy]
-    def strategy
-      self.class.strategy
-    end
+    def strategy = self.class.strategy
 
     def to_finalize
-      { providers_count:, solutions_count:, }
+      { intakes_count:, providers_count:, solutions_count:, }
     end
 
     # @return [{ Symbol => Object }]
-    def to_provisions
-      { import:, user:, }
-    end
+    def to_provisions = { import:, user:, }
 
     # @api private
     # @return [void]
@@ -101,13 +122,24 @@ module SolutionImports
 
     # @!endgroup
 
+    around_extraction :collect_intakes!
     around_extraction :collect_providers!
     around_extraction :collect_solutions!
 
+    around_persistence :track_intakes_count!
     around_persistence :track_providers_count!
     around_persistence :track_solutions_count!
 
     private
+
+    # @return [void]
+    def collect_intakes!
+      collected, _ = with_extracted_intakes([]) do
+        yield
+      end
+
+      transient_intakes.concat(collected)
+    end
 
     # @return [void]
     def collect_providers!
@@ -125,6 +157,12 @@ module SolutionImports
       end
 
       transient_solutions.concat(collected)
+    end
+
+    def track_intakes_count!
+      @intakes_count, _ = with_intakes_count(0) do
+        yield
+      end
     end
 
     # @return [void]
@@ -147,7 +185,7 @@ module SolutionImports
       included do
         include Dry::Effects::Handler.Reader(:row_number)
 
-        option :rows, Types.Instance(CSV::Table)
+        option :rows, SolutionImports::Types::CSVTable
       end
 
       # @yield [row] yield each row with the row_number in context
@@ -175,9 +213,7 @@ module SolutionImports
       end
 
       # @param [CSV::Row] row
-      def empty_row?(row)
-        row.fields.compact.blank?
-      end
+      def empty_row?(row) = row.fields.compact.blank?
     end
   end
 end
