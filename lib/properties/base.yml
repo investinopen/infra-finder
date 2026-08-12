@@ -580,3 +580,15 @@
   fe_section: 000 RESEARCH
   fe_visibility: hidden
   input: money
+- kind: :string
+  code: 118
+  name: fiscal_host
+  attr: fiscal_host
+  ext_name: fiscal_host
+  meta: false
+  description: |-
+    The legally registered organisation that holds money on behalf of the solution.
+  be_label: Fiscal host
+  fe_label: Fiscal host
+  fe_visibility: visible
+  input: text
