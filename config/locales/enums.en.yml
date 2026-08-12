@@ -57,6 +57,7 @@ en:
     solution_import_strategy:
       legacy: Legacy (Deprecated)
       eoi: EOI Form
+      intake: Intake Pre-fill (from Jotform)
       v2: V2 Import (Full Data)
     user_kind:
       super_admin: Super Admin

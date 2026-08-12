@@ -3,14 +3,8 @@
 module SolutionImports
   module Transient
     # A transient record to ensure an {Solution} exists.
-    class SolutionRow < Support::FlexibleStruct
-      include Dry::Core::Memoizable
-
-      attribute :identifier, Types::Identifier
+    class SolutionRow < SolutionImports::Transient::SolutionishRow
       attribute :provider_identifier, Types::Identifier
-      attribute :name, Types::PresentString
-
-      attribute :assignments, Types::Assignments
 
       # The bare-minimum attributes to merely _create_ a {Solution} or a {SolutionDraft}.
       #
@@ -18,19 +12,7 @@ module SolutionImports
       # an audit trail and cut down on the ways that solutions get modified.
       #
       # @return [Hash]
-      def attrs_to_create
-        { name:, }
-      end
-
-      # @return [<SolutionProperties::Assignment>]
-      memoize def attachment_assignments
-        assignments.select(&:attachment?)
-      end
-
-      # @return [<SolutionProperties::Assignment>]
-      memoize def standard_assignments
-        assignments.select(&:standard?)
-      end
+      def attrs_to_create = { name:, }
     end
   end
 end

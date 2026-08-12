@@ -6,9 +6,9 @@ module SolutionImports
     #
     # @see SolutionImports::Persistence::PersistEachSolution
     class EachSolutionPersister < SolutionImports::Persistence::BasePersister
-      include Dry::Effects.Cache(:persistence)
+      include EachPersister
 
-      param :solution_row, Types.Instance(SolutionImports::Transient::SolutionRow)
+      param :solution_row, SolutionImports::Transient::SolutionRow::Type
 
       delegate :provider_identifier, :identifier, to: :solution_row
 
@@ -18,14 +18,12 @@ module SolutionImports
       # @return [Boolean]
       attr_reader :new_record
 
-      # @return [Provider]
-      attr_reader :provider
-
       # @return [Solution]
       attr_reader :solution
 
       delegate :auto_approve?, to: :import
 
+      # @return [Dry::Monads::Success(Solution)]
       def call
         super
 
@@ -99,19 +97,7 @@ module SolutionImports
 
       wrapped_hook! def handle_draft_attachments
         solution_row.attachment_assignments.each do |assignment|
-          attachment = assignment.attribute_name
-
-          assignment.assign! draft
-
-          unless draft.save
-            logger.tagged("attachment:#{attachment}") do
-              draft.errors.messages_for(attachment).each do |message|
-                logger.warn "Ignoring #{attachment} failure: #{message}"
-              end
-            end
-
-            draft.reload
-          end
+          try_attachment! draft, assignment
         end
 
         super
@@ -151,20 +137,6 @@ module SolutionImports
         benchmark "Draft prepared", level: :debug do
           yield
         end
-      end
-
-      # @return [Dry::Monads::Success(Provider)]
-      # @return [Dry::Monads::Failure(:unknown_provider, String)]
-      def find_provider
-        provider = cache :provider, provider_identifier do
-          Provider.find_by!(identifier: provider_identifier)
-        end
-      rescue ActiveRecord::RecordNotFound
-        # :nocov:
-        Failure[:unknown_provider, provider_identifier]
-        # :nocov:
-      else
-        Success provider
       end
 
       def find_or_initialize_solution

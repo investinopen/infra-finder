@@ -29,6 +29,8 @@ module SolutionImports
       # :nocov:
     end
 
+    CSVTable = Instance(::CSV::Table)
+
     FinancialNumbersApplicability = ApplicationRecord.dry_pg_enum(:financial_numbers_applicability).fallback("unknown")
 
     FinancialNumbersPublishability = ApplicationRecord.dry_pg_enum(:financial_numbers_publishability).fallback("unknown")

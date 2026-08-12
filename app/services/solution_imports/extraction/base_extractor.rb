@@ -15,6 +15,10 @@ module SolutionImports
           yield eoi_extract!
 
           super
+        when "intake"
+          yield intake_extract!
+
+          super
         when "v2"
           yield v2_extract!
 
@@ -28,6 +32,8 @@ module SolutionImports
 
       wrapped_hook! :eoi_extract
 
+      wrapped_hook! :intake_extract
+
       wrapped_hook! :v2_extract
 
       # @!attribute [r] extraction_accessors
@@ -37,24 +43,27 @@ module SolutionImports
       end
 
       # @param [CSV::Row] row
+      # @param [Boolean] required
       # @return [SolutionProperties::Assignment]
-      def find_provider_details_in(row)
-        find_assignment_for provider_name_accessor, row
+      def find_provider_details_in(row, required: true)
+        find_assignment_for(provider_name_accessor, row, required:)
       end
 
       # @param [CSV::Row] row
+      # @param [Boolean] required
       # @return [SolutionProperties::Assignment]
-      def find_solution_details_in(row)
-        find_assignment_for solution_name_accessor, row
+      def find_solution_details_in(row, required: true)
+        find_assignment_for(solution_name_accessor, row, required:)
       end
 
       # @param [SolutionProperties::Accessors::AbstractAccessor] accessor
       # @param [CSV::Row] row
+      # @param [Boolean] required
       # @return [SolutionProperties::Assignment]
-      def find_assignment_for(accessor, row)
+      def find_assignment_for(accessor, row, required: true)
         assign, *_ = accessor.accept_csv!(row)
 
-        if assign.blank? || assign.value.blank?
+        if required && (assign.blank? || assign.value.blank?)
           # :nocov:
           mark_invalid "Missing required #{accessor.csv_header} value in CSV, can't proceed"
 
@@ -68,6 +77,8 @@ module SolutionImports
       # @param [String] name
       # @return [String]
       memoize def provider_identifier_for(name)
+        return nil if name.blank?
+
         Provider.identifier_by_name(name) || name
       end
 
