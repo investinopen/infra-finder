@@ -16,5 +16,12 @@ module Support
     def call(...)
       self.class.service_klass.new(...).call
     end
+
+    class << self
+      # @return [void]
+      def with_matcher!
+        include Dry::Matcher.for(:call, with: Dry::Matcher::ResultMatcher)
+      end
+    end
   end
 end

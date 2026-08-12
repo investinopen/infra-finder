@@ -51,7 +51,7 @@ class SolutionIntake < ApplicationRecord
   # @see SolutionIntakes::Approve
   # @see SolutionIntakes::Approver
   # @return [Dry::Monads::Success(SolutionIntake)]
-  monadic_operation! def approve(**options)
+  monadic_matcher! def approve(**options)
     call_operation("solution_intakes.approve", self, **options)
   end
 
@@ -62,7 +62,7 @@ class SolutionIntake < ApplicationRecord
   # @see SolutionIntakes::Reject
   # @see SolutionIntakes::Rejector
   # @return [Dry::Monads::Success(SolutionIntake)]
-  monadic_operation! def reject(**options)
+  monadic_matcher! def reject(**options)
     call_operation("solution_intakes.reject", self, **options)
   end
 
@@ -73,7 +73,7 @@ class SolutionIntake < ApplicationRecord
   # @see SolutionIntakes::Reset
   # @see SolutionIntakes::Resetter
   # @return [Dry::Monads::Success(SolutionIntake)]
-  monadic_operation! def reset(**options)
+  monadic_matcher! def reset(**options)
     call_operation("solution_intakes.reset", self, **options)
   end
 
@@ -84,7 +84,7 @@ class SolutionIntake < ApplicationRecord
   # @see SolutionIntakes::Submit
   # @see SolutionIntakes::Submitter
   # @return [Dry::Monads::Success(SolutionIntake)]
-  monadic_operation! def submit(**options)
+  monadic_matcher! def submit(**options)
     call_operation("solution_intakes.submit", self, **options)
   end
 
@@ -100,7 +100,7 @@ class SolutionIntake < ApplicationRecord
   # @see SolutionIntakes::TryInviting
   # @see SolutionIntakes::InvitationAttempter
   # @return [Dry::Monads::Success(SolutionIntake)]
-  monadic_operation! def try_inviting(**options)
+  monadic_matcher! def try_inviting(**options)
     call_operation("solution_intakes.try_inviting", self, **options)
   end
 
