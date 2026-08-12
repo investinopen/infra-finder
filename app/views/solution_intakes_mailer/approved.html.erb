@@ -1,0 +1,53 @@
+<p>
+  Hi, <%= recipient_name %>!
+</p>
+
+<p>
+  Great news! We have accepted your entry for inclusion in Infra Finder.
+</p>
+
+<% if invited? %>
+  <p>
+    In a few minutes, you will also receive an e-mail invitation to our editor interface,
+    where you can make updates or adjustments to any of the information that you see in your entry.
+    Please create your password within the next couple of days, as the link may expire.
+  </p>
+<% else %>
+  <p>
+    You should be able to edit your entry with your existing account credentials
+    on this email address.
+  </p>
+<% end %>
+
+<ul>
+  <li>
+    Once you have created your password, you will be able to edit your entry
+    <%= link_to "here", admin_solution_url(solution) %>.
+  </li>
+
+  <li>
+    Once the solution has been published, you will be able to see it publicly
+    <%= link_to "here", solution_url(solution) %>.
+  </li>
+</ul>
+
+<p>
+  This email will also include detailed instructions
+  to guide you through the process of editing the entry;
+  these instructions are also available in our
+  <%= link_to "Infra Finder documentation", "https://hackmd.io/urgLHvkZRraXhVeoHYb-6g" %>.
+</p>
+
+<p>
+  We have also created a <%= link_to "communications pack", "https://docs.google.com/document/d/1TPszmNLAVIf_Ob1rqOsrV3i0PNteTOzPE5bE2K8vqd0/edit?tab=t.0" %>
+  for your entry in Infra Finder.
+  This pack contains suggested text for social media
+  and newsletters, as well as (by popular request)
+  a template for creating an Infra Finder icon for
+  your website if you'd like.
+</p>
+
+<p>
+  Thank you again for participating in Infra Finder!
+  Please reach out at any time if you have questions or comments.
+</p>

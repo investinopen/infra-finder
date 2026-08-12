@@ -34,11 +34,11 @@ RSpec.describe Invitation, type: :model do
         expect do
           invitation.save!
         end.to execute_safely
-          .and keep_the_same(described_class, :count)
+          .and change(described_class, :count).by(1)
           .and keep_the_same(User, :count)
           .and keep_the_same(ProviderEditorAssignment, :count)
           .and have_enqueued_mail(InvitationsMailer, :welcome).exactly(0).times
-          .and keep_the_same { invitation.current_state(force_reload: true) }
+          .and change { invitation.current_state(force_reload: true) }.from("pending").to("failure")
       end
     end
   end

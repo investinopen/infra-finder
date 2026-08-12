@@ -13,6 +13,11 @@ en:
       reset_password_link_text: "change your password"
       instructions_html: "Once you've logged in, please refer to %{instructions_link} to use the Infra Finder Admin."
       instructions_link_text: "these instructions"
+  solution_intakes_mailer:
+    approved:
+      subject: "[Infra Finder] Solution Intake Approved: %{solution_name}"
+    submitted:
+      subject: "[Infra Finder] Solution Intake Ready To Review: %{solution_name}"
   workflow_mailer:
     shared:
       salutation: "Hi, %{recipient_name},"

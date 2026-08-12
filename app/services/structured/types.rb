@@ -10,7 +10,9 @@ module Structured
 
     List = ->(value_type) do
       Array.of(value_type).constructor do |value|
+        # rubocop:disable Lint/UselessAssignment
         nested_type = Structured::Types::NestedAttributesList[value_type]
+        # rubocop:enable Lint/UselessAssignment
 
         case value
         in Array => arr

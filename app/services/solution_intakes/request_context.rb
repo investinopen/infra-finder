@@ -4,6 +4,7 @@ module SolutionIntakes
   class RequestContext
     include Dry::Monads[:result]
     include Dry::Initializer[undefined: false].define -> do
+      option :current_user, Types::CurrentUser, optional: true
       option :skip_validations, Types::InputBool, default: proc { false }
       option :solution_intake, Types::IntakeParams, as: :params, default: proc { Dry::Core::Constants::EMPTY_HASH }
     end
@@ -55,7 +56,7 @@ module SolutionIntakes
 
       if saved
         if submit? && solution_intake.in_state?(:pending)
-          solution_intake.transition_to!(:in_review)
+          solution_intake.submit!(current_user:, source: "form")
         end
 
         Success mode
