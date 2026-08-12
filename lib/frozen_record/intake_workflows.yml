@@ -1,0 +1,30 @@
+---
+- action: :reset
+  to_state: :pending
+  targets: :editors
+  legend: >
+    This will reset the intake back to a state where the user can make changes.
+- action: :submit
+  to_state: :in_review
+  targets: :admins
+  legend: >
+    This will submit the intake the intake for review and allow it to be approved or rejected.
+
+    Note that this will not validate all required fields the same way that the form does,
+    it is mostly intended as a short-circuit to allow an admin to selectively bypass the submission
+    process if they would like to advance the intake.
+- action: :approve
+  to_state: :approved
+  targets: :editors
+  legend: >
+    Submit the following form if the intake should be approved and generate a solution record.
+
+    This will not automatically publish the solution record, but will allow the admin to finalize it.
+- action: :reject
+  to_state: :rejected
+  targets: :editors
+  legend: >
+    Submit the following form if the intake should be rejected and provide a reason for rejection.
+
+    This can be reversed at a later date, but unless reset, the intake will effectively be locked
+    and archived.

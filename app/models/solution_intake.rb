@@ -44,11 +44,48 @@ class SolutionIntake < ApplicationRecord
 
   # @!group State Management
 
+  # @param [{ Symbol => Object }] options
+  # @option options [User, nil] :current_user The user performing the action, if any.
+  # @option options [String, nil] :note A note to attach to the state transition, if any.
+  # @option options ["admin", "form", "unspecified"] source The source of the state transition, if any.
   # @see SolutionIntakes::Approve
   # @see SolutionIntakes::Approver
   # @return [Dry::Monads::Success(SolutionIntake)]
   monadic_operation! def approve(**options)
     call_operation("solution_intakes.approve", self, **options)
+  end
+
+  # @param [{ Symbol => Object }] options
+  # @option options [User, nil] :current_user The user performing the action, if any.
+  # @option options [String, nil] :note A note to attach to the state transition, if any.
+  # @option options ["admin", "form", "unspecified"] source The source of the state transition, if any.
+  # @see SolutionIntakes::Reject
+  # @see SolutionIntakes::Rejector
+  # @return [Dry::Monads::Success(SolutionIntake)]
+  monadic_operation! def reject(**options)
+    call_operation("solution_intakes.reject", self, **options)
+  end
+
+  # @param [{ Symbol => Object }] options
+  # @option options [User, nil] :current_user The user performing the action, if any.
+  # @option options [String, nil] :note A note to attach to the state transition, if any.
+  # @option options ["admin", "form", "unspecified"] source The source of the state transition, if any.
+  # @see SolutionIntakes::Reset
+  # @see SolutionIntakes::Resetter
+  # @return [Dry::Monads::Success(SolutionIntake)]
+  monadic_operation! def reset(**options)
+    call_operation("solution_intakes.reset", self, **options)
+  end
+
+  # @param [{ Symbol => Object }] options
+  # @option options [User, nil] :current_user The user performing the action, if any.
+  # @option options [String, nil] :note A note to attach to the state transition, if any.
+  # @option options ["admin", "form", "unspecified"] source The source of the state transition, if any.
+  # @see SolutionIntakes::Submit
+  # @see SolutionIntakes::Submitter
+  # @return [Dry::Monads::Success(SolutionIntake)]
+  monadic_operation! def submit(**options)
+    call_operation("solution_intakes.submit", self, **options)
   end
 
   # @!endgroup State Management
@@ -59,6 +96,20 @@ class SolutionIntake < ApplicationRecord
   monadic_operation! def assign
     call_operation("solution_intakes.assign", self)
   end
+
+  # @see SolutionIntakes::TryInviting
+  # @see SolutionIntakes::InvitationAttempter
+  # @return [Dry::Monads::Success(SolutionIntake)]
+  monadic_operation! def try_inviting(**options)
+    call_operation("solution_intakes.try_inviting", self, **options)
+  end
+
+  # @return [String]
+  def contact_name
+    "#{first_name} #{last_name}".strip
+  end
+
+  alias notifiable_contact_name contact_name
 
   # @api private
   # @param [Integer] flake

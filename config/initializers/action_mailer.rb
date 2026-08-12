@@ -14,3 +14,8 @@ Premailer::Rails.config.merge!(
   preserve_styles: true,
   remove_ids: true
 )
+
+Rails.application.config.to_prepare do
+  ::Noticed::Event.include NoticedEventExtension
+  ::Noticed::Notification.include NoticedNotificationExtension
+end

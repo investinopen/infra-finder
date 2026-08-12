@@ -46,6 +46,8 @@ en:
         <<: &solution_hints
       solution_drafts/workflow:
         memo: Sent in notifications
+      solution_intakes/workflow:
+        note: Sent in notifications
       solution_editor_assignment:
         user: "If the select box is blank, all available users have been granted access to this solution."
       solution_import:
@@ -69,3 +71,7 @@ en:
       request_revision: Request Editor Revisions
       approve: Approve Changes
       reject: Reject Changes
+      intake_approve: "Approve Solution"
+      intake_reject: "Reject Intake"
+      intake_reset: "Reset to Pending"
+      intake_submit: "Submit for Review"

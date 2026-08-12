@@ -48,6 +48,15 @@ en:
         success: "This draft has been approved and the solution has been updated."
       reject:
         success: "This draft has been rejected and no further changes are possible."
+    solution_intakes:
+      reset:
+        success: "This solution intake has been reset to pending. The user can once again work on it."
+      submit:
+        success: "This solution intake has been submitted for review. It is locked against non-admin edits."
+      approve:
+        success: "This solution intake has been approved and the solution has been created."
+      reject:
+        success: "This solution intake has been rejected and the user can once again work on it."
     controlled_vocabularies:
       replaced: "Replaced %{old_name} with %{new_name}"
       something_went_wrong: "Something went wrong, please try again"

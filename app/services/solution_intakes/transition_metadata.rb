@@ -6,6 +6,8 @@ module SolutionIntakes
 
     strip_attributes
 
+    actual_enum :source, :admin, :form, :unspecified, default: :unspecified, _prefix: :via
+
     attribute :note, :string
   end
 end

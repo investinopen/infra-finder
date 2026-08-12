@@ -9,6 +9,7 @@ module Support
       extend Support::DoFor
 
       include ActiveSupport::Benchmarkable
+      include Support::CallsCommonOperation
       include Dry::Effects::Handler.Interrupt(:halt_actor, as: :catch_actor_halt)
       include Dry::Effects.Interrupt(:halt_actor)
 

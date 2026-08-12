@@ -6,6 +6,14 @@ FactoryBot.define do
 
     sequence(:name) { |n| "Solution From Intake #{n}" }
 
+    trait :notifiable do
+      first_name { "Test" }
+
+      last_name { "Recipient" }
+
+      email { "recipient@example.com" }
+    end
+
     trait :ready_to_approve do
       governance_summary { "A summary of the solution's governance" }
       launch_year { 2023 }

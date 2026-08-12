@@ -20,6 +20,10 @@ module SolutionIntakes
 
     transition from: :rejected, to: :pending
 
+    guard_transition to: :approved do |solution_intake|
+      solution_intake.provider.present?
+    end
+
     after_transition do |solution_intake, transition|
       solution_intake.update_column :state, transition.to_state
     end
