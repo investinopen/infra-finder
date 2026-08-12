@@ -34,8 +34,6 @@ module SolutionImports
 
     wrapped_hook! :perform
 
-    def should_benchmark?
-      Rails.env.local?
-    end
+    def should_benchmark? = Rails.env.local?
   end
 end

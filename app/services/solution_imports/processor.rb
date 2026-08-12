@@ -22,8 +22,10 @@ module SolutionImports
     include InfraFinder::Deps[
       build_context: "solution_imports.build_context",
       extract_providers: "solution_imports.extraction.extract_providers",
+      extract_intakes: "solution_imports.extraction.extract_intakes",
       extract_solutions: "solution_imports.extraction.extract_solutions",
       persist_providers: "solution_imports.persistence.persist_providers",
+      persist_intakes: "solution_imports.persistence.persist_intakes",
       persist_solutions: "solution_imports.persistence.persist_solutions",
     ]
 
@@ -96,14 +98,26 @@ module SolutionImports
 
     wrapped_hook! def extract
       yield extract_providers.()
-      yield extract_solutions.()
+
+      case context.solution_kind
+      in :actual
+        yield extract_solutions.()
+      in :intake
+        yield extract_intakes.()
+      end
 
       super
     end
 
     wrapped_hook! def persist
       yield persist_providers.()
-      yield persist_solutions.()
+
+      case context.solution_kind
+      in :actual
+        yield persist_solutions.()
+      in :intake
+        yield persist_intakes.()
+      end
 
       super
     end

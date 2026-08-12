@@ -61,6 +61,15 @@ class SolutionImport < ApplicationRecord
     call_operation("solution_imports.process", self)
   end
 
+  # @note Only used in testing
+  # @return [Dry::Monads::Success(SolutionImport)]
+  monadic_operation! def reprocess
+    reset!
+
+    process
+  end
+
+  # @note Only used in testing
   # @return [SolutionImport]
   def reset!
     # :nocov:

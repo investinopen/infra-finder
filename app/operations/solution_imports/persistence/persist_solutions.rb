@@ -2,7 +2,7 @@
 
 module SolutionImports
   module Persistence
-    # Persist transient {Solution} records from an import source.
+    # Persist {Solution} records from an import source.
     #
     # @api private
     # @see SolutionImports::Persistence::SolutionPersister

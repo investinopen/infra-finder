@@ -14,6 +14,12 @@ module SolutionImports
         super
       end
 
+      def intake_extract
+        yield v2_extract!
+
+        super
+      end
+
       def v2_extract
         context.each_row do |row|
           yield add_provider_from row
@@ -25,7 +31,9 @@ module SolutionImports
       private
 
       def add_provider_from(row)
-        assignment = find_provider_details_in row
+        assignment = find_provider_details_in(row, required: context.provider_required?)
+
+        return Success() if assignment.value.blank? && context.provider_optional?
 
         add_provider! name: assignment.value
       end

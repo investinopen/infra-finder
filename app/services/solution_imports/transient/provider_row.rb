@@ -2,9 +2,8 @@
 
 module SolutionImports
   module Transient
-    # A transient record to ensure an {Provider} exists.
-    class ProviderRow < Support::FlexibleStruct
-      attribute :identifier, Types::Identifier
+    # A transient record to ensure a {Provider} exists.
+    class ProviderRow < SolutionImports::Transient::AbstractRow
       attribute :name, Types::PresentString
       attribute? :url, Types::URL.optional
 
@@ -13,9 +12,7 @@ module SolutionImports
       # through the import process.
       #
       # @return [Hash]
-      def attrs_to_create
-        attributes.without(:identifier).compact_blank
-      end
+      def attrs_to_create = attributes.without(:identifier).compact_blank
     end
   end
 end

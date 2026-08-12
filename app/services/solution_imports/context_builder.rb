@@ -9,7 +9,7 @@ module SolutionImports
     include Dry::Initializer[undefined: false].define -> do
       param :import, Types::SolutionImport
 
-      option :logger, Types.Instance(StoredMessages::Logger)
+      option :logger, StoredMessages::Logger::Type
     end
 
     standard_execution!
@@ -34,6 +34,8 @@ module SolutionImports
         mark_invalid "Legacy imports no longer supported."
       in "eoi"
         eoi_build!
+      in "intake"
+        intake_build!
       in "v2"
         v2_build!
       else
@@ -47,6 +49,12 @@ module SolutionImports
       rows = yield parse_csv
 
       Success SolutionImports::EOI::Context.new(import:, logger:, rows:, user:)
+    end
+
+    wrapped_hook! def intake_build
+      rows = yield parse_csv
+
+      Success SolutionImports::Intake::Context.new(import:, logger:, rows:, user:)
     end
 
     wrapped_hook! def v2_build
