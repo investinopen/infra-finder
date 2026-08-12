@@ -1,0 +1,140 @@
+---
+- :name: Solution Details
+  :property_names:
+  - 001_service_name
+  - 003_approval_status
+  - '008_provider_name'
+  - 012_service_logo
+  - 013_location
+  - 010_website
+  - 033_transparent_pricing_status
+  - 034_transparent_pricing_url
+  - 004_public_contact
+  - 011_ror_id
+  - 121_registry_ids
+  - 109_publication_status
+  - 002_creation_date
+  - 110_publication_date
+  - '092_last_update'
+- :name: About
+  :property_names:
+  - 056_launch_date
+  - 014_solution_category
+  - 120_access_restrictions
+  - 119_domain_relevance
+  - '009_service_summary'
+- :name: Mission
+  :property_names:
+  - 015_mission
+  - 016_key_achievements
+- :name: Technical Attributes
+  :property_names:
+  - '079_technology_readiness'
+  - '018_open_code_repository_status'
+  - '019_open_code_repository_url'
+  - '080_maintenance_status'
+  - 022_technical_user_documentation_status
+  - 023_technical_user_documentation_url
+  - '090_product_roadmap_status'
+  - '091_product_roadmap_url'
+  - '088_api_status'
+  - '089_api_url'
+  - 020_open_data_statement_status
+  - 021_open_data_statement_url
+  - '081_programming_language'
+  - 981_programming_language_other
+  - '086_content_licensing'
+  - 986_content_licensing_other
+  - '084_code_license_name'
+  - 984_code_license_name_other
+  - '085_code_license_url'
+  - 104_code_license_status
+  - '094_metadata_standards'
+  - 994_metadata_standards_other
+  - '095_pids'
+  - 995_pids_other
+  - '096_authentication'
+  - 996_authentication_other
+  - '098_security_standards'
+  - 998_security_standards_other
+  - 112_preservation_standards
+  - 912_preservation_standards_other
+  - 113_metrics_standards
+  - 913_metrics_standards_other
+  - 123_status_certification
+  - 076_saas_options
+  - 077_registered_service_providers
+  - '083_integrations'
+  - 983_integrations_other
+- :name: Community Engagement
+  :property_names:
+  - 042_code_of_conduct_status
+  - 043_code_of_conduct_url
+  - 037_community_engagement_status
+  - 116_community_engagement_url
+  - '039_contribution_pathways'
+  - 041_contribution_guidelines
+  - 040_contribution_opportunities
+  - 940_contribution_opportunities_other
+  - '038_community_engagement_activities'
+  - 938_community_engagement_activities_other
+  - 046_values_frameworks
+  - 107_membership_program_url
+  - '078_membership_numbers'
+  - '099_scoss'
+- :name: Policies & Governance
+  :property_names:
+  - 027_governance_summary
+  - 108_bylaws_status
+  - '049_community_governance_url'
+  - 035_commitment_to_equity_status
+  - 036_commitment_to_equity_url
+  - 044_commitment_to_privacy_status
+  - 045_commitment_to_privacy_url
+  - '029_web_accessibility_status'
+  - 030_web_accessibility_url
+  - 031_web_accessibility_applicability
+  - 026_governance_records_status
+  - '028_governance_records_url'
+  - 024_governance_structure_status
+  - 025_governance_structure_url
+- :name: Additional Information
+  :property_names:
+  - 057_organizational_history
+  - 051_business_form
+  - 951_business_form_other
+  - 052_nonprofit_status
+  - 054_staffing_full_time
+  - 055_staffing_volunteer
+  - '048_community_governance_status'
+  - 050_board_structure
+  - 950_board_structure_other
+  - '097_board_members'
+  - 100_board_level
+  - 900_board_level_other
+  - '058_affiliations'
+  - '059_founders'
+- :name: Funding
+  :property_names:
+  - 053_shareholders
+  - 061_primary_funding_source
+  - 961_primary_funding_source_other
+  - 017_funding_needs
+  - 062_local_currency
+  - 063_financial_date
+  - '069_annual_expenses'
+  - '068_annual_revenue'
+  - 066_investment_income
+  - 122_revenue_streams
+  - 067_other_revenue
+  - 065_program_revenue
+  - 064_total_contributions
+  - 071_total_liabilities
+  - 070_total_assets
+  - 114_financial_visibility
+  - 118_fiscal_host
+  - 072_financial_reporting_level
+  - 972_financial_reporting_level_other
+  - 073_financial_documentation
+  - 074_granting_institutions
+  - 075_grants_list
