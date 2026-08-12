@@ -8,8 +8,16 @@ module SolutionIntakes
     include Dry::Initializer[undefined: false].define -> do
       param :intake, Types::Intake
 
+      option :current_user, Types::CurrentUser, optional: true
+
       option :note, Types::String.optional, optional: true
+
+      option :source, Types::TransitionSource, default: proc { "unspecified" }
     end
+
+    alias solution_intake intake
+
+    alias user current_user
 
     defines :target_state, type: Types::IntakeState
 
@@ -37,7 +45,7 @@ module SolutionIntakes
     wrapped_hook! def prepare
       @solution = intake.solution
 
-      @metadata = SolutionIntakes::TransitionMetadata.new(note:)
+      @metadata = SolutionIntakes::TransitionMetadata.new(note:, source:)
 
       super
     end
@@ -61,6 +69,8 @@ module SolutionIntakes
 
       intake.transition_to!(target_state, **meta_args)
 
+      intake.last_transition.update!(user:) if has_user?
+
       super
     end
 
@@ -72,6 +82,8 @@ module SolutionIntakes
     def target_state = self.class.target_state
 
     private
+
+    def has_user? = user.present?
 
     # @return [void]
     def retry_conflicts!

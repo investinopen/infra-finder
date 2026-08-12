@@ -7,5 +7,7 @@ module Invitations
     extend Support::EnhancedTypes
 
     Invitation = ModelInstance("Invitation")
+
+    Provider = ModelInstance("Provider")
   end
 end

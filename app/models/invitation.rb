@@ -99,7 +99,7 @@ class Invitation < ApplicationRecord
       end
     end
 
-    raise ActiveRecord::Rollback if errors.any?
+    transition_to! :failure if errors.any? && can_transition_to?(:failure)
   end
 
   # @return [void]

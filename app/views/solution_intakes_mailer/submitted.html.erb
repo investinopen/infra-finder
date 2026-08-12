@@ -1,0 +1,12 @@
+<p>
+  Hi, <%= recipient_name %>!
+</p>
+
+<p>
+  The user has marked the solution intake form for <q><%= solution_name %></q> ready for review.
+</p>
+
+<ul>
+  <li><%= link_to "View in Admin", admin_solution_intake_url(solution_intake) %></li>
+  <li><%= link_to "View Form", edit_solution_intake_url(solution_intake) %></li>
+</ul>

@@ -8,7 +8,7 @@ Rails.application.configure do
     "import:1",
     "export:1",
     "maintenance:1",
-    "attachments,mailers:3",
+    "default,attachments,mailers:3",
   ].join(?;)
 
   config.good_job.preserve_job_records = true

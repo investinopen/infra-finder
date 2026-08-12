@@ -18,6 +18,7 @@ test:
 staging:
   <<: *default
   address: "smtp.sendgrid.net"
+  enabled: true
   external: true
   origin: "no-reply@investinopen.org"
   port: 587
@@ -26,6 +27,7 @@ staging:
 production:
   <<: *default
   address: "smtp.sendgrid.net"
+  enabled: true
   external: true
   origin: "no-reply@investinopen.org"
   port: 587
