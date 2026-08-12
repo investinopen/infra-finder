@@ -57,7 +57,7 @@ ActiveAdmin.register SolutionIntake do
   form do |f|
     f.inputs do
       f.input :name
-      f.input :provider
+      f.input :provider, include_blank: true
       f.input :first_name, as: :string
       f.input :last_name, as: :string
       f.input :email, as: :email
