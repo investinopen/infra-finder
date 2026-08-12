@@ -41,7 +41,7 @@ module SolutionProperties
       end
 
       wrapped_hook! def prepare
-        @wrapped_tabs = yield InfraFinder::Container["solution_properties.admin.parse_tabs"].()
+        @wrapped_tabs = AdminTab.wrapped_tabs
 
         @expected_form_fields = load_expected_form_fields
 
