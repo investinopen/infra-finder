@@ -357,6 +357,12 @@
               <%= tag.label "Integrations and compatibility", id: "integrations-label" %>
             <% end %>
             <%= render TypeaheadComponent.new(form: f, attr: :integration_ids, vocab_name: "integrations", labelled_by: "integrations-label", placeholder: "Type to search integrations…") %>
+            <% field.with_conditional_field(condition: { field: :integration_ids, value: vocab_option_value("integrations", "Other (please describe)") }) do |field| %>
+              <% field.with_label do %>
+                <%= f.label :integration_other, "What other integrations do you support?" %>
+              <% end %>
+              <%= f.text_field :integration_other, maxlength: max_length(:integration_other) %>
+            <% end %>
           <% end %>
         <% end %>
 
