@@ -357,6 +357,12 @@
               <%= tag.label "Integrations and compatibility", id: "integrations-label" %>
             <% end %>
             <%= render TypeaheadComponent.new(form: f, attr: :integration_ids, vocab_name: "integrations", labelled_by: "integrations-label", placeholder: "Type to search integrations…") %>
+            <% field.with_conditional_field(condition: { field: :integration_ids, value: vocab_option_value("integrations", "Other (please describe)") }) do |field| %>
+              <% field.with_label do %>
+                <%= f.label :integration_other, "What other integrations do you support?" %>
+              <% end %>
+              <%= f.text_field :integration_other, maxlength: max_length(:integration_other) %>
+            <% end %>
           <% end %>
         <% end %>
 
@@ -442,6 +448,12 @@
         <% end %>
 
         <%= render IntakeFormSectionComponent.new(title: "Policies and governance", anchor: "policies", help_href: "https://docs.google.com/document/d/1afiDj8pw2qxJcj7e6vhIRfP7Ra7gY0FYtsZ5DivQfwM/edit#heading=h.uxgkfd4quedf") do %>
+          <%= render FormFieldWrapperComponent.new(class_name: "wide") do |field| %>
+            <% field.with_label do %>
+              <%= f.label :governance_summary %>
+            <% end %>
+            <%= f.text_area :governance_summary, maxlength: max_length(:governance_summary), rows: 5, wrap: "soft" %>
+          <% end %>
           <%= render FormFieldWrapperComponent.new(required: true, description: "Does your solution have and publicly post bylaws or other governance rules?") do |field| %>
             <% field.with_label do %>
               <%= f.label :bylaws_implementation, "Bylaws" %>
