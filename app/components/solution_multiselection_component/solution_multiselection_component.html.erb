@@ -6,7 +6,7 @@
     <% if selections.present? %>
       <ul class="multiselection__list multiselection__list--<%= layout %><% if layout == 'columns' %> multiselection__list--columns-<%= column_count %> t-rte<% end %>">
         <% selections.each do |selection| %>
-          <li <% if layout == 'default' %> class="m-badge m-badge--white"<% end %>><%= selection.name %></li>
+          <li <% if layout == 'default' %> class="<%= badge_class %>"<% end %>><%= selection.name %></li>
         <% end %>
       </ul>
     <% end %>
