@@ -37,12 +37,23 @@ class SolutionDetailsComponent < ApplicationComponent
     render SolutionLocationComponent.new(solution:)
   end
 
+  # @return [Array<Structured::Registry>]
+  def registries
+    solution.registries.select { _1.url.present? }
+  end
+
+  # @param [Structured::Registry] registry
+  # @return [String]
+  def registry_label(registry)
+    registry.name.presence || registry.url
+  end
+
   def render_category_badges
     render SolutionCategoryBadgesComponent.new(solution:)
   end
 
-  def render_multiselection(name, layout = "default", column_count = 3, hide_other: false)
-    render SolutionMultiselectionComponent.new(solution:, name:, layout:, column_count:, hide_other:)
+  def render_multiselection(name, layout = "default", column_count = 3, hide_other: false, small_badges: false)
+    render SolutionMultiselectionComponent.new(solution:, name:, layout:, column_count:, hide_other:, small_badges:)
   end
 
   def render_multiselection_card(name)

@@ -44,44 +44,72 @@
     </header>
     <%= render SolutionNavComponent.new(show_community_link: show_community_section?) %>
     <div class="l-container l-container--narrow solution-articles">
-      <article id="about" class="l-container__inner solution-articles__about"
+      <article id="about" class="l-container__inner "
         data-nav-scroll-target="section">
         <h2 class="a-underline mb-10 sm:mb-[3.75rem]"><%= t(".about.heading") %></h2>
-        <div class="border-b flex flex-wrap gap-y-2 justify-between pb-4 max-w-text">
-          <% if solution.founded_on? %>
-            <div>
-              <span class="font-light"><%= t(".about.launched") %> </span>
-              <span class="font-semibold">
-                <%= l solution.founded_on, format: :year %>
-              </span>
-            </div>
-          <% end %>
-          <% if solution.updated_at? %>
-            <div>
-              <span class="font-light"><%= t(".about.record_updated") %> </span>
-              <span class="font-semibold">
-                <%= l solution.updated_at, format: :mdy %>
-              </span>
-            </div>
-          <% end %>
-        </div>
-        <%= render_category_badges %>
-        <% if solution.service_summary?.present? or solution.research_organization_registry_url? %>
-          <div class="py-[2.0625rem] border-y max-w-text">
-            <% if solution.service_summary?.present? %>
-              <%= infra_format(solution.service_summary) %>
+        <div>
+          <div class="border-b flex flex-wrap gap-y-2 justify-between pb-4 max-w-text">
+            <% if solution.founded_on? %>
+              <div>
+                <span class="font-light"><%= t(".about.launched") %> </span>
+                <span class="font-semibold">
+                  <%= l solution.founded_on, format: :year %>
+                </span>
+              </div>
             <% end %>
-            <% if solution.research_organization_registry_url? %>
-              <div class="pt-[1.625rem]">
-                <a href="<%= solution.research_organization_registry_url %>" target="_blank" rel="noreferrer" class="m-button m-button--sm m-button--fit-to-content">
-                  <span><%= t(".about.research_organization_registry_url") %></span>
-                  <span class="sr-only"><%= t(".opens_in_new_window") %></span>
-                  <%= image_tag "icons/24/Link-External.svg", alt: "" %>
-                </a>
+            <% if solution.updated_at? %>
+              <div>
+                <span class="font-light"><%= t(".about.record_updated") %> </span>
+                <span class="font-semibold">
+                  <%= l solution.updated_at, format: :mdy %>
+                </span>
               </div>
             <% end %>
           </div>
+          <%= render_category_badges %>
+          <% if solution.service_summary?.present? or solution.research_organization_registry_url? %>
+            <div class="py-[2.0625rem] border-y max-w-text">
+              <% if solution.service_summary?.present? %>
+                <%= infra_format(solution.service_summary) %>
+              <% end %>
+              <% if solution.research_organization_registry_url? %>
+                <div class="pt-[1.625rem]">
+                  <a href="<%= solution.research_organization_registry_url %>" target="_blank" rel="noreferrer" class="m-button m-button--sm m-button--fit-to-content">
+                    <span><%= t(".about.research_organization_registry_url") %></span>
+                    <span class="sr-only"><%= t(".opens_in_new_window") %></span>
+                    <%= image_tag "icons/24/Link-External.svg", alt: "" %>
+                  </a>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+        <% if registries.present? %>
+          <div>
+            <h3><%= t(".about.persistent_identifiers") %></h3>
+            <% if registries.one? %>
+              <% registry = registries.first %>
+              <a href="<%= registry.url %>" target="_blank" rel="noreferrer" class="m-button m-button--sm m-button--fit-to-content">
+                <span><%= registry_label(registry) %></span>
+                <span class="sr-only"><%= t(".opens_in_new_window") %></span>
+                <%= image_tag "icons/24/Link-External.svg", alt: "" %>
+              </a>
+            <% else %>
+              <ul class="flex flex-wrap items-start gap-4">
+                <% registries.each do |registry| %>
+                  <li>
+                    <a href="<%= registry.url %>" target="_blank" rel="noreferrer" class="m-button m-button--sm m-button--fit-to-content">
+                      <span><%= registry_label(registry) %></span>
+                      <span class="sr-only"><%= t(".opens_in_new_window") %></span>
+                      <%= image_tag "icons/24/Link-External.svg", alt: "" %>
+                    </a>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
+          </div>
         <% end %>
+        <%= render_multiselection(:domain_relevances, small_badges: true) %>
       </article>
       <article id="mission" class="l-container__inner"
         data-nav-scroll-target="section">
@@ -248,6 +276,7 @@
             </div>
           </div>
         <% end %>
+        <%= render_multiselection(:access_conditions) %>
         <%= render_multiselection(:community_governances) %>
       </article>
       <article id="additional_information" class="l-container__inner"
@@ -319,8 +348,19 @@
         data-nav-scroll-target="section">
         <h2 class="a-underline"><%= t(".funding.heading") %></h2>
         <%= render_multiselection(:primary_funding_sources) %>
+        <%= render_multiselection(:revenue_sources) %>
         <%= render_multiselection(:financial_reporting_level) %>
         <%= render SolutionDetailsTextBlockComponent.new(text: solution.funding_needs, heading: t(".funding.needs")) %>
+        <% if solution.fiscal_host.present? %>
+          <div class="multiselection">
+            <h3><%= t(".funding.fiscal_host") %></h3>
+            <div class="multiselection__body">
+              <div class="m-badge m-badge--white m-badge--fit-to-content">
+                <%= solution.fiscal_host %>
+              </div>
+            </div>
+          </div>
+        <% end %>
       </article>
     </div>
   </section>

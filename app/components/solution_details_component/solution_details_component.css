@@ -54,12 +54,6 @@
     @mixin fluidScaleRem padding-block-start, 80px, 60px;
     @apply space-y-[2.5rem];
     @apply sm:space-y-[3.75rem];
-
-    /* About has a slightly smaller gap */
-    &.solution-articles__about {
-      @apply space-y-[1.25rem];
-      @apply sm:space-y-[1.5rem];
-    }
   }
 
   > article > div > h3 {
@@ -69,7 +63,9 @@
 }
 
 .solution-cards-wrapper {
-  &:not(:has(.m-card)):not(:has(.org-structure-card)):not(:has(.multiselection-card)):not(:has(.grants-free-input)) {
+  &:not(:has(.m-card)):not(:has(.org-structure-card)):not(
+      :has(.multiselection-card)
+    ):not(:has(.grants-free-input)) {
     display: none;
   }
 }
