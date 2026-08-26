@@ -13,6 +13,7 @@ en:
     launched: "Launched:"
     record_updated: "Record Updated:"
     research_organization_registry_url: Research Organization Registry
+    persistent_identifiers: Persistent Identifiers
   mission:
     nav: Mission
     heading: Mission
@@ -66,3 +67,4 @@ en:
     primary_source: Primary Funding Source
     recent_grants: Recent Grants
     needs: Funding Needs
+    fiscal_host: Fiscal Host
