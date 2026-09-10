@@ -17,8 +17,7 @@ ENV BUNDLE_PATH=/bundle \
     GEM_HOME=/bundle
 ENV PATH="${BUNDLE_BIN}:${PATH}"
 
-RUN gem update --system '4.0.5'
-RUN gem install bundler -v '~> 4.0'
+RUN gem update --system '4.0.20'
 
 RUN bundle config set bin /bundle/bin --global
 RUN bundle config set default_cli_command install --global
