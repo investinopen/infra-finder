@@ -34,7 +34,7 @@ ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.2
 
 RUN corepack enable
 
-RUN gem update --system '4.0.18'
+RUN gem update --system '4.0.20'
 
 RUN bundle config set --local without 'development test' && \
     bundle config set --local jobs $(nproc) && \
