@@ -13,11 +13,11 @@ en:
     attributes:
       implementations/equity_and_inclusion:
         links: "Link(s) to diversity, equity, inclusion, and antiracism statement or policy"
-      solutions/grant:
+      structured/grant:
         name: Name
-      solutions/institution:
+      structured/institution:
         name: Institution Name
-      solutions/service_provider:
+      structured/service_provider:
         name: Service Provider Name
     errors:
       models:
