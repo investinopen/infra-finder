@@ -305,6 +305,24 @@
   fe_section: 000 RESEARCH
   fe_visibility: hidden
   input: text
+- name: access_condition_other
+  code: 1020
+  attr: access_condition_other
+  kind: :other_option
+  meta: false
+  owner: access_conditions
+  description: |-
+    Records the access condition if "other" is selected in field 120
+  exported: true
+  required: false
+  max_length: 1000
+  ext_name: access_condition_other
+  be_label: Access condition — other
+  fe_label: N/A
+  fe_position: 0
+  fe_section: 000 RESEARCH
+  fe_visibility: hidden
+  input: text
 - name: revenue_source_other
   code: 1022
   attr: revenue_source_other

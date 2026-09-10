@@ -7,6 +7,8 @@ module SolutionProperties
 
     strip_attributes allow_empty: false, collapse_spaces: true, replace_newlines: false
 
+    attribute :access_condition_other, :string
+
     attribute :authentication_standard_other, :string
 
     attribute :board_level_other, :string

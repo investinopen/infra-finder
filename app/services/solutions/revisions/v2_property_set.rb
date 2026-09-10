@@ -112,6 +112,7 @@ module Solutions
       attribute :fiscal_host, :string
       attribute :domain_relevances, :string_array, default: EMPTY_ARRAY
       attribute :access_conditions, :string_array, default: EMPTY_ARRAY
+      attribute :access_condition_other, :string
       attribute :registries, ::Structured::Registry.to_array_type, default: EMPTY_ARRAY
       attribute :registry_free_input, :string
       attribute :revenue_sources, :string_array, default: EMPTY_ARRAY
