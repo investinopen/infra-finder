@@ -474,6 +474,7 @@
 - name: access
   strategy: model
   model_name: AccessCondition
+  accepts_other: true
   terms:
   - term: Open without restrictions
     slug: open
