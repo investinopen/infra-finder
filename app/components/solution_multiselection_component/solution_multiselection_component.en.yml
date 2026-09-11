@@ -1,6 +1,7 @@
 ---
 en:
   other_label: "Other: "
+  other_badge: "Other"
   domain_relevances: Domain Relevance
   readiness_level: Technology Readiness Level
   programming_languages: Programming Languages
