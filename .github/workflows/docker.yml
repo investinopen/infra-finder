@@ -41,7 +41,7 @@ jobs:
           context: .
           push: true
           file: Dockerfile
-          target: production
+          target: prod
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args:
