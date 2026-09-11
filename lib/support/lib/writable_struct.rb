@@ -3,6 +3,10 @@
 module Support
   # @abstract
   class WritableStruct < Support::FlexibleStruct
+    def []=(key, value)
+      set_value!(key, value)
+    end
+
     # @param [{ Symbol => Object }] new_values
     # @return [void]
     def update!(**new_values)

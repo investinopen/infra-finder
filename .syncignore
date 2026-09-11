@@ -1,0 +1,8 @@
+docker
+log
+log/development.log
+log/test.log
+tmp
+tmp/*.tar
+tmp/*.tar.gz
+tmp/cache/bootsnap

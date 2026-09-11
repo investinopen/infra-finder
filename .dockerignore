@@ -4,6 +4,14 @@
 *.swo
 .*.swn
 .do
+/bin/console
+/bin/dbconsole
 /docker
 /docker/minio
-!/docker/entrypoint.sh
+!/docker/common
+!/docker/dev
+!/docker/prd
+/log
+/node_modules
+/tmp
+/vendor/cache

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="Ensure all dependencies are installed and up-to-date"
+#MISE depends = ["gems", "node-modules"]
+
+# Intentionally left blank.

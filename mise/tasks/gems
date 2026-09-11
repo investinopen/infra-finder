@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="Install ruby gems"
+
+BUNDLE_JOBS=$(nproc)
+
+bundle install

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# [MISE] description = "Build the production image"
+# [MISE] depends = ["prune-binstubs", "prune-files", "prune-mise"]
+
+SECRET_KEY_BASE_DUMMY=1 bin/rails assets:precompile
+
+bundle exec bootsnap precompile --gemfile app/ lib/ config/

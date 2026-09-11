@@ -153,7 +153,6 @@ GEM
       msgpack (~> 1.2)
     builder (3.3.0)
     cgi (0.5.2)
-    chunky_png (1.4.0)
     closure_tree (7.4.0)
       activerecord (>= 4.2.10)
       with_advisory_lock (>= 4.0.0)
@@ -193,11 +192,11 @@ GEM
     down (5.4.2)
       addressable (~> 2.8)
     drb (2.2.3)
-    dry-auto_inject (1.1.0)
+    dry-auto_inject (1.2.1)
       dry-core (~> 1.1)
       zeitwerk (~> 2.6)
-    dry-configurable (1.3.0)
-      dry-core (~> 1.1)
+    dry-configurable (1.4.0)
+      dry-core (~> 1.0)
       zeitwerk (~> 2.6)
     dry-container (0.11.0)
       concurrent-ruby (~> 1.0)
@@ -281,7 +280,6 @@ GEM
       railties (>= 5.0.0)
     faker (3.6.0)
       i18n (>= 1.8.11, < 2)
-    fastimage (2.2.7)
     ffi (1.16.3)
     formtastic (5.0.0)
       actionpack (>= 6.0.0)
@@ -384,7 +382,6 @@ GEM
       net-pop
       net-smtp
     marcel (1.1.0)
-    mediainfo (1.5.0)
     method_source (1.1.0)
     mini_magick (5.4.0)
       logger
@@ -429,6 +426,7 @@ GEM
       racc (~> 1.4)
     noticed (3.0.0)
       rails (>= 6.1.0)
+    observer (0.1.2)
     oj (3.17.6)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
@@ -753,7 +751,6 @@ DEPENDENCIES
   aws-sdk-s3 (~> 1.136)
   bcrypt (~> 3.1)
   bootsnap (~> 1.22)
-  chunky_png (~> 1.4)
   closure_tree (~> 7.4)
   content_disposition (~> 1.0)
   countries (~> 6.0)
@@ -762,7 +759,7 @@ DEPENDENCIES
   database_cleaner-active_record (~> 2.1)
   database_cleaner-redis (~> 2.0)
   devise (~> 4.9)
-  dry-auto_inject (~> 1.1)
+  dry-auto_inject (~> 1.2)
   dry-container (~> 0.11)
   dry-core (~> 1.2)
   dry-effects (~> 0.5)
@@ -780,7 +777,6 @@ DEPENDENCIES
   erb_lint (~> 0.5)
   factory_bot_rails (~> 6.2)
   faker (~> 3.6)
-  fastimage (~> 2.2)
   ffi (~> 1.16)
   friendly_id (~> 5.5)
   frozen_record (~> 0.27)
@@ -791,10 +787,10 @@ DEPENDENCIES
   job-iteration (~> 1.12)
   jsbundling-rails
   marcel
-  mediainfo (~> 1.5)
   money-rails (= 1.15)
   nokogiri (~> 1.19)
   noticed (~> 3.0)
+  observer
   oj (~> 3.16)
   pg (~> 1.5)
   pg_query (~> 6.2)
@@ -850,7 +846,7 @@ DEPENDENCIES
   zaru (~> 1.0)
 
 RUBY VERSION
-  ruby 3.2.3p157
+  ruby 3.3.12p206
 
 BUNDLED WITH
   4.0.20
