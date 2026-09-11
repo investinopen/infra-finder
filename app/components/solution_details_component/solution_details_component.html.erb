@@ -262,6 +262,7 @@
             </div>
           </div>
         </div>
+        <%= render_multiselection(:access_conditions) %>
         <%= render_multiselection(:board_structures) %>
         <%= render_multiselection(:board_level) %>
         <% if solution.board_members_url? %>
@@ -276,7 +277,6 @@
             </div>
           </div>
         <% end %>
-        <%= render_multiselection(:access_conditions) %>
         <%= render_multiselection(:community_governances) %>
       </article>
       <article id="additional_information" class="l-container__inner"
