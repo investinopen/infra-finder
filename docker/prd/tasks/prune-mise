@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# MISE hide = true
+
+find "${MISE_DATA_DIR}/installs/ruby" -type d -name "include" -exec rm -rf {} + 2>/dev/null || true && \
+find "${MISE_DATA_DIR}/installs/ruby" -type d -name "ri" -exec rm -rf {} + 2>/dev/null || true && \
+find "${MISE_DATA_DIR}/installs/ruby" -path "*/share/doc" -exec rm -rf {} + 2>/dev/null || true && \
+find "${MISE_DATA_DIR}/installs/ruby" -name "*.o" -delete && \
+# Strip Node
+find "${MISE_DATA_DIR}/installs/node" -type d -name "include" -exec rm -rf {} + 2>/dev/null || true && \
+find "${MISE_DATA_DIR}/installs/node" -path "*/share/doc" -exec rm -rf {} + 2>/dev/null || true && \
+find "${MISE_DATA_DIR}/installs/node" -path "*/share/man" -exec rm -rf {} + 2>/dev/null || true && \
+# Strip debug symbols from binaries
+find "${MISE_DATA_DIR}/installs" -type f -name "*.so" -exec strip --strip-unneeded {} \; 2>/dev/null || true

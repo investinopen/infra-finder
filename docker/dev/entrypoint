@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e
+
+# Ensure all our dependencies are present and accounted for.
+mise check-deps
+
+# Then exec the container's main process
+exec "$@"

@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# [MISE] description = "Prune binstubs that aren't needed in production"
+# [MISE] hide = true
+
+require "bundler/setup"
+require "fileutils"
+require "pathname"
+
+class PruneBinstubs
+  ALLOWED = %w[
+    good_job
+    puma
+    rails
+    rake
+  ].freeze
+
+  ROOT = Pathname(ENV["MISE_PROJECT_ROOT"])
+
+  BIN = ROOT.join("bin")
+
+  def call
+    BIN.glob("**/*").each do |file|
+      FileUtils.remove_entry_secure(file) unless ALLOWED.include?(file.basename.to_s)
+    end
+  end
+
+  class << self
+    def call = new.call
+  end
+end
+
+PruneBinstubs.()
