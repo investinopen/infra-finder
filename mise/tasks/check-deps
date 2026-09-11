@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE hide=true
+#MISE depends=["prune-server-pid", "pkgs"]
+
+# Intentionally left blank.

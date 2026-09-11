@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#MISE description = "Sync packageManager version with mise-managed yarn version (called as part of a hook)"
+#MISE hide = true
+#MISE env = { "MISE_YARN_VERSION" = "{{vars.yarn_version}}" }
+
+# Skip in production docker build.
+if [ -f package.json ]; then
+  : "${MISE_YARN_VERSION:?yarn_version is not set in the mise environment}"
+  npm pkg set "packageManager=yarn@$MISE_YARN_VERSION"
+fi

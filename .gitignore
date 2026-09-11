@@ -48,6 +48,8 @@
 /coverage
 /node_modules
 /spec/examples.txt
+/vendor/cache
+/.yarn/install-state
 
 # misc
 .*DS_Store

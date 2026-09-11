@@ -1,0 +1,38 @@
+services:
+  base:
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "10"
+    restart: unless-stopped
+  app:
+    extends:
+      file: ./services.yml
+      service: base
+    build:
+      context: ..
+      target: devel
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file: ./compose.env
+    volumes:
+      - bundler_cache:/usr/local/bundle
+      - node_cache:/srv/app/node_modules
+      - ../:/srv/app
+  base-redis:
+    extends:
+      file: ./services.yml
+      service: base
+    platform: "linux/amd64"
+    image: redis:6.2
+    environment:
+      - "ALLOW_EMPTY_PASSWORD=yes"
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 5s
+      retries: 5

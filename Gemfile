@@ -2,10 +2,11 @@
 
 source "https://rubygems.org"
 
-ruby "3.2.3"
+ruby "3.3.12"
 
 # STDLIB
 gem "csv", "~> 3"
+gem "observer"
 gem "sorted_set", "~> 1"
 
 # Rails / Database
@@ -31,7 +32,7 @@ gem "redis-actionpack", "~> 5.5"
 gem "job-iteration", "~> 1.12"
 
 # dry-rb
-gem "dry-auto_inject", "~> 1.1"
+gem "dry-auto_inject", "~> 1.2"
 gem "dry-container", "~> 0.11"
 gem "dry-core", "~> 1.2"
 gem "dry-effects", "~> 0.5"
@@ -86,13 +87,10 @@ gem "zaru", "~> 1.0"
 
 # File processing
 gem "aws-sdk-s3", "~> 1.136"
-gem "chunky_png", "~> 1.4"
 gem "content_disposition", "~> 1.0"
-gem "fastimage", "~> 2.2"
 gem "ffi", "~> 1.16"
 gem "image_processing", "~> 1.14"
 gem "marcel"
-gem "mediainfo", "~> 1.5"
 gem "shrine", "~> 3.6"
 gem "shrine-url", "~> 2.4"
 
