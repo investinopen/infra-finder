@@ -18,11 +18,13 @@ en:
         source: "Data Source"
       solution_imports/options:
         auto_approve: "Auto-approve drafts?"
-      solutions/grant:
+      solution_intake:
+        <<: *solution_labels
+      structured/grant:
         name: Name
-      solutions/institution:
+      structured/institution:
         name: Institution Name
-      solutions/service_provider:
+      structured/service_provider:
         name: Service Provider Name
       user:
         accept_terms_and_conditions: I agree to the Terms & Conditions and Privacy Policy.
@@ -43,7 +45,7 @@ en:
         publication: "This affects whether the solution appears in the frontend. If unpublishing a solution, any active comparisons OR shared comparisons will have that solution removed from them. This property will not appear in draft solutions."
         user_contributions: "In what ways can users currently contribute to your project?"
       solution_draft:
-        <<: &solution_hints
+        <<: *solution_hints
       solution_drafts/workflow:
         memo: Sent in notifications
       solution_intakes/workflow:
@@ -54,11 +56,13 @@ en:
         source: "The file must be a CSV with a very specific format."
       solution_imports/options:
         auto_approve: "Whether the import should auto-approve all drafts. Otherwise, updates will be readied for review and can be selectively applied."
-      solutions/grant:
+      solution_intake:
+        <<: *solution_hints
+      structured/grant:
         name: ""
-      solutions/institution:
+      structured/institution:
         name: ""
-      solutions/service_provider:
+      structured/service_provider:
         name: ""
       user:
         super_admin: A super-admin has unrestricted access to manage everything in the system. It takes precedence over admin if both are set.

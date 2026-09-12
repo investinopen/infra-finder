@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# MISE description="Prune files not used in production"
+
+rm -rf .github \
+  coverage \
+  docker \
+  spec

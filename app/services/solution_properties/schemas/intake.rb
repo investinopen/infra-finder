@@ -79,6 +79,7 @@ module SolutionProperties
       # @return [Dry::Types::Hash{Symbol => Object}]
       Params = ::Inputs::Types::BaseSchema.schema(
         access_condition_ids?: ::Inputs::Types::Attributes::IDs,
+        access_condition_other?: ::Inputs::Types::Attributes::String,
         annual_expenses?: ::Inputs::Types::Attributes::Money,
         annual_revenue?: ::Inputs::Types::Attributes::Money,
         authentication_standard_ids?: ::Inputs::Types::Attributes::IDs,

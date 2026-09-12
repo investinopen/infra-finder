@@ -3,10 +3,13 @@
   data-controller="solution-multiselection-component--solution-multiselection-component">
   <h3><%= t(".#{connection_name}") %></h3>
   <div class="multiselection__body<% if selections.present? %> multiselection__body--<%= layout %><% end %>">
-    <% if selections.present? %>
+    <% if selections.present? || other_value.present? %>
       <ul class="multiselection__list multiselection__list--<%= layout %><% if layout == 'columns' %> multiselection__list--columns-<%= column_count %> t-rte<% end %>">
         <% selections.each do |selection| %>
-          <li <% if layout == 'default' %> class="m-badge m-badge--white"<% end %>><%= selection.name %></li>
+          <li <% if layout == 'default' %> class="<%= badge_class %>"<% end %>><%= selection.name %></li>
+        <% end %>
+        <% if other_value.present? %>
+          <li class="<%= badge_class %>"><%= t(".other_badge") %></li>
         <% end %>
       </ul>
     <% end %>

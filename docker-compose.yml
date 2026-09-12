@@ -1,16 +1,13 @@
 services:
   db:
+    extends:
+      file: docker/services.yml
+      service: base
     image: "postgres:15.5-alpine"
     command: postgres -c shared_preload_libraries=pg_stat_statements -c pg_stat_statements.track=all
     shm_size: 2g
     environment:
       POSTGRES_PASSWORD: password
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "10"
-    restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
@@ -19,86 +16,42 @@ services:
       timeout: 5s
       retries: 5
   redis:
-    platform: "linux/amd64"
-    image: redis:6.2
-    environment:
-      - "ALLOW_EMPTY_PASSWORD=yes"
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "10"
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
+    extends:
+      file: docker/services.yml
+      service: base-redis
   test-redis:
-    platform: "linux/amd64"
-    image: redis:6.2
-    environment:
-      - "ALLOW_EMPTY_PASSWORD=yes"
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "10"
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
+    extends:
+      file: docker/services.yml
+      service: base-redis
   web:
+    extends:
+      file: docker/services.yml
+      service: app
     tty: true
     stdin_open: true
-    build: .
     depends_on:
-      db:
-        condition: service_healthy
       migrations:
         condition: service_completed_successfully
-      redis:
-        condition: service_healthy
-    env_file: docker/compose.env
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "10"
     volumes:
-      - bundle_cache:/bundle
       - minio_storage:/srv/minio
-      - node_cache:/srv/app/node_modules
-      - ./:/srv/app
     ports:
-      - "6856:6333"
-    restart: unless-stopped
+      - "6856:8080"
     healthcheck:
-      test: ["CMD", "curl", "-f", "-s", "-o", "/dev/null", "http://localhost:6333/up"]
+      test: ["CMD", "curl", "-f", "-s", "-o", "/dev/null", "http://localhost:8080/up"]
       interval: 1m30s
       timeout: 10s
       retries: 3
       start_period: 15s
   worker:
-    build: .
+    extends:
+      file: docker/services.yml
+      service: app
     command: bin/good_job start --probe-port 7001
     depends_on:
-      db:
-        condition: service_healthy
       migrations:
         condition: service_completed_successfully
-      redis:
-        condition: service_healthy
-    env_file: docker/compose.env
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "10"
     volumes:
-      - bundle_cache:/bundle
+      - bundler_cache:/usr/local/bundle
       - node_cache:/srv/app/node_modules
       - ./:/srv/app
     restart: unless-stopped
@@ -109,91 +62,57 @@ services:
       retries: 3
       start_period: 15s
   assets:
-    build: .
+    extends:
+      file: docker/services.yml
+      service: app
     command: yarn dev:watch
     depends_on:
-      db:
-        condition: service_healthy
       migrations:
         condition: service_completed_successfully
-      redis:
-        condition: service_healthy
-    env_file: docker/compose.env
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "10"
-    volumes:
-      - bundle_cache:/bundle
-      - node_cache:/srv/app/node_modules
-      - ./:/srv/app
-    restart: unless-stopped
-    stdin_open: true
   spec:
-    build: .
+    extends:
+      file: docker/services.yml
+      service: app
     command: tail -f /dev/null
-    depends_on:
-      db:
-        condition: service_healthy
-      migrations:
-        condition: service_completed_successfully
-      test-redis:
-        condition: service_healthy
-    env_file:
-      - docker/compose.env
     environment:
       - RACK_ENV=test
       - RAILS_ENV=test
       - REDIS_URL=redis://test-redis:6379
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "10"
-    volumes:
-      - bundle_cache:/bundle
-      - node_cache:/srv/app/node_modules
-      - ./:/srv/app
-    restart: unless-stopped
   mailcatcher:
+    extends:
+      file: docker/services.yml
+      service: base
     image: "sj26/mailcatcher:v0.8.2"
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "10"
     ports:
       - "6857:1080"
-    restart: unless-stopped
   minio:
+    extends:
+      file: docker/services.yml
+      service: base
     image: "minio/minio:RELEASE.2022-09-25T15-44-53Z"
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "10"
+    command: server --console-address ":9001" /data
+    env_file:
+      - docker/minio.env
     ports:
       - "6858:9000"
       - "6859:9001"
     volumes:
       - minio_storage:/data
-    env_file:
-      - docker/minio.env
-    command: server --console-address ":9001" /data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 30s
       timeout: 20s
       retries: 3
   minio-proxy:
+    extends:
+      file: docker/services.yml
+      service: base
     image: nginx:1.19.2-alpine
     depends_on:
       minio:
         condition: service_healthy
     volumes:
       - ./docker/minio/proxy/nginx.conf:/etc/nginx/nginx.conf:ro
-    restart: unless-stopped
   minio-client:
     entrypoint: "/root/.mc/initialize.sh"
     image: "minio/mc:RELEASE.2022-09-16T09-16-47Z"
@@ -209,29 +128,17 @@ services:
     volumes:
       - ./docker/minio/client:/root/.mc
   migrations:
-    build: .
-    command: bin/ensure-db
+    extends:
+      file: docker/services.yml
+      service: app
+    command: /usr/local/bin/run-migrations
     depends_on:
-      db:
-        condition: service_healthy
       minio-client:
         condition: service_completed_successfully
-      redis:
-        condition: service_healthy
-    env_file: docker/compose.env
-    logging:
-      driver: json-file
-      options:
-        max-size: "10m"
-        max-file: "10"
     restart: "no"
-    volumes:
-      - bundle_cache:/bundle
-      - node_cache:/srv/app/node_modules
-      - ./:/srv/app
 
 volumes:
-  bundle_cache:
+  bundler_cache:
     driver: local
   minio_storage:
     driver: local

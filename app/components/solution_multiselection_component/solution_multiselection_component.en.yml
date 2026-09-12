@@ -1,6 +1,8 @@
 ---
 en:
   other_label: "Other: "
+  other_badge: "Other"
+  domain_relevances: Domain Relevance
   readiness_level: Technology Readiness Level
   programming_languages: Programming Languages
   licenses: Code Licenses Used
@@ -15,8 +17,10 @@ en:
   community_engagement_activities: Community Engagement Activities
   values_frameworks: Engagement with Values Frameworks
   user_contributions: User Contribution Pathways
+  access_conditions: Access Conditions
   board_structures: Board Structure
   board_level: Board Level
   community_governances: Community Governance
   primary_funding_sources: Primary Funding Source
+  revenue_sources: Revenue Sources
   financial_reporting_level: Financial Reporting Level

@@ -1,37 +1,109 @@
-FROM ruby:3.2.3-bullseye
-
-RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends ca-certificates curl gnupg gnupg2 libsndfile1-dev build-essential libvips libvips-dev librsvg2-bin mediainfo vim
-
-RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main" | tee /etc/apt/sources.list.d/pgdg.list
-
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash
-
-RUN apt-get update -qq && apt-get install -y -qq --no-install-recommends nodejs postgresql-client-15
-
-RUN corepack enable
-
-ENV BUNDLE_PATH=/bundle \
-    BUNDLE_BIN=/bundle/bin \
-    GEM_HOME=/bundle
-ENV PATH="${BUNDLE_BIN}:${PATH}"
-
-RUN gem update --system '4.0.5'
-RUN gem install bundler -v '~> 4.0'
-
-RUN bundle config set bin /bundle/bin --global
-RUN bundle config set default_cli_command install --global
+FROM debian:trixie-slim AS base
 
 WORKDIR /srv/app
-COPY Gemfile /srv/app/Gemfile
-COPY Gemfile.lock /srv/app/Gemfile.lock
-COPY . /srv/app
 
-COPY docker/entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
+ENV BUNDLE_SILENCE_ROOT_WARNING=1 \
+    DEBIAN_FRONTEND=noninteractive \
+    DEBCONF_NONINTERACTIVE_SEEN=true
 
-EXPOSE 6333
+RUN <<EOF
+    set -ex
+    apt-get update -qq
+    apt-get install -y -qq --no-install-recommends \
+        extrepo \
+        ca-certificates \
+        curl \
+        gnupg2 \
+        libjemalloc2 \
+        librsvg2-bin \
+        libvips \
+        libvips-dev \
+        postgresql-common
+    extrepo enable mise
+    apt-get remove -y --auto-remove extrepo
+    apt-get update
+    /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+    apt-get install -y mise build-essential postgresql-client-15
+    rm -rf /var/lib/apt/lists/*
+EOF
+
+ENV GEM_HOME=/usr/local/bundle \
+    GEMRC=/usr/local/etc/gemrc \
+    MISE_DATA_DIR=/usr/local/share/mise \
+    PATH="/usr/local/share/mise/shims:/usr/local/bundle/bin:$PATH" \
+    RAILS_LOG_TO_STDOUT=true \
+    RAILS_SERVE_STATIC_FILES=true \
+    PORT=8080 \
+    LD_PRELOAD=libjemalloc.so.2
+
+COPY mise.toml /srv/app/
+COPY --chmod=+r docker/common/gemrc /usr/local/etc/gemrc
+
+RUN mise install
+
+EXPOSE 8080
 
 CMD ["bin/puma", "-C", "config/puma.rb"]
+
+FROM base AS devel
+
+COPY --chmod=+x docker/dev/bins/ \
+    docker/dev/entrypoint \
+    /usr/local/bin/
+
+VOLUME ["/srv/app", "/srv/app/node_modules", "/usr/local/bundle"]
+
+ENTRYPOINT ["/usr/local/bin/entrypoint"]
+
+# We have to re-declare CMD after setting ENTRYPOINT
+CMD ["bin/puma", "-C", "config/puma.rb"]
+
+FROM base AS prod-base
+
+ENV BUNDLE_FROZEN=1 \
+    BUNDLE_WITHOUT=development:test \
+    RAILS_ENV=production \
+    NODE_ENV=production \
+    RACK_ENV=production \
+    PIDFILE=/tmp/puma.pid
+
+RUN <<EOF
+    groupadd -r -g 10001 app
+    useradd -r -g app -u 10001 app
+    mkdir /home/app
+    chown -R app:app /home/app /srv/app
+EOF
+
+FROM prod-base AS gems
+
+COPY Gemfile Gemfile.lock /srv/app/
+
+RUN --mount=type=cache,target=/cache/bundle,sharing=locked <<EOF
+    set -ex
+    GEM_HOME=/cache/bundle bundle install
+    GEM_HOME=/cache/bundle bundle clean --force
+    mkdir -p /usr/local/bundle
+    cp -a /cache/bundle/. /usr/local/bundle/
+    rm -rf /usr/local/bundle/cache
+EOF
+
+FROM prod-base AS yarn
+
+COPY .yarnrc.yml package.json yarn.lock ./
+
+RUN --mount=type=cache,target=/root/.yarn/berry/cache \
+    YARN_ENABLE_GLOBAL_CACHE=false \
+    yarn install --immutable
+
+FROM prod-base AS prod
+
+COPY --from=gems /usr/local/bundle /usr/local/bundle
+COPY --chown=app:app --from=yarn /srv/app/node_modules /srv/app/node_modules
+COPY --chown=app:app . /srv/app
+COPY --chown=app:app --chmod=+x docker/prd/tasks/ /srv/app/mise/tasks/
+
+RUN mise build
+
+USER 10001:10001
+
+RUN mise trust -a

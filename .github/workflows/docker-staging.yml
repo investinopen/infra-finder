@@ -40,7 +40,8 @@ jobs:
           cache-to: type=gha,mode=max
           context: .
           push: true
-          file: docker/production/Dockerfile
+          file: Dockerfile
+          target: prod
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args:

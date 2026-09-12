@@ -10,6 +10,7 @@ require "dry/schema"
 require "dry/types"
 require "dry/validation"
 require "sorted_set"
+require "mail"
 require "vips"
 
 Anyway::Settings.future.use :unwrap_known_environments

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE hide=true
+
+# Prune a potentially still-existing server PID file, which can prevent the server from starting up.
+rm -fv "${MISE_PROJECT_ROOT}/tmp/pids/server.pid"

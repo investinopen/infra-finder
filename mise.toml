@@ -1,0 +1,25 @@
+[settings]
+lockfile = false
+
+[vars]
+gems_version = "4.0.20"
+yarn_version = "4.18.0"
+
+[tools]
+jq = "latest"
+
+[tools.ruby]
+version = "3.3.12"
+postinstall = '''
+gem update --system '{{vars.gems_version}}'
+'''
+
+[tools.node]
+corepack = false
+version = "lts"
+
+[tools.yarn]
+version = "{{vars.yarn_version}}"
+
+[hooks.postinstall]
+task = "sync-packagemanager"

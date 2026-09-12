@@ -18,6 +18,7 @@ export default class extends Controller {
           ? this.maxItemsValue
           : null,
       placeholder: this.hasPlaceholderValue ? this.placeholderValue : undefined,
+      maxOptions: null,
       hideSelected: true,
       closeAfterSelect: true,
       hidePlaceholder: false,

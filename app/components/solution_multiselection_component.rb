@@ -33,12 +33,14 @@ class SolutionMultiselectionComponent < ApplicationComponent
   # @param [String, nil] layout
   # @param [Number, nil] column_count
   # @param [Boolean, nil] hide_other
-  def initialize(solution:, name:, layout: "default", column_count: 3, hide_other: false)
+  # @param [Boolean, nil] small_badges
+  def initialize(solution:, name:, layout: "default", column_count: 3, hide_other: false, small_badges: false)
     @solution = solution
     @name = name
     @layout = layout
     @column_count = column_count
     @hide_other = hide_other
+    @small_badges = small_badges
 
     solution.vocab_selected_and_other_for(name) => { selected:, has_other:, other_value:, mode:, conn: }
 
@@ -49,6 +51,16 @@ class SolutionMultiselectionComponent < ApplicationComponent
   # @return [Boolean]
   def hide_other?
     @hide_other
+  end
+
+  # @return [Boolean]
+  def small_badges?
+    @small_badges
+  end
+
+  # @return [String]
+  def badge_class
+    small_badges? ? "m-badge m-badge--sm bg-white" : "m-badge m-badge--white"
   end
 
   def only_other?
