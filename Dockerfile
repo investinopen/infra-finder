@@ -71,7 +71,7 @@ RUN <<EOF
     groupadd -r -g 10001 app
     useradd -r -g app -u 10001 app
     mkdir /home/app
-    chown -R app:app /home/app
+    chown -R app:app /home/app /srv/app
 EOF
 
 FROM prod-base AS gems
@@ -98,9 +98,9 @@ RUN --mount=type=cache,target=/root/.yarn/berry/cache \
 FROM prod-base AS prod
 
 COPY --from=gems /usr/local/bundle /usr/local/bundle
-COPY --from=yarn /srv/app/node_modules /srv/app/node_modules
-COPY . /srv/app
-COPY --chmod=+x docker/prd/tasks/ /srv/app/mise/tasks/
+COPY --chown=app:app --from=yarn /srv/app/node_modules /srv/app/node_modules
+COPY --chown=app:app . /srv/app
+COPY --chown=app:app --chmod=+x docker/prd/tasks/ /srv/app/mise/tasks/
 
 RUN mise build
 
