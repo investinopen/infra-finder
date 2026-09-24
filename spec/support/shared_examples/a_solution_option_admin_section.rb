@@ -51,6 +51,61 @@ RSpec.shared_examples_for "a solution option admin section" do |klass|
     end
   end
 
+  %w[visible hidden].each do |visibility|
+    describe "POST /admin/#{plural}/batch_action (mark_#{visibility})" do
+      let(:visibility) { visibility }
+      let(:initial_visibility) { visibility == "visible" ? "hidden" : "visible" }
+      let!(:selected_record_1) { FactoryBot.create factory_kind, visibility: initial_visibility }
+      let!(:selected_record_2) { FactoryBot.create factory_kind, visibility: initial_visibility }
+      let!(:selected_records) { [selected_record_1, selected_record_2] }
+      let!(:unselected_record) { FactoryBot.create factory_kind, visibility: initial_visibility }
+
+      def make_the_request!
+        post url_for([:batch_action, :admin, model_klass]), params: {
+          batch_action: "mark_#{visibility}",
+          collection_selection: selected_records.map(&:id),
+        }
+      end
+
+      it "updates only selected records for super admins" do
+        sign_in super_admin
+
+        expect do
+          make_the_request!
+        end.to execute_safely
+          .and change { selected_record_1.reload.visibility }.from(initial_visibility).to(visibility)
+          .and change { selected_record_2.reload.visibility }.from(initial_visibility).to(visibility)
+          .and keep_the_same { unselected_record.reload.visibility }
+
+        expect(response).to redirect_to url_for([:admin, model_klass])
+      end
+
+      context "for non-super-admins" do
+        where(:case_name, :role) do
+          [
+            ["regular admins", :admin],
+            ["assigned editors", :editor],
+            ["unassigned users", :regular_user],
+          ]
+        end
+
+        with_them do
+          it "does not allow the request" do
+            sign_in public_send(role)
+
+            expect do
+              make_the_request!
+            end.to execute_safely
+              .and keep_the_same { selected_record_1.reload.visibility }
+              .and keep_the_same { selected_record_2.reload.visibility }
+
+            expect(response).to redirect_to(unauthorized_path)
+          end
+        end
+      end
+    end
+  end
+
   describe "GET /admin/#{plural}/:id" do
     def make_the_request!
       expect do

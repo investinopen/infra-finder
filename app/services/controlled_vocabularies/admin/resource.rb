@@ -17,6 +17,8 @@ module ControlledVocabularies
 
           base.define_form!
 
+          base.add_visibility_batch_actions!
+
           base.add_replace_with_actions!
 
           base.config.sort_order = "name_asc"
@@ -35,6 +37,10 @@ module ControlledVocabularies
         scope :used
 
         scope :unused
+
+        scope :hidden
+
+        scope :visible
       end
 
       def define_form!
@@ -53,6 +59,10 @@ module ControlledVocabularies
             f.input :bespoke_filter_position
 
             f.input :description, as: :text
+
+            f.input :visibility, as: :select,
+              collection: ApplicationRecord.pg_enum_select_options(:visibility),
+              required: true, include_blank: false
           end
 
           f.actions
@@ -92,6 +102,10 @@ module ControlledVocabularies
 
             row :bespoke_filter_position
 
+            row :visibility do |record|
+              status_tag record.visibility
+            end
+
             row :description
 
             row :solutions_count
@@ -117,6 +131,21 @@ module ControlledVocabularies
       def add_controller_features!
         controller do
           include ControlledVocabularies::Admin::ControllerMethods
+        end
+      end
+
+      # @return [void]
+      def add_visibility_batch_actions!
+        %w[visible hidden].each do |visibility|
+          batch_action :"mark_#{visibility}", if: proc { authorized?(:update, resource_class) } do |ids|
+            authorize resource_class
+
+            batch_action_collection.where(id: ids).update_all(visibility:)
+
+            redirect_to collection_path, notice: "Selected records marked #{visibility}."
+          rescue Pundit::NotAuthorizedError => e
+            access_denied e
+          end
         end
       end
 
