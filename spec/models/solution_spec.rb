@@ -10,13 +10,21 @@ RSpec.describe Solution, type: :model do
       expect do
         solution.assign_editor!(user)
       end.to change(ProviderEditorAssignment, :count).by(1)
+        .and have_enqueued_job(Solutions::CheckClaimStatesJob).once
         .and change { user.reload.kind }.from("unassigned").to("editor")
+
+      expect do
+        perform_enqueued_jobs(only: Solutions::CheckClaimStatesJob)
+      end.to change { solution.reload.claim_state }.from("unclaimed").to("claimed")
+        .and change { solution.reload.claimable? }.from(true).to(false)
+        .and change { solution.reload.claim_form_url }.from(be_present).to(nil)
     end
 
     context "when removing an editor" do
       let_it_be(:assignment, refind: true) { solution.assign_editor!(user) }
 
       before do
+        solution.save!
         user.reload
       end
 
@@ -24,7 +32,14 @@ RSpec.describe Solution, type: :model do
         expect do
           assignment.destroy!
         end.to change(ProviderEditorAssignment, :count).by(-1)
+          .and have_enqueued_job(Solutions::CheckClaimStatesJob).once
           .and change { user.reload.kind }.from("editor").to("unassigned")
+
+        expect do
+          perform_enqueued_jobs(only: Solutions::CheckClaimStatesJob)
+        end.to change { solution.reload.claim_state }.from("claimed").to("unclaimed")
+          .and change { solution.reload.claimable? }.from(false).to(true)
+          .and change { solution.reload.claim_form_url }.from(nil).to(be_present)
       end
     end
   end

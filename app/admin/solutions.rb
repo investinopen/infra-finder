@@ -82,6 +82,10 @@ ActiveAdmin.register Solution do
 
   scope :unpublished
 
+  scope :claimed
+
+  scope :unclaimed
+
   config.per_page = 100
 
   config.sort_order = "name_asc"

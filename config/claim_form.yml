@@ -1,0 +1,16 @@
+default: &default
+ enabled: false
+ url: ""
+
+development:
+  <<: *default
+  enabled: true
+  url: "https://test.example.com"
+
+test:
+  <<: *default
+  enabled: true
+  url: "https://test.example.com"
+
+production:
+  <<: *default

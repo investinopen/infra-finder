@@ -21,6 +21,12 @@ Rails.application.configure do
   config.good_job.shutdown_timeout = 25 # seconds
   config.good_job.enable_cron = true
   config.good_job.cron = {
+    check_claim_states: {
+      cron: "0,15,30,45 * * * *",
+      class: "Solutions::CheckClaimStatesJob",
+      description: "Check for changes in solution claiming",
+      set: { priority: 400 },
+    },
     comparison_prune: {
       cron: "0 8 * * *",
       class: "Comparisons::PruneJob",
