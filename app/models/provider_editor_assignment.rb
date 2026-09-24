@@ -17,12 +17,19 @@ class ProviderEditorAssignment < ApplicationRecord
 
   after_save :enforce_role_assignment!
 
+  after_commit :asynchronously_check_claim_states!
+
   delegate :name, to: :provider, prefix: true, allow_nil: true
   delegate :name, to: :user, prefix: true, allow_nil: true
 
   validates :user_id, uniqueness: { scope: :provider_id }
 
   private
+
+  # @return [void]
+  def asynchronously_check_claim_states!
+    Solutions::CheckClaimStatesJob.perform_later
+  end
 
   # @return [void]
   def enforce_role_assignment!

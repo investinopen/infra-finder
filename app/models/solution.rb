@@ -9,6 +9,8 @@ class Solution < ApplicationRecord
 
   resourcify
 
+  pg_enum! :claim_state, as: :solution_claim_state, allow_blank: false, default: "unclaimed"
+
   pg_enum! :publication, as: :publication, allow_blank: false, default: :unpublished
 
   attribute :flags, Solutions::Flags.to_type
@@ -24,12 +26,15 @@ class Solution < ApplicationRecord
   has_one :solution_intake, inverse_of: :solution, dependent: :nullify
   has_many_readonly :solution_revisions, -> { in_recent_order }, inverse_of: :solution
 
+  has_one_readonly :derived_claim, class_name: "SolutionDerivedClaim", inverse_of: :solution
+
   expose_ransackable_associations! :provider, :solution_drafts
   expose_ransackable_attributes! :provider_id, :publication
   expose_ransackable_scopes! :with_pending_drafts, :with_reviewable_drafts, :published, :unpublished
 
   delegate :name, to: :provider, prefix: true
   delegate :assign_editor!, to: :provider
+  delegate :claim_state, to: :derived_claim, allow_nil: true, prefix: :derived
 
   scope :sans_initial_revision, -> { where.not(id: SolutionRevision.initial_revision.select(:solution_id)) }
   scope :with_initial_revision, -> { where(id: SolutionRevision.initial_revision.select(:solution_id)) }
@@ -55,9 +60,19 @@ class Solution < ApplicationRecord
   end
 
   before_validation :derive_flags!
+  before_validation :check_claiming!
   before_validation :maybe_touch_published_at!, if: :publication_changed?
 
   after_save :purge_comparisons!, if: :unpublished?
+
+  def claimable? = ClaimFormConfig.available? && unclaimed?
+
+  # @return [String, nil]
+  def claim_form_url
+    return unless claimable?
+
+    ClaimFormConfig.url_for(self)
+  end
 
   # @see Solutions::CreateDraft
   monadic_matcher! def create_draft(...)
@@ -104,6 +119,11 @@ class Solution < ApplicationRecord
   # @!endgroup
 
   private
+
+  # @return [void]
+  def check_claiming!
+    self.claim_state = derived_claim_state || "unclaimed"
+  end
 
   # @return [void]
   def maybe_touch_published_at!

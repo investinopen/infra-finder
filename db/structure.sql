@@ -295,6 +295,16 @@ CREATE TYPE public.publication AS ENUM (
 
 
 --
+-- Name: solution_claim_state; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.solution_claim_state AS ENUM (
+    'unclaimed',
+    'claimed'
+);
+
+
+--
 -- Name: solution_data_version; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -1582,6 +1592,170 @@ CREATE TABLE public.solution_content_licenses (
 
 
 --
+-- Name: solution_editor_assignments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solution_editor_assignments (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    solution_id uuid NOT NULL,
+    user_id uuid NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: solutions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.solutions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    provider_id uuid NOT NULL,
+    phase_1_board_structure_id uuid,
+    phase_1_business_form_id uuid,
+    phase_1_community_governance_id uuid,
+    phase_1_hosting_strategy_id uuid,
+    phase_1_maintenance_status_id uuid,
+    phase_1_primary_funding_source_id uuid,
+    phase_1_readiness_level_id uuid,
+    identifier public.citext DEFAULT (gen_random_uuid())::public.citext NOT NULL,
+    contact_method public.contact_method DEFAULT 'unavailable'::public.contact_method NOT NULL,
+    slug public.citext NOT NULL,
+    name public.citext NOT NULL,
+    founded_on date,
+    phase_1_location_of_incorporation text,
+    member_count bigint,
+    current_staffing numeric(19,2),
+    website text,
+    contact text,
+    research_organization_registry_url text,
+    mission text,
+    key_achievements text,
+    organizational_history text,
+    funding_needs text,
+    governance_summary text,
+    phase_1_content_licensing text,
+    phase_1_special_certifications_or_statuses text,
+    phase_1_standards_employed text,
+    phase_1_registered_service_provider_description text,
+    phase_1_technology_dependencies text,
+    phase_1_integrations_and_compatibility text,
+    phase_1_annual_expenses bigint,
+    phase_1_annual_revenue bigint,
+    phase_1_investment_income bigint,
+    phase_1_other_revenue bigint,
+    phase_1_program_revenue bigint,
+    phase_1_total_assets bigint,
+    phase_1_total_contributions bigint,
+    phase_1_total_liabilities bigint,
+    phase_1_financial_numbers_applicability public.financial_numbers_applicability DEFAULT 'unknown'::public.financial_numbers_applicability NOT NULL,
+    financial_numbers_publishability public.financial_numbers_publishability DEFAULT 'unknown'::public.financial_numbers_publishability NOT NULL,
+    financial_information_scope public.financial_information_scope DEFAULT 'unknown'::public.financial_information_scope NOT NULL,
+    financial_numbers_documented_url text,
+    phase_1_comparable_products jsonb DEFAULT '[]'::jsonb NOT NULL,
+    current_affiliations jsonb DEFAULT '[]'::jsonb NOT NULL,
+    founding_institutions jsonb DEFAULT '[]'::jsonb NOT NULL,
+    service_providers jsonb DEFAULT '[]'::jsonb NOT NULL,
+    bylaws_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    bylaws jsonb DEFAULT '{}'::jsonb NOT NULL,
+    code_of_conduct_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    code_of_conduct jsonb DEFAULT '{}'::jsonb NOT NULL,
+    code_repository_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    code_repository jsonb DEFAULT '{}'::jsonb NOT NULL,
+    community_engagement_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    community_engagement jsonb DEFAULT '{}'::jsonb NOT NULL,
+    equity_and_inclusion_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    equity_and_inclusion jsonb DEFAULT '{}'::jsonb NOT NULL,
+    governance_records_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    governance_records jsonb DEFAULT '{}'::jsonb NOT NULL,
+    governance_structure_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    governance_structure jsonb DEFAULT '{}'::jsonb NOT NULL,
+    open_api_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    open_api jsonb DEFAULT '{}'::jsonb NOT NULL,
+    open_data_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    open_data jsonb DEFAULT '{}'::jsonb NOT NULL,
+    product_roadmap_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    product_roadmap jsonb DEFAULT '{}'::jsonb NOT NULL,
+    pricing_implementation public.pricing_implementation_status DEFAULT 'unknown'::public.pricing_implementation_status NOT NULL,
+    pricing jsonb DEFAULT '{}'::jsonb NOT NULL,
+    privacy_policy_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    privacy_policy jsonb DEFAULT '{}'::jsonb NOT NULL,
+    contribution_pathways_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    contribution_pathways jsonb DEFAULT '{}'::jsonb NOT NULL,
+    user_documentation_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    user_documentation jsonb DEFAULT '{}'::jsonb NOT NULL,
+    web_accessibility_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    web_accessibility jsonb DEFAULT '{}'::jsonb NOT NULL,
+    logo_data jsonb,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    phase_1_engagement_with_values_frameworks text,
+    service_summary text,
+    code_license_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
+    code_license jsonb DEFAULT '{}'::jsonb NOT NULL,
+    recent_grants jsonb DEFAULT '[]'::jsonb NOT NULL,
+    top_granting_institutions jsonb DEFAULT '[]'::jsonb NOT NULL,
+    normalized_name public.citext GENERATED ALWAYS AS (public.normalize_ransackable(name)) STORED NOT NULL,
+    publication public.publication DEFAULT 'unpublished'::public.publication NOT NULL,
+    published_at timestamp without time zone,
+    phase_1_maintenance_status public.maintenance_status DEFAULT 'unknown'::public.maintenance_status NOT NULL,
+    country_code public.citext,
+    currency public.citext DEFAULT 'USD'::public.citext NOT NULL,
+    annual_expenses_cents bigint DEFAULT 0 NOT NULL,
+    annual_revenue_cents bigint DEFAULT 0 NOT NULL,
+    investment_income_cents bigint DEFAULT 0 NOT NULL,
+    other_revenue_cents bigint DEFAULT 0 NOT NULL,
+    program_revenue_cents bigint DEFAULT 0 NOT NULL,
+    total_assets_cents bigint DEFAULT 0 NOT NULL,
+    total_contributions_cents bigint DEFAULT 0 NOT NULL,
+    total_liabilities_cents bigint DEFAULT 0 NOT NULL,
+    board_members_url text,
+    financial_date_range text,
+    financial_date_range_started_on date,
+    financial_date_range_ended_on date,
+    membership_program_url text,
+    scoss boolean DEFAULT false NOT NULL,
+    shareholders boolean DEFAULT false NOT NULL,
+    free_inputs jsonb DEFAULT '{}'::jsonb NOT NULL,
+    first_name text,
+    last_name text,
+    email public.citext,
+    flags jsonb DEFAULT '{}'::jsonb NOT NULL,
+    fiscal_host text,
+    registries jsonb DEFAULT '[]'::jsonb NOT NULL,
+    claim_state public.solution_claim_state DEFAULT 'unclaimed'::public.solution_claim_state NOT NULL
+);
+
+
+--
+-- Name: solution_derived_claims; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW public.solution_derived_claims AS
+ WITH claimed_providers AS (
+         SELECT DISTINCT provider_editor_assignments.provider_id
+           FROM public.provider_editor_assignments
+        ), claimed_solutions AS (
+         SELECT DISTINCT solution_editor_assignments.solution_id
+           FROM public.solution_editor_assignments
+        )
+ SELECT s.id AS solution_id,
+    s.provider_id,
+    details.claimed_through_provider,
+    details.claimed_directly,
+    (
+        CASE
+            WHEN (details.claimed_through_provider OR details.claimed_directly) THEN 'claimed'::text
+            ELSE 'unclaimed'::text
+        END)::public.solution_claim_state AS claim_state
+   FROM (((public.solutions s
+     LEFT JOIN claimed_providers cp USING (provider_id))
+     LEFT JOIN claimed_solutions cs ON ((cs.solution_id = s.id)))
+     LEFT JOIN LATERAL ( SELECT (cp.provider_id IS NOT NULL) AS claimed_through_provider,
+            (cs.solution_id IS NOT NULL) AS claimed_directly) details ON (true));
+
+
+--
 -- Name: solution_domain_relevances; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2150,19 +2324,6 @@ CREATE TABLE public.solution_drafts (
     email public.citext,
     fiscal_host text,
     registries jsonb DEFAULT '[]'::jsonb NOT NULL
-);
-
-
---
--- Name: solution_editor_assignments; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.solution_editor_assignments (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    solution_id uuid NOT NULL,
-    user_id uuid NOT NULL,
-    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -3068,128 +3229,6 @@ CREATE TABLE public.solution_values_frameworks (
     assoc public.citext NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
-
-
---
--- Name: solutions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.solutions (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    provider_id uuid NOT NULL,
-    phase_1_board_structure_id uuid,
-    phase_1_business_form_id uuid,
-    phase_1_community_governance_id uuid,
-    phase_1_hosting_strategy_id uuid,
-    phase_1_maintenance_status_id uuid,
-    phase_1_primary_funding_source_id uuid,
-    phase_1_readiness_level_id uuid,
-    identifier public.citext DEFAULT (gen_random_uuid())::public.citext NOT NULL,
-    contact_method public.contact_method DEFAULT 'unavailable'::public.contact_method NOT NULL,
-    slug public.citext NOT NULL,
-    name public.citext NOT NULL,
-    founded_on date,
-    phase_1_location_of_incorporation text,
-    member_count bigint,
-    current_staffing numeric(19,2),
-    website text,
-    contact text,
-    research_organization_registry_url text,
-    mission text,
-    key_achievements text,
-    organizational_history text,
-    funding_needs text,
-    governance_summary text,
-    phase_1_content_licensing text,
-    phase_1_special_certifications_or_statuses text,
-    phase_1_standards_employed text,
-    phase_1_registered_service_provider_description text,
-    phase_1_technology_dependencies text,
-    phase_1_integrations_and_compatibility text,
-    phase_1_annual_expenses bigint,
-    phase_1_annual_revenue bigint,
-    phase_1_investment_income bigint,
-    phase_1_other_revenue bigint,
-    phase_1_program_revenue bigint,
-    phase_1_total_assets bigint,
-    phase_1_total_contributions bigint,
-    phase_1_total_liabilities bigint,
-    phase_1_financial_numbers_applicability public.financial_numbers_applicability DEFAULT 'unknown'::public.financial_numbers_applicability NOT NULL,
-    financial_numbers_publishability public.financial_numbers_publishability DEFAULT 'unknown'::public.financial_numbers_publishability NOT NULL,
-    financial_information_scope public.financial_information_scope DEFAULT 'unknown'::public.financial_information_scope NOT NULL,
-    financial_numbers_documented_url text,
-    phase_1_comparable_products jsonb DEFAULT '[]'::jsonb NOT NULL,
-    current_affiliations jsonb DEFAULT '[]'::jsonb NOT NULL,
-    founding_institutions jsonb DEFAULT '[]'::jsonb NOT NULL,
-    service_providers jsonb DEFAULT '[]'::jsonb NOT NULL,
-    bylaws_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    bylaws jsonb DEFAULT '{}'::jsonb NOT NULL,
-    code_of_conduct_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    code_of_conduct jsonb DEFAULT '{}'::jsonb NOT NULL,
-    code_repository_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    code_repository jsonb DEFAULT '{}'::jsonb NOT NULL,
-    community_engagement_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    community_engagement jsonb DEFAULT '{}'::jsonb NOT NULL,
-    equity_and_inclusion_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    equity_and_inclusion jsonb DEFAULT '{}'::jsonb NOT NULL,
-    governance_records_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    governance_records jsonb DEFAULT '{}'::jsonb NOT NULL,
-    governance_structure_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    governance_structure jsonb DEFAULT '{}'::jsonb NOT NULL,
-    open_api_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    open_api jsonb DEFAULT '{}'::jsonb NOT NULL,
-    open_data_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    open_data jsonb DEFAULT '{}'::jsonb NOT NULL,
-    product_roadmap_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    product_roadmap jsonb DEFAULT '{}'::jsonb NOT NULL,
-    pricing_implementation public.pricing_implementation_status DEFAULT 'unknown'::public.pricing_implementation_status NOT NULL,
-    pricing jsonb DEFAULT '{}'::jsonb NOT NULL,
-    privacy_policy_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    privacy_policy jsonb DEFAULT '{}'::jsonb NOT NULL,
-    contribution_pathways_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    contribution_pathways jsonb DEFAULT '{}'::jsonb NOT NULL,
-    user_documentation_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    user_documentation jsonb DEFAULT '{}'::jsonb NOT NULL,
-    web_accessibility_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    web_accessibility jsonb DEFAULT '{}'::jsonb NOT NULL,
-    logo_data jsonb,
-    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    phase_1_engagement_with_values_frameworks text,
-    service_summary text,
-    code_license_implementation public.implementation_status DEFAULT 'unknown'::public.implementation_status NOT NULL,
-    code_license jsonb DEFAULT '{}'::jsonb NOT NULL,
-    recent_grants jsonb DEFAULT '[]'::jsonb NOT NULL,
-    top_granting_institutions jsonb DEFAULT '[]'::jsonb NOT NULL,
-    normalized_name public.citext GENERATED ALWAYS AS (public.normalize_ransackable(name)) STORED NOT NULL,
-    publication public.publication DEFAULT 'unpublished'::public.publication NOT NULL,
-    published_at timestamp without time zone,
-    phase_1_maintenance_status public.maintenance_status DEFAULT 'unknown'::public.maintenance_status NOT NULL,
-    country_code public.citext,
-    currency public.citext DEFAULT 'USD'::public.citext NOT NULL,
-    annual_expenses_cents bigint DEFAULT 0 NOT NULL,
-    annual_revenue_cents bigint DEFAULT 0 NOT NULL,
-    investment_income_cents bigint DEFAULT 0 NOT NULL,
-    other_revenue_cents bigint DEFAULT 0 NOT NULL,
-    program_revenue_cents bigint DEFAULT 0 NOT NULL,
-    total_assets_cents bigint DEFAULT 0 NOT NULL,
-    total_contributions_cents bigint DEFAULT 0 NOT NULL,
-    total_liabilities_cents bigint DEFAULT 0 NOT NULL,
-    board_members_url text,
-    financial_date_range text,
-    financial_date_range_started_on date,
-    financial_date_range_ended_on date,
-    membership_program_url text,
-    scoss boolean DEFAULT false NOT NULL,
-    shareholders boolean DEFAULT false NOT NULL,
-    free_inputs jsonb DEFAULT '{}'::jsonb NOT NULL,
-    first_name text,
-    last_name text,
-    email public.citext,
-    flags jsonb DEFAULT '{}'::jsonb NOT NULL,
-    fiscal_host text,
-    registries jsonb DEFAULT '[]'::jsonb NOT NULL
 );
 
 
@@ -7271,6 +7310,13 @@ CREATE INDEX index_solution_values_frameworks_on_values_framework_id ON public.s
 
 
 --
+-- Name: index_solutions_on_claim_state; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solutions_on_claim_state ON public.solutions USING btree (claim_state);
+
+
+--
 -- Name: index_solutions_on_flags; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -10696,6 +10742,7 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260924181034'),
 ('20260810193515'),
 ('20260810185151'),
 ('20260810173230'),

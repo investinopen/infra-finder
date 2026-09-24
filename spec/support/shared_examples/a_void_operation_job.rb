@@ -48,9 +48,21 @@ RSpec.shared_examples_for "a void operation job" do |operation_path|
     let(:operation_result) { Dry::Monads.Failure("any failure") }
 
     it "fails (re-enqueuing the job)" do
-      expect_running_the_job.to raise_error Dry::Monads::UnwrapError
+      discarded = []
 
-      expect(operation).to have_received(:call).with(no_args).once
+      subscriber = ActiveSupport::Notifications.subscribe("discard.active_job") do |event|
+        discarded << event.payload[:error]
+      end
+
+      begin
+        expect_running_the_job.to execute_safely
+
+        expect(operation).to have_received(:call).with(no_args).once
+      ensure
+        ActiveSupport::Notifications.unsubscribe(subscriber)
+      end
+
+      expect(discarded).to contain_exactly(a_kind_of(Dry::Monads::UnwrapError))
     end
   end
 end
