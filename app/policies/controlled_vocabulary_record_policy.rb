@@ -6,6 +6,10 @@
 class ControlledVocabularyRecordPolicy < ApplicationPolicy
   requires_admin_for_show!
 
+  def mark_hidden? = update?
+
+  def mark_visible? = update?
+
   def replace?
     has_any_admin_access?
   end
