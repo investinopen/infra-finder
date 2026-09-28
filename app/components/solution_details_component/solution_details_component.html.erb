@@ -1,6 +1,7 @@
 <%= turbo_frame_tag(solution, :details, target: "_top") do %>
   <section data-controller="nav-scroll" data-nav-scroll-nav-value="<%= SolutionNavComponent::NAV_ID %>" class="solution-details">
     <header class="l-container l-container--narrow">
+      <%= render SolutionClaimAlertComponent.new(solution:) %>
       <div class="l-container__inner solution-hero">
         <% if solution.logo.present? and solution.logo(:medium).present? %>
           <figure class="solution-hero__figure">
