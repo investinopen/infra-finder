@@ -212,16 +212,6 @@ CREATE TYPE public.financial_numbers_publishability AS ENUM (
 
 
 --
--- Name: fooble; Type: TYPE; Schema: public; Owner: -
---
-
-CREATE TYPE public.fooble AS ENUM (
-    'hello my darling',
-    'hello my honey'
-);
-
-
---
 -- Name: implementation_name; Type: TYPE; Schema: public; Owner: -
 --
 

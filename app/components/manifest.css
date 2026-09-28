@@ -41,6 +41,7 @@
 @import "./open_graph_component/open_graph_component.css";
 @import "./share_bar_component/share_bar_component.css";
 @import "./solution_category_badges_component/solution_category_badges_component.css";
+@import "./solution_claim_alert_component/solution_claim_alert_component.css";
 @import "./solution_component/solution_component.css";
 @import "./solution_details_component/solution_details_component.css";
 @import "./solution_details_grant_card_component/solution_details_grant_card_component.css";

@@ -9,5 +9,9 @@ RSpec.describe SolutionDetailsComponent, type: :component do
         render_inline(described_class.new(solution:)).css("h1").to_html
       ).to include solution.name
     end
+
+    it "renders the claim alert" do
+      expect(render_inline(described_class.new(solution:)).css(".claim-alert")).to be_present
+    end
   end
 end
