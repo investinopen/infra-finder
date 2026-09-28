@@ -16,6 +16,10 @@
     justify-content: space-between;
   }
 
+  .claim-alert-wrapper + & {
+    padding-block-start: 2rem;
+  }
+
   &__text {
     @apply space-y-5;
 

@@ -1,0 +1,13 @@
+<div class="claim-alert-wrapper l-container__inner">
+  <aside class="claim-alert" aria-labelledby="<%= heading_id %>">
+    <div class="claim-alert__text">
+      <h2 id="<%= heading_id %>" class="claim-alert__heading"><%= t(".heading") %></h2>
+      <p class="text-xs leading-[1.46]"><%= t(".body") %></p>
+    </div>
+    <a href="<%= solution.claim_form_url %>" target="_blank" rel="noopener" class="m-button m-button--lg bg-white claim-alert__button">
+      <span><%= t(".cta") %></span>
+      <span class="sr-only"><%= t(".opens_in_new_window") %></span>
+      <%= image_tag "icons/24/Link-External.svg", alt: "" %>
+    </a>
+  </aside>
+</div>
