@@ -11,6 +11,13 @@
 !/docker/common
 !/docker/dev
 !/docker/prd
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 /log
 /node_modules
 /tmp
