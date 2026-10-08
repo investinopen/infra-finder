@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# [MISE] description = "Run RuboCop on the project root"
+
+mise rubocop

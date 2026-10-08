@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# [MISE] description = "Lint on everything"
+# [MISE] depends = ["lint:erblint", "lint:rubocop"]

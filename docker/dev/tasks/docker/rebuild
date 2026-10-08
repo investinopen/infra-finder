@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# [MISE] description = "Rebuild local docker images deterministically"
+
+# This script is intended to rebuild the docker images in a deterministic way,
+# so that we can be sure everything is rebuilt from scratch without losing
+# any development data.
+
+set -e
+
+docker compose up -d --force-recreate --no-deps --remove-orphans db redis test-redis
+
+docker compose up --force-recreate --no-deps --build migrations
+
+docker compose up -d --force-recreate --no-deps --build web worker spec assets

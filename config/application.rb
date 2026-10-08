@@ -32,6 +32,8 @@ require_relative "../lib/patches/support_websearch"
 
 require_relative "../lib/support/system"
 
+require_relative "version"
+
 module InfraFinder
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.

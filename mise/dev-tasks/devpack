@@ -1,0 +1,450 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+require "active_support/all"
+require "active_model/callbacks"
+require "dry/cli"
+require "dry/core/class_attributes"
+require "dry/initializer"
+require "dry/types"
+require "fileutils"
+require "io/console"
+require "logger"
+require "open3"
+require "pathname"
+require "pry"
+require "pty"
+require "tmpdir"
+
+module Devpack
+  module Types
+    include Dry.Types
+
+    BucketName = Coercible::String.constrained(filled: true)
+
+    DEFAULT_CONSOLE_COLUMNS = 80
+    DEFAULT_CONSOLE_ROWS = 24
+
+    ConsoleColumns = Coercible::Integer.constrained(gt: 0).default(DEFAULT_CONSOLE_COLUMNS).fallback(DEFAULT_CONSOLE_COLUMNS)
+    ConsoleRows = Coercible::Integer.constrained(gt: 0).default(DEFAULT_CONSOLE_ROWS).fallback(DEFAULT_CONSOLE_ROWS)
+  end
+
+  BUCKETS = [
+    ENV["UPLOAD_BUCKET"]
+  ].compact_blank.freeze
+
+  ROOT = ENV.fetch("MISE_PROJECT_ROOT") do
+    Pathname(__dir__).join("../../..").realpath
+  end.then { Pathname(_1) }
+
+  LOGGER = Logger.new($stdout)
+
+  DEFAULT_BACKUP_FILE = -> do
+    Time.current.strftime("backup-%Y-%m-%d-%s.tar.zst")
+  end
+
+  class Console
+    extend Dry::Initializer
+
+    include Dry::Initializer[undefined: false].define -> do
+      param :rows, Types::ConsoleRows
+      param :columns, Types::ConsoleColumns
+    end
+
+    def env = { "LINES" => rows.to_s, "COLUMNS" => columns.to_s }
+
+    # @return [(Integer, Integer)]
+    def winsize = [rows, columns]
+
+    class << self
+      def current
+        @current ||= build_current
+      end
+
+      def env = current.env
+
+      def winsize = current.winsize
+
+      def refresh!
+        @current = build_current
+
+        return current
+      end
+
+      private
+
+      def build_current
+        rows, columns = read_current
+
+        new(rows, columns)
+      end
+
+      # @return [(Integer, Integer)]
+      def read_current
+        ::IO.console.winsize
+      rescue Errno::ENOTTY, Errno::ENODEV, LoadError
+        [Types::DEFAULT_CONSOLE_ROWS, Types::DEFAULT_CONSOLE_COLUMNS]
+      end
+    end
+  end
+
+  class Context
+    # @return [<Pathname>]
+    attr_reader :buckets
+
+    # The directory containing bucket sync data
+    # @return [Pathname]
+    attr_reader :bucket_root
+
+    # @return [Pathname] The SQL dump
+    attr_reader :dumpfile
+
+    # @return [Logger]
+    attr_reader :logger
+
+    # @return [Pathname] The root of the devpack (a tmp directory)
+    attr_reader :root
+
+    def initialize(root)
+      @root = Pathname(root)
+
+      @logger = Devpack::LOGGER
+
+      @dumpfile = @root.join("dump.sql")
+      @bucket_root = @root.join("buckets")
+      @buckets = BUCKETS.map { |name| bucket(name) }
+    end
+
+    # @return [BackupFile]
+    attr_reader :backup_file
+
+    def backup_file=(base)
+      @backup_file = BackupFile.new(base:)
+    end
+
+    def bucket(name) = bucket_root.join(name)
+
+    # @return [Integer]
+    def total_size
+      root.find.select(&:file?).sum(&:size)
+    end
+
+    # @!group Execution Commands
+
+    def minio_configure!
+      logger.debug "** Configuring MinIO client..."
+
+      simple_spawn!("/usr/local/bin/config-mc")
+    end
+
+    # @return [void]
+    def minio_backup_all!
+      BUCKETS.each do |name|
+        minio_backup!(name)
+      end
+    end
+
+    # @return [void]
+    def minio_backup!(name, **options)
+      logger.debug "** Backing up bucket #{name}..."
+
+      source = "s3/#{name}"
+      target = bucket(name)
+
+      target.mkpath
+
+      minio_mirror!(source, target, **options)
+    end
+
+    # @return [void]
+    def minio_restore_all!
+      BUCKETS.each do |name|
+        minio_restore!(name)
+      end
+    end
+
+    # @return [void]
+    def minio_restore!(name, **options)
+      logger.debug "** Restoring bucket #{name}..."
+
+      source = bucket(name)
+      target = "s3/#{name}"
+
+      if source.exist? && source.directory?
+        minio_mirror!(source, target, **options)
+      else
+        logger.warn "** Bucket #{name} does not exist in backup, skipping restore."
+      end
+    end
+
+    # @return [void]
+    def minio_mirror!(source, target)
+      pty_exec!("mc", "mirror", "--overwrite", "--remove", source.to_s, target.to_s)
+    end
+
+    # @return [void]
+    def pg_dump!
+      simple_spawn!("pg_dump", "-O", "-x", "--clean", "--if-exists", "-w", out: dumpfile.to_s)
+    end
+
+    # @return [void]
+    def pg_restore!
+      simple_spawn!("psql", "-o", "/dev/null", "-q", "-P", "pager=off", "-f", dumpfile)
+    end
+
+    # @return [void]
+    def tarball_create!
+      backup_file_configured!
+
+      logger.debug "** Generating a tarball at #{backup_file.relative_path}..."
+
+      simple_spawn!("tar", "--zstd", "-chf", backup_file, "-C", root, "dump.sql", "buckets")
+    end
+
+    # @return [void]
+    def tarball_extract!
+      backup_file_exists!
+
+      logger.debug "** Extracting #{backup_file.relative_path}..."
+
+      simple_spawn!("tar", "--zstd", "-xf", backup_file, "--directory", root)
+    end
+
+    # @!endgroup Execution Commands
+
+    private
+
+    def await!(cmd, pid)
+      _waited_pid, status = Process.wait2(pid)
+
+      return if status.success?
+
+      raise "Command failed (exit=#{status.exitstatus || "signal #{status.termsig}"}): #{cmd.join(' ')}"
+    end
+
+    # @return [void]
+    def backup_file_configured!
+      raise "Backup file must be specified!" if backup_file.nil?
+    end
+
+    # @return [void]
+    def backup_file_exists!
+      backup_file_configured!
+
+      raise "Backup file #{backup_file.relative_path} does not exist!" unless backup_file.exist?
+    end
+
+    def normalize_args(cmd) = cmd.map(&:to_s)
+
+    def simple_spawn!(*cmd, chdir: root, **options)
+      pid = spawn(*normalize_args(cmd), **options, chdir:)
+
+      await!(cmd, pid)
+    end
+
+    def pty_exec!(*cmd, chdir: root, **options)
+      Console.refresh!
+
+      env = {}.merge(Console.env)
+
+      PTY.spawn(env, *normalize_args(cmd), **options, chdir:) do |reader, _writer, pid|
+        reader.winsize = Console.winsize
+
+        old = trap("WINCH") do
+          Console.refresh!
+
+          $stdout.write "\r\e[J"
+          $stdout.flush
+
+          reader.winsize = Console.winsize
+        rescue StandardError
+          # Ignored
+        end
+
+        loop do
+          chunk = reader.readpartial(4096)
+
+          $stdout.write chunk
+          $stdout.flush
+        end
+
+        await!(cmd, pid)
+      rescue EOFError, Errno::EIO
+        # End of output
+      ensure
+        trap("WINCH", old) if old
+      end
+    end
+  end
+
+  class BackupFile
+    # @return [String]
+    attr_reader :base
+
+    # @return [Pathname]
+    attr_reader :path
+
+    def initialize(base:, root: Devpack::ROOT)
+      @root = Pathname(root)
+      @base = base.to_s
+      @path = @root.join(@base).expand_path
+    end
+
+    def exist? = path.exist?
+
+    def relative_path = path.relative_path_from(@root)
+
+    def to_s = path.to_s
+
+    alias to_str to_s
+  end
+
+  module Types
+    Context = Instance(::Devpack::Context)
+  end
+
+  class Service
+    extend ActiveModel::Callbacks
+    extend Dry::Core::ClassAttributes
+    extend Dry::Initializer
+
+    option :logger, default: proc { Devpack::LOGGER }
+
+    class << self
+      def call(...) = new(...).()
+    end
+  end
+
+  module Processes
+    class Abstract < Service
+      defines :configures_backup_file, :configures_minio, type: Types::Bool
+
+      configures_backup_file true
+      configures_minio true
+
+      define_model_callbacks :execute, :prepare, :run
+
+      # @return [Context]
+      attr_reader :context
+
+      delegate :backup_file, to: :context
+
+      # @return [Pathname, nil] the temporary directory used for backup/restore operations
+      attr_reader :tmpdir
+
+      around_execute :with_tmpdir!
+
+      def call
+        run_callbacks :execute do
+          run_callbacks :prepare do
+            prepare!
+          end
+
+          run_callbacks :run do
+            run!
+          end
+        end
+      end
+
+      def prepare!
+        configure_backup_file! if configures_backup_file?
+        configure_minio! if configures_minio?
+      end
+
+      # @return [void]
+      def run!
+        raise NotImplementedError, "Subclasses must implement the `run!` method."
+      end
+
+      def configures_backup_file? = self.class.configures_backup_file
+
+      def configures_minio? = self.class.configures_minio
+
+      private
+
+      # @return [void]
+      def configure_backup_file!
+        context.backup_file = backup_file_base
+      end
+
+      # @return [void]
+      def configure_minio!
+        context.minio_configure!
+      end
+
+      def with_tmpdir!
+        Dir.mktmpdir do |dir|
+          @tmpdir = Pathname(dir)
+          @context = Context.new(tmpdir)
+
+          yield
+        ensure
+          @tmpdir = nil
+          @context = nil
+        end
+      end
+    end
+
+    class Backup < Abstract
+      option :to, Types::String.optional, optional: true
+
+      option :backup_file_base, Types::String, default: proc { to.presence || DEFAULT_BACKUP_FILE.() }
+
+      def run!
+        logger.info "** Backing up the development system..."
+
+        context.pg_dump!
+
+        context.minio_backup_all!
+
+        context.tarball_create!
+
+        logger.info "** Backup completed successfully."
+      end
+    end
+
+    class Restore < Abstract
+      option :backup_file, Types::String, as: :backup_file_base
+
+      def run!
+        context.tarball_extract!
+
+        context.pg_restore!
+
+        context.minio_restore_all!
+
+        logger.info "** Restore completed successfully."
+      end
+    end
+  end
+
+  module Commands
+    class Abstract < Dry::CLI::Command; end
+
+    class Backup < Abstract
+      desc "Back up the development system."
+
+      option :to, type: :string, desc: "The backup file to create. Defaults to a timestamped filename in the project root."
+
+      def call(...) = Processes::Backup.(...)
+    end
+
+    class Restore < Abstract
+      desc "Restore the development system from a backup."
+
+      argument :backup_file, type: :string, desc: "The backup file to restore from."
+
+      def call(...) = Processes::Restore.(...)
+    end
+  end
+
+  module CLI
+    extend Dry::CLI::Registry
+
+    register "backup", Commands::Backup
+    register "restore", Commands::Restore
+  end
+end
+
+Dry::CLI.new(Devpack::CLI).()

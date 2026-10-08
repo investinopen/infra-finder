@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# [MISE] description = "Run RSpec"
+
+${MISE_PROJECT_ROOT}/bin/rspec "$@"

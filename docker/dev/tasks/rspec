@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# [MISE] description = "Run docker-aware RSpec"
+
+set -euo pipefail
+
+. $MISE_PROJECT_ROOT/docker/dev/lib/helpers.sh
+
+docker_test_exec mise rspec "$@"

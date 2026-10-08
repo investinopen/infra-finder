@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# [MISE] description = "Lint and fix everything that can be auto-corrected"
+# [MISE] depends = ["fix:erblint"]

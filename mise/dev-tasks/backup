@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# [MISE] description = "Back up the development system"
+
+mise devpack backup "$@"

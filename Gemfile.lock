@@ -195,6 +195,7 @@ GEM
     dry-auto_inject (1.2.1)
       dry-core (~> 1.1)
       zeitwerk (~> 2.6)
+    dry-cli (1.4.1)
     dry-configurable (1.4.0)
       dry-core (~> 1.0)
       zeitwerk (~> 2.6)
@@ -697,6 +698,7 @@ GEM
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
+    version_gem (1.1.15)
     view_component (3.11.0)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
@@ -760,6 +762,7 @@ DEPENDENCIES
   database_cleaner-redis (~> 2.0)
   devise (~> 4.9)
   dry-auto_inject (~> 1.2)
+  dry-cli
   dry-container (~> 0.11)
   dry-core (~> 1.2)
   dry-effects (~> 0.5)
@@ -837,6 +840,7 @@ DEPENDENCIES
   turbo-rails
   tzinfo (~> 2.0)
   validate_url (~> 1.0)
+  version_gem
   view_component (~> 3.11)
   web-console
   webmock (~> 3.26)
