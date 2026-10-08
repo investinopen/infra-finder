@@ -1,12 +1,29 @@
 name: "Build & Push Docker"
 
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
+    inputs:
+      version:
+        description: "Release version to tag the image with (e.g. v1.2.3)"
+        required: false
+        type: string
+      ref:
+        description: "Branch to build (main or release); defaults to the triggering branch"
+        required: false
+        type: string
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version to tag the image with (e.g. v1.2.3). Leave blank to skip version tagging."
+        required: false
+        type: string
+      ref:
+        description: "Branch to build (main or release); defaults to the selected branch"
+        required: false
+        type: string
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: docker-${{ inputs.ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
@@ -15,15 +32,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref || github.ref }}
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: |
+          images: |-
             registry.digitalocean.com/infrafinder/infra_finder
-          tags: |
-            type=raw,value=latest,enable={{is_default_branch}},priority=1000
-            type=ref,event=branch
+          tags: |-
+            type=raw,value=next,enable=${{ (inputs.ref || github.ref_name) == 'main' }}
+            type=raw,value=latest,enable=${{ (inputs.ref || github.ref_name) == 'release' }}
+            type=raw,value=${{ inputs.version }},enable=${{ inputs.version != '' }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
       - name: Install doctl
@@ -33,7 +53,7 @@ jobs:
       - name: Login to DOCR
         run: |
           doctl registry login --expiry-seconds 600
-      - name: Build and push production
+      - name: Build and push image
         uses: docker/build-push-action@v7
         with:
           cache-from: type=gha
