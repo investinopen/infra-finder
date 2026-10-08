@@ -4,11 +4,12 @@ on:
   push:
     branches:
       - main
-      - next
   pull_request:
+  workflow_dispatch:
 
 env:
   DATABASE_URL: "postgres://postgres:postgres@localhost:5432/rails_test"
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   RAILS_ENV: test
   RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
   REDIS_URL: redis://localhost:6379
@@ -16,7 +17,7 @@ env:
 
 jobs:
   erblint:
-    if: github.event.pull_request.draft == false || github.ref == 'refs/heads/next'
+    if: github.event.pull_request.draft == false
 
     runs-on: ubuntu-latest
     steps:
@@ -33,7 +34,7 @@ jobs:
           bin/erblint --config .erb-lint.yml .
 
   rubocop:
-    if: github.event.pull_request.draft == false || github.ref == 'refs/heads/next'
+    if: github.event.pull_request.draft == false
 
     runs-on: ubuntu-latest
     steps:
@@ -50,7 +51,7 @@ jobs:
           bin/rubocop --format github
 
   rspec:
-    if: github.event.pull_request.draft == false || github.ref == 'refs/heads/next'
+    if: github.event.pull_request.draft == false
 
     runs-on: ubuntu-latest
 
