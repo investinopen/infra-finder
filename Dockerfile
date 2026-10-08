@@ -18,7 +18,8 @@ RUN <<EOF
         librsvg2-bin \
         libvips \
         libvips-dev \
-        postgresql-common
+        postgresql-common \
+        zstd
     extrepo enable mise
     apt-get remove -y --auto-remove extrepo
     apt-get update
@@ -47,11 +48,13 @@ CMD ["bin/puma", "-C", "config/puma.rb"]
 
 FROM base AS devel
 
+COPY --from=minio/mc:RELEASE.2022-09-16T09-16-47Z /usr/bin/mc /usr/local/bin/mc
+
 COPY --chmod=+x docker/dev/bins/ \
     docker/dev/entrypoint \
     /usr/local/bin/
 
-VOLUME ["/srv/app", "/srv/app/node_modules", "/usr/local/bundle"]
+VOLUME ["/srv/app", "/srv/app/docker", "/srv/app/node_modules", "/usr/local/bundle"]
 
 ENTRYPOINT ["/usr/local/bin/entrypoint"]
 
@@ -101,6 +104,8 @@ COPY --from=gems /usr/local/bundle /usr/local/bundle
 COPY --chown=app:app --from=yarn /srv/app/node_modules /srv/app/node_modules
 COPY --chown=app:app . /srv/app
 COPY --chown=app:app --chmod=+x docker/prd/tasks/ /srv/app/mise/tasks/
+
+RUN rm -rf /srv/app/docker /srv/app/mise/dev-tasks
 
 RUN mise build
 

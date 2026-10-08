@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# [MISE] description = "Restore the development system"
+
+mise devpack restore "$@"

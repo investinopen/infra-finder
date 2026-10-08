@@ -316,6 +316,10 @@ Rails/EagerEvaluationLogMessage: # new in 2.11
 Rails/EnvLocal: # new in 2.22
   Enabled: true
 
+Rails/Exit:
+  Exclude:
+    - "app/services/cli/**/*.rb"
+
 Rails/ExpandedDateRange: # new in 2.11
   Enabled: true
 
@@ -352,6 +356,10 @@ Rails/MigrationClassName: # new in 2.14
 
 Rails/NegateInclude:
   Enabled: false
+
+Rails/Output:
+  Exclude:
+    - "app/services/cli/**/*.rb"
 
 # The entire point of html_safe is to instruct Rails to render html.
 # We don't need a cop telling us about it.

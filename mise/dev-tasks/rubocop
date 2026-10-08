@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# [MISE] description = "Run RuboCop"
+
+${MISE_PROJECT_ROOT}/bin/rubocop "$@"

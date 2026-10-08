@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -eu
+
+for unused in play gcs local; do
+  mc alias remove "$unused" 2>/dev/null || :
+done
+
+mc alias set s3/ "$S3_ENDPOINT" "$S3_ACCESS_KEY_ID" "$S3_SECRET_ACCESS_KEY"
+
+mc mb --ignore-existing "s3/${UPLOAD_BUCKET}"
+
+mc policy set download "s3/${UPLOAD_BUCKET}"

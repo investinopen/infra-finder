@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# [MISE] description = "Run a yarn command"
+
+# This script gets overridden by the docker-aware version
+# when running on the host.
+
+yarn "$@"

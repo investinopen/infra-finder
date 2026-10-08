@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "infra-finder",
   "private": true,
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
@@ -7,12 +7,12 @@
     "build:css:app": "postcss ./app/assets/stylesheets/application.postcss.css -o ./app/assets/builds/application.css",
     "build:css:admin": "sass ./app/assets/stylesheets/entrypoints:./app/assets/builds --no-source-map --load-path=node_modules",
     "dev:watch": "run-p \"build {@}\" \"build:css {@}\" -- --watch",
-    "lint": "docker-compose exec web bin/erblint .",
-    "fix": "docker-compose exec web bin/erblint -a .",
-    "rubocop": "docker-compose exec web bin/rubocop",
-    "rspec": "docker-compose exec web bin/rspec",
-    "start": "docker-sync start && docker compose start",
-    "stop": "docker-sync stop && docker compose stop"
+    "lint": "mise lint:all",
+    "fix": "mise fix:all",
+    "rubocop": "mise dev:rubocop",
+    "rspec": "mise test:rspec",
+    "start": "docker compose start",
+    "stop": "docker compose stop"
   },
   "version": "1.0.0",
   "license": "UNLICENSED",

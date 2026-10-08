@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# [MISE] description = "Run ERB Lint"
+
+${MISE_PROJECT_ROOT}/bin/erblint "$@"

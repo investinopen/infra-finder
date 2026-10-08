@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -eux
+
+/usr/local/bin/config-mc
+
+/usr/local/bin/run-migrations

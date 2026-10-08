@@ -32,8 +32,6 @@ services:
     depends_on:
       migrations:
         condition: service_completed_successfully
-    volumes:
-      - minio_storage:/srv/minio
     ports:
       - "6856:8080"
     healthcheck:
@@ -50,10 +48,6 @@ services:
     depends_on:
       migrations:
         condition: service_completed_successfully
-    volumes:
-      - bundler_cache:/usr/local/bundle
-      - node_cache:/srv/app/node_modules
-      - ./:/srv/app
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "-s", "-o", "/dev/null", "http://localhost:7001/status/started"]
@@ -113,32 +107,22 @@ services:
         condition: service_healthy
     volumes:
       - ./docker/minio/proxy/nginx.conf:/etc/nginx/nginx.conf:ro
-  minio-client:
-    entrypoint: "/root/.mc/initialize.sh"
-    image: "minio/mc:RELEASE.2022-09-16T09-16-47Z"
-    depends_on:
-      minio:
-        condition: service_healthy
-      minio-proxy:
-        condition: service_started
-    env_file:
-      - docker/compose.env
-      - docker/minio.env
-    restart: "no"
-    volumes:
-      - ./docker/minio/client:/root/.mc
   migrations:
     extends:
       file: docker/services.yml
       service: app
-    command: /usr/local/bin/run-migrations
+    command: /usr/local/bin/minio-and-migrations
     depends_on:
-      minio-client:
-        condition: service_completed_successfully
+      minio:
+        condition: service_healthy
     restart: "no"
 
 volumes:
   bundler_cache:
+    driver: local
+  docker_dummy:
+    driver: local
+  minio_client:
     driver: local
   minio_storage:
     driver: local

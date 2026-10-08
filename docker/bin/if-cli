@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# This script will run whatever is provided to it with the `if-cli` CLI interface
+# from within the docker container. We use `spec` by default in case `web` is having
+# issues.
+
+exec docker compose exec -e RAILS_ENV=development spec bin/if-cli "$@"

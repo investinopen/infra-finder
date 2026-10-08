@@ -4,6 +4,6 @@
 
 SECRET_KEY_BASE_DUMMY=1 bin/rails assets:precompile
 
-bundle exec bootsnap precompile --gemfile app/ lib/ config/
+RUBYOPT=-W0 bundle exec bootsnap precompile --gemfile app/ lib/ config/
 
 chown -R app:app /srv/app

@@ -33,6 +33,7 @@ gem "job-iteration", "~> 1.12"
 
 # dry-rb
 gem "dry-auto_inject", "~> 1.2"
+gem "dry-cli"
 gem "dry-container", "~> 0.11"
 gem "dry-core", "~> 1.2"
 gem "dry-effects", "~> 0.5"
@@ -83,6 +84,7 @@ gem "statesman", "~> 10.2"
 gem "strip_attributes", "~> 2.0"
 gem "tzinfo", "~> 2.0"
 gem "validate_url", "~> 1.0"
+gem "version_gem"
 gem "zaru", "~> 1.0"
 
 # File processing

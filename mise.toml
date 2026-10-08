@@ -1,6 +1,17 @@
 [settings]
 lockfile = false
 
+[task_config]
+includes = [
+  "mise-tasks",
+  ".mise-tasks",
+  ".mise/tasks",
+  ".config/mise/tasks",
+  "mise/tasks",
+  "mise/dev-tasks",
+  "docker/dev/tasks",
+]
+
 [vars]
 gems_version = "4.0.20"
 yarn_version = "4.18.0"

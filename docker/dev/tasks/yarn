@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# [MISE] description = "Run Yarn in docker-aware mode"
+
+set -euo pipefail
+
+. $MISE_PROJECT_ROOT/docker/dev/lib/helpers.sh
+
+docker_dev_exec yarn "$@"

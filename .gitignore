@@ -58,6 +58,9 @@
 !.yarn/sdks
 !.yarn/versions
 
+# backups
+*.tar.zst
+
 # misc
 .*DS_Store
 .unison*

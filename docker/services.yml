@@ -16,12 +16,16 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      minio:
+        condition: service_healthy
       redis:
         condition: service_healthy
     env_file: ./compose.env
     volumes:
       - bundler_cache:/usr/local/bundle
       - node_cache:/srv/app/node_modules
+      - minio_client:/root/.mc
+      - docker_dummy:/srv/app/docker
       - ../:/srv/app
   base-redis:
     extends:
