@@ -137,5 +137,5 @@ group :test do
   gem "simplecov", "~> 1.3", require: false
   gem "test-prof", "~> 1.6"
   gem "timecop", "~> 0.9"
-  gem "webmock", "~> 3.29"
+  gem "webmock", "~> 3.30"
 end
