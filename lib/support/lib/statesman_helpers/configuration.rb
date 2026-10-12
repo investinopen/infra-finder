@@ -11,7 +11,6 @@ module Support
         option :prefix, Types::Coercible::Symbol.optional, optional: true
         option :machine_class, Types::MachineClass
         option :transition_class, Types::TransitionClass
-        option :initial_transition, Types::Bool, default: proc { true }
         option :inverse_of, Types::AssociationName, default: proc { klass.model_name.singular }
         option :machine_name, Types::AssociationName, default: proc { [prefix, "state_machine"].compact.join(?_).to_sym }
         option :predicates, Types::Predicates, default: proc { [] }
