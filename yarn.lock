@@ -5,7 +5,7 @@ __metadata:
   version: 10
   cacheKey: 10c0
 
-"@activeadmin/activeadmin@npm:^3.2.0":
+"@activeadmin/activeadmin@npm:^3.5.2":
   version: 3.5.2
   resolution: "@activeadmin/activeadmin@npm:3.5.2"
   dependencies:
@@ -1487,7 +1487,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "infra-finder@workspace:."
   dependencies:
-    "@activeadmin/activeadmin": "npm:^3.2.0"
+    "@activeadmin/activeadmin": "npm:^3.5.2"
     "@castiron/style-mixins": "npm:^2.0.0"
     "@hotwired/stimulus": "npm:^3.2.2"
     "@hotwired/turbo": "npm:^8.0.3"
