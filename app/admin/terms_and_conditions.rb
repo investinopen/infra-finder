@@ -10,7 +10,7 @@ ActiveAdmin.register_page "terms_and_conditions" do
     def bypass_duplicate!
       return unless current_user.accepted_terms?
 
-      redirect_back fallback_location: admin_dashboard_path
+      redirect_back_or_to(admin_dashboard_path)
     end
   end
 

@@ -8,7 +8,7 @@ module Admin
     attr_reader :name
 
     def initialize(form_builder, attr, **options)
-      super form_builder
+      super(form_builder)
 
       @attr = attr
       @store_model_type = find_store_model_type!
@@ -39,7 +39,7 @@ module Admin
 
     def render_store_model_form(&)
       without_wrapper do
-        inputs(attr, **options.merge(name:)) do |form_builder|
+        inputs(attr, **options, name:) do |form_builder|
           yield form_builder
         end
       end.presence || "".html_safe

@@ -12,8 +12,10 @@ module System
             and: {
               prefix: "assets/",
               tags: [
+                {
                 key: "prunable",
-                value: "true",
+                value: "true"
+                },
               ],
             },
           },

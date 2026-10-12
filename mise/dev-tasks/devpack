@@ -190,7 +190,7 @@ module Devpack
 
     # @return [void]
     def pg_restore!
-      simple_spawn!("psql", "-o", "/dev/null", "-q", "-P", "pager=off", "-f", dumpfile)
+      simple_spawn!("psql", "-o", File::NULL, "-q", "-P", "pager=off", "-f", dumpfile)
     end
 
     # @return [void]

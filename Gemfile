@@ -105,9 +105,11 @@ gem "rollbar", "~> 3.7"
 gem "sucker_punch", "~> 3.3"
 
 group :development do
-  gem "rubocop", "1.56.4"
-  gem "rubocop-rails", "2.24.0", require: false
-  gem "rubocop-rspec", "2.24.1", require: false
+  gem "rubocop", "1.92.0", require: false
+  gem "rubocop-factory_bot", "2.28.0", require: false
+  gem "rubocop-rails", "2.38.0", require: false
+  gem "rubocop-rspec", "3.10.2", require: false
+  gem "rubocop-rspec_rails", "2.33.0", require: false
   gem "ruby-prof", require: false
   gem "stackprof", require: false
   gem "web-console"

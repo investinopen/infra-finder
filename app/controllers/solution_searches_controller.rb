@@ -16,7 +16,7 @@ class SolutionSearchesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_back fallback_location: solutions_path
+        redirect_back_or_to(solutions_path)
       end
 
       format.turbo_stream do
@@ -30,7 +30,7 @@ class SolutionSearchesController < ApplicationController
 
     respond_to do |format|
       format.html do
-        redirect_back fallback_location: solutions_path
+        redirect_back_or_to(solutions_path)
       end
 
       format.turbo_stream do
