@@ -3,7 +3,6 @@
 require "base64"
 require "i18n"
 require "net/http"
-require "with_advisory_lock"
 
 require_relative Rails.root.join("lib", "global_types", "array_types")
 require_relative Rails.root.join("lib", "global_types", "indifferent_hash")
