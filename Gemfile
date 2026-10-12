@@ -93,7 +93,7 @@ gem "content_disposition", "~> 1.0"
 gem "ffi", "~> 1.16"
 gem "image_processing", "~> 1.14"
 gem "marcel"
-gem "shrine", "~> 3.6"
+gem "shrine", "~> 3.10"
 gem "shrine-url", "~> 2.4"
 
 # Server / Ruby

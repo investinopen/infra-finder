@@ -652,7 +652,7 @@ GEM
       activerecord (>= 4.0.0)
       railties (>= 4.0.0)
     securerandom (0.4.1)
-    shrine (3.6.0)
+    shrine (3.10.2)
       content_disposition (~> 1.0)
       down (~> 5.1)
     shrine-url (2.4.2)
@@ -826,7 +826,7 @@ DEPENDENCIES
   rubocop-rspec (= 2.24.1)
   ruby-prof
   scenic (~> 1.9)
-  shrine (~> 3.6)
+  shrine (~> 3.10)
   shrine-url (~> 2.4)
   simplecov (~> 0.22)
   sorted_set (~> 1)
