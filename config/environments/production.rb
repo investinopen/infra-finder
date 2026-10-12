@@ -62,6 +62,9 @@ Rails.application.configure do
   # want to log everything, set the level to "debug".
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
 
+  # Prevent health checks from clogging up the logs.
+  config.silence_healthcheck_path = "/up"
+
   # Use a different cache store in production.
   config.cache_store = :redis_cache_store, { url: ENV["REDIS_URL"] }
 
