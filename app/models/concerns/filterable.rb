@@ -42,7 +42,7 @@ module Filterable
     # @api private
     # @return [ActiveRecord::Relation<Filterable>]
     def scoped_for_filter_collection_for(user)
-      Pundit.policy_scope!(user, all)
+      ActionPolicy.lookup(self).new(user:).apply_scope(all, type: :active_record_relation)
     end
   end
 end

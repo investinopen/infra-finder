@@ -30,20 +30,15 @@ class SolutionPolicy < ApplicationPolicy
     has_any_admin_access?
   end
 
-  def batch_action?
-    return publish_all? if record == :publish_all
-    return unpublish_all? if record == :unpublish_all
+  private
 
-    super
-  end
+  # @param [ActiveRecord::Relation] relation
+  # @return [ActiveRecord::Relation]
+  def resolve_scope(relation)
+    return relation.all if has_any_admin_access?
 
-  class Scope < Scope
-    def resolve
-      return scope.all if has_any_admin_access?
+    return relation.none unless has_any_editor_access?
 
-      return scope.none unless has_any_editor_access?
-
-      scope.with_editor_access_for(user)
-    end
+    relation.with_editor_access_for(user)
   end
 end

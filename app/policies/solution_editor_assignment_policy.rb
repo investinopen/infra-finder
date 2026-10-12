@@ -8,11 +8,4 @@ class SolutionEditorAssignmentPolicy < ApplicationPolicy
   def create?
     has_any_admin_access?
   end
-
-  class Scope < Scope
-    # NOTE: Be explicit about which records you allow access to!
-    # def resolve
-    #   scope.all
-    # end
-  end
 end

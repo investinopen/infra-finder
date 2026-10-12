@@ -10,13 +10,15 @@ class SolutionRevisionPolicy < ApplicationPolicy
     admin_or_editor_for_record?
   end
 
-  class Scope < Scope
-    def resolve
-      return scope.all if has_any_admin_access?
+  private
 
-      return scope.none unless has_any_editor_access?
+  # @param [ActiveRecord::Relation] relation
+  # @return [ActiveRecord::Relation]
+  def resolve_scope(relation)
+    return relation.all if has_any_admin_access?
 
-      scope.where(solution_id: Solution.with_editor_access_for(user).select(:id))
-    end
+    return relation.none unless has_any_editor_access?
+
+    relation.where(solution_id: Solution.with_editor_access_for(user).select(:id))
   end
 end

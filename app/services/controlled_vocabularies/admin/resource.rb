@@ -138,13 +138,11 @@ module ControlledVocabularies
       def add_visibility_batch_actions!
         %w[visible hidden].each do |visibility|
           batch_action :"mark_#{visibility}", if: proc { authorized?(:update, resource_class) } do |ids|
-            authorize resource_class
+            authorize! :batch_action, resource_class
 
             batch_action_collection.where(id: ids).update_all(visibility:)
 
             redirect_to collection_path, notice: "Selected records marked #{visibility}."
-          rescue Pundit::NotAuthorizedError => e
-            access_denied e
           end
         end
       end

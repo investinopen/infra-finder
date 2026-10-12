@@ -17,8 +17,6 @@ class ApplicationController < ActionController::Base
   before_action :prepare_open_graph!
   before_action :prepare_page_meta!
 
-  include Pundit::Authorization
-
   # @return [OpenGraph::Properties]
   attr_reader :open_graph
 
@@ -99,7 +97,7 @@ class ApplicationController < ActionController::Base
   class << self
     # @return [void]
     def handles_forbidden!
-      rescue_from Pundit::NotAuthorizedError, with: :forbidden!
+      rescue_from ActionPolicy::Unauthorized, with: :forbidden!
     end
 
     # @param [<Symbol>] actions

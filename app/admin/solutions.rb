@@ -158,22 +158,22 @@ ActiveAdmin.register Solution do
   batch_action :destroy, false
 
   batch_action :publish_all, if: proc { authorized?(:publish_all, Solution) } do |ids|
-    authorize :publish_all, policy_class: SolutionPolicy
+    authorize! :publish_all, Solution
 
     count = Solution.where(id: ids).publish_all!
 
     redirect_to admin_solutions_path, notice: t(".published", count:)
-  rescue Pundit::NotAuthorizedError
+  rescue ActiveAdmin::AccessDenied
     head :forbidden
   end
 
   batch_action :unpublish_all, if: proc { authorized?(:unpublish_all, Solution) } do |ids|
-    authorize :unpublish_all, policy_class: SolutionPolicy
+    authorize! :unpublish_all, Solution
 
     count = Solution.where(id: ids).unpublish_all!
 
     redirect_to admin_solutions_path, notice: t(".unpublished", count:)
-  rescue Pundit::NotAuthorizedError
+  rescue ActiveAdmin::AccessDenied
     head :forbidden
   end
 
@@ -182,7 +182,7 @@ ActiveAdmin.register Solution do
   end
 
   collection_action :fetch_public, method: :get, format: :csv do
-    authorize :fetch_public, policy_class: SolutionPolicy
+    authorize! :fetch_public, Solution
 
     headers["Content-Type"] = "text/csv; charset=utf-8" # In Rails 5 it's set to HTML??
     headers["Content-Disposition"] = ContentDisposition.attachment(csv_filename(for_public: true))
@@ -190,7 +190,7 @@ ActiveAdmin.register Solution do
     builder_proc = SolutionInterface.public_csv_builder.method(:build).to_proc.curry[self]
 
     stream_resource &builder_proc
-  rescue Pundit::NotAuthorizedError
+  rescue ActiveAdmin::AccessDenied
     redirect_to root_path
   end
 
