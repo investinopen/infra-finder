@@ -36,6 +36,12 @@ Rails.application.configure do
       description: "Prune stale comparison shares",
       set: { priority: 300 },
     },
+    session_prune: {
+      cron: "30 8 * * *",
+      class: "Sessions::PruneJob",
+      description: "Prune expired sessions",
+      set: { priority: 500 },
+    },
     refresh_option_counters: {
       cron: "*/7 * * * *",
       class: "ControlledVocabularies::RefreshCountersJob",
