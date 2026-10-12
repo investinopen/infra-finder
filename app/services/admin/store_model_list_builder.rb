@@ -12,7 +12,7 @@ module Admin
     attr_reader :remove_record
 
     def initialize(form_builder, attr, **options)
-      super form_builder
+      super(form_builder)
 
       @attr = attr
       @store_model_type = find_store_model_type!

@@ -35,9 +35,6 @@ module Solutions
       # @return [ActiveSnapshot::Snapshot]
       attr_reader :snapshot
 
-      # @return [Solutions::Revisions::Data, nil]
-      attr_reader :previous_data
-
       # @return [SolutionRevision, nil]
       attr_reader :previous_revision
 

@@ -19,7 +19,7 @@ module SolutionIntakes
 
     # @param [SolutionIntake] solution_intake
     def initialize(solution_intake)
-      @solution_intake = solution_intake # rubocop:disable Rails/HelperInstanceVariable
+      @solution_intake = solution_intake
     end
 
     # @return [Boolean]

@@ -21,7 +21,7 @@ ActiveAdmin.register Solution do
 
       m.failure do
         # simplecov:disable
-        redirect_back fallback_location: admin_solutions_path, alert: I18n.t("api.errors.something_went_wrong")
+        redirect_back_or_to(admin_solutions_path, alert: I18n.t("api.errors.something_went_wrong"))
         # simplecov:enable
       end
     end

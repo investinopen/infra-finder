@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
 
   def access_denied(error = nil)
     if user_signed_in? && current_user.has_any_admin_or_editor_access?
-      redirect_back fallback_location: root_path
+      redirect_back_or_to(root_path)
     else
       redirect_to root_path
     end

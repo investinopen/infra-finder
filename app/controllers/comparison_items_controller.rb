@@ -11,29 +11,29 @@ class ComparisonItemsController < ApplicationController
 
     current_comparison.toggle(@solution) do |m|
       m.success do
-        redirect_back fallback_location: solutions_path
+        redirect_back_or_to(solutions_path)
       end
 
       m.failure :items_exceeded do |_, alert|
-        redirect_back(fallback_location: solutions_path, alert:)
+        redirect_back_or_to(solutions_path, alert:)
       end
 
       m.failure do
         # simplecov:disable
-        redirect_back fallback_location: solutions_path, alert: t("api.errors.something_went_wrong")
+        redirect_back_or_to(solutions_path, alert: t("api.errors.something_went_wrong"))
         # simplecov:enable
       end
     end
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     @solution = Solution.find params[:solution_id]
 
     current_comparison.add(@solution) do |m|
       m.success do
         respond_to do |format|
           format.html do
-            redirect_back fallback_location: solutions_path
+            redirect_back_or_to(solutions_path)
           end
 
           format.turbo_stream do
@@ -45,7 +45,7 @@ class ComparisonItemsController < ApplicationController
       m.failure :items_exceeded do |_, alert|
         respond_to do |format|
           format.html do
-            redirect_back(fallback_location: solutions_path, alert:)
+            redirect_back_or_to(solutions_path, alert:)
           end
 
           format.turbo_stream do
@@ -60,20 +60,20 @@ class ComparisonItemsController < ApplicationController
 
       m.failure do
         # simplecov:disable
-        redirect_back fallback_location: solutions_path, alert: t("api.errors.something_went_wrong")
+        redirect_back_or_to(solutions_path, alert: t("api.errors.something_went_wrong"))
         # simplecov:enable
       end
     end
   end
 
-  def destroy
+  def destroy # rubocop:disable Metrics/AbcSize
     @solution = Solution.find params[:solution_id]
 
     current_comparison.remove(@solution) do |m|
       m.success do
         respond_to do |format|
           format.html do
-            redirect_back fallback_location: solutions_path
+            redirect_back_or_to(solutions_path)
           end
 
           format.turbo_stream do
@@ -90,7 +90,7 @@ class ComparisonItemsController < ApplicationController
 
       m.failure do
         # simplecov:disable
-        redirect_back fallback_location: solutions_path, alert: t("api.errors.something_went_wrong")
+        redirect_back_or_to(solutions_path, alert: t("api.errors.something_went_wrong"))
         # simplecov:enable
       end
     end

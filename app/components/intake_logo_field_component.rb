@@ -26,7 +26,7 @@ class IntakeLogoFieldComponent < ApplicationComponent
   def logo_url
     logo = form.object.logo
 
-    logo.url if logo.present?
+    logo.presence&.url
   rescue StandardError
     nil
   end

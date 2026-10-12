@@ -24,7 +24,7 @@ module WhereMatches
     end
 
     def where_like(_wildcard: :both, **pairs)
-      where_matches(**pairs.merge(_wildcard:))
+      where_matches(**pairs, _wildcard:)
     end
 
     def where_contains(**pairs)
