@@ -9,7 +9,7 @@ class SolutionIntakesController < ApplicationController
   before_action :find_solution_intake!
 
   def show
-    authorize @solution_intake
+    authorize! @solution_intake
 
     if @solution_intake.pending?
       redirect_to edit_solution_intake_path(@solution_intake)
@@ -19,17 +19,17 @@ class SolutionIntakesController < ApplicationController
   end
 
   def edit
-    unless policy(@solution_intake).edit?
+    unless allowed_to?(:edit?, @solution_intake)
       redirect_to @solution_intake, status: :see_other
 
       return
     end
 
-    authorize @solution_intake
+    authorize! @solution_intake
   end
 
   def update
-    authorize @solution_intake
+    authorize! @solution_intake
 
     request_context = SolutionIntakes::RequestContext.from(params)
 
@@ -53,6 +53,6 @@ class SolutionIntakesController < ApplicationController
 
   # @return [void]
   def find_solution_intake!
-    @solution_intake = policy_scope(SolutionIntake).find(params[:id])
+    @solution_intake = authorized_scope(SolutionIntake.all).find(params[:id])
   end
 end

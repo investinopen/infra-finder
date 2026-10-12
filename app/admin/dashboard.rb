@@ -62,7 +62,7 @@ ActiveAdmin.register_page "Dashboard" do
       columns do
         column do
           panel "Your Pending Drafts" do
-            scope = Pundit.policy_scope!(current_user, SolutionDraft.all).includes(:solution, :user).in_state(:pending).reorder(updated_at: :desc)
+            scope = authorized_scope(SolutionDraft.all).includes(:solution, :user).in_state(:pending).reorder(updated_at: :desc)
 
             if scope.exists?
               table_for scope do
@@ -84,7 +84,7 @@ ActiveAdmin.register_page "Dashboard" do
 
         column do
           panel "Your Drafts under Review" do
-            scope = Pundit.policy_scope!(current_user, SolutionDraft.all).includes(:solution, :user).in_state(:in_review).reorder(updated_at: :desc)
+            scope = authorized_scope(SolutionDraft.all).includes(:solution, :user).in_state(:in_review).reorder(updated_at: :desc)
 
             if scope.exists?
               table_for scope do
@@ -106,7 +106,7 @@ ActiveAdmin.register_page "Dashboard" do
 
         column do
           panel "Your Solutions" do
-            table_for Pundit.policy_scope!(current_user, Solution.all).reorder(updated_at: :desc) do
+            table_for authorized_scope(Solution.all).reorder(updated_at: :desc) do
               column :name do |r|
                 link_to r.name, admin_solution_path(r), target: "_blank", rel: "noopener"
               end
