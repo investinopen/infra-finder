@@ -114,7 +114,7 @@ group :development do
 end
 
 group :development, :test do
-  gem "erb_lint", "~> 0.5", require: false
+  gem "erb_lint", "~> 0.9", require: false
   gem "factory_bot_rails", "~> 6.2"
   gem "faker", "~> 3.6"
   gem "rspec", "~> 3.13"

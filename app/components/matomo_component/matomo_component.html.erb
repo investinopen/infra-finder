@@ -3,15 +3,15 @@
     var _paq = window._paq = window._paq || [];
     /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
     _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
-    _paq.push(["setCookieDomain", <%= cookie_domain %>]); <%# erblint:disable ErbSafety %>
-    _paq.push(["setCookiePath", <%= cookie_path %>]); <%# erblint:disable ErbSafety %>
-    _paq.push(["setDomains", <%= domains %>]); <%# erblint:disable ErbSafety %>
+    _paq.push(["setCookieDomain", <%= cookie_domain %>]); <%# erb_lint:disable ErbSafety %>
+    _paq.push(["setCookiePath", <%= cookie_path %>]); <%# erb_lint:disable ErbSafety %>
+    _paq.push(["setDomains", <%= domains %>]); <%# erb_lint:disable ErbSafety %>
     _paq.push(["trackPageView"]);
     _paq.push(["enableLinkTracking"]);
     (function() {
       var u="https://investinopen.matomo.cloud/";
       _paq.push(["setTrackerUrl", u+"matomo.php"]);
-      _paq.push(["setSiteId", <%= site_id %>]); <%# erblint:disable ErbSafety %>
+      _paq.push(["setSiteId", <%= site_id %>]); <%# erb_lint:disable ErbSafety %>
       var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0];
       g.async=true; g.src="https://cdn.matomo.cloud/investinopen.matomo.cloud/matomo.js"; s.parentNode.insertBefore(g,s);
     })();
@@ -22,7 +22,7 @@
     _mtm.push({"mtm.startTime": (new Date().getTime()), "event": "mtm.Start"});
     (function() {
       var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0];
-      g.async=true; g.src=<%= tag_manager_url %>; s.parentNode.insertBefore(g,s); <%# erblint:disable ErbSafety %>
+      g.async=true; g.src=<%= tag_manager_url %>; s.parentNode.insertBefore(g,s); <%# erb_lint:disable ErbSafety %>
     })();
   </script>
 <% end %>
