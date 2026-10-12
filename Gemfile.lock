@@ -712,7 +712,7 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    webmock (3.26.4)
+    webmock (3.29.0)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
@@ -845,7 +845,7 @@ DEPENDENCIES
   version_gem
   view_component (~> 3.11)
   web-console
-  webmock (~> 3.26)
+  webmock (~> 3.29)
   yard (~> 0.9)
   yard-activerecord
   yard-activesupport-concern
