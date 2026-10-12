@@ -12,6 +12,11 @@ require "dry/validation"
 require "sorted_set"
 require "mail"
 require "vips"
+require "image_processing/vips"
+
+# image_processing blocks many libvips loaders by default. We accept SVG logos on
+# solutions, so we need to unblock the corresponding loader.
+Vips.block("VipsForeignLoadSvg", false)
 
 Anyway::Settings.future.use :unwrap_known_environments
 
