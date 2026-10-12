@@ -5,6 +5,7 @@ on:
     branches:
       - main
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch:
 
 env:
@@ -17,7 +18,7 @@ env:
 
 jobs:
   erb_lint:
-    if: github.event.pull_request.draft == false
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
 
     runs-on: ubuntu-latest
     steps:
@@ -34,7 +35,7 @@ jobs:
           bin/erb_lint .
 
   rubocop:
-    if: github.event.pull_request.draft == false
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
 
     runs-on: ubuntu-latest
     steps:
@@ -51,7 +52,7 @@ jobs:
           bin/rubocop --format github
 
   rspec:
-    if: github.event.pull_request.draft == false
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
 
     runs-on: ubuntu-latest
 
