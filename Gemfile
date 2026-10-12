@@ -29,7 +29,7 @@ gem "view_component", "~> 3.11"
 gem "good_job", "~> 3.26"
 gem "redis", "~> 5.4"
 gem "redis-actionpack", "~> 5.5"
-gem "job-iteration", "~> 1.12"
+gem "job-iteration", "~> 1.15"
 
 # dry-rb
 gem "dry-auto_inject", "~> 1.2"
