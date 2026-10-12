@@ -52,7 +52,10 @@ module System
 
       @manifest = JSON.parse(MANIFEST_PATH.read).with_indifferent_access
 
-      @manifest_keys = manifest.values.map { File.join(KEY_PREFIX, _1) }
+      # Propshaft >= 1.2 stores a hash per entry; older manifests store the digested path directly.
+      @manifest_keys = manifest.values.map do |entry|
+        File.join(KEY_PREFIX, entry.is_a?(Hash) ? entry.fetch(:digested_path) : entry)
+      end
 
       super
     end
