@@ -15,14 +15,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-  redis:
-    extends:
-      file: docker/services.yml
-      service: base-redis
-  test-redis:
-    extends:
-      file: docker/services.yml
-      service: base-redis
   web:
     extends:
       file: docker/services.yml
@@ -75,7 +67,6 @@ services:
     environment:
       - RACK_ENV=test
       - RAILS_ENV=test
-      - REDIS_URL=redis://test-redis:6379
   mailcatcher:
     extends:
       file: docker/services.yml

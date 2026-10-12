@@ -25,10 +25,8 @@ gem "solid_cache", "~> 1.0"
 gem "store_model", "~> 4.6"
 gem "view_component", "~> 4.15"
 
-# Redis / Jobs
+# Jobs
 gem "good_job", "~> 4.22"
-gem "redis", "~> 5.4"
-gem "redis-actionpack", "~> 5.5"
 gem "job-iteration", "~> 1.15"
 
 # dry-rb
@@ -130,7 +128,6 @@ end
 
 group :test do
   gem "database_cleaner-active_record", "~> 2.2"
-  gem "database_cleaner-redis", "~> 2.0"
   gem "pundit-matchers", "~> 4.0"
   gem "rspec-collection_matchers", "~> 1.2"
   gem "rspec-its"
