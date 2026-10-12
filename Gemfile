@@ -120,7 +120,7 @@ group :development, :test do
   gem "factory_bot_rails", "~> 6.5"
   gem "faker", "~> 3.8"
   gem "rspec", "~> 3.13"
-  gem "rspec-rails", "~> 6.1"
+  gem "rspec-rails", "~> 8.0"
   gem "yard", "~> 0.9"
   gem "yard-activerecord"
   gem "yard-activesupport-concern"
