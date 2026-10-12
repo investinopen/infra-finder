@@ -10,7 +10,7 @@ gem "observer"
 gem "sorted_set", "~> 1"
 
 # Rails / Database
-gem "rails", "~> 7.2.4"
+gem "rails", "~> 8.0.5"
 gem "pg", "~> 1.7"
 gem "pg_query", "~> 6.2"
 gem "activerecord-cte", "~> 0.3"

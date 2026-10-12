@@ -52,6 +52,9 @@ Rails.application.configure do
   # Tell Active Support which deprecation messages to disallow.
   config.active_support.disallowed_deprecation_warnings = []
 
+  # Append comments with runtime information tags to SQL queries in logs.
+  config.active_record.query_log_tags_enabled = ENV["CI"].blank?
+
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
