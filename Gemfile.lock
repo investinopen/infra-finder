@@ -429,9 +429,9 @@ GEM
     pg (1.7.0-x86_64-linux)
     pg_query (6.2.5)
       google-protobuf (>= 4.34.0)
-    pg_search (2.3.7)
-      activerecord (>= 6.1)
-      activesupport (>= 6.1)
+    pg_search (2.4.0)
+      activerecord (>= 8.0)
+      activesupport (>= 8.0)
     pp (0.6.4)
       prettyprint
     premailer (1.32.0)
@@ -778,7 +778,7 @@ DEPENDENCIES
   oj (~> 3.17)
   pg (~> 1.7)
   pg_query (~> 6.2)
-  pg_search (~> 2.3)
+  pg_search (~> 2.4)
   premailer (~> 1.32)
   premailer-rails (~> 1.12)
   propshaft
