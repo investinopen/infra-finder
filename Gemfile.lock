@@ -444,7 +444,7 @@ GEM
     pg (1.7.0-arm64-darwin)
     pg (1.7.0-x86_64-darwin)
     pg (1.7.0-x86_64-linux)
-    pg_query (6.2.3)
+    pg_query (6.2.5)
       google-protobuf (>= 4.34.0)
     pg_search (2.3.7)
       activerecord (>= 6.1)
