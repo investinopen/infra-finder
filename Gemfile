@@ -99,7 +99,7 @@ gem "shrine-url", "~> 2.4"
 # Server / Ruby
 gem "bootsnap", "~> 1.26", require: false
 gem "pry-rails", "~> 0.3"
-gem "puma", "~> 6.4"
+gem "puma", "~> 8.0"
 gem "rack-cors", "~> 3.0"
 gem "rollbar", "~> 3.7"
 gem "sucker_punch", "~> 3.3"
