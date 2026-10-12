@@ -4,6 +4,4 @@
 #
 # @see StandardTransition
 class StandardTransitionPolicy < ApplicationPolicy
-  class Scope < Scope
-  end
 end

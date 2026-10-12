@@ -75,7 +75,7 @@ gem "oj", "~> 3.17"
 gem "pg_search", "~> 2.4"
 gem "premailer", "~> 1.32"
 gem "premailer-rails", "~> 1.12"
-gem "pundit", "~> 2.5"
+gem "action_policy", "~> 0.7"
 gem "request_store", "~> 1.7.0"
 gem "rolify", "~> 6.0"
 gem "sqids", "~> 0.2"
@@ -129,7 +129,6 @@ end
 
 group :test do
   gem "database_cleaner-active_record", "~> 2.2"
-  gem "pundit-matchers", "~> 4.0"
   gem "rspec-collection_matchers", "~> 1.2"
   gem "rspec-its"
   gem "rspec-json_expectations", "~> 2.2"
