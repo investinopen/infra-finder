@@ -680,7 +680,7 @@ GEM
     strscan (3.1.8)
     sucker_punch (3.3.0)
       concurrent-ruby (~> 1.0)
-    test-prof (1.6.3)
+    test-prof (1.6.4)
       logger
     thor (1.5.0)
     timecop (0.9.11)
@@ -837,7 +837,7 @@ DEPENDENCIES
   store_model (~> 4.6)
   strip_attributes (~> 2.0)
   sucker_punch (~> 3.3)
-  test-prof (~> 1.5)
+  test-prof (~> 1.6)
   timecop (~> 0.9)
   turbo-rails
   tzinfo (~> 2.0)
