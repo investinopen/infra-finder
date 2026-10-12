@@ -133,7 +133,7 @@ group :test do
   gem "rspec-json_expectations", "~> 2.2"
   gem "rspec-parameterized", "~> 2.0"
   gem "simplecov", "~> 0.22", require: false
-  gem "test-prof", "~> 1.5"
+  gem "test-prof", "~> 1.6"
   gem "timecop", "~> 0.9"
   gem "webmock", "~> 3.26"
 end
