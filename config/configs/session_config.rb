@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-# Configuration for a Redis-backed session store.
+# Configuration for the database-backed session store.
 class SessionConfig < ApplicationConfig
-  attr_config base_key: "_infra_sess", db: 0, include_env_in_key: Rails.env.local?, namespace: "session", ttl: 30
+  attr_config base_key: "_infra_sess", include_env_in_key: Rails.env.local?, ttl: 30
 
-  coerce_types db: :integer, include_env_in_key: :boolean, ttl: :integer
+  coerce_types include_env_in_key: :boolean, ttl: :integer
 
   # @return [String]
   def domain
@@ -30,14 +30,7 @@ class SessionConfig < ApplicationConfig
       key:,
       same_site: :lax,
       secure:,
-      threadsafe: true,
-      url:,
     }
-  end
-
-  # @return [String]
-  memoize def url
-    URI.join(ENV.fetch("REDIS_URL", "redis://127.0.0.1:6379"), "/#{db}/#{namespace}").to_s
   end
 
   private

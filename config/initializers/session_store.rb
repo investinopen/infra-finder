@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
-store_options = SessionConfig.to_session_store_options
+ActiveSupport.on_load(:active_record) do
+  ActiveRecord::SessionStore::Session.serializer = :json
+end
 
-Rails.application.config.session_store(:redis_store, **store_options)
+Rails.application.config.session_store(:active_record_store, **SessionConfig.to_session_store_options)
