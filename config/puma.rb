@@ -17,7 +17,7 @@ worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
-port ENV.fetch("PORT") { 8080 }
+port ENV.fetch("PORT") { 8080 }, "0.0.0.0"
 
 # Specifies the `environment` that Puma will run in.
 #
@@ -34,32 +34,34 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 #
 workers ENV.fetch("WEB_CONCURRENCY") { 2 }
 
-# Use the `preload_app!` method when specifying a `workers` number.
-# This directive tells Puma to first boot the application and load code
-# before forking the application. This takes advantage of Copy On Write
-# process behavior so workers use less memory.
-#
-preload_app!
-
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
 
-fork_worker 1000
-wait_for_less_busy_worker 0.001
+cluster do
+  # Use the `preload_app!` method when specifying a `workers` number.
+  # This directive tells Puma to first boot the application and load code
+  # before forking the application. This takes advantage of Copy On Write
+  # process behavior so workers use less memory.
+  #
+  preload_app!
 
-on_worker_fork do
-  ActiveSupport.on_load(:active_record) do
-    ActiveRecord::Base.connection.disconnect!
+  fork_worker 1000
+  wait_for_less_busy_worker 0.001
+
+  before_worker_fork do
+    ActiveSupport.on_load(:active_record) do
+      ActiveRecord::Base.connection.disconnect!
+    end
+
+    # Ensure we disconnect from Rails cache on forking.
+    Rails.cache.redis.disconnect!
   end
 
-  # Ensure we disconnect from Rails cache on forking.
-  Rails.cache.redis.disconnect!
-end
-
-on_worker_boot do
-  # Worker specific setup for Rails 4.1+
-  # See: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot
-  ActiveSupport.on_load(:active_record) do
-    ActiveRecord::Base.establish_connection
+  before_worker_boot do
+    # Worker specific setup for Rails 4.1+
+    # See: https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#on-worker-boot
+    ActiveSupport.on_load(:active_record) do
+      ActiveRecord::Base.establish_connection
+    end
   end
 end
