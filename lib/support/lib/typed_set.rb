@@ -68,9 +68,9 @@ module Support
 
       super(element)
     rescue InvalidElement
-      # :nocov:
+      # simplecov:disable
       false
-      # :nocov:
+      # simplecov:enable
     end
 
     private

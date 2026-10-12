@@ -584,9 +584,9 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
     free_input_property
   rescue FrozenRecord::RecordNotFound
-    # :nocov:
+    # simplecov:disable
     errors.add :base, "Expected #{free_input_name} property to exist, but it is not found"
-    # :nocov:
+    # simplecov:enable
   end
 
   # @return [void]
@@ -595,9 +595,9 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
     other_property
   rescue FrozenRecord::RecordNotFound
-    # :nocov:
+    # simplecov:disable
     errors.add :base, "Expected #{free_input_name} property to exist, but it is not found"
-    # :nocov:
+    # simplecov:enable
   end
 
   # @return [void]
@@ -605,11 +605,11 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     return if meta?
 
     SOURCE_KINDS.each do |kind|
-      # :nocov:
+      # simplecov:disable
       next if skip_for?(kind) || exists_for?(kind)
 
       errors.add :base, "Missing #{attribute_name.inspect} on #{kind.inspect} models"
-      # :nocov:
+      # simplecov:enable
     end
   end
 
@@ -619,9 +619,9 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
     owner_property
   rescue FrozenRecord::RecordNotFound => e
-    # :nocov:
+    # simplecov:disable
     errors.add :owner, "does not exist: #{e.message}"
-    # :nocov:
+    # simplecov:enable
   end
 
   class << self
@@ -690,9 +690,9 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     # @deprecated
     # @return [<Symbol>]
     def core_values
-      # :nocov:
+      # simplecov:disable
       attribute_names_from in_use.core
-      # :nocov:
+      # simplecov:enable
     end
 
     # @return [<Symbol>]
@@ -703,9 +703,9 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     # @deprecated
     # @return [<Symbol>]
     def finance_values
-      # :nocov:
+      # simplecov:disable
       attribute_names_from in_use.finances
-      # :nocov:
+      # simplecov:enable
     end
 
     # @return [<Symbol>]
@@ -836,17 +836,17 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     # @return [<Hash>]
     def build_raw_connections
       for_connections.flat_map do |property|
-        # :nocov:
+        # simplecov:disable
         property => { name:, connection_mode:, vocab_name:, }
-        # :nocov:
+        # simplecov:enable
 
         connection_mode = connection_mode.to_s
 
         vocab = ControlledVocabulary.find(vocab_name)
 
-        # :nocov:
+        # simplecov:disable
         vocab => { strategy:, }
-        # :nocov:
+        # simplecov:enable
 
         ApplicationRecord.pg_enum_values("solution_kind").map do |solution_kind|
           key = "#{solution_kind}/#{name}"

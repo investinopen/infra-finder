@@ -25,9 +25,9 @@ module StoredMessages
     # @param [<String>] tags
     # @return [void]
     def tagged(*tags)
-      # :nocov:
+      # simplecov:disable
       raise "Must be called with a block" unless block_given?
-      # :nocov:
+      # simplecov:enable
 
       formatter.tagged(*tags) do
         yield self

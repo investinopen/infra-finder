@@ -20,9 +20,9 @@ class WorkflowDefinition < Support::FrozenRecordHelpers::AbstractRecord
   # @param [ApplicationRecord] resource
   # @return [ActiveRecord::Relation<User>]
   def recipients_for(resource, initiator: nil)
-    # :nocov:
+    # simplecov:disable
     return User.none if initiator.blank?
-    # :nocov:
+    # simplecov:enable
 
     with_notifs = User.subscribed_to_solution_notifications.where.not(id: initiator.id)
 
@@ -32,9 +32,9 @@ class WorkflowDefinition < Support::FrozenRecordHelpers::AbstractRecord
     in :editors
       with_notifs.editor_kind.with_access_to(resource)
     else
-      # :nocov:
+      # simplecov:disable
       with_notifs.none
-      # :nocov:
+      # simplecov:enable
     end
   end
 end

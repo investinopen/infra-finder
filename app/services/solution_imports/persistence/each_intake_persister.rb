@@ -60,9 +60,9 @@ module SolutionImports
 
         super
       rescue ActiveRecord::RecordInvalid => e
-        # :nocov:
+        # simplecov:disable
         mark_invalid "Problem saving record: #{e.message}"
-        # :nocov:
+        # simplecov:enable
       end
 
       wrapped_hook! def handle_attachments

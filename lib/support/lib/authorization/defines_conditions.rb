@@ -41,9 +41,9 @@ module Support
         in Types::ConditionName => condition_name
           resolve_single_condition(condition_name)
         else
-          # :nocov:
+          # simplecov:disable
           raise Support::Authorization::InvalidCondition, condition
-          # :nocov:
+          # simplecov:enable
         end
       end
 
@@ -63,9 +63,9 @@ module Support
       # @param [Array] conditions (@see #resolve_condition)
       # @return [<Dry::Monads::Validated>]
       def map_conditions(conditions)
-        # :nocov:
+        # simplecov:disable
         raise ArgumentError, "must have at least one condition" if conditions.blank?
-        # :nocov:
+        # simplecov:enable
 
         conditions.map do |cond|
           resolve_condition cond
@@ -120,9 +120,9 @@ module Support
         # @return [void]
         def define_condition!(name, meth = nil, **options, &resolver)
           if meth.present? && block_given?
-            # :nocov:
+            # simplecov:disable
             raise ArgumentError, "cannot provide both a method and a resolver for #{self} condition: #{name.inspect}"
-            # :nocov:
+            # simplecov:enable
           end
 
           condition = Support::Authorization::Condition.new(name, meth || resolver, **options)

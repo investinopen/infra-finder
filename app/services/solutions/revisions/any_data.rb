@@ -11,13 +11,13 @@ module Solutions
       in /\Av2\z/
         Solutions::Revisions::V2Data
       in /\Aunknown\z/
-        # :nocov:
+        # simplecov:disable
         Solutions::Revisions::Data
-        # :nocov:
+        # simplecov:enable
       else
-        # :nocov:
+        # simplecov:disable
         raise "Unexpected revision version: #{v}"
-        # :nocov:
+        # simplecov:enable
       end
     end
   end

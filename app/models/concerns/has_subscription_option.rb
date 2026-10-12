@@ -24,9 +24,9 @@ module HasSubscriptionOption
   end
 
   def each_subscription_option
-    # :nocov:
+    # simplecov:disable
     return enum_for(__method__) unless block_given?
-    # :nocov:
+    # simplecov:enable
 
     subscription_options.values.each do |option|
       yield option
@@ -56,9 +56,9 @@ module HasSubscriptionOption
   end
 
   def subscription_identifier
-    # :nocov:
+    # simplecov:disable
     raise "must set subscription_identifier on the class" unless has_subscription_identifier?
-    # :nocov:
+    # simplecov:enable
 
     public_send(self.class.subscription_identifier_method)
   end
@@ -96,9 +96,9 @@ module HasSubscriptionOption
 
   # @return [String, nil]
   def unsubscribe_token
-    # :nocov:
+    # simplecov:disable
     return unless persisted?
-    # :nocov:
+    # simplecov:enable
 
     to_sgid(for: :unsubscribe).to_s
   end

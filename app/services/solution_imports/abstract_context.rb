@@ -193,9 +193,9 @@ module SolutionImports
       # @yieldreturn [void]
       # @return [void]
       def each_row
-        # :nocov:
+        # simplecov:disable
         return enum_for(__method__) unless block_given?
-        # :nocov:
+        # simplecov:enable
 
         rows.each_with_index do |row, index|
           number = index + 1

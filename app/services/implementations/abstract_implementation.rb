@@ -49,9 +49,9 @@ module Implementations
       when :single
         link.try(:url)
       else
-        # :nocov:
+        # simplecov:disable
         raise "no link for #{implementation_name}"
-        # :nocov:
+        # simplecov:enable
       end
     end
 
@@ -70,13 +70,13 @@ module Implementations
           end
         end
       when :single
-        # :nocov:
+        # simplecov:disable
         link.url = urls.first
-        # :nocov:
+        # simplecov:enable
       else
-        # :nocov:
+        # simplecov:disable
         raise "no link for #{implementation_name}"
-        # :nocov:
+        # simplecov:enable
       end
     end
 
@@ -89,9 +89,9 @@ module Implementations
       when "statement"
         statement
       else
-        # :nocov:
+        # simplecov:disable
         raise "unknown property: #{property_name.inspect}"
-        # :nocov:
+        # simplecov:enable
       end
     end
 
@@ -105,9 +105,9 @@ module Implementations
       when "statement"
         self.statement = new_value
       else
-        # :nocov:
+        # simplecov:disable
         raise "unknown property: #{property_name.inspect}"
-        # :nocov:
+        # simplecov:enable
       end
     end
 

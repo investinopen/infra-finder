@@ -120,9 +120,9 @@ module Solutions
     after_execute def check_properties!
       diff = expected_properties - exported_properties
 
-      # :nocov:
+      # simplecov:disable
       raise "Forgot to handle export for #{diff.inspect}" if diff.any?
-      # :nocov:
+      # simplecov:enable
     end
 
     private

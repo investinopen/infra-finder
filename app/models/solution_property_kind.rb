@@ -10,9 +10,9 @@ class SolutionPropertyKind < Support::FrozenRecordHelpers::AbstractRecord
     when ::SolutionProperties::Types::Kind
       ::SolutionPropertyKind.find(value.to_sym)
     else
-      # :nocov:
+      # simplecov:disable
       raise Dry::Types::CoercionError, "invalid solution property kind: #{value}"
-      # :nocov:
+      # simplecov:enable
     end
   end
 

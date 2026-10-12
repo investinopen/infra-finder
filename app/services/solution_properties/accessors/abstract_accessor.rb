@@ -111,9 +111,9 @@ module SolutionProperties
         unless has_header?(source_header)
           return if skip_missing
 
-          # :nocov:
+          # simplecov:disable
           raise "could not find expected header in CSV row: #{source_header}"
-          # :nocov:
+          # simplecov:enable
         end
 
         catch_skipped_assignment do
@@ -157,9 +157,9 @@ module SolutionProperties
           vocab.model_klass.where(term:).first!
         end
       rescue ActiveRecord::RecordNotFound
-        # :nocov:
+        # simplecov:disable
         return
-        # :nocov:
+        # simplecov:enable
       end
 
       # @param [<String>] terms
@@ -231,9 +231,9 @@ module SolutionProperties
         # @!attribute [r] property_kind
         # @return [SolutionPropertyKind]
         def property_kind
-          # :nocov:
+          # simplecov:disable
           return if property_kind_name.blank?
-          # :nocov:
+          # simplecov:enable
 
           @property_kind ||= SolutionPropertyKind.find(property_kind_name)
         end

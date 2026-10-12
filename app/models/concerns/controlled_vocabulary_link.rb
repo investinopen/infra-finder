@@ -91,9 +91,9 @@ module ControlledVocabularyLink
     end
 
     def option_association
-      # :nocov:
+      # simplecov:disable
       reflect_on_association(option_association_name)
-      # :nocov:
+      # simplecov:enable
     end
 
     def solution_association

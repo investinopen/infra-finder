@@ -26,9 +26,9 @@ module Utility
             inflector.camelize(key, :lower)
           end
         else
-          # :nocov:
+          # simplecov:disable
           raise TypeError, "invalid key: #{key.inspect}"
-          # :nocov:
+          # simplecov:enable
         end
       end
     end

@@ -66,9 +66,9 @@ module Comparisons
         when /\Aflagged_(\S+)\z/
           return ["#{Regexp.last_match[1]}_flag_eq", true] if value
         else
-          # :nocov:
+          # simplecov:disable
           raise ArgumentError, "Unverified scope: #{attr.inspect}"
-          # :nocov:
+          # simplecov:enable
         end
       end
 
@@ -147,9 +147,9 @@ module Comparisons
         private
 
         def attribute(name, ...)
-          # :nocov:
+          # simplecov:disable
           raise UnknownFilter, "Use one of the `<search_filter_grouping>_filter!` methods instead" unless name.in?(search_filter_groupings)
-          # :nocov:
+          # simplecov:enable
 
           super
         end

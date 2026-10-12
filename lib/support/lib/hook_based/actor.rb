@@ -37,9 +37,9 @@ module Support
 
       # @api private
       def inspect
-        # :nocov:
+        # simplecov:disable
         "#<#{self.class}>"
-        # :nocov:
+        # simplecov:enable
       end
 
       # @param [Dry::Monads::Result] result
@@ -78,7 +78,7 @@ module Support
       # @api private
       # @return [Dry::Monads::Result]
       def on_failure(*args)
-        # :nocov:
+        # simplecov:disable
         case args
         in Exception => err, *_
           raise err
@@ -87,7 +87,7 @@ module Support
         else
           Failure[self.class.generic_process_error_key, *args]
         end
-        # :nocov:
+        # simplecov:enable
       end
 
       # @api private
@@ -108,13 +108,13 @@ module Support
       end
 
       def benchmark_hook!
-        # :nocov:
+        # simplecov:disable
         time = AbsoluteTime.realtime do
           yield
         end
 
         warn "hook #{current_hook} took #{time}s"
-        # :nocov:
+        # simplecov:enable
       end
 
       def benchmark_hooks?

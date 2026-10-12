@@ -11,9 +11,9 @@ module SolutionImports
       # @abstract
       # @return [Hash]
       def attrs_to_create
-        # :nocov:
+        # simplecov:disable
         raise NotImplementedError, "Subclasses must implement `attrs_to_create`"
-        # :nocov:
+        # simplecov:enable
       end
     end
   end

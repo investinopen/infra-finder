@@ -16,7 +16,7 @@ module SolutionImports
     # The current_staffing value in the legacy database is a float. This makes no sense,
     # and it should be treated as an integer.
     CorrectedFloat = Types::Integer.optional.constructor do |value|
-      # :nocov:
+      # simplecov:disable
       case value
       in nil then nil
       in Types::Coercible::Float => flt
@@ -26,7 +26,7 @@ module SolutionImports
       else
         raise Dry::Types::CoercionError, "invalid staffing value: #{value.inspect}"
       end
-      # :nocov:
+      # simplecov:enable
     end
 
     CSVTable = Instance(::CSV::Table)

@@ -46,9 +46,9 @@ module ControlledVocabularies
       in "model"
         yield find_model_term!
       else
-        # :nocov:
+        # simplecov:disable
         return Failure[:unknown_strategy, strategy]
-        # :nocov:
+        # simplecov:enable
       end
 
       super

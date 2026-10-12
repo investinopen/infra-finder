@@ -103,9 +103,9 @@ class Implementation < Support::FrozenRecordHelpers::AbstractRecord
   delegate :has_any_links?, :has_many_links?, :has_no_links?, :has_single_link?, :has_statement?, :link_mode, :linked?, :unlinked?, to: :type
 
   def each_property
-    # :nocov:
+    # simplecov:disable
     return enum_for(__method__) unless block_given?
-    # :nocov:
+    # simplecov:enable
 
     property_enumerator.each do |prop|
       yield prop

@@ -39,9 +39,9 @@ module WorksWithComparisons
     in :find_existing
       find_existing_comparison
     else
-      # :nocov:
+      # simplecov:disable
       # Intentionally left blank when skipped.
-      # :nocov:
+      # simplecov:enable
     end
   end
 
@@ -60,9 +60,9 @@ module WorksWithComparisons
   #   Should never occur under normal circumstances.
   # @return [Comparison]
   def fetch_comparison!
-    # :nocov:
+    # simplecov:disable
     session.update(xx: ?b) unless session.exists?
-    # :nocov:
+    # simplecov:enable
 
     session_id = session.try(:id)
 
@@ -76,9 +76,9 @@ module WorksWithComparisons
       end
 
       m.failure do |*err|
-        # :nocov:
+        # simplecov:disable
         raise Comparisons::FetchFailed, "Could not fetch comparison: #{err.inspect}"
-        # :nocov:
+        # simplecov:enable
       end
     end
   end
@@ -129,9 +129,9 @@ module WorksWithComparisons
 
     ref[:controller].in?(COMPARISON_CONTROLLERS) && ref[:action] == "show"
   rescue ActionController::RoutingError
-    # :nocov:
+    # simplecov:disable
     false
-    # :nocov:
+    # simplecov:enable
   end
 
   # @return [void]

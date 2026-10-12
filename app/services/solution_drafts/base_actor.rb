@@ -34,9 +34,9 @@ module SolutionDrafts
     end
 
     wrapped_hook! def enforce_solution
-      # :nocov:
+      # simplecov:disable
       return Failure[:unassociated_draft] if solution.blank?
-      # :nocov:
+      # simplecov:enable
 
       super
     end
@@ -50,14 +50,14 @@ module SolutionDrafts
     # @todo Re-investigate why this fails certain updates.
     # @return [void]
     def locked_performance!
-      # :nocov:
+      # simplecov:disable
       ApplicationRecord.transaction do
         draft.lock!
         solution.lock!
 
         yield
       end
-      # :nocov:
+      # simplecov:enable
     end
   end
 end

@@ -12,13 +12,13 @@ module HasAutoincrementingIdentifier
 
   # @return [String]
   def display_name
-    # :nocov:
+    # simplecov:disable
     if new_record?
       "New #{model_name.human}"
     else
       "#{model_name.human} ##{identifier}"
     end
-    # :nocov:
+    # simplecov:enable
   end
 
   class_methods do

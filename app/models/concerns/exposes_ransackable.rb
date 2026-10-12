@@ -76,9 +76,9 @@ module ExposesRansackable
     attribute :ranking, Types::Ranking
 
     def <=>(other)
-      # :nocov:
+      # simplecov:disable
       return super unless other.kind_of?(self.class)
-      # :nocov:
+      # simplecov:enable
 
       [ranking] <=> [other.ranking]
     end
@@ -116,9 +116,9 @@ module ExposesRansackable
     attribute :allowance, RankedAllowance
 
     def <=>(other)
-      # :nocov:
+      # simplecov:disable
       return super unless other.kind_of?(self.class)
-      # :nocov:
+      # simplecov:enable
 
       [name] <=> [other.name]
     end
@@ -221,9 +221,9 @@ module ExposesRansackable
       when Symbol
         normalize(name.to_s, allowance:)
       else
-        # :nocov:
+        # simplecov:disable
         raise TypeError, "cannot normalize for ransackable value: #{name.inspect}"
-        # :nocov:
+        # simplecov:enable
       end
     end
 

@@ -171,25 +171,25 @@ module ControlledVocabularies
             end
 
             m.failure(:invalid) do |_, replacement|
-              # :nocov:
+              # simplecov:disable
               @option_replacement = replacement
 
               replacement_failed!
-              # :nocov:
+              # simplecov:enable
             end
 
             m.failure do
-              # :nocov:
+              # simplecov:disable
               replacement_failed!
-              # :nocov:
+              # simplecov:enable
             end
           end
         rescue ActiveRecord::RecordNotFound
-          # :nocov:
+          # simplecov:disable
           option_replacement.valid?
 
           replacement_failed!
-          # :nocov:
+          # simplecov:enable
         end
 
         action_item :replace, only: %i[show edit] do

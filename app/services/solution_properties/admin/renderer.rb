@@ -121,9 +121,9 @@ module SolutionProperties
 
         unaccounted = expected_form_fields - rendered
 
-        # :nocov:
+        # simplecov:disable
         raise "Did not render input for expected prop(s): #{unaccounted.inspect}" if unaccounted.any?
-        # :nocov:
+        # simplecov:enable
       end
     end
   end

@@ -16,9 +16,9 @@ module SolutionProperties
         in "model"
           join_controlled_vocabulary_terms super.pluck(:term)
         else
-          # :nocov:
+          # simplecov:disable
           join_controlled_vocabulary_terms super
-          # :nocov:
+          # simplecov:enable
         end
       end
     end

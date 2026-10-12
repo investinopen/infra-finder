@@ -19,9 +19,9 @@ class ComparisonSharesController < ApplicationController
       end
 
       m.failure do
-        # :nocov:
+        # simplecov:disable
         redirect_to solutions_path, alert: t(".invalid_share_id")
-        # :nocov:
+        # simplecov:enable
       end
     end
   rescue ActiveRecord::RecordNotFound
@@ -35,8 +35,8 @@ class ComparisonSharesController < ApplicationController
 
     head :no_content
   rescue ActiveRecord::RecordNotFound
-    # :nocov:
+    # simplecov:disable
     head :not_found
-    # :nocov:
+    # simplecov:enable
   end
 end

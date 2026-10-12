@@ -76,10 +76,10 @@ module Admin
     # @param [#to_s] attr
     # @return [void]
     def record_property_access!(attr)
-      # :nocov:
+      # simplecov:disable
       return if /\Alinks\z/.match?(attr)
       return unless Rails.env.local?
-      # :nocov:
+      # simplecov:enable
 
       form_access[attr] += 1
 

@@ -83,9 +83,9 @@ class Invitation < ApplicationRecord
       end
 
       m.failure :user_creation_failed do |_, reason|
-        # :nocov:
+        # simplecov:disable
         errors.add(:base, :user_creation_failed, reason:)
-        # :nocov:
+        # simplecov:enable
       end
 
       m.failure :must_be_pending do
@@ -93,9 +93,9 @@ class Invitation < ApplicationRecord
       end
 
       m.failure do
-        # :nocov:
+        # simplecov:disable
         errors.add :base, :something_went_wrong
-        # :nocov:
+        # simplecov:enable
       end
     end
 

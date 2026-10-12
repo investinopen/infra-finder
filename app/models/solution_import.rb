@@ -72,13 +72,13 @@ class SolutionImport < ApplicationRecord
   # @note Only used in testing
   # @return [SolutionImport]
   def reset!
-    # :nocov:
+    # simplecov:disable
     solution_import_transitions.delete_all
 
     current_state(force_reload: true)
 
     reload
-    # :nocov:
+    # simplecov:enable
   end
 
   # @param [Hash] new_options

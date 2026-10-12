@@ -49,16 +49,16 @@ module Admin
         when ::StoreModel::Model
           obj.class.attribute_types.fetch(key)
         else
-          # :nocov:
+          # simplecov:disable
           raise "Cannot derive store model attribute type from #{obj.inspect}"
-          # :nocov:
+          # simplecov:enable
         end
 
       atype.model_klass
     rescue KeyError
-      # :nocov:
+      # simplecov:disable
       raise "Cannot find store model attribute type for #{key} on #{obj.class}"
-      # :nocov:
+      # simplecov:enable
     end
 
     # @api private

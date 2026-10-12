@@ -49,9 +49,9 @@ module Admin
       in :destroy
         yield on_destroy!
       else
-        # :nocov:
+        # simplecov:disable
         return Failure[:invalid_verb, verb]
-        # :nocov:
+        # simplecov:enable
       end
 
       super
@@ -95,8 +95,9 @@ module Admin
           .subscribed_to_comment_notifications.where.not(id: author.id)
           .with_access_to(resource)
       else
-        # :nocov:
+        # simplecov:disable
         User.none
+        # simplecov:enable
       end
     end
   end

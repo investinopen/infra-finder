@@ -35,9 +35,9 @@ module ControlledVocabularies
     private
 
     def multiple_selected_and_other_for(conn)
-      # :nocov:
+      # simplecov:disable
       raise "only for :multiple-mode connections" unless conn.multiple?
-      # :nocov:
+      # simplecov:enable
 
       selected, other = public_send(conn.name).reject(&:hidden?).partition { !_1.provides_other? }
 
@@ -49,9 +49,9 @@ module ControlledVocabularies
     end
 
     def single_selected_and_other_for(conn)
-      # :nocov:
+      # simplecov:disable
       raise "only for :single-mode connections" unless conn.single?
-      # :nocov:
+      # simplecov:enable
 
       current = public_send(conn.name).then { _1 if _1.present? && _1.visible? }
 

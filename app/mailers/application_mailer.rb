@@ -22,9 +22,9 @@ class ApplicationMailer < ActionMailer::Base
     when Solution, Provider, User
       url_for([:admin, resource, **options])
     else
-      # :nocov:
+      # simplecov:disable
       raise "unsupported resource: #{resource}"
-      # :nocov:
+      # simplecov:enable
     end
   end
 
@@ -53,9 +53,9 @@ class ApplicationMailer < ActionMailer::Base
     when HasName
       resource.name
     else
-      # :nocov:
+      # simplecov:disable
       resource.id
-      # :nocov:
+      # simplecov:enable
     end
   end
 end

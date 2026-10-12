@@ -14,9 +14,9 @@ module SolutionProperties
         in "model"
           super.try(:term)
         else
-          # :nocov:
+          # simplecov:disable
           super
-          # :nocov:
+          # simplecov:enable
         end
       end
     end
