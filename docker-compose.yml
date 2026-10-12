@@ -60,6 +60,7 @@ services:
       file: docker/services.yml
       service: app
     command: yarn dev:watch
+    stdin_open: true
     depends_on:
       migrations:
         condition: service_completed_successfully
