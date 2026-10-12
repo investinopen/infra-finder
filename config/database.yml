@@ -30,6 +30,10 @@ development:
     <<: *default
     database: infra_finder_queue_development
     migrations_paths: db/queue_migrate
+  cache:
+    <<: *default
+    database: infra_finder_cache_development
+    migrations_paths: db/cache_migrate
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -69,6 +73,10 @@ test:
     <<: *default
     database: infra_finder_queue_test
     migrations_paths: db/queue_migrate
+  cache:
+    <<: *default
+    database: infra_finder_cache_test
+    migrations_paths: db/cache_migrate
 
 staging:
   primary:
@@ -78,6 +86,10 @@ staging:
     <<: *default
     database: infra_finder_queue_staging
     migrations_paths: db/queue_migrate
+  cache:
+    <<: *default
+    database: infra_finder_cache_staging
+    migrations_paths: db/cache_migrate
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -91,7 +103,8 @@ staging:
 # If the connection URL is provided in the special DATABASE_URL environment
 # variable, Rails will automatically merge its configuration values on top of
 # the values provided in this file. The same applies to other databases using
-# <NAME>_DATABASE_URL, e.g. QUEUE_DATABASE_URL for the queue database. Alternatively, you can specify a connection
+# <NAME>_DATABASE_URL, e.g. QUEUE_DATABASE_URL for the queue database
+# and CACHE_DATABASE_URL for the cache database. Alternatively, you can specify a connection
 # URL environment variable explicitly:
 #
 #   production:
@@ -108,3 +121,7 @@ production:
     <<: *default
     database: infra_finder_queue_production
     migrations_paths: db/queue_migrate
+  cache:
+    <<: *default
+    database: infra_finder_cache_production
+    migrations_paths: db/cache_migrate

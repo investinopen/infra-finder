@@ -21,6 +21,7 @@ gem "friendly_id", "~> 5.5"
 gem "frozen_record", "~> 0.27"
 gem "retryable", "~> 3.0"
 gem "scenic", "~> 1.9"
+gem "solid_cache", "~> 1.0"
 gem "store_model", "~> 4.6"
 gem "view_component", "~> 4.15"
 

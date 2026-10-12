@@ -136,10 +136,13 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
-    DatabaseCleaner[:active_record].strategy = :transaction
-    DatabaseCleaner[:redis].strategy = :deletion
+    [ApplicationRecord, SolidCache::Record, GoodJob::BaseRecord].each do |db|
+      DatabaseCleaner[:active_record, db:].strategy = :transaction
 
-    DatabaseCleaner[:active_record].clean_with(:truncation)
+      DatabaseCleaner[:active_record, db:].clean_with(:truncation)
+    end
+
+    DatabaseCleaner[:redis].strategy = :deletion
     DatabaseCleaner[:redis].clean_with(:deletion)
 
     Scenic.database.views.select(&:materialized).each do |view|

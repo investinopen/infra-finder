@@ -11,6 +11,7 @@ on:
 env:
   DATABASE_URL: "postgres://postgres:postgres@localhost:5432/rails_test"
   QUEUE_DATABASE_URL: "postgres://postgres:postgres@localhost:5432/rails_queue_test"
+  CACHE_DATABASE_URL: "postgres://postgres:postgres@localhost:5432/rails_cache_test"
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   RAILS_ENV: test
   RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
