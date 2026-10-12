@@ -18,8 +18,6 @@ services:
         condition: service_healthy
       minio:
         condition: service_healthy
-      redis:
-        condition: service_healthy
     env_file: ./compose.env
     volumes:
       - bundler_cache:/usr/local/bundle
@@ -27,16 +25,3 @@ services:
       - minio_client:/root/.mc
       - docker_dummy:/srv/app/docker
       - ../:/srv/app
-  base-redis:
-    extends:
-      file: ./services.yml
-      service: base
-    platform: "linux/amd64"
-    image: redis:6.2
-    environment:
-      - "ALLOW_EMPTY_PASSWORD=yes"
-    healthcheck:
-      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
