@@ -153,6 +153,9 @@ Lint/AmbiguousRegexpLiteral:
 Lint/AmbiguousRange:
   Enabled: true
 
+Lint/ArgumentMismatch: # new in 1.90
+  Enabled: true
+
 Lint/ArrayLiteralInRegexp:
   Enabled: true
 
@@ -165,7 +168,13 @@ Lint/ConstantReassignment:
 Lint/CopDirectiveSyntax:
   Enabled: true
 
+Lint/DataDefineOverride: # new in 1.85
+  Enabled: true
+
 Lint/DeprecatedConstants:
+  Enabled: true
+
+Lint/DeprecatedReference: # new in 1.89
   Enabled: true
 
 Lint/DuplicateBranch:
@@ -207,10 +216,16 @@ Lint/LambdaWithoutLiteralBlock:
 Lint/LiteralAssignmentInCondition:
   Enabled: true
 
+Lint/MisplacedMagicComment: # new in 1.91
+  Enabled: true
+
 Lint/MissingSuper:
   Enabled: false
 
 Lint/MixedCaseRange:
+  Enabled: true
+
+Lint/NameTypo: # new in 1.89
   Enabled: true
 
 Lint/NonAtomicFileOperation:
@@ -249,6 +264,9 @@ Lint/RequireRelativeSelfPath:
 Lint/SharedMutableDefault:
   Enabled: true
 
+Lint/SuperArgumentMismatch: # new in 1.90
+  Enabled: true
+
 Lint/SuppressedExceptionInNumberConversion:
   Enabled: true
 
@@ -271,6 +289,9 @@ Lint/UnexpectedBlockArity:
   Enabled: true
 
 Lint/UnmodifiedReduceAccumulator:
+  Enabled: true
+
+Lint/UnreachablePatternBranch: # new in 1.85
   Enabled: true
 
 Lint/UnusedBlockArgument:
@@ -669,6 +690,9 @@ RSpec/DescribedClass:
   Exclude:
     - spec/requests/**/*.rb
 
+RSpec/DiscardedMatcher: # new in 3.10
+  Enabled: true
+
 RSpec/DuplicatedMetadata:
   Enabled: true
 
@@ -732,6 +756,9 @@ RSpec/LetSetup:
 RSpec/MatchArray:
   Enabled: false
 
+RSpec/MatchWithSimpleRegex: # new in 3.10
+  Enabled: true
+
 RSpec/MetadataStyle:
   Enabled: false
 
@@ -756,6 +783,12 @@ RSpec/NoRequireRailsHelper:
     - spec/rails_helper.rb
 
 Simplecov/LegacySkipCoverage:
+  Enabled: true
+
+RSpec/Output: # new in 3.9
+  Exclude:
+    - spec/rails_helper.rb
+    - spec/spec_helper.rb
   Enabled: true
 
 RSpec/PendingWithoutReason:
@@ -816,7 +849,13 @@ RSpec/VoidExpect:
 RSpecRails/AvoidSetupHook:
   Enabled: true
 
+RSpecRails/FileFixture: # new in 2.33
+  Enabled: true
+
 RSpecRails/HaveHttpStatus:
+  Enabled: true
+
+RSpecRails/HttpStatusNameConsistency: # new in 2.32
   Enabled: true
 
 RSpecRails/InferredSpecType:
@@ -827,6 +866,9 @@ RSpecRails/MinitestAssertions:
 
 RSpecRails/NegationBeValid:
   Enabled: false
+
+RSpecRails/ReceivePerformLater: # new in 2.33
+  Enabled: true
 
 RSpecRails/TravelAround:
   Enabled: true
@@ -900,6 +942,9 @@ Style/DigChain:
 Style/DirEmpty:
   Enabled: true
 
+Style/DirectiveScope: # new in 1.90
+  Enabled: true
+
 Style/Documentation:
   Enabled: false
 
@@ -947,6 +992,9 @@ Style/FileEmpty:
   Enabled: true
 
 Style/FileNull:
+  Enabled: true
+
+Style/FileOpen: # new in 1.85
   Enabled: true
 
 Style/FileRead:
@@ -1021,6 +1069,9 @@ Style/MapCompactWithConditionalBlock:
 Style/MapIntoArray:
   Enabled: true
 
+Style/MapJoin: # new in 1.85
+  Enabled: true
+
 Style/MapToHash:
   Enabled: true
 
@@ -1069,10 +1120,19 @@ Style/NumericPredicate:
 Style/ObjectThen:
   Enabled: true
 
+Style/OneClassPerFile: # new in 1.85
+  Enabled: true
+
 Style/OpenStructUse:
   Enabled: true
 
 Style/OperatorMethodCall:
+  Enabled: true
+
+Style/PartitionInsteadOfDoubleSelect: # new in 1.85
+  Enabled: true
+
+Style/PredicateWithKind: # new in 1.85
   Enabled: true
 
 Style/QuotedSymbols:
@@ -1090,6 +1150,9 @@ Style/PreferredHashMethods:
 
 Style/RaiseArgs:
   Enabled: false
+
+Style/ReduceToHash: # new in 1.85
+  Enabled: true
 
 Style/RedundantArgument:
   Enabled: true
@@ -1136,6 +1199,9 @@ Style/RedundantInterpolationUnfreeze:
 Style/RedundantLineContinuation:
   Enabled: true
 
+Style/RedundantMinMaxBy: # new in 1.85
+  Enabled: true
+
 Style/RedundantParentheses:
   Enabled: false
 
@@ -1167,6 +1233,12 @@ Style/ReverseFind: # new in 1.84
 
 Style/SafeNavigationChainLength:
   Enabled: false
+
+Style/SelectByKind: # new in 1.85
+  Enabled: true
+
+Style/SelectByRange: # new in 1.85
+  Enabled: true
 
 Style/SelectByRegexp:
   Enabled: true
@@ -1203,6 +1275,12 @@ Style/SymbolArray:
 
 Style/SymbolProc:
   Enabled: false
+
+Style/TallyMethod: # new in 1.85
+  Enabled: true
+
+Style/TimeNow: # new in 1.90
+  Enabled: true
 
 Style/TrailingCommaInArguments:
   Enabled: false

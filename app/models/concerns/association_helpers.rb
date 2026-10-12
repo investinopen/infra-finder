@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Helpers for defining certain types of associations.
-# rubocop:disable Rails/HasManyOrHasOneDependent
+# rubocop:disable-next Rails/HasManyOrHasOneDependent
 module AssociationHelpers
   extend ActiveSupport::Concern
 
@@ -80,4 +80,3 @@ module AssociationHelpers
     end
   end
 end
-# rubocop:enable Rails/HasManyOrHasOneDependent
