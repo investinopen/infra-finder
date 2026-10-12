@@ -56,8 +56,8 @@ GEM
     active_link_to (1.0.5)
       actionpack
       addressable
-    active_record_distinct_on (1.6.0)
-      activerecord (>= 6.1, < 7.2)
+    active_record_distinct_on (1.10.0)
+      activerecord (>= 6.1)
     active_snapshot (0.4.0)
       activerecord (>= 6.0)
       railties
@@ -741,7 +741,7 @@ PLATFORMS
 DEPENDENCIES
   absolute_time (~> 1.0)
   active_link_to (~> 1.0)
-  active_record_distinct_on (~> 1.6)
+  active_record_distinct_on (~> 1.10)
   active_snapshot (~> 0.4)
   activeadmin (~> 3.2)
   activerecord-cte (~> 0.3)
