@@ -58,8 +58,8 @@ GEM
       addressable
     active_record_distinct_on (1.10.0)
       activerecord (>= 6.1)
-    active_snapshot (0.4.0)
-      activerecord (>= 6.0)
+    active_snapshot (1.2.2)
+      activerecord (>= 7)
       railties
     activeadmin (3.5.2)
       arbre (~> 1.2, >= 1.2.1)
@@ -745,7 +745,7 @@ DEPENDENCIES
   absolute_time (~> 1.0)
   active_link_to (~> 1.0)
   active_record_distinct_on (~> 1.10)
-  active_snapshot (~> 0.4)
+  active_snapshot (~> 1.2)
   activeadmin (~> 3.5)
   activerecord-cte (~> 0.3)
   acts-as-taggable-on (~> 13.0)
