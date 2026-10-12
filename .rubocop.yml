@@ -15,6 +15,8 @@ AllCops:
     - "app/services/testing/**/*.rb"
     - "config/puma.rb"
     - "db/migrate/**/*.rb"
+    - "db/queue_migrate/**/*.rb"
+    - "db/cache_migrate/**/*.rb"
     - "db/schema.rb"
     - "lib/generators/**/*.rb"
     - "lib/generators/**/templates/*.rb"
