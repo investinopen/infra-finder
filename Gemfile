@@ -88,7 +88,7 @@ gem "version_gem"
 gem "zaru", "~> 1.0"
 
 # File processing
-gem "aws-sdk-s3", "~> 1.136"
+gem "aws-sdk-s3", "~> 1.233"
 gem "content_disposition", "~> 1.0"
 gem "ffi", "~> 1.16"
 gem "image_processing", "~> 1.14"
