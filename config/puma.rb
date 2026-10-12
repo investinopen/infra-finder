@@ -52,9 +52,6 @@ cluster do
     ActiveSupport.on_load(:active_record) do
       ActiveRecord::Base.connection.disconnect!
     end
-
-    # Ensure we disconnect from Rails cache on forking.
-    Rails.cache.redis.disconnect!
   end
 
   before_worker_boot do
