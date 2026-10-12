@@ -451,7 +451,7 @@ GEM
       activesupport (>= 6.1)
     pp (0.6.4)
       prettyprint
-    premailer (1.27.0)
+    premailer (1.32.0)
       addressable
       css_parser (>= 1.19.0)
       htmlentities (>= 4.0.0)
@@ -800,7 +800,7 @@ DEPENDENCIES
   pg (~> 1.7)
   pg_query (~> 6.2)
   pg_search (~> 2.3)
-  premailer (~> 1.27)
+  premailer (~> 1.32)
   premailer-rails (~> 1.12)
   propshaft
   pry-rails (~> 0.3)
