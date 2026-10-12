@@ -66,8 +66,8 @@ module InfraFinder
       g.orm :active_record, primary_key_type: :uuid
     end
 
-    config.view_component.component_parent_class = "ApplicationComponent"
-    config.view_component.default_preview_layout = "component_preview"
+    config.view_component.generate.parent_class = "ApplicationComponent"
+    config.view_component.previews.default_layout = "component_preview"
     config.view_component.generate.distinct_locale_files = true
     config.view_component.generate.locale = true
     config.view_component.generate.preview = true
@@ -75,8 +75,7 @@ module InfraFinder
     config.view_component.generate.stimulus = true
     config.view_component.generate.stimulus_controller = true
     config.view_component.generate.preview_path = "spec/components/previews"
-    config.view_component.preview_paths << Rails.root.join("spec/components/previews").to_s
-    config.view_component.show_previews_source = false
+    config.view_component.previews.paths << Rails.root.join("spec/components/previews").to_s
 
     if Rails.env.development?
       config.hosts << "www.example.com"

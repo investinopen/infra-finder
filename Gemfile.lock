@@ -690,10 +690,10 @@ GEM
       activemodel (>= 3.0.0)
       public_suffix
     version_gem (1.1.15)
-    view_component (3.11.0)
-      activesupport (>= 5.2.0, < 8.0)
-      concurrent-ruby (~> 1.0)
-      method_source (~> 1.0)
+    view_component (4.15.0)
+      actionview (>= 7.1.0)
+      activesupport (>= 7.1.0)
+      concurrent-ruby (~> 1)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.1)
@@ -829,7 +829,7 @@ DEPENDENCIES
   tzinfo (~> 2.0)
   validate_url (~> 1.0)
   version_gem
-  view_component (~> 3.11)
+  view_component (~> 4.15)
   web-console
   webmock (~> 3.29)
   yard (~> 0.9)
