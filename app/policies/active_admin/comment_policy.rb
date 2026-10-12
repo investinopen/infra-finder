@@ -18,24 +18,26 @@ module ActiveAdmin
       has_any_admin_access? || record.author == user
     end
 
-    class Scope < ApplicationPolicy::Scope
-      def resolve
-        return scope.all if has_any_admin_access?
+    private
 
-        return scope.none unless has_any_editor_access?
+    # @param [ActiveRecord::Relation] relation
+    # @return [ActiveRecord::Relation]
+    def resolve_scope(relation)
+      return relation.all if has_any_admin_access?
 
-        editable_solutions = Solution.with_editor_access_for(user).select(:id)
-        editable_drafts = SolutionDraft.where(solution_id: editable_solutions)
+      return relation.none unless has_any_editor_access?
 
-        base = ActiveAdmin::Comment.all.unscoped
+      editable_solutions = Solution.with_editor_access_for(user).select(:id)
+      editable_drafts = SolutionDraft.where(solution_id: editable_solutions)
 
-        solution_comments = base.where(resource_type: "Solution", resource_id: editable_solutions)
-        draft_comments = base.where(resource_type: "SolutionDraft", resource_id: editable_drafts)
+      base = ActiveAdmin::Comment.all.unscoped
 
-        scoped = solution_comments.or(draft_comments)
+      solution_comments = base.where(resource_type: "Solution", resource_id: editable_solutions)
+      draft_comments = base.where(resource_type: "SolutionDraft", resource_id: editable_drafts)
 
-        scope.merge(scoped)
-      end
+      scoped = solution_comments.or(draft_comments)
+
+      relation.merge(scoped)
     end
   end
 end
