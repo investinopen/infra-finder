@@ -127,7 +127,7 @@ end
 group :test do
   gem "database_cleaner-active_record", "~> 2.2"
   gem "database_cleaner-redis", "~> 2.0"
-  gem "pundit-matchers", "~> 3.1"
+  gem "pundit-matchers", "~> 4.0"
   gem "rspec-collection_matchers", "~> 1.2"
   gem "rspec-its"
   gem "rspec-json_expectations", "~> 2.2"
