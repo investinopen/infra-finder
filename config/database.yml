@@ -23,8 +23,13 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 20 } %>
 
 development:
-  <<: *default
-  database: infra_finder_development
+  primary:
+    <<: *default
+    database: infra_finder_development
+  queue:
+    <<: *default
+    database: infra_finder_queue_development
+    migrations_paths: db/queue_migrate
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -57,12 +62,22 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
-  database: infra_finder_test
+  primary:
+    <<: *default
+    database: infra_finder_test
+  queue:
+    <<: *default
+    database: infra_finder_queue_test
+    migrations_paths: db/queue_migrate
 
 staging:
-  <<: *default
-  database: infra_finder_staging
+  primary:
+    <<: *default
+    database: infra_finder_staging
+  queue:
+    <<: *default
+    database: infra_finder_queue_staging
+    migrations_paths: db/queue_migrate
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -75,7 +90,8 @@ staging:
 #
 # If the connection URL is provided in the special DATABASE_URL environment
 # variable, Rails will automatically merge its configuration values on top of
-# the values provided in this file. Alternatively, you can specify a connection
+# the values provided in this file. The same applies to other databases using
+# <NAME>_DATABASE_URL, e.g. QUEUE_DATABASE_URL for the queue database. Alternatively, you can specify a connection
 # URL environment variable explicitly:
 #
 #   production:
@@ -85,5 +101,10 @@ staging:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
-  database: infra_finder_production
+  primary:
+    <<: *default
+    database: infra_finder_production
+  queue:
+    <<: *default
+    database: infra_finder_queue_production
+    migrations_paths: db/queue_migrate

@@ -47,3 +47,7 @@ Rails.application.configure do
   config.good_job.dashboard_default_locale = :en
   config.good_job.dashboard_live_poll_enabled = Rails.env.local?
 end
+
+GoodJob.configure_active_record do
+  connects_to database: { writing: :queue, reading: :queue }
+end
