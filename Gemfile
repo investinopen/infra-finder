@@ -11,7 +11,7 @@ gem "sorted_set", "~> 1"
 
 # Rails / Database
 gem "rails", "~> 7.1.6"
-gem "pg", "~> 1.5"
+gem "pg", "~> 1.7"
 gem "pg_query", "~> 6.2"
 gem "activerecord-cte", "~> 0.3"
 gem "active_record_distinct_on", "~> 1.10"
