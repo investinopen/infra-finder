@@ -21,15 +21,16 @@ module GlobalTypes
     #     def element_type(*)
     #     end
     #   end
-    defines :element_type
+    defines :element_type, :array_type
 
     element_type Dry::Types["any"]
+    array_type Dry::Types["coercible.array"].of(element_type)
 
     # Cast a value to an array.
     # @param [Array] value
     # @return [Array]
     def cast(value)
-      Dry::Types["coercible.array"].of(self.class.element_type).try(value).to_monad.value_or([])
+      self.class.array_type.try(value).to_monad.value_or([])
     end
 
     # @!attribute [r] type
@@ -55,6 +56,7 @@ module GlobalTypes
   # It is available to `StoreModel` objects as `:string_array`.
   class StringArray < AnyArray
     element_type Dry::Types["coercible.string"]
+    array_type Dry::Types["coercible.array"].of(element_type)
 
     # @!method cast(value)
     # Coerce a given value to an array of strings.
@@ -71,6 +73,7 @@ module GlobalTypes
   # It is available to `StoreModel` objects as `:integer_array`.
   class IntegerArray < AnyArray
     element_type Dry::Types["coercible.integer"]
+    array_type Dry::Types["coercible.array"].of(element_type)
 
     # @!method cast(value)
     # Coerce a given value to an array of integers.

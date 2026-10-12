@@ -63,4 +63,9 @@ Rails.application.configure do
 
   # Do not dump schema after migrations in CI.
   config.active_record.dump_schema_after_migration = ENV["CI"].blank?
+
+  # Disable YJIT in test environment to speed things up.
+  # YJIT can cause significant slowdowns during dynamic test code definition.
+  # @see https://ryanwood.com/posts/rails-72-and-yjit-on-heroku
+  config.yjit = false
 end
