@@ -2,6 +2,7 @@
 
 # @abstract
 class ApplicationComponent < ViewComponent::Base
+  include ActiveLinkTo
   include ApplicationHelper
   include HeroiconHelper
   include Ransack::Helpers::FormHelper

@@ -22,7 +22,7 @@ gem "frozen_record", "~> 0.27"
 gem "retryable", "~> 3.0"
 gem "scenic", "~> 1.9"
 gem "store_model", "~> 4.6"
-gem "view_component", "~> 3.11"
+gem "view_component", "~> 4.15"
 
 # Redis / Jobs
 gem "good_job", "~> 4.22"
