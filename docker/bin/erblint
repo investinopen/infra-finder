@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-
-exec docker compose exec -e RAILS_ENV=development spec bin/erblint "$@"

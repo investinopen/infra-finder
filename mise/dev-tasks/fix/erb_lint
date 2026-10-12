@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # [MISE] description = "Run & fix ERB Lint on the project root"
 
-mise erblint -a .
+mise erb_lint -a .
