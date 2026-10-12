@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.configure do
-  # Future-proofing
-  config.good_job.smaller_number_is_higher_priority = true
-
   queues = [
     "import:1",
     "export:1",
@@ -16,7 +13,7 @@ Rails.application.configure do
   config.good_job.on_thread_error = ->(exception) { Rollbar.error(exception) }
   config.good_job.execution_mode = :external
   config.good_job.queues = queues
-  config.good_job.max_threads = 5
+  config.good_job.threads = 5
   config.good_job.poll_interval = 30 # seconds
   config.good_job.shutdown_timeout = 25 # seconds
   config.good_job.enable_cron = true
