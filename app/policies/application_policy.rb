@@ -1,28 +1,34 @@
 # frozen_string_literal: true
 
+# The base policy for authorizing actions in the application.
+#
 # @abstract
-class ApplicationPolicy
+# @see https://actionpolicy.evilmartians.io/
+#
+# @!attribute [r] user
+#   The user performing the action, if any.
+#   @return [User, nil]
+#
+# @!attribute [r] record
+#   The record the action is being performed on.
+#   @return [ApplicationRecord, Class, Symbol]
+class ApplicationPolicy < ActionPolicy::Base
   extend Dry::Core::ClassAttributes
+
+  authorize :user, allow_nil: true
 
   defines :requires_admin_for_show, type: Support::GlobalTypes::Bool
 
   requires_admin_for_show false
 
-  # @return [ApplicationRecord]
-  attr_reader :record
-
-  # @return [User, nil]
-  attr_reader :user
-
   delegate :admin?, :has_any_admin_or_editor_access?, :has_any_admin_access?, :has_any_editor_access?, :has_role?, :super_admin?, to: :user, allow_nil: true
 
   alias admin_or_editor? has_any_admin_or_editor_access?
 
-  # @param [User, nil] user
-  # @param [ApplicationRecord] record
-  def initialize(user, record)
-    @user = user
-    @record = record
+  alias_rule :edit?, to: :update?
+
+  relation_scope do |relation|
+    resolve_scope(relation)
   end
 
   def index?
@@ -37,16 +43,8 @@ class ApplicationPolicy
     end
   end
 
-  def new?
-    create?
-  end
-
   def create?
     super_admin?
-  end
-
-  def edit?
-    update?
   end
 
   def update?
@@ -63,10 +61,6 @@ class ApplicationPolicy
 
   def batch_action?
     super_admin?
-  end
-
-  def scope
-    Pundit.policy_scope!(user, record.class)
   end
 
   private
@@ -90,8 +84,14 @@ class ApplicationPolicy
     end
   end
 
+  # @param [ActiveRecord::Relation] relation
+  # @return [ActiveRecord::Relation]
+  def resolve_scope(relation)
+    relation.all
+  end
+
   def record_exists_in_scope?
-    scope.exists?(id: record.id)
+    apply_scope(record.class.all, type: :active_record_relation).exists?(id: record.id)
   end
 
   def requires_admin_for_show?
@@ -102,29 +102,6 @@ class ApplicationPolicy
     # @return [void]
     def requires_admin_for_show!
       requires_admin_for_show true
-    end
-  end
-
-  # @abstract
-  class Scope
-    # @return [ActiveRecord::Relation]
-    attr_reader :scope
-
-    # @return [User, nil]
-    attr_reader :user
-
-    delegate :admin?, :has_any_admin_or_editor_access?, :has_any_admin_access?, :has_any_editor_access?, :has_role?, :super_admin?, to: :user, allow_nil: true
-
-    # @param [User, nil] user
-    # @param [ActiveRecord::Relation] scope
-    def initialize(user, scope)
-      @user = user
-      @scope = scope
-    end
-
-    # @return [ActiveRecord::Relation]
-    def resolve
-      scope.all
     end
   end
 end
