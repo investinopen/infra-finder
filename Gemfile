@@ -25,7 +25,7 @@ gem "store_model", "~> 4.6"
 gem "view_component", "~> 3.11"
 
 # Redis / Jobs
-gem "good_job", "~> 3.99"
+gem "good_job", "~> 4.22"
 gem "redis", "~> 5.4"
 gem "redis-actionpack", "~> 5.5"
 gem "job-iteration", "~> 1.15"
