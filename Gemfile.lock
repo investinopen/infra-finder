@@ -430,7 +430,7 @@ GEM
     noticed (3.1.0)
       rails (>= 7.1.0)
     observer (0.1.2)
-    oj (3.17.6)
+    oj (3.17.7)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
     orm_adapter (0.5.0)
@@ -796,7 +796,7 @@ DEPENDENCIES
   nokogiri (~> 1.19)
   noticed (~> 3.1)
   observer
-  oj (~> 3.16)
+  oj (~> 3.17)
   pg (~> 1.5)
   pg_query (~> 6.2)
   pg_search (~> 2.3)
