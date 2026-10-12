@@ -68,6 +68,9 @@ services:
       file: docker/services.yml
       service: app
     command: tail -f /dev/null
+    depends_on:
+      migrations:
+        condition: service_completed_successfully
     environment:
       - RACK_ENV=test
       - RAILS_ENV=test
