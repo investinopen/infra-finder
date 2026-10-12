@@ -87,9 +87,9 @@ module SolutionProperties
           if tab_names.one?
             Valid(property_name)
           else
-            # :nocov:
+            # simplecov:disable
             Invalid("#{property_name} in tabs: #{tab_names.to_sentence}")
-            # :nocov:
+            # simplecov:enable
           end
         end
 

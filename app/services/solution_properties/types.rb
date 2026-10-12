@@ -25,9 +25,9 @@ module SolutionProperties
       when ValidYear then Params::Date["#{value}-01-01"]
       when Params::Date then value
       else
-        # :nocov:
+        # simplecov:disable
         raise Dry::Types::CoercionError, "invalid date: #{value.inspect}"
-        # :nocov:
+        # simplecov:enable
       end
     end
 

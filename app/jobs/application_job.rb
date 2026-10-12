@@ -31,9 +31,9 @@ class ApplicationJob < ActiveJob::Base
 
     case error
     when ActiveJob::DeserializationError
-      # :nocov:
+      # simplecov:disable
       # intentionally left blank, we don't care about these
-      # :nocov:
+      # simplecov:enable
     when Utility::HaltedJobError
       Rollbar.info(error, **meta)
     else

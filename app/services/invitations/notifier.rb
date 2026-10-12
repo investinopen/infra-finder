@@ -31,9 +31,9 @@ module Invitations
     end
 
     wrapped_hook! def prepare
-      # :nocov:
+      # simplecov:disable
       return Failure[:must_have_user] unless invitation.user_persisted?
-      # :nocov:
+      # simplecov:enable
 
       # This is protected for some reason.
       @token = user.__send__(:set_reset_password_token)

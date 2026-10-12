@@ -14,9 +14,9 @@ class LocationsConfig < ApplicationConfig
     uri = URI(root)
 
     [uri.hostname].tap do |a|
-      # :nocov:
+      # simplecov:disable
       a << uri.port unless uri.port.in?(STANDARD_PORTS)
-      # :nocov:
+      # simplecov:enable
     end.join(?:)
   end
 

@@ -39,9 +39,9 @@ module SolutionImports
       in "v2"
         v2_build!
       else
-        # :nocov:
+        # simplecov:disable
         mark_invalid "Unsupported strategy: #{strategy}"
-        # :nocov:
+        # simplecov:enable
       end
     end
 
@@ -70,9 +70,9 @@ module SolutionImports
         CSV.table(tmp)
       end
     rescue Errno::ENOENT, CSV::InvalidEncodingError, CSV::MalformedCSVError => e
-      # :nocov:
+      # simplecov:disable
       mark_invalid "Problem parsing CSV: #{e.message}"
-      # :nocov:
+      # simplecov:enable
     else
       Success rows
     end

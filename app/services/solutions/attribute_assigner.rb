@@ -62,9 +62,9 @@ module Solutions
     end
 
     wrapped_hook! def validate
-      # :nocov:
+      # simplecov:disable
       return Failure[:mismatched_solution_draft, actual, draft] if draft.present? && actual != draft.solution
-      # :nocov:
+      # simplecov:enable
 
       super
     end
@@ -131,9 +131,9 @@ module Solutions
 
         Success :accept_intake
       else
-        # :nocov:
+        # simplecov:disable
         Failure[:invalid_solution_assignment, [source_kind, target_kind]]
-        # :nocov:
+        # simplecov:enable
       end
     end
   end

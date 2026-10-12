@@ -19,9 +19,9 @@ class ComparisonItemsController < ApplicationController
       end
 
       m.failure do
-        # :nocov:
+        # simplecov:disable
         redirect_back fallback_location: solutions_path, alert: t("api.errors.something_went_wrong")
-        # :nocov:
+        # simplecov:enable
       end
     end
   end
@@ -59,9 +59,9 @@ class ComparisonItemsController < ApplicationController
       end
 
       m.failure do
-        # :nocov:
+        # simplecov:disable
         redirect_back fallback_location: solutions_path, alert: t("api.errors.something_went_wrong")
-        # :nocov:
+        # simplecov:enable
       end
     end
   end
@@ -89,9 +89,9 @@ class ComparisonItemsController < ApplicationController
       end
 
       m.failure do
-        # :nocov:
+        # simplecov:disable
         redirect_back fallback_location: solutions_path, alert: t("api.errors.something_went_wrong")
-        # :nocov:
+        # simplecov:enable
       end
     end
   end

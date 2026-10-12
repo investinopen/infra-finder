@@ -29,9 +29,9 @@ module ControlledVocabularies
     wrapped_hook! def prepare
       @record_count = 0
 
-      # :nocov:
+      # simplecov:disable
       return Failure[:must_be_model, vocab.name] unless vocab.uses_model?
-      # :nocov:
+      # simplecov:enable
 
       @model_klass = vocab.model_klass
 

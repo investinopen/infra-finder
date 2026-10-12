@@ -20,11 +20,11 @@ module SolutionProperties
 
         return if attachment.blank? || !attacher.try(:stored?)
 
-        # :nocov:
+        # simplecov:disable
         if Rails.env.development? && attachment.original_import_url.present?
           return attachment.original_import_url
         end
-        # :nocov:
+        # simplecov:enable
 
         attachment.url
       end

@@ -8,9 +8,9 @@ module ActiveAdmin
       when "Dashboard", "Notifications", "terms_and_conditions"
         admin_or_editor?
       else
-        # :nocov:
+        # simplecov:disable
         false
-        # :nocov:
+        # simplecov:enable
       end
     end
 
@@ -19,9 +19,9 @@ module ActiveAdmin
       when "terms_and_conditions"
         true
       else
-        # :nocov:
+        # simplecov:disable
         false
-        # :nocov:
+        # simplecov:enable
       end
     end
 
@@ -30,9 +30,9 @@ module ActiveAdmin
       when "Notifications"
         admin_or_editor?
       else
-        # :nocov:
+        # simplecov:disable
         false
-        # :nocov:
+        # simplecov:enable
       end
     end
   end

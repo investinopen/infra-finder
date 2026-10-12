@@ -72,9 +72,9 @@ module ControlledVocabularies
         in :multiple then multiple_uniqueness_name
         in :single then single_uniqueness_name
         else
-          # :nocov:
+          # simplecov:disable
           raise "unknown mode: #{connection_mode}"
-          # :nocov:
+          # simplecov:enable
         end
       end
 

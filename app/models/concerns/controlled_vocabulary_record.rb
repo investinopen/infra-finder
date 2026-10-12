@@ -89,9 +89,9 @@ module ControlledVocabularyRecord
     in :intake
       intake_link_association
     else
-      # :nocov:
+      # simplecov:disable
       raise "invalid solution kind: #{kind}"
-      # :nocov:
+      # simplecov:enable
     end
   end
 

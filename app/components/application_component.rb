@@ -70,9 +70,9 @@ class ApplicationComponent < ViewComponent::Base
 
     # @return [void]
     def each_implementation_link
-      # :nocov:
+      # simplecov:disable
       return enum_for(__method__) unless block_given?
-      # :nocov:
+      # simplecov:enable
 
       links = [].tap do |a|
         a.concat implementation.links if has_many_links?
@@ -155,9 +155,9 @@ class ApplicationComponent < ViewComponent::Base
     end
 
     def before_render
-      # :nocov:
+      # simplecov:disable
       super if defined?(super)
-      # :nocov:
+      # simplecov:enable
 
       @search_form_options = build_search_form_options
     end

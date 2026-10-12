@@ -77,11 +77,11 @@ module SolutionImports
         end
 
         m.failure do
-          # :nocov:
+          # simplecov:disable
           logger.fatal "Import failed, cannot proceed."
 
           yield monadic_transition(import, :failure)
-          # :nocov:
+          # simplecov:enable
         end
       end
 

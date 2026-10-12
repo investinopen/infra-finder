@@ -38,9 +38,9 @@ module SolutionProperties
 
         map[name] = record
       rescue NoMatchingPatternKeyError
-        # :nocov:
+        # simplecov:disable
         next
-        # :nocov:
+        # simplecov:enable
       end
 
       super

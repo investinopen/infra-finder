@@ -60,9 +60,9 @@ module ControlledVocabularies
       in "model"
         options_for_model
       else
-        # :nocov:
+        # simplecov:disable
         raise "invalid strategy: #{vocab.strategy}"
-        # :nocov:
+        # simplecov:enable
       end
     end
 

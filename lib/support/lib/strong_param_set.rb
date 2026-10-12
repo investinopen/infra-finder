@@ -206,9 +206,9 @@ module Support
       elsif @map.any?
         :mapping
       else
-        # :nocov:
+        # simplecov:disable
         raise "Impossible state: list: #{@list.inspect}, map: #{@map.inspect}"
-        # :nocov:
+        # simplecov:enable
       end
     end
 

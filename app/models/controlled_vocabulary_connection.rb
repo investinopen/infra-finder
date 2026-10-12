@@ -224,9 +224,9 @@ class ControlledVocabularyConnection < Support::FrozenRecordHelpers::AbstractRec
     end
 
     def each_connection_with_length_limits_for(vocab_name:, solution_kind:)
-      # :nocov:
+      # simplecov:disable
       return enum_for(__method__, vocab_name:, solution_kind:) unless block_given?
-      # :nocov:
+      # simplecov:enable
 
       for_vocab_name(vocab_name).for_kind(solution_kind).multiple.each do |conn|
         next unless conn.limits_max_length?

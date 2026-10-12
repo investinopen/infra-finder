@@ -24,9 +24,9 @@ module SolutionImports
 
           super
         else
-          # :nocov:
+          # simplecov:disable
           Failure[:unsupported_strategy, strategy]
-          # :nocov:
+          # simplecov:enable
         end
       end
 
@@ -64,11 +64,11 @@ module SolutionImports
         assign, *_ = accessor.accept_csv!(row)
 
         if required && (assign.blank? || assign.value.blank?)
-          # :nocov:
+          # simplecov:disable
           mark_invalid "Missing required #{accessor.csv_header} value in CSV, can't proceed"
 
           return
-          # :nocov:
+          # simplecov:enable
         end
 
         return assign

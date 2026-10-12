@@ -26,9 +26,9 @@ class SolutionMultiselectionOtherComponent < ApplicationComponent
     @solution = solution
     @name = name
 
-    # :nocov:
+    # simplecov:disable
     solution.vocab_selected_and_other_for(name) => { selected:, has_other:, other_value:, mode:, conn: }
-    # :nocov:
+    # simplecov:enable
 
     @other_value = other_value
   end

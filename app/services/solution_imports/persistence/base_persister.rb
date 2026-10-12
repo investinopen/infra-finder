@@ -21,9 +21,9 @@ module SolutionImports
         in SolutionIntake
           self.intakes_count += 1
         else
-          # :nocov:
+          # simplecov:disable
           # intentionally left blank
-          # :nocov:
+          # simplecov:enable
         end
       end
 
@@ -57,9 +57,9 @@ module SolutionImports
             Provider.find_by!(identifier: provider_identifier)
           end
         rescue ActiveRecord::RecordNotFound
-          # :nocov:
+          # simplecov:disable
           Failure[:unknown_provider, provider_identifier]
-          # :nocov:
+          # simplecov:enable
         else
           Success provider
         end

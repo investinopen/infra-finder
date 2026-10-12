@@ -59,9 +59,9 @@ class ShareBarComponent < ApplicationComponent
     when "solution_detail"
       solution_url(solution)
     else
-      # :nocov:
+      # simplecov:disable
       ""
-      # :nocov:
+      # simplecov:enable
     end
   end
 
@@ -69,9 +69,9 @@ class ShareBarComponent < ApplicationComponent
     if share_mode.in?(["comparison", "solution_list"]) && comparison_sharable?
       shared_comparison_share_url(comparison_share)
     else
-      # :nocov:
+      # simplecov:disable
       ""
-      # :nocov:
+      # simplecov:enable
     end
   end
 
@@ -82,9 +82,9 @@ class ShareBarComponent < ApplicationComponent
     when "solution_detail"
       solution.present?
     else
-      # :nocov:
+      # simplecov:disable
       true
-      # :nocov:
+      # simplecov:enable
     end
   end
 

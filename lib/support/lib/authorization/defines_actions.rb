@@ -72,9 +72,9 @@ module Support
 
             delegate_actions!(*aliases, to:) if aliases.any?
           in Types::ActionNames => action_names
-            # :nocov:
+            # simplecov:disable
             raise ArgumentError, "cannot specify `aliases` when `on` is an array" if aliases.any?
-            # :nocov:
+            # simplecov:enable
 
             action_names.each do |condition_name|
               set_action_resolution!(condition_name, conditions, logic:)

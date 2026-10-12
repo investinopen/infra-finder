@@ -15,9 +15,9 @@ module Solutions
 
             status_tag(label)
           else
-            # :nocov:
+            # simplecov:disable
             status_tag("n/a")
-            # :nocov:
+            # simplecov:enable
           end
         end
       end

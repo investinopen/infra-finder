@@ -199,9 +199,9 @@ class User < ApplicationRecord
       when Solution, SolutionDraft
         with_access_to(resource.provider)
       else
-        # :nocov:
+        # simplecov:disable
         none
-        # :nocov:
+        # simplecov:enable
       end
     end
 

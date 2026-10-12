@@ -18,9 +18,9 @@ class ApplicationConfig < Anyway::Config
       if Rails.env.test?
         new
       else
-        # :nocov:
+        # simplecov:disable
         @instance ||= new
-        # :nocov:
+        # simplecov:enable
       end
     end
   end

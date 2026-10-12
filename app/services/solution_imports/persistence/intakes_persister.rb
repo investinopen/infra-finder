@@ -27,9 +27,9 @@ module SolutionImports
             end
 
             m.failure do
-              # :nocov:
+              # simplecov:disable
               raise "Something went wrong"
-              # :nocov:
+              # simplecov:enable
             end
           end
         end

@@ -25,9 +25,9 @@ ActiveAdmin.register_page "Dashboard" do
                 end
               end
             else
-              # :nocov:
+              # simplecov:disable
               para "None at present"
-              # :nocov:
+              # simplecov:enable
             end
           end
         end
@@ -51,9 +51,9 @@ ActiveAdmin.register_page "Dashboard" do
                 end
               end
             else
-              # :nocov:
+              # simplecov:disable
               para "None at present"
-              # :nocov:
+              # simplecov:enable
             end
           end
         end
@@ -75,9 +75,9 @@ ActiveAdmin.register_page "Dashboard" do
                 end
               end
             else
-              # :nocov:
+              # simplecov:disable
               para "None at present"
-              # :nocov:
+              # simplecov:enable
             end
           end
         end
@@ -97,9 +97,9 @@ ActiveAdmin.register_page "Dashboard" do
                 end
               end
             else
-              # :nocov:
+              # simplecov:disable
               para "None at present"
-              # :nocov:
+              # simplecov:enable
             end
           end
         end

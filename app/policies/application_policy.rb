@@ -84,9 +84,9 @@ class ApplicationPolicy
     when SolutionRevision
       has_role?(:editor, record.actual_provider)
     else
-      # :nocov:
+      # simplecov:disable
       false
-      # :nocov:
+      # simplecov:enable
     end
   end
 

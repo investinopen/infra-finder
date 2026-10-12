@@ -16,15 +16,15 @@ module Utility
 
       actual = Shrine.determine_mime_type(uploaded_file)
 
-      # :nocov:
+      # simplecov:disable
       return Failure[:unknown_content_type] if actual.blank?
-      # :nocov:
+      # simplecov:enable
 
       enum.try(actual).to_monad
     rescue Shrine::Error => e
-      # :nocov:
+      # simplecov:disable
       Failure[:shrine_error, e.message]
-      # :nocov:
+      # simplecov:enable
     end
   end
 end

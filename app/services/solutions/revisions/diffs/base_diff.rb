@@ -58,9 +58,9 @@ module Solutions
         end
 
         def label
-          # :nocov:
+          # simplecov:disable
           return unless name?
-          # :nocov:
+          # simplecov:enable
 
           fetch_or_store(name, :label) do
             SolutionProperty.find_by(name:).try(:field_label) || name.titleize
@@ -134,9 +134,9 @@ module Solutions
             in [?-, name, old_value]
               new(verb: :unset, name:, old_value:)
             else
-              # :nocov:
+              # simplecov:disable
               raise "Unexpected hash diff tuple: #{tuple.inspect}"
-              # :nocov:
+              # simplecov:enable
             end.as_json.then { TYPE.cast_value(_1) }
           end
 

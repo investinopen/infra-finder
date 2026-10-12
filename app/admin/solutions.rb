@@ -20,9 +20,9 @@ ActiveAdmin.register Solution do
       end
 
       m.failure do
-        # :nocov:
+        # simplecov:disable
         redirect_back fallback_location: admin_solutions_path, alert: I18n.t("api.errors.something_went_wrong")
-        # :nocov:
+        # simplecov:enable
       end
     end
   end

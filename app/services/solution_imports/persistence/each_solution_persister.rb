@@ -37,13 +37,13 @@ module SolutionImports
 
         @new_record = solution.new_record?
 
-        # :nocov:
+        # simplecov:disable
         if new_record
           logger.debug "Will create a new solution"
         else
           logger.debug "Will update an existing solution: #{solution.id}"
         end
-        # :nocov:
+        # simplecov:enable
 
         super
       end
@@ -57,9 +57,9 @@ module SolutionImports
 
         yield draft.request_review
 
-        # :nocov:
+        # simplecov:disable
         yield draft.approve if auto_approve?
-        # :nocov:
+        # simplecov:enable
 
         super
       end
@@ -90,9 +90,9 @@ module SolutionImports
 
         super
       rescue ActiveRecord::RecordInvalid => e
-        # :nocov:
+        # simplecov:disable
         mark_invalid "Problem saving record: #{e.message}"
-        # :nocov:
+        # simplecov:enable
       end
 
       wrapped_hook! def handle_draft_attachments

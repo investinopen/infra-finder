@@ -34,9 +34,9 @@ module SolutionDrafts
     end
 
     wrapped_hook! def prepare
-      # :nocov:
+      # simplecov:disable
       return Failure[:unassociated_draft] if solution.blank?
-      # :nocov:
+      # simplecov:enable
 
       @changes = yield compare_to_solution
 

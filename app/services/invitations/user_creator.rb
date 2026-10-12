@@ -50,11 +50,11 @@ module Invitations
         if user.errors.any? { _1.attribute == :email && _1.type == :taken }
           return Failure[:email_already_registered]
         else
-          # :nocov:
+          # simplecov:disable
           reason = user.errors.full_messages.to_sentence
 
           return Failure[:user_creation_failed, reason]
-          # :nocov:
+          # simplecov:enable
         end
       end
 

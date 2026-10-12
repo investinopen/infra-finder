@@ -13,9 +13,9 @@ module Utility
       when String
         value
       else
-        # :nocov:
+        # simplecov:disable
         raise Dry::Types::CoercionError, "invalid session id: #{value.inspect}"
-        # :nocov:
+        # simplecov:enable
       end
     end.constrained(format: /\A[0-9a-f]+\z/i)
   end
