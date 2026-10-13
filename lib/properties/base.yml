@@ -388,6 +388,7 @@
   code: 8
   attr:
   kind: :string
+  association_name: provider
   meta: true
   description: |-
     Name of the service provider. A provider is a formal or informal organization
@@ -478,6 +479,7 @@
   code: 56
   attr: founded_on
   kind: :date
+  scalar_kind: year
   meta: false
   description: |-
     Year that the service was first made available to users.
