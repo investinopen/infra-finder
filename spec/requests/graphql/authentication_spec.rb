@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe "GraphQL authentication", type: :request, graphql: true do
-  let(:query) { "query { viewer { email } }" }
+  let(:query) { "query { viewer { email anonymous } }" }
 
   def request_with!(authorization)
     headers = { "CONTENT_TYPE" => "application/json" }
@@ -17,7 +17,7 @@ RSpec.describe "GraphQL authentication", type: :request, graphql: true do
     request_with! nil
 
     expect(response).to have_http_status(:ok)
-    expect(response.parsed_body.dig("data", "viewer")).to be_nil
+    expect(response.parsed_body.dig("data", "viewer", "anonymous")).to be true
   end
 
   it "authenticates a valid token" do

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require Rails.root.join("lib", "middleware", "tus_uploader")
+
 require "shrine/storage/memory"
 require "shrine/storage/s3"
 require "shrine/storage/url"
@@ -19,6 +21,21 @@ shared_s3_options = {
 cache_s3_options = { **shared_s3_options, prefix: "cache" }
 store_s3_options = { **shared_s3_options, prefix: "store" }
 derivative_s3_options = { **shared_s3_options, prefix: "derivatives" }
+
+# Outside of tests, tus writes uploads to the same bucket and prefix as Shrine's
+# cache storage, so a finished tus upload can be attached directly as a cached
+# file. Tests use separate filesystem (tus) and memory (Shrine) storage.
+Tus::Server.plugin :hooks
+
+Tus::Server.opts[:redirect_download] = true
+Tus::Server.opts[:max_size] = 3.gigabytes
+
+Tus::Server.opts[:storage] =
+  if Rails.env.test?
+    Tus::Storage::Filesystem.new(Rails.root.join("tmp", "tus"))
+  else
+    Tus::Storage::S3.new(concurrency: { concatenation: 20 }, logger: Rails.logger, **cache_s3_options)
+  end
 
 Shrine.storages = {
   cache: Shrine::Storage::S3.new(**cache_s3_options),
@@ -45,6 +62,7 @@ Shrine.plugin :data_uri
 Shrine.plugin :tempfile # load it globally so that it overrides `Shrine.with_file`
 Shrine.plugin :derivatives, create_on_promote: true, store: :derivatives
 Shrine.plugin :upload_options, cache: { acl: "public-read" }, store: { acl: "public-read" }
+Shrine.plugin :tus
 
 if UploadConfig.has_mapped_host?
   Shrine.plugin(:url_options, **UploadConfig.for_url_options)

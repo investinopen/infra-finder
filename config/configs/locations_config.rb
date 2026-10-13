@@ -16,6 +16,15 @@ class LocationsConfig < ApplicationConfig
   # @return [Boolean]
   def admin_spa? = admin_spa.present?
 
+  # The CORS origin of the admin SPA, or `"*"` when none is configured.
+  #
+  # @return [String]
+  def admin_spa_origin
+    return "*" unless admin_spa?
+
+    URI(admin_spa).origin
+  end
+
   # Build a URL under {#admin_spa}, keeping any path it already has
   # (e.g. `https://example.org/admin` + `/confirm` => `https://example.org/admin/confirm`).
   #

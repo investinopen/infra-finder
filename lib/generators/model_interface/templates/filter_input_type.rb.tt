@@ -1,0 +1,26 @@
+# frozen_string_literal: true
+
+module Types
+  module Filtering
+    # @see ::Filtering::Scopes::<%= filter_scope_name %>
+    class <%= model_name %>FilterInputType < ::Types::FilterScopeInputObject
+      description <<~TEXT
+      Filtering options for `<%= model_name %>` records.
+      TEXT
+
+      inherit_from!(::Filtering::Scopes::<%= filter_scope_name %>)
+
+      argument :created_at, ::Types::FilterMatchTimeInputType, required: false do
+        description <<~TEXT
+        Filter the model's `created_at` with time constraints.
+        TEXT
+      end
+
+      argument :updated_at, ::Types::FilterMatchTimeInputType, required: false do
+        description <<~TEXT
+        Filter the model's `updated_at` with time constraints.
+        TEXT
+      end
+    end
+  end
+end

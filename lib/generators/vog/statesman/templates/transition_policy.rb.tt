@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+# @see <%= transition_class_name %>
+class <%= transition_class_name %>Policy < AbstractTransitionPolicy
+end

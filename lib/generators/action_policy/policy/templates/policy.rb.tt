@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+<% module_namespacing do -%>
+# @see <%= class_name %>
+class <%= class_name %>Policy < <%= parent_class_name.classify %>
+  private
+
+  # @param [ActiveRecord::Relation] relation
+  # @return [ActiveRecord::Relation]
+  def resolve_scope(relation)
+    has_any_admin_access? ? relation : relation.none
+  end
+end
+<% end -%>

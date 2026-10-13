@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   post "/graphql", to: "graphql#execute", as: :graphql
 
+  mount Middleware::TusUploader, at: "/files"
+
   get "/graphiql", to: "graphiql#show" if Rails.env.development?
 
   authenticate :user, ->(user) { user.has_any_admin_access? } do

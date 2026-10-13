@@ -1,0 +1,22 @@
+# frozen_string_literal: true
+
+# The transition model for {<%= model_name %>}s.
+#
+# @see <%= class_name %>
+# @see <%= full_state_machine_class_name %>
+# @see <%= full_enum_type_class_name %>
+# @see <%= full_transition_type_class_name %>
+class <%= transition_class_name %> < ApplicationRecord
+  include Support::StatesmanHelpers::Transition
+  include CommonTransition
+
+  stateful_enum! <%= enum_type.to_sym.inspect %>
+
+  belongs_to <%= base_association.to_sym.inspect %>, inverse_of: <%= transitions_association_name.to_sym.inspect %>
+
+  belongs_to :user, inverse_of: <%= transitions_association_name.to_sym.inspect %>, optional: true
+
+  owner_association_name <%= base_association.to_sym.inspect %>
+
+  transitions_association_name <%= transitions_association_name.to_sym.inspect %>
+end

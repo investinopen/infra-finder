@@ -1,0 +1,70 @@
+<%-
+  # vim: set ft=ruby.eruby nosmartindent noautoindent :
+-%>
+# frozen_string_literal: true
+
+module Types
+  # An interface for querying {<%= model_name %>}.
+  module <%= query_interface_name %>
+    include Types::BaseInterface
+
+    description <<~TEXT
+    An interface for querying `<%= model_name %>` records.
+    TEXT
+
+    field <%= field_single_name.inspect %>, ::<%= graphql_model_klass %>, null: true do
+      description <<~TEXT
+      Retrieve a single `<%= model_name %>`<%= has_unique_identifier? ? " by slug or identifier" : " by slug" %>.
+      TEXT
+
+      <%- if has_unique_identifier? -%>
+      argument :with, <%= selector_input_klass %>, required: true do
+        description <<~TEXT
+        The slug or identifier to look up.
+        TEXT
+      end
+      <%- else -%>
+      argument :slug, Types::SlugType, required: true do
+        description <<~TEXT
+        The slug to look up.
+        TEXT
+      end
+      <%- end -%>
+    end
+
+    <%- if use_resolver? -%>
+    field <%= field_collection_name.inspect %>, resolver: ::<%= resolver_klass %>
+    <%- else -%>
+    field <%= field_collection_name.inspect %>, <%= graphql_model_klass %>.connection_type, null: false do
+      description <<~TEXT
+      Retrieve a collection of <%= human_models %>.
+      TEXT
+    end
+    <%- end -%>
+
+    <%- if has_unique_identifier? -%>
+    # @param [<%= selector_input_klass %>] with
+    # @return [<%= model_name %>, nil]
+    def <%= field_single_name %>(with:)
+      if with.identifier.present?
+        return load_record_with(<%= model_name %>, with.identifier, find_by: :identifier)
+      end
+
+      load_record_with(<%= model_name %>, with.slug)
+    end
+    <%- else -%>
+    # @param [String] slug
+    # @return [<%= model_name %>, nil]
+    def <%= field_single_name %>(slug:)
+      load_record_with(<%= model_name %>, slug)
+    end
+    <%- end -%>
+    <%- if skip_resolver? -%>
+
+    # @return [ActiveRecord::Relation<<%= model_name %>>]
+    def <%= field_collection_name %>
+      policy_scope(<%= model_name %>)
+    end
+    <%- end -%>
+  end
+end

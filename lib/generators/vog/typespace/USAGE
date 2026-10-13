@@ -1,0 +1,14 @@
+Description:
+    Generates an app/services/{service_namespace}/types.rb file with an empty
+    Types module that extends Support::Typespace.
+
+    If the file already exists, the generator exits early without overwriting it.
+
+Arguments:
+    NAME    The PascalCase owner model name (e.g. StarLevel)
+
+Example:
+    bin/rails generate vog:typespace StarLevel
+
+    This will create:
+        app/services/star_levels/types.rb

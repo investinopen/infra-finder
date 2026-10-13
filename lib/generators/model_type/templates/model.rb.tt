@@ -1,0 +1,34 @@
+<%-
+  # vim: set ft=ruby.eruby :
+-%>
+# frozen_string_literal: true
+
+module Types
+  # @see <%= class_name %>
+  <%- if use_direct_connection_and_edge? -%>
+  # @see <%= full_connection_type_name %>
+  # @see <%= full_edge_type_name %>
+  <%- end -%>
+  class <%= graphql_type_name %> < Types::AbstractModel
+    description <<~TEXT
+    A database-backed model.
+    TEXT
+    <%- if use_direct_connection_and_edge? -%>
+
+    use_direct_connection_and_edge!
+    <%- end -%>
+    <%- if has_interfaces? -%>
+
+    <%- interfaces.each do |interface| -%>
+    implements ::<%= interface %>
+    <%- end -%>
+    <%- end -%>
+    <%- if normalized_gql_fields.any? -%>
+    <%- normalized_gql_fields.each do |nf| -%>
+
+<%# indentation here is intentional and necessary -%>
+<%= nf.to_field_definition %>
+    <%- end -%>
+    <%- end -%>
+  end
+end

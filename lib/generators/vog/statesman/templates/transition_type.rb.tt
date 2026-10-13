@@ -1,0 +1,28 @@
+# frozen_string_literal: true
+
+module Types
+  # @see <%= transition_class_name %>
+  # @see ::<%= full_transition_connection_type_class_name %>
+  # @see ::<%= full_transition_edge_type_class_name %>
+  class <%= transition_type_class_name %> < Types::AbstractModel
+    description <<~TEXT
+    A transition for a `<%= class_name %>`.
+    TEXT
+
+    use_direct_connection_and_edge!
+
+    implements ::Types::CommonTransitionType
+
+    field :from_state, <%= full_enum_type_class_name %>, null: true do
+      description <<~TEXT
+      The state that the <%= owner_words %> is transitioning from. This will be null if the submission target is being created.
+      TEXT
+    end
+
+    field :to_state, <%= full_enum_type_class_name %>, null: false do
+      description <<~TEXT
+      The state that the <%= owner_words %> is transitioning to.
+      TEXT
+    end
+  end
+end
