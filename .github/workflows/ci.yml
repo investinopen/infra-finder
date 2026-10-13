@@ -89,6 +89,14 @@ jobs:
         run: |
           bin/rails db:test:prepare
 
+      - name: "Check generated GraphQL types are current"
+        if: matrix.use_async_dataloader == 'true'
+        run: |
+          bin/rails generate solution_properties --force
+          bin/rails generate controlled_vocabulary_graphql
+          git status --porcelain -- app lib
+          test -z "$(git status --porcelain -- app lib)"
+
       - name: "Build assets"
         run: |
           bin/rails assets:precompile
