@@ -9,5 +9,11 @@ module Types
 
     include GraphQL::Types::Relay::HasNodeField
     include GraphQL::Types::Relay::HasNodesField
+
+    # @!group Query Implementations
+
+    implements Types::QueriesViewer
+
+    # @!endgroup Query Implementations
   end
 end

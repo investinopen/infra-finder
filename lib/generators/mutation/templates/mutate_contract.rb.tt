@@ -1,0 +1,29 @@
+<%-
+  # vim: set ft=ruby.eruby :
+-%>
+# frozen_string_literal: true
+
+module Mutations
+  module Contracts
+    # @see <%= parent_mutation_class_name %>
+    class <%= mutate_contract_class_name %> < VOGMutations::Contract
+<%- unless has_name? || has_unique_identifier? || has_optional_description? -%>
+      # rubocop:disable Lint/EmptyBlock
+<%- end -%>
+      json do
+        <%- if has_name? -%>
+        required(:name).filled(:string)
+        <%- end -%>
+        <%- if has_unique_identifier? -%>
+        required(:identifier).filled(:string)
+        <%- end -%>
+        <%- if has_optional_description? -%>
+        optional(:description).maybe(:string)
+        <%- end -%>
+      end
+<%- unless has_name? || has_unique_identifier? || has_optional_description? -%>
+      # rubocop:enable Lint/EmptyBlock
+<%- end -%>
+    end
+  end
+end
