@@ -12,6 +12,7 @@ class ApplicationRecord < ActiveRecord::Base
   include PostgresEnums
   include StoreModelIntrospection
   include WhereMatches
+  include VOG::GraphQLModelSupport
 
   primary_abstract_class
 
