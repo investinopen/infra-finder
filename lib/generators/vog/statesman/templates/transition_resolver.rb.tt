@@ -1,0 +1,20 @@
+# frozen_string_literal: true
+
+module Resolvers
+  # A resolver for a {<%= transition_class_name %>}.
+  #
+  # @see <%= class_name %>
+  # @see <%= transition_class_name %>
+  # @see ::<%= full_transition_type_class_name %>
+  class <%= transition_resolver_class_name %> < AbstractResolver
+    include Resolvers::Enhancements::PageBasedPagination
+
+    applies_policy_scope!
+
+    type ::<%= full_transition_type_class_name %>.connection_type, null: false
+
+    resolves_model! ::<%= transition_class_name %> do
+      object.<%= transitions_association_name %>.in_graphql_order
+    end
+  end
+end

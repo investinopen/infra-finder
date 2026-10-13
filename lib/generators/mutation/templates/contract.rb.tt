@@ -9,16 +9,13 @@ module Mutations
     # @see <%= implementation_class_name %>
     class <%= class_name %> < VOGMutations::Contract
 <%- unless required? -%>
-      # rubocop:disable Lint/EmptyBlock
+      # rubocop:disable-next Lint/EmptyBlock
 <%- end -%>
       json do
 <%- required.each do |definition| -%>
         required(<%= definition[:field].to_sym.inspect %>).<%= definition[:macro] %>(<%= definition[:type].to_sym.inspect %>)
 <%- end -%>
       end
-<%- unless required? -%>
-      # rubocop:enable Lint/EmptyBlock
-<%- end -%>
 <%- if contract_has_rules? -%>
 <%- rules.each do |definition| -%>
 

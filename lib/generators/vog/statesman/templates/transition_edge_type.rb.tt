@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+module Types
+  # An edge in a {::<%= full_transition_connection_type_class_name %>} for {<%= transition_class_name %>}-type records.
+  #
+  # @see <%= transition_class_name %>
+  # @see <%= full_transition_connection_type_class_name %>
+  # @see <%= full_transition_type_class_name %>
+  class <%= transition_edge_type_class_name %> < Types::BaseEdge
+    description <<~TEXT
+    An edge in a connection for `<%= transition_class_name %>`.
+    TEXT
+
+    node_type ::<%= full_transition_type_class_name %>
+  end
+end
