@@ -45,6 +45,38 @@ RSpec.describe UserPolicy, type: :policy do
     describe_rule :send_reset_password_instructions? do
       it_behaves_like "an admin or self permission", self_user: :editor
     end
+
+    describe_rule :manage_own_session? do
+      succeed "as the editor" do
+        let(:user) { editor }
+      end
+
+      failed "as a super admin" do
+        let(:user) { super_admin }
+      end
+
+      failed "as another provider's editor" do
+        let(:user) { other_editor }
+      end
+
+      failed "as an anonymous user" do
+        let(:user) { nil }
+      end
+
+      failed "as a GraphQL anonymous user" do
+        let(:user) { AnonymousUser.new }
+      end
+    end
+  end
+
+  context "with a GraphQL anonymous user as the record" do
+    let(:record) { AnonymousUser.new }
+
+    describe_rule :manage_own_session? do
+      failed "as the same anonymous user" do
+        let(:user) { record }
+      end
+    end
   end
 
   context "with the regular user's account" do

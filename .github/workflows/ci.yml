@@ -57,6 +57,13 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        use_async_dataloader: ["true", "false"]
+
+    name: "rspec (async=${{ matrix.use_async_dataloader }})"
+
     services:
       postgres:
         image: postgres:15.5-alpine
@@ -87,5 +94,7 @@ jobs:
           bin/rails assets:precompile
 
       - name: "Run API specs"
+        env:
+          SYSTEM_USE_ASYNC_DATALOADER: ${{ matrix.use_async_dataloader }}
         run: |
           bin/rspec
