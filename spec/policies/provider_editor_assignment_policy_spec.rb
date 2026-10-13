@@ -1,14 +1,47 @@
 # frozen_string_literal: true
 
 RSpec.describe ProviderEditorAssignmentPolicy, type: :policy do
-  subject { described_class.new(identity, provider_editor_assignment) }
+  include_context "a standard policy"
 
-  let_it_be(:provider_editor_assignment) { FactoryBot.create :provider_editor_assignment }
-  let_it_be(:identity) { FactoryBot.create :user }
+  let_it_be(:assignment, refind: true) { provider.assign_editor!(editor) }
 
-  context "when the user is an admin" do
-    let_it_be(:identity) { FactoryBot.create :user, :with_admin }
+  context "with a provider editor assignment" do
+    let(:record) { assignment }
 
-    it { is_expected.to permit_actions :new, :create }
+    describe_rule :index? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :show? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :new? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :create? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :edit? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :update? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :destroy? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :destroy_all? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :batch_action? do
+      it_behaves_like "a super admin permission"
+    end
   end
 end

@@ -1,38 +1,294 @@
 # frozen_string_literal: true
 
 RSpec.describe SolutionDraftPolicy, type: :policy do
-  subject { described_class.new(identity, solution_draft) }
+  include_context "a standard policy"
 
-  let_it_be(:solution) { FactoryBot.create :solution }
+  let_it_be(:other_solution, refind: true) { FactoryBot.create :solution, provider: other_provider }
 
-  let_it_be(:solution_draft) { solution.create_draft! }
+  let_it_be(:pending_draft, refind: true) { solution.create_draft!(user: FactoryBot.create(:user)) }
 
-  let_it_be(:identity) { FactoryBot.create :user }
+  let_it_be(:in_review_draft, refind: true) { solution.create_draft!(user: FactoryBot.create(:user)).tap(&:request_review!) }
 
-  context "when the user is an admin" do
-    let_it_be(:identity) { FactoryBot.create :user, :with_admin }
-
-    it { is_expected.to permit_action :request_review }
-    it { is_expected.to permit_action :request_revision }
-    it { is_expected.to permit_action :approve }
-    it { is_expected.to permit_action :reject }
+  let_it_be(:approved_draft, refind: true) do
+    solution.create_draft!(user: FactoryBot.create(:user)).tap do |draft|
+      draft.request_review!
+      draft.transition_to!(:approved)
+    end
   end
 
-  context "when the user has editor access to the solution" do
-    before do
-      solution.assign_editor!(identity)
+  let_it_be(:other_draft, refind: true) { other_solution.create_draft!(user: FactoryBot.create(:user)) }
+
+  context "with a pending draft from the editor's provider" do
+    let(:record) { pending_draft }
+
+    describe_rule :index? do
+      it_behaves_like "an admin or editor permission"
     end
 
-    it { is_expected.to permit_action :request_review }
-    it { is_expected.not_to permit_action :request_revision }
-    it { is_expected.not_to permit_action :approve }
-    it { is_expected.not_to permit_action :reject }
+    describe_rule :show? do
+      it_behaves_like "an admin or record editor permission"
+    end
+
+    describe_rule :new? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :create? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :edit? do
+      it_behaves_like "an admin or record editor permission"
+    end
+
+    describe_rule :update? do
+      it_behaves_like "an admin or record editor permission"
+    end
+
+    describe_rule :destroy? do
+      it_behaves_like "an admin or record editor permission"
+    end
+
+    describe_rule :destroy_all? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :batch_action? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :approve? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :reject? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :request_review? do
+      it_behaves_like "an admin or record editor permission"
+    end
+
+    describe_rule :request_revision? do
+      it_behaves_like "a privileged permission"
+    end
   end
 
-  context "with a regular user" do
-    it { is_expected.not_to permit_action :request_review }
-    it { is_expected.not_to permit_action :request_revision }
-    it { is_expected.not_to permit_action :approve }
-    it { is_expected.not_to permit_action :reject }
+  context "with an in-review draft from the editor's provider" do
+    let(:record) { in_review_draft }
+
+    describe_rule :index? do
+      it_behaves_like "an admin or editor permission"
+    end
+
+    describe_rule :show? do
+      it_behaves_like "an admin or record editor permission"
+    end
+
+    describe_rule :new? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :create? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :edit? do
+      it_behaves_like "an admin or record editor permission"
+    end
+
+    describe_rule :update? do
+      it_behaves_like "an admin or record editor permission"
+    end
+
+    describe_rule :destroy? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :destroy_all? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :batch_action? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :approve? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :reject? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :request_review? do
+      it_behaves_like "an admin or record editor permission"
+    end
+
+    describe_rule :request_revision? do
+      it_behaves_like "a privileged permission"
+    end
+  end
+
+  context "with an approved draft from the editor's provider" do
+    let(:record) { approved_draft }
+
+    describe_rule :index? do
+      it_behaves_like "an admin or editor permission"
+    end
+
+    describe_rule :show? do
+      it_behaves_like "an admin or record editor permission"
+    end
+
+    describe_rule :new? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :create? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :edit? do
+      it_behaves_like "a forbidden permission"
+    end
+
+    describe_rule :update? do
+      it_behaves_like "a forbidden permission"
+    end
+
+    describe_rule :destroy? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :destroy_all? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :batch_action? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :approve? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :reject? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :request_review? do
+      it_behaves_like "a forbidden permission"
+    end
+
+    describe_rule :request_revision? do
+      it_behaves_like "a privileged permission"
+    end
+  end
+
+  context "with a pending draft from another provider" do
+    let(:record) { other_draft }
+
+    describe_rule :index? do
+      it_behaves_like "an admin or editor permission"
+    end
+
+    describe_rule :show? do
+      it_behaves_like "an admin or record editor permission", editor: :other_editor, non_editor: :editor
+    end
+
+    describe_rule :new? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :create? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :edit? do
+      it_behaves_like "an admin or record editor permission", editor: :other_editor, non_editor: :editor
+    end
+
+    describe_rule :update? do
+      it_behaves_like "an admin or record editor permission", editor: :other_editor, non_editor: :editor
+    end
+
+    describe_rule :destroy? do
+      it_behaves_like "an admin or record editor permission", editor: :other_editor, non_editor: :editor
+    end
+
+    describe_rule :destroy_all? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :batch_action? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :approve? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :reject? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :request_review? do
+      it_behaves_like "an admin or record editor permission", editor: :other_editor, non_editor: :editor
+    end
+
+    describe_rule :request_revision? do
+      it_behaves_like "a privileged permission"
+    end
+  end
+
+  describe "relation scope" do
+    let(:record) { nil }
+
+    let(:scope) { policy.apply_scope(SolutionDraft.all, type: :active_record_relation) }
+
+    context "as a super admin" do
+      let(:user) { super_admin }
+
+      it_behaves_like "a full access scope"
+    end
+
+    context "as an admin" do
+      let(:user) { admin }
+
+      it_behaves_like "a full access scope"
+    end
+
+    context "as an editor" do
+      let(:user) { editor }
+
+      it "includes only the accessible records" do
+        expect(scope).to contain_exactly(pending_draft, in_review_draft, approved_draft)
+      end
+    end
+
+    context "as another provider's editor" do
+      let(:user) { other_editor }
+
+      it "includes only the accessible records" do
+        expect(scope).to contain_exactly(other_draft)
+      end
+    end
+
+    context "as a regular user" do
+      let(:user) { regular_user }
+
+      it "includes nothing" do
+        expect(scope).to be_empty
+      end
+    end
+
+    context "as an anonymous user" do
+      let(:user) { nil }
+
+      it "includes nothing" do
+        expect(scope).to be_empty
+      end
+    end
   end
 end

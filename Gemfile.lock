@@ -2,6 +2,8 @@ GEM
   remote: https://rubygems.org/
   specs:
     absolute_time (1.0.0)
+    action_policy (0.7.7)
+      ruby-next-core (>= 1.0)
     action_text-trix (2.1.19)
       railties
     actioncable (8.1.4)
@@ -467,13 +469,6 @@ GEM
     public_suffix (7.0.5)
     puma (8.0.2)
       nio4r (~> 2.0)
-    pundit (2.5.2)
-      activesupport (>= 3.0.0)
-    pundit-matchers (4.0.0)
-      rspec-core (~> 3.12)
-      rspec-expectations (~> 3.12)
-      rspec-mocks (~> 3.12)
-      rspec-support (~> 3.12)
     raabro (1.5.0)
     racc (1.8.1)
     rack (3.2.7)
@@ -717,6 +712,7 @@ PLATFORMS
 
 DEPENDENCIES
   absolute_time (~> 1.0)
+  action_policy (~> 0.7)
   active_link_to (~> 1.0)
   active_record_distinct_on (~> 1.10)
   active_snapshot (~> 1.2)
@@ -779,8 +775,6 @@ DEPENDENCIES
   propshaft
   pry-rails (~> 0.3)
   puma (~> 8.0)
-  pundit (~> 2.5)
-  pundit-matchers (~> 4.0)
   rack-cors (~> 3.0)
   rails (~> 8.1.4)
   request_store (~> 1.7.0)

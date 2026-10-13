@@ -1,42 +1,89 @@
 # frozen_string_literal: true
 
 RSpec.describe SolutionImportPolicy, type: :policy do
-  subject { described_class.new(identity, solution_import) }
+  include_context "a standard policy"
 
-  let_it_be(:solution_import) { FactoryBot.create :solution_import }
-  let_it_be(:identity) { regular_user }
+  let_it_be(:solution_import, refind: true) { FactoryBot.create :solution_import }
 
-  context "when the user is a super admin" do
-    let_it_be(:identity) { super_admin }
+  context "with a solution import" do
+    let(:record) { solution_import }
 
-    it { is_expected.to permit_actions(:index, :show) }
-    it { is_expected.to permit_new_and_create_actions }
-    it { is_expected.to permit_edit_and_update_actions }
-    it { is_expected.to permit_actions(:destroy) }
+    describe_rule :index? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :show? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :new? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :create? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :edit? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :update? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :destroy? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :destroy_all? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :batch_action? do
+      it_behaves_like "a super admin permission"
+    end
   end
 
-  context "when the user is an admin" do
-    let_it_be(:identity) { admin }
+  describe "relation scope" do
+    let(:record) { nil }
 
-    it { is_expected.to permit_actions(:index, :show) }
-    it { is_expected.to permit_new_and_create_actions }
-    it { is_expected.to permit_edit_and_update_actions }
-    it { is_expected.to permit_actions(:destroy) }
-  end
+    let(:scope) { policy.apply_scope(SolutionImport.all, type: :active_record_relation) }
 
-  context "when the user has editor access" do
-    let_it_be(:identity) { editor }
+    context "as a super admin" do
+      let(:user) { super_admin }
 
-    it { is_expected.to forbid_actions(:index, :show) }
-    it { is_expected.to forbid_new_and_create_actions }
-    it { is_expected.to forbid_edit_and_update_actions }
-    it { is_expected.to forbid_actions(:destroy) }
-  end
+      it_behaves_like "a full access scope"
+    end
 
-  context "with a regular user" do
-    it { is_expected.to forbid_actions(:index, :show) }
-    it { is_expected.to forbid_new_and_create_actions }
-    it { is_expected.to forbid_edit_and_update_actions }
-    it { is_expected.to forbid_actions(:destroy) }
+    context "as an admin" do
+      let(:user) { admin }
+
+      it_behaves_like "a full access scope"
+    end
+
+    context "as an editor" do
+      let(:user) { editor }
+
+      it_behaves_like "a full access scope"
+    end
+
+    context "as another provider's editor" do
+      let(:user) { other_editor }
+
+      it_behaves_like "a full access scope"
+    end
+
+    context "as a regular user" do
+      let(:user) { regular_user }
+
+      it_behaves_like "a full access scope"
+    end
+
+    context "as an anonymous user" do
+      let(:user) { nil }
+
+      it_behaves_like "a full access scope"
+    end
   end
 end

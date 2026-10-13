@@ -1,44 +1,135 @@
 # frozen_string_literal: true
 
 RSpec.describe UserPolicy, type: :policy do
-  subject { described_class.new(identity, user) }
+  include_context "a standard policy"
 
-  let_it_be(:user) { FactoryBot.create :user }
+  context "with the editor's account" do
+    let(:record) { editor }
 
-  let_it_be(:identity) { FactoryBot.create :user }
+    describe_rule :index? do
+      it_behaves_like "a privileged permission"
+    end
 
-  context "when the user is a super admin" do
-    let_it_be(:identity) { FactoryBot.create :user, :with_super_admin }
+    describe_rule :show? do
+      it_behaves_like "an admin or self permission", self_user: :editor
+    end
 
-    it { is_expected.to permit_actions :show, :index }
-    it { is_expected.to permit_new_and_create_actions }
-    it { is_expected.to permit_edit_and_update_actions }
-    it { is_expected.to permit_actions :destroy, :destroy_all }
+    describe_rule :new? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :create? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :edit? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :update? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :destroy? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :destroy_all? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :batch_action? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :send_reset_password_instructions? do
+      it_behaves_like "an admin or self permission", self_user: :editor
+    end
   end
 
-  context "when the user is an admin" do
-    let_it_be(:identity) { FactoryBot.create :user, :with_admin }
+  context "with the regular user's account" do
+    let(:record) { regular_user }
 
-    it { is_expected.to permit_actions :show, :index }
-    it { is_expected.to forbid_new_and_create_actions }
-    it { is_expected.to forbid_edit_and_update_actions }
-    it { is_expected.to forbid_actions :destroy, :destroy_all }
+    describe_rule :index? do
+      it_behaves_like "a privileged permission"
+    end
+
+    describe_rule :show? do
+      it_behaves_like "an admin or self permission", self_user: :regular_user
+    end
+
+    describe_rule :new? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :create? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :edit? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :update? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :destroy? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :destroy_all? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :batch_action? do
+      it_behaves_like "a super admin permission"
+    end
+
+    describe_rule :send_reset_password_instructions? do
+      it_behaves_like "an admin or self permission", self_user: :regular_user
+    end
   end
 
-  context "with a user looking at themselves" do
-    subject { described_class.new(identity, identity) }
+  describe "relation scope" do
+    let(:record) { nil }
 
-    it { is_expected.to permit_actions :show }
-    it { is_expected.to forbid_actions :index }
-    it { is_expected.to forbid_new_and_create_actions }
-    it { is_expected.to forbid_edit_and_update_actions }
-    it { is_expected.to forbid_actions :destroy, :destroy_all }
-  end
+    let(:scope) { policy.apply_scope(User.all, type: :active_record_relation) }
 
-  context "with a regular user" do
-    it { is_expected.to forbid_actions :show, :index }
-    it { is_expected.to forbid_new_and_create_actions }
-    it { is_expected.to forbid_edit_and_update_actions }
-    it { is_expected.to forbid_actions :destroy, :destroy_all }
+    context "as a super admin" do
+      let(:user) { super_admin }
+
+      it_behaves_like "a full access scope"
+    end
+
+    context "as an admin" do
+      let(:user) { admin }
+
+      it_behaves_like "a full access scope"
+    end
+
+    context "as an editor" do
+      let(:user) { editor }
+
+      it_behaves_like "a full access scope"
+    end
+
+    context "as another provider's editor" do
+      let(:user) { other_editor }
+
+      it_behaves_like "a full access scope"
+    end
+
+    context "as a regular user" do
+      let(:user) { regular_user }
+
+      it_behaves_like "a full access scope"
+    end
+
+    context "as an anonymous user" do
+      let(:user) { nil }
+
+      it_behaves_like "a full access scope"
+    end
   end
 end

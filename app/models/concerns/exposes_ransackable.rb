@@ -175,7 +175,7 @@ module ExposesRansackable
 
     # Caches the associations / attributes / scopes for the given auth_object's allowance.
     #
-    # @param [ActiveAdmin::PunditAdapter, Symbol, User, nil]
+    # @param [ActiveAdmin::AuthorizationAdapter, Symbol, User, nil]
     # @return [<String>]
     def values_for(auth_object = nil)
       allowance = ranked_allowance_from(auth_object)
@@ -192,11 +192,11 @@ module ExposesRansackable
       end
     end
 
-    # @param [ActiveAdmin::PunditAdapter, Symbol, User, nil]
+    # @param [ActiveAdmin::AuthorizationAdapter, Symbol, User, nil]
     # @return [ExposesRansackable::Types::Allowance]
     def allowance_from(auth_object = nil)
       case auth_object
-      when ActiveAdmin::PunditAdapter
+      when ActiveAdmin::AuthorizationAdapter
         allowance_from(auth_object.user)
       when Types::Allowance
         auth_object
