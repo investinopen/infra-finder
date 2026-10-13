@@ -1,0 +1,218 @@
+<%-
+  # vim: set ft=ruby.eruby nosmartindent noautoindent :
+-%>
+# frozen_string_literal: true
+
+RSpec.describe <%= mutation_class_name %>, type: :request, graphql: :mutation do
+  mutation_query! <<~GRAPHQL
+  mutation <%= query_name %>($input: <%= input_name %>!) {
+    <%= graphql_mutation %>(input: $input) {
+      <%- if changes_model? -%>
+      <%= model_name.camelize(:lower) %> {
+        id
+        slug
+        <%- if has_name? -%>
+        name
+        <%- end -%>
+        <%- if has_unique_identifier? -%>
+        identifier
+        <%- end -%>
+        <%- if has_optional_description? -%>
+        description
+        <%- end -%>
+      }
+      <%- elsif destroy_mutation? -%>
+      destroyed
+      destroyedId
+      <%- end -%>
+      ... ErrorFragment
+    }
+  }
+  GRAPHQL
+<% if create_mutation? || update_mutation? -%>
+<% fields.each do |field| -%>
+<% next unless field[:default].present? -%>
+  let_mutation_input!(:<%= field[:name] %>) { <%= field[:default] %> }
+<% end -%>
+<% end -%>
+  <%- if has_name? -%>
+
+  let_it_be(:old_name) { "Old Name" }
+
+  let_it_be(:new_name) { "New Name" }
+  <%- end -%>
+  <%- if has_unique_identifier? -%>
+
+  let_it_be(:old_identifier) { "old-name" }
+
+  let_it_be(:new_identifier) { "new-ident" }
+  <%- end -%>
+  <%- if works_with_existing_model? -%>
+
+  <%- attrs_key = :"#{existing_model_key}_attrs" -%>
+  let_it_be(<%= attrs_key.inspect %>) do
+    <%- if has_existing_attributes? -%>
+    {}.tap do |attrs|
+      <%- if has_name? -%>
+      attrs[:name] = old_name
+      <%- end -%>
+      <%- if has_unique_identifier? -%>
+      attrs[:identifier] = old_identifier
+      <%- end -%>
+      <%- if has_optional_description? %>
+      attrs[:description] = nil
+      <%- end -%>
+    end
+    <%- else -%>
+    {}
+    <%- end -%>
+  end
+
+  let_it_be(<%= existing_model_key.inspect %>, refind: true) { FactoryBot.create(<%= model_factory.inspect %>, **<%= attrs_key %>) }
+
+  let_mutation_input!(<%= model_id_key.inspect %>) { <%= existing_model_key %>.to_encoded_id }
+  <%- end -%>
+  <%- if has_existing_attributes? -%>
+
+  <%- if has_name? -%>
+  let_mutation_input!(:name) { new_name }
+  <%- end -%>
+  <%- if has_unique_identifier? -%>
+  let_mutation_input!(:identifier) { new_identifier }
+  <%- end -%>
+  <%- if has_optional_description? -%>
+  let_mutation_input!(:description) { Faker::Lorem.unique.paragraph }
+  <%- end -%>
+  <%- end -%>
+  <%- unless standard_mutation? -%>
+
+  # let_mutation_input!(:foo) { bar }
+  <%- end -%>
+
+  let(:valid_mutation_shape) do
+    gql.mutation(<%= mutation_name.inspect %>) do |m|
+      <%- if create_mutation? || update_mutation? -%>
+      m.prop(<%= model_key.inspect %>) do |<%= model_initial %>|
+        <%= model_initial %>[:id] = be_an_encoded_id.of_an_existing_model
+        <%= model_initial %>[:slug] = be_an_encoded_slug
+        <%- if has_name? -%>
+        <%= model_initial %>[:name] = new_name
+        <%- end -%>
+        <%- if has_unique_identifier? -%>
+        <%= model_initial %>[:identifier] = new_identifier
+        <%- end -%>
+        <%- if has_optional_description? -%>
+        <%= model_initial %>[:description] = description
+        <%- end -%>
+      end
+      <%- elsif destroy_mutation? -%>
+      m[:destroyed] = true
+      m[:destroyed_id] = be_an_encoded_id.of_a_deleted_model
+      <%- end -%>
+    end
+  end
+
+  let(:empty_mutation_shape) do
+    gql.empty_mutation <%= mutation_name.inspect %>
+  end
+
+  shared_examples_for "a successful mutation" do
+    let(:expected_shape) { valid_mutation_shape }
+
+    it <%= default_expectation.inspect %> do
+      expect_request! do |req|
+        <%- if create_mutation? -%>
+        req.effect! change(<%= model_name %>, :count).by(1)
+        <%- elsif update_mutation? -%>
+        req.effect! change { <%= existing_model_key %>.reload.updated_at }
+        <%- elsif destroy_mutation? -%>
+        req.effect! change(<%= model_name %>, :count).by(-1)
+        <%- end -%>
+        <%- if updates_name? -%>
+        req.effect! change { <%= existing_model_key %>.reload.name }.from(old_name).to(new_name)
+        <%- end -%>
+        <%- if updates_unique_identifier? -%>
+        req.effect! change { <%= existing_model_key %>.reload.identifier }.from(old_identifier).to(new_identifier)
+        <%- end -%>
+        <%- if updates_optional_description? -%>
+        req.effect! change { <%= existing_model_key %>.reload.description }.to(description)
+        <%- end -%>
+
+        req.data! expected_shape
+      end
+    end
+  end
+
+  shared_examples_for "an unauthorized mutation" do
+    let(:expected_shape) { empty_mutation_shape }
+
+    it "is not authorized" do
+      expect_request! do |req|
+        req.effect! execute_safely
+        <%- if alters_model_counts? -%>
+        req.effect! keep_the_same(<%= model_name %>, :count)
+        <%- end -%>
+        <%- if updates_name? -%>
+        req.effect! keep_the_same { <%= existing_model_key %>.reload.name }
+        <%- end -%>
+        <%- if updates_unique_identifier? -%>
+        req.effect! keep_the_same { <%= existing_model_key %>.reload.identifier }
+        <%- end -%>
+        <%- if updates_optional_description? -%>
+        req.effect! keep_the_same { <%= existing_model_key %>.reload.description }
+        <%- end -%>
+
+        req.unauthorized!
+
+        req.data! expected_shape
+      end
+    end
+  end
+
+  shared_examples_for "an authorized mutation" do
+    include_examples "a successful mutation"
+    <%- if changes_model? && has_unique_identifier? -%>
+
+    context "when the identifier has already been taken" do
+      let!(:existing_identifier) { FactoryBot.create <%= model_factory.inspect %>, identifier: new_identifier }
+
+      let(:expected_shape) do
+        gql.mutation(<%= mutation_name.inspect %>, no_errors: false) do |m|
+          m[<%= model_key.inspect %>] = be_blank
+
+          m.attribute_errors do |ae|
+            ae.error :identifier, :must_be_unique
+          end
+        end
+      end
+
+      it "fails to create the <%= human_model_name %>" do
+        expect_request! do |req|
+          req.effect! keep_the_same(<%= model_name %>, :count)
+          <%- if updates_unique_identifier? -%>
+          req.effect! keep_the_same { <%= existing_model_key %>.reload.identifier }
+          <%- end -%>
+
+          req.data! expected_shape
+        end
+      end
+    end
+    <%- end -%>
+  end
+
+  as_a_super_admin_user do
+    include_examples "an authorized mutation"
+  end
+
+  as_an_admin_user do
+    include_examples "an authorized mutation"
+  end
+
+  as_an_editor_user do
+    include_examples "an unauthorized mutation"
+  end
+
+  as_an_anonymous_user do
+    include_examples "an unauthorized mutation"
+  end
+end

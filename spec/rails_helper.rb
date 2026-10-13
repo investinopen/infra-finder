@@ -70,6 +70,7 @@ SimpleCov.start "rails" do
   skip "lib/namespaces"
   skip "lib/patches"
   skip "lib/support"
+  skip "lib/vog_testing"
 
   # App-specific filters
   skip "app/components/tag_list_component.rb"
@@ -102,6 +103,8 @@ Shrine.logger = Logger.new(File::NULL)
 Dry::Effects.load_extensions :rspec
 
 require_relative "system/test_container"
+
+require_relative "../lib/vog_testing/system"
 
 TestingAPI::TestContainer.finalize!
 

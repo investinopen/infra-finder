@@ -1,0 +1,43 @@
+<%-
+  # vim: set ft=ruby.eruby nosmartindent noautoindent :
+-%>
+# frozen_string_literal: true
+
+module Mutations
+  # @abstract
+  # @see Mutations::<%= model_name %>Create
+  # @see Mutations::<%= model_name %>Update
+  class <%= parent_mutation_name %> < Mutations::BaseMutation
+    description <<~TEXT
+    A base mutation that is used to share fields between `<%= model_name.camelize(:lower) %>Create` and `<%= model_name.camelize(:lower) %>Update`.
+    TEXT
+
+    field <%= model_key.inspect %>, <%= graphql_model_type %>, null: true do
+      description <<~TEXT
+      The newly-modified <%= human_model_name %>, if successful.
+      TEXT
+    end
+<%- unless fields.empty? -%>
+
+<%- fields.each do |field| -%>
+    argument :<%= field[:name] %>, <%= field["type"] %>, required: <%= field["required"] %><% if field.key?("loads") -%>, loads: Types::<%= field["loads"] %><% end %> do
+      description <<~TEXT
+      <%= field[:description] || "TKTKTK" %>
+      TEXT
+    end
+<% end -%>
+<% end -%>
+    <%- if has_name? -%>
+
+    argument :name, String, required: true do
+      description "The name for the <%= human_model_name %>."
+    end
+    <%- end -%>
+    <%- if has_optional_description? -%>
+
+    argument :description, String, required: false do
+      description "The optional, human-readable description for the <%= human_model_name %>."
+    end
+    <%- end -%>
+  end
+end

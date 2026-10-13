@@ -4,3 +4,25 @@ en:
   api:
     errors:
       something_went_wrong: "Something went wrong."
+  server_messages:
+    auth:
+      forbidden: "You are not authorized to perform this action."
+      throttled: "Too many attempts. Please wait and try again."
+      terms_not_accepted: "You must accept the terms and conditions before continuing."
+    errors:
+      something_went_wrong: "Something went wrong."
+    tokens:
+      expired: "Token is Expired"
+      inactive: "This account cannot sign in."
+      invalid: "Failed to Authenticate"
+  dry_validation:
+    errors:
+      must_be_accepted: "must be accepted"
+      must_be_email: "must be an email"
+      must_be_slug: "must be a valid slug (all lowercase, no whitespace)"
+      must_be_unique: "must be unique"
+      must_be_url: "must be a valid HTTP URL"
+      must_match_password: "must match password"
+      update_and_clear_attachment: "cannot receive a new attachment while also clearing it"
+      rules:
+        must_remove_or_reassign_dependents: "You must remove or reassign dependent records before deleting this."

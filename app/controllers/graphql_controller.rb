@@ -7,6 +7,9 @@
 class GraphQLController < ActionController::API
   include OperationHelpers
 
+  before_action :attach_request_id!
+  before_action :authenticate_user!
+
   # This method handles all GraphQL requests that the API receives.
   #
   # @see APISchema
@@ -22,7 +25,9 @@ class GraphQLController < ActionController::API
 
     context = {
       current_user: @current_user,
+      request_ip: request.remote_ip,
       request_state:,
+      token_payload: @token_payload,
     }
 
     json = request_state.wrap do
@@ -39,6 +44,47 @@ class GraphQLController < ActionController::API
   end
 
   private
+
+  # @return [void]
+  def attach_request_id!
+    Support::Requests::Current.request_id = request.request_id
+  end
+
+  # {#perform_operation Perform} the {Users::Authenticate authenticate operation}
+  # for the current request.
+  #
+  # @return [void]
+  def authenticate_user!
+    perform_operation "users.authenticate", request.env do |m|
+      m.success do |(user, payload)|
+        Support::Requests::Current.current_user = user
+
+        @current_user = user
+        @token_payload = payload
+      end
+
+      m.failure(:expired) do
+        render_server_message! "tokens.expired", status: :unauthorized
+      end
+
+      m.failure(:inactive) do
+        render_server_message! "tokens.inactive", status: :forbidden
+      end
+
+      m.failure do
+        render_server_message! "tokens.invalid", status: :unauthorized
+      end
+    end
+  end
+
+  # Render a standard, localized server error in the format favored by GraphQL clients.
+  #
+  # @param [#to_s] key an i18n key in the `server_messages` namespace.
+  # @param [Symbol, Integer] status
+  # @return [void]
+  def render_server_message!(key, status:)
+    render json: { errors: [{ message: I18n.t(key, scope: "server_messages") }] }, status:
+  end
 
   # Handle variables in form data, JSON body, or a blank value
   #

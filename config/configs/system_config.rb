@@ -2,6 +2,7 @@
 
 class SystemConfig < ApplicationConfig
   attr_config(
+    client_ip_header: "do-connecting-ip",
     validate_graphql_query: true
   )
 
