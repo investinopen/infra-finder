@@ -32,10 +32,16 @@ module Support
 
       config.inflector = Dry::Inflector.new do |inflections|
         inflections.acronym("API")
+        inflections.acronym("DSL")
         inflections.acronym("EOI")
+        inflections.acronym("GQL")
+        inflections.acronym("GraphQL")
         inflections.acronym("HTML")
+        inflections.acronym("HTTP")
+        inflections.acronym("JSON")
         inflections.acronym("SQL")
         inflections.acronym("URL")
+        inflections.acronym("VOG")
       end
     end
   end
@@ -44,5 +50,9 @@ module Support
 end
 
 Support::System.start(:security)
+
+Support::System.start(:global_types)
+
+Support::System.start(:active_model_types)
 
 Support::System.finalize!
