@@ -51,6 +51,11 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   schema! do
     required(:name).filled(:string)
     required(:code).value(:integer) { gt?(0) }
+    # The association that holds the value, for properties that are really a
+    # reference to another record (e.g. `provider_name` is the `provider`).
+    optional(:association_name).maybe(:string)
+    # A narrower scalar than the kind implies, e.g. a year-only `date`.
+    optional(:scalar_kind).maybe(:string)
     optional(:attr).maybe(:string)
     optional(:kind).maybe(:kind)
     required(:meta).value(:bool)
@@ -152,7 +157,9 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     description: nil,
     fe_position: 0,
     fe_visibility: "hidden",
-    vocab_name: nil
+    vocab_name: nil,
+    association_name: nil,
+    scalar_kind: nil
   )
 
   calculates! :attribute_name do |record|
@@ -482,6 +489,43 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   def has_structured_attr? = structured_attr?
 
   def has_structured_header? = structured_header?
+
+  # Kinds that have no GraphQL field of their own: attachments wait on the
+  # image types, `standard` properties are not real attributes, and
+  # `implementation_property` is a flat link URL for CSVs and imports that is
+  # stored in its implementation's links.
+  GRAPHQL_SKIPPED_KINDS = %i[attachment standard implementation_property].freeze
+
+  # Kinds left out of the GraphQL property metadata: `standard` properties hold
+  # no value, and `implementation_property` is stored in its implementation.
+  GRAPHQL_METADATA_EXCLUDED_KINDS = %i[standard implementation_property].freeze
+
+  # The GraphQL field that holds this property's value, if it has one.
+  #
+  # @see Types::SolutionInterfaceType
+  # @see Types::SolutionPropertyType#field_name
+  # @return [String, nil]
+  def graphql_field_name
+    return association_name.camelize(:lower) if association_name.present? && association_exists?
+
+    # Actual-only properties (`publication`, `published_at`) have no field until the solution types exist.
+    return if kind.in?(GRAPHQL_SKIPPED_KINDS) || only.present? || !exists?
+
+    (kind == :implementation ? name : attribute_name).camelize(:lower)
+  end
+
+  # @return [Boolean] whether every solution model has {#association_name}
+  def association_exists?
+    SOURCE_KINDS.all? { self.class.solution_record_for(_1).class.reflect_on_association(association_name.to_sym).present? }
+  end
+
+  # @see SolutionProperties::ValueType.for
+  # @return [SolutionProperties::ValueType::Scalar, SolutionProperties::ValueType::Enum,
+  #   SolutionProperties::ValueType::Vocabulary, SolutionProperties::ValueType::Association,
+  #   SolutionProperties::ValueType::StructuredList, SolutionProperties::ValueType::Implementation, nil]
+  def value_type
+    SolutionProperties::ValueType.for(self)
+  end
 
   # @return [String]
   def field_label

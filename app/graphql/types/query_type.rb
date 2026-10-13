@@ -16,6 +16,7 @@ module Types
     implements Types::QueriesInvitation
     implements Types::QueriesProvider
     implements Types::QueriesProviderEditorAssignment
+    implements Types::QueriesSolutionProperty
     implements Types::QueriesUser
 
     # @!endgroup Query Implementations
