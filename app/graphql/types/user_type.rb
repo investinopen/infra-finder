@@ -19,6 +19,30 @@ module Types
       description "The user's display name."
     end
 
+    field :kind, Types::UserKindType, null: true do
+      description "The kind of access the user has. Null for anonymous users."
+    end
+
+    field :confirmed, Boolean, null: false, method: :confirmed? do
+      description "Whether the user has confirmed their email address."
+    end
+
+    field :locked, Boolean, null: false, method: :access_locked? do
+      description "Whether the account is locked after too many failed sign-in attempts."
+    end
+
+    field :sign_in_count, Integer, null: false do
+      description "How many times the user has signed in."
+    end
+
+    field :current_sign_in_at, GraphQL::Types::ISO8601DateTime, null: true do
+      description "When the user's current session began."
+    end
+
+    field :last_sign_in_at, GraphQL::Types::ISO8601DateTime, null: true do
+      description "When the user's previous session began."
+    end
+
     field :accepted_terms, Boolean, null: false, method: :accepted_terms? do
       description "Whether the user has accepted the terms and conditions."
     end
@@ -38,5 +62,8 @@ module Types
     field :upload_access, Boolean, null: false, method: :has_any_upload_access? do
       description "Whether the user may upload files."
     end
+
+    # @return [String, nil]
+    def kind = object.anonymous? ? nil : object.kind
   end
 end

@@ -14,5 +14,10 @@ module Filtering
     tc.add! :search_query, ::Searching::Query::Type
 
     tc.add! :time_match, Filtering::Inputs::TimeMatch
+
+    tc.add_enum! ::Types::InvitationStateType
+    tc.add_enum! ::Types::UserKindType
+
+    tc.add_model! ::Provider
   end
 end

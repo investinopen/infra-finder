@@ -44,4 +44,14 @@ RSpec.describe StandardTransitionPolicy, type: :policy do
       it_behaves_like "a super admin permission"
     end
   end
+
+  context "with a transition whose owner is admin-only" do
+    let_it_be(:invitation_transition, refind: true) { FactoryBot.create(:invitation).invitation_transitions.last }
+
+    let(:record) { invitation_transition }
+
+    describe_rule :show? do
+      it_behaves_like "a privileged permission"
+    end
+  end
 end
