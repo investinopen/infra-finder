@@ -24,6 +24,18 @@ class UserPolicy < ApplicationPolicy
 
   private
 
+  # In the API, admins see every user; everyone else sees only themselves.
+  #
+  # @param [ActiveRecord::Relation] relation
+  # @return [ActiveRecord::Relation]
+  def resolve_api_scope(relation)
+    return relation.all if has_any_admin_access?
+
+    return relation.none unless authenticated?
+
+    relation.where(id: user.id)
+  end
+
   # @return [Boolean] false for `nil` and {AnonymousUser}
   def authenticated?
     user.present? && !user.anonymous?

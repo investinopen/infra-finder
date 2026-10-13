@@ -7,6 +7,7 @@ module HasName
 
   include ExposesRansackable
   include Filterable
+  include Searchable
 
   included do
     extend Dry::Core::ClassAttributes
@@ -24,6 +25,8 @@ module HasName
     has_normalized_name false
 
     filter_collection_order_scope :in_alphabetical_order
+
+    searchable_with! :name, name: :name
 
     expose_ransackable_attributes! :name
 

@@ -16,6 +16,8 @@ module StandardTransition
     derive_owner_name!
     derive_reflected_transitions!
 
+    scope :in_graphql_order, -> { order(sort_key: :desc) }
+
     after_destroy :update_most_recent!, if: :most_recent?
   end
 
