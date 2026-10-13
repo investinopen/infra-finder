@@ -6,10 +6,12 @@ class User < ApplicationRecord
   include Notifiable
   include TimestampScopes
   include UsesStatesman
+  include Devise::JWT::RevocationStrategies::Allowlist
 
   devise :database_authenticatable,
     :recoverable, :rememberable, :validatable,
-    :confirmable, :lockable, :timeoutable, :trackable
+    :confirmable, :lockable, :timeoutable, :trackable,
+    :jwt_authenticatable, jwt_revocation_strategy: self
 
   has_state_machine!
 
@@ -56,6 +58,8 @@ class User < ApplicationRecord
 
   before_validation :derive_kind!
 
+  after_update :revoke_api_tokens!, if: :saved_change_to_encrypted_password?
+
   after_save :maybe_auto_accept_terms!
   after_save :maybe_accept_terms!
 
@@ -72,6 +76,9 @@ class User < ApplicationRecord
   def accepted_terms?
     accepted_terms_at?
   end
+
+  # @see AnonymousInterface#anonymous?
+  def anonymous? = false
 
   alias has_accepted_terms? accepted_terms?
 
@@ -152,6 +159,13 @@ class User < ApplicationRecord
     return if in_state?(:accepted_terms) || has_no_admin_access?
 
     transition_to!(:accepted_terms)
+  end
+
+  # A password change signs the user out of the GraphQL API everywhere.
+  #
+  # @return [void]
+  def revoke_api_tokens!
+    call_operation!("users.tokens.revoke_all", self)
   end
 
   # @param [Role] _role

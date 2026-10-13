@@ -23,6 +23,8 @@ class APISchema < GraphQL::Schema
 
   max_complexity Support::GraphQLAPI::Constants::MAX_COMPLEXITY
 
+  query_analyzer Analyzers::TermsGate
+
   rescue_from(ActiveRecord::RecordNotFound) do |err, obj, args, ctx, field|
     # simplecov:disable
     type_name = field.try(:type).try(:unwrap).try(:graphql_name) || "Unknown type"

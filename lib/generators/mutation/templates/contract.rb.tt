@@ -1,0 +1,30 @@
+<%-
+  # vim: set ft=ruby.eruby :
+-%>
+# frozen_string_literal: true
+
+module Mutations
+  module Contracts
+    # @see <%= mutation_class_name %>
+    # @see <%= implementation_class_name %>
+    class <%= class_name %> < VOGMutations::Contract
+<%- unless required? -%>
+      # rubocop:disable Lint/EmptyBlock
+<%- end -%>
+      json do
+<%- required.each do |definition| -%>
+        required(<%= definition[:field].to_sym.inspect %>).<%= definition[:macro] %>(<%= definition[:type].to_sym.inspect %>)
+<%- end -%>
+      end
+<%- unless required? -%>
+      # rubocop:enable Lint/EmptyBlock
+<%- end -%>
+<%- if contract_has_rules? -%>
+<%- rules.each do |definition| -%>
+
+      rule(<%= definition[:field].to_sym.inspect %>).validate(<%= definition[:rule].to_sym.inspect %>)
+<%- end -%>
+<%- end -%>
+    end
+  end
+end
