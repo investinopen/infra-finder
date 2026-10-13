@@ -2,6 +2,8 @@
 
 # @see Invitation
 class InvitationPolicy < ApplicationPolicy
+  requires_admin_for_show!
+
   def index?
     has_any_admin_access?
   end

@@ -31,6 +31,15 @@ class ApplicationPolicy < ActionPolicy::Base
     resolve_scope(relation)
   end
 
+  # The scope GraphQL resolvers apply. Unlike ActiveAdmin, the API exposes
+  # lists and lookups directly, so records only admins may show are hidden
+  # from everyone else.
+  #
+  # @see Resolvers::AbstractResolver
+  relation_scope(:api) do |relation|
+    api_admin_only? && !has_any_admin_access? ? relation.none : resolve_api_scope(relation)
+  end
+
   def index?
     has_any_admin_access?
   end
@@ -42,6 +51,13 @@ class ApplicationPolicy < ActionPolicy::Base
       record_exists_in_scope?
     end
   end
+
+  # For the sake of mutations, assume arguments provided can always be read and worry
+  # about authorizing within the context of the mutation.
+  #
+  # @see Support::GraphQLAPI::Enhancements::Authorized
+  # @return [Boolean]
+  def read_for_mutation? = true
 
   def create?
     super_admin?
@@ -88,6 +104,17 @@ class ApplicationPolicy < ActionPolicy::Base
   # @return [ActiveRecord::Relation]
   def resolve_scope(relation)
     relation.all
+  end
+
+  # Whether the {:api} scope is admin-only. Defaults to {#requires_admin_for_show?}.
+  #
+  # @return [Boolean]
+  def api_admin_only? = requires_admin_for_show?
+
+  # @param [ActiveRecord::Relation] relation
+  # @return [ActiveRecord::Relation]
+  def resolve_api_scope(relation)
+    resolve_scope(relation)
   end
 
   def record_exists_in_scope?

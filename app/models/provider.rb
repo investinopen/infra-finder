@@ -17,6 +17,8 @@ class Provider < ApplicationRecord
 
   expose_ransackable_attributes! :solutions_count, :url
 
+  scope :in_default_order, -> { in_alphabetical_order }
+
   scope :with_editor_access_for, ->(user) { where(id: ProviderEditorAssignment.where(user:).select(:provider_id)) }
   scope :with_multiple_solutions, -> { where(arel_table[:solutions_count].gt(1)) }
 

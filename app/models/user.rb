@@ -39,6 +39,10 @@ class User < ApplicationRecord
 
   rolify after_add: :refresh_from_role!, after_remove: :refresh_from_role!
 
+  define_simple_lookups! :email, :kind
+
+  scope :in_default_order, -> { in_alphabetical_order }
+
   scope :any_admins, -> { where(kind: %w[admin super_admin]) }
   scope :admins, -> { admin_kind }
   scope :super_admins, -> { super_admin_kind }

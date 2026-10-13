@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 module Types
-  # Queries about the current viewer.
-  module QueriesViewer
+  # An interface for querying {User}.
+  module QueriesUser
     include Types::BaseInterface
 
     description <<~TEXT
-    Queries about the current viewer.
+    An interface for querying `User` records.
     TEXT
 
     field :upload_access, Types::UploadAccessType, null: true do
@@ -17,6 +17,26 @@ module Types
       description <<~TEXT
       The currently authenticated user. AKA: you
       TEXT
+    end
+
+    field :user, ::Types::UserType, null: true do
+      description <<~TEXT
+      Retrieve a single `User` by slug.
+      TEXT
+
+      argument :slug, Types::SlugType, required: true do
+        description <<~TEXT
+        The slug to look up.
+        TEXT
+      end
+    end
+
+    field :users, resolver: ::Resolvers::UserResolver
+
+    # @param [String] slug
+    # @return [User, nil]
+    def user(slug:)
+      load_record_with(User, slug)
     end
 
     # @return [Users::UploadAccess]

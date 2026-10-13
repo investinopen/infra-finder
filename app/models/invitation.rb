@@ -10,6 +10,8 @@ class Invitation < ApplicationRecord
 
   has_state_machine!
 
+  define_simple_lookups! :email
+
   clear_exposed_ransackable_attributes!
 
   ransackable_minimum_allowance! :editor
@@ -23,6 +25,8 @@ class Invitation < ApplicationRecord
   belongs_to :provider, inverse_of: :invitations
   belongs_to :admin, optional: true, inverse_of: :created_invitations, class_name: "User"
   belongs_to :user, optional: true, inverse_of: :invitation
+
+  scope :in_default_order, -> { most_recently_updated }
 
   validates :email, :first_name, :last_name, presence: true
   validates :email, email: true, uniqueness: true

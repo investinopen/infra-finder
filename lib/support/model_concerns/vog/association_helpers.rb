@@ -38,7 +38,7 @@ module VOG
       # @param [Symbol] to the association to delegate to
       # @return [void]
       def delegate_scopes!(*names, to:)
-        names.each do |scope|
+        names.each do |name|
           delegate_scope! name, to
         end
       end

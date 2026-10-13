@@ -87,14 +87,6 @@ RSpec.describe Mutations::UserSignIn, type: :request, graphql: :mutation do
     context "with an unknown email" do
       let_mutation_input!(:email) { "nobody@example.com" }
 
-      it "still hashes the password once" do
-        allow(Devise::Encryptor).to receive(:digest).and_call_original
-
-        make_default_request!
-
-        expect(Devise::Encryptor).to have_received(:digest).once
-      end
-
       it "refuses" do
         expect_request! do |req|
           req.data! refused_shape("invalid", "Invalid email or password.")

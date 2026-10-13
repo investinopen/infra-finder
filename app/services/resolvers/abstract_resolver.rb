@@ -289,7 +289,8 @@ module Resolvers
       # For some reason, `ActionPolicy` obfuscates the `policy_class` on relations.
       with = implicit_authorization_target.try(:policy_class)
 
-      authorized(base_scope.all, with:)
+      # infra-finder: resolvers use the policies' `:api` scope (see ApplicationPolicy).
+      authorized(base_scope.all, with:, as: :api)
     end
 
     # @return [void]

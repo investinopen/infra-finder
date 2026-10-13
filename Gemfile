@@ -94,6 +94,7 @@ gem "strip_attributes", "~> 2.0"
 gem "tzinfo", "~> 2.0"
 gem "validate_url", "~> 1.0"
 gem "version_gem"
+gem "with_advisory_lock", "~> 7.5"
 gem "zaru", "~> 1.0"
 
 # File processing
@@ -132,6 +133,7 @@ group :development, :test do
   gem "erb_lint", "~> 0.9", require: false
   gem "factory_bot_rails", "~> 6.5"
   gem "faker", "~> 3.8"
+  gem "put", "~> 0.3"
   gem "rspec", "~> 3.13"
   gem "rspec-rails", "~> 8.0"
   gem "yard", "~> 0.9"

@@ -156,4 +156,10 @@ RSpec.shared_context "a standard policy" do
       expect(scope).to match_array(scope.klass.all)
     end
   end
+
+  shared_examples_for "a no access scope" do
+    it "includes no records" do
+      expect(scope).to be_empty
+    end
+  end
 end

@@ -520,6 +520,7 @@ GEM
     public_suffix (7.0.5)
     puma (8.0.2)
       nio4r (~> 2.0)
+    put (0.3.0)
     raabro (1.5.0)
     racc (1.8.1)
     rack (3.2.7)
@@ -768,6 +769,8 @@ GEM
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
+    with_advisory_lock (7.6.0)
+      activerecord (>= 7.2)
     yard (0.9.45)
     yard-activerecord (0.0.17)
       activesupport
@@ -858,6 +861,7 @@ DEPENDENCIES
   propshaft
   pry-rails (~> 0.3)
   puma (~> 8.0)
+  put (~> 0.3)
   rack-cors (~> 3.0)
   rails (~> 8.1.4)
   request_store (~> 1.7.0)
@@ -902,6 +906,7 @@ DEPENDENCIES
   view_component (~> 4.15)
   web-console
   webmock (~> 3.30)
+  with_advisory_lock (~> 7.5)
   yard (~> 0.9)
   yard-activerecord
   yard-activesupport-concern

@@ -16,6 +16,14 @@ RSpec.describe ControlledVocabularyRecordPolicy, type: :policy do
       it_behaves_like "a privileged permission"
     end
 
+    describe_rule :read? do
+      it_behaves_like "a full-access permission"
+    end
+
+    describe_rule :read_admin_details? do
+      it_behaves_like "a privileged permission"
+    end
+
     describe_rule :new? do
       it_behaves_like "a super admin permission"
     end
@@ -58,6 +66,24 @@ RSpec.describe ControlledVocabularyRecordPolicy, type: :policy do
 
     describe_rule :replace_option? do
       it_behaves_like "a privileged permission"
+    end
+  end
+
+  describe "api relation scope" do
+    let(:record) { nil }
+
+    let(:scope) { policy.apply_scope(License.all, type: :active_record_relation, name: :api) }
+
+    context "as an editor" do
+      let(:user) { editor }
+
+      it_behaves_like "a full access scope"
+    end
+
+    context "as an anonymous user" do
+      let(:user) { nil }
+
+      it_behaves_like "a full access scope"
     end
   end
 end

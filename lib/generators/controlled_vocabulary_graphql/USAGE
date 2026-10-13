@@ -1,0 +1,11 @@
+Description:
+    Generate the GraphQL type for every model-backed controlled vocabulary's
+    records, and the ControlledVocabularyKind enum. Run it after migrating,
+    since it reads each model's columns.
+
+Example:
+    bin/rails generate controlled_vocabulary_graphql
+
+    This will create (or overwrite):
+        app/graphql/types/controlled_vocabulary_kind_type.rb
+        app/graphql/types/<model>_type.rb (one per vocabulary)

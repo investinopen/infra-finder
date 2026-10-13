@@ -3,7 +3,7 @@
 -%>
 # frozen_string_literal: true
 
-RSpec.describe "Query.<%= graphql_single_field_name %>", type: :request do
+RSpec.describe "Query.<%= graphql_single_field_name %>", type: :request, graphql: true do
   let(:query) do
     <<~GRAPHQL
     <%- if has_unique_identifier? -%>
@@ -167,7 +167,7 @@ RSpec.describe "Query.<%= graphql_single_field_name %>", type: :request do
     include_examples "an authorized lookup"
   end
 
-  as_a_regular_user do
+  as_an_editor_user do
     let(:can_update) { false }
     let(:can_destroy) { false }
 

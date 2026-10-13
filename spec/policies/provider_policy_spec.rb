@@ -124,4 +124,40 @@ RSpec.describe ProviderPolicy, type: :policy do
       it_behaves_like "a full access scope"
     end
   end
+
+  describe "api relation scope" do
+    let(:record) { nil }
+
+    let(:scope) { policy.apply_scope(Provider.all, type: :active_record_relation, name: :api) }
+
+    context "as a super admin" do
+      let(:user) { super_admin }
+
+      it_behaves_like "a full access scope"
+    end
+
+    context "as an admin" do
+      let(:user) { admin }
+
+      it_behaves_like "a full access scope"
+    end
+
+    context "as an editor" do
+      let(:user) { editor }
+
+      it_behaves_like "a no access scope"
+    end
+
+    context "as a regular user" do
+      let(:user) { regular_user }
+
+      it_behaves_like "a no access scope"
+    end
+
+    context "as an anonymous user" do
+      let(:user) { nil }
+
+      it_behaves_like "a no access scope"
+    end
+  end
 end

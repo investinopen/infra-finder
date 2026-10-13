@@ -5,14 +5,16 @@ module Patches
   #
   # It ignores most all options (aside from dictionary) and assumes you are ignoring accents.
   #
+  # @note Written against pg_search 2.4, which builds Arel nodes rather than SQL strings.
+  #
   # @see https://www.postgresql.org/docs/current/textsearch-controls.html
   module SupportWebsearch
     def rank_prefixed
-      arel_wrap(prefixed_query)
+      Arel::Nodes::Grouping.new(prefixed_query)
     end
 
     def rank_query
-      arel_wrap(tsquery)
+      Arel::Nodes::Grouping.new(tsquery)
     end
 
     def tsdocument
@@ -23,19 +25,15 @@ module Patches
       end
     end
 
-    # @return [String]
+    # @return [Arel::Nodes::Node]
     def tsquery
-      return "''" if query.blank?
+      return super if query.blank? || !options[:websearch]
 
-      if options[:websearch]
-        quoted_query = Arel::Nodes.build_quoted(query)
+      quoted_query = Arel::Nodes.build_quoted(query)
 
-        unaccented_query = Arel::Nodes::NamedFunction.new(PgSearch.unaccent_function, [quoted_query])
+      unaccented_query = Arel::Nodes::NamedFunction.new(PgSearch.unaccent_function, [quoted_query])
 
-        Arel::Nodes::NamedFunction.new("websearch_to_tsquery", [dictionary, unaccented_query]).to_sql
-      else
-        super
-      end
+      Arel::Nodes::NamedFunction.new("websearch_to_tsquery", [dictionary, unaccented_query])
     end
 
     def ts_rank_function
@@ -46,27 +44,30 @@ module Patches
       Arel::Nodes::NamedFunction.new(
         ts_rank_function,
         [
-          arel_wrap(tsdocument),
-          arel_wrap(tsquery),
+          Arel::Nodes::Grouping.new(tsdocument),
+          Arel::Nodes::Grouping.new(tsquery),
           normalization
         ]
-      ).to_sql
+      )
     end
 
+    # @return [Arel::Nodes::Node]
     def prefixed_query
-      query_terms = query.split.compact
+      query_terms = query.to_s.split.compact
+
+      return Arel::Nodes.build_quoted("") if query_terms.empty?
 
       tsquery_terms = query_terms.map do |unsanitized_term|
         sanitized_term = unsanitized_term.gsub(PgSearch::Features::TSearch::DISALLOWED_TSQUERY_CHARACTERS, " ")
 
-        term_sql = Arel.sql(normalize(connection.quote(sanitized_term)))
+        term_node = normalize(Arel::Nodes.build_quoted(sanitized_term))
 
-        tsquery = tsquery_expression(term_sql, negated: false, prefix: true)
+        tsquery = tsquery_expression(term_node, negated: false, prefix: true)
 
-        Arel::Nodes::NamedFunction.new("to_tsquery", [dictionary, tsquery]).to_sql
+        Arel::Nodes::NamedFunction.new("to_tsquery", [dictionary, tsquery])
       end
 
-      tsquery_terms.join(" && ")
+      tsquery_terms.inject { |memo, term| Arel::Nodes::InfixOperation.new("&&", memo, term) }
     end
 
     private
@@ -148,7 +149,9 @@ module Patches
 
   module SupportRankQueries
     def rank
-      (config.ranking_sql || ":tsearch").gsub(/(?::(?<feature>trigram|tsearch|dmetaphone)(?:_(?<subfield>prefixed|query))?)/) do
+      return super unless config.ranking_sql
+
+      ranking_sql = config.ranking_sql.gsub(/(?::(?<feature>trigram|tsearch|dmetaphone)(?:_(?<subfield>prefixed|query))?)/) do
         feature = feature_for(Regexp.last_match[:feature])
 
         case Regexp.last_match[:subfield]
@@ -160,6 +163,8 @@ module Patches
           feature.rank.to_sql
         end
       end
+
+      Arel.sql(ranking_sql)
     end
   end
 end
