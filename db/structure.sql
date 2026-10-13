@@ -573,6 +573,21 @@ CREATE TABLE public.active_admin_comments (
 
 
 --
+-- Name: allowlisted_jwts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.allowlisted_jwts (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    user_id uuid NOT NULL,
+    jti character varying NOT NULL,
+    aud character varying,
+    exp timestamp(6) without time zone NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3409,6 +3424,14 @@ ALTER TABLE ONLY public.active_admin_comments
 
 
 --
+-- Name: allowlisted_jwts allowlisted_jwts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.allowlisted_jwts
+    ADD CONSTRAINT allowlisted_jwts_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5029,6 +5052,27 @@ CREATE INDEX index_active_admin_comments_on_namespace ON public.active_admin_com
 --
 
 CREATE INDEX index_active_admin_comments_on_resource ON public.active_admin_comments USING btree (resource_type, resource_id);
+
+
+--
+-- Name: index_allowlisted_jwts_on_exp; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_allowlisted_jwts_on_exp ON public.allowlisted_jwts USING btree (exp);
+
+
+--
+-- Name: index_allowlisted_jwts_on_jti; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_allowlisted_jwts_on_jti ON public.allowlisted_jwts USING btree (jti);
+
+
+--
+-- Name: index_allowlisted_jwts_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_allowlisted_jwts_on_user_id ON public.allowlisted_jwts USING btree (user_id);
 
 
 --
@@ -9551,6 +9595,14 @@ ALTER TABLE ONLY public.solution_programming_languages
 
 
 --
+-- Name: allowlisted_jwts fk_rails_77afa78cd5; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.allowlisted_jwts
+    ADD CONSTRAINT fk_rails_77afa78cd5 FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_integrations fk_rails_79073ac813; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -10557,6 +10609,7 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261013180000'),
 ('20261012222426'),
 ('20261012214538'),
 ('20261012183166'),

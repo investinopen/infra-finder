@@ -29,6 +29,7 @@ require_relative "../lib/patches/support_lquery"
 require_relative "../lib/patches/support_regconfig"
 require_relative "../lib/patches/support_websearch"
 
+require_relative "../lib/middleware/client_address"
 require_relative "../lib/support/system"
 
 require_relative "version"
@@ -46,10 +47,13 @@ module InfraFinder
       config.active_support.isolation_level = :thread
     end
 
+    # Set `SYSTEM_CLIENT_IP_HEADER` to blank on hosts that do not overwrite it.
+    config.middleware.insert_after ActionDispatch::RemoteIp, Middleware::ClientAddress, header: SystemConfig.client_ip_header
+
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
-    config.autoload_lib(ignore: %w(assets cops frozen_record generators global_types patches support tasks templates))
+    config.autoload_lib(ignore: %w(assets cops frozen_record generators global_types middleware patches support tasks templates vog_testing))
 
     # Configuration for the application, engines, and railties goes here.
     #

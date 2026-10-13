@@ -1,13 +1,21 @@
 # frozen_string_literal: true
 
-RSpec.describe "GraphQL Introspection", type: :request do
+RSpec.describe "GraphQL Introspection", type: :request, graphql: true do
   let(:query) { File.read(File.join(__dir__, "introspection.graphql")) }
 
-  it "can introspect anonymously without issue" do
-    post "/graphql", params: { query: }, as: :json
+  as_an_anonymous_user do
+    it "can introspect without issue" do
+      expect_request! do |req|
+        req.effect! execute_safely
+      end
+    end
+  end
 
-    expect(response).to have_http_status(:ok)
-    expect(response.parsed_body).not_to have_key("errors")
-    expect(response.parsed_body.dig("data", "__schema", "queryType", "name")).to eq "Query"
+  as_an_admin_user do
+    it "can introspect without issue" do
+      expect_request! do |req|
+        req.effect! execute_safely
+      end
+    end
   end
 end

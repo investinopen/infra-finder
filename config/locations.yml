@@ -1,0 +1,18 @@
+default: &default
+  root: "http://localhost:6856"
+  instructions: "https://hackmd.io/@investinopen/rkPyYb411g"
+  # The base URL of the admin SPA. When set, auth emails link to the SPA
+  # instead of the Devise HTML pages.
+  admin_spa: ""
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+staging:
+  <<: *default
+
+production:
+  <<: *default
