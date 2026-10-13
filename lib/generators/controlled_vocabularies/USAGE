@@ -6,3 +6,7 @@ Example:
 
     This will create:
         what/will/it/create
+
+    After migrating any new vocabulary tables, regenerate the GraphQL types:
+
+        bin/rails generate controlled_vocabulary_graphql

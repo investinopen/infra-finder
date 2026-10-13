@@ -12,7 +12,11 @@ module Types
 
     # @!group Query Implementations
 
-    implements Types::QueriesViewer
+    implements Types::QueriesControlledVocabulary
+    implements Types::QueriesInvitation
+    implements Types::QueriesProvider
+    implements Types::QueriesProviderEditorAssignment
+    implements Types::QueriesUser
 
     # @!endgroup Query Implementations
   end
