@@ -5,6 +5,10 @@ Rails.application.routes.draw do
 
   ActiveAdmin.routes(self)
 
+  post "/graphql", to: "graphql#execute", as: :graphql
+
+  get "/graphiql", to: "graphiql#show" if Rails.env.development?
+
   authenticate :user, ->(user) { user.has_any_admin_access? } do
     mount GoodJob::Engine => "good_job"
   end

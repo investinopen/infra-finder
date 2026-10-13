@@ -56,6 +56,10 @@ Dry::Logic::Predicates.predicate :model? do |input|
   type?(ActiveRecord::Base, input)
 end
 
+Dry::Logic::Predicates.predicate :frozen_record? do |input|
+  type?(FrozenRecord::Base, input)
+end
+
 Dry::Logic::Predicates.predicate :model_list? do |input|
   array?(input) && input.all? { |elm| model? elm }
 end
@@ -64,8 +68,16 @@ Dry::Logic::Predicates.predicate :model_class? do |input|
   inherits?(ActiveRecord::Base, input)
 end
 
+Dry::Logic::Predicates.predicate :frozen_record_class? do |input|
+  inherits?(FrozenRecord::Base, input)
+end
+
 Dry::Logic::Predicates.predicate :model_class_list? do |input|
   array?(input) && input.all? { |elm| model_class?(input) }
+end
+
+Dry::Logic::Predicates.predicate :has_model_name? do |input|
+  attr?(:model_name, input) && !none?(input.model_name) && type?(ActiveModel::Name, input.model_name)
 end
 
 Dry::Logic::Predicates.predicate :relation? do |input|
@@ -85,4 +97,26 @@ end
 
 Dry::Logic::Predicates.predicate :dry_type? do |input|
   type?(Dry::Types::Type, input)
+end
+
+Dry::Logic::Predicates.predicate :gql_typing? do |input|
+  dry_type?(input) && input.has_gql_typing?
+end
+
+Dry::Logic::Predicates.predicate :encoded_slug? do |input|
+  str?(input) && Support::System["slugs.decode_id"].(input).success?
+end
+
+Dry::Logic::Predicates.predicate :any_uuid? do |input|
+  str?(input) && Support::Constants::ANY_UUID.match?(input)
+end
+
+Dry::Logic::Predicates.predicate :hexadecimal? do |input|
+  str?(input) && input.match?(/\A[0-9a-fA-F]+\z/)
+end
+
+Dry::Logic::Predicates.predicate :opaque_id? do |input|
+  return false unless str?(input) && Support::System[:node_verifier].valid_message?(input)
+
+  Support::System["relay_node.decode"].call(input).success?
 end

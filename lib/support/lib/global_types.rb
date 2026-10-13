@@ -36,5 +36,11 @@ module Support
     SimpleSortDirection = Coercible::String.default("asc").enum("asc", "desc").fallback("asc")
 
     Slug = String.constrained(format: SLUG_PATTERN)
+
+    GraphQLTypeClass = Inherits(::GraphQL::Schema::Object)
+
+    GraphQLEdgeClass = Inherits(::GraphQL::Types::Relay::BaseEdge)
+
+    GraphQLConnectionClass = Inherits(::GraphQL::Types::Relay::BaseConnection)
   end
 end

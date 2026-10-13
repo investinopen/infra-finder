@@ -1,0 +1,10 @@
+# Development and test values only. Staging and production must supply
+# security.hash_salt and security.node_salt via credentials or the
+# SECURITY_HASH_SALT / SECURITY_NODE_SALT environment variables.
+development:
+  hash_salt: "901a969fc40b8f5685b9ea60aed4ce920a5dcb6e64aae40dafd3bbc8df99c531"
+  node_salt: "8f5e47d17286dd74c252f3cd782f998f2cbf5ad0f9a7fb5ea8d8a2841ae6004b"
+
+test:
+  hash_salt: "665978baf51f417c3deb706a47566f392d945ce09a0bac8a1a2fdb3cdc05cf55"
+  node_salt: "e564f07889fd601602b1155bdaa6389b448c3d55356e8257b249b52f4fb552ab"

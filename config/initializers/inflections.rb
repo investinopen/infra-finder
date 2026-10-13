@@ -15,10 +15,17 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym "API"
   inflect.acronym "CLI"
   inflect.acronym "CSV"
+  inflect.acronym "DSL"
   inflect.acronym "EOI"
+  inflect.acronym "GraphiQL"
+  inflect.acronym "GraphQL"
   inflect.acronym "HTML"
   inflect.acronym "JSON"
   inflect.acronym "URL"
+  inflect.acronym "APISchema"
+  inflect.acronym "VOG"
+
+  inflect.uncountable "VOG"
 end
 
 ActiveModel::Validations::URLValidator = ActiveModel::Validations::UrlValidator
