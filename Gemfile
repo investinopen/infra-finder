@@ -104,7 +104,9 @@ gem "image_processing", "~> 2.2"
 gem "ruby-vips", "~> 2.3"
 gem "marcel"
 gem "shrine", "~> 3.10"
+gem "shrine-tus", "~> 3.0"
 gem "shrine-url", "~> 2.4"
+gem "tus-server", "~> 2.3", require: %w[tus/server tus/storage/s3 tus/storage/filesystem]
 
 # Server / Ruby
 gem "bootsnap", "~> 1.26", require: false

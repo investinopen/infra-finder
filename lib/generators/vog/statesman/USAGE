@@ -1,0 +1,23 @@
+Description:
+    Generates all files for a Statesman state machine: the transition model,
+    transition policy, state machine service, GraphQL enum type, transition type,
+    edge type, connection type, and resolver.
+
+Arguments:
+    NAME    The PascalCase owner model name (e.g. CertificationLevel)
+
+Options:
+    --states   Array of state names for the state machine (e.g. active archived)
+
+Example:
+    bin/rails generate vog:statesman CertificationLevel --states active archived
+
+    This will create:
+        app/graphql/types/certification_level_state_type.rb
+        app/models/certification_level_transition.rb
+        app/policies/certification_level_transition_policy.rb
+        app/services/certification_levels/state_machine.rb
+        app/graphql/types/certification_level_transition_type.rb
+        app/graphql/types/certification_level_transition_edge_type.rb
+        app/graphql/types/certification_level_transition_connection_type.rb
+        app/services/resolvers/certification_level_transition_resolver.rb

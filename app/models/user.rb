@@ -98,6 +98,14 @@ class User < ApplicationRecord
     !has_any_admin_access?
   end
 
+  # Anyone who may use the GraphQL API, and has accepted the terms, may upload files.
+  #
+  # @see Users::Access
+  # @see Users::UploadAccessPolicy
+  def has_any_upload_access?
+    Users::Access.allowed?(self) && accepted_terms?
+  end
+
   # @param [Solution] solution
   def has_pending_draft_for?(solution)
     pending_draft_scope_for(solution).exists?
@@ -105,6 +113,13 @@ class User < ApplicationRecord
 
   def has_provider_editor_assignments?
     provider_editor_assignments.exists?
+  end
+
+  # @see Uploads::EncodeToken
+  # @param [String] session_jti the `jti` of the API token the upload token is issued under
+  # @return [String, nil]
+  def upload_token(session_jti:)
+    call_operation("uploads.encode_token", self, session_jti:).value_or(nil)
   end
 
   # @param [Solution] solution

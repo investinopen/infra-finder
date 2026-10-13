@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+module Filtering
+  module Scopes
+    # The filtering scope implementation for {<%= model_name %>}.
+    class <%= filter_scope_name %> < ::Filtering::FilterScope[::<%= model_name %>]
+      <%- if has_name? -%>
+      has_name_search!
+
+      <%- end -%>
+      timestamps!
+    end
+  end
+end
