@@ -8,6 +8,8 @@ class ProviderEditorAssignment < ApplicationRecord
   belongs_to :provider, inverse_of: :provider_editor_assignments
   belongs_to :user, inverse_of: :provider_editor_assignments
 
+  scope :in_default_order, -> { most_recently_updated }
+
   has_many :solutions, through: :provider
 
   expose_ransackable_associations! :provider, :user, on: :admin

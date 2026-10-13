@@ -3,7 +3,7 @@
 -%>
 # frozen_string_literal: true
 
-RSpec.describe "Query.<%= graphql_collection_field_name %>", type: :request do
+RSpec.describe "Query.<%= graphql_collection_field_name %>", type: :request, graphql: true do
   context "when ordering" do
     let(:query) do
       <<~GRAPHQL
@@ -196,7 +196,7 @@ RSpec.describe "Query.<%= graphql_collection_field_name %>", type: :request do
       include_examples "ordering by each option"
     end
 
-    as_a_regular_user do
+    as_an_editor_user do
       let(:can_update) { false }
       let(:can_destroy) { false }
 
