@@ -76,9 +76,10 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     optional(:be_position).maybe(:integer)
     optional(:be_section).maybe(:string)
     optional(:fe_label).maybe(:string)
-    optional(:fe_position).maybe(:integer)
     optional(:fe_section).maybe(:string)
-    required(:fe_visibility).value(:visibility)
+    # Values the public site does not show: `true`, or `financial` for financial
+    # numbers that become public once the solution approves publishing them.
+    required(:hidden).value(included_in?: [true, false, "financial"])
     required(:skip_admin).value(:bool)
     required(:skip_csv_export).value(:bool)
 
@@ -155,8 +156,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     skip_csv_export: false,
     meta: false,
     description: nil,
-    fe_position: 0,
-    fe_visibility: "hidden",
+    hidden: false,
     vocab_name: nil,
     association_name: nil,
     scalar_kind: nil
@@ -517,6 +517,18 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   # @return [Boolean] whether every solution model has {#association_name}
   def association_exists?
     SOURCE_KINDS.all? { self.class.solution_record_for(_1).class.reflect_on_association(association_name.to_sym).present? }
+  end
+
+  # The policy rule a reader must pass to see this property's value.
+  #
+  # @return [:show_hidden?, :show_financials?, nil] nil when the value is public
+  def hidden_rule
+    case hidden
+    in true then :show_hidden?
+    in "financial" then :show_financials?
+    else
+      nil
+    end
   end
 
   # @see SolutionProperties::ValueType.for

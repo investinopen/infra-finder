@@ -17,7 +17,11 @@ module Types
 <% graphql_interface_properties.each do |prop| -%>
 <% type, nullable = graphql_field_type_for(prop) -%>
 
+<% if prop.hidden_rule -%>
+    field :<%= graphql_field_name_for(prop) %>, <%= type %>, null: true, authorize_field: { to: <%= prop.hidden_rule.inspect %>, raise: false } do
+<% else -%>
     field :<%= graphql_field_name_for(prop) %>, <%= type %>, null: <%= nullable %> do
+<% end -%>
       description <<~TEXT
 <%= graphql_description_for(prop).gsub(/(.{1,100})(\s+|\z)/, "\\1\n").rstrip.indent(6) %>
       TEXT
