@@ -13,10 +13,6 @@ RSpec.describe ControlledVocabularyRecordPolicy, type: :policy do
     end
 
     describe_rule :show? do
-      it_behaves_like "a privileged permission"
-    end
-
-    describe_rule :read? do
       it_behaves_like "a full-access permission"
     end
 
@@ -69,10 +65,10 @@ RSpec.describe ControlledVocabularyRecordPolicy, type: :policy do
     end
   end
 
-  describe "api relation scope" do
+  describe "relation scope" do
     let(:record) { nil }
 
-    let(:scope) { policy.apply_scope(License.all, type: :active_record_relation, name: :api) }
+    let(:scope) { policy.apply_scope(License.all, type: :active_record_relation) }
 
     context "as an editor" do
       let(:user) { editor }

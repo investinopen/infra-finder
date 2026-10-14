@@ -51,8 +51,12 @@ class SolutionIntakesController < ApplicationController
 
   private
 
+  # Intakes the visitor may not see are reported as missing rather than forbidden.
+  #
   # @return [void]
   def find_solution_intake!
-    @solution_intake = authorized_scope(SolutionIntake.all).find(params[:id])
+    @solution_intake = SolutionIntake.find(params[:id])
+
+    raise ActiveRecord::RecordNotFound unless allowed_to?(:show?, @solution_intake)
   end
 end

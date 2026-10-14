@@ -2,5 +2,8 @@
 
 # @see Provider
 class ProviderPolicy < ApplicationPolicy
-  requires_admin_for_show!
+  # @return [Boolean]
+  def show?
+    admin_or_editor_for_record?
+  end
 end

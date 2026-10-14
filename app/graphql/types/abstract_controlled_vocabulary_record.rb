@@ -6,7 +6,5 @@ module Types
   # @see Types::ControlledVocabularyRecordType
   class AbstractControlledVocabularyRecord < Types::AbstractModel
     implements ::Types::ControlledVocabularyRecordType
-
-    graphql_read_rule :read?
   end
 end

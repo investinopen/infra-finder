@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 module Admin
-  # Authorizes ActiveAdmin through Action Policy.
+  # Authorizes ActiveAdmin through Action Policy. The admin area itself is
+  # limited to admins and editors; within it, the policies decide.
   class ActionPolicyAdapter < ActiveAdmin::AuthorizationAdapter
     # @param [Symbol] action
     # @param [Object, Class, Symbol, nil] subject
     # @return [Boolean]
     def authorized?(action, subject = nil)
+      return false unless user.try(:has_any_admin_or_editor_access?)
+
       policy_for(subject).apply(rule_for(action, subject))
     end
 

@@ -34,6 +34,17 @@ RSpec.describe "Admin Solutions", type: :request, default_auth: true do
       expect(response).to have_http_status(:ok)
     end
 
+    it "lists only the solutions an editor edits, even when others are published" do
+      extra_solutions.each(&:published!)
+
+      sign_in editor
+
+      make_the_request!
+
+      expect(response.body).to include(solution.name)
+      expect(response.body).not_to include(*extra_solutions.map(&:name))
+    end
+
     it "is hidden from users" do
       sign_in regular_user
 

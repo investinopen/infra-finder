@@ -27,17 +27,10 @@ class ApplicationPolicy < ActionPolicy::Base
 
   alias_rule :edit?, to: :update?
 
+  # Non-admins see nothing unless a policy overrides one of the
+  # `resolve_scope_for_*` methods.
   relation_scope do |relation|
-    resolve_scope(relation)
-  end
-
-  # The scope GraphQL resolvers apply. Unlike ActiveAdmin, the API exposes
-  # lists and lookups directly, so records only admins may show are hidden
-  # from everyone else.
-  #
-  # @see Resolvers::AbstractResolver
-  relation_scope(:api) do |relation|
-    api_admin_only? && !has_any_admin_access? ? relation.none : resolve_api_scope(relation)
+    resolve_default_scope_for(relation)
   end
 
   def index?
@@ -100,22 +93,67 @@ class ApplicationPolicy < ActionPolicy::Base
     end
   end
 
+  # @return [Boolean] true for `nil` and {AnonymousUser}
+  def anonymous? = user.nil? || user.anonymous?
+
+  # @return [Boolean]
+  def authenticated? = !anonymous?
+
+  # @!group Scope Resolution
+
+  # @api private
   # @param [ActiveRecord::Relation] relation
   # @return [ActiveRecord::Relation]
-  def resolve_scope(relation)
+  def resolve_default_scope_for(relation)
+    if super_admin?
+      resolve_scope_for_super_admin(relation)
+    elsif has_any_admin_access?
+      resolve_scope_for_admin(relation)
+    elsif anonymous?
+      resolve_scope_for_anonymous(relation)
+    else
+      resolve_scope_for_authenticated(relation)
+    end
+  end
+
+  # @api private
+  # @param [ActiveRecord::Relation] relation
+  # @return [ActiveRecord::Relation]
+  def resolve_scope_for_super_admin(relation)
+    resolve_scope_for_admin(relation)
+  end
+
+  # @api private
+  # @param [ActiveRecord::Relation] relation
+  # @return [ActiveRecord::Relation]
+  def resolve_scope_for_admin(relation)
     relation.all
   end
 
-  # Whether the {:api} scope is admin-only. Defaults to {#requires_admin_for_show?}.
-  #
-  # @return [Boolean]
-  def api_admin_only? = requires_admin_for_show?
-
+  # @api private
   # @param [ActiveRecord::Relation] relation
   # @return [ActiveRecord::Relation]
-  def resolve_api_scope(relation)
-    resolve_scope(relation)
+  def resolve_scope_for_non_admin(relation)
+    relation.none
   end
+
+  # @api private
+  # @note Defers to {#resolve_scope_for_non_admin} by default.
+  # @param [ActiveRecord::Relation] relation
+  # @return [ActiveRecord::Relation]
+  def resolve_scope_for_authenticated(relation)
+    resolve_scope_for_non_admin(relation)
+  end
+
+  # @api private
+  # @note Defers to {#resolve_scope_for_non_admin} by default.
+  # @param [ActiveRecord::Relation] relation
+  # @return [ActiveRecord::Relation]
+  def resolve_scope_for_anonymous(relation)
+    resolve_scope_for_non_admin(relation)
+  end
+
+  # @!endgroup
 
   def record_exists_in_scope?
     apply_scope(record.class.all, type: :active_record_relation).exists?(id: record.id)

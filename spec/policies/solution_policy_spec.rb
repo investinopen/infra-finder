@@ -14,6 +14,18 @@ RSpec.describe SolutionPolicy, type: :policy do
 
     describe_rule :show? do
       it_behaves_like "an admin or record editor permission"
+
+      context "when published" do
+        before { solution.published! }
+
+        succeed "as another editor" do
+          let(:user) { other_editor }
+        end
+
+        succeed "as an anonymous user" do
+          let(:user) { nil }
+        end
+      end
     end
 
     describe_rule :new? do
@@ -120,6 +132,8 @@ RSpec.describe SolutionPolicy, type: :policy do
   describe "relation scope" do
     let(:record) { nil }
 
+    let_it_be(:published_solution) { FactoryBot.create(:solution, provider: other_provider).tap(&:published!) }
+
     let(:scope) { policy.apply_scope(Solution.all, type: :active_record_relation) }
 
     context "as a super admin" do
@@ -137,32 +151,24 @@ RSpec.describe SolutionPolicy, type: :policy do
     context "as an editor" do
       let(:user) { editor }
 
-      it "includes only the accessible records" do
-        expect(scope).to contain_exactly(solution)
-      end
-    end
-
-    context "as another provider's editor" do
-      let(:user) { other_editor }
-
-      it "includes only the accessible records" do
-        expect(scope).to contain_exactly(other_solution)
+      it "includes published solutions and their own" do
+        expect(scope).to contain_exactly(solution, published_solution)
       end
     end
 
     context "as a regular user" do
       let(:user) { regular_user }
 
-      it "includes nothing" do
-        expect(scope).to be_empty
+      it "includes only published solutions" do
+        expect(scope).to contain_exactly(published_solution)
       end
     end
 
     context "as an anonymous user" do
       let(:user) { nil }
 
-      it "includes nothing" do
-        expect(scope).to be_empty
+      it "includes only published solutions" do
+        expect(scope).to contain_exactly(published_solution)
       end
     end
   end

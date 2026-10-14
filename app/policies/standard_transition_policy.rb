@@ -19,4 +19,12 @@ class StandardTransitionPolicy < ApplicationPolicy
 
     Policies::Current.fetch(key) { allowed_to?(:show?, record.owner) }
   end
+
+  private
+
+  # Transitions are only listed through their owner, which is authorized first.
+  #
+  # @param [ActiveRecord::Relation] relation
+  # @return [ActiveRecord::Relation]
+  def resolve_scope_for_non_admin(relation) = relation.all
 end

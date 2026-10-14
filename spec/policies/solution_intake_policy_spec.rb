@@ -226,33 +226,19 @@ RSpec.describe SolutionIntakePolicy, type: :policy do
     context "as an editor" do
       let(:user) { editor }
 
-      it "includes only the accessible records" do
-        expect(scope).to contain_exactly(pending_intake, in_review_intake)
-      end
-    end
-
-    context "as another provider's editor" do
-      let(:user) { other_editor }
-
-      it "includes only the accessible records" do
-        expect(scope).to contain_exactly(pending_intake, in_review_intake)
-      end
+      it_behaves_like "a no access scope"
     end
 
     context "as a regular user" do
       let(:user) { regular_user }
 
-      it "includes only the accessible records" do
-        expect(scope).to contain_exactly(pending_intake, in_review_intake)
-      end
+      it_behaves_like "a no access scope"
     end
 
     context "as an anonymous user" do
       let(:user) { nil }
 
-      it "includes only the accessible records" do
-        expect(scope).to contain_exactly(pending_intake, in_review_intake)
-      end
+      it_behaves_like "a no access scope"
     end
   end
 end

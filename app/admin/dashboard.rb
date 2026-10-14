@@ -106,7 +106,7 @@ ActiveAdmin.register_page "Dashboard" do
 
         column do
           panel "Your Solutions" do
-            table_for authorized_scope(Solution.all).reorder(updated_at: :desc) do
+            table_for authorized_scope(Solution.all).then { current_user.has_any_admin_access? ? _1 : _1.with_editor_access_for(current_user) }.reorder(updated_at: :desc) do
               column :name do |r|
                 link_to r.name, admin_solution_path(r), target: "_blank", rel: "noopener"
               end

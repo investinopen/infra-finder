@@ -17,19 +17,7 @@ module Support
             return authorize!(object, to: :read_for_mutation?, context:)
           end
 
-          allowed_to?(graphql_read_rule, object, context:)
-        end
-
-        # The policy rule that decides whether an object of this type can be read.
-        #
-        # @note An infra-finder addition: SJ always uses `show?`. Some policies keep
-        #   `show?` for ActiveAdmin and grant API reads through another rule.
-        # @param [Symbol, nil] rule sets the rule when provided
-        # @return [Symbol]
-        def graphql_read_rule(rule = nil)
-          @graphql_read_rule = rule if rule
-
-          @graphql_read_rule || (superclass.respond_to?(:graphql_read_rule) ? superclass.graphql_read_rule : :show?)
+          allowed_to?(:show?, object, context:)
         end
       end
     end
