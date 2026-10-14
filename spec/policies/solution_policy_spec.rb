@@ -60,6 +60,30 @@ RSpec.describe SolutionPolicy, type: :policy do
       it_behaves_like "an admin or record editor permission"
     end
 
+    describe_rule :show_hidden? do
+      it_behaves_like "an admin or record editor permission"
+
+      context "when published" do
+        before { solution.published! }
+
+        failed "as an anonymous user" do
+          let(:user) { nil }
+        end
+      end
+    end
+
+    describe_rule :show_financials? do
+      it_behaves_like "an admin or record editor permission"
+
+      context "when approved for publishing" do
+        before { solution.financial_numbers_approved_to_publish! }
+
+        succeed "as an anonymous user" do
+          let(:user) { nil }
+        end
+      end
+    end
+
     describe_rule :fetch_public? do
       it_behaves_like "a privileged permission"
     end

@@ -3,8 +3,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: bylaws
   code: 15100
   attr: bylaws
@@ -16,8 +14,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: code_license
   code: 15101
   attr: code_license
@@ -29,8 +25,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: code_of_conduct
   code: 15102
   attr: code_of_conduct
@@ -42,8 +36,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: code_repository
   code: 15103
   attr: code_repository
@@ -55,8 +47,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: community_engagement
   code: 15104
   attr: community_engagement
@@ -69,8 +59,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: contribution_pathways
   code: 15105
   attr: contribution_pathways
@@ -82,8 +70,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: equity_and_inclusion
   code: 15106
   attr: equity_and_inclusion
@@ -95,8 +81,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: governance_records
   code: 15107
   attr: governance_records
@@ -108,8 +92,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: governance_structure
   code: 15108
   attr: governance_structure
@@ -121,8 +103,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: open_api
   code: 15109
   attr: open_api
@@ -134,8 +114,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: open_data
   code: 15110
   attr: open_data
@@ -147,8 +125,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: pricing
   code: 15111
   attr: pricing
@@ -160,8 +136,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: privacy_policy
   code: 15112
   attr: privacy_policy
@@ -173,8 +147,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: product_roadmap
   code: 15113
   attr: product_roadmap
@@ -186,8 +158,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: user_documentation
   code: 15114
   attr: user_documentation
@@ -199,8 +169,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: web_accessibility
   code: 15115
   attr: web_accessibility
