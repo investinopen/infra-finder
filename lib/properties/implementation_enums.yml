@@ -15,9 +15,7 @@
   be_label: Code license status
   be_position: 27
   fe_label: Code license
-  fe_position: 27
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: code_repository_implementation
@@ -36,9 +34,7 @@
   be_label: Open code repository
   be_position: 14
   fe_label: Open code repository
-  fe_position: 14
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: open_api_implementation
@@ -57,9 +53,7 @@
   be_label: Open API
   be_position: 21
   fe_label: Open API
-  fe_position: 21
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: open_data_implementation
@@ -78,9 +72,7 @@
   be_label: Open data statement
   be_position: 23
   fe_label: Open Data Statement
-  fe_position: 23
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: product_roadmap_implementation
@@ -99,9 +91,7 @@
   be_label: Open product roadmap
   be_position: 19
   fe_label: Open Product Roadmap
-  fe_position: 19
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: user_documentation_implementation
@@ -123,9 +113,7 @@
   be_label: Technical user documentation
   be_position: 17
   fe_label: Technical documentation
-  fe_position: 17
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: code_of_conduct_implementation
@@ -146,9 +134,7 @@
   be_label: Code of conduct
   be_position: 40
   fe_label: Code of Conduct
-  fe_position: 40
   fe_section: 005 Community Engagement
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: community_engagement_implementation
@@ -169,9 +155,7 @@
   be_label: Organizational commitment to community engagement
   be_position: 42
   fe_label: Organizational commitment to community engagement
-  fe_position: 42
   fe_section: 005 Community Engagement
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: contribution_pathways_implementation
@@ -190,9 +174,7 @@
   be_label: User Contribution Pathways - Implemented?
   be_position: 44
   fe_label: Contribution Guidelines or Fora
-  fe_position: 44
   fe_section: 005 Community engagement
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: bylaws_implementation
@@ -210,9 +192,7 @@
   be_label: Bylaws implementation status
   be_position: 52
   fe_label: Bylaws
-  fe_position: 52
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: equity_and_inclusion_implementation
@@ -232,9 +212,7 @@
   be_label: Commitment to equity and inclusion
   be_position: 54
   fe_label: DEI Statement
-  fe_position: 54
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: governance_records_implementation
@@ -254,9 +232,7 @@
   be_label: Governance records
   be_position: 60
   fe_label: N/A
-  fe_position: 60
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: governance_structure_implementation
@@ -276,9 +252,7 @@
   be_label: Governance structure and processes
   be_position: 62
   fe_label: Governance Structure & Processes
-  fe_position: 62
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: pricing_implementation
@@ -298,9 +272,7 @@
   be_label: Transparent pricing and cost expectations
   be_position: 64
   fe_label: Pricing info
-  fe_position: 64
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale_pricing
 - name: privacy_policy_implementation
@@ -321,9 +293,7 @@
   be_label: Privacy policy
   be_position: 56
   fe_label: Privacy Policy
-  fe_position: 56
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: web_accessibility_implementation
@@ -342,8 +312,6 @@
   be_label: Web accessibility statement
   be_position: 58
   fe_label: Web Accessibility Statement
-  fe_position: 58
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale

@@ -13,9 +13,7 @@
   ext_name: programming_language_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: content_license_other
   code: 986
@@ -31,9 +29,7 @@
   ext_name: content_licensing_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: license_other
   code: 984
@@ -49,9 +45,7 @@
   ext_name: code_license_name_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: metadata_standard_other
   code: 994
@@ -67,9 +61,7 @@
   ext_name: metadata_standards_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: persistent_identifier_standard_other
   code: 995
@@ -85,14 +77,13 @@
   ext_name: pids_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: authentication_standard_other
   code: 996
   attr: authentication_standard_other
   kind: :other_option
+  hidden: true
   meta: false
   owner: authentication_standards
   description: |-
@@ -103,9 +94,7 @@
   ext_name: authentication_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: security_standard_other
   code: 998
@@ -121,9 +110,7 @@
   ext_name: security_standards_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: preservation_standard_other
   code: 912
@@ -139,9 +126,7 @@
   ext_name: preservation_standards_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: metrics_standard_other
   code: 913
@@ -157,9 +142,7 @@
   ext_name: metrics_standards_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: integration_other
   code: 983
@@ -175,9 +158,7 @@
   ext_name: integrations_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: user_contribution_other
   code: 940
@@ -193,9 +174,7 @@
   ext_name: contribution_opportunities_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: community_engagement_activity_other
   code: 938
@@ -211,9 +190,7 @@
   ext_name: community_engagement_activities_other
   be_label: Community engagement activities — other
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: board_structure_other
   code: 950
@@ -229,9 +206,7 @@
   ext_name: board_structure_other
   be_label: Board structure — other
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: business_form_other
   code: 951
@@ -247,9 +222,7 @@
   ext_name: business_form_other
   be_label: Business form — other
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: primary_funding_source_other
   code: 961
@@ -265,9 +238,7 @@
   ext_name: primary_funding_source_other
   be_label: Primary Funding Source — other
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: financial_reporting_level_other
   code: 972
@@ -283,9 +254,7 @@
   ext_name: financial_reporting_level_other
   be_label: Financial reporting level — other
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: board_level_other
   code: 900
@@ -301,9 +270,7 @@
   ext_name: board_level_other
   be_label: Board level — other
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: access_condition_other
   code: 1020
@@ -319,9 +286,7 @@
   ext_name: access_condition_other
   be_label: Access condition — other
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: revenue_source_other
   code: 1022
@@ -337,7 +302,5 @@
   ext_name: revenue_source_other
   be_label: Revenue source — other
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
