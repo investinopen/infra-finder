@@ -53,7 +53,7 @@ ActiveAdmin.register Provider do
     end
 
     panel "Solutions" do
-      table_for resource.solutions do
+      table_for authorized_scope(resource.solutions) do
         column :name do |s|
           link_to s.name, admin_solution_path(s)
         end
