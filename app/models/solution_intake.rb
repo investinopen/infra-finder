@@ -26,6 +26,8 @@ class SolutionIntake < ApplicationRecord
   expose_ransackable_associations! :provider, :solution
   expose_ransackable_attributes! :provider_id, :solution_id, :name
 
+  scope :in_default_order, -> { in_recent_order }
+
   scope :missing_provider, -> { where(provider_id: nil) }
 
   before_validation :set_snowflake!, on: :create

@@ -508,8 +508,7 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   def graphql_field_name
     return association_name.camelize(:lower) if association_name.present? && association_exists?
 
-    # Actual-only properties (`publication`, `published_at`) have no field until the solution types exist.
-    return if kind.in?(GRAPHQL_SKIPPED_KINDS) || only.present? || !exists?
+    return if kind.in?(GRAPHQL_SKIPPED_KINDS) || !exists?
 
     (kind == :implementation ? name : attribute_name).camelize(:lower)
   end
@@ -682,6 +681,21 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   class << self
     include Dry::Core::Memoizable
+
+    # The properties a draft overrides, in display order. Names no longer in use
+    # (from older drafts) are skipped.
+    #
+    # @param [SolutionDraft] draft
+    # @return [<SolutionProperty>]
+    def changed_by(draft)
+      names = draft.draft_overrides.map(&:to_s)
+
+      in_use.to_a.sort.select do |prop|
+        next false if prop.kind.in?(GRAPHQL_METADATA_EXCLUDED_KINDS)
+
+        names.intersect?([prop.name, prop.attribute_name.to_s, prop.input_attr.to_s])
+      end
+    end
 
     # @param [#to_s] property_name
     # @return [Class(Solutions::Revisions::Diffs::BaseDiff)]

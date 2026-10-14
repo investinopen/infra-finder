@@ -2,8 +2,8 @@
 
 # @see Provider
 class ProviderPolicy < ApplicationPolicy
+  # Providers are named on the public site; listing them stays admin-only.
+  #
   # @return [Boolean]
-  def show?
-    admin_or_editor_for_record?
-  end
+  def show? = true
 end

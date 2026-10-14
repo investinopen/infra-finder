@@ -17,6 +17,8 @@ class SolutionRevision < ApplicationRecord
   pg_enum! :data_version, as: :solution_data_version, allow_blank: false, default: :unknown, suffix: :data
   pg_enum! :provider_state, as: :solution_revision_provider_state, allow_blank: false, default: :same, prefix: :provider
 
+  scope :in_default_order, -> { in_recent_order }
+
   attribute :diffs, Solutions::Revisions::AnyDiff.to_array_type, default: proc { [] }
   attribute :data, Solutions::Revisions::AnyData.to_type
 

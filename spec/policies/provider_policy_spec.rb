@@ -11,7 +11,7 @@ RSpec.describe ProviderPolicy, type: :policy do
     end
 
     describe_rule :show? do
-      it_behaves_like "an admin or record editor permission"
+      it_behaves_like "a full-access permission"
     end
 
     describe_rule :new? do
@@ -51,7 +51,7 @@ RSpec.describe ProviderPolicy, type: :policy do
     end
 
     describe_rule :show? do
-      it_behaves_like "an admin or record editor permission", editor: :other_editor, non_editor: :editor
+      it_behaves_like "a full-access permission"
     end
 
     describe_rule :new? do
