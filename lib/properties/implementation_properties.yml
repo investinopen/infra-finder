@@ -13,9 +13,7 @@
   be_label: Link to pricing
   be_position: 6
   fe_label: Pricing info
-  fe_position: 6
   fe_section: 001 Header
-  fe_visibility: visible
   input: url
 - name: code_license_url
   code: 85
@@ -32,9 +30,7 @@
   be_label: Code license
   be_position: 28
   fe_label: N/A
-  fe_position: 28
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: url
 - name: open_code_repository_url
   code: 19
@@ -50,9 +46,7 @@
   be_label: Link to code repository
   be_position: 15
   fe_label: Open code repository
-  fe_position: 15
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: url
 - name: api_url
   code: 89
@@ -68,9 +62,7 @@
   be_label: Link to open APIs and/or API documentation
   be_position: 22
   fe_label: Open API
-  fe_position: 22
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: url
 - name: open_data_statement_url
   code: 21
@@ -86,9 +78,7 @@
   be_label: Link to open data statement
   be_position: 24
   fe_label: Open Data Statement - Learn More
-  fe_position: 24
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: url
 - name: product_roadmap_url
   code: 91
@@ -104,9 +94,7 @@
   be_label: Link to product roadmap
   be_position: 20
   fe_label: Open Product Roadmap
-  fe_position: 20
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: url
 - name: technical_user_documentation_url
   code: 23
@@ -122,9 +110,7 @@
   be_label: Link to technical user documentation
   be_position: 18
   fe_label: Technical documentation
-  fe_position: 18
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: url
 - name: code_of_conduct_url
   code: 43
@@ -140,9 +126,7 @@
   be_label: Link to code of conduct
   be_position: 41
   fe_label: Code of Conduct
-  fe_position: 41
   fe_section: 005 Community Engagement
-  fe_visibility: visible
   input: url
 - name: community_engagement_url
   code: 116
@@ -158,9 +142,7 @@
   be_label: Link to community engagement activities
   be_position: 43
   fe_label: Community engagement activities
-  fe_position: 43
   fe_section: 005 Community engagement
-  fe_visibility: visible
   input: url
 - name: contribution_guidelines
   code: 41
@@ -177,9 +159,7 @@
   be_label: User Contribution Pathways - URL
   be_position: 45
   fe_label: Contribution Guidelines or Fora - Website
-  fe_position: 45
   fe_section: 005 Community Engagement
-  fe_visibility: visible
   input: url
 - name: community_governance_url
   code: 49
@@ -195,9 +175,7 @@
   be_label: Link to bylaws or other governance documentation
   be_position: 53
   fe_label: N/A
-  fe_position: 53
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: url
 - name: commitment_to_equity_url
   code: 36
@@ -214,9 +192,7 @@
   be_label: Link to diversity, equity, inclusion, and antiracism statement or policy
   be_position: 55
   fe_label: DEI Statement - Website
-  fe_position: 55
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: url
 - name: governance_records_url
   code: 28
@@ -234,9 +210,7 @@
   be_label: Link to governance records
   be_position: 61
   fe_label: N/A
-  fe_position: 61
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: url
 - name: governance_structure_url
   code: 25
@@ -254,9 +228,7 @@
   be_label: Link to governance structure and processes
   be_position: 63
   fe_label: Governance Structure & Processes
-  fe_position: 63
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: url
 - name: commitment_to_privacy_url
   code: 45
@@ -272,9 +244,7 @@
   be_label: Link to privacy policy
   be_position: 57
   fe_label: Privacy Policy
-  fe_position: 57
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: url
 - name: web_accessibility_url
   code: 30
@@ -290,7 +260,5 @@
   be_label: Link to web accessibility statement
   be_position: 59
   fe_label: Web Accessibility Statement - Website
-  fe_position: 59
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: url
