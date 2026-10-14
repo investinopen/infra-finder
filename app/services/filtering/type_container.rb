@@ -16,8 +16,15 @@ module Filtering
     tc.add! :time_match, Filtering::Inputs::TimeMatch
 
     tc.add_enum! ::Types::InvitationStateType
+    tc.add_enum! ::Types::PublicationType
+    tc.add_enum! ::Types::SolutionClaimStateType
+    tc.add_enum! ::Types::SolutionDraftStateType
+    tc.add_enum! ::Types::SolutionImportStateType
+    tc.add_enum! ::Types::SolutionImportStrategyType
+    tc.add_enum! ::Types::SolutionIntakeStateType
     tc.add_enum! ::Types::UserKindType
 
     tc.add_model! ::Provider
+    tc.add_model! ::Solution
   end
 end

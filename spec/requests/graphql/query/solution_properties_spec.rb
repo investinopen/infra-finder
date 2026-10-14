@@ -66,7 +66,7 @@ RSpec.describe "Query.solutionProperties", type: :request, graphql: true do
         "valueType" => include("__typename" => "EnumValue", "options" => a_collection_including("label" => "Implemented/available", "value" => "AVAILABLE"))
       )
       expect(value_type("pricing_implementation")["options"]).to include("label" => a_kind_of(String), "value" => "NO_DIRECT_COSTS")
-      expect(property("publication")).to include("availableOn" => ["ACTUAL"], "fieldName" => nil)
+      expect(property("publication")).to include("availableOn" => ["ACTUAL"], "fieldName" => "publication")
     end
 
     it "lays out the form's tabs" do
@@ -86,6 +86,18 @@ RSpec.describe "Query.solutionProperties", type: :request, graphql: true do
       shared = properties.select { _1["availableOn"].size == 3 && _1["fieldName"].present? }
 
       expect(shared.pluck("fieldName")).to all(be_in(interface_fields))
+    end
+
+    it "names fields that exist on the type for each solution kind" do
+      make_default_request!
+
+      types = { "ACTUAL" => Types::SolutionType, "DRAFT" => Types::SolutionDraftType, "INTAKE" => Types::SolutionIntakeType }
+
+      properties.select { _1["fieldName"].present? }.each do |prop|
+        prop["availableOn"].each do |kind|
+          expect(types.fetch(kind).fields.keys).to include(prop["fieldName"]), "#{prop["key"]} is missing from #{kind}"
+        end
+      end
     end
   end
 end
