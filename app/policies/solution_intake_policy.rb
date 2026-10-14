@@ -48,14 +48,4 @@ class SolutionIntakePolicy < ApplicationPolicy
   def can_transition_to?(state)
     record.try(:can_transition_to?, state)
   end
-
-  # @param [ActiveRecord::Relation] relation
-  # @return [ActiveRecord::Relation]
-  def resolve_scope(relation)
-    if has_any_admin_access?
-      relation.all
-    else
-      relation.in_state(:pending, :in_review)
-    end
-  end
 end

@@ -4,15 +4,11 @@
 #
 # @see ControlledVocabularyRecord
 class ControlledVocabularyRecordPolicy < ApplicationPolicy
-  requires_admin_for_show!
-
-  # Reading terms through the GraphQL API. Anyone may read every term, hidden
-  # ones included, because the solution and public intake forms already offer
-  # them. ActiveAdmin's show pages stay admin-only via {#show?}.
+  # Anyone may read every record, hidden ones included, because the solution
+  # and public intake forms already offer them.
   #
-  # @see Types::AbstractControlledVocabularyRecord
   # @return [Boolean]
-  def read? = true
+  def show? = true
 
   # Internal details (the description and draft counts) are for admins.
   #
@@ -33,8 +29,9 @@ class ControlledVocabularyRecordPolicy < ApplicationPolicy
 
   private
 
-  # Every record is readable through the API (see {#read?}).
+  # Every record is readable (see {#show?}).
   #
-  # @return [Boolean]
-  def api_admin_only? = false
+  # @param [ActiveRecord::Relation] relation
+  # @return [ActiveRecord::Relation]
+  def resolve_scope_for_non_admin(relation) = relation.all
 end
