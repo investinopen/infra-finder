@@ -29,6 +29,14 @@ RSpec.describe SolutionDraftPolicy, type: :policy do
       it_behaves_like "an admin or record editor permission"
     end
 
+    describe_rule :show_hidden? do
+      it_behaves_like "an admin or record editor permission"
+    end
+
+    describe_rule :show_financials? do
+      it_behaves_like "an admin or record editor permission"
+    end
+
     describe_rule :new? do
       it_behaves_like "a super admin permission"
     end

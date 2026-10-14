@@ -17,6 +17,14 @@ RSpec.describe SolutionIntakePolicy, type: :policy do
   context "with a pending intake" do
     let(:record) { pending_intake }
 
+    describe_rule :show_hidden? do
+      it_behaves_like "a full-access permission"
+    end
+
+    describe_rule :show_financials? do
+      it_behaves_like "a full-access permission"
+    end
+
     describe_rule :index? do
       it_behaves_like "a privileged permission"
     end
@@ -144,6 +152,10 @@ RSpec.describe SolutionIntakePolicy, type: :policy do
 
   context "with a rejected intake" do
     let(:record) { rejected_intake }
+
+    describe_rule :show_hidden? do
+      it_behaves_like "a privileged permission"
+    end
 
     describe_rule :index? do
       it_behaves_like "a privileged permission"

@@ -2,6 +2,8 @@
 
 # @see SolutionIntake
 class SolutionIntakePolicy < ApplicationPolicy
+  include Policies::HidesSolutionValues
+
   def index? = has_any_admin_access?
 
   def show? = allowed_for?(:pending, :in_review, must_be_mutable: false)

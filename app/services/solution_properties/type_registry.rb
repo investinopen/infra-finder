@@ -13,7 +13,6 @@ module SolutionProperties
     tc.add! :kind, SolutionProperties::Types::Kind
     tc.add! :only, SolutionProperties::Types::SolutionKind.optional
     tc.add! :owner, SolutionProperties::Types::Owner
-    tc.add! :visibility, SolutionProperties::Types::Visibility
     tc.add! :vocab_name, ControlledVocabularies::Types::VocabName
     tc.add! :vocab, ::ControlledVocabulary::Type
   end

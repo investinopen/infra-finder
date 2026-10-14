@@ -92,8 +92,6 @@ class Implementation < Support::FrozenRecordHelpers::AbstractRecord
     meta: true,
     exported: false,
     required: false,
-    fe_position: 0,
-    fe_visibility: "hidden",
   }.freeze
 
   EXPOSED_SCOPE_SUFFIXES = %w[available].freeze

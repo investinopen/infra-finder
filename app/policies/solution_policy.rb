@@ -2,6 +2,8 @@
 
 # @see Solution
 class SolutionPolicy < ApplicationPolicy
+  include Policies::HidesSolutionValues
+
   def index?
     admin_or_editor?
   end
@@ -19,6 +21,13 @@ class SolutionPolicy < ApplicationPolicy
   end
 
   def create_draft?
+    admin_or_editor_for_record?
+  end
+
+  # Published solutions are public, but their hidden values are for admins and editors.
+  #
+  # @return [Boolean]
+  def show_hidden?
     admin_or_editor_for_record?
   end
 

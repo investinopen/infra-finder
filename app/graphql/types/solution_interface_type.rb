@@ -27,7 +27,7 @@ module Types
       TEXT
     end
 
-    field :annual_expenses, ::Types::MoneyType, null: true do
+    field :annual_expenses, ::Types::MoneyType, null: true, authorize_field: { to: :show_financials?, raise: false } do
       description <<~TEXT
       Annual expenses in local currency. The amount of money that the organization spent on its programs,
       administration, fundraising, and other activities during the year. For US-based organizations, Part
@@ -35,7 +35,7 @@ module Types
       TEXT
     end
 
-    field :annual_revenue, ::Types::MoneyType, null: true do
+    field :annual_revenue, ::Types::MoneyType, null: true, authorize_field: { to: :show_financials?, raise: false } do
       description <<~TEXT
       Annual revenue in local currency. The amount of money that the organization received from all
       sources during the most recent complete fiscal year, such as contributions, grants, program 12 from
@@ -43,13 +43,13 @@ module Types
       TEXT
     end
 
-    field :authentication_standard_other, String, null: true do
+    field :authentication_standard_other, String, null: true, authorize_field: { to: :show_hidden?, raise: false } do
       description <<~TEXT
       Unknown. Records the supported authentication standards if "other" is selected in field 096
       TEXT
     end
 
-    field :authentication_standards, [::Types::AuthenticationStandardType, { null: false }], null: false do
+    field :authentication_standards, [::Types::AuthenticationStandardType, { null: false }], null: true, authorize_field: { to: :show_hidden?, raise: false } do
       description <<~TEXT
       Authentication protocols. Authentication protocols supported by the tool or service.
       TEXT
@@ -227,7 +227,7 @@ module Types
       TEXT
     end
 
-    field :currency, String, null: true do
+    field :currency, String, null: true, authorize_field: { to: :show_financials?, raise: false } do
       description <<~TEXT
       Currency for financial calculations. Indication of the currency used to report financial
       information.
@@ -254,7 +254,7 @@ module Types
       TEXT
     end
 
-    field :email, String, null: true do
+    field :email, String, null: true, authorize_field: { to: :show_hidden?, raise: false } do
       description <<~TEXT
       Email. Email address of the individual completing the form (and key contact for IOI).
       TEXT
@@ -275,14 +275,14 @@ module Types
       TEXT
     end
 
-    field :financial_date_range, String, null: true do
+    field :financial_date_range, String, null: true, authorize_field: { to: :show_financials?, raise: false } do
       description <<~TEXT
       Fiscal year or financial reporting period. The specific period for which financial information is
       being reported, formatted as "MM-YYYY to MM-YYYY"
       TEXT
     end
 
-    field :financial_numbers_documented_url, String, null: true do
+    field :financial_numbers_documented_url, String, null: true, authorize_field: { to: :show_financials?, raise: false } do
       description <<~TEXT
       Financial documentation. Link to publicly or privately available documentation that validates the
       financial numbers reported. Examples include annual reports or IRS Form 990 for US-based
@@ -290,7 +290,7 @@ module Types
       TEXT
     end
 
-    field :financial_numbers_publishability, ::Types::FinancialNumbersPublishabilityType, null: true do
+    field :financial_numbers_publishability, ::Types::FinancialNumbersPublishabilityType, null: true, authorize_field: { to: :show_hidden?, raise: false } do
       description <<~TEXT
       Financial publishability. Indication of whether the respondent gives permission for financial
       numbers to be published.
@@ -311,7 +311,7 @@ module Types
       TEXT
     end
 
-    field :first_name, String, null: true do
+    field :first_name, String, null: true, authorize_field: { to: :show_hidden?, raise: false } do
       description <<~TEXT
       First Name. First name of the individual completing the form (and key contact for IOI).
       TEXT
@@ -329,13 +329,13 @@ module Types
       TEXT
     end
 
-    field :founding_institution_free_input, String, null: true do
+    field :founding_institution_free_input, String, null: true, authorize_field: { to: :show_hidden?, raise: false } do
       description <<~TEXT
       Founding institutions — Free Input. Free input value that is imported and exported via EOI
       TEXT
     end
 
-    field :founding_institutions, [::Types::StructuredInstitutionType, { null: false }], null: false do
+    field :founding_institutions, [::Types::StructuredInstitutionType, { null: false }], null: true, authorize_field: { to: :show_hidden?, raise: false } do
       description <<~TEXT
       Founding institutions. Organizations and/or individuals that had a direct role in founding or
       launching the service.
@@ -404,7 +404,7 @@ module Types
       TEXT
     end
 
-    field :investment_income, ::Types::MoneyType, null: true do
+    field :investment_income, ::Types::MoneyType, null: true, authorize_field: { to: :show_financials?, raise: false } do
       description <<~TEXT
       Investment income in local currency. The amount of money that the organization received from
       interest, dividends, rents, royalties, and gains or losses from the sale of investments during the
@@ -420,7 +420,7 @@ module Types
       TEXT
     end
 
-    field :last_name, String, null: true do
+    field :last_name, String, null: true, authorize_field: { to: :show_hidden?, raise: false } do
       description <<~TEXT
       Last Name. Last name of the individual completing the form (and key contact for IOI).
       TEXT
@@ -446,7 +446,7 @@ module Types
       TEXT
     end
 
-    field :member_count, Integer, null: true do
+    field :member_count, Integer, null: true, authorize_field: { to: :show_hidden?, raise: false } do
       description <<~TEXT
       Number of members. Number of organizations and/or individuals actively participating in the
       membership or sponsorship program
@@ -538,7 +538,7 @@ module Types
       TEXT
     end
 
-    field :other_revenue, ::Types::MoneyType, null: true do
+    field :other_revenue, ::Types::MoneyType, null: true, authorize_field: { to: :show_financials?, raise: false } do
       description <<~TEXT
       Other revenue in local currency. The amount of money that the organization received from other
       sources not included in the above categories during the year. For US-based non-profits, Part VIII,
@@ -627,7 +627,7 @@ module Types
       TEXT
     end
 
-    field :program_revenue, ::Types::MoneyType, null: true do
+    field :program_revenue, ::Types::MoneyType, null: true, authorize_field: { to: :show_financials?, raise: false } do
       description <<~TEXT
       Program revenue in local currency. The amount of money that the organization received from charging
       fees or selling goods or services related to its mission or programs during the year. For US-based
@@ -662,14 +662,14 @@ module Types
       TEXT
     end
 
-    field :recent_grant_free_input, String, null: true do
+    field :recent_grant_free_input, String, null: true, authorize_field: { to: :show_hidden?, raise: false } do
       description <<~TEXT
       List grants received in the past year — Free Input. Free input value that is imported and exported
       via EOI
       TEXT
     end
 
-    field :recent_grants, [::Types::StructuredGrantType, { null: false }], null: false do
+    field :recent_grants, [::Types::StructuredGrantType, { null: false }], null: true, authorize_field: { to: :show_hidden?, raise: false } do
       description <<~TEXT
       List grants received in the past year. List of grants received in the past year, including award
       title; date (start, end dates); funder; amount; grant activities (research and development,
@@ -685,7 +685,7 @@ module Types
       TEXT
     end
 
-    field :registry_free_input, String, null: true do
+    field :registry_free_input, String, null: true, authorize_field: { to: :show_hidden?, raise: false } do
       description <<~TEXT
       Persistent identifiers of the resource — Free Input. Free input value that is imported and exported
       via EOI
@@ -777,27 +777,27 @@ module Types
       TEXT
     end
 
-    field :status_certifications, [::Types::StatusCertificationType, { null: false }], null: false do
+    field :status_certifications, [::Types::StatusCertificationType, { null: false }], null: true, authorize_field: { to: :show_hidden?, raise: false } do
       description <<~TEXT
       Status certifications. Certifications, seals, or other formal recognition of the infrastructure's
       adherence to community standards or best practices.
       TEXT
     end
 
-    field :top_granting_institution_free_input, String, null: true do
+    field :top_granting_institution_free_input, String, null: true, authorize_field: { to: :show_hidden?, raise: false } do
       description <<~TEXT
       Top granting institutions — Free Input. Free input value that is imported and exported via EOI
       TEXT
     end
 
-    field :top_granting_institutions, [::Types::StructuredInstitutionType, { null: false }], null: false do
+    field :top_granting_institutions, [::Types::StructuredInstitutionType, { null: false }], null: true, authorize_field: { to: :show_hidden?, raise: false } do
       description <<~TEXT
       Top granting institutions. List of organizations that have provided the greatest amount of grant
       funds to the service or provider in the past year.
       TEXT
     end
 
-    field :total_assets, ::Types::MoneyType, null: true do
+    field :total_assets, ::Types::MoneyType, null: true, authorize_field: { to: :show_financials?, raise: false } do
       description <<~TEXT
       Total assets in local currency. The value of everything that the organization owns at the end of the
       year, such as cash, investments, property, equipment, etc. For US-based non-profits, Part X, line 16
@@ -805,7 +805,7 @@ module Types
       TEXT
     end
 
-    field :total_contributions, ::Types::MoneyType, null: true do
+    field :total_contributions, ::Types::MoneyType, null: true, authorize_field: { to: :show_financials?, raise: false } do
       description <<~TEXT
       Total contributions in local currency. The amount of money that the organization received from
       donors and grantmakers during the year. For US-based non-profits, Part VIII, line 1h from an IRS
@@ -813,7 +813,7 @@ module Types
       TEXT
     end
 
-    field :total_liabilities, ::Types::MoneyType, null: true do
+    field :total_liabilities, ::Types::MoneyType, null: true, authorize_field: { to: :show_financials?, raise: false } do
       description <<~TEXT
       Total liabilities in local currency. The amount of money that the organization owes to others at the
       end of the year, such as loans, mortgages, accounts payable, deferred revenue, etc. For US-based

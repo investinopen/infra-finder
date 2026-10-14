@@ -14,14 +14,13 @@
   be_label: Service name
   be_position: 1
   fe_label:
-  fe_position: 1
   fe_section: 001 Header
-  fe_visibility: visible
   input: text
 - name: created_at
   code: 2
   attr: created_at
   kind: :timestamp
+  hidden: true
   meta: true
   description: The date on which the entry was first created.
   exported: false
@@ -30,9 +29,7 @@
   be_label: Created at
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 AUTO
-  fe_visibility: hidden
   input: none
 - name: approval_status
   code: 3
@@ -47,9 +44,7 @@
   be_label: N/A
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 PRIVATE
-  fe_visibility: hidden
   input: none
 - name: contact
   code: 4
@@ -65,14 +60,13 @@
   be_label: Contact form or email
   be_position: 7
   fe_label: Get in Touch
-  fe_position: 7
   fe_section: 001 Header
-  fe_visibility: visible
   input: url
 - name: first_name
   code: 5
   attr:
   kind: :string
+  hidden: true
   meta: false
   description: First name of the individual completing the form (and key contact for
     IOI).
@@ -84,14 +78,13 @@
   be_label: First Name
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 PRIVATE
-  fe_visibility: hidden
   input: text
 - name: last_name
   code: 6
   attr:
   kind: :string
+  hidden: true
   meta: false
   description: Last name of the individual completing the form (and key contact for
     IOI).
@@ -103,14 +96,13 @@
   be_label: Last Name
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 PRIVATE
-  fe_visibility: hidden
   input: text
 - name: email
   code: 7
   attr:
   kind: :email
+  hidden: true
   meta: false
   description: Email address of the individual completing the form (and key contact
     for IOI).
@@ -121,9 +113,7 @@
   be_label: Email
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 PRIVATE
-  fe_visibility: hidden
   input: text
 - name: provider_name
   code: 8
@@ -141,9 +131,7 @@
   be_label: Provider
   be_position: 2
   fe_label:
-  fe_position: 2
   fe_section: 001 Header
-  fe_visibility: visible
   input: text
 - name: service_summary
   code: 9
@@ -158,9 +146,7 @@
   be_label: Service summary
   be_position: 11
   fe_label:
-  fe_position: 11
   fe_section: 002 About
-  fe_visibility: visible
   input: text
 - name: website
   code: 10
@@ -174,9 +160,7 @@
   be_label: Website
   be_position: 5
   fe_label: Website
-  fe_position: 5
   fe_section: 001 Header
-  fe_visibility: visible
   input: url
 - name: research_organization_registry_url
   code: 11
@@ -190,9 +174,7 @@
   be_label: Research Organization Registry URL
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: url
 - name: logo
   code: 12
@@ -206,9 +188,7 @@
   be_label: Service logo
   be_position: 3
   fe_label:
-  fe_position: 3
   fe_section: 001 Header
-  fe_visibility: visible
   input: url
 - name: country_code
   code: 13
@@ -222,9 +202,7 @@
   be_label: Location of incorporation
   be_position: 4
   fe_label: Map pin icon
-  fe_position: 4
   fe_section: 001 Header
-  fe_visibility: visible
   input: select
   vocab_name: countries
 - name: solution_categories
@@ -241,9 +219,7 @@
   be_label: Solution category
   be_position: 10
   fe_label:
-  fe_position: 10
   fe_section: 002 About
-  fe_visibility: visible
   input: multiselect
   vocab_name: soln_cat
   max_length: 3
@@ -260,9 +236,7 @@
   be_label: Mission
   be_position: 12
   fe_label: Mission
-  fe_position: 12
   fe_section: 003 Mission
-  fe_visibility: visible
   input: text
 - name: key_achievements
   code: 16
@@ -279,9 +253,7 @@
   be_label: Key achievements
   be_position: 13
   fe_label: Key achievements
-  fe_position: 13
   fe_section: 003 Mission
-  fe_visibility: visible
   input: text
 - name: funding_needs
   code: 17
@@ -297,9 +269,7 @@
   be_label: Funding needs
   be_position: 71
   fe_label: Funding needs
-  fe_position: 71
   fe_section: '008 Funding'
-  fe_visibility: visible
   input: text
 - name: code_repository_implementation
   code: 18
@@ -317,9 +287,7 @@
   be_label: Open code repository
   be_position: 14
   fe_label: Open code repository
-  fe_position: 14
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: open_code_repository_url
@@ -336,9 +304,7 @@
   be_label: Link to code repository
   be_position: 15
   fe_label: Open code repository
-  fe_position: 15
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: url
 - name: open_data_implementation
   code: 20
@@ -356,9 +322,7 @@
   be_label: Open data statement
   be_position: 23
   fe_label: Open Data Statement
-  fe_position: 23
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: open_data_statement_url
@@ -375,9 +339,7 @@
   be_label: Link to open data statement
   be_position: 24
   fe_label: Open Data Statement - Learn More
-  fe_position: 24
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: url
 - name: user_documentation_implementation
   code: 22
@@ -398,9 +360,7 @@
   be_label: Technical user documentation
   be_position: 17
   fe_label: Technical documentation
-  fe_position: 17
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: technical_user_documentation_url
@@ -417,9 +377,7 @@
   be_label: Link to technical user documentation
   be_position: 18
   fe_label: Technical documentation
-  fe_position: 18
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: url
 - name: governance_structure_implementation
   code: 24
@@ -438,9 +396,7 @@
   be_label: Governance structure and processes
   be_position: 62
   fe_label: Governance Structure & Processes
-  fe_position: 62
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: governance_structure_url
@@ -459,9 +415,7 @@
   be_label: Link to governance structure and processes
   be_position: 63
   fe_label: Governance Structure & Processes
-  fe_position: 63
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: url
 - name: governance_records_implementation
   code: 26
@@ -480,9 +434,7 @@
   be_label: Governance records
   be_position: 60
   fe_label: N/A
-  fe_position: 60
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: governance_summary
@@ -499,9 +451,7 @@
   be_label: Governance summary
   be_position: 51
   fe_label: Governance Summary
-  fe_position: 51
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: text
 - name: governance_records_url
   code: 28
@@ -519,9 +469,7 @@
   be_label: Link to governance records
   be_position: 61
   fe_label: N/A
-  fe_position: 61
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: url
 - name: web_accessibility_implementation
   code: 29
@@ -539,9 +487,7 @@
   be_label: Web accessibility statement
   be_position: 58
   fe_label: Web Accessibility Statement
-  fe_position: 58
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: web_accessibility_url
@@ -558,9 +504,7 @@
   be_label: Link to web accessibility statement
   be_position: 59
   fe_label: Web Accessibility Statement - Website
-  fe_position: 59
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: url
 - name: web_accessibility_applicabilities
   code: 31
@@ -577,9 +521,7 @@
   be_label: Web accessibility statement applicability
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: multiselect
   vocab_name: acc_scope
 - name: pricing_implementation
@@ -599,9 +541,7 @@
   be_label: Transparent pricing and cost expectations
   be_position: 64
   fe_label: Pricing info
-  fe_position: 64
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale_pricing
 - name: pricing_url
@@ -618,9 +558,7 @@
   be_label: Link to pricing
   be_position: 6
   fe_label: Pricing info
-  fe_position: 6
   fe_section: 001 Header
-  fe_visibility: visible
   input: url
 - name: equity_and_inclusion_implementation
   code: 35
@@ -639,9 +577,7 @@
   be_label: Commitment to equity and inclusion
   be_position: 54
   fe_label: DEI Statement
-  fe_position: 54
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: commitment_to_equity_url
@@ -659,9 +595,7 @@
   be_label: Link to diversity, equity, inclusion, and antiracism statement or policy
   be_position: 55
   fe_label: DEI Statement - Website
-  fe_position: 55
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: url
 - name: community_engagement_implementation
   code: 37
@@ -681,9 +615,7 @@
   be_label: Organizational commitment to community engagement
   be_position: 42
   fe_label: Organizational commitment to community engagement
-  fe_position: 42
   fe_section: 005 Community Engagement
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: community_engagement_activities
@@ -700,9 +632,7 @@
   be_label: Community engagement activities
   be_position: 46
   fe_label: Community engagement activities
-  fe_position: 46
   fe_section: 005 Community engagement
-  fe_visibility: visible
   input: multiselect
   vocab_name: comm_eng
 - name: contribution_pathways_implementation
@@ -721,9 +651,7 @@
   be_label: User Contribution Pathways - Implemented?
   be_position: 44
   fe_label: Contribution Guidelines or Fora
-  fe_position: 44
   fe_section: 005 Community engagement
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: user_contributions
@@ -740,9 +668,7 @@
   be_label: User contribution opportunities
   be_position: 50
   fe_label: User Contribution Pathways
-  fe_position: 50
   fe_section: 005 Community Engagement
-  fe_visibility: visible
   input: multiselect
   vocab_name: user_paths
 - name: contribution_guidelines
@@ -760,9 +686,7 @@
   be_label: User Contribution Pathways - URL
   be_position: 45
   fe_label: Contribution Guidelines or Fora - Website
-  fe_position: 45
   fe_section: 005 Community Engagement
-  fe_visibility: visible
   input: url
 - name: code_of_conduct_implementation
   code: 42
@@ -782,9 +706,7 @@
   be_label: Code of conduct
   be_position: 40
   fe_label: Code of Conduct
-  fe_position: 40
   fe_section: 005 Community Engagement
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: code_of_conduct_url
@@ -801,9 +723,7 @@
   be_label: Link to code of conduct
   be_position: 41
   fe_label: Code of Conduct
-  fe_position: 41
   fe_section: 005 Community Engagement
-  fe_visibility: visible
   input: url
 - name: privacy_policy_implementation
   code: 44
@@ -823,9 +743,7 @@
   be_label: Privacy policy
   be_position: 56
   fe_label: Privacy Policy
-  fe_position: 56
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: commitment_to_privacy_url
@@ -842,9 +760,7 @@
   be_label: Link to privacy policy
   be_position: 57
   fe_label: Privacy Policy
-  fe_position: 57
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: url
 - name: values_frameworks
   code: 46
@@ -862,9 +778,7 @@
   be_label: Engagement with values frameworks
   be_position: 47
   fe_label: Values Frameworks
-  fe_position: 47
   fe_section: 005 Community Engagement
-  fe_visibility: visible
   input: multiselect
   vocab_name: values
 - name: community_governances
@@ -881,9 +795,7 @@
   be_label: Community governance
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: multiselect
   vocab_name: gov_stat
 - name: community_governance_url
@@ -900,9 +812,7 @@
   be_label: Link to bylaws or other governance documentation
   be_position: 53
   fe_label: N/A
-  fe_position: 53
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: url
 - name: board_structures
   code: 50
@@ -916,9 +826,7 @@
   be_label: Board structure
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: multiselect
   vocab_name: board
 - name: business_forms
@@ -933,9 +841,7 @@
   be_label: Business form
   be_position: 66
   fe_label: Business or ownership model
-  fe_position: 66
   fe_section: 007 Additional Information
-  fe_visibility: visible
   input: multiselect
   vocab_name: bus_form
 - name: nonprofit_status
@@ -950,9 +856,7 @@
   be_label: Non-profit status
   be_position: 68
   fe_label: Business or ownership model
-  fe_position: 68
   fe_section: 007 Additional Information
-  fe_visibility: visible
   input: select
   vocab_name: nonprofit_status
 - name: shareholders
@@ -969,9 +873,7 @@
   be_label: Shareholders
   be_position: 69
   fe_label: Shareholders
-  fe_position: 69
   fe_section: '008 Funding'
-  fe_visibility: visible
   input: boolean
 - name: staffing_full_time
   code: 54
@@ -985,9 +887,7 @@
   be_label: 'Staff: Full-time'
   be_position: 67
   fe_label: Full-time Staff
-  fe_position: 67
   fe_section: 007 Additional Information
-  fe_visibility: visible
   input: select
   vocab_name: staffing
 - name: staffing_volunteer
@@ -1004,9 +904,7 @@
   be_label: 'Staff: Volunteer'
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: select
   vocab_name: staffing
 - name: founded_on
@@ -1022,9 +920,7 @@
   be_label: Founding or launch date
   be_position: 8
   fe_label: Launched
-  fe_position: 8
   fe_section: 002 About
-  fe_visibility: visible
   input: text
 - name: organizational_history
   code: 57
@@ -1040,9 +936,7 @@
   be_label: Organizational history
   be_position: 65
   fe_label: Organizational History
-  fe_position: 65
   fe_section: 007 Additional Information
-  fe_visibility: visible
   input: text
 - name: current_affiliations
   code: 58
@@ -1059,14 +953,13 @@
   be_label: Current affiliations
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: founding_institutions
   code: 59
   attr: founding_institutions
   kind: :store_model_list
+  hidden: true
   meta: false
   description: |-
     Organizations and/or individuals that had a direct role in founding
@@ -1078,9 +971,7 @@
   be_label: Founding institutions
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: primary_funding_sources
   code: 61
@@ -1096,15 +987,14 @@
   be_label: Primary Funding Source
   be_position: 70
   fe_label: Primary Funding Source
-  fe_position: 70
   fe_section: '008 Funding'
-  fe_visibility: visible
   input: multiselect
   vocab_name: pr_fund
 - name: currency
   code: 62
   attr: currency
   kind: :single_option
+  hidden: financial
   meta: false
   description: Indication of the currency used to report financial information.
   exported: false
@@ -1113,15 +1003,14 @@
   be_label: Currency for financial calculations
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: select
   vocab_name: currencies
 - name: financial_date_range
   code: 63
   attr: financial_date_range
   kind: :string
+  hidden: financial
   meta: false
   description: |-
     The specific period for which financial information is being reported,
@@ -1132,14 +1021,13 @@
   be_label: Fiscal year or financial reporting period
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: total_contributions
   code: 64
   attr:
   kind: :money
+  hidden: financial
   meta: false
   description: |-
     The amount of money that the organization received from donors and
@@ -1151,14 +1039,13 @@
   be_label: Total contributions in local currency
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: money
 - name: program_revenue
   code: 65
   attr:
   kind: :money
+  hidden: financial
   meta: false
   description: |-
     The amount of money that the organization received from charging fees
@@ -1170,14 +1057,13 @@
   be_label: Program revenue in local currency
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: money
 - name: investment_income
   code: 66
   attr:
   kind: :money
+  hidden: financial
   meta: false
   description: |-
     The amount of money that the organization received from interest, dividends,
@@ -1190,14 +1076,13 @@
   be_label: Investment income in local currency
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: money
 - name: other_revenue
   code: 67
   attr:
   kind: :money
+  hidden: financial
   meta: false
   description: |-
     The amount of money that the organization received from other sources
@@ -1209,14 +1094,13 @@
   be_label: Other revenue in local currency
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: money
 - name: annual_revenue
   code: 68
   attr:
   kind: :money
+  hidden: financial
   meta: false
   description: |-
     The amount of money that the organization received from all sources during the most
@@ -1227,14 +1111,13 @@
   be_label: Annual revenue in local currency
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: money
 - name: annual_expenses
   code: 69
   attr:
   kind: :money
+  hidden: financial
   meta: false
   description: |-
     The amount of money that the organization spent on its programs, administration,
@@ -1246,14 +1129,13 @@
   be_label: Annual expenses in local currency
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: money
 - name: total_assets
   code: 70
   attr:
   kind: :money
+  hidden: financial
   meta: false
   description: |-
     The value of everything that the organization owns at the end of the
@@ -1265,14 +1147,13 @@
   be_label: Total assets in local currency
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: money
 - name: total_liabilities
   code: 71
   attr:
   kind: :money
+  hidden: financial
   meta: false
   description: |-
     The amount of money that the organization owes to others at the end
@@ -1284,9 +1165,7 @@
   be_label: Total liabilities in local currency
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: money
 - name: financial_reporting_level
   code: 72
@@ -1302,15 +1181,14 @@
   be_label: Financial reporting level
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: select
   vocab_name: rprt_lvl
 - name: financial_numbers_documented_url
   code: 73
   attr: financial_numbers_documented_url
   kind: :url
+  hidden: financial
   meta: false
   description: |-
     Link to publicly or privately available documentation that validates
@@ -1322,14 +1200,13 @@
   be_label: Financial documentation
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: url
 - name: top_granting_institutions
   code: 74
   attr: top_granting_institutions
   kind: :store_model_list
+  hidden: true
   meta: false
   description: |-
     List of organizations that have provided the greatest amount of grant
@@ -1341,14 +1218,13 @@
   be_label: Top granting institutions
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: recent_grants
   code: 75
   attr: recent_grants
   kind: :store_model_list
+  hidden: true
   meta: false
   description: |-
     List of grants received in the past year, including award title; date
@@ -1362,9 +1238,7 @@
   be_label: List grants received in the past year
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: hosting_strategy
   code: 76
@@ -1381,9 +1255,7 @@
   be_label: Service and hosting options
   be_position: 37
   fe_label: Hosting Strategy
-  fe_position: 37
   fe_section: 004 Technical Attributes
-  fe_visibility: visible
   input: select
   vocab_name: saas
 - name: service_providers
@@ -1401,14 +1273,13 @@
   be_label: Registered service providers
   be_position: 38
   fe_label: Service Providers
-  fe_position: 38
   fe_section: 004 Technical Attributes
-  fe_visibility: visible
   input: url
 - name: member_count
   code: 78
   attr: member_count
   kind: :integer
+  hidden: true
   meta: false
   description: Number of organizations and/or individuals actively participating in
     the membership or sponsorship program
@@ -1418,9 +1289,7 @@
   be_label: Number of members
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: integer
 - name: readiness_level
   code: 79
@@ -1436,9 +1305,7 @@
   be_label: Technology readiness level
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: multiselect
   vocab_name: tech_read
 - name: maintenance_status
@@ -1456,9 +1323,7 @@
   be_label: Maintenance status
   be_position: 16
   fe_label: Maintenance Status
-  fe_position: 16
   fe_section: 004 Technical Attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: maint
 - name: programming_languages
@@ -1475,9 +1340,7 @@
   be_label: Primary programming languages
   be_position: 25
   fe_label: Primary programming languages
-  fe_position: 25
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: prgrm_lng
 - name: integrations
@@ -1495,9 +1358,7 @@
   be_position: 39
   fe_label: What other tools and projects does your project interact or integrate
     with?
-  fe_position: 39
   fe_section: 004 Technical Attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: integrations
 - name: licenses
@@ -1512,9 +1373,7 @@
   be_label: Code licenses used
   be_position: 29
   fe_label: Code licenses used
-  fe_position: 29
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: code_lcns
 - name: code_license_url
@@ -1532,9 +1391,7 @@
   be_label: Code license
   be_position: 28
   fe_label: N/A
-  fe_position: 28
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: url
 - name: content_licenses
   code: 86
@@ -1550,9 +1407,7 @@
   be_label: Content licensing
   be_position: 26
   fe_label: Content licensing
-  fe_position: 26
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: cont_lcns
 - name: open_api_implementation
@@ -1571,9 +1426,7 @@
   be_label: Open API
   be_position: 21
   fe_label: Open API
-  fe_position: 21
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: api_url
@@ -1590,9 +1443,7 @@
   be_label: Link to open APIs and/or API documentation
   be_position: 22
   fe_label: Open API
-  fe_position: 22
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: url
 - name: product_roadmap_implementation
   code: 90
@@ -1610,9 +1461,7 @@
   be_label: Open product roadmap
   be_position: 19
   fe_label: Open Product Roadmap
-  fe_position: 19
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: product_roadmap_url
@@ -1629,9 +1478,7 @@
   be_label: Link to product roadmap
   be_position: 20
   fe_label: Open Product Roadmap
-  fe_position: 20
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: url
 - name: updated_at
   code: 92
@@ -1646,9 +1493,7 @@
   be_label: Updated at
   be_position: 9
   fe_label: Record updated
-  fe_position: 9
   fe_section: 002 About
-  fe_visibility: visible
   input: none
 - name: confirmation
   code: 93
@@ -1665,9 +1510,7 @@
   be_label: Confirmation
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 PRIVATE
-  fe_visibility: hidden
   input: none
 - name: metadata_standards
   code: 94
@@ -1683,9 +1526,7 @@
   be_label: Metadata, markup, and information exchange standards
   be_position: 31
   fe_label:
-  fe_position: 31
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: standards_metadata
 - name: persistent_identifier_standards
@@ -1700,15 +1541,14 @@
   be_label: Persistent identifier support
   be_position: 32
   fe_label:
-  fe_position: 32
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: standards_pids
 - name: authentication_standards
   code: 96
   attr: authentication_standards
   kind: :multi_option
+  hidden: true
   meta: false
   description: Authentication protocols supported by the tool or service.
   exported: true
@@ -1717,9 +1557,7 @@
   be_label: Authentication protocols
   be_position: 33
   fe_label:
-  fe_position: 33
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: standards_auth
 - name: board_members_url
@@ -1734,9 +1572,7 @@
   be_label: Board members
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: url
 - name: security_standards
   code: 98
@@ -1750,9 +1586,7 @@
   be_label: Security standards
   be_position: 34
   fe_label:
-  fe_position: 34
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: standards_sec
 - name: scoss
@@ -1769,9 +1603,7 @@
   be_label: SCOSS participation
   be_position: 49
   fe_label: Special certifications
-  fe_position: 49
   fe_section: 005 Community Engagement
-  fe_visibility: visible
   input: boolean
 - name: board_level
   code: 100
@@ -1787,9 +1619,7 @@
   be_label: Board level
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 006 Policies & Governance
-  fe_visibility: hidden
   input: select
   vocab_name: rprt_lvl
 - name: code_license_implementation
@@ -1808,9 +1638,7 @@
   be_label: Code license status
   be_position: 27
   fe_label: Code license
-  fe_position: 27
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: membership_program_url
@@ -1825,9 +1653,7 @@
   be_label: Link to membership program
   be_position: 48
   fe_label: Membership program information
-  fe_position: 48
   fe_section: 005 Community engagement
-  fe_visibility: visible
   input: url
 - name: bylaws_implementation
   code: 108
@@ -1843,15 +1669,14 @@
   be_label: Bylaws implementation status
   be_position: 52
   fe_label: Bylaws
-  fe_position: 52
   fe_section: 006 Policies & Governance
-  fe_visibility: visible
   input: select
   vocab_name: impl_scale
 - name: publication
   code: 109
   attr: publication
   kind: :enum
+  hidden: true
   meta: true
   only: :actual
   description: The publication status (visibility) of the entry.
@@ -1861,14 +1686,13 @@
   be_label: Publication
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 AUTO
-  fe_visibility: hidden
   input: none
 - name: published_at
   code: 110
   attr: published_at
   kind: :timestamp
+  hidden: true
   meta: true
   only: :actual
   description: The date on which the entry was first made public.
@@ -1878,9 +1702,7 @@
   be_label: Published at
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 AUTO
-  fe_visibility: hidden
   input: none
 - name: preservation_standards
   code: 112
@@ -1894,9 +1716,7 @@
   be_label: Preservation standards
   be_position: 35
   fe_label:
-  fe_position: 35
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: standards_pres
 - name: metrics_standards
@@ -1913,15 +1733,14 @@
   be_label: Standard metrics
   be_position: 36
   fe_label:
-  fe_position: 36
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: standards_metrics
 - name: financial_numbers_publishability
   code: 114
   attr: financial_numbers_publishability
   kind: :enum
+  hidden: true
   meta: false
   description: |-
     Indication of whether the respondent gives permission for financial
@@ -1932,9 +1751,7 @@
   be_label: Financial publishability
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: boolean
 - name: community_engagement_url
   code: 116
@@ -1950,9 +1767,7 @@
   be_label: Link to community engagement activities
   be_position: 43
   fe_label: Community engagement activities
-  fe_position: 43
   fe_section: 005 Community engagement
-  fe_visibility: visible
   input: url
 - kind: :string
   code: 118
@@ -1964,7 +1779,6 @@
     solution.
   be_label: Fiscal host
   fe_label: Fiscal host
-  fe_visibility: visible
   input: text
 - name: domain_relevances
   code: 119
@@ -2002,7 +1816,6 @@
   ext_name: registry_ids
   be_label: Persistent identifiers of the resource
   fe_label: Records in other registries
-  fe_visibility: visible
   store_model_type_name: Structured::Registry
   input: text
 - name: revenue_sources
@@ -2023,6 +1836,7 @@
   code: 123
   attr: status_certifications
   kind: :multi_option
+  hidden: true
   meta: false
   exported: true
   required: false
@@ -2046,9 +1860,7 @@
   ext_name: board_level_other
   be_label: Board level — other
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: preservation_standard_other
   code: 912
@@ -2064,9 +1876,7 @@
   ext_name: preservation_standards_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: metrics_standard_other
   code: 913
@@ -2082,9 +1892,7 @@
   ext_name: metrics_standards_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: community_engagement_activity_other
   code: 938
@@ -2100,9 +1908,7 @@
   ext_name: community_engagement_activities_other
   be_label: Community engagement activities — other
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: user_contribution_other
   code: 940
@@ -2118,9 +1924,7 @@
   ext_name: contribution_opportunities_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: board_structure_other
   code: 950
@@ -2135,9 +1939,7 @@
   ext_name: board_structure_other
   be_label: Board structure — other
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: business_form_other
   code: 951
@@ -2152,9 +1954,7 @@
   ext_name: business_form_other
   be_label: Business form — other
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: primary_funding_source_other
   code: 961
@@ -2170,9 +1970,7 @@
   ext_name: primary_funding_source_other
   be_label: Primary Funding Source — other
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: financial_reporting_level_other
   code: 972
@@ -2188,9 +1986,7 @@
   ext_name: financial_reporting_level_other
   be_label: Financial reporting level — other
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: programming_language_other
   code: 981
@@ -2206,9 +2002,7 @@
   ext_name: programming_language_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: integration_other
   code: 983
@@ -2224,9 +2018,7 @@
   ext_name: integrations_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: license_other
   code: 984
@@ -2241,9 +2033,7 @@
   ext_name: code_license_name_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: content_license_other
   code: 986
@@ -2259,9 +2049,7 @@
   ext_name: content_licensing_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: metadata_standard_other
   code: 994
@@ -2277,9 +2065,7 @@
   ext_name: metadata_standards_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: persistent_identifier_standard_other
   code: 995
@@ -2295,14 +2081,13 @@
   ext_name: pids_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: authentication_standard_other
   code: 996
   attr: authentication_standard_other
   kind: :other_option
+  hidden: true
   meta: false
   owner: authentication_standards
   description: Records the supported authentication standards if "other" is selected
@@ -2313,9 +2098,7 @@
   ext_name: authentication_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: security_standard_other
   code: 998
@@ -2331,9 +2114,7 @@
   ext_name: security_standards_other
   be_label: Unknown
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: access_condition_other
   code: 1020
@@ -2348,9 +2129,7 @@
   ext_name: access_condition_other
   be_label: Access condition — other
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: revenue_source_other
   code: 1022
@@ -2365,9 +2144,7 @@
   ext_name: revenue_source_other
   be_label: Revenue source — other
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: current_affiliation_free_input
   code: 2058
@@ -2382,14 +2159,13 @@
   ext_name: current_affiliation_free_input
   be_label: Current affiliations — Free Input
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: founding_institution_free_input
   code: 2059
   attr: founding_institution_free_input
   kind: :store_model_input
+  hidden: true
   meta: false
   owner: founding_institutions
   description: Free input value that is imported and exported via EOI
@@ -2399,14 +2175,13 @@
   ext_name: founding_institution_free_input
   be_label: Founding institutions — Free Input
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: top_granting_institution_free_input
   code: 2074
   attr: top_granting_institution_free_input
   kind: :store_model_input
+  hidden: true
   meta: false
   owner: top_granting_institutions
   description: Free input value that is imported and exported via EOI
@@ -2416,14 +2191,13 @@
   ext_name: top_granting_institution_free_input
   be_label: Top granting institutions — Free Input
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: recent_grant_free_input
   code: 2075
   attr: recent_grant_free_input
   kind: :store_model_input
+  hidden: true
   meta: false
   owner: recent_grants
   description: Free input value that is imported and exported via EOI
@@ -2433,9 +2207,7 @@
   ext_name: recent_grant_free_input
   be_label: List grants received in the past year — Free Input
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: service_provider_free_input
   code: 2077
@@ -2450,14 +2222,13 @@
   ext_name: service_provider_free_input
   be_label: Registered service providers — Free Input
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: registry_free_input
   code: 2121
   attr: registry_free_input
   kind: :store_model_input
+  hidden: true
   meta: false
   owner: registries
   description: Free input value that is imported and exported via EOI
@@ -2467,16 +2238,12 @@
   ext_name: registry_free_input
   be_label: Persistent identifiers of the resource — Free Input
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - kind: :implementation
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: bylaws
   code: 15100
   attr: bylaws
@@ -2488,8 +2255,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: code_license
   code: 15101
   attr: code_license
@@ -2501,8 +2266,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: code_of_conduct
   code: 15102
   attr: code_of_conduct
@@ -2514,8 +2277,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: code_repository
   code: 15103
   attr: code_repository
@@ -2527,8 +2288,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: community_engagement
   code: 15104
   attr: community_engagement
@@ -2541,8 +2300,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: contribution_pathways
   code: 15105
   attr: contribution_pathways
@@ -2554,8 +2311,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: equity_and_inclusion
   code: 15106
   attr: equity_and_inclusion
@@ -2567,8 +2322,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: governance_records
   code: 15107
   attr: governance_records
@@ -2580,8 +2333,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: governance_structure
   code: 15108
   attr: governance_structure
@@ -2593,8 +2344,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: open_api
   code: 15109
   attr: open_api
@@ -2606,8 +2355,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: open_data
   code: 15110
   attr: open_data
@@ -2619,8 +2366,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: pricing
   code: 15111
   attr: pricing
@@ -2632,8 +2377,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: privacy_policy
   code: 15112
   attr: privacy_policy
@@ -2645,8 +2388,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: product_roadmap
   code: 15113
   attr: product_roadmap
@@ -2658,8 +2399,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: user_documentation
   code: 15114
   attr: user_documentation
@@ -2671,8 +2410,6 @@
   meta: true
   exported: false
   required: false
-  fe_position: 0
-  fe_visibility: hidden
   name: web_accessibility
   code: 15115
   attr: web_accessibility

@@ -2,6 +2,8 @@
 
 # @see SolutionDraft
 class SolutionDraftPolicy < ApplicationPolicy
+  include Policies::HidesSolutionValues
+
   def index?
     admin_or_editor?
   end
