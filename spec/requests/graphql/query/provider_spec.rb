@@ -104,10 +104,10 @@ RSpec.describe "Query.provider", type: :request, graphql: true do
   end
 
   as_an_editor_user do
-    include_examples "a not found record"
+    include_examples "a found record"
   end
 
   as_an_anonymous_user do
-    include_examples "a not found record"
+    include_examples "a found record"
   end
 end

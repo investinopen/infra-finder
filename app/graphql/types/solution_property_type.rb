@@ -15,7 +15,10 @@ module Types
     end
 
     field :field_name, String, null: true, method: :graphql_field_name do
-      description "The field on `SolutionInterface` that holds the value. Null for properties not exposed through the API."
+      description <<~TEXT
+      The field that holds the value: on `SolutionInterface`, or on `Solution` for properties only
+      solutions have (see `availableOn`). Null for properties not exposed through the API.
+      TEXT
     end
 
     field :label, String, null: false, method: :input_label do

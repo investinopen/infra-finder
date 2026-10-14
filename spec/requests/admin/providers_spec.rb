@@ -68,12 +68,15 @@ RSpec.describe "Admin Providers", type: :request, default_auth: true do
       expect(response).to have_http_status(:ok)
     end
 
-    it "is hidden to assigned editors" do
+    it "is visible to editors, listing only the solutions they may read" do
+      unpublished = FactoryBot.create(:solution, provider:)
+
       sign_in editor
 
       make_the_request!
 
-      expect(response).to redirect_to(unauthorized_path)
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include(unpublished.name)
     end
 
     it "is hidden from users" do
