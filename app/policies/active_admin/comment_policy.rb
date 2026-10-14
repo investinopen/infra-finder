@@ -22,11 +22,9 @@ module ActiveAdmin
 
     # @param [ActiveRecord::Relation] relation
     # @return [ActiveRecord::Relation]
-    def resolve_scope(relation)
-      return relation.all if has_any_admin_access?
-
-      return relation.none unless has_any_editor_access?
-
+    # @param [ActiveRecord::Relation] relation
+    # @return [ActiveRecord::Relation]
+    def resolve_scope_for_authenticated(relation)
       editable_solutions = Solution.with_editor_access_for(user).select(:id)
       editable_drafts = SolutionDraft.where(solution_id: editable_solutions)
 

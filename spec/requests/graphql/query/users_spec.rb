@@ -162,7 +162,7 @@ RSpec.describe "Query.users", type: :request, graphql: true do
       let(:can_update) { false }
       let(:can_destroy) { false }
 
-      let(:sorted_records) { [current_user] }
+      let(:sorted_records) { [] }
 
       include_examples "ordering by each option"
     end

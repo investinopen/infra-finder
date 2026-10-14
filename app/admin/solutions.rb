@@ -43,6 +43,15 @@ ActiveAdmin.register Solution do
       solution.skip_editor_validations = solution.persisted? && current_user.has_any_admin_access?
     end
 
+    # Editors may read every published solution, but their list shows only the ones they edit.
+    #
+    # @return [ActiveRecord::Relation<Solution>]
+    def find_collection(...)
+      collection = super
+
+      current_user.has_any_admin_access? ? collection : collection.with_editor_access_for(current_user)
+    end
+
     # @param [Solution] solution
     # @return [void]
     def create_initial_revision!(solution)
@@ -65,7 +74,7 @@ ActiveAdmin.register Solution do
   filter :user_contributions_id_in, as: :select, multiple: true, label: "User Contributions (Any)",
     collection: UserContribution.for_filter_collection
 
-  filter :provider, include_blank: true, collection: Provider.for_filter_collection
+  filter :provider, include_blank: true, collection: Provider.for_filter_collection, if: proc { current_user.has_any_admin_access? }
   filter :board_structure, include_blank: true, collection: BoardStructure.for_filter_collection
   filter :business_form, include_blank: true, collection: BusinessForm.for_filter_collection
   filter :community_governance, include_blank: true, collection: CommunityGovernance.for_filter_collection
