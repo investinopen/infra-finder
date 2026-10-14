@@ -106,18 +106,18 @@ module ControlledVocabularies
               status_tag record.visibility
             end
 
-            row :description
+            row :description if authorized?(:read_admin_details, resource)
 
             row :solutions_count
 
-            row :solution_drafts_count
+            row :solution_drafts_count if authorized?(:read_admin_details, resource)
 
             row :created_at
             row :updated_at
           end
 
           panel "Solutions" do
-            table_for resource.solutions.lazily_order(:name) do
+            table_for authorized_scope(resource.solutions).lazily_order(:name) do
               column :name do |r|
                 link_to r.name, admin_solution_path(r)
               end
@@ -190,7 +190,7 @@ module ControlledVocabularies
           # simplecov:enable
         end
 
-        action_item :replace, only: %i[show edit] do
+        action_item :replace, only: %i[show edit], if: proc { authorized?(:replace, resource) } do
           link_to "Replace", [:replace, :admin, resource]
         end
       end

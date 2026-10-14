@@ -121,20 +121,22 @@ RSpec.shared_examples_for "a solution option admin section" do |klass|
       expect(response).to have_http_status(:ok)
     end
 
-    it "is visible to admins" do
+    it "is visible to admins, with admin details" do
       sign_in admin
 
       make_the_request!
 
       expect(response).to have_http_status(:ok)
+      expect(response.body).to include("row-description", "row-solution_drafts_count", "Replace")
     end
 
-    it "is hidden to assigned editors" do
+    it "is visible to assigned editors, without admin details" do
       sign_in editor
 
       make_the_request!
 
-      expect(response).to redirect_to(unauthorized_path)
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include("row-description", "row-solution_drafts_count", "Replace")
     end
 
     it "is hidden from users" do
