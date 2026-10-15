@@ -323,7 +323,7 @@ module Types
       TEXT
     end
 
-    field :founded_on, GraphQL::Types::ISO8601Date, null: true do
+    field :founded_on, ::GraphQL::Types::ISO8601Date, null: true do
       description <<~TEXT
       Founding or launch date. Year that the service was first made available to users.
       TEXT
@@ -712,7 +712,7 @@ module Types
       TEXT
     end
 
-    field :scoss, Boolean, null: true do
+    field :scoss, ::GraphQL::Types::Boolean, null: true do
       description <<~TEXT
       SCOSS participation. Participation in the Global Sustainability Coalition for Open Science Services
       (SCOSS).
@@ -750,7 +750,7 @@ module Types
       TEXT
     end
 
-    field :shareholders, Boolean, null: true do
+    field :shareholders, ::GraphQL::Types::Boolean, null: true do
       description <<~TEXT
       Shareholders. Indication of whether any person, company, or institution owns at least one share of a
       service provider's stock.
