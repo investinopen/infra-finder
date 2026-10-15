@@ -87,7 +87,8 @@ module VOGMutations
         when DEFAULT_NAMING_PATTERN
           contract_verb Regexp.last_match[:verb].downcase.to_sym
 
-          model! Regexp.last_match[:model_name].safe_constantize
+          # infra-finder: names like `ControlledVocabularyRecord` resolve to a concern, not a model.
+          model! Regexp.last_match[:model_name].safe_constantize.then { _1 if _1.is_a?(Class) }
         else
           # simplecov:disable
           contract_verb :mutate
