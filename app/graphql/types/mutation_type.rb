@@ -7,6 +7,16 @@ module Types
     The entry point for making changes to the data within the API.
     TEXT
 
+    field :controlled_vocabulary_record_create, mutation: Mutations::ControlledVocabularyRecordCreate
+
+    field :controlled_vocabulary_record_destroy, mutation: Mutations::ControlledVocabularyRecordDestroy
+
+    field :controlled_vocabulary_record_replace, mutation: Mutations::ControlledVocabularyRecordReplace
+
+    field :controlled_vocabulary_record_update, mutation: Mutations::ControlledVocabularyRecordUpdate
+
+    field :controlled_vocabulary_records_set_visibility, mutation: Mutations::ControlledVocabularyRecordsSetVisibility
+
     field :error_test, mutation: Mutations::ErrorTest
 
     field :user_confirm, mutation: Mutations::UserConfirm
