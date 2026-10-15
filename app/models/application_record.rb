@@ -2,17 +2,10 @@
 
 # @abstract
 class ApplicationRecord < ActiveRecord::Base
-  extend ArelHelpers
-  extend DefinesMonadicOperation
-
-  include AssociationHelpers
-  include ::Support::CallsCommonOperation
   include ExposesRansackable
-  include LazyOrdering
+  include HasEphemeralSystemSlug
   include PostgresEnums
-  include StoreModelIntrospection
-  include WhereMatches
-  include VOG::GraphQLModelSupport
+  include VOG::Model
 
   primary_abstract_class
 

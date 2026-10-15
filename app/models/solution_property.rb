@@ -51,6 +51,11 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   schema! do
     required(:name).filled(:string)
     required(:code).value(:integer) { gt?(0) }
+    # The association that holds the value, for properties that are really a
+    # reference to another record (e.g. `provider_name` is the `provider`).
+    optional(:association_name).maybe(:string)
+    # A narrower scalar than the kind implies, e.g. a year-only `date`.
+    optional(:scalar_kind).maybe(:string)
     optional(:attr).maybe(:string)
     optional(:kind).maybe(:kind)
     required(:meta).value(:bool)
@@ -71,9 +76,10 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     optional(:be_position).maybe(:integer)
     optional(:be_section).maybe(:string)
     optional(:fe_label).maybe(:string)
-    optional(:fe_position).maybe(:integer)
     optional(:fe_section).maybe(:string)
-    required(:fe_visibility).value(:visibility)
+    # Values the public site does not show: `true`, or `financial` for financial
+    # numbers that become public once the solution approves publishing them.
+    required(:hidden).value(included_in?: [true, false, "financial"])
     required(:skip_admin).value(:bool)
     required(:skip_csv_export).value(:bool)
 
@@ -150,9 +156,10 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     skip_csv_export: false,
     meta: false,
     description: nil,
-    fe_position: 0,
-    fe_visibility: "hidden",
-    vocab_name: nil
+    hidden: false,
+    vocab_name: nil,
+    association_name: nil,
+    scalar_kind: nil
   )
 
   calculates! :attribute_name do |record|
@@ -483,6 +490,54 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   def has_structured_header? = structured_header?
 
+  # Kinds that have no GraphQL field of their own: attachments wait on the
+  # image types, `standard` properties are not real attributes, and
+  # implementation statuses and links are part of the implementation objects.
+  GRAPHQL_SKIPPED_KINDS = %i[attachment standard implementation_enum implementation_property].freeze
+
+  # Kinds left out of the GraphQL property metadata: `standard` properties hold
+  # no value, and implementation statuses and links are described by their
+  # implementation's `ImplementationValue`.
+  GRAPHQL_METADATA_EXCLUDED_KINDS = %i[standard implementation_enum implementation_property].freeze
+
+  # The GraphQL field that holds this property's value, if it has one.
+  #
+  # @see Types::SolutionInterfaceType
+  # @see Types::SolutionPropertyType#field_name
+  # @return [String, nil]
+  def graphql_field_name
+    return association_name.camelize(:lower) if association_name.present? && association_exists?
+
+    return if kind.in?(GRAPHQL_SKIPPED_KINDS) || !exists?
+
+    (kind == :implementation ? name : attribute_name).camelize(:lower)
+  end
+
+  # @return [Boolean] whether every solution model has {#association_name}
+  def association_exists?
+    SOURCE_KINDS.all? { self.class.solution_record_for(_1).class.reflect_on_association(association_name.to_sym).present? }
+  end
+
+  # The policy rule a reader must pass to see this property's value.
+  #
+  # @return [:show_hidden?, :show_financials?, nil] nil when the value is public
+  def hidden_rule
+    case hidden
+    in true then :show_hidden?
+    in "financial" then :show_financials?
+    else
+      nil
+    end
+  end
+
+  # @see SolutionProperties::ValueType.for
+  # @return [SolutionProperties::ValueType::Scalar, SolutionProperties::ValueType::Enum,
+  #   SolutionProperties::ValueType::Vocabulary, SolutionProperties::ValueType::Association,
+  #   SolutionProperties::ValueType::StructuredList, SolutionProperties::ValueType::Implementation, nil]
+  def value_type
+    SolutionProperties::ValueType.for(self)
+  end
+
   # @return [String]
   def field_label
     case kind
@@ -626,6 +681,33 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   class << self
     include Dry::Core::Memoizable
+
+    # The properties a draft overrides, in display order. Implementation statuses
+    # and links count as their implementation, and names no longer in use
+    # (from older drafts) are skipped.
+    #
+    # @param [SolutionDraft] draft
+    # @return [<SolutionProperty>]
+    def changed_by(draft)
+      names = draft.draft_overrides.map(&:to_s)
+
+      props = in_use.to_a.sort
+
+      implementation_parts = props.select { _1.kind.in?(%i[implementation_enum implementation_property]) }.group_by { _1.implementation.name }
+
+      props.select do |prop|
+        next false if prop.kind.in?(GRAPHQL_METADATA_EXCLUDED_KINDS)
+
+        names.intersect?(override_names_for(prop, implementation_parts.fetch(prop.name, [])))
+      end
+    end
+
+    # @param [SolutionProperty] prop
+    # @param [<SolutionProperty>] implementation_parts its status and link properties, if any
+    # @return [<String>] the names a draft might record an override of the property under
+    def override_names_for(prop, implementation_parts)
+      [prop.name, prop.attribute_name.to_s, prop.input_attr.to_s, *implementation_parts.map(&:name)]
+    end
 
     # @param [#to_s] property_name
     # @return [Class(Solutions::Revisions::Diffs::BaseDiff)]

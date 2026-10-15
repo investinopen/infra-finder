@@ -36,6 +36,8 @@ class Solution < ApplicationRecord
   delegate :assign_editor!, to: :provider
   delegate :claim_state, to: :derived_claim, allow_nil: true, prefix: :derived
 
+  scope :in_default_order, -> { in_alphabetical_order }
+
   scope :sans_initial_revision, -> { where.not(id: SolutionRevision.initial_revision.select(:solution_id)) }
   scope :with_initial_revision, -> { where(id: SolutionRevision.initial_revision.select(:solution_id)) }
 

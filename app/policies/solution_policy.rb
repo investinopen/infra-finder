@@ -2,6 +2,8 @@
 
 # @see Solution
 class SolutionPolicy < ApplicationPolicy
+  include Policies::HidesSolutionValues
+
   def index?
     admin_or_editor?
   end
@@ -22,6 +24,13 @@ class SolutionPolicy < ApplicationPolicy
     admin_or_editor_for_record?
   end
 
+  # Published solutions are public, but their hidden values are for admins and editors.
+  #
+  # @return [Boolean]
+  def show_hidden?
+    admin_or_editor_for_record?
+  end
+
   def publish_all?
     has_any_admin_access?
   end
@@ -34,11 +43,13 @@ class SolutionPolicy < ApplicationPolicy
 
   # @param [ActiveRecord::Relation] relation
   # @return [ActiveRecord::Relation]
-  def resolve_scope(relation)
-    return relation.all if has_any_admin_access?
+  def resolve_scope_for_anonymous(relation)
+    relation.published
+  end
 
-    return relation.none unless has_any_editor_access?
-
-    relation.with_editor_access_for(user)
+  # @param [ActiveRecord::Relation] relation
+  # @return [ActiveRecord::Relation]
+  def resolve_scope_for_authenticated(relation)
+    relation.published.or(relation.where(id: Solution.with_editor_access_for(user).select(:id)))
   end
 end

@@ -12,9 +12,7 @@
   be_label: Board structure
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: multiselect
   vocab_name: board
 - name: community_governances
@@ -31,9 +29,7 @@
   be_label: Community governance
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: multiselect
   vocab_name: gov_stat
 - name: readiness_level
@@ -50,15 +46,14 @@
   be_label: Technology readiness level
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: multiselect
   vocab_name: tech_read
 - name: currency
   code: 62
   attr: currency
   kind: :single_option
+  hidden: financial
   meta: false
   description: |-
     Indication of the currency used to report financial information.
@@ -68,9 +63,7 @@
   be_label: Currency for financial calculations
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: select
   vocab_name: currencies
 - name: staffing_volunteer
@@ -87,9 +80,7 @@
   be_label: 'Staff: Volunteer'
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: select
   vocab_name: staffing
 - name: financial_reporting_level
@@ -106,9 +97,7 @@
   be_label: Financial reporting level
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: select
   vocab_name: rprt_lvl
 - name: web_accessibility_applicabilities
@@ -126,9 +115,7 @@
   be_label: Web accessibility statement applicability
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: multiselect
   vocab_name: acc_scope
 - name: country_code
@@ -144,9 +131,7 @@
   be_label: Location of incorporation
   be_position: 4
   fe_label: Map pin icon
-  fe_position: 4
   fe_section: 001 Header
-  fe_visibility: visible
   input: select
   vocab_name: countries
 - name: solution_categories
@@ -163,9 +148,7 @@
   be_label: Solution category
   be_position: 10
   fe_label:
-  fe_position: 10
   fe_section: 002 About
-  fe_visibility: visible
   input: multiselect
   vocab_name: soln_cat
   max_length: 3
@@ -182,9 +165,7 @@
   be_label: Code licenses used
   be_position: 29
   fe_label: Code licenses used
-  fe_position: 29
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: code_lcns
 - name: hosting_strategy
@@ -202,9 +183,7 @@
   be_label: Service and hosting options
   be_position: 37
   fe_label: Hosting Strategy
-  fe_position: 37
   fe_section: 004 Technical Attributes
-  fe_visibility: visible
   input: select
   vocab_name: saas
 - name: maintenance_status
@@ -222,9 +201,7 @@
   be_label: Maintenance status
   be_position: 16
   fe_label: Maintenance Status
-  fe_position: 16
   fe_section: 004 Technical Attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: maint
 - name: programming_languages
@@ -241,9 +218,7 @@
   be_label: Primary programming languages
   be_position: 25
   fe_label: Primary programming languages
-  fe_position: 25
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: prgrm_lng
 - name: metadata_standards
@@ -260,9 +235,7 @@
   be_label: Metadata, markup, and information exchange standards
   be_position: 31
   fe_label:
-  fe_position: 31
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: standards_metadata
 - name: persistent_identifier_standards
@@ -278,15 +251,14 @@
   be_label: Persistent identifier support
   be_position: 32
   fe_label:
-  fe_position: 32
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: standards_pids
 - name: authentication_standards
   code: 96
   attr: authentication_standards
   kind: :multi_option
+  hidden: true
   meta: false
   description: |-
     Authentication protocols supported by the tool or service.
@@ -296,9 +268,7 @@
   be_label: Authentication protocols
   be_position: 33
   fe_label:
-  fe_position: 33
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: standards_auth
 - name: security_standards
@@ -314,9 +284,7 @@
   be_label: Security standards
   be_position: 34
   fe_label:
-  fe_position: 34
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: standards_sec
 - name: preservation_standards
@@ -332,9 +300,7 @@
   be_label: Preservation standards
   be_position: 35
   fe_label:
-  fe_position: 35
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: standards_pres
 - name: metrics_standards
@@ -351,9 +317,7 @@
   be_label: Standard metrics
   be_position: 36
   fe_label:
-  fe_position: 36
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: standards_metrics
 - name: content_licenses
@@ -370,9 +334,7 @@
   be_label: Content licensing
   be_position: 26
   fe_label: Content licensing
-  fe_position: 26
   fe_section: 004 Technical attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: cont_lcns
 - name: integrations
@@ -390,9 +352,7 @@
   be_position: 39
   fe_label: |-
     What other tools and projects does your project interact or integrate with?
-  fe_position: 39
   fe_section: 004 Technical Attributes
-  fe_visibility: visible
   input: multiselect
   vocab_name: integrations
 - name: user_contributions
@@ -409,9 +369,7 @@
   be_label: User contribution opportunities
   be_position: 50
   fe_label: User Contribution Pathways
-  fe_position: 50
   fe_section: 005 Community Engagement
-  fe_visibility: visible
   input: multiselect
   vocab_name: user_paths
 - name: values_frameworks
@@ -430,9 +388,7 @@
   be_label: Engagement with values frameworks
   be_position: 47
   fe_label: Values Frameworks
-  fe_position: 47
   fe_section: 005 Community Engagement
-  fe_visibility: visible
   input: multiselect
   vocab_name: values
 - name: community_engagement_activities
@@ -449,9 +405,7 @@
   be_label: Community engagement activities
   be_position: 46
   fe_label: Community engagement activities
-  fe_position: 46
   fe_section: 005 Community engagement
-  fe_visibility: visible
   input: multiselect
   vocab_name: comm_eng
 - name: board_level
@@ -468,9 +422,7 @@
   be_label: Board level
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 006 Policies & Governance
-  fe_visibility: hidden
   input: select
   vocab_name: rprt_lvl
 - name: business_forms
@@ -486,9 +438,7 @@
   be_label: Business form
   be_position: 66
   fe_label: Business or ownership model
-  fe_position: 66
   fe_section: 007 Additional Information
-  fe_visibility: visible
   input: multiselect
   vocab_name: bus_form
 - name: nonprofit_status
@@ -504,9 +454,7 @@
   be_label: Non-profit status
   be_position: 68
   fe_label: Business or ownership model
-  fe_position: 68
   fe_section: 007 Additional Information
-  fe_visibility: visible
   input: select
   vocab_name: nonprofit_status
 - name: staffing_full_time
@@ -522,9 +470,7 @@
   be_label: 'Staff: Full-time'
   be_position: 67
   fe_label: Full-time Staff
-  fe_position: 67
   fe_section: 007 Additional Information
-  fe_visibility: visible
   input: select
   vocab_name: staffing
 - name: primary_funding_sources
@@ -541,9 +487,7 @@
   be_label: Primary Funding Source
   be_position: 70
   fe_label: Primary Funding Source
-  fe_position: 70
   fe_section: '008 Funding'
-  fe_visibility: visible
   input: multiselect
   vocab_name: pr_fund
 - name: domain_relevances
@@ -592,6 +536,7 @@
   code: 123
   attr: status_certifications
   kind: :multi_option
+  hidden: true
   meta: false
   exported: true
   required: false

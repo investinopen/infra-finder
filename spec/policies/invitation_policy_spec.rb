@@ -13,7 +13,7 @@ RSpec.describe InvitationPolicy, type: :policy do
     end
 
     describe_rule :show? do
-      it_behaves_like "a full-access permission"
+      it_behaves_like "a privileged permission"
     end
 
     describe_rule :new? do
@@ -65,25 +65,19 @@ RSpec.describe InvitationPolicy, type: :policy do
     context "as an editor" do
       let(:user) { editor }
 
-      it_behaves_like "a full access scope"
-    end
-
-    context "as another provider's editor" do
-      let(:user) { other_editor }
-
-      it_behaves_like "a full access scope"
+      it_behaves_like "a no access scope"
     end
 
     context "as a regular user" do
       let(:user) { regular_user }
 
-      it_behaves_like "a full access scope"
+      it_behaves_like "a no access scope"
     end
 
     context "as an anonymous user" do
       let(:user) { nil }
 
-      it_behaves_like "a full access scope"
+      it_behaves_like "a no access scope"
     end
   end
 end

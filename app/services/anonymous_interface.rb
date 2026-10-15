@@ -39,6 +39,9 @@ module AnonymousInterface
   # @return [String]
   def name = "Anonymous User"
 
+  # @return [0]
+  def sign_in_count = 0
+
   # @see UserPolicy
   # @return [Class(UserPolicy)]
   def policy_class = ::UserPolicy

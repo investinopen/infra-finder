@@ -63,6 +63,8 @@ class APISchema < GraphQL::Schema
     Types::FilterMatchTimeInputType,
   )
 
+  orphan_types(*Types::ControlledVocabularyKindType.object_types)
+
   orphan_types(
     Types::FilterMatchDateType,
     Types::FilterMatchFloatType,

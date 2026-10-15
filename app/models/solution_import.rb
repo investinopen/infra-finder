@@ -24,6 +24,8 @@ class SolutionImport < ApplicationRecord
 
   belongs_to :user, optional: true
 
+  scope :in_default_order, -> { in_recent_order }
+
   scope :pending, -> { in_state(:pending) }
   scope :invalid, -> { in_state(:invalid) }
   scope :started, -> { in_state(:started) }

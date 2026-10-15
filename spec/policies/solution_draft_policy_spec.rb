@@ -29,6 +29,14 @@ RSpec.describe SolutionDraftPolicy, type: :policy do
       it_behaves_like "an admin or record editor permission"
     end
 
+    describe_rule :show_hidden? do
+      it_behaves_like "an admin or record editor permission"
+    end
+
+    describe_rule :show_financials? do
+      it_behaves_like "an admin or record editor permission"
+    end
+
     describe_rule :new? do
       it_behaves_like "a super admin permission"
     end
@@ -262,33 +270,21 @@ RSpec.describe SolutionDraftPolicy, type: :policy do
     context "as an editor" do
       let(:user) { editor }
 
-      it "includes only the accessible records" do
-        expect(scope).to contain_exactly(pending_draft, in_review_draft, approved_draft)
-      end
-    end
-
-    context "as another provider's editor" do
-      let(:user) { other_editor }
-
-      it "includes only the accessible records" do
-        expect(scope).to contain_exactly(other_draft)
+      it "includes only their solutions' records" do
+        expect(scope).to match_array(solution.solution_drafts)
       end
     end
 
     context "as a regular user" do
       let(:user) { regular_user }
 
-      it "includes nothing" do
-        expect(scope).to be_empty
-      end
+      it_behaves_like "a no access scope"
     end
 
     context "as an anonymous user" do
       let(:user) { nil }
 
-      it "includes nothing" do
-        expect(scope).to be_empty
-      end
+      it_behaves_like "a no access scope"
     end
   end
 end

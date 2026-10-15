@@ -24,11 +24,6 @@ class UserPolicy < ApplicationPolicy
 
   private
 
-  # @return [Boolean] false for `nil` and {AnonymousUser}
-  def authenticated?
-    user.present? && !user.anonymous?
-  end
-
   def user_matches?
     user == record
   end

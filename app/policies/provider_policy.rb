@@ -2,5 +2,8 @@
 
 # @see Provider
 class ProviderPolicy < ApplicationPolicy
-  requires_admin_for_show!
+  # Providers are named on the public site; listing them stays admin-only.
+  #
+  # @return [Boolean]
+  def show? = true
 end

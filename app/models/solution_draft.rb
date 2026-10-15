@@ -26,6 +26,8 @@ class SolutionDraft < ApplicationRecord
 
   has_many :solution_revisions, inverse_of: :solution_draft, dependent: :nullify
 
+  scope :in_default_order, -> { in_recent_order }
+
   scope :mutable, -> { in_state(:pending, :in_review) }
 
   scope :pending, -> { in_state(:pending) }

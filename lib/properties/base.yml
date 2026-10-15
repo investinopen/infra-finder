@@ -3,6 +3,7 @@
   code: 109
   attr: publication
   kind: :enum
+  hidden: true
   meta: true
   only: :actual
   description: |-
@@ -13,14 +14,13 @@
   be_label: Publication
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 AUTO
-  fe_visibility: hidden
   input: none
 - name: published_at
   code: 110
   attr: published_at
   kind: :timestamp
+  hidden: true
   meta: true
   only: :actual
   description: |-
@@ -31,14 +31,13 @@
   be_label: Published at
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 AUTO
-  fe_visibility: hidden
   input: none
 - name: created_at
   code: 2
   attr: created_at
   kind: :timestamp
+  hidden: true
   meta: true
   description: |-
     The date on which the entry was first created.
@@ -48,9 +47,7 @@
   be_label: Created at
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 AUTO
-  fe_visibility: hidden
   input: none
 - name: approval_status
   code: 3
@@ -66,14 +63,13 @@
   be_label: N/A
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 PRIVATE
-  fe_visibility: hidden
   input: none
 - name: first_name
   code: 5
   attr:
   kind: :string
+  hidden: true
   meta: false
   description: |-
     First name of the individual completing the form (and key contact for IOI).
@@ -85,14 +81,13 @@
   be_label: First Name
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 PRIVATE
-  fe_visibility: hidden
   input: text
 - name: last_name
   code: 6
   attr:
   kind: :string
+  hidden: true
   meta: false
   description: |-
     Last name of the individual completing the form (and key contact for IOI).
@@ -104,14 +99,13 @@
   be_label: Last Name
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 PRIVATE
-  fe_visibility: hidden
   input: text
 - name: email
   code: 7
   attr:
   kind: :email
+  hidden: true
   meta: false
   description: Email address of the individual completing the form (and key contact
     for IOI).
@@ -122,9 +116,7 @@
   be_label: Email
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 PRIVATE
-  fe_visibility: hidden
   input: text
 - name: confirmation
   code: 93
@@ -141,14 +133,13 @@
   be_label: Confirmation
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 PRIVATE
-  fe_visibility: hidden
   input: none
 - name: member_count
   code: 78
   attr: member_count
   kind: :integer
+  hidden: true
   meta: false
   description: Number of organizations and/or individuals actively participating in
     the membership or sponsorship program
@@ -158,9 +149,7 @@
   be_label: Number of members
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: integer
 - name: research_organization_registry_url
   code: 11
@@ -175,9 +164,7 @@
   be_label: Research Organization Registry URL
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: url
 - name: board_members_url
   code: 97
@@ -192,14 +179,13 @@
   be_label: Board members
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: url
 - name: financial_date_range
   code: 63
   attr: financial_date_range
   kind: :string
+  hidden: financial
   meta: false
   description: |-
     The specific period for which financial information is being reported,
@@ -210,14 +196,13 @@
   be_label: Fiscal year or financial reporting period
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: text
 - name: annual_expenses
   code: 69
   attr:
   kind: :money
+  hidden: financial
   meta: false
   description: |-
     The amount of money that the organization spent on its programs, administration,
@@ -229,14 +214,13 @@
   be_label: Annual expenses in local currency
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: money
 - name: annual_revenue
   code: 68
   attr:
   kind: :money
+  hidden: financial
   meta: false
   description: |-
     The amount of money that the organization received from all sources during the most
@@ -247,14 +231,13 @@
   be_label: Annual revenue in local currency
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: money
 - name: investment_income
   code: 66
   attr:
   kind: :money
+  hidden: financial
   meta: false
   description: |-
     The amount of money that the organization received from interest, dividends,
@@ -267,14 +250,13 @@
   be_label: Investment income in local currency
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: money
 - name: other_revenue
   code: 67
   attr:
   kind: :money
+  hidden: financial
   meta: false
   description: |-
     The amount of money that the organization received from other sources
@@ -286,14 +268,13 @@
   be_label: Other revenue in local currency
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: money
 - name: program_revenue
   code: 65
   attr:
   kind: :money
+  hidden: financial
   meta: false
   description: |-
     The amount of money that the organization received from charging fees
@@ -305,14 +286,13 @@
   be_label: Program revenue in local currency
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: money
 - name: total_contributions
   code: 64
   attr:
   kind: :money
+  hidden: financial
   meta: false
   description: |-
     The amount of money that the organization received from donors and
@@ -324,14 +304,13 @@
   be_label: Total contributions in local currency
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: money
 - name: total_liabilities
   code: 71
   attr:
   kind: :money
+  hidden: financial
   meta: false
   description: |-
     The amount of money that the organization owes to others at the end
@@ -343,14 +322,13 @@
   be_label: Total liabilities in local currency
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: money
 - name: financial_numbers_publishability
   code: 114
   attr: financial_numbers_publishability
   kind: :enum
+  hidden: true
   meta: false
   description: |-
     Indication of whether the respondent gives permission for financial
@@ -361,14 +339,13 @@
   be_label: Financial publishability
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: boolean
 - name: financial_numbers_documented_url
   code: 73
   attr: financial_numbers_documented_url
   kind: :url
+  hidden: financial
   meta: false
   description: |-
     Link to publicly or privately available documentation that validates
@@ -380,14 +357,13 @@
   be_label: Financial documentation
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: url
 - name: provider_name
   code: 8
   attr:
   kind: :string
+  association_name: provider
   meta: true
   description: |-
     Name of the service provider. A provider is a formal or informal organization
@@ -399,9 +375,7 @@
   be_label: Provider
   be_position: 2
   fe_label:
-  fe_position: 2
   fe_section: 001 Header
-  fe_visibility: visible
   input: text
 - name: name
   code: 1
@@ -418,9 +392,7 @@
   be_label: Service name
   be_position: 1
   fe_label:
-  fe_position: 1
   fe_section: 001 Header
-  fe_visibility: visible
   input: text
 - name: website
   code: 10
@@ -435,9 +407,7 @@
   be_label: Website
   be_position: 5
   fe_label: Website
-  fe_position: 5
   fe_section: 001 Header
-  fe_visibility: visible
   input: url
 - name: contact
   code: 4
@@ -453,9 +423,7 @@
   be_label: Contact form or email
   be_position: 7
   fe_label: Get in Touch
-  fe_position: 7
   fe_section: 001 Header
-  fe_visibility: visible
   input: url
 - name: logo
   code: 12
@@ -470,14 +438,13 @@
   be_label: Service logo
   be_position: 3
   fe_label:
-  fe_position: 3
   fe_section: 001 Header
-  fe_visibility: visible
   input: url
 - name: founded_on
   code: 56
   attr: founded_on
   kind: :date
+  scalar_kind: year
   meta: false
   description: |-
     Year that the service was first made available to users.
@@ -487,9 +454,7 @@
   be_label: Founding or launch date
   be_position: 8
   fe_label: Launched
-  fe_position: 8
   fe_section: 002 About
-  fe_visibility: visible
   input: text
 - name: updated_at
   code: 92
@@ -504,9 +469,7 @@
   be_label: Updated at
   be_position: 9
   fe_label: Record updated
-  fe_position: 9
   fe_section: 002 About
-  fe_visibility: visible
   input: none
 - name: scoss
   code: 99
@@ -522,9 +485,7 @@
   be_label: SCOSS participation
   be_position: 49
   fe_label: Special certifications
-  fe_position: 49
   fe_section: 005 Community Engagement
-  fe_visibility: visible
   input: boolean
 - name: membership_program_url
   code: 107
@@ -539,9 +500,7 @@
   be_label: Link to membership program
   be_position: 48
   fe_label: Membership program information
-  fe_position: 48
   fe_section: 005 Community engagement
-  fe_visibility: visible
   input: url
 - name: shareholders
   code: 53
@@ -557,14 +516,13 @@
   be_label: Shareholders
   be_position: 69
   fe_label: Shareholders
-  fe_position: 69
   fe_section: '008 Funding'
-  fe_visibility: visible
   input: boolean
 - name: total_assets
   code: 70
   attr:
   kind: :money
+  hidden: financial
   meta: false
   description: |-
     The value of everything that the organization owns at the end of the
@@ -576,9 +534,7 @@
   be_label: Total assets in local currency
   be_position: 0
   fe_label: N/A
-  fe_position: 0
   fe_section: 000 RESEARCH
-  fe_visibility: hidden
   input: money
 - kind: :string
   code: 118
@@ -590,5 +546,4 @@
     The legally registered organisation that holds money on behalf of the solution.
   be_label: Fiscal host
   fe_label: Fiscal host
-  fe_visibility: visible
   input: text
