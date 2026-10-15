@@ -64,8 +64,39 @@ class SolutionPropertiesGenerator < Rails::Generators::Base
   end
 
   # @return [void]
+  def generate_graphql_implementation_input_types!
+    Implementation.each do |implementation|
+      @implementation = implementation
+
+      template "graphql_implementation_input_type.rb", Rails.root.join("app", "graphql", "types", "#{graphql_implementation_input_type_name(implementation).underscore}.rb")
+    end
+  end
+
+  # @return [void]
   def generate_graphql_interface!
     template "graphql_interface.rb", Rails.root.join("app", "graphql", "types", "solution_interface_type.rb")
+  end
+
+  # @return [void]
+  def generate_graphql_structured_input_types!
+    structured_model_types.each do |model_type|
+      @structured_model_type = model_type
+
+      template "graphql_structured_input_type.rb", Rails.root.join("app", "graphql", "types", "#{graphql_structured_input_type_name(model_type).underscore}.rb")
+    end
+  end
+
+  # One shared argument set per solution kind, holding the properties that kind can set,
+  # for its mutations to include with `shared_argument_set`.
+  #
+  # @return [void]
+  def generate_graphql_argument_sets!
+    { actual: "Solution", draft: "SolutionDraft", intake: "SolutionIntake" }.each do |kind, model_name|
+      @input_kind = kind
+      @input_model_name = model_name
+
+      template "graphql_argument_set.rb", Rails.root.join("app", "graphql", "mutations", "shared", "#{model_name.underscore}_attributes.rb")
+    end
   end
 
   private
@@ -90,9 +121,9 @@ class SolutionPropertiesGenerator < Rails::Generators::Base
     in :blurb | :contact | :email | :other_option | :store_model_input | :string | :url
       ["String", true]
     in :boolean
-      ["Boolean", true]
+      ["::GraphQL::Types::Boolean", true]
     in :date
-      ["GraphQL::Types::ISO8601Date", true]
+      ["::GraphQL::Types::ISO8601Date", true]
     in :integer
       ["Integer", true]
     in :money
@@ -134,6 +165,96 @@ class SolutionPropertiesGenerator < Rails::Generators::Base
   # @return [String]
   def graphql_description_for(prop)
     [prop.be_label, prop.description].compact_blank.uniq.join(". ").squish
+  end
+
+  # Properties a solution kind can set through the API. Attachments wait on the
+  # image types; implementation statuses and links are part of their implementation.
+  #
+  # @param [Solutions::Types::Kind] kind
+  # @return [<SolutionProperty>]
+  def graphql_input_properties(kind)
+    SolutionProperty.in_use.to_a.sort_by(&:attribute_name).select do |prop|
+      next false if prop.kind.in?(%i[attachment implementation_property standard timestamp])
+
+      next false if prop.only.present? && prop.only != kind
+
+      prop.association_name.present? ? writable_association?(prop, kind) : prop.exists_for?(kind)
+    end
+  end
+
+  # @param [SolutionProperty] prop
+  # @return [(String, String, String, String)]
+  def graphql_association_argument_for(prop)
+    reflection = SolutionProperty.solution_record_for(@input_kind).class.reflect_on_association(prop.association_name.to_sym)
+
+    loads = "::#{reflection.klass.graphql_node_type_name}"
+
+    if reflection.collection?
+      ["#{prop.association_name.singularize}_ids", "[::GraphQL::Types::ID, { null: false }]", loads, prop.association_name]
+    else
+      ["#{prop.association_name}_id", "::GraphQL::Types::ID", loads, prop.association_name]
+    end
+  end
+
+  # Drafts reach their provider through their solution, so they cannot set it.
+  #
+  # @param [SolutionProperty] prop
+  # @param [Solutions::Types::Kind] kind
+  # @return [Boolean]
+  def writable_association?(prop, kind)
+    reflection = SolutionProperty.solution_record_for(kind).class.reflect_on_association(prop.association_name.to_sym)
+
+    reflection.present? && !reflection.through_reflection?
+  end
+
+  # @param [SolutionProperty] prop
+  # @return [(String, String, String, String), (String, String, nil)] the argument name and its
+  #   GraphQL type, then for arguments that load records the type loaded and the attribute it is
+  #   assigned to, or `nil` otherwise
+  def graphql_input_argument_for(prop)
+    return graphql_association_argument_for(prop) if prop.association_name.present?
+
+    case prop.kind
+    in :single_option if prop.vocab.uses_model?
+      ["#{prop.attribute_name}_id", "::GraphQL::Types::ID", "::Types::#{prop.vocab.model_name}Type", prop.attribute_name]
+    in :multi_option
+      ["#{prop.attribute_name.to_s.singularize}_ids", "[::GraphQL::Types::ID, { null: false }]", "::Types::#{prop.vocab.model_name}Type", prop.attribute_name]
+    in :money
+      [prop.attribute_name, "String", nil]
+    in :implementation
+      [prop.name, "::Types::#{graphql_implementation_input_type_name(prop.implementation)}", nil]
+    in :store_model_list
+      [prop.attribute_name, "[::Types::#{graphql_structured_input_type_name(prop.store_model_type_name.constantize)}, { null: false }]", nil]
+    else
+      [graphql_field_name_for(prop), graphql_field_type_for(prop).first, nil]
+    end
+  end
+
+  # Lists and NOT NULL columns refuse an explicit `null`, so it fails validation
+  # rather than in the database.
+  #
+  # @param [SolutionProperty] prop
+  # @return [Boolean]
+  def graphql_input_allows_null?(prop)
+    return false if prop.kind.in?(%i[multi_option store_model_list implementation])
+
+    column_name = prop.kind == :money ? "#{prop.attribute_name}_cents" : prop.attribute_name.to_s
+
+    column = SolutionProperty.solution_record_for(@input_kind).class.columns_hash[column_name]
+
+    column.nil? || column.null
+  end
+
+  # @param [Implementation] implementation
+  # @return [String]
+  def graphql_implementation_input_type_name(implementation)
+    "#{implementation.name.camelize}ImplementationInputType"
+  end
+
+  # @param [Class<Structured::Model>] model_type
+  # @return [String]
+  def graphql_structured_input_type_name(model_type)
+    "#{model_type.name.gsub("::", "")}InputType"
   end
 
   # @param [Class<Structured::Model>] model_type
