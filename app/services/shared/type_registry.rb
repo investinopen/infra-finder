@@ -8,5 +8,9 @@ module Shared
     tc.add! :identifier, ::Support::GlobalTypes::Slug
 
     tc.add! :solution_kind, Solutions::Types::Kind
+
+    # A concern rather than a model, so it cannot use `add_model!`.
+    tc.add! :controlled_vocabulary_record, ::Support::Types::Instance(::ControlledVocabularyRecord)
+    tc.add! :controlled_vocabulary_records, ::Support::Types::Array.of(::Support::Types::Instance(::ControlledVocabularyRecord))
   end
 end

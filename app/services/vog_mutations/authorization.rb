@@ -21,7 +21,8 @@ module VOGMutations
       # on a model instance stored in {#args} with the key `arg_key`.
       #
       # This can be called multiple times if a mutation requires multiple auth checks.
-      # All must pass for the mutation to be authorized.
+      # All must pass for the mutation to be authorized. When the argument holds an
+      # array (for bulk mutations), every element must pass.
       #
       # @see VOGMutations::Types::AuthPredicate
       # @see https://actionpolicy.evilmartians.io/#/
@@ -48,9 +49,12 @@ module VOGMutations
 
         class_eval <<~RUBY, __FILE__, __LINE__ + 1
         before_authorization def authorize_#{arg_key}_to_#{verb}!
-          model = args.fetch(#{key.inspect})
+          models = Array.wrap(args.fetch(#{key.inspect}))
 
-          authorize model, #{predicate.inspect}
+          # infra-finder: lists are authorized element by element, and nothing to check must not mean authorized.
+          throw_unauthorized if models.empty?
+
+          models.each { |model| authorize model, #{predicate.inspect} }
         end
         RUBY
       end
