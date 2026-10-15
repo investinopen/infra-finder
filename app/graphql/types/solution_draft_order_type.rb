@@ -18,5 +18,13 @@ module Types
     value "OLDEST" do
       description "Sort drafts by oldest created date."
     end
+
+    value "RECENT_UPDATES" do
+      description "Sort drafts by most recently updated."
+    end
+
+    value "OLDEST_UPDATES" do
+      description "Sort drafts by least recently updated."
+    end
   end
 end
