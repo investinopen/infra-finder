@@ -19,6 +19,14 @@ module Types
       description "Sort solutions by oldest created date."
     end
 
+    value "RECENT_UPDATES" do
+      description "Sort solutions by most recently updated."
+    end
+
+    value "OLDEST_UPDATES" do
+      description "Sort solutions by least recently updated."
+    end
+
     value "NAME_ASCENDING" do
       description "Sort solutions by name in ascending (A-Z) order."
     end
