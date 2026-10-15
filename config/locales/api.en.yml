@@ -17,12 +17,16 @@ en:
       invalid: "Failed to Authenticate"
   dry_validation:
     errors:
+      must_be_a_different_record: "must be a different record"
+      cannot_be_visible: "cannot be visible for records whose provision is always hidden"
       must_be_accepted: "must be accepted"
       must_be_email: "must be an email"
       must_be_slug: "must be a valid slug (all lowercase, no whitespace)"
       must_be_unique: "must be unique"
       must_be_url: "must be a valid HTTP URL"
       must_match_password: "must match password"
+      must_not_contain_pipe: "must not contain |"
+      must_be_same_vocabulary: "must be from the same vocabulary"
       update_and_clear_attachment: "cannot receive a new attachment while also clearing it"
       rules:
         must_remove_or_reassign_dependents: "You must remove or reassign dependent records before deleting this."
