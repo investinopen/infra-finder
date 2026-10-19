@@ -64,6 +64,35 @@ RSpec.describe Mutations::SolutionIntakeUpdate, type: :request, graphql: :mutati
       end
     end
 
+    context "when uploading a logo" do
+      let_mutation_input!(:logo) { graphql_upload_from("spec", "data", "lorempixel.jpg") }
+      let_mutation_input!(:logo_metadata) { { alt: "The solution's logo" } }
+
+      it "attaches it" do
+        expect_request! do |req|
+          req.effect! change { solution_intake.reload.logo.present? }.from(false).to(true)
+
+          req.data! gql.mutation(:solution_intake_update) { |m| m.prop(:solution_intake) { |i| i[:name] = "Renamed" } }
+        end
+
+        expect(solution_intake.logo_alt).to eq "The solution's logo"
+      end
+    end
+
+    context "when clearing a logo" do
+      before do
+        solution_intake.update!(logo: Rails.root.join("spec", "data", "logo.svg").open("r"))
+      end
+
+      let_mutation_input!(:clear_logo) { true }
+
+      it "removes it" do
+        expect_request! do |req|
+          req.effect! change { solution_intake.reload.logo.present? }.from(true).to(false)
+        end
+      end
+    end
+
     context "when the intake is in review" do
       before { solution_intake.transition_to!(:in_review) }
 

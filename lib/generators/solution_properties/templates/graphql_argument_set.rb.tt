@@ -9,10 +9,14 @@ module Mutations
     # change; lists and implementation details are replaced as a whole.
     class <%= @input_model_name %>Attributes < VOGMutations::Arguments::SharedSet
 <% graphql_input_properties(@input_kind).each_with_index do |prop, index| -%>
-<% name, type, loads, as = graphql_input_argument_for(prop) -%>
 <% unless index.zero? -%>
 
 <% end -%>
+<% if prop.kind == :attachment -%>
+      image_attachment! :<%= prop.attribute_name %>, clearable: true
+<% next -%>
+<% end -%>
+<% name, type, loads, as = graphql_input_argument_for(prop) -%>
 <% if loads -%>
       argument :<%= name %>, <%= type %>, required: false,
         loads: <%= loads %>, as: :<%= as %> do
