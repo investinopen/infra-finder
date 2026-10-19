@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+# Kamal sets this on the web role so migrations and the asset push run before
+# puma boots. App Platform runs `bin/rails system:deploy` as a separate job.
+if [ "$RUN_DEPLOY_TASKS" = "true" ]; then
+  bin/rails system:deploy
+fi
+
+exec "$@"

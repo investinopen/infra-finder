@@ -114,3 +114,8 @@ RUN mise build
 USER 10001:10001
 
 RUN mise trust -a
+
+ENTRYPOINT ["bin/docker-entrypoint"]
+
+# We have to re-declare CMD after setting ENTRYPOINT
+CMD ["bin/puma", "-C", "config/puma.rb"]

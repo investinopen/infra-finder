@@ -7,8 +7,14 @@ require_destination: true
 servers:
   web:
     cmd: bin/puma -C config/puma.rb
+    env:
+      clear:
+        RUN_DEPLOY_TASKS: "true"
   worker:
     cmd: bin/good_job start --probe-port 7001
+
+# Covers migrations and the asset push in bin/docker-entrypoint.
+deploy_timeout: 180
 
 proxy:
   ssl: true
