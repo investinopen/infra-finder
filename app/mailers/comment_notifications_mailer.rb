@@ -24,9 +24,10 @@ class CommentNotificationsMailer < ApplicationMailer
     @view_url = view_url_for(@comment)
   end
 
-  # @param [ActiveAdmin::Comment] comment
+  # @param [ActiveAdmin::Comment, Comment] comment
   def view_url_for(comment)
-    anchor = anchor_for(comment)
+    # ActiveAdmin's comment panel uses this anchor for either class.
+    anchor = "active_admin_comment_#{comment.id}"
 
     admin_show_url_for(comment.resource, anchor:)
   end

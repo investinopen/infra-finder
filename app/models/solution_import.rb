@@ -3,6 +3,7 @@
 # @see SolutionImports
 # @see SolutionImportTransition
 class SolutionImport < ApplicationRecord
+  include Commentable
   include HasAutoincrementingIdentifier
   include HasStoredMessages
   include ImportSourceUploader::Attachment.new(:source)

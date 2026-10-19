@@ -6,7 +6,7 @@ module Admin
 
     extend Support::EnhancedTypes
 
-    Comment = ModelInstance("ActiveAdmin::Comment")
+    Comment = ModelInstance("ActiveAdmin::Comment") | ModelInstance("Comment")
 
     CSVBuilder = Types.Instance(::ActiveAdmin::CSVBuilder)
 

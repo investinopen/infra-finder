@@ -7,6 +7,8 @@ module Types
     A known or anonymous user in the system.
     TEXT
 
+    implements ::Types::CommentableType
+
     field :anonymous, Boolean, null: false, method: :anonymous? do
       description "Is this an anonymous / unauthenticated user?"
     end

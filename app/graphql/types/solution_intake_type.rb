@@ -7,6 +7,7 @@ module Types
     A submission of a new solution, filled in through the public intake form and reviewed by an admin.
     TEXT
 
+    implements ::Types::CommentableType
     implements ::Types::SolutionInterfaceType
 
     field :snowflake, String, null: false do

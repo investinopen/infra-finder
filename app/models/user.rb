@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  include Commentable
   include HasName
   include HasSubscriptionOption
   include Notifiable
