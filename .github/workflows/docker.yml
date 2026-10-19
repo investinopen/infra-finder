@@ -14,7 +14,7 @@ on:
     outputs:
       sha:
         description: "Commit SHA the image was built from, also used as an image tag"
-        value: ${{ jobs.deploy.outputs.sha }}
+        value: ${{ jobs.build.outputs.sha }}
   workflow_dispatch:
     inputs:
       version:
@@ -31,7 +31,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     outputs:
       sha: ${{ steps.sha.outputs.sha }}
