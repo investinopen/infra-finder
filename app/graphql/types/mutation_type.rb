@@ -19,6 +19,20 @@ module Types
 
     field :error_test, mutation: Mutations::ErrorTest
 
+    field :invitation_create, mutation: Mutations::InvitationCreate
+
+    field :invitation_destroy, mutation: Mutations::InvitationDestroy
+
+    field :provider_create, mutation: Mutations::ProviderCreate
+
+    field :provider_destroy, mutation: Mutations::ProviderDestroy
+
+    field :provider_editor_assignment_create, mutation: Mutations::ProviderEditorAssignmentCreate
+
+    field :provider_editor_assignment_destroy, mutation: Mutations::ProviderEditorAssignmentDestroy
+
+    field :provider_update, mutation: Mutations::ProviderUpdate
+
     field :solution_create, mutation: Mutations::SolutionCreate
 
     field :solution_create_draft, mutation: Mutations::SolutionCreateDraft
@@ -53,6 +67,10 @@ module Types
 
     field :user_confirm, mutation: Mutations::UserConfirm
 
+    field :user_create, mutation: Mutations::UserCreate
+
+    field :user_destroy, mutation: Mutations::UserDestroy
+
     field :user_request_password_reset, mutation: Mutations::UserRequestPasswordReset
 
     field :user_resend_confirmation, mutation: Mutations::UserResendConfirmation
@@ -63,10 +81,14 @@ module Types
 
     field :user_unlock, mutation: Mutations::UserUnlock
 
+    field :user_update, mutation: Mutations::UserUpdate
+
     field :viewer_accept_terms, mutation: Mutations::ViewerAcceptTerms, terms_exempt: true
 
     field :viewer_refresh_token, mutation: Mutations::ViewerRefreshToken, terms_exempt: true
 
     field :viewer_sign_out, mutation: Mutations::ViewerSignOut, terms_exempt: true
+
+    field :viewer_update_notifications, mutation: Mutations::ViewerUpdateNotifications
   end
 end

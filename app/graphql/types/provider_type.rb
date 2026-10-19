@@ -27,6 +27,10 @@ module Types
       description "The users who can edit this provider's solutions."
     end
 
+    field :assignable_users, resolver: ::Resolvers::AssignableUserResolver do
+      description "Users who can be made editors of this provider: not admins, and not already its editors."
+    end
+
     field :invitations, resolver: ::Resolvers::InvitationResolver do
       description "Invitations sent for this provider."
     end

@@ -8,7 +8,7 @@ module Mutations
     # @see <%= parent_mutation_class_name %>
     class <%= mutate_contract_class_name %> < VOGMutations::Contract
 <%- unless has_name? || has_unique_identifier? || has_optional_description? -%>
-      # rubocop:disable Lint/EmptyBlock
+      # rubocop:disable-next Lint/EmptyBlock
 <%- end -%>
       json do
         <%- if has_name? -%>
@@ -21,9 +21,6 @@ module Mutations
         optional(:description).maybe(:string)
         <%- end -%>
       end
-<%- unless has_name? || has_unique_identifier? || has_optional_description? -%>
-      # rubocop:enable Lint/EmptyBlock
-<%- end -%>
     end
   end
 end

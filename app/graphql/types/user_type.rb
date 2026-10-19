@@ -15,6 +15,10 @@ module Types
       description "The user's email address."
     end
 
+    field :unconfirmed_email, String, null: true do
+      description "A changed email address that is waiting for the user to confirm it."
+    end
+
     field :name, String, null: true do
       description "The user's display name."
     end
@@ -59,11 +63,28 @@ module Types
       description "Whether the user is a super admin."
     end
 
+    field :comment_notifications, Types::SubscriptionType, null: true do
+      description "Whether the user is emailed about comments. Null for anonymous users."
+    end
+
+    field :solution_notifications, Types::SubscriptionType, null: true do
+      description "Whether the user is emailed about solution workflow changes. Null for anonymous users."
+    end
+
     field :upload_access, Boolean, null: false, method: :has_any_upload_access? do
       description "Whether the user may upload files."
     end
 
     # @return [String, nil]
     def kind = object.anonymous? ? nil : object.kind
+
+    # @return [String, nil]
+    def comment_notifications = object.try(:comment_notifications)
+
+    # @return [String, nil]
+    def unconfirmed_email = object.try(:unconfirmed_email)
+
+    # @return [String, nil]
+    def solution_notifications = object.try(:solution_notifications)
   end
 end
