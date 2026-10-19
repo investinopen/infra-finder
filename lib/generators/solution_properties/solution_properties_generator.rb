@@ -167,14 +167,14 @@ class SolutionPropertiesGenerator < Rails::Generators::Base
     [prop.be_label, prop.description].compact_blank.uniq.join(". ").squish
   end
 
-  # Properties a solution kind can set through the API. Attachments wait on the
-  # image types; implementation statuses and links are part of their implementation.
+  # Properties a solution kind can set through the API. Implementation links are
+  # part of their implementation.
   #
   # @param [Solutions::Types::Kind] kind
   # @return [<SolutionProperty>]
   def graphql_input_properties(kind)
     SolutionProperty.in_use.to_a.sort_by(&:attribute_name).select do |prop|
-      next false if prop.kind.in?(%i[attachment implementation_property standard timestamp])
+      next false if prop.kind.in?(%i[implementation_property standard timestamp])
 
       next false if prop.only.present? && prop.only != kind
 

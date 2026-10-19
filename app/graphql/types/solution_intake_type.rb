@@ -25,6 +25,14 @@ module Types
       description "The editor who submitted the intake, if any."
     end
 
+    field :upload_token, String, null: true, authorize_field: { to: :update?, raise: false } do
+      description <<~TEXT
+      A token for uploading files, such as a logo, to this intake: send it on the `Upload-Token` header.
+      Anyone who can update the intake gets one, and it stops working once the intake can no longer
+      be updated.
+      TEXT
+    end
+
     field :transitions, resolver: ::Resolvers::SolutionIntakeTransitionResolver do
       description "The history of the intake's state changes."
     end
