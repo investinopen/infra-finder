@@ -9,8 +9,6 @@ class Provider < ApplicationRecord
   include SolutionImportable
   include TimestampScopes
 
-  resourcify
-
   has_normalized_name!
 
   expose_ransackable_associations! :solutions
@@ -27,6 +25,10 @@ class Provider < ApplicationRecord
   has_many :solutions, inverse_of: :provider, dependent: :restrict_with_error
   has_many :solution_intakes, inverse_of: :provider, dependent: :nullify
   has_many :solution_revisions, inverse_of: :provider, dependent: :nullify
+
+  # Declared after provider_editor_assignments so that their roles still exist
+  # when the assignments are destroyed, which lets the editors' kind be recalculated.
+  resourcify
 
   validates :name, presence: true, length: { maximum: 200 }
 
