@@ -9,6 +9,8 @@ module Mutations
 
       authorizes! :solution, with: :create?
 
+      attachment! :logo, image: true
+
       # As in the admin section, a new solution must satisfy the editor validations,
       # and gets its initial revision.
       #

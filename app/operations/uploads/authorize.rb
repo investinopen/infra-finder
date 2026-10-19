@@ -17,9 +17,18 @@ module Uploads
     TOKEN_HEADERS = %w[HTTP_UPLOAD_TOKEN].freeze
 
     # @param [{ String => String }] env the request environment
-    # @return [Dry::Monads::Success(User)]
+    # @return [Dry::Monads::Success(User, SolutionIntake)]
     # @return [Dry::Monads::Failure(:unauthorized, String)]
     def call(env)
+      try_intake_token(env).or do
+        authorize_user(env)
+      end
+    end
+
+    # @param [{ String => String }] env the request environment
+    # @return [Dry::Monads::Success(User)]
+    # @return [Dry::Monads::Failure(:unauthorized, String)]
+    def authorize_user(env)
       user = yield authenticate env
 
       yield authorize user
@@ -118,6 +127,31 @@ module Uploads
       else
         Failure[:revoked_session, "The session for this upload token has ended"]
       end
+    end
+
+    # An intake upload token lets anyone filling in the intake upload, while the intake
+    # can still be updated.
+    #
+    # @see Uploads::EncodeIntakeToken
+    # @param [{ String => String }] env the request environment
+    # @return [Dry::Monads::Success(SolutionIntake)]
+    # @return [Dry::Monads::Failure(Symbol, String)]
+    def try_intake_token(env)
+      token = env["HTTP_UPLOAD_TOKEN"]
+
+      return Failure[:unavailable, "No upload token"] if token.blank?
+
+      payload = yield decode_upload_token.call token
+
+      return Failure[:not_an_intake_token, "Not an intake upload token"] unless payload.key?("iid")
+
+      intake = yield monadic_find_by(SolutionIntake, id: payload["iid"])
+
+      return unauthorized unless SolutionIntakePolicy.new(intake, user: nil).apply(:update?)
+
+      env["uploads.solution_intake"] = intake
+
+      Success intake
     end
 
     # @return [Dry::Monads::Failure(:unauthorized, String)]
