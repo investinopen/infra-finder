@@ -7,6 +7,7 @@ module Types
     Proposed changes to a `Solution`, which an admin reviews before they are applied.
     TEXT
 
+    implements ::Types::CommentableType
     implements ::Types::SolutionInterfaceType
 
     field :identifier, String, null: false do

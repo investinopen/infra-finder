@@ -3,6 +3,7 @@
 # An organizational model for a {Solution}.
 class Provider < ApplicationRecord
   include BuildsSelectOptions
+  include Commentable
   include Filterable
   include HasSystemTags
   include SluggedByName

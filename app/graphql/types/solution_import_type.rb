@@ -7,6 +7,8 @@ module Types
     A spreadsheet of solutions, providers, or intakes loaded into Infra Finder.
     TEXT
 
+    implements ::Types::CommentableType
+
     field :identifier, Integer, null: false do
       description "The import's sequential number."
     end

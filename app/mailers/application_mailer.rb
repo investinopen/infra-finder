@@ -9,12 +9,6 @@ class ApplicationMailer < ActionMailer::Base
 
   private
 
-  # @param [ActiveRecord::Base] model
-  # @return [String]
-  def anchor_for(model)
-    "#{model.model_name.singular}_#{model.id}"
-  end
-
   def admin_show_url_for(resource, **options)
     case resource
     when SolutionDraft
