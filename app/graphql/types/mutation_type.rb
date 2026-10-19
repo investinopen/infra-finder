@@ -19,6 +19,18 @@ module Types
 
     field :error_test, mutation: Mutations::ErrorTest
 
+    field :solution_create, mutation: Mutations::SolutionCreate
+
+    field :solution_create_draft, mutation: Mutations::SolutionCreateDraft
+
+    field :solution_draft_destroy, mutation: Mutations::SolutionDraftDestroy
+
+    field :solution_draft_update, mutation: Mutations::SolutionDraftUpdate
+
+    field :solution_intake_update, mutation: Mutations::SolutionIntakeUpdate
+
+    field :solution_update, mutation: Mutations::SolutionUpdate
+
     field :user_confirm, mutation: Mutations::UserConfirm
 
     field :user_request_password_reset, mutation: Mutations::UserRequestPasswordReset
