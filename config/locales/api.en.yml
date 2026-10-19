@@ -23,6 +23,7 @@ en:
       must_be_email: "must be an email"
       must_be_slug: "must be a valid slug (all lowercase, no whitespace)"
       must_be_unique: "must be unique"
+      must_be_set_by_an_admin: "can only be set by an admin"
       must_be_url: "must be a valid HTTP URL"
       must_match_password: "must match password"
       must_not_contain_pipe: "must not contain |"
