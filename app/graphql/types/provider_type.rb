@@ -7,6 +7,8 @@ module Types
     The organization that provides one or more solutions.
     TEXT
 
+    implements ::Types::CommentableType
+
     field :name, String, null: false do
       description "The provider's name."
     end

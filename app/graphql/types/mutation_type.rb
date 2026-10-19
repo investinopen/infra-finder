@@ -7,6 +7,10 @@ module Types
     The entry point for making changes to the data within the API.
     TEXT
 
+    field :comment_create, mutation: Mutations::CommentCreate
+
+    field :comment_destroy, mutation: Mutations::CommentDestroy
+
     field :controlled_vocabulary_record_create, mutation: Mutations::ControlledVocabularyRecordCreate
 
     field :controlled_vocabulary_record_destroy, mutation: Mutations::ControlledVocabularyRecordDestroy

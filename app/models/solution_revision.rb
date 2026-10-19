@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class SolutionRevision < ApplicationRecord
+  include Commentable
   include TimestampScopes
 
   belongs_to :solution, inverse_of: :solution_revisions

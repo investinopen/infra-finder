@@ -7,6 +7,8 @@ module Types
     A recorded change to a `Solution`.
     TEXT
 
+    implements ::Types::CommentableType
+
     field :identifier, String, null: true do
       description "A human-readable identifier for the revision."
     end
