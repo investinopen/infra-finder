@@ -36,6 +36,22 @@ module Types
       description "The history of the draft's state changes."
     end
 
+    expose_authorization_rule :request_review?, <<~TEXT
+    Whether the current user can submit this draft for review.
+    TEXT
+
+    expose_authorization_rule :request_revision?, <<~TEXT
+    Whether the current user can send this draft back to pending.
+    TEXT
+
+    expose_authorization_rule :approve?, <<~TEXT
+    Whether the current user can approve this draft.
+    TEXT
+
+    expose_authorization_rule :reject?, <<~TEXT
+    Whether the current user can reject this draft.
+    TEXT
+
     load_association! :solution
     load_association! :user
     load_association! :solution_draft_transitions, as: :transitions_for_state

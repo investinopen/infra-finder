@@ -66,11 +66,11 @@ RSpec.describe SolutionDraftPolicy, type: :policy do
     end
 
     describe_rule :approve? do
-      it_behaves_like "a privileged permission"
+      it_behaves_like "a forbidden permission"
     end
 
     describe_rule :reject? do
-      it_behaves_like "a privileged permission"
+      it_behaves_like "a forbidden permission"
     end
 
     describe_rule :request_review? do
@@ -78,7 +78,7 @@ RSpec.describe SolutionDraftPolicy, type: :policy do
     end
 
     describe_rule :request_revision? do
-      it_behaves_like "a privileged permission"
+      it_behaves_like "a forbidden permission"
     end
   end
 
@@ -130,7 +130,7 @@ RSpec.describe SolutionDraftPolicy, type: :policy do
     end
 
     describe_rule :request_review? do
-      it_behaves_like "an admin or record editor permission"
+      it_behaves_like "a forbidden permission"
     end
 
     describe_rule :request_revision? do
@@ -178,11 +178,11 @@ RSpec.describe SolutionDraftPolicy, type: :policy do
     end
 
     describe_rule :approve? do
-      it_behaves_like "a privileged permission"
+      it_behaves_like "a forbidden permission"
     end
 
     describe_rule :reject? do
-      it_behaves_like "a privileged permission"
+      it_behaves_like "a forbidden permission"
     end
 
     describe_rule :request_review? do
@@ -190,7 +190,7 @@ RSpec.describe SolutionDraftPolicy, type: :policy do
     end
 
     describe_rule :request_revision? do
-      it_behaves_like "a privileged permission"
+      it_behaves_like "a forbidden permission"
     end
   end
 
@@ -234,11 +234,11 @@ RSpec.describe SolutionDraftPolicy, type: :policy do
     end
 
     describe_rule :approve? do
-      it_behaves_like "a privileged permission"
+      it_behaves_like "a forbidden permission"
     end
 
     describe_rule :reject? do
-      it_behaves_like "a privileged permission"
+      it_behaves_like "a forbidden permission"
     end
 
     describe_rule :request_review? do
@@ -246,7 +246,7 @@ RSpec.describe SolutionDraftPolicy, type: :policy do
     end
 
     describe_rule :request_revision? do
-      it_behaves_like "a privileged permission"
+      it_behaves_like "a forbidden permission"
     end
   end
 
