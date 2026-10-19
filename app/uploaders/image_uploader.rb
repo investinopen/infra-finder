@@ -15,13 +15,6 @@ class ImageUploader < Shrine
     ".jpeg", ".png", ".jpg", ".svg", ".webp", *ALLOWED_MIME_TYPES
   ].join(?,).freeze
 
-  SIZES = {
-    thumb: [200, 200],
-    small: [300, 300],
-    medium: [500, 500],
-    large: [800, 800],
-  }.freeze
-
   plugin :derivatives, create_on_promote: false
   plugin :add_metadata
   plugin :default_url
@@ -34,7 +27,17 @@ class ImageUploader < Shrine
   plugin :restore_cached_data
 
   plugin :included do |name|
-    delegate :alt, :original_import_url, to: name, prefix: name, allow_nil: true
+    delegate :alt, :graphql_metadata, :original_import_url, to: name, prefix: name, allow_nil: true
+
+    class_eval <<~RUBY, __FILE__, __LINE__ + 1
+    def #{name}_metadata
+      #{name}&.graphql_metadata
+    end
+
+    def #{name}_metadata=(new_metadata)
+      #{name}&.merge_graphql_metadata! new_metadata
+    end
+    RUBY
   end
 
   metadata_method :alt, :original_import_url
@@ -60,14 +63,12 @@ class ImageUploader < Shrine
   end
 
   Attacher.derivatives do |original|
-    vips = ImageProcessing::Vips.source(original).convert("png")
-
-    SIZES.transform_values do |(width, height)|
-      vips.resize_to_limit!(width, height)
-    end
+    InfraFinder::Container["image_attachments.generate_derivatives"].call(original).value!
   end
 
   Attacher.promote_block do
     Processing::PromoteAttachmentJob.perform_later(self.class.name, record.class.name, record.id, name, file_data)
   end
+
+  UploadedFile.include ImageAttachments::HasMetadata
 end

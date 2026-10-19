@@ -9,6 +9,8 @@ module Mutations
 
       authorizes! :solution, with: :update?
 
+      attachment! :logo, image: true
+
       # As in the admin section, admins may save an existing solution without satisfying
       # the editor validations, and each update records a direct revision.
       #

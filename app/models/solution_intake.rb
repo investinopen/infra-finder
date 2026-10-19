@@ -106,6 +106,12 @@ class SolutionIntake < ApplicationRecord
     call_operation("solution_intakes.try_inviting", self, **options)
   end
 
+  # @see Uploads::EncodeIntakeToken
+  # @return [String]
+  def upload_token
+    call_operation("uploads.encode_intake_token", self).value!
+  end
+
   # @return [String]
   def contact_name
     "#{first_name} #{last_name}".strip

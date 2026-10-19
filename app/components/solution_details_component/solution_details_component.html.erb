@@ -3,9 +3,9 @@
     <header class="l-container l-container--narrow">
       <%= render SolutionClaimAlertComponent.new(solution:) %>
       <div class="l-container__inner solution-hero">
-        <% if solution.logo.present? and solution.logo(:medium).present? %>
+        <% if solution.logo.present? and solution.logo(:medium, :png).present? %>
           <figure class="solution-hero__figure">
-            <%= image_tag solution.logo(:medium).url, alt: "", class: "solution-hero__logo" %>
+            <%= image_tag solution.logo(:medium, :png).url, alt: "", class: "solution-hero__logo" %>
           </figure>
         <% end %>
         <div class="solution-hero__text me-auto">

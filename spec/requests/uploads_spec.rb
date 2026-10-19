@@ -29,6 +29,26 @@ RSpec.describe "tus uploads", type: :request, graphql: true do
     expect(response).to have_http_status(:created)
   end
 
+  context "with an intake upload token" do
+    let_it_be(:solution_intake, refind: true) { FactoryBot.create :solution_intake }
+
+    it "accepts it while the intake can be updated" do
+      create_upload! "Upload-Token" => solution_intake.upload_token
+
+      expect(response).to have_http_status(:created)
+    end
+
+    it "rejects it once the intake is submitted" do
+      upload_token = solution_intake.upload_token
+
+      solution_intake.transition_to!(:in_review)
+
+      create_upload! "Upload-Token" => upload_token
+
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+
   it "rejects requests without a token" do
     create_upload!
 

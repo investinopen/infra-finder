@@ -514,6 +514,8 @@ module Mutations
         validates allow_null: false
       end
 
+      image_attachment! :logo, clearable: true
+
       argument :maintenance_status_id, ::GraphQL::Types::ID, required: false,
         loads: ::Types::MaintenanceStatusType, as: :maintenance_status do
         description <<~TEXT

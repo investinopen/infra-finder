@@ -22,13 +22,15 @@ RSpec.describe ImageUploader do
       expect(solution.logo.metadata).to include("width" => 400, "height" => 300)
     end
 
-    it "creates PNG derivatives" do
+    it "creates WebP and PNG derivatives for each size" do
       derivatives = solution.logo_attacher.create_derivatives
 
       aggregate_failures do
-        expect(derivatives.keys).to match_array ImageUploader::SIZES.keys
-        expect(derivatives[:thumb].mime_type).to eq "image/png"
-        expect(derivatives[:thumb].metadata).to include("width" => 200, "height" => 150)
+        expect(derivatives.keys).to match_array ImageAttachments::Constants::IMAGE_SIZES.keys
+        expect(derivatives[:thumb].keys).to contain_exactly(:webp, :png)
+        expect(derivatives[:thumb][:png].mime_type).to eq "image/png"
+        expect(derivatives[:thumb][:webp].mime_type).to eq "image/webp"
+        expect(derivatives[:thumb][:png].metadata).to include("width" => 200, "height" => 150)
       end
     end
   end

@@ -438,6 +438,12 @@ module Types
       TEXT
     end
 
+    image_attachment_field :logo do
+      description <<~TEXT
+      Service logo. Logo or other image representing the service.
+      TEXT
+    end
+
     field :maintenance_status, ::Types::MaintenanceStatusType, null: true do
       description <<~TEXT
       Maintenance status. The service's maintenance status. Evidence of active maintenance may include

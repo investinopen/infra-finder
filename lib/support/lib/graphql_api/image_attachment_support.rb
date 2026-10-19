@@ -13,14 +13,6 @@ module Support
         ::ImageAttachments::ImageWrapper.new(attacher, purpose:)
       end
 
-      # @param [String] graphql_name
-      # @return [::ImageAttachments::SiteLogoWrapper]
-      def resolve_site_logo_attachment(graphql_name:)
-        attacher, purpose = resolve_image_attacher_and_purpose_for(graphql_name: graphql_name)
-
-        ::ImageAttachments::SiteLogoWrapper.new(attacher, purpose:)
-      end
-
       # @api private
       # @param [String] graphql_name
       # @return [(Shrine::Attacher, String)]

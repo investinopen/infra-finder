@@ -15,9 +15,11 @@ module Types
     The properties shared by solutions, drafts, and intakes.
     TEXT
 <% graphql_interface_properties.each do |prop| -%>
-<% type, nullable = graphql_field_type_for(prop) -%>
+<% type, nullable = graphql_field_type_for(prop) unless prop.kind == :attachment -%>
 
-<% if prop.hidden_rule -%>
+<% if prop.kind == :attachment -%>
+    image_attachment_field :<%= graphql_field_name_for(prop) %> do
+<% elsif prop.hidden_rule -%>
     field :<%= graphql_field_name_for(prop) %>, <%= type %>, null: true, authorize_field: { to: <%= prop.hidden_rule.inspect %>, raise: false } do
 <% else -%>
     field :<%= graphql_field_name_for(prop) %>, <%= type %>, null: <%= nullable %> do

@@ -490,11 +490,10 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   def has_structured_header? = structured_header?
 
-  # Kinds that have no GraphQL field of their own: attachments wait on the
-  # image types, `standard` properties are not real attributes, and
-  # `implementation_property` is a flat link URL for CSVs and imports that is
-  # stored in its implementation's links.
-  GRAPHQL_SKIPPED_KINDS = %i[attachment standard implementation_property].freeze
+  # Kinds that have no GraphQL field of their own: `standard` properties are
+  # not real attributes, and `implementation_property` is a flat link URL for
+  # CSVs and imports that is stored in its implementation's links.
+  GRAPHQL_SKIPPED_KINDS = %i[standard implementation_property].freeze
 
   # Kinds left out of the GraphQL property metadata: `standard` properties hold
   # no value, and `implementation_property` is stored in its implementation.

@@ -9,6 +9,8 @@ module Mutations
 
       authorizes! :solution_intake, with: :update?
 
+      attachment! :logo, image: true
+
       # Saves progress like the public intake form: the editor validations wait for submission.
       #
       # @param [SolutionIntake] solution_intake

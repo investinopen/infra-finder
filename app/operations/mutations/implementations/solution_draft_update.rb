@@ -9,6 +9,8 @@ module Mutations
 
       authorizes! :solution_draft, with: :update?
 
+      attachment! :logo, image: true
+
       # As in the admin section, a draft must satisfy the editor validations.
       #
       # @param [SolutionDraft] solution_draft
