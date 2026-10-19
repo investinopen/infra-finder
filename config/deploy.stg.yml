@@ -1,0 +1,20 @@
+servers:
+  web:
+    hosts:
+      - 138.197.83.67
+  worker:
+    hosts:
+      - 138.197.83.67
+
+proxy:
+  host: stg.infrafinder.instance.works
+
+env:
+  clear:
+    RAILS_ENV: staging
+    LOCATIONS_ROOT: https://stg.infrafinder.instance.works
+    # Keeps cookies from colliding with the other environments under
+    # infrafinder.instance.works.
+    SESSION_BASE_KEY: _infra_sess_stg
+    UPLOAD_BUCKET: infrafinder-staging
+    UPLOAD_CDN_HOST: https://infrafinder-staging.nyc3.cdn.digitaloceanspaces.com

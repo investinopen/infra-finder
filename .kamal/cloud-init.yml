@@ -1,0 +1,11 @@
+#cloud-config
+# User data for Kamal droplets. Docker is installed here so `kamal deploy` works
+# without a separate `kamal setup`.
+package_update: true
+package_upgrade: true
+
+packages:
+  - unattended-upgrades
+
+runcmd:
+  - curl -fsSL https://get.docker.com | sh

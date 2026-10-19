@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if [ "$KAMAL_COMMAND" = "rollback" ]; then
+  exit 0
+fi
+
+bin/kamal app exec --skip-hooks --primary -d "$KAMAL_DESTINATION" --version "$KAMAL_VERSION" -r web "bin/rails system:deploy"

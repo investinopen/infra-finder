@@ -29,6 +29,14 @@ jobs:
       version: ${{ needs.release-please.outputs.tag_name }}
     secrets: inherit
 
+  deploy-stg:
+    needs: docker
+    uses: ./.github/workflows/deploy.yml
+    with:
+      destination: stg
+      version: ${{ needs.docker.outputs.sha }}
+    secrets: inherit
+
   deploy:
     needs: [release-please, docker]
     if: ${{ needs.release-please.outputs.releases_created == 'true' }}

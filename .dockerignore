@@ -4,6 +4,7 @@
 *.swo
 .*.swn
 .do
+.kamal
 /bin/console
 /bin/dbconsole
 /docker
