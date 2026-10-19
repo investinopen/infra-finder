@@ -32,6 +32,12 @@ class Provider < ApplicationRecord
 
   validates :url, url: { allow_blank: true }
 
+  # @see User.assignable_to
+  # @return [ActiveRecord::Relation<User>]
+  def assignable_users
+    User.assignable_to(self)
+  end
+
   # @param [User] user
   # @return [ProviderEditorAssignment]
   def assign_editor!(user)
