@@ -35,7 +35,7 @@ RSpec.describe "Query.solutionIntakes", type: :request, graphql: true do
   end
 
   describe "a single intake" do
-    let(:query) { "query($slug: Slug!) { solutionIntake(slug: $slug) { snowflake currentState firstName } }" }
+    let(:query) { "query($slug: Slug!) { solutionIntake(slug: $slug) { snowflake currentState firstName canSubmit { value } canReset { value } } }" }
 
     def fetch(intake)
       make_graphql_request! query, token:, variables: { slug: intake.system_slug }, operation: nil
@@ -45,7 +45,12 @@ RSpec.describe "Query.solutionIntakes", type: :request, graphql: true do
 
     as_an_anonymous_user do
       it "returns a pending intake, hidden values included" do
-        expect(fetch(pending_intake)).to include("currentState" => "PENDING", "firstName" => pending_intake.first_name)
+        expect(fetch(pending_intake)).to include(
+          "currentState" => "PENDING",
+          "firstName" => pending_intake.first_name,
+          "canSubmit" => { "value" => true },
+          "canReset" => { "value" => false }
+        )
       end
 
       it "does not return a rejected intake" do
@@ -55,7 +60,7 @@ RSpec.describe "Query.solutionIntakes", type: :request, graphql: true do
 
     as_an_admin_user do
       it "returns a rejected intake" do
-        expect(fetch(rejected_intake)).to include("currentState" => "REJECTED")
+        expect(fetch(rejected_intake)).to include("currentState" => "REJECTED", "canSubmit" => { "value" => false }, "canReset" => { "value" => true })
       end
     end
   end

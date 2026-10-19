@@ -29,6 +29,22 @@ module Types
       description "The history of the intake's state changes."
     end
 
+    expose_authorization_rule :submit?, <<~TEXT
+    Whether the current user can submit this intake for review.
+    TEXT
+
+    expose_authorization_rule :reset?, <<~TEXT
+    Whether the current user can reset this intake to pending.
+    TEXT
+
+    expose_authorization_rule :approve?, <<~TEXT
+    Whether the current user can approve this intake. An intake needs a provider to be approved.
+    TEXT
+
+    expose_authorization_rule :reject?, <<~TEXT
+    Whether the current user can reject this intake.
+    TEXT
+
     load_association! :solution
     load_association! :editor
     load_association! :solution_intake_transitions, as: :transitions_for_state

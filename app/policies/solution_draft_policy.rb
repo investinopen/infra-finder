@@ -23,22 +23,28 @@ class SolutionDraftPolicy < ApplicationPolicy
   end
 
   def request_review?
-    update?
+    update? && can_transition_to?(:in_review)
   end
 
   def request_revision?
-    has_any_admin_access?
+    has_any_admin_access? && can_transition_to?(:pending)
   end
 
   def approve?
-    has_any_admin_access?
+    has_any_admin_access? && can_transition_to?(:approved)
   end
 
   def reject?
-    has_any_admin_access?
+    has_any_admin_access? && can_transition_to?(:rejected)
   end
 
   private
+
+  # @param [Symbol] state
+  # @return [Boolean]
+  def can_transition_to?(state)
+    record.try(:can_transition_to?, state)
+  end
 
   # @param [ActiveRecord::Relation] relation
   # @return [ActiveRecord::Relation]

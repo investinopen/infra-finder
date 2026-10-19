@@ -24,6 +24,8 @@ RSpec.describe "Query.solutionDrafts", type: :request, graphql: true do
           solution { name }
           changedProperties { key fieldName }
           transitions(perPage: 5) { nodes { toState } }
+          canRequestReview { value }
+          canApprove { value }
         }
       }
     }
@@ -54,7 +56,9 @@ RSpec.describe "Query.solutionDrafts", type: :request, graphql: true do
         "name" => "Renamed",
         "currentState" => "PENDING",
         "solution" => { "name" => solution.name },
-        "changedProperties" => [{ "key" => "name", "fieldName" => "name" }]
+        "changedProperties" => [{ "key" => "name", "fieldName" => "name" }],
+        "canRequestReview" => { "value" => true },
+        "canApprove" => { "value" => false }
       )
     end
   end
