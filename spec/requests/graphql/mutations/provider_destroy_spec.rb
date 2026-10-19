@@ -25,6 +25,16 @@ RSpec.describe Mutations::ProviderDestroy, type: :request, graphql: :mutation do
       end
     end
 
+    context "when the provider has editors" do
+      let_it_be(:editor, refind: true) { FactoryBot.create(:user).tap { provider.assign_editor!(_1) } }
+
+      it "reverts them to unassigned" do
+        expect_request! do |req|
+          req.effect! change { editor.reload.kind }.from("editor").to("unassigned")
+        end
+      end
+    end
+
     context "when the provider has solutions" do
       before { FactoryBot.create :solution, provider: }
 
