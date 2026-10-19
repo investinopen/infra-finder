@@ -24,6 +24,7 @@ RSpec.describe "Query.solutions", type: :request, graphql: true do
           provider { name }
           drafts(perPage: 5) { nodes { identifier } }
           revisions(perPage: 5) { nodes { kind } }
+          canCreateDraft { value }
         }
       }
     }
@@ -58,8 +59,10 @@ RSpec.describe "Query.solutions", type: :request, graphql: true do
     context "when filtering to editable solutions" do
       let(:filters) { { editable_by_viewer: true } }
 
-      it "lists only their own" do
+      it "lists only their own, which they can draft changes to" do
         expect(names).to contain_exactly(own_unpublished.name)
+
+        expect(graphql_response(:data, :solutions, :nodes, 0)).to include("canCreateDraft" => { "value" => true })
       end
     end
   end
