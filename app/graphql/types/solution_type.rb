@@ -42,6 +42,10 @@ module Types
       description "The intake the solution was created from, if any."
     end
 
+    expose_authorization_rule :create_draft?, <<~TEXT
+    Whether the current user can start a draft of changes to this solution.
+    TEXT
+
     load_association! :solution_intake, as: :intake
   end
 end

@@ -229,10 +229,10 @@ RSpec.describe "Admin Solution Drafts", type: :request, default_auth: true do
         solution_draft.request_review!
       end
 
-      it "handles failures gracefully" do
+      it "is not authorized" do
         sign_in editor
 
-        expect_request_to_fail!(unauthorized: false)
+        expect_request_to_fail!(unauthorized: true)
       end
     end
   end
@@ -278,10 +278,10 @@ RSpec.describe "Admin Solution Drafts", type: :request, default_auth: true do
         solution_draft.request_revision!
       end
 
-      it "handles failures gracefully" do
+      it "is not authorized" do
         sign_in super_admin
 
-        expect_request_to_fail!(unauthorized: false)
+        expect_request_to_fail!(unauthorized: true)
       end
     end
   end
@@ -327,10 +327,10 @@ RSpec.describe "Admin Solution Drafts", type: :request, default_auth: true do
         solution_draft.approve!
       end
 
-      it "handles failures gracefully" do
+      it "is not authorized" do
         sign_in super_admin
 
-        expect_request_to_fail!(unauthorized: false)
+        expect_request_to_fail!(unauthorized: true)
       end
     end
   end
@@ -376,10 +376,10 @@ RSpec.describe "Admin Solution Drafts", type: :request, default_auth: true do
         solution_draft.reject!
       end
 
-      it "handles failures gracefully" do
+      it "is not authorized" do
         sign_in super_admin
 
-        expect_request_to_fail!(unauthorized: false)
+        expect_request_to_fail!(unauthorized: true)
       end
     end
   end
