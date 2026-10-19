@@ -10,6 +10,7 @@ require "pathname"
 
 class PruneBinstubs
   ALLOWED = %w[
+    docker-entrypoint
     good_job
     puma
     rails
