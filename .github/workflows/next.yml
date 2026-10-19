@@ -1,0 +1,21 @@
+name: next
+
+on:
+  push:
+    branches: [next]
+  workflow_dispatch:
+
+jobs:
+  docker:
+    uses: ./.github/workflows/docker.yml
+    with:
+      ref: next
+    secrets: inherit
+
+  deploy:
+    needs: docker
+    uses: ./.github/workflows/deploy.yml
+    with:
+      destination: next
+      version: ${{ needs.docker.outputs.sha }}
+    secrets: inherit

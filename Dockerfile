@@ -100,6 +100,8 @@ RUN --mount=type=cache,target=/root/.yarn/berry/cache \
 
 FROM prod-base AS prod
 
+LABEL service="infra-finder"
+
 COPY --from=gems /usr/local/bundle /usr/local/bundle
 COPY --chown=app:app --from=yarn /srv/app/node_modules /srv/app/node_modules
 COPY --chown=app:app . /srv/app

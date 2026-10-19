@@ -1,0 +1,20 @@
+servers:
+  web:
+    hosts:
+      - 138.197.83.67
+  worker:
+    hosts:
+      - 138.197.83.67
+
+proxy:
+  host: next.infrafinder.instance.works
+
+env:
+  clear:
+    RAILS_ENV: staging
+    LOCATIONS_ROOT: https://next.infrafinder.instance.works
+    # Keeps cookies from colliding with the other environments under
+    # infrafinder.instance.works.
+    SESSION_BASE_KEY: _infra_sess_next
+    UPLOAD_BUCKET: infrafinder-next
+    UPLOAD_CDN_HOST: https://infrafinder-next.nyc3.cdn.digitaloceanspaces.com
