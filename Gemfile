@@ -105,6 +105,7 @@ gem "rollbar", "~> 3.7"
 gem "sucker_punch", "~> 3.3"
 
 group :development do
+  gem "kamal", "~> 2.12", require: false
   gem "rubocop", "1.92.0", require: false
   gem "rubocop-factory_bot", "2.28.0", require: false
   gem "rubocop-rails", "2.38.0", require: false

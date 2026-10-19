@@ -1,0 +1,63 @@
+name: "Deploy with Kamal"
+
+on:
+  workflow_call:
+    inputs:
+      destination:
+        description: "Kamal destination (next or stg)"
+        required: true
+        type: string
+      version:
+        description: "Commit SHA of the image to deploy"
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      destination:
+        description: "Kamal destination"
+        required: true
+        type: choice
+        options:
+          - next
+          - stg
+      version:
+        description: "Commit SHA of the image to deploy; it must already be in the registry"
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.destination }}
+      url: https://${{ inputs.destination }}.infrafinder.instance.works
+    concurrency:
+      group: kamal-deploy-${{ inputs.destination }}
+      cancel-in-progress: false
+    steps:
+      - name: "Checkout deployed commit"
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.version }}
+
+      - name: "Setup"
+        uses: ./.github/actions/setup
+
+      - name: "Install Doppler CLI"
+        uses: dopplerhq/cli-action@v4
+
+      - name: "Fetch SSH credentials"
+        id: doppler
+        uses: dopplerhq/secrets-fetch-action@v2.0.0
+        with:
+          doppler-token: ${{ secrets.DOPPLER_TOKEN }}
+
+      - name: "Set up SSH agent"
+        uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ steps.doppler.outputs.KAMAL_SSH_PRIVATE_KEY }}
+
+      - name: "Deploy with Kamal"
+        env:
+          DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
+        run: bin/kamal deploy -d ${{ inputs.destination }} --skip-push --version=${{ inputs.version }}
