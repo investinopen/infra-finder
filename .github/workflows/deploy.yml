@@ -32,7 +32,8 @@ jobs:
       name: ${{ inputs.destination }}
       url: https://${{ inputs.destination }}.infrafinder.instance.works
     concurrency:
-      group: kamal-deploy-${{ inputs.destination }}
+      # next and stg share a droplet, and Kamal's prune step touches both.
+      group: kamal-deploy-preprd
       cancel-in-progress: false
     steps:
       - name: "Checkout deployed commit"
