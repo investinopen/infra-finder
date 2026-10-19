@@ -3,6 +3,7 @@
 # The primary content model for this application.
 class Solution < ApplicationRecord
   include ActiveSnapshot
+  include Commentable
   include SolutionInterface
   include SluggedByName
   include TimestampScopes

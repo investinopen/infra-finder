@@ -5,6 +5,7 @@
 # @see SolutionDrafts::StateMachine
 # @see SolutionDraftTransition
 class SolutionDraft < ApplicationRecord
+  include Commentable
   include SolutionInterface
   include TimestampScopes
   include UsesStatesman

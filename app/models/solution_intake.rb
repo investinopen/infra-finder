@@ -7,6 +7,7 @@
 class SolutionIntake < ApplicationRecord
   extend FriendlyId
 
+  include Commentable
   include SolutionImportable
   include SolutionInterface
   include Notifiable

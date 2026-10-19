@@ -8,6 +8,7 @@ module Types
     own unpublished ones.
     TEXT
 
+    implements ::Types::CommentableType
     implements ::Types::SolutionInterfaceType
 
     field :identifier, String, null: false do
