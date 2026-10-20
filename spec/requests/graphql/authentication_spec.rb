@@ -33,15 +33,32 @@ RSpec.describe "GraphQL authentication", type: :request, graphql: true do
     expect(response.parsed_body).to include_json(errors: [{ message: server_message(:expired) }])
   end
 
+  it "rejects a token whose token session has ended" do
+    token = token_helper.build_token(from_user: admin_user)
+
+    OAuth::AccessToken.update_all(session_started_at: (OAuth::AccessToken::SESSION_LIFETIME + 1.day).ago)
+
+    request_with! "Bearer #{token}"
+
+    expect(response).to have_http_status(:unauthorized)
+    expect(response.parsed_body).to include_json(errors: [{ message: server_message(:expired) }])
+  end
+
   it "rejects a revoked token" do
-    request_with! "Bearer #{token_helper.build_token(from_user: admin_user, allowlisted: false)}"
+    request_with! "Bearer #{token_helper.build_token(from_user: admin_user, revoked: true)}"
 
     expect(response).to have_http_status(:unauthorized)
     expect(response.parsed_body).to include_json(errors: [{ message: server_message(:invalid) }])
   end
 
-  it "rejects a token signed with another secret" do
-    request_with! "Bearer #{token_helper.build_token(from_user: admin_user, with_random_secret: true)}"
+  it "rejects an unknown token" do
+    request_with! "Bearer #{SecureRandom.hex(32)}"
+
+    expect(response).to have_http_status(:unauthorized)
+  end
+
+  it "rejects a token without the openid scope" do
+    request_with! "Bearer #{token_helper.build_token(from_user: admin_user, scopes: "profile")}"
 
     expect(response).to have_http_status(:unauthorized)
   end

@@ -7,12 +7,14 @@ class User < ApplicationRecord
   include Notifiable
   include TimestampScopes
   include UsesStatesman
-  include Devise::JWT::RevocationStrategies::Allowlist
 
   devise :database_authenticatable,
     :recoverable, :rememberable, :validatable,
-    :confirmable, :lockable, :timeoutable, :trackable,
-    :jwt_authenticatable, jwt_revocation_strategy: self
+    :confirmable, :lockable, :timeoutable, :trackable
+
+  # A Rack env key that, when set, makes a sign-out keep the user's token
+  # sessions (see the Warden hook in `config/initializers/devise.rb`).
+  KEEP_TOKEN_SESSIONS = "infra_finder.keep_token_sessions"
 
   has_state_machine!
 
@@ -50,6 +52,8 @@ class User < ApplicationRecord
 
   has_many :created_invitations, inverse_of: :admin, foreign_key: :admin_id, class_name: "Invitation", dependent: :nullify
   has_one :invitation, inverse_of: :user, dependent: :destroy
+  has_many :oauth_access_grants, class_name: "OAuth::AccessGrant", foreign_key: :resource_owner_id, inverse_of: false, dependent: :delete_all
+  has_many :oauth_access_tokens, class_name: "OAuth::AccessToken", foreign_key: :resource_owner_id, inverse_of: false, dependent: :delete_all
   has_many :provider_editor_assignments, inverse_of: :user, dependent: :destroy
   has_many :solution_drafts, inverse_of: :user, dependent: :nullify
   has_many :solution_editor_assignments, inverse_of: :user, dependent: :destroy
@@ -63,7 +67,7 @@ class User < ApplicationRecord
 
   before_validation :derive_kind!
 
-  after_update :revoke_api_tokens!, if: :saved_change_to_encrypted_password?
+  after_update :revoke_token_sessions!, if: :saved_change_to_encrypted_password?
 
   after_save :maybe_auto_accept_terms!
   after_save :maybe_accept_terms!
@@ -120,11 +124,26 @@ class User < ApplicationRecord
     provider_editor_assignments.exists?
   end
 
+  # Every sign-in is remembered, so a sign-in session outlives Devise's
+  # `timeoutable` and lasts `Devise.remember_for`. This overrides the
+  # `rememberable` accessor that the sign-in form would otherwise set.
+  #
+  # @return [true]
+  def remember_me = true
+
+  # Sign the user out of every token session, on every device. Happens on any
+  # sign-out and on a password change.
+  #
+  # @return [void]
+  def revoke_token_sessions!
+    OAuth::AccessToken.revoke_all_for_user(self)
+  end
+
   # @see Uploads::EncodeToken
-  # @param [String] session_jti the `jti` of the API token the upload token is issued under
+  # @param [String] session_id the token session the upload token is issued under
   # @return [String, nil]
-  def upload_token(session_jti:)
-    call_operation("uploads.encode_token", self, session_jti:).value_or(nil)
+  def upload_token(session_id:)
+    call_operation("uploads.encode_token", self, session_id:).value_or(nil)
   end
 
   # @param [Solution] solution
@@ -179,13 +198,6 @@ class User < ApplicationRecord
     return if in_state?(:accepted_terms) || has_no_admin_access?
 
     transition_to!(:accepted_terms)
-  end
-
-  # A password change signs the user out of the GraphQL API everywhere.
-  #
-  # @return [void]
-  def revoke_api_tokens!
-    call_operation!("users.tokens.revoke_all", self)
   end
 
   # @param [Role] _role

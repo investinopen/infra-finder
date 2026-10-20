@@ -40,7 +40,7 @@ module Types
     end
 
     # @return [Users::UploadAccess]
-    def upload_access = Users::UploadAccess.new(context[:current_user], session_jti: context[:token_payload]&.dig("jti"))
+    def upload_access = Users::UploadAccess.new(context[:current_user], session_id: context[:access_token]&.session_id)
 
     # @return [User, AnonymousUser]
     def viewer

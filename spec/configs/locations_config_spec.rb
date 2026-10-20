@@ -30,4 +30,18 @@ RSpec.describe LocationsConfig do
       it { expect(described_class.admin_spa_origin).to eq "http://localhost:5173" }
     end
   end
+
+  describe ".admin_spa_home_url" do
+    context "without a trailing slash" do
+      let(:admin_spa) { "http://localhost:5173" }
+
+      it { expect(described_class.admin_spa_home_url).to eq "http://localhost:5173/" }
+    end
+
+    context "with a trailing slash" do
+      let(:admin_spa) { "https://example.org/admin/" }
+
+      it { expect(described_class.admin_spa_home_url).to eq "https://example.org/admin/" }
+    end
+  end
 end

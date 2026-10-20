@@ -1,7 +1,24 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :users, ActiveAdmin::Devise.config
+  devise_for :users, path: "", path_names: { sign_in: "sign-in", sign_out: "sign-out" }, controllers: {
+    confirmations: "users/confirmations",
+    passwords: "users/passwords",
+    sessions: "users/sessions",
+    unlocks: "users/unlocks",
+  }
+
+  use_doorkeeper do
+    controllers authorizations: "oauth/authorizations"
+
+    skip_controllers :applications, :authorized_applications, :token_info
+  end
+
+  use_doorkeeper_openid_connect
+
+  get "/oauth/logout", to: "oauth/sessions#destroy", as: :oauth_logout
+
+  get "/admin/login", to: redirect("/sign-in")
 
   ActiveAdmin.routes(self)
 

@@ -121,6 +121,9 @@ ActiveAdmin.setup do |config|
   #
   # Default:
   # config.logout_link_method = :get
+  #
+  # Devise only routes sign-out via DELETE (`config.sign_out_via`).
+  config.logout_link_method = :delete
 
   # == Root
   #

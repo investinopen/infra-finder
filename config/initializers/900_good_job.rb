@@ -36,10 +36,10 @@ Rails.application.configure do
       description: "Prune stale comparison shares",
       set: { priority: 300 },
     },
-    allowlisted_jwt_prune: {
+    oauth_prune: {
       cron: "45 8 * * *",
-      class: "AllowlistedJwts::PruneJob",
-      description: "Prune expired API tokens",
+      class: "OAuth::PruneJob",
+      description: "Prune unusable OAuth codes and tokens",
       set: { priority: 500 },
     },
     session_prune: {
