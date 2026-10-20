@@ -3,6 +3,11 @@
 namespace :app do
   desc "Generate static error pages from Rails templates"
   task static_error_pages: :environment do
+    # The pages are built once into an image that every destination shares,
+    # and each destination pushes assets to its own CDN. Serve them from the
+    # app instead.
+    ApplicationController.asset_host = nil
+
     renderer = ApplicationController.renderer.new(
       http_host: LocationsConfig.root_domain,
       https: !Rails.env.local?,
