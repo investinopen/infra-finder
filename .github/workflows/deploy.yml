@@ -61,4 +61,6 @@ jobs:
       - name: "Deploy with Kamal"
         env:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
+          # Runners aren't on the tailnet, so connect over public SSH.
+          DEPLOY_HOST: ${{ inputs.destination }}.infrafinder.instance.works
         run: bin/kamal deploy -d ${{ inputs.destination }} --skip-push --version=${{ inputs.version }}

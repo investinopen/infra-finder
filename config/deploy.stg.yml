@@ -1,10 +1,10 @@
 servers:
   web:
     hosts:
-      - 138.197.83.67
+      - <%= ENV.fetch("DEPLOY_HOST", "ioi-infrafinder-preprd") %>
   worker:
     hosts:
-      - 138.197.83.67
+      - <%= ENV.fetch("DEPLOY_HOST", "ioi-infrafinder-preprd") %>
 
 proxy:
   host: stg.infrafinder.instance.works
