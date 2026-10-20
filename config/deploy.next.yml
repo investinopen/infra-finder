@@ -13,6 +13,8 @@ env:
   clear:
     RAILS_ENV: staging
     LOCATIONS_ROOT: https://next.infrafinder.instance.works
+    # Until the admin SPA is deployed, developers run it locally against next.
+    LOCATIONS_ADMIN_SPA: http://localhost:3000
     # Keeps cookies from colliding with the other environments under
     # infrafinder.instance.works.
     SESSION_BASE_KEY: _infra_sess_next
