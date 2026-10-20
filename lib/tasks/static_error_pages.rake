@@ -5,7 +5,7 @@ namespace :app do
   task static_error_pages: :environment do
     renderer = ApplicationController.renderer.new(
       http_host: LocationsConfig.root_domain,
-      https: Rails.env.production?,
+      https: !Rails.env.local?,
       # Provide a bare warden proxy so devise helpers (e.g. current_user)
       # work outside of a real request. No strategies will succeed, so
       # pages render as an anonymous user.
