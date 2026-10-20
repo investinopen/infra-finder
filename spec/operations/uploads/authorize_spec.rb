@@ -24,9 +24,9 @@ RSpec.describe Uploads::Authorize, type: :operation do
     end
   end
 
-  # The API token (session) an upload token is issued under.
-  def session_jti_for(user)
-    Warden::JWTAuth::TokenDecoder.new.call(token_helper.build_token(from_user: user))["jti"]
+  # The token session an upload token is issued under.
+  def session_id_for(user)
+    token_helper.build_access_token(from_user: user).session_id
   end
 
   specify "sanity check" do
@@ -80,11 +80,11 @@ RSpec.describe Uploads::Authorize, type: :operation do
   end
 
   context "when authenticating from an upload token header" do
-    let(:session_jti) { session_jti_for(current_user) }
+    let(:session_id) { session_id_for(current_user) }
 
     # Issued before each example's `before` hooks run, as a client would hold it.
     let!(:upload_token) do
-      Common::Container["tokens.encode"].(sub: current_user.id, sid: session_jti, aud: "upload", exp: 1.hour.from_now.to_i).value!
+      Common::Container["tokens.encode"].(sub: current_user.id, sid: session_id, aud: "upload", exp: 1.hour.from_now.to_i).value!
     end
 
     context "when the user has upload access" do
@@ -98,7 +98,13 @@ RSpec.describe Uploads::Authorize, type: :operation do
     end
 
     context "when the session it was issued under has been revoked" do
-      before { current_user.allowlisted_jwts.where(jti: session_jti).delete_all }
+      before { OAuth::AccessToken.in_session(session_id).update_all(revoked_at: Time.current) }
+
+      include_examples "an unauthorized result"
+    end
+
+    context "when the session it was issued under has passed its lifetime" do
+      before { OAuth::AccessToken.in_session(session_id).update_all(session_started_at: 31.days.ago) }
 
       include_examples "an unauthorized result"
     end
@@ -119,7 +125,7 @@ RSpec.describe Uploads::Authorize, type: :operation do
 
     context "when the upload token has expired" do
       let(:upload_token) do
-        Common::Container["tokens.encode"].(sub: current_user.id, sid: session_jti, aud: "upload", exp: 1.minute.ago.to_i).value!
+        Common::Container["tokens.encode"].(sub: current_user.id, sid: session_id, aud: "upload", exp: 1.minute.ago.to_i).value!
       end
 
       include_examples "an unauthorized result"

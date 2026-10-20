@@ -65,6 +65,7 @@ env:
     - S3_SECRET_ACCESS_KEY
     - SECURITY_HASH_SALT
     - SECURITY_NODE_SALT
+    - OIDC_SIGNING_KEY
 
 ssh:
   user: root

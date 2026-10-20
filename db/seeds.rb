@@ -4,6 +4,8 @@ warn "Seeding controlled vocabularies"
 
 InfraFinder::Container["system.initial_seed"].().value!
 
+InfraFinder::Container["oauth.sync_applications"].().value!
+
 Shrine.logger.level = :FATAL
 
 unless Solution.exists?

@@ -13,7 +13,7 @@ RSpec.describe "Query.uploadAccess", type: :request, graphql: true do
     it "issues an upload token for the viewer" do
       make_default_request!
 
-      expect(decoded_token).to include("sub" => current_user.id, "aud" => "upload", "sid" => Warden::JWTAuth::TokenDecoder.new.call(token)["jti"])
+      expect(decoded_token).to include("sub" => current_user.id, "aud" => "upload", "sid" => OAuth::AccessToken.by_token(token).session_id)
       expect(graphql_response(:data, :uploadAccess, :canUpload, :value)).to be true
     end
   end

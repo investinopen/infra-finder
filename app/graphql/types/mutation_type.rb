@@ -69,29 +69,13 @@ module Types
 
     field :solutions_unpublish, mutation: Mutations::SolutionsUnpublish
 
-    field :user_confirm, mutation: Mutations::UserConfirm
-
     field :user_create, mutation: Mutations::UserCreate
 
     field :user_destroy, mutation: Mutations::UserDestroy
 
-    field :user_request_password_reset, mutation: Mutations::UserRequestPasswordReset
-
-    field :user_resend_confirmation, mutation: Mutations::UserResendConfirmation
-
-    field :user_reset_password, mutation: Mutations::UserResetPassword
-
-    field :user_sign_in, mutation: Mutations::UserSignIn
-
-    field :user_unlock, mutation: Mutations::UserUnlock
-
     field :user_update, mutation: Mutations::UserUpdate
 
     field :viewer_accept_terms, mutation: Mutations::ViewerAcceptTerms, terms_exempt: true
-
-    field :viewer_refresh_token, mutation: Mutations::ViewerRefreshToken, terms_exempt: true
-
-    field :viewer_sign_out, mutation: Mutations::ViewerSignOut, terms_exempt: true
 
     field :viewer_update_notifications, mutation: Mutations::ViewerUpdateNotifications
   end

@@ -22,7 +22,7 @@ RSpec.describe InvitationsMailer, type: :mailer do
     end
 
     it "includes the reset password URL" do
-      expect(mail.body.encoded).to include("reset_password_token=#{token}")
+      expect(mail.body.encoded).to include("/password/edit?reset_password_token=#{token}")
     end
 
     it "includes the provider name" do

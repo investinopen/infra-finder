@@ -3,41 +3,38 @@
 module Users
   # Authenticate a GraphQL API request from its `Authorization: Bearer` header.
   #
-  # Requests without the header are anonymous. A token must decode, be on the
-  # allowlist, and belong to a user who may still sign in.
+  # Requests without the header are anonymous. A token must be a current
+  # Doorkeeper access token with the `openid` scope, and belong to a user who
+  # may still sign in.
   #
   # @see GraphQLController#authenticate_user!
   class Authenticate
     include Dry::Monads[:result]
 
-    BEARER = /\ABearer\s+(?<token>\S+)\z/i
-
     # @param [Hash] env a Rack environment, generally acquired from `request.env`
-    # @return [Dry::Monads::Success((User, Hash))] the user and the decoded token payload
+    # @return [Dry::Monads::Success((User, OAuth::AccessToken))] the user and their access token
     # @return [Dry::Monads::Success((AnonymousUser, nil))] when no token was provided
     # @return [Dry::Monads::Failure(:expired)]
     # @return [Dry::Monads::Failure(:invalid)]
     # @return [Dry::Monads::Failure(:inactive)] when the user can no longer sign in
     def call(env)
-      header = env["HTTP_AUTHORIZATION"]
+      return Success[AnonymousUser.new, nil] if env["HTTP_AUTHORIZATION"].blank?
 
-      return Success[AnonymousUser.new, nil] if header.blank?
+      # This also revokes the previous refresh token in the token session,
+      # now that its replacement is in use.
+      token = Doorkeeper::OAuth::Token.authenticate(ActionDispatch::Request.new(env), :from_bearer_authorization)
 
-      token = BEARER.match(header)&.[](:token)
+      return Failure[:invalid] if token.nil? || token.revoked? || !token.includes_scope?("openid")
 
-      return Failure[:invalid] if token.blank?
+      return Failure[:expired] if token.expired? || token.session_ended?
 
-      payload = Warden::JWTAuth::TokenDecoder.new.call(token)
+      user = User.find_by(id: token.resource_owner_id)
 
-      user = Warden::JWTAuth::UserDecoder.new.call(token, :user, nil)
+      return Failure[:invalid] if user.nil?
 
       return Failure[:inactive] unless Users::Access.allowed?(user)
 
-      Success[user, payload]
-    rescue JWT::ExpiredSignature
-      Failure[:expired]
-    rescue JWT::DecodeError
-      Failure[:invalid]
+      Success[user, token]
     end
   end
 end

@@ -9,14 +9,14 @@ module Users
     include Dry::Initializer[undefined: false].define -> do
       param :user, ::Users::Types::Current, default: ::Users::Types::DEFAULT
 
-      option :session_jti, ::Users::Types::String.optional, default: proc {}
+      option :session_id, ::Users::Types::String.optional, default: proc {}
     end
 
     delegate :policy_class, to: :class
 
     # @return [String, nil]
     def token
-      user.upload_token(session_jti:) if user.has_any_upload_access?
+      user.upload_token(session_id:) if user.has_any_upload_access?
     end
 
     class << self

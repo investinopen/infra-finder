@@ -164,13 +164,17 @@ Devise.setup do |config|
 
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.
-  # config.remember_for = 2.weeks
+  #
+  # Every sign-in is remembered (see `User#remember_me`), and the period is not
+  # extended, so a sign-in session lasts at most this long. Token sessions have
+  # the same limit (`OAuth::AccessToken::SESSION_LIFETIME`).
+  config.remember_for = 30.days
 
   # Invalidates all the remember me tokens when the user signs out.
   config.expire_all_remember_me_on_sign_out = true
 
   # If true, extends the user's remember period when remembered via cookie.
-  # config.extend_remember_period = false
+  config.extend_remember_period = false
 
   # Options to be passed to the created cookie. For instance, you can set
   # secure: true in order to force SSL only cookies.
@@ -310,16 +314,11 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
+end
 
-  # ==> Configuration for :jwt_authenticatable (devise-jwt)
-  #
-  # Tokens are issued and revoked by GraphQL mutations rather than Devise's
-  # session routes, so no requests dispatch or revoke them automatically.
-  # The signing secret is derived from `secret_key_base`.
-  config.jwt do |jwt|
-    jwt.secret = Rails.application.key_generator.generate_key("devise-jwt", 64).unpack1("H*")
-    jwt.expiration_time = 1.day.to_i
-    jwt.dispatch_requests = []
-    jwt.revocation_requests = []
-  end
+# Any sign-out, from the admin SPA or ActiveAdmin, ends the user's token
+# sessions on every device. `expire_all_remember_me_on_sign_out` does the same
+# for remembered sign-in sessions.
+Warden::Manager.before_logout do |user, auth, _opts|
+  user.revoke_token_sessions! if user.is_a?(User) && !auth.env[User::KEEP_TOKEN_SESSIONS]
 end

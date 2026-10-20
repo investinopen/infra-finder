@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= content_for?(:title) ? yield(:title) : "Infra Finder" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= favicon_link_tag "favicon/favicon.ico", rel: "icon" %>
+    <%= stylesheet_link_tag "accounts" %>
+  </head>
+  <body class="accounts">
+    <main id="main">
+      <% flash.each do |type, message| %>
+        <p class="accounts__flash accounts__flash--<%= type %>" role="status"><%= message %></p>
+      <% end %>
+
+      <%= yield %>
+    </main>
+  </body>
+</html>

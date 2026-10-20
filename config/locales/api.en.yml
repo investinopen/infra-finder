@@ -7,7 +7,6 @@ en:
   server_messages:
     auth:
       forbidden: "You are not authorized to perform this action."
-      throttled: "Too many attempts. Please wait and try again."
       terms_not_accepted: "You must accept the terms and conditions before continuing."
     errors:
       something_went_wrong: "Something went wrong."

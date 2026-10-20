@@ -21,6 +21,7 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym "GraphQL"
   inflect.acronym "HTML"
   inflect.acronym "JSON"
+  inflect.acronym "OAuth"
   inflect.acronym "URL"
   inflect.acronym "APISchema"
   inflect.acronym "VOG"

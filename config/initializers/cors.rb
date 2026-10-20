@@ -5,7 +5,7 @@ module CORSHelper
   S3MP_HEADERS = %w[Authorization Content-Type x-amz-content-sha256 x-amz-date Upload-Token].freeze
   S3MP_EXPOSED = %w[ETag].freeze
   # Paths that only the admin SPA's origin may call.
-  ADMIN_SPA_PATHS = %r{\A/(?:graphql|files)(?:/|\z)}
+  ADMIN_SPA_PATHS = %r{\A/(?:graphql|files|oauth|\.well-known)(?:/|\z)}
 
   TUS_EXPOSED = %w[
     Location
@@ -15,9 +15,20 @@ module CORSHelper
 end
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
-  # The GraphQL API and tus uploads only accept the admin SPA's origin, when one is configured.
+  # The GraphQL API, tus uploads, and the OpenID Provider endpoints the SPA
+  # calls with fetch only accept the admin SPA's origin, when one is configured.
   allow do
     origins LocationsConfig.admin_spa_origin
+
+    resource "/.well-known/openid-configuration", headers: :any, methods: %i[get options]
+
+    resource "/oauth/discovery/keys", headers: :any, methods: %i[get options]
+
+    resource "/oauth/revoke", headers: :any, methods: %i[post options]
+
+    resource "/oauth/token", headers: :any, methods: %i[post options]
+
+    resource "/oauth/userinfo", headers: :any, methods: %i[get post options]
 
     resource "/graphql", headers: :any, methods: %i[post options]
 

@@ -1,0 +1,35 @@
+# Development and test values only. Staging and production must supply
+# the key via the OIDC_SIGNING_KEY environment variable.
+development: &local
+  signing_key: |
+    -----BEGIN PRIVATE KEY-----
+    MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCm3CcBtUyNvHUi
+    kRfYB3vgtt1uARZ0PVRneh5uzzFYV+tuHMgfanKoVbW6A2hkoYMZYx4X74Jsr0z5
+    bC8gb8JWvjvJz/+263LrluLRNl5w1YQPQvJTeFvP1M7H3GSVID/jJKu2mxUM/T6A
+    W9ngV47636kwI7Twqsm4HHbSuRAUOZGo2TFCoEFq8W1wbqAR8RMwx8MJzCAAfphW
+    ZoREUBeEaIurKCsvm47smb4uBLooF8TkfGS7ht71EMYaMAuOQ6D6xnfU7/OEy1qx
+    E8lE2aRAmT5aVkbBXfqhIrU29yRiWGmRT2RkDM95DSACf5WEzSpZsC8HGsjmh0KH
+    NHPgTJvZAgMBAAECggEAAeaPES9p/FFRuj+R2HWZXSFoG0kq4s8SB422DAgTJVD3
+    Dw2H4Ae735v+UmyYg1Dtp9vfq2EgiLFkfJDVZpavTYKkNrPGU2SSLgnNcpmecMWV
+    2ACotvevgAoKAu/JO4OfBqzTweQ5VKkLzbV+IVaN++CRUkmN1ZH0c0LrvZG7E6fh
+    gXnATwGunpqP2/OzEr0ukDQbm35/PbIjaFYYj9sYGoljpSnRGf+OMZiGKxKOKV2K
+    hZ0sK+5C1Xf3X2enxd+1tl+fDy3BdgOE1wrdsgK6e1oi09uNV51Mjv1+U1DPylR1
+    TqHSW21yOAhNH/XHir8c5VgLl+ZX+jMi3jmYootuuwKBgQDU6IxcaO0aVzPmNHpo
+    9OYwm5BwFP1TqInrWByZMTY5BQx6OM3dGJJFFmJu/vwgFS9pJNFmcleIlP0afwjM
+    0/cGbghYtu8M3QnZ+iBT1qwrJCOsE7GXk+jCbQLp+ycmAnQdubevGmhvFVUaccf0
+    sYnmoWeHvoV9s0Rsd+NbdrNKqwKBgQDIobDe4OeUCDCYYEjpSeEdb29JfZo/rLOn
+    g9w24SaSUkQsAYpleQ+9ArkE58xWMz7Q+pX59ruBrXoXKPJfS+FoSAqeagbau09b
+    JHKbBh+WO6A0fFqKxPxykxlXYzPsJolfL9qVexeNUjjpLwOWW1q05x1LOYQEin+v
+    A1OLPzkziwKBgHBGMb6Jln9NfRDom6S9gKYhYwm4B98WAaUZ0fr2+KEZCHtreSQe
+    0QOdykq+LDa+9UF9KO/dXEuqRc6zLvDU1m+Nltkxnt4psghA3stXaXNWm3ki6YQF
+    e7kLw32f9AUXRiRmy3aLdocduMM5PTjMZuw4MWBkGAExh+OrVTnmXqYBAoGBAIcd
+    nWf8PvlKqq9z6KZzws94BJKRrBfFzxe5jczHxJo2HQMl5naAGUFJXCEZmltTF7LV
+    j7tPlue2VMrUIKZdC+iW28/jx8n263KOEUCl1w/uB+5Q8QkTsI/Y0PAxNv6K1Wjt
+    aV/SDgJ2pS0lJF1WGLhMDUZj7azBOUw8CT91zKgRAoGBAJroftbPTkuf+GDEaPcR
+    fxCHQVyg5NWu/vSRKNmWOY0y5uGf5JIsr5Pgmnff+S6lQQeOmwHwy8bvBAghS8Ko
+    Vffs73cC3OyWPvISLxR+hr7DNgH2boyq8wfnLajrRMwwXgVdC/oYqJT/cckJo1gk
+    IfCb8vmWF/KV4DM3u/xvp4b0
+    -----END PRIVATE KEY-----
+
+test:
+  <<: *local

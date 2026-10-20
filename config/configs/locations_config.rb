@@ -8,13 +8,20 @@ class LocationsConfig < ApplicationConfig
 
   attr_config :root, :instructions
 
-  # The base URL of the admin SPA. When set, auth emails link to the SPA
-  # instead of the Devise HTML pages.
+  # The base URL of the admin SPA, an OpenID Connect client of this app.
   attr_config :admin_spa
 
-  # @see AuthLinks
   # @return [Boolean]
   def admin_spa? = admin_spa.present?
+
+  # The SPA's redirect URI and post-logout redirect URI. oidc-spa uses its
+  # home URL, with a trailing slash, for both.
+  #
+  # @see OAuth::SyncApplications
+  # @return [String]
+  def admin_spa_home_url
+    admin_spa.end_with?("/") ? admin_spa : "#{admin_spa}/"
+  end
 
   # The CORS origin of the admin SPA, or `"*"` when none is configured.
   #
@@ -23,22 +30,6 @@ class LocationsConfig < ApplicationConfig
     return "*" unless admin_spa?
 
     URI(admin_spa).origin
-  end
-
-  # Build a URL under {#admin_spa}, keeping any path it already has
-  # (e.g. `https://example.org/admin` + `/confirm` => `https://example.org/admin/confirm`).
-  #
-  # @param [String] path
-  # @param [{ Symbol => String }] query
-  # @return [String]
-  def admin_spa_url(path, **query)
-    base = admin_spa.end_with?("/") ? admin_spa : "#{admin_spa}/"
-
-    uri = URI.join(base, path.delete_prefix("/"))
-
-    uri.query = query.to_query if query.any?
-
-    uri.to_s
   end
 
   memoize def root_domain

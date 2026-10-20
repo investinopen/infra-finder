@@ -1,12 +1,12 @@
 default: &default
   root: "http://localhost:6856"
   instructions: "https://hackmd.io/@investinopen/rkPyYb411g"
-  # The base URL of the admin SPA. When set, auth emails link to the SPA
-  # instead of the Devise HTML pages.
+  # The base URL of the admin SPA, an OpenID Connect client of this app.
   admin_spa: ""
 
 development:
   <<: *default
+  admin_spa: "http://localhost:3000"
 
 test:
   <<: *default

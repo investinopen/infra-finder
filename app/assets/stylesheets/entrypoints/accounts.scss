@@ -1,0 +1,171 @@
+// Styles for the account pages (sign-in, password reset, confirmation,
+// unlock). See app/views/layouts/accounts.html.erb. Colors, type, and
+// sizes follow the admin SPA (infra-finder-admin-client).
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+@font-face {
+  font-family: "BW Gradual";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/BwGradual-Bold.woff2) format("woff2"),
+    url(/BwGradual-Bold.woff) format("woff");
+}
+
+:root {
+  --color-black: oklch(0% 0 0);
+  --color-white: oklch(100% 0 0);
+  --color-border: oklch(88.5% 0 0);
+  --color-text-muted: oklch(49.2% 0 0);
+  --color-danger: oklch(47.2% 0.184 14.6);
+  --color-danger-tint: oklch(93% 0.035 14.6);
+  --color-accent-tint: oklch(93.6% 0.081 166.9);
+  --font-heading: "BW Gradual", "Inter", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --radius-xs: 0.375rem;
+  --radius-sm: 0.75rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body.accounts {
+  display: grid;
+  place-items: center;
+  min-block-size: 100vh;
+  margin: 0;
+  padding: 1rem;
+  background-color: var(--color-black);
+  color: var(--color-black);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.0156rem;
+}
+
+.accounts main {
+  inline-size: min(100%, 24rem);
+  padding: 2rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-white);
+
+  h2 {
+    margin: 0 0 1.5rem;
+    font-family: var(--font-heading);
+    font-size: 1.625rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.0313rem;
+  }
+
+  form {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .field {
+    display: grid;
+    gap: 0.5rem;
+
+    br {
+      display: none;
+    }
+
+    em {
+      color: var(--color-text-muted);
+      font-size: 0.75rem;
+      font-style: normal;
+    }
+  }
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  input[type="email"],
+  input[type="password"],
+  input[type="text"] {
+    inline-size: 100%;
+    min-block-size: 2.375rem;
+    padding-inline: 0.75rem;
+    border: 0.0625rem solid var(--color-border);
+    border-radius: var(--radius-xs);
+    background-color: var(--color-white);
+    color: inherit;
+    font: inherit;
+    font-size: 0.875rem;
+
+    &:focus-visible {
+      outline: 0.125rem solid var(--color-black);
+      outline-offset: 0.0625rem;
+    }
+  }
+
+  input[type="submit"] {
+    inline-size: 100%;
+    min-block-size: 2.375rem;
+    margin-block-start: 0.5rem;
+    border: 0.0625rem solid var(--color-black);
+    border-radius: var(--radius-xs);
+    background-color: var(--color-black);
+    color: var(--color-white);
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:hover {
+      background-color: color-mix(in oklch, var(--color-black) 80%, var(--color-white));
+    }
+  }
+
+  // Devise's shared links, separated by <br>s.
+  > a {
+    display: inline-block;
+    margin-block-start: 0.75rem;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+
+    &:hover {
+      color: var(--color-black);
+    }
+  }
+
+  #error_explanation {
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-xs);
+    background-color: var(--color-danger-tint);
+    color: var(--color-danger);
+    font-size: 0.875rem;
+
+    h2 {
+      margin: 0 0 0.25rem;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+    }
+
+    ul {
+      margin: 0;
+      padding-inline-start: 1.25rem;
+    }
+  }
+}
+
+.accounts__flash {
+  margin: 0 0 1.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-xs);
+  background-color: var(--color-accent-tint);
+  font-size: 0.875rem;
+}
+
+.accounts__flash--alert {
+  background-color: var(--color-danger-tint);
+  color: var(--color-danger);
+}

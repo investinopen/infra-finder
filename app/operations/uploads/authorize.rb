@@ -114,15 +114,15 @@ module Uploads
       Success user
     end
 
-    # An upload token is only valid while the API token it was issued under
-    # is still allowlisted (not signed out, refreshed, or revoked).
+    # An upload token is only valid while the token session it was issued
+    # under is active (not signed out, revoked, or past its lifetime).
     #
     # @param [User] user
-    # @param [String, nil] session_jti
+    # @param [String, nil] session_id
     # @return [Dry::Monads::Success(true)]
     # @return [Dry::Monads::Failure(:revoked_session, String)]
-    def check_session(user, session_jti)
-      if session_jti.present? && user.allowlisted_jwts.exists?(jti: session_jti)
+    def check_session(user, session_id)
+      if OAuth::AccessToken.session_active?(user, session_id)
         Success true
       else
         Failure[:revoked_session, "The session for this upload token has ended"]
