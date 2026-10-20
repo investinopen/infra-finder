@@ -27,7 +27,7 @@ class GraphQLController < ActionController::API
       current_user: @current_user,
       request_ip: request.remote_ip,
       request_state:,
-      token_payload: @token_payload,
+      access_token: @access_token,
     }
 
     json = request_state.wrap do
@@ -56,11 +56,11 @@ class GraphQLController < ActionController::API
   # @return [void]
   def authenticate_user!
     perform_operation "users.authenticate", request.env do |m|
-      m.success do |(user, payload)|
+      m.success do |(user, access_token)|
         Support::Requests::Current.current_user = user
 
         @current_user = user
-        @token_payload = payload
+        @access_token = access_token
       end
 
       m.failure(:expired) do

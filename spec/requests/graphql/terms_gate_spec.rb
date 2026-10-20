@@ -31,12 +31,12 @@ RSpec.describe "GraphQL terms and conditions gate", type: :request, graphql: tru
     end
   end
 
-  context "when calling a mutation other than the session ones" do
+  context "when calling a mutation that is not exempt" do
     let(:query) do
       <<~GRAPHQL
       mutation {
-        userRequestPasswordReset(input: { email: "someone@example.com" }) {
-          requested
+        viewerUpdateNotifications(input: { commentNotifications: UNSUBSCRIBED }) {
+          user { id }
         }
       }
       GRAPHQL
@@ -45,7 +45,7 @@ RSpec.describe "GraphQL terms and conditions gate", type: :request, graphql: tru
     it "is refused before anything runs" do
       expect do
         make_default_request!(no_top_level_errors: false)
-      end.to keep_the_same(ActionMailer::Base.deliveries, :count)
+      end.to keep_the_same { pending_editor.reload.comment_notifications }
 
       expect(graphql_response(:data)).to be_blank
       expect(graphql_response(:errors)).to include_json([{ extensions: { code: "TERMS_NOT_ACCEPTED" } }])

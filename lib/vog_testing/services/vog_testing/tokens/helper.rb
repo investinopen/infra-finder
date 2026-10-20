@@ -2,35 +2,43 @@
 
 module VOGTesting
   module Tokens
-    # Mint GraphQL API tokens for request specs.
+    # Mint GraphQL API access tokens for request specs.
     #
-    # @see Users::Tokens::Issue
+    # @see Users::Authenticate
     class Helper
       # @param [User] from_user
-      # @param [ActiveSupport::TimeWithZone, nil] expires_at defaults to devise-jwt's expiration time
-      # @param [Boolean] allowlisted whether to add the token to the allowlist (a token that is not is treated as revoked)
-      # @param [Boolean] with_random_secret sign with an unknown secret to produce an invalid token
-      # @return [String]
-      def build_token(from_user:, expires_at: nil, allowlisted: true, with_random_secret: false)
-        payload = { "sub" => from_user.id, "scp" => "user", "aud" => nil }
-
-        payload["exp"] = expires_at.to_i if expires_at.present?
-
-        token = encoder_for(with_random_secret:).call(payload)
-
-        from_user.on_jwt_dispatch(token, payload) if allowlisted
-
-        token
+      # @param [ActiveSupport::TimeWithZone, nil] expires_at defaults to Doorkeeper's access token lifetime
+      # @param [Boolean] revoked
+      # @param [String] scopes
+      # @param [String, nil] session_id join an existing token session
+      # @return [String] the plaintext bearer token
+      def build_token(from_user:, expires_at: nil, revoked: false, scopes: "openid profile email", session_id: nil)
+        build_access_token(from_user:, expires_at:, revoked:, scopes:, session_id:).plaintext_token
       end
 
-      private
+      # @see #build_token
+      # @return [OAuth::AccessToken]
+      def build_access_token(from_user:, expires_at: nil, revoked: false, scopes: "openid profile email", session_id: nil)
+        expires_in = expires_at.present? ? (expires_at - Time.current).to_i : Doorkeeper.config.access_token_expires_in.to_i
 
-      # @return [Warden::JWTAuth::TokenEncoder]
-      def encoder_for(with_random_secret:)
-        if with_random_secret
-          Warden::JWTAuth::TokenEncoder.new(secret: SecureRandom.hex(64))
-        else
-          Warden::JWTAuth::TokenEncoder.new
+        OAuth::AccessToken.create!(
+          application:,
+          resource_owner_id: from_user.id,
+          scopes:,
+          expires_in:,
+          session_id:,
+          revoked_at: (Time.current if revoked)
+        )
+      end
+
+      # @return [OAuth::Application]
+      def application
+        OAuth::Application.find_or_create_by!(uid: OidcConfig.admin_spa_client_id) do |app|
+          app.name = "Admin SPA"
+          app.confidential = false
+          app.redirect_uri = "http://localhost:5173/"
+          app.post_logout_redirect_uri = "http://localhost:5173/"
+          app.scopes = "openid profile email"
         end
       end
     end

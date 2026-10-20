@@ -31,9 +31,9 @@ RSpec.describe Middleware::UploadAuthMiddleware do
   end
 
   def upload_token_for(user)
-    session_jti = Warden::JWTAuth::TokenDecoder.new.call(token_helper.build_token(from_user: user))["jti"]
+    session_id = token_helper.build_access_token(from_user: user).session_id
 
-    Common::Container["tokens.encode"].(sub: user.id, sid: session_jti, aud: "upload", exp: 1.hour.from_now.to_i).value!
+    Common::Container["tokens.encode"].(sub: user.id, sid: session_id, aud: "upload", exp: 1.hour.from_now.to_i).value!
   end
 
   shared_examples_for "bypassing options requests" do

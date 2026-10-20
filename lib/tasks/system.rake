@@ -9,6 +9,10 @@ namespace :system do
 
     Rake::Task["db:migrate"].invoke
 
+    puts "Syncing OAuth applications."
+
+    InfraFinder::Container["oauth.sync_applications"].().value!
+
     puts "Pushing assets."
 
     Rake::Task["system:push_assets"].invoke

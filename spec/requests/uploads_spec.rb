@@ -15,9 +15,9 @@ RSpec.describe "tus uploads", type: :request, graphql: true do
   end
 
   it "accepts an upload token" do
-    session_jti = Warden::JWTAuth::TokenDecoder.new.call(token_helper.build_token(from_user: admin_user))["jti"]
+    session_id = token_helper.build_access_token(from_user: admin_user).session_id
 
-    create_upload! "Upload-Token" => admin_user.upload_token(session_jti:)
+    create_upload! "Upload-Token" => admin_user.upload_token(session_id:)
 
     expect(response).to have_http_status(:created)
     expect(response.headers["Location"]).to be_present

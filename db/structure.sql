@@ -573,21 +573,6 @@ CREATE TABLE public.active_admin_comments (
 
 
 --
--- Name: allowlisted_jwts; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.allowlisted_jwts (
-    id uuid DEFAULT gen_random_uuid() NOT NULL,
-    user_id uuid NOT NULL,
-    jti character varying NOT NULL,
-    aud character varying,
-    exp timestamp(6) without time zone NOT NULL,
-    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
-
-
---
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1052,6 +1037,74 @@ CREATE TABLE public.noticed_notifications (
     details jsonb DEFAULT '{}'::jsonb NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: oauth_access_grants; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.oauth_access_grants (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    resource_owner_id uuid NOT NULL,
+    application_id uuid NOT NULL,
+    token character varying NOT NULL,
+    expires_in integer NOT NULL,
+    redirect_uri text NOT NULL,
+    scopes character varying DEFAULT ''::character varying NOT NULL,
+    code_challenge character varying,
+    code_challenge_method character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    revoked_at timestamp(6) without time zone
+);
+
+
+--
+-- Name: oauth_access_tokens; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.oauth_access_tokens (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    resource_owner_id uuid NOT NULL,
+    application_id uuid NOT NULL,
+    token character varying NOT NULL,
+    refresh_token character varying,
+    expires_in integer,
+    scopes character varying,
+    previous_refresh_token character varying DEFAULT ''::character varying NOT NULL,
+    session_id uuid NOT NULL,
+    session_started_at timestamp(6) without time zone NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    revoked_at timestamp(6) without time zone
+);
+
+
+--
+-- Name: oauth_applications; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.oauth_applications (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    name character varying NOT NULL,
+    uid character varying NOT NULL,
+    secret character varying,
+    redirect_uri text NOT NULL,
+    post_logout_redirect_uri text DEFAULT ''::text NOT NULL,
+    scopes character varying DEFAULT ''::character varying NOT NULL,
+    confidential boolean DEFAULT true NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
+
+
+--
+-- Name: oauth_openid_requests; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.oauth_openid_requests (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    access_grant_id uuid NOT NULL,
+    nonce character varying NOT NULL
 );
 
 
@@ -3424,14 +3477,6 @@ ALTER TABLE ONLY public.active_admin_comments
 
 
 --
--- Name: allowlisted_jwts allowlisted_jwts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.allowlisted_jwts
-    ADD CONSTRAINT allowlisted_jwts_pkey PRIMARY KEY (id);
-
-
---
 -- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3621,6 +3666,38 @@ ALTER TABLE ONLY public.noticed_events
 
 ALTER TABLE ONLY public.noticed_notifications
     ADD CONSTRAINT noticed_notifications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: oauth_access_grants oauth_access_grants_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.oauth_access_grants
+    ADD CONSTRAINT oauth_access_grants_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: oauth_access_tokens oauth_access_tokens_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.oauth_access_tokens
+    ADD CONSTRAINT oauth_access_tokens_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: oauth_applications oauth_applications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.oauth_applications
+    ADD CONSTRAINT oauth_applications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: oauth_openid_requests oauth_openid_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.oauth_openid_requests
+    ADD CONSTRAINT oauth_openid_requests_pkey PRIMARY KEY (id);
 
 
 --
@@ -5055,27 +5132,6 @@ CREATE INDEX index_active_admin_comments_on_resource ON public.active_admin_comm
 
 
 --
--- Name: index_allowlisted_jwts_on_exp; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_allowlisted_jwts_on_exp ON public.allowlisted_jwts USING btree (exp);
-
-
---
--- Name: index_allowlisted_jwts_on_jti; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_allowlisted_jwts_on_jti ON public.allowlisted_jwts USING btree (jti);
-
-
---
--- Name: index_allowlisted_jwts_on_user_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_allowlisted_jwts_on_user_id ON public.allowlisted_jwts USING btree (user_id);
-
-
---
 -- Name: index_authentication_standards_bespoke_filter_ordering; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -5675,6 +5731,90 @@ CREATE INDEX index_noticed_notifications_on_event_id ON public.noticed_notificat
 --
 
 CREATE INDEX index_noticed_notifications_on_recipient ON public.noticed_notifications USING btree (recipient_type, recipient_id);
+
+
+--
+-- Name: index_oauth_access_grants_on_application_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_oauth_access_grants_on_application_id ON public.oauth_access_grants USING btree (application_id);
+
+
+--
+-- Name: index_oauth_access_grants_on_resource_owner_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_oauth_access_grants_on_resource_owner_id ON public.oauth_access_grants USING btree (resource_owner_id);
+
+
+--
+-- Name: index_oauth_access_grants_on_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_oauth_access_grants_on_token ON public.oauth_access_grants USING btree (token);
+
+
+--
+-- Name: index_oauth_access_tokens_on_application_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_oauth_access_tokens_on_application_id ON public.oauth_access_tokens USING btree (application_id);
+
+
+--
+-- Name: index_oauth_access_tokens_on_refresh_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_oauth_access_tokens_on_refresh_token ON public.oauth_access_tokens USING btree (refresh_token);
+
+
+--
+-- Name: index_oauth_access_tokens_on_resource_owner_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_oauth_access_tokens_on_resource_owner_id ON public.oauth_access_tokens USING btree (resource_owner_id);
+
+
+--
+-- Name: index_oauth_access_tokens_on_revoked_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_oauth_access_tokens_on_revoked_at ON public.oauth_access_tokens USING btree (revoked_at);
+
+
+--
+-- Name: index_oauth_access_tokens_on_session_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_oauth_access_tokens_on_session_id ON public.oauth_access_tokens USING btree (session_id);
+
+
+--
+-- Name: index_oauth_access_tokens_on_session_started_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_oauth_access_tokens_on_session_started_at ON public.oauth_access_tokens USING btree (session_started_at);
+
+
+--
+-- Name: index_oauth_access_tokens_on_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_oauth_access_tokens_on_token ON public.oauth_access_tokens USING btree (token);
+
+
+--
+-- Name: index_oauth_applications_on_uid; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_oauth_applications_on_uid ON public.oauth_applications USING btree (uid);
+
+
+--
+-- Name: index_oauth_openid_requests_on_access_grant_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_oauth_openid_requests_on_access_grant_id ON public.oauth_openid_requests USING btree (access_grant_id);
 
 
 --
@@ -9155,6 +9295,14 @@ ALTER TABLE ONLY public.solution_draft_board_structures
 
 
 --
+-- Name: oauth_access_grants fk_rails_330c32d8d9; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.oauth_access_grants
+    ADD CONSTRAINT fk_rails_330c32d8d9 FOREIGN KEY (resource_owner_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_staffings fk_rails_34006937dc; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -9563,6 +9711,14 @@ ALTER TABLE ONLY public.solution_intake_metadata_standards
 
 
 --
+-- Name: oauth_access_tokens fk_rails_732cb83ab7; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.oauth_access_tokens
+    ADD CONSTRAINT fk_rails_732cb83ab7 FOREIGN KEY (application_id) REFERENCES public.oauth_applications(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_category_draft_links fk_rails_733215f1ae; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -9595,11 +9751,11 @@ ALTER TABLE ONLY public.solution_programming_languages
 
 
 --
--- Name: allowlisted_jwts fk_rails_77afa78cd5; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: oauth_openid_requests fk_rails_77114b3b09; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.allowlisted_jwts
-    ADD CONSTRAINT fk_rails_77afa78cd5 FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+ALTER TABLE ONLY public.oauth_openid_requests
+    ADD CONSTRAINT fk_rails_77114b3b09 FOREIGN KEY (access_grant_id) REFERENCES public.oauth_access_grants(id) ON DELETE CASCADE;
 
 
 --
@@ -10051,6 +10207,14 @@ ALTER TABLE ONLY public.solution_intake_user_contributions
 
 
 --
+-- Name: oauth_access_grants fk_rails_b4b53e07b8; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.oauth_access_grants
+    ADD CONSTRAINT fk_rails_b4b53e07b8 FOREIGN KEY (application_id) REFERENCES public.oauth_applications(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_category_intake_links fk_rails_b57dfbd337; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -10499,6 +10663,14 @@ ALTER TABLE ONLY public.solution_draft_security_standards
 
 
 --
+-- Name: oauth_access_tokens fk_rails_ee63f25419; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.oauth_access_tokens
+    ADD CONSTRAINT fk_rails_ee63f25419 FOREIGN KEY (resource_owner_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: solution_intake_content_licenses fk_rails_f06b32116d; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -10609,6 +10781,8 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261020181600'),
+('20261020181534'),
 ('20261013180000'),
 ('20261012222426'),
 ('20261012214538'),

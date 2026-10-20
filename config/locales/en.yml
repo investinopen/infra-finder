@@ -114,6 +114,10 @@ en:
     link_messages:
       many: "This implementation can have many links associated with it."
       single: "This implementation supports only a single associated link."
+  oauth:
+    sessions:
+      destroy:
+        invalid: "This sign-out request is not valid."
   solution_intakes:
     update:
       draft_not_saved: "We were unable to save your draft. Please correct the indicated errors and try again."
