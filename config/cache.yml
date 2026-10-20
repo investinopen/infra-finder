@@ -20,6 +20,10 @@ test:
     <<: *default_store_options
     max_size: <%= 1.gigabyte %>
 
+staging:
+  <<: *default
+  database: cache
+
 production:
   <<: *default
   database: cache
