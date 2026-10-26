@@ -20,7 +20,7 @@ class AdminTab < Support::FrozenRecordHelpers::AbstractRecord
       property = SolutionProperty.lookup_coded_ext(property_name)
 
       SolutionProperties::Admin::PropertyWrapper.normalize(property)
-    end
+    end.uniq
   end
 
   calculates! :tab_wrapper do |record|
