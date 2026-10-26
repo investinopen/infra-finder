@@ -81,10 +81,10 @@ module Admin
 
       value = form_access[attr] += 1
 
-      # :nocov:
+      # simplecov:disable
       # We only raise this error in test/dev to find duplicates. Never in production.
       raise "Property #{attr.inspect} accessed more than once (#{value} times)" if value > 1
-      # :nocov:
+      # simplecov:enable
 
       # We must explicitly return nil here in order to avoid writing the count to the HTML.
       return nil
