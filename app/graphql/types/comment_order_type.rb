@@ -8,7 +8,7 @@ module Types
     TEXT
 
     value "DEFAULT" do
-      description "Sort comments by their default order (oldest first)."
+      description "Sort comments by oldest created date."
     end
 
     value "RECENT" do

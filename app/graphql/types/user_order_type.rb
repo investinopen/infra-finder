@@ -8,7 +8,7 @@ module Types
     TEXT
 
     value "DEFAULT" do
-      description "Sort users by their default order."
+      description "Sort users by name (A-Z)."
     end
 
     value "RECENT" do

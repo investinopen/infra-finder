@@ -8,7 +8,7 @@ module Types
     TEXT
 
     value "DEFAULT" do
-      description "Sort records by their default order (\"Other\" last, then by name)."
+      description "Sort records with \"Other\" last, then by name (A-Z)."
     end
 
     value "RECENT" do
