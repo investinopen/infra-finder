@@ -8,7 +8,7 @@ module Types
     TEXT
 
     value "DEFAULT" do
-      description "Sort invitations by their default order."
+      description "Sort invitations by most recently updated."
     end
 
     value "RECENT" do

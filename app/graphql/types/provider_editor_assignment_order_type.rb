@@ -8,7 +8,7 @@ module Types
     TEXT
 
     value "DEFAULT" do
-      description "Sort provider editor assignments by their default order."
+      description "Sort provider editor assignments by most recently updated."
     end
 
     value "RECENT" do

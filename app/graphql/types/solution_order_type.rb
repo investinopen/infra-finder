@@ -8,7 +8,7 @@ module Types
     TEXT
 
     value "DEFAULT" do
-      description "Sort solutions by name."
+      description "Sort solutions by name (A-Z)."
     end
 
     value "RECENT" do
