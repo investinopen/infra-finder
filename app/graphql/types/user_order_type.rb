@@ -19,6 +19,14 @@ module Types
       description "Sort users by oldest created date."
     end
 
+    value "RECENT_SIGN_IN" do
+      description "Sort users by most recent sign-in. Users who have never signed in come last."
+    end
+
+    value "OLDEST_SIGN_IN" do
+      description "Sort users by least recent sign-in. Users who have never signed in come last."
+    end
+
     value "NAME_ASCENDING" do
       description "Sort users by name in ascending (A-Z) order."
     end

@@ -73,8 +73,10 @@ RSpec.describe "Query.users", type: :request, graphql: true do
     let(:order) { "RECENT" }
 
     let_it_be(:records, refind: true) do
-      %w[Delta Alpha Charlie Bravo].each_with_index.map do |name, n|
-        create_record(_at: (n + 1).days.ago, name:, email: "#{name.downcase}@example.org")
+      [["Delta", 2], ["Alpha", nil], ["Charlie", 3], ["Bravo", 1]].each_with_index.map do |(name, signed_in_hours_ago), n|
+        current_sign_in_at = signed_in_hours_ago&.hours&.ago
+
+        create_record(_at: (n + 1).days.ago, name:, email: "#{name.downcase}@example.org", current_sign_in_at:)
       end
     end
 
@@ -101,6 +103,13 @@ RSpec.describe "Query.users", type: :request, graphql: true do
         User.where(id: ids).lazily_order(:email, :asc).to_a
       when "EMAIL_DESCENDING"
         User.where(id: ids).lazily_order(:email, :desc).to_a
+      when "RECENT_SIGN_IN", "OLDEST_SIGN_IN"
+        signed_in, never_signed_in = records.partition(&:current_sign_in_at)
+
+        signed_in = signed_in.sort_by { _1.current_sign_in_at }
+        signed_in.reverse! if order == "RECENT_SIGN_IN"
+
+        signed_in + User.where(id: never_signed_in.map(&:id)).lazily_order(:name, :asc).to_a
       when "OLDEST"
         records.sort_by { Put.asc(_1.created_at) }
       else
@@ -135,7 +144,7 @@ RSpec.describe "Query.users", type: :request, graphql: true do
         include_examples "a properly-ordered collection"
       end
 
-      %w[NAME_ASCENDING NAME_DESCENDING EMAIL_ASCENDING EMAIL_DESCENDING].each do |option|
+      %w[NAME_ASCENDING NAME_DESCENDING EMAIL_ASCENDING EMAIL_DESCENDING RECENT_SIGN_IN OLDEST_SIGN_IN].each do |option|
         context "when ordering #{option}" do
           let(:order) { option }
 
