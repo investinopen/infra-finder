@@ -58,6 +58,12 @@ module Types
         TEXT
       end
 
+      argument :empty_properties_count, ::Types::FilterMatchIntegerInputType, required: false do
+        description <<~TEXT
+        Filter the model's `empty_properties_count` with various integer constraints.
+        TEXT
+      end
+
       argument :created_at, ::Types::FilterMatchTimeInputType, required: false do
         description <<~TEXT
         Filter the model's `created_at` with time constraints.

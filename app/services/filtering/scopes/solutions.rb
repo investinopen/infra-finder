@@ -34,6 +34,8 @@ module Filtering
         arg.description "Filter to solutions with a draft in review."
       end
 
+      integer_match! :empty_properties_count
+
       timestamps!
 
       after_build def apply_editable_by_viewer!
