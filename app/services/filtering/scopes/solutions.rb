@@ -22,6 +22,10 @@ module Filtering
         arg.description "Filter to solutions from one or more providers."
       end
 
+      simple_scope_filter! :solution_category, :solution_categories, scope_name: :with_solution_categories do |arg|
+        arg.description "Filter to solutions in one or more solution categories."
+      end
+
       boolean_scope! :with_pending_drafts do |arg|
         arg.description "Filter to solutions with a pending draft."
       end

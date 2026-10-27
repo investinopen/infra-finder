@@ -42,6 +42,8 @@ class Solution < ApplicationRecord
   scope :sans_initial_revision, -> { where.not(id: SolutionRevision.initial_revision.select(:solution_id)) }
   scope :with_initial_revision, -> { where(id: SolutionRevision.initial_revision.select(:solution_id)) }
 
+  scope :with_solution_categories, ->(categories) { where(id: SolutionCategoryLink.where(solution_category: categories).select(:solution_id)) }
+
   scope :with_editor_access_for, ->(user) { joins(:provider).merge(Provider.with_editor_access_for(user)) }
   scope :with_pending_drafts, -> { where(id: SolutionDraft.in_state(:pending).select(:solution_id)) }
   scope :with_reviewable_drafts, -> { where(id: SolutionDraft.in_state(:in_review).select(:solution_id)) }

@@ -40,6 +40,12 @@ module Types
         TEXT
       end
 
+      argument :solution_category_ids, [::GraphQL::Types::ID, { null: false }], loads: ::Types::SolutionCategoryType, as: :solution_category, required: false do
+        description <<~TEXT
+        Filter to solutions in one or more solution categories.
+        TEXT
+      end
+
       argument :with_pending_drafts, ::GraphQL::Types::Boolean, required: false do
         description <<~TEXT
         Filter to solutions with a pending draft.
