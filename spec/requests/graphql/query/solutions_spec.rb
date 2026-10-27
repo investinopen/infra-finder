@@ -82,5 +82,15 @@ RSpec.describe "Query.solutions", type: :request, graphql: true do
         expect(names).not_to include(other_published.name)
       end
     end
+
+    context "when filtering by solution category" do
+      let_it_be(:solution_category) { FactoryBot.create(:solution_category).tap { other_unpublished.update!(solution_categories: [_1]) } }
+
+      let(:filters) { { solution_category_ids: [solution_category.to_encoded_id] } }
+
+      it "applies the filter" do
+        expect(names).to contain_exactly(other_unpublished.name)
+      end
+    end
   end
 end
