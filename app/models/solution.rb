@@ -131,6 +131,18 @@ class Solution < ApplicationRecord
 
   # @!endgroup
 
+  # @!group Drafts
+
+  # `all_drafts_count` is a counter cache; this one depends on draft state, so it is recomputed.
+  #
+  # @see SolutionDraft#refresh_solution_draft_counts!
+  # @return [void]
+  def refresh_pending_and_in_review_drafts_count!
+    update_columns(pending_and_in_review_drafts_count: solution_drafts.mutable.count)
+  end
+
+  # @!endgroup
+
   # @!group Revisions
 
   monadic_operation! def create_revision(**options)

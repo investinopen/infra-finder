@@ -130,6 +130,42 @@ RSpec.describe "Query.solutions", type: :request, graphql: true do
       end
     end
 
+    context "when ordering by drafts count" do
+      before_all do
+        own_unpublished.create_draft!(user: editor).tap do |draft|
+          draft.transition_to!(:in_review)
+          draft.transition_to!(:rejected)
+        end
+
+        own_unpublished.create_draft!(user: editor)
+
+        other_published.create_draft!(user: editor).tap do |draft|
+          draft.transition_to!(:in_review)
+          draft.transition_to!(:approved)
+        end
+      end
+
+      def ordered(*solutions)
+        names.select { _1.in?(solutions.map(&:name)) }
+      end
+
+      context "with the most drafts first" do
+        let(:order) { "ALL_DRAFTS_COUNT_DESCENDING" }
+
+        it "applies the order" do
+          expect(ordered(own_unpublished, other_published, other_unpublished)).to eq([own_unpublished, other_published, other_unpublished].map(&:name))
+        end
+      end
+
+      context "with the fewest pending and in-review drafts first" do
+        let(:order) { "PENDING_AND_IN_REVIEW_DRAFTS_COUNT_ASCENDING" }
+
+        it "ignores finalized drafts" do
+          expect(ordered(own_unpublished, other_published, other_unpublished)).to eq([other_published, other_unpublished].map(&:name).sort + [own_unpublished.name])
+        end
+      end
+    end
+
     context "when filtering by solution category" do
       let_it_be(:solution_category) { FactoryBot.create(:solution_category).tap { other_unpublished.update!(solution_categories: [_1]) } }
 
