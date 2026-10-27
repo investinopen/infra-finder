@@ -26,5 +26,6 @@ module Filtering
 
     tc.add_model! ::Provider
     tc.add_model! ::Solution
+    tc.add_model! ::SolutionCategory
   end
 end
