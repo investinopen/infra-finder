@@ -157,7 +157,7 @@ RSpec.describe "Query.providerEditorAssignments", type: :request, graphql: true 
       let(:can_update) { false }
       let(:can_destroy) { false }
 
-      let(:sorted_records) { [] }
+      let(:sorted_records) { order_records(editor_user.provider_editor_assignments.to_a, order:) }
 
       include_examples "ordering by each option"
     end

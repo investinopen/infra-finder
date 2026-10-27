@@ -103,7 +103,9 @@ RSpec.describe ProviderPolicy, type: :policy do
     context "as an editor" do
       let(:user) { editor }
 
-      it_behaves_like "a no access scope"
+      it "includes only the providers they edit" do
+        expect(scope).to contain_exactly(provider)
+      end
     end
 
     context "as a regular user" do

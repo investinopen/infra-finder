@@ -2,9 +2,15 @@
 
 # @see ProviderEditorAssignment
 class ProviderEditorAssignmentPolicy < ApplicationPolicy
-  requires_admin_for_show!
-
   def create?
     has_any_admin_access?
+  end
+
+  private
+
+  # @param [ActiveRecord::Relation] relation
+  # @return [ActiveRecord::Relation]
+  def resolve_scope_for_authenticated(relation)
+    relation.where(user:)
   end
 end
