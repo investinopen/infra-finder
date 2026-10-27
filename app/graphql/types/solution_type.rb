@@ -27,6 +27,10 @@ module Types
       description "Whether a provider has claimed the solution."
     end
 
+    field :empty_properties_count, Integer, null: true do
+      description "How many of the solution's properties are empty. Null when not yet counted."
+    end
+
     field :flags, ::Types::SolutionFlagsType, null: false do
       description "Characteristics derived from the solution's properties."
     end
