@@ -41,6 +41,8 @@ module Types
 
     field :solution_create_draft, mutation: Mutations::SolutionCreateDraft
 
+    field :solution_destroy, mutation: Mutations::SolutionDestroy
+
     field :solution_draft_approve, mutation: Mutations::SolutionDraftApprove
 
     field :solution_draft_destroy, mutation: Mutations::SolutionDraftDestroy
