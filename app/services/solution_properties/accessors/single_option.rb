@@ -19,6 +19,10 @@ module SolutionProperties
           # simplecov:enable
         end
       end
+
+      def empty_value?(value)
+        super || value.try(:provides_unknown?)
+      end
     end
   end
 end
