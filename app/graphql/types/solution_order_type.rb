@@ -35,6 +35,22 @@ module Types
       description "Sort solutions by fewest empty properties first. Solutions not yet counted come last."
     end
 
+    value "ALL_DRAFTS_COUNT_DESCENDING" do
+      description "Sort solutions by most drafts first, in any state."
+    end
+
+    value "ALL_DRAFTS_COUNT_ASCENDING" do
+      description "Sort solutions by fewest drafts first, in any state."
+    end
+
+    value "PENDING_AND_IN_REVIEW_DRAFTS_COUNT_DESCENDING" do
+      description "Sort solutions by most pending or in-review drafts first."
+    end
+
+    value "PENDING_AND_IN_REVIEW_DRAFTS_COUNT_ASCENDING" do
+      description "Sort solutions by fewest pending or in-review drafts first."
+    end
+
     value "NAME_ASCENDING" do
       description "Sort solutions by name in ascending (A-Z) order."
     end

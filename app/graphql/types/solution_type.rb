@@ -27,6 +27,14 @@ module Types
       description "Whether a provider has claimed the solution."
     end
 
+    field :all_drafts_count, Integer, null: true, authorize_field: { to: :show_hidden?, raise: false } do
+      description "How many drafts the solution has, in any state."
+    end
+
+    field :pending_and_in_review_drafts_count, Integer, null: true, authorize_field: { to: :show_hidden?, raise: false } do
+      description "How many of the solution's drafts are pending or in review."
+    end
+
     field :empty_properties_count, Integer, null: true do
       description "How many of the solution's properties are empty. Null when not yet counted."
     end

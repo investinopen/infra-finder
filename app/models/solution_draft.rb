@@ -20,7 +20,7 @@ class SolutionDraft < ApplicationRecord
 
   expose_ransackable_attributes! :solution_id, :user_id, on: :editor
 
-  belongs_to :solution, inverse_of: :solution_drafts, optional: true
+  belongs_to :solution, inverse_of: :solution_drafts, optional: true, counter_cache: :all_drafts_count
   belongs_to :user, inverse_of: :solution_drafts, optional: true
 
   has_one :provider, through: :solution
@@ -36,6 +36,8 @@ class SolutionDraft < ApplicationRecord
   scope :approved, -> { in_state(:approved) }
   scope :rejected, -> { in_state(:rejected) }
 
+  after_create :refresh_solution_draft_counts!
+  after_destroy :refresh_solution_draft_counts!
   after_save :check!, if: :should_check?
 
   # @!group Stateful Workflow Methods
@@ -66,6 +68,12 @@ class SolutionDraft < ApplicationRecord
   # @see SolutionDrafts::FetchChangedFields
   monadic_operation! def fetch_changed_fields
     call_operation("solution_drafts.fetch_changed_fields", self)
+  end
+
+  # @see Solution#refresh_pending_and_in_review_drafts_count!
+  # @return [void]
+  def refresh_solution_draft_counts!
+    solution&.refresh_pending_and_in_review_drafts_count!
   end
 
   def finalized?
