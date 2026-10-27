@@ -10,6 +10,14 @@ module Filtering
         arg.description "Filter to only providers with more than one solution."
       end
 
+      boolean_scope! :without_solutions do |arg|
+        arg.description "Filter to only providers with no solutions."
+      end
+
+      boolean_scope! :without_editors do |arg|
+        arg.description "Filter to only providers with no editors assigned."
+      end
+
       timestamps!
     end
   end

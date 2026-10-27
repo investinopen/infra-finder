@@ -231,4 +231,72 @@ RSpec.describe "Query.providers", type: :request, graphql: true do
       include_examples "ordering by each option"
     end
   end
+
+  context "when filtering" do
+    let_it_be(:with_both, refind: true) do
+      FactoryBot.create(:provider).tap do |provider|
+        FactoryBot.create(:solution, provider:)
+        provider.assign_editor!(FactoryBot.create(:user))
+      end
+    end
+
+    let_it_be(:without_solutions, refind: true) do
+      FactoryBot.create(:provider).tap { _1.assign_editor!(FactoryBot.create(:user)) }
+    end
+
+    let_it_be(:without_editors, refind: true) do
+      FactoryBot.create(:provider).tap { FactoryBot.create(:solution, provider: _1) }
+    end
+
+    let_it_be(:without_either, refind: true) { FactoryBot.create :provider }
+
+    let(:query) do
+      <<~GRAPHQL
+      query($filters: ProviderFilterInput) {
+        providers(filters: $filters, perPage: 200) {
+          nodes { id }
+        }
+      }
+      GRAPHQL
+    end
+
+    let(:filters) { {} }
+
+    def ids
+      graphql_response(:data, :providers, :nodes).pluck("id")
+    end
+
+    before do
+      make_graphql_request! query, token:, variables: { filters: }, operation: nil
+    end
+
+    as_an_admin_user do
+      context "with withoutSolutions" do
+        let(:filters) { { without_solutions: true } }
+
+        it "lists only providers with no solutions" do
+          expect(ids).to include(without_solutions.to_encoded_id, without_either.to_encoded_id)
+          expect(ids).not_to include(with_both.to_encoded_id, without_editors.to_encoded_id)
+        end
+      end
+
+      context "with withoutEditors" do
+        let(:filters) { { without_editors: true } }
+
+        it "lists only providers with no editors" do
+          expect(ids).to include(without_editors.to_encoded_id, without_either.to_encoded_id)
+          expect(ids).not_to include(with_both.to_encoded_id, without_solutions.to_encoded_id)
+        end
+      end
+
+      context "with both" do
+        let(:filters) { { without_solutions: true, without_editors: true } }
+
+        it "lists only providers with neither" do
+          expect(ids).to include(without_either.to_encoded_id)
+          expect(ids).not_to include(with_both.to_encoded_id, without_solutions.to_encoded_id, without_editors.to_encoded_id)
+        end
+      end
+    end
+  end
 end
