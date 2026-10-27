@@ -75,6 +75,8 @@ module Types
 
     field :user_destroy, mutation: Mutations::UserDestroy
 
+    field :user_send_reset_password_instructions, mutation: Mutations::UserSendResetPasswordInstructions
+
     field :user_update, mutation: Mutations::UserUpdate
 
     field :viewer_accept_terms, mutation: Mutations::ViewerAcceptTerms, terms_exempt: true
