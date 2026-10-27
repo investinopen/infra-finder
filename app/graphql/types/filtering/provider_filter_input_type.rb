@@ -22,6 +22,18 @@ module Types
         TEXT
       end
 
+      argument :without_solutions, ::GraphQL::Types::Boolean, required: false do
+        description <<~TEXT
+        Filter to only providers with no solutions.
+        TEXT
+      end
+
+      argument :without_editors, ::GraphQL::Types::Boolean, required: false do
+        description <<~TEXT
+        Filter to only providers with no editors assigned.
+        TEXT
+      end
+
       argument :created_at, ::Types::FilterMatchTimeInputType, required: false do
         description <<~TEXT
         Filter the model's `created_at` with time constraints.
