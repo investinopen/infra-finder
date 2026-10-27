@@ -194,13 +194,22 @@ RSpec.describe "OpenID Provider", type: :request, default_auth: true do
       expect(redirect_params).to include("code")
     end
 
-    it "sends users without admin or editor access back with access_denied" do
+    it "issues a code to users without admin or editor access" do
       sign_in regular_user
 
       authorize!
 
-      expect(response.location).to start_with(redirect_uri)
-      expect(redirect_params).to include("error" => "access_denied", "state" => "the-state")
+      expect(redirect_params).to include("code")
+    end
+
+    it "signs out a locked user instead of issuing a code" do
+      sign_in regular_user
+
+      regular_user.lock_access!(send_instructions: false)
+
+      authorize!
+
+      expect(response).to redirect_to(new_user_session_url)
     end
   end
 
