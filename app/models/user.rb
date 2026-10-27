@@ -58,6 +58,7 @@ class User < ApplicationRecord
   has_many :solution_drafts, inverse_of: :user, dependent: :nullify
   has_many :solution_editor_assignments, inverse_of: :user, dependent: :destroy
   has_many :solution_imports, inverse_of: :user, dependent: :nullify
+  has_many :assigned_providers, through: :provider_editor_assignments, source: :provider
   has_many :assigned_solutions, through: :provider_editor_assignments, source: :solutions
 
   has_many_readonly :solution_revisions, inverse_of: :user
