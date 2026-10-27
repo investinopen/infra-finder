@@ -22,6 +22,10 @@ module SolutionProperties
       def to_csv
         vocab.mapping.fetch(super, super)
       end
+
+      def empty_value?(value)
+        super || value == "unknown"
+      end
     end
   end
 end

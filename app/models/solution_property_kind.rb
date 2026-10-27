@@ -22,6 +22,7 @@ class SolutionPropertyKind < Support::FrozenRecordHelpers::AbstractRecord
     required(:kind).value(:kind)
     required(:assign_method).value(:assign_method)
     required(:diffable).value(:bool)
+    required(:counts_when_empty).value(:bool)
     required(:standard).value(:bool)
     optional(:input_kind).maybe(:symbol)
     optional(:input_html).maybe(:hash)
@@ -32,6 +33,7 @@ class SolutionPropertyKind < Support::FrozenRecordHelpers::AbstractRecord
 
   default_attributes!(
     assign_method: :write_attribute,
+    counts_when_empty: true,
     diffable: false,
     differ: "UnknownDiff",
     input_kind: nil,
