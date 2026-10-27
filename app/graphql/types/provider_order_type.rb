@@ -8,7 +8,7 @@ module Types
     TEXT
 
     value "DEFAULT" do
-      description "Sort providers by their default order."
+      description "Sort providers by name (A-Z)."
     end
 
     value "RECENT" do
