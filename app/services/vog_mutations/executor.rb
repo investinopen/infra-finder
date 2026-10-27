@@ -6,6 +6,7 @@ module VOGMutations
   class Executor
     extend ActiveModel::Callbacks
 
+    include Dry::Effects::Handler.Reader(:vog_mutation, as: :with_effects_frame)
     include Dry::Matcher.for(:resolve, with: Dry::Matcher::ResultMatcher)
     include Dry::Monads[:result]
 
@@ -87,8 +88,15 @@ module VOGMutations
     # @api private
     # @return [void]
     def execute!
-      run_callbacks :execute do
-        operation.execute!
+      # dry-effects runs the outermost handler in a fiber of its own, and with fiber
+      # isolation each fiber leases its own database connection. Opening a handler
+      # before the transaction keeps nested handlers (every hook-based actor, for one)
+      # in this fiber and on the transaction's connection. Otherwise their writes
+      # escape the transaction, or block forever on rows it has locked.
+      with_effects_frame(self) do
+        run_callbacks :execute do
+          operation.execute!
+        end
       end
     end
 
