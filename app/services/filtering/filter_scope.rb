@@ -132,14 +132,20 @@ module Filtering
       # @!attribute [r] input_object
       # @return [Class<GraphQL::Schema::InputObject>]
       def input_object
-        @input_object ||= "::Types::Filtering::#{collapsed_model_name}FilterInputType".safe_constantize
+        @input_object ||= input_object_type_name.safe_constantize
       end
+
+      # Resolvers reference the input object by name so that graphql-ruby loads it lazily.
+      # Loading it eagerly can create a load-order cycle through its `loads:` arguments.
+      #
+      # @return [String]
+      def input_object_type_name = "::Types::Filtering::#{collapsed_model_name}FilterInputType"
 
       # @see Resolvers::AbstractResolver.filters_with!
       # @return [Hash] options for the `filters` resolver argument
       def options_for_resolver
         {
-          type: input_object,
+          type: input_object_type_name,
           default: input_object_default_value,
           argument_options: {
             replace_null_with_default: true,
@@ -154,7 +160,7 @@ module Filtering
       # @return [Hash] options for the `orFilters` resolver argument
       def options_for_or_resolver
         {
-          type: [input_object, { null: false }],
+          type: "[#{input_object_type_name}!]",
           default: [],
           argument_options: {
             replace_null_with_default: true,
