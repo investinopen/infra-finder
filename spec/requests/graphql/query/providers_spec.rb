@@ -217,7 +217,7 @@ RSpec.describe "Query.providers", type: :request, graphql: true do
       let(:can_update) { false }
       let(:can_destroy) { false }
 
-      let(:sorted_records) { [] }
+      let(:sorted_records) { order_records(Provider.with_editor_access_for(editor_user).to_a, order:) }
 
       include_examples "ordering by each option"
     end

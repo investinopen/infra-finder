@@ -6,4 +6,12 @@ class ProviderPolicy < ApplicationPolicy
   #
   # @return [Boolean]
   def show? = true
+
+  private
+
+  # @param [ActiveRecord::Relation] relation
+  # @return [ActiveRecord::Relation]
+  def resolve_scope_for_authenticated(relation)
+    relation.where(id: Provider.with_editor_access_for(user).select(:id))
+  end
 end
