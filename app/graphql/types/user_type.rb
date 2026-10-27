@@ -61,6 +61,14 @@ module Types
       description "Whether the user is an editor for at least one provider."
     end
 
+    field :assigned_providers, "[::Types::ProviderType!]", null: false, authorized_scope: { with: ::ProviderPolicy } do
+      description "The providers this user is an editor of. Empty for admins and unassigned users."
+    end
+
+    field :editor_assignments, resolver: ::Resolvers::ProviderEditorAssignmentResolver do
+      description "The assignments that make this user an editor of providers' solutions."
+    end
+
     field :super_admin, Boolean, null: false, method: :super_admin? do
       description "Whether the user is a super admin."
     end
@@ -76,6 +84,9 @@ module Types
     field :upload_access, Boolean, null: false, method: :has_any_upload_access? do
       description "Whether the user may upload files."
     end
+
+    # @return [ActiveRecord::Relation<Provider>]
+    def assigned_providers = object.assigned_providers.in_default_order
 
     # @return [String, nil]
     def kind = object.anonymous? ? nil : object.kind
