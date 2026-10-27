@@ -3,6 +3,8 @@
 class ApplicationJob < ActiveJob::Base
   include ::Support::CallsCommonOperation
 
+  include Dry::Effects::Handler.Reader(:application_job, as: :with_effects_frame)
+
   retry_on StandardError, wait: :polynomially_longer, attempts: 10
 
   retry_on ActiveRecord::StatementInvalid, wait: :polynomially_longer, attempts: 10
@@ -41,9 +43,22 @@ class ApplicationJob < ActiveJob::Base
     end
   end
 
+  around_perform :keep_effects_on_job_fiber!
   around_perform :watch_for_fatal_errors!
 
   private
+
+  # dry-effects runs the outermost handler in a fiber of its own, and with fiber
+  # isolation each fiber leases its own database connection. Opening a handler
+  # first keeps nested handlers (every hook-based actor, for one) in this fiber and
+  # on the job's connection. Otherwise their writes escape the job's transaction,
+  # or block forever on rows it has locked.
+  #
+  # @see VOGMutations::Executor#execute!
+  # @return [void]
+  def keep_effects_on_job_fiber!(&)
+    with_effects_frame(self, &)
+  end
 
   # @see Utility::HaltedJobError
   # @return [void]
