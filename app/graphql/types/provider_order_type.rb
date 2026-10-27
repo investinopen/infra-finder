@@ -19,6 +19,22 @@ module Types
       description "Sort providers by oldest created date."
     end
 
+    value "RECENT_UPDATES" do
+      description "Sort providers by most recently updated."
+    end
+
+    value "OLDEST_UPDATES" do
+      description "Sort providers by least recently updated."
+    end
+
+    value "SOLUTIONS_COUNT_DESCENDING" do
+      description "Sort providers by most solutions first."
+    end
+
+    value "SOLUTIONS_COUNT_ASCENDING" do
+      description "Sort providers by fewest solutions first."
+    end
+
     value "NAME_ASCENDING" do
       description "Sort providers by name in ascending (A-Z) order."
     end
