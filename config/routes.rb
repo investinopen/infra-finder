@@ -9,8 +9,6 @@ Rails.application.routes.draw do
   }
 
   use_doorkeeper do
-    controllers authorizations: "oauth/authorizations"
-
     skip_controllers :applications, :authorized_applications, :token_info
   end
 

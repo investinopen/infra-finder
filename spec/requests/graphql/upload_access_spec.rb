@@ -18,6 +18,15 @@ RSpec.describe "Query.uploadAccess", type: :request, graphql: true do
     end
   end
 
+  as_a_regular_user do
+    it "issues no token" do
+      make_default_request!
+
+      expect(graphql_response(:data, :uploadAccess, :token)).to be_nil
+      expect(graphql_response(:data, :uploadAccess, :canUpload, :value)).to be false
+    end
+  end
+
   as_an_anonymous_user do
     it "issues no token" do
       make_default_request!

@@ -80,9 +80,9 @@ RSpec.describe "GraphQL authentication", type: :request, graphql: true do
     expect(response.parsed_body).to include_json(errors: [{ message: server_message(:inactive) }])
   end
 
-  it "rejects a token for a user without admin or editor access" do
+  it "authenticates a token for a user without admin or editor access" do
     request_with! "Bearer #{token_helper.build_token(from_user: regular_user)}"
 
-    expect(response).to have_http_status(:forbidden)
+    expect(response.parsed_body.dig("data", "viewer", "email")).to eq regular_user.email
   end
 end

@@ -113,7 +113,7 @@ class User < ApplicationRecord
   # @see Users::Access
   # @see Users::UploadAccessPolicy
   def has_any_upload_access?
-    Users::Access.allowed?(self) && accepted_terms?
+    Users::Access.allowed?(self) && has_any_admin_or_editor_access? && accepted_terms?
   end
 
   # @param [Solution] solution
