@@ -20,6 +20,8 @@ class Provider < ApplicationRecord
 
   scope :with_editor_access_for, ->(user) { where(id: ProviderEditorAssignment.where(user:).select(:provider_id)) }
   scope :with_multiple_solutions, -> { where(arel_table[:solutions_count].gt(1)) }
+  scope :without_solutions, -> { where(solutions_count: 0) }
+  scope :without_editors, -> { where.not(id: ProviderEditorAssignment.select(:provider_id)) }
 
   has_many :invitations, dependent: :destroy, inverse_of: :provider
   has_many :provider_editor_assignments, inverse_of: :provider, dependent: :destroy
