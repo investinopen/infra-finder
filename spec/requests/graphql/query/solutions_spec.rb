@@ -13,12 +13,15 @@ RSpec.describe "Query.solutions", type: :request, graphql: true do
 
   let(:filters) { {} }
 
+  let(:order) { nil }
+
   let(:query) do
     <<~GRAPHQL
-    query($filters: SolutionFilterInput) {
-      solutions(filters: $filters, perPage: 50) {
+    query($filters: SolutionFilterInput, $order: SolutionOrder) {
+      solutions(filters: $filters, order: $order, perPage: 50) {
         nodes {
           name
+          emptyPropertiesCount
           publication
           firstName
           provider { name }
@@ -36,7 +39,7 @@ RSpec.describe "Query.solutions", type: :request, graphql: true do
   end
 
   before do
-    make_graphql_request! query, token:, variables: { filters: }, operation: nil
+    make_graphql_request! query, token:, variables: { filters:, order: }.compact, operation: nil
   end
 
   as_an_anonymous_user do
@@ -80,6 +83,50 @@ RSpec.describe "Query.solutions", type: :request, graphql: true do
       it "applies the filter" do
         expect(names).to include(own_unpublished.name, other_unpublished.name)
         expect(names).not_to include(other_published.name)
+      end
+    end
+
+    context "when filtering by empty properties count" do
+      before_all do
+        own_unpublished.update_columns(empty_properties_count: 3)
+        other_published.update_columns(empty_properties_count: 10)
+        other_unpublished.update_columns(empty_properties_count: nil)
+      end
+
+      let(:filters) { { empty_properties_count: { gteq: 2, lteq: 5 } } }
+
+      it "applies the filter" do
+        expect(names).to contain_exactly(own_unpublished.name)
+      end
+    end
+
+    context "when ordering by empty properties count" do
+      before_all do
+        own_unpublished.update_columns(empty_properties_count: 3)
+        other_published.update_columns(empty_properties_count: 10)
+        other_unpublished.update_columns(empty_properties_count: nil)
+      end
+
+      def counts
+        graphql_response(:data, :solutions, :nodes).pluck("emptyPropertiesCount")
+      end
+
+      context "with the most first" do
+        let(:order) { "EMPTY_PROPERTIES_COUNT_DESCENDING" }
+
+        it "puts uncounted solutions last" do
+          expect(counts.compact).to eq(counts.compact.sort.reverse)
+          expect(counts.drop_while(&:present?)).to all(be_nil)
+        end
+      end
+
+      context "with the fewest first" do
+        let(:order) { "EMPTY_PROPERTIES_COUNT_ASCENDING" }
+
+        it "puts uncounted solutions last" do
+          expect(counts.compact).to eq(counts.compact.sort)
+          expect(counts.drop_while(&:present?)).to all(be_nil)
+        end
       end
     end
 

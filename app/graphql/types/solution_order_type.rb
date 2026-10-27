@@ -27,6 +27,14 @@ module Types
       description "Sort solutions by least recently updated."
     end
 
+    value "EMPTY_PROPERTIES_COUNT_DESCENDING" do
+      description "Sort solutions by most empty properties first. Solutions not yet counted come last."
+    end
+
+    value "EMPTY_PROPERTIES_COUNT_ASCENDING" do
+      description "Sort solutions by fewest empty properties first. Solutions not yet counted come last."
+    end
+
     value "NAME_ASCENDING" do
       description "Sort solutions by name in ascending (A-Z) order."
     end
