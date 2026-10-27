@@ -24,6 +24,12 @@ Rails.application.configure do
       description: "Check for changes in solution claiming",
       set: { priority: 400 },
     },
+    check_empty_properties_counts: {
+      cron: "0 7 * * *",
+      class: "Solutions::CheckAllEmptyPropertiesCountsJob",
+      description: "Recount empty properties on every solution",
+      set: { priority: 500 },
+    },
     comparison_prune: {
       cron: "0 8 * * *",
       class: "Comparisons::PruneJob",

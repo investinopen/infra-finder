@@ -83,6 +83,10 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     required(:skip_admin).value(:bool)
     required(:skip_csv_export).value(:bool)
 
+    # Overrides whether an empty value counts toward a solution's empty properties.
+    # @see Solutions::EmptyPropertiesCounter
+    optional(:count_when_empty).maybe(:bool)
+
     optional(:max_length).maybe(:integer) { gt?(0) }
 
     # External defined input. Does not necessarily correspond to how the field is used,
@@ -105,6 +109,8 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
     optional(:structured_header).maybe(:symbol)
 
     required(:property_kind).value(SolutionPropertyKind::Type)
+
+    required(:counted_when_empty).value(:bool)
 
     optional(:implementation).maybe(:implementation)
 
@@ -199,6 +205,12 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   calculates! :property_kind do |record|
     SolutionPropertyKind.find(record["kind"])
+  end
+
+  calculates! :counted_when_empty do |record|
+    next record["count_when_empty"] unless record["count_when_empty"].nil?
+
+    record["property_kind"].counts_when_empty && !record["meta"] && record["hidden"] == false
   end
 
   calculates! :vocab do |record|
@@ -363,6 +375,8 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
   scope :standard_options, -> { in_use.where(kind: :single_option).by_vocab_name(STANDARD_VOCABS) }
   scope :standard, -> { default_standard.pluck(:name).concat(standard_options.pluck(:name)).then { |name| where(name:) } }
   scope :non_standard, -> { in_use.with_non_standard_kind.sans_meta }
+
+  scope :counted_when_empty, -> { in_use.where(counted_when_empty: true) }
 
   scope :with_presence_required, -> { in_use.sans_meta.where(required: true) }
   scope :with_max_length, -> { in_use.where.not(max_length: nil) }

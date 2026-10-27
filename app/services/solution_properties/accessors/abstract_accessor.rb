@@ -76,6 +76,15 @@ module SolutionProperties
         end
       end
 
+      # @see Solutions::EmptyPropertiesCounter
+      # @param [Solution, SolutionDraft, SolutionIntake] instance
+      # @return [Boolean]
+      def empty?(instance)
+        with_instance! instance do
+          empty_value?(instance.__send__(attribute_name))
+        end
+      end
+
       # @!endgroup
 
       private
@@ -217,6 +226,12 @@ module SolutionProperties
       # @abstract
       def to_csv
         instance.__send__(attribute_name)
+      end
+
+      # @param [Object] value
+      # @return [Boolean]
+      def empty_value?(value)
+        value.blank?
       end
 
       # @!endgroup

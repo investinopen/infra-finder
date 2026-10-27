@@ -65,6 +65,7 @@ class Solution < ApplicationRecord
   end
 
   before_validation :derive_flags!
+  before_validation :derive_empty_properties_count!
   before_validation :check_claiming!
   before_validation :maybe_touch_published_at!, if: :publication_changed?
 
@@ -103,6 +104,29 @@ class Solution < ApplicationRecord
   # @return [void]
   def derive_flags!
     self.flags = calculate_flags!
+  end
+
+  # @!endgroup
+
+  # @!group Empty Properties
+
+  # @see Solutions::CountEmptyProperties
+  # @see Solutions::EmptyPropertiesCounter
+  # @return [Dry::Monads::Success(Integer)]
+  monadic_operation! def count_empty_properties
+    call_operation("solutions.count_empty_properties", self)
+  end
+
+  # @see Solutions::CheckEmptyPropertiesCount
+  # @return [Dry::Monads::Success(Boolean)]
+  monadic_operation! def check_empty_properties_count
+    call_operation("solutions.check_empty_properties_count", self)
+  end
+
+  # @api private
+  # @return [void]
+  def derive_empty_properties_count!
+    self.empty_properties_count = count_empty_properties!
   end
 
   # @!endgroup
