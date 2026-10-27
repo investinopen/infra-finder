@@ -1716,7 +1716,9 @@ CREATE TABLE public.solutions (
     fiscal_host text,
     registries jsonb DEFAULT '[]'::jsonb NOT NULL,
     claim_state public.solution_claim_state DEFAULT 'unclaimed'::public.solution_claim_state NOT NULL,
-    empty_properties_count integer
+    empty_properties_count integer,
+    all_drafts_count bigint DEFAULT 0 NOT NULL,
+    pending_and_in_review_drafts_count bigint DEFAULT 0 NOT NULL
 );
 
 
@@ -10782,6 +10784,7 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261027175940'),
 ('20261027172839'),
 ('20261020181600'),
 ('20261020181534'),

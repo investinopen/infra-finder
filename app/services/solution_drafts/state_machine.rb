@@ -16,5 +16,9 @@ module SolutionDrafts
     transition from: :in_review, to: :pending
     transition from: :in_review, to: :approved
     transition from: :in_review, to: :rejected
+
+    after_transition do |solution_draft, _|
+      solution_draft.refresh_solution_draft_counts!
+    end
   end
 end
