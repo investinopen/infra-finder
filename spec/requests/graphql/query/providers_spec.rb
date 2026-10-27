@@ -73,10 +73,12 @@ RSpec.describe "Query.providers", type: :request, graphql: true do
     let(:order) { "RECENT" }
 
     let_it_be(:records, refind: true) do
-      %w[Delta Alpha Charlie Bravo].each_with_index.map do |name, n|
+      [["Delta", 3, 3], ["Alpha", 1, 1], ["Charlie", 4, 4], ["Bravo", 2, 2]].each_with_index.map do |(name, solutions_count, updated_hours_ago), n|
         attrs = {
           _at: (n + 1).days.ago,
           name:,
+          solutions_count:,
+          updated_at: updated_hours_ago.hours.ago,
         }
 
         create_record(**attrs)
@@ -107,6 +109,22 @@ RSpec.describe "Query.providers", type: :request, graphql: true do
         when "OLDEST"
           [
             Put.asc(record.created_at),
+          ]
+        when "RECENT_UPDATES"
+          [
+            Put.desc(record.updated_at),
+          ]
+        when "OLDEST_UPDATES"
+          [
+            Put.asc(record.updated_at),
+          ]
+        when "SOLUTIONS_COUNT_DESCENDING"
+          [
+            Put.desc(record.solutions_count),
+          ]
+        when "SOLUTIONS_COUNT_ASCENDING"
+          [
+            Put.asc(record.solutions_count),
           ]
         else
           # RECENT
@@ -140,6 +158,30 @@ RSpec.describe "Query.providers", type: :request, graphql: true do
 
       context "when ordering OLDEST" do
         let(:order) { "OLDEST" }
+
+        include_examples "a properly-ordered collection"
+      end
+
+      context "when ordering RECENT_UPDATES" do
+        let(:order) { "RECENT_UPDATES" }
+
+        include_examples "a properly-ordered collection"
+      end
+
+      context "when ordering OLDEST_UPDATES" do
+        let(:order) { "OLDEST_UPDATES" }
+
+        include_examples "a properly-ordered collection"
+      end
+
+      context "when ordering SOLUTIONS_COUNT_DESCENDING" do
+        let(:order) { "SOLUTIONS_COUNT_DESCENDING" }
+
+        include_examples "a properly-ordered collection"
+      end
+
+      context "when ordering SOLUTIONS_COUNT_ASCENDING" do
+        let(:order) { "SOLUTIONS_COUNT_ASCENDING" }
 
         include_examples "a properly-ordered collection"
       end
