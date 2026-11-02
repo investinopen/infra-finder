@@ -81,7 +81,7 @@ RSpec.describe Solution, type: :model do
   end
 
   context "publication" do
-    let_it_be(:solution, refind: true) { FactoryBot.create :solution }
+    let_it_be(:solution, refind: true) { FactoryBot.create :solution, **complete_solution_attributes(:actual) }
 
     it "changes the published_at timestamp when altering publication" do
       expect do

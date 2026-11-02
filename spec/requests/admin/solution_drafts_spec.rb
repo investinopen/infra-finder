@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 RSpec.describe "Admin Solution Drafts", type: :request, default_auth: true do
-  let_it_be(:solution_draft, refind: true) { solution.create_draft!(user: editor) }
+  let_it_be(:solution_draft, refind: true) do
+    solution.create_draft!(user: editor).tap { _1.update!(complete_solution_attributes(:draft)) }
+  end
 
   let_it_be(:other_admin, refind: true) do
     FactoryBot.create :user, :with_super_admin, :subscribed_to_all

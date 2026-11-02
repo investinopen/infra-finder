@@ -8,7 +8,7 @@ RSpec.describe "Dashboard queries", type: :request, graphql: true do
 
   let_it_be(:own_solution, refind: true) { FactoryBot.create :solution, provider: }
 
-  let_it_be(:reviewed_solution, refind: true) { FactoryBot.create :solution, provider: }
+  let_it_be(:reviewed_solution, refind: true) { FactoryBot.create :solution, provider:, **complete_solution_attributes(:actual) }
 
   let_it_be(:other_solution, refind: true) { FactoryBot.create(:solution, :published) }
 

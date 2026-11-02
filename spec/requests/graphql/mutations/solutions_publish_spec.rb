@@ -12,7 +12,7 @@ RSpec.describe Mutations::SolutionsPublish, type: :request, graphql: :mutation d
   }
   GRAPHQL
 
-  let_it_be(:unpublished_solution, refind: true) { FactoryBot.create :solution }
+  let_it_be(:unpublished_solution, refind: true) { FactoryBot.create :solution, **complete_solution_attributes(:actual) }
 
   let_it_be(:published_solution, refind: true) { FactoryBot.create(:solution, :published) }
 

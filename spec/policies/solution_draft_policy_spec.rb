@@ -7,11 +7,11 @@ RSpec.describe SolutionDraftPolicy, type: :policy do
 
   let_it_be(:pending_draft, refind: true) { solution.create_draft!(user: FactoryBot.create(:user)) }
 
-  let_it_be(:in_review_draft, refind: true) { solution.create_draft!(user: FactoryBot.create(:user)).tap(&:request_review!) }
+  let_it_be(:in_review_draft, refind: true) { solution.create_draft!(user: FactoryBot.create(:user)).tap { _1.transition_to!(:in_review) } }
 
   let_it_be(:approved_draft, refind: true) do
     solution.create_draft!(user: FactoryBot.create(:user)).tap do |draft|
-      draft.request_review!
+      draft.transition_to!(:in_review)
       draft.transition_to!(:approved)
     end
   end
