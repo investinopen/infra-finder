@@ -15,7 +15,7 @@ RSpec.describe SolutionDrafts::Approve, type: :operation do
   end
 
   let_it_be(:solution, refind: true) do
-    FactoryBot.create(:solution, editors: [editor], **solution_props)
+    FactoryBot.create(:solution, editors: [editor], **complete_solution_attributes(:actual), **solution_props)
   end
 
   let_it_be(:solution_draft, refind: true) do

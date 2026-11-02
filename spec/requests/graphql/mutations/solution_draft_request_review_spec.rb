@@ -16,7 +16,7 @@ RSpec.describe Mutations::SolutionDraftRequestReview, type: :request, graphql: :
 
   let_it_be(:editor, refind: true) { FactoryBot.create(:user, :accepted_terms).tap { provider.assign_editor!(_1) } }
 
-  let_it_be(:solution, refind: true) { FactoryBot.create :solution, provider: }
+  let_it_be(:solution, refind: true) { FactoryBot.create :solution, provider:, **complete_solution_attributes(:actual) }
 
   let_it_be(:solution_draft, refind: true) { solution.create_draft!(user: editor) }
 

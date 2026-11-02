@@ -3,7 +3,7 @@
 RSpec.describe SolutionIntakes::Submit, type: :operation do
   let_it_be(:name) { "Test Solution" }
 
-  let_it_be(:solution_intake, refind: true) { FactoryBot.create(:solution_intake, :notifiable, name:) }
+  let_it_be(:solution_intake, refind: true) { FactoryBot.create(:solution_intake, :notifiable, launch_year: 2023, **complete_solution_attributes(:intake), name:) }
 
   let_it_be(:admin_user, refind: true) do
     FactoryBot.create(:user, :with_admin, :subscribed_to_solution_notifications)

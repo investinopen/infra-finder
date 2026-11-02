@@ -317,7 +317,7 @@ RSpec.describe "Admin Solutions", type: :request, default_auth: true do
 
   describe "POST /admin/solutions/batch_action" do
     let_it_be(:published_solution, refind: true) { FactoryBot.create :solution, :published }
-    let_it_be(:unpublished_solution, refind: true) { FactoryBot.create :solution, :unpublished }
+    let_it_be(:unpublished_solution, refind: true) { FactoryBot.create :solution, :unpublished, **complete_solution_attributes(:actual) }
 
     def batch_action!(batch_action, *collection_selection)
       collection_selection.flatten!

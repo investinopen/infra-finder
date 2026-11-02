@@ -49,5 +49,5 @@ module TestHelpers
 end
 
 RSpec.configure do |config|
-  config.include TestHelpers::CompleteSolutions, type: :request
+  config.include TestHelpers::CompleteSolutions
 end
