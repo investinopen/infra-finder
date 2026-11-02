@@ -5,7 +5,7 @@ RSpec.describe "Solution.comments", type: :request, graphql: true do
 
   let_it_be(:editor, refind: true) { FactoryBot.create(:user, :accepted_terms).tap { provider.assign_editor!(_1) } }
 
-  let_it_be(:solution, refind: true) { FactoryBot.create(:solution, provider:).tap(&:published!) }
+  let_it_be(:solution, refind: true) { FactoryBot.create(:solution, :published, provider:) }
 
   let_it_be(:comment, refind: true) { Comment.create!(resource: solution, author: editor, body: "A comment") }
 

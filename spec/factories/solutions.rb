@@ -17,6 +17,14 @@ FactoryBot.define do
       website { nil }
     end
 
+    # Writes the columns directly, so specs that only need a published solution
+    # don't depend on what publishing validates.
+    trait :published do
+      after(:create) do |solution|
+        solution.update_columns(publication: "published", published_at: Time.current)
+      end
+    end
+
     trait :maintenance_active do
       # maintenance_status { "active" }
     end

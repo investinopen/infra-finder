@@ -16,7 +16,7 @@ RSpec.describe SolutionPolicy, type: :policy do
       it_behaves_like "an admin or record editor permission"
 
       context "when published" do
-        before { solution.published! }
+        before { solution.update_columns(publication: "published", published_at: Time.current) }
 
         succeed "as another editor" do
           let(:user) { other_editor }
@@ -64,7 +64,7 @@ RSpec.describe SolutionPolicy, type: :policy do
       it_behaves_like "an admin or record editor permission"
 
       context "when published" do
-        before { solution.published! }
+        before { solution.update_columns(publication: "published", published_at: Time.current) }
 
         failed "as an anonymous user" do
           let(:user) { nil }
@@ -156,7 +156,7 @@ RSpec.describe SolutionPolicy, type: :policy do
   describe "relation scope" do
     let(:record) { nil }
 
-    let_it_be(:published_solution) { FactoryBot.create(:solution, provider: other_provider).tap(&:published!) }
+    let_it_be(:published_solution) { FactoryBot.create(:solution, :published, provider: other_provider) }
 
     let(:scope) { policy.apply_scope(Solution.all, type: :active_record_relation) }
 

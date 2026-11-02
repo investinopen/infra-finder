@@ -10,7 +10,7 @@ RSpec.describe "Dashboard queries", type: :request, graphql: true do
 
   let_it_be(:reviewed_solution, refind: true) { FactoryBot.create :solution, provider: }
 
-  let_it_be(:other_solution, refind: true) { FactoryBot.create(:solution).tap(&:published!) }
+  let_it_be(:other_solution, refind: true) { FactoryBot.create(:solution, :published) }
 
   let_it_be(:older_pending, refind: true) { own_solution.create_draft!(user: editor).tap { _1.update_columns(updated_at: 2.days.ago) } }
 
