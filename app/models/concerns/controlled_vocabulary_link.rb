@@ -39,10 +39,16 @@ module ControlledVocabularyLink
     __send__(solution_association.name).__send__(solution_link_association.name)
   end
 
+  # Counts the other saved links, so a link already saved isn't counted against itself.
+  #
   # @api private
   # @return [Integer]
   def multiple_selection_count_for(assoc)
-    solution_connection_association.for_assoc(assoc).multiple.count
+    links = solution_connection_association.for_assoc(assoc).multiple
+
+    links = links.where.not(id:) if persisted?
+
+    links.count
   end
 
   # @api private
