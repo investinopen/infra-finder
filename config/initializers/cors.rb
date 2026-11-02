@@ -18,7 +18,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   # The GraphQL API, tus uploads, and the OpenID Provider endpoints the SPA
   # calls with fetch only accept the admin SPA's origin, when one is configured.
   allow do
-    origins LocationsConfig.admin_spa_origin
+    origins LocationsConfig.admin_origins
 
     resource "/.well-known/openid-configuration", headers: :any, methods: %i[get options]
 
