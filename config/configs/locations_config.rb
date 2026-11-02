@@ -8,8 +8,20 @@ class LocationsConfig < ApplicationConfig
 
   attr_config :root, :instructions
 
+  attr_config local_admin: "http://localhost:3000"
+
   # The base URL of the admin SPA, an OpenID Connect client of this app.
-  attr_config :admin_spa
+  attr_config :admin_spa, allow_local_admin: false
+
+  coerce_types allow_local_admin: :boolean
+
+  memoize def admin_origins
+    [].tap do |a|
+      a << root_origin
+      a << admin_spa_origin if admin_spa?
+      a << local_admin_origin if allow_local_admin?
+    end.uniq
+  end
 
   # @return [Boolean]
   def admin_spa? = admin_spa.present?
@@ -32,6 +44,8 @@ class LocationsConfig < ApplicationConfig
     URI(admin_spa).origin
   end
 
+  def local_admin_origin = URI(local_admin).origin
+
   memoize def root_domain
     uri = URI(root)
 
@@ -41,6 +55,8 @@ class LocationsConfig < ApplicationConfig
       # simplecov:enable
     end.join(?:)
   end
+
+  def root_origin = URI(root).origin
 
   # @return [Hash]
   memoize def root_url_options

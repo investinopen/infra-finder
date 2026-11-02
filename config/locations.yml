@@ -3,16 +3,20 @@ default: &default
   instructions: "https://hackmd.io/@investinopen/rkPyYb411g"
   # The base URL of the admin SPA, an OpenID Connect client of this app.
   admin_spa: ""
+  allow_local_admin: false
 
 development:
   <<: *default
   admin_spa: "http://localhost:3000"
+  allow_local_admin: true
 
 test:
   <<: *default
 
 staging:
   <<: *default
+  admin_spa: "https://admin.next.infrafinder.instance.works"
+  allow_local_admin: true
 
 production:
   <<: *default
