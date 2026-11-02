@@ -89,7 +89,7 @@ RSpec.describe Types::SolutionInterfaceType do
   describe "hidden values" do
     let(:query) { "query($id: ID!) { solution(id: $id) { name annualRevenue { amount } recentGrants { name } } }" }
 
-    before { solution.published! }
+    before { solution.update_columns(publication: "published", published_at: Time.current) }
 
     def execute_as(user)
       schema.execute(query, variables: { id: solution.id }, context: { current_user: user }).to_h.dig("data", "solution")

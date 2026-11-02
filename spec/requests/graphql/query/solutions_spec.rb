@@ -7,7 +7,7 @@ RSpec.describe "Query.solutions", type: :request, graphql: true do
 
   let_it_be(:own_unpublished, refind: true) { FactoryBot.create :solution, provider: }
 
-  let_it_be(:other_published, refind: true) { FactoryBot.create(:solution).tap(&:published!) }
+  let_it_be(:other_published, refind: true) { FactoryBot.create(:solution, :published) }
 
   let_it_be(:other_unpublished, refind: true) { FactoryBot.create :solution }
 

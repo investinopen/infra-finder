@@ -14,7 +14,7 @@ RSpec.describe Mutations::SolutionsUnpublish, type: :request, graphql: :mutation
 
   let_it_be(:unpublished_solution, refind: true) { FactoryBot.create :solution }
 
-  let_it_be(:published_solution, refind: true) { FactoryBot.create(:solution).tap(&:published!) }
+  let_it_be(:published_solution, refind: true) { FactoryBot.create(:solution, :published) }
 
   let_mutation_input!(:solution_ids) { [unpublished_solution, published_solution].map(&:to_encoded_id) }
 

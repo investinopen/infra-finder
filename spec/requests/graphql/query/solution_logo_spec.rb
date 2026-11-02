@@ -5,7 +5,8 @@ RSpec.describe "Solution.logo", type: :request, graphql: true do
     FactoryBot.create(:solution).tap do |solution|
       solution.logo_attacher.attach Rails.root.join("spec", "data", "logo.svg").open("r"), metadata: { "alt" => "A logo" }
       solution.logo_attacher.create_derivatives
-      solution.published!
+      solution.save!
+      solution.update_columns(publication: "published", published_at: Time.current)
     end
   end
 

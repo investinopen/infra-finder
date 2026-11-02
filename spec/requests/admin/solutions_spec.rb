@@ -35,7 +35,7 @@ RSpec.describe "Admin Solutions", type: :request, default_auth: true do
     end
 
     it "lists only the solutions an editor edits, even when others are published" do
-      extra_solutions.each(&:published!)
+      extra_solutions.each { _1.update_columns(publication: "published", published_at: Time.current) }
 
       sign_in editor
 
