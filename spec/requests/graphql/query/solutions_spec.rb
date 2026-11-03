@@ -21,6 +21,7 @@ RSpec.describe "Query.solutions", type: :request, graphql: true do
       solutions(filters: $filters, order: $order, perPage: 50) {
         nodes {
           name
+          urlSlug
           emptyPropertiesCount
           complete
           missingProperties
@@ -49,7 +50,7 @@ RSpec.describe "Query.solutions", type: :request, graphql: true do
       expect(names).to contain_exactly(other_published.name)
 
       expect(graphql_response(:data, :solutions, :nodes, 0)).to include(
-        "publication" => nil, "firstName" => nil, "provider" => { "name" => other_published.provider.name }, "drafts" => { "nodes" => [] }
+        "urlSlug" => other_published.slug, "publication" => nil, "firstName" => nil, "provider" => { "name" => other_published.provider.name }, "drafts" => { "nodes" => [] }
       )
     end
   end
