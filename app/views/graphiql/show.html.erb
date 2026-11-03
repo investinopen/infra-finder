@@ -16,9 +16,22 @@
     <div id="graphiql"></div>
     <script>
       const fetcher = GraphiQL.createFetcher({ url: <%== graphql_path.to_json %> });
+      const headers = <%== (@access_token ? { Authorization: "Bearer #{@access_token}" } : {}).to_json %>;
+      const email = <%== current_user&.email.to_json %>;
+      const h = React.createElement;
+      const signOut = h("form", { method: "post", action: <%== destroy_user_session_path.to_json %>, style: { display: "inline" } },
+        h("input", { type: "hidden", name: "_method", value: "delete" }),
+        h("input", { type: "hidden", name: "authenticity_token", value: <%== form_authenticity_token.to_json %> }),
+        h("a", { href: "#", onClick: (e) => { e.preventDefault(); e.target.closest("form").submit(); } }, "Sign out"));
+      const logo = email ? h(React.Fragment, null, email, " ", signOut) : h("a", { href: <%== new_user_session_path.to_json %> }, "Sign in");
       const root = ReactDOM.createRoot(document.getElementById("graphiql"));
 
-      root.render(React.createElement(GraphiQL, { fetcher, defaultEditorToolsVisibility: true }));
+      root.render(React.createElement(GraphiQL, {
+        fetcher,
+        defaultEditorToolsVisibility: true,
+        defaultHeaders: JSON.stringify(headers, null, 2),
+        shouldPersistHeaders: false
+      }, React.createElement(GraphiQL.Logo, null, logo)));
     </script>
   </body>
 </html>
