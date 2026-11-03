@@ -71,6 +71,25 @@ class Solution < ApplicationRecord
 
   after_save :purge_comparisons!, if: :unpublished?
 
+  # Whether this save makes the solution published.
+  #
+  # @return [Boolean]
+  def publishing? = publication_changed? && published?
+
+  # Publishing makes a solution visible to others, so any save that publishes it
+  # must also pass the `:complete` validations, whatever context it was given.
+  # Saving a solution that is already published does not require completeness.
+  #
+  # @param [Symbol, <Symbol>, nil] context
+  # @return [Boolean]
+  def valid?(context = nil)
+    context ||= default_validation_context
+
+    context = [*context, :complete] if publishing?
+
+    super
+  end
+
   def claimable? = ClaimFormConfig.available? && unclaimed?
 
   # @return [String, nil]
@@ -195,15 +214,19 @@ class Solution < ApplicationRecord
       published
     end
 
-    # @param [<String>] ids
+    # Solutions that are incomplete or otherwise invalid are left unpublished.
+    #
+    # @yieldparam [Solution] solution one that could not be published, with its errors
     # @return [Integer] count actually changed to published
     def publish_all!
       count = 0
 
       unpublished.find_each do |solution|
-        solution.published!
-
-        count += 1
+        if solution.update(publication: :published)
+          count += 1
+        elsif block_given?
+          yield solution
+        end
       end
 
       return count

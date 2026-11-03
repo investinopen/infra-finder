@@ -16,7 +16,7 @@ RSpec.describe Mutations::SolutionIntakeApprove, type: :request, graphql: :mutat
   GRAPHQL
 
   let_it_be(:solution_intake, refind: true) do
-    FactoryBot.create(:solution_intake, :notifiable, **complete_solution_attributes(:intake)).tap { _1.transition_to!(:in_review) }
+    FactoryBot.create(:solution_intake, :notifiable, launch_year: 2023, **complete_solution_attributes(:intake)).tap { _1.transition_to!(:in_review) }
   end
 
   let_mutation_input!(:solution_intake_id) { solution_intake.to_encoded_id }
@@ -53,6 +53,21 @@ RSpec.describe Mutations::SolutionIntakeApprove, type: :request, graphql: :mutat
       end
 
       expect(solution_intake.last_transition).to have_attributes(note: "A note", metadata: include("source" => "admin"))
+    end
+
+    context "when the intake is incomplete" do
+      before { solution_intake.update_columns(mission: nil) }
+
+      it "returns an error and leaves the intake in review" do
+        expect_request! do |req|
+          req.effect! keep_the_same { solution_intake.current_state(force_reload: true) }
+            .and keep_the_same(Solution, :count)
+
+          req.data! gql.mutation(:solution_intake_approve, no_global_errors: false) { |m| m[:solution_intake] = be_blank }
+        end
+
+        expect(graphql_response(:data, :solutionIntakeApprove, :globalErrors).size).to eq 1
+      end
     end
   end
 

@@ -36,7 +36,7 @@ module SolutionProperties
 
       accepts_nested_attributes_for *STRUCTURED_MODEL_NAMES, reject_if: :all_blank
 
-      validates *STRUCTURED_MODEL_NAMES, store_model: { if: :apply_editor_validations? }
+      validates *STRUCTURED_MODEL_NAMES, store_model: { unless: :should_skip_editor_validations? }
     end
 
     # @!attribute [rw] current_affiliations_structured

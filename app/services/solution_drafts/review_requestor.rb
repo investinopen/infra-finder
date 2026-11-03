@@ -8,5 +8,14 @@ module SolutionDrafts
   # @see SolutionDrafts::StateMachine
   class ReviewRequestor < WorkflowActor
     transitions_to! :in_review
+
+    # Fails with `:incomplete` unless the draft is complete and valid.
+    #
+    # @return [Dry::Monads::Result]
+    def prepare
+      return Failure[:incomplete, draft] unless draft.valid?(:complete)
+
+      super
+    end
   end
 end

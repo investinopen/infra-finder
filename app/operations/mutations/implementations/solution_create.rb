@@ -11,16 +11,14 @@ module Mutations
 
       attachment! :logo, image: true
 
-      # As in the admin section, a new solution must satisfy the editor validations,
-      # and gets its initial revision.
+      # A new solution may be incomplete, but its values must be valid. It gets its
+      # initial revision.
       #
       # @param [Solution] solution
       # @param [{ Symbol => Object }] attrs
       # @return [void]
       def call(solution:, **attrs)
         assign_attributes!(solution, **attrs)
-
-        solution.apply_editor_validations = true
 
         persist_model! solution, attach_to: :solution
 

@@ -379,10 +379,10 @@ RSpec.describe "SolutionIntakes", type: :request, default_auth: true do
         let!(:skip_validations) { false }
         let!(:solution_intake_params) { partial_intake_params }
 
-        it "streams the errors back onto the form the user is still looking at" do
+        it "saves the valid values and streams the errors back onto the form the user is still looking at" do
           expect do
             make_the_request!
-          end.to keep_the_same { solution_intake.reload.first_name }
+          end.to change { solution_intake.reload.first_name }.from(nil).to("Ada")
             .and keep_the_same { solution_intake.current_state(force_reload: true) }
 
           aggregate_failures do

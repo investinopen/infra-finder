@@ -11,16 +11,14 @@ module Mutations
 
       attachment! :logo, image: true
 
-      # As in the admin section, admins may save an existing solution without satisfying
-      # the editor validations, and each update records a direct revision.
+      # A solution may be saved incomplete, but its values must be valid, and publishing
+      # it requires completeness. Each update records a direct revision.
       #
       # @param [Solution] solution
       # @param [{ Symbol => Object }] attrs
       # @return [void]
       def call(solution:, **attrs)
         assign_attributes!(solution, **attrs)
-
-        solution.skip_editor_validations = true
 
         persist_model! solution, attach_to: :solution
 

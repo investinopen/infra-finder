@@ -47,6 +47,20 @@ RSpec.describe Mutations::SolutionDraftRequestReview, type: :request, graphql: :
 
       expect(solution_draft.last_transition.memo).to eq "A memo"
     end
+
+    context "when the draft is incomplete" do
+      before { solution_draft.update_columns(mission: nil, service_summary: nil) }
+
+      it "returns an error for each missing property and leaves the draft pending" do
+        expect_request! do |req|
+          req.effect! keep_the_same { solution_draft.current_state(force_reload: true) }
+
+          req.data! gql.mutation(:solution_draft_request_review, no_global_errors: false) { |m| m[:solution_draft] = be_blank }
+        end
+
+        expect(graphql_response(:data, :solutionDraftRequestReview, :globalErrors).size).to eq 2
+      end
+    end
   end
 
   context "as the solution's editor" do

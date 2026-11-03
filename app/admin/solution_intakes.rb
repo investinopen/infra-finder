@@ -18,6 +18,10 @@ ActiveAdmin.register SolutionIntake do
           redirect_to(admin_solution_intake_path(resource), notice: t(".success"))
         end
 
+        m.failure(:incomplete) do
+          redirect_to(admin_solution_intake_path(resource), alert: resource.errors.full_messages.to_sentence)
+        end
+
         m.failure do
           redirect_to(admin_solution_intakes_path, alert: t("api.errors.something_went_wrong"))
         end

@@ -468,9 +468,13 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   def other_option? = kind == :other_option
 
+  # Required properties are checked only in the `:complete` validation context, so
+  # incomplete records can still be saved until they are submitted or published.
+  #
+  # @return [Hash]
   def required_presence_options
     {}.tap do |x|
-      x[:if] = :apply_editor_validations?
+      x[:on] = :complete
 
       if accepts_other?
         x[:unless] = [:"#{free_input_name}?", :should_skip_editor_validations?]

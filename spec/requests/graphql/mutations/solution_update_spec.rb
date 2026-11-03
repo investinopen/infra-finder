@@ -52,6 +52,18 @@ RSpec.describe Mutations::SolutionUpdate, type: :request, graphql: :mutation do
         req.data! expected_shape
       end
     end
+
+    context "with an invalid value" do
+      let_mutation_input!(:mission) { "a" * 5000 }
+
+      it "changes nothing" do
+        expect_request! do |req|
+          req.effect! keep_the_same { solution.reload.mission }
+
+          req.data! gql.mutation(:solution_update, no_global_errors: false) { |m| m[:solution] = be_blank }
+        end
+      end
+    end
   end
 
   as_a_super_admin_user do

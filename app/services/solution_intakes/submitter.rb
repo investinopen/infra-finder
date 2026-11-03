@@ -5,6 +5,15 @@ module SolutionIntakes
   class Submitter < SolutionIntakes::StateHandler
     targets! :in_review
 
+    # Fails with `:incomplete` unless the intake is complete and valid.
+    #
+    # @return [Dry::Monads::Result]
+    def prepare
+      return Failure[:incomplete, intake] unless intake.valid?(:complete)
+
+      super
+    end
+
     def post_transition
       yield notify!
 

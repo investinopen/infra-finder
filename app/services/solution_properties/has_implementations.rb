@@ -127,7 +127,7 @@ module SolutionProperties
 
       accepts_nested_attributes_for *IMPLEMENTATION_MODEL_NAMES, reject_if: :all_blank, update_only: true
 
-      validates *IMPLEMENTATION_MODEL_NAMES, store_model: { if: :apply_editor_validations? }
+      validates *IMPLEMENTATION_MODEL_NAMES, store_model: { unless: :should_skip_editor_validations? }
     end
 
     # @!attribute [rw] bylaws_structured

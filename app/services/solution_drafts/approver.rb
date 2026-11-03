@@ -13,6 +13,15 @@ module SolutionDrafts
 
     transitions_to! :approved
 
+    # Fails with `:incomplete` unless the draft is complete and valid.
+    #
+    # @return [Dry::Monads::Result]
+    def prepare
+      return Failure[:incomplete, draft] unless draft.valid?(:complete)
+
+      super
+    end
+
     def post_process
       yield assign_attributes.(draft, solution)
 

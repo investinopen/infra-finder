@@ -17,6 +17,10 @@ module Mutations
             attach! :solution_draft, solution_draft
           end
 
+          m.failure(:incomplete) do
+            invalid_model! solution_draft
+          end
+
           m.failure do
             something_went_wrong!
           end

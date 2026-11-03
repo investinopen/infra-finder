@@ -52,6 +52,16 @@ RSpec.describe Mutations::SolutionCreate, type: :request, graphql: :mutation do
       end
     end
 
+    context "with only a name and provider" do
+      let(:attributes) { { name: "Incomplete solution" } }
+
+      it "creates an incomplete solution" do
+        expect_request! do |req|
+          req.effect! change(Solution, :count).by(1)
+        end
+      end
+    end
+
     context "when the editor validations fail" do
       let(:name) { "" }
 

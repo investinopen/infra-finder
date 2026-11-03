@@ -318,6 +318,7 @@ RSpec.describe "Admin Solutions", type: :request, default_auth: true do
   describe "POST /admin/solutions/batch_action" do
     let_it_be(:published_solution, refind: true) { FactoryBot.create :solution, :published }
     let_it_be(:unpublished_solution, refind: true) { FactoryBot.create :solution, :unpublished, **complete_solution_attributes(:actual) }
+    let_it_be(:incomplete_solution, refind: true) { FactoryBot.create :solution, :unpublished }
 
     def batch_action!(batch_action, *collection_selection)
       collection_selection.flatten!
@@ -334,6 +335,15 @@ RSpec.describe "Admin Solutions", type: :request, default_auth: true do
             .and keep_the_same { published_solution.reload.publication }
             .and change { unpublished_solution.reload.published_at }.from(nil).to(a_kind_of(Time))
             .and change { unpublished_solution.reload.publication }.from("unpublished").to("published")
+        end
+
+        it "skips and reports incomplete solutions" do
+          expect do
+            batch_action!("publish_all", unpublished_solution.id, incomplete_solution.id)
+          end.to change { unpublished_solution.reload.publication }.from("unpublished").to("published")
+            .and keep_the_same { incomplete_solution.reload.publication }
+
+          expect(flash[:alert]).to include incomplete_solution.name
         end
       end
 

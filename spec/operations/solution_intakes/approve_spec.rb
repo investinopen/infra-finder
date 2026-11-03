@@ -3,7 +3,7 @@
 RSpec.describe SolutionIntakes::Approve, type: :operation do
   let!(:name) { "Test Solution" }
 
-  let!(:solution_intake) { FactoryBot.create(:solution_intake, :notifiable, name:) }
+  let!(:solution_intake) { FactoryBot.create(:solution_intake, :notifiable, launch_year: 2023, **complete_solution_attributes(:intake), name:) }
 
   context "when in_review" do
     before do

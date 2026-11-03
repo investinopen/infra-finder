@@ -23,7 +23,9 @@ module Testing
 
       yield import.process
 
-      Solution.unpublished.each(&:published!)
+      Solutions::Validations.importing! do
+        Solution.unpublished.each(&:published!)
+      end
 
       Success import
     end

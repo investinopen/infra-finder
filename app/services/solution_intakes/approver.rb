@@ -8,6 +8,15 @@ module SolutionIntakes
     # @return [Boolean]
     attr_reader :invited
 
+    # Fails with `:incomplete` unless the intake is complete and valid.
+    #
+    # @return [Dry::Monads::Result]
+    def prepare
+      return Failure[:incomplete, intake] unless intake.valid?(:complete)
+
+      super
+    end
+
     def pre_transition
       yield intake.assign
 
