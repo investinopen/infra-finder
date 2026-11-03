@@ -10,6 +10,7 @@
   <body class="accounts">
     <main id="main">
       <% flash.each do |type, message| %>
+        <% next unless message.is_a?(String) %>
         <p class="accounts__flash accounts__flash--<%= type %>" role="status"><%= message %></p>
       <% end %>
 
