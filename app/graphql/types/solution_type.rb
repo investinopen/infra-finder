@@ -16,6 +16,10 @@ module Types
       description "A unique, human-readable identifier for the solution."
     end
 
+    field :url_slug, String, null: false, method: :slug do
+      description "The solution's human-readable slug, as used in public URLs."
+    end
+
     field :publication, ::Types::PublicationType, null: true, authorize_field: { to: :show_hidden?, raise: false } do
       description "Whether the solution is published."
     end
