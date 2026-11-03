@@ -11,9 +11,33 @@ module VOGMutations
       delegate :attribute_assigner, to: :class
     end
 
+    # When assigning saved an invalid associated record, reports that record's errors on
+    # the input that was being assigned, along with the model's own errors, and halts.
+    #
     # @see VOGMutations::AttributeAssigner#call
+    # @raise [VOGMutations::Halting::Invalid] if assigning saved an invalid associated record
     def assign_attributes!(model, **args)
       attribute_assigner.call model, **args
+    rescue VOGMutations::AttributeAssigner::Invalid => e
+      e.failures.each do |attribute, record|
+        record.errors.each do |error|
+          add_attribute_error! error.message, path: attribute, code: (error.type if error.type.kind_of?(Symbol))
+        end
+      end
+
+      model.validate
+
+      # The failed join record is still loaded, so the model also reports its join
+      # association as invalid, which repeats the error already reported above.
+      e.failures.each_key do |attribute|
+        through = model.class.reflect_on_association(attribute)&.options&.[](:through)
+
+        model.errors.delete(through) if through
+      end
+
+      add_model_errors! model
+
+      throw_invalid
     end
 
     # Class methods for {VOGMutations::AttributeExtraction}.

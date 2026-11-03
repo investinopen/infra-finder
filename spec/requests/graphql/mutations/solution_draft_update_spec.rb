@@ -62,6 +62,41 @@ RSpec.describe Mutations::SolutionDraftUpdate, type: :request, graphql: :mutatio
       end
     end
 
+    context "with too many choices" do
+      let_mutation_input!(:solution_category_ids) { FactoryBot.create_list(:solution_category, 4).map(&:to_encoded_id) }
+
+      it "reports them on the input and changes nothing" do
+        expect_request! do |req|
+          req.effect! keep_the_same { solution_draft.reload.solution_category_ids.sort }
+
+          req.data! gql.mutation(:solution_draft_update, no_errors: false) do |m|
+            m[:solution_draft] = be_blank
+
+            m.attribute_errors { |ae| ae.error :solution_category_ids, /too many/i }
+          end
+        end
+      end
+
+      context "and other invalid values" do
+        let_mutation_input!(:name) { "" }
+
+        it "reports every error" do
+          expect_request! do |req|
+            req.effect! keep_the_same { solution_draft.reload.name }
+
+            req.data! gql.mutation(:solution_draft_update, no_errors: false) do |m|
+              m[:solution_draft] = be_blank
+
+              m.attribute_errors do |ae|
+                ae.error :solution_category_ids, /too many/i
+                ae.error :name, /blank/
+              end
+            end
+          end
+        end
+      end
+    end
+
     context "with an invalid value" do
       let_mutation_input!(:mission) { "a" * 5000 }
 
