@@ -34,6 +34,12 @@ module Types
         TEXT
       end
 
+      argument :complete, ::GraphQL::Types::Boolean, required: false do
+        description <<~TEXT
+        Filter to intakes that are complete (true) or incomplete (false).
+        TEXT
+      end
+
       argument :created_at, ::Types::FilterMatchTimeInputType, required: false do
         description <<~TEXT
         Filter the model's `created_at` with time constraints.

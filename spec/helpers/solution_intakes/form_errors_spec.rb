@@ -28,6 +28,17 @@ RSpec.describe SolutionIntakes::FormErrors do
     end
   end
 
+  context "with an error on an attribute the form sets through another input" do
+    before { solution_intake.errors.add(:founded_on, :blank) }
+
+    it "names and addresses the form's input" do
+      entry = form_errors.entries.sole
+
+      expect(entry.message).to eq("Launch year can't be blank")
+      expect(entry.field_name).to eq("solution_intake[launch_year]")
+    end
+  end
+
   context "with an error on an implementation store model" do
     before do
       solution_intake.code_repository.errors.add(:links, :invalid)

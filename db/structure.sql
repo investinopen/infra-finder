@@ -1718,7 +1718,8 @@ CREATE TABLE public.solutions (
     claim_state public.solution_claim_state DEFAULT 'unclaimed'::public.solution_claim_state NOT NULL,
     empty_properties_count integer,
     all_drafts_count bigint DEFAULT 0 NOT NULL,
-    pending_and_in_review_drafts_count bigint DEFAULT 0 NOT NULL
+    pending_and_in_review_drafts_count bigint DEFAULT 0 NOT NULL,
+    missing_properties text[]
 );
 
 
@@ -2318,7 +2319,8 @@ CREATE TABLE public.solution_drafts (
     last_name text,
     email public.citext,
     fiscal_host text,
-    registries jsonb DEFAULT '[]'::jsonb NOT NULL
+    registries jsonb DEFAULT '[]'::jsonb NOT NULL,
+    missing_properties text[]
 );
 
 
@@ -2926,7 +2928,8 @@ CREATE TABLE public.solution_intakes (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     fiscal_host text,
-    registries jsonb DEFAULT '[]'::jsonb NOT NULL
+    registries jsonb DEFAULT '[]'::jsonb NOT NULL,
+    missing_properties text[]
 );
 
 
@@ -10784,6 +10787,7 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261103202056'),
 ('20261027175940'),
 ('20261027172839'),
 ('20261020181600'),

@@ -18,6 +18,10 @@ module Filtering
         arg.description "Filter to intakes that have no provider yet."
       end
 
+      boolean_scope! :complete, falsey_scope: :incomplete do |arg|
+        arg.description "Filter to intakes that are complete (true) or incomplete (false)."
+      end
+
       timestamps!
     end
   end

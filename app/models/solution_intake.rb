@@ -38,8 +38,6 @@ class SolutionIntake < ApplicationRecord
 
   validates :launch_year, numericality: { only_integer: true, greater_than_or_equal_to: 1900, allow_nil: true, unless: :should_skip_editor_validations? }
 
-  validates :launch_year, :first_name, :last_name, :email, presence: true, on: :complete, unless: :should_skip_editor_validations?
-
   friendly_id :snowflake
 
   delegate :name, to: :provider, prefix: true, allow_nil: true
@@ -140,6 +138,12 @@ class SolutionIntake < ApplicationRecord
   def launch_year=(value)
     self.founded_on = value.present? ? Date.new(value.to_i) : nil
   end
+
+  # The submitter's contact details and the launch date are required for an intake
+  # to be complete, though they are not solution properties.
+  #
+  # @return [<Symbol>]
+  def additional_required_attributes = %i[founded_on first_name last_name email]
 
   # Whether the intake is mutable, meaning that the form is potentially usable
   # and it has not yet been approved nor rejected.

@@ -6,6 +6,11 @@ module SolutionIntakes
   class FormErrors
     OBJECT_NAME = "solution_intake"
 
+    # Attributes that the form sets through a differently named input.
+    FORM_ATTRIBUTES = {
+      founded_on: :launch_year,
+    }.freeze
+
     # @!attribute [r] message
     #   @return [String] qualified with the attribute's label, for the summary
     # @!attribute [r] detail
@@ -49,10 +54,12 @@ module SolutionIntakes
       elsif value.respond_to?(:errors)
         nested_entries(error.attribute, value)
       else
+        attr = FORM_ATTRIBUTES.fetch(error.attribute, error.attribute)
+
         [Entry.new(
-          message: error.full_message,
+          message: solution_intake.errors.full_message(attr, error.message),
           detail: error.message,
-          field_name: "#{OBJECT_NAME}[#{error.attribute}]"
+          field_name: "#{OBJECT_NAME}[#{attr}]"
         )]
       end
     end

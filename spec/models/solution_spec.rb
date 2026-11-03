@@ -130,6 +130,25 @@ RSpec.describe Solution, type: :model do
     end
   end
 
+  context "completeness" do
+    let_it_be(:incomplete, refind: true) { FactoryBot.create :solution }
+    let_it_be(:complete, refind: true) { FactoryBot.create :solution, **complete_solution_attributes(:actual) }
+
+    it "caches the missing properties on save" do
+      expect(incomplete).to have_attributes(complete?: false, missing_properties: include("mission"))
+      expect(complete).to have_attributes(complete?: true, missing_properties: [])
+
+      expect do
+        incomplete.update!(mission: "A mission")
+      end.to change { incomplete.reload.missing_properties.include?("mission") }.from(true).to(false)
+    end
+
+    it "scopes by completeness" do
+      expect(described_class.complete).to contain_exactly(complete)
+      expect(described_class.incomplete).to contain_exactly(incomplete)
+    end
+  end
+
   context "when selectively applying editor validations" do
     let_it_be(:solution, refind: true) { FactoryBot.create :solution }
 
