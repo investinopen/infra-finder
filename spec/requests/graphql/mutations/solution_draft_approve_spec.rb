@@ -63,10 +63,12 @@ RSpec.describe Mutations::SolutionDraftApprove, type: :request, graphql: :mutati
           req.effect! keep_the_same { solution_draft.current_state(force_reload: true) }
             .and keep_the_same { solution.reload.published? }
 
-          req.data! gql.mutation(:solution_draft_approve, no_global_errors: false) { |m| m[:solution_draft] = be_blank }
-        end
+          req.data! gql.mutation(:solution_draft_approve, no_errors: false) do |m|
+            m[:solution_draft] = be_blank
 
-        expect(graphql_response(:data, :solutionDraftApprove, :globalErrors).size).to eq 1
+            m.attribute_errors { |ae| ae.error :mission, /blank/ }
+          end
+        end
       end
     end
   end

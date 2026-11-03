@@ -18,7 +18,8 @@ module Mutations
           end
 
           m.failure(:incomplete) do
-            invalid_model! solution_draft
+            # This mutation takes no field arguments, so paths come from the ones that edit the draft.
+            invalid_model! solution_draft, argument_set: ::Mutations::MutateSolutionDraft.argument_set
           end
 
           m.failure do

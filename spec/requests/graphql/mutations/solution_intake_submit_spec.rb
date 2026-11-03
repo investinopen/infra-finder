@@ -55,8 +55,10 @@ RSpec.describe Mutations::SolutionIntakeSubmit, type: :request, graphql: :mutati
         expect_request! do |req|
           req.effect! keep_the_same { incomplete_intake.current_state(force_reload: true) }
 
-          req.data! gql.mutation(:solution_intake_submit, no_global_errors: false) { |m| m[:solution_intake] = be_blank }
+          req.data! gql.mutation(:solution_intake_submit, no_errors: false, no_global_errors: false) { |m| m[:solution_intake] = be_blank }
         end
+
+        expect(graphql_response(:data, :solutionIntakeSubmit, :attributeErrors).pluck("path")).to include("mission", "solutionCategoryIds")
       end
     end
 
@@ -77,8 +79,10 @@ RSpec.describe Mutations::SolutionIntakeSubmit, type: :request, graphql: :mutati
         expect_request! do |req|
           req.effect! keep_the_same { incomplete_intake.current_state(force_reload: true) }
 
-          req.data! gql.mutation(:solution_intake_submit, no_global_errors: false) { |m| m[:solution_intake] = be_blank }
+          req.data! gql.mutation(:solution_intake_submit, no_errors: false, no_global_errors: false) { |m| m[:solution_intake] = be_blank }
         end
+
+        expect(graphql_response(:data, :solutionIntakeSubmit, :attributeErrors).pluck("path")).to include("mission", "solutionCategoryIds")
       end
     end
   end

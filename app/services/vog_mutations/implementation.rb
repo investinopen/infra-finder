@@ -210,12 +210,14 @@ module VOGMutations
 
     # @api private
     # @param [ApplicationRecord] model
+    # @param [VOGMutations::Arguments::Set, nil] argument_set
+    # @see VOGMutations::Response#add_model_errors!
     # @raise [VOGMutations::Halting::Invalid]
     # @return [void]
-    def invalid_model!(model)
+    def invalid_model!(model, argument_set: nil)
       graphql_response.mark_invalid!
 
-      add_model_errors! model
+      add_model_errors!(model, argument_set:)
 
       throw_invalid
     end

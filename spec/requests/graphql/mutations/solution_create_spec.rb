@@ -69,7 +69,11 @@ RSpec.describe Mutations::SolutionCreate, type: :request, graphql: :mutation do
         expect_request! do |req|
           req.effect! keep_the_same(Solution, :count)
 
-          req.data! gql.mutation(:solution_create, no_global_errors: false) { |m| m[:solution] = be_blank }
+          req.data! gql.mutation(:solution_create, no_errors: false) do |m|
+            m[:solution] = be_blank
+
+            m.attribute_errors { |ae| ae.error :name, /blank/ }
+          end
         end
       end
     end

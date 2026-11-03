@@ -63,10 +63,12 @@ RSpec.describe Mutations::SolutionIntakeApprove, type: :request, graphql: :mutat
           req.effect! keep_the_same { solution_intake.current_state(force_reload: true) }
             .and keep_the_same(Solution, :count)
 
-          req.data! gql.mutation(:solution_intake_approve, no_global_errors: false) { |m| m[:solution_intake] = be_blank }
-        end
+          req.data! gql.mutation(:solution_intake_approve, no_errors: false) do |m|
+            m[:solution_intake] = be_blank
 
-        expect(graphql_response(:data, :solutionIntakeApprove, :globalErrors).size).to eq 1
+            m.attribute_errors { |ae| ae.error :mission, /blank/ }
+          end
+        end
       end
     end
   end

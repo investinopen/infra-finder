@@ -55,10 +55,10 @@ RSpec.describe Mutations::SolutionDraftRequestReview, type: :request, graphql: :
         expect_request! do |req|
           req.effect! keep_the_same { solution_draft.current_state(force_reload: true) }
 
-          req.data! gql.mutation(:solution_draft_request_review, no_global_errors: false) { |m| m[:solution_draft] = be_blank }
+          req.data! gql.mutation(:solution_draft_request_review, no_errors: false) { |m| m[:solution_draft] = be_blank }
         end
 
-        expect(graphql_response(:data, :solutionDraftRequestReview, :globalErrors).size).to eq 2
+        expect(graphql_response(:data, :solutionDraftRequestReview, :attributeErrors).pluck("path")).to contain_exactly("mission", "serviceSummary")
       end
     end
   end

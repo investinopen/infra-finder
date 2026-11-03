@@ -18,7 +18,8 @@ module Mutations
           end
 
           m.failure(:incomplete) do
-            invalid_model! solution_intake
+            # This mutation takes no field arguments, so paths come from the ones that edit the intake.
+            invalid_model! solution_intake, argument_set: ::Mutations::MutateSolutionIntake.argument_set
           end
 
           m.failure do
