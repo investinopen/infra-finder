@@ -13,7 +13,7 @@ module VOGMutations
       option :argument_set, VOGMutations::Arguments::Set::Type, default: proc { VOGMutations::Arguments::Set.new }
     end
 
-    delegate :normalize_attribute_path, to: :argument_set
+    delegate :argument_path?, :normalize_attribute_path, to: :argument_set
 
     # The default path for global errors.
     # @api private

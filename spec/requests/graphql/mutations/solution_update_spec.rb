@@ -60,7 +60,11 @@ RSpec.describe Mutations::SolutionUpdate, type: :request, graphql: :mutation do
         expect_request! do |req|
           req.effect! keep_the_same { solution.reload.mission }
 
-          req.data! gql.mutation(:solution_update, no_global_errors: false) { |m| m[:solution] = be_blank }
+          req.data! gql.mutation(:solution_update, no_errors: false) do |m|
+            m[:solution] = be_blank
+
+            m.attribute_errors { |ae| ae.error :mission, /too long/ }
+          end
         end
       end
     end

@@ -138,11 +138,27 @@ module VOGMutations
       add_compiled_global_error! error
     end
 
+    # Reports each of the model's errors on the input field it concerns. Errors that
+    # match no input argument, such as those on `:base`, stay global.
+    #
     # @param [#errors] model
+    # @param [VOGMutations::Arguments::Set, nil] argument_set resolves field paths when the
+    #   current mutation doesn't take the model's fields as arguments
     # @return [void]
-    def add_model_errors!(model)
-      model.errors.full_messages.each do |message|
-        add_global_error! "Problem persisting #{model.model_name}: #{message}", type: "$model_error"
+    def add_model_errors!(model, argument_set: nil)
+      compiler = argument_set&.error_compiler || error_compiler
+
+      model.errors.each do |error|
+        path = error.attribute.to_s.split(?.).map(&:to_sym)
+
+        if compiler.argument_path?(path)
+          # Errors added with a literal message use that message as their type.
+          code = error.type if error.type.kind_of?(Symbol)
+
+          add_compiled_attribute_error! compiler.attribute(error.message, path:, code:)
+        else
+          add_global_error! "Problem persisting #{model.model_name}: #{error.full_message}", type: "$model_error"
+        end
       end
     end
 

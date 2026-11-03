@@ -69,7 +69,11 @@ RSpec.describe Mutations::SolutionDraftUpdate, type: :request, graphql: :mutatio
         expect_request! do |req|
           req.effect! keep_the_same { solution_draft.reload.mission }
 
-          req.data! gql.mutation(:solution_draft_update, no_global_errors: false) { |m| m[:solution_draft] = be_blank }
+          req.data! gql.mutation(:solution_draft_update, no_errors: false) do |m|
+            m[:solution_draft] = be_blank
+
+            m.attribute_errors { |ae| ae.error :mission, /too long/ }
+          end
         end
       end
     end
@@ -81,7 +85,11 @@ RSpec.describe Mutations::SolutionDraftUpdate, type: :request, graphql: :mutatio
         expect_request! do |req|
           req.effect! keep_the_same { solution_draft.reload.name }
 
-          req.data! gql.mutation(:solution_draft_update, no_global_errors: false) { |m| m[:solution_draft] = be_blank }
+          req.data! gql.mutation(:solution_draft_update, no_errors: false) do |m|
+            m[:solution_draft] = be_blank
+
+            m.attribute_errors { |ae| ae.error :name, /blank/ }
+          end
         end
       end
     end

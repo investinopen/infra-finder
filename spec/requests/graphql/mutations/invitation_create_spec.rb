@@ -49,7 +49,11 @@ RSpec.describe Mutations::InvitationCreate, type: :request, graphql: :mutation d
         expect_request! do |req|
           req.effect! keep_the_same(User, :count).and keep_the_same(Invitation, :count)
 
-          req.data! gql.mutation(:invitation_create, no_global_errors: false) { |m| m[:invitation] = be_blank }
+          req.data! gql.mutation(:invitation_create, no_errors: false) do |m|
+            m[:invitation] = be_blank
+
+            m.attribute_errors { |ae| ae.error :email, /already been registered/ }
+          end
         end
       end
     end

@@ -58,6 +58,15 @@ module VOGMutations
         end
       end
 
+      # Whether a raw Ruby path matches one of this set's arguments.
+      #
+      # @param [String, <Symbol, Integer>] raw_path
+      def argument_path?(raw_path)
+        path = Array(raw_path)
+
+        argument_paths.any? { _1.match_ruby?(path) }
+      end
+
       class << self
         # @api private
         # Build a new {VOGMutations::Arguments::Set} using a block DSL.
