@@ -149,13 +149,8 @@ module VOGMutations
       compiler = argument_set&.error_compiler || error_compiler
 
       model.errors.each do |error|
-        path = error.attribute.to_s.split(?.).map(&:to_sym)
-
-        if compiler.argument_path?(path)
-          # Errors added with a literal message use that message as their type.
-          code = error.type if error.type.kind_of?(Symbol)
-
-          add_compiled_attribute_error! compiler.attribute(error.message, path:, code:)
+        if (compiled = compiler.model_error(error))
+          add_compiled_attribute_error! compiled
         else
           add_global_error! "Problem persisting #{model.model_name}: #{error.full_message}", type: "$model_error"
         end

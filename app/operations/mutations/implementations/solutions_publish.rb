@@ -8,18 +8,38 @@ module Mutations
 
       authorizes! :solutions, with: :publish_all?
 
-      # Incomplete solutions are skipped, with an error for each one.
+      # Incomplete or invalid solutions are skipped and reported, which doesn't fail the mutation.
       #
       # @param [<Solution>] solutions
       # @return [void]
       def call(solutions:)
+        skipped = []
+
         ::Solution.where(id: solutions.map(&:id)).publish_all! do |solution|
-          add_global_error! "Could not publish #{solution.name}: #{solution.errors.full_messages.to_sentence}", type: "$model_error"
+          skipped << { solution:, errors: errors_for(solution) }
         end
 
-        graphql_response.preserve! :solutions
+        attach! :skipped, skipped
 
         attach! :solutions, solutions.each(&:reload)
+      end
+
+      private
+
+      # Paths come from the arguments that edit a solution, as in its other mutation errors.
+      #
+      # @param [Solution] solution
+      # @return [<{ Symbol => Object }>]
+      def errors_for(solution)
+        compiler = ::Mutations::MutateSolution.argument_set.error_compiler
+
+        compiled = solution.errors.map do |error|
+          compiler.model_error(error) || compiler.global(error.full_message, code: "$model_error")
+        end
+
+        compiled.group_by(&:attribute_error_key).map do |(path, type), errors|
+          { path:, type:, messages: errors.map(&:message).uniq }
+        end
       end
     end
   end
