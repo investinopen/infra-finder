@@ -36,6 +36,23 @@ RSpec.describe Mutations::SolutionUpdate, type: :request, graphql: :mutation do
     end
   end
 
+  shared_examples_for "a refused mutation" do |path, message|
+    it "changes nothing and reports the error on #{path}" do
+      expect_request! do |req|
+        req.effect! keep_the_same { solution.reload.attributes }
+
+        req.data! gql.mutation(:solution_update, no_errors: false) do |m|
+          m[:solution] = be_blank
+
+          m.attribute_errors { |ae| ae.error path, message }
+        end
+      end
+
+      expect(graphql_response(:data, :solutionUpdate, :attributeErrors))
+        .to contain_exactly(include("path" => path.to_s.camelize(:lower), "messages" => [match(message)]))
+    end
+  end
+
   shared_examples_for "an authorized mutation" do
     it "updates the solution and records a direct revision" do
       expected_shape = gql.mutation(:solution_update) do |m|
@@ -51,22 +68,38 @@ RSpec.describe Mutations::SolutionUpdate, type: :request, graphql: :mutation do
 
         req.data! expected_shape
       end
+
+      expect(solution.reload).not_to be_complete
     end
 
-    context "with an invalid value" do
-      let_mutation_input!(:mission) { "a" * 5000 }
+    context "with a blank name" do
+      let_mutation_input!(:name) { "" }
 
-      it "changes nothing" do
-        expect_request! do |req|
-          req.effect! keep_the_same { solution.reload.mission }
+      include_examples "a refused mutation", :name, /blank/
+    end
 
-          req.data! gql.mutation(:solution_update, no_errors: false) do |m|
-            m[:solution] = be_blank
+    context "without a provider" do
+      let_mutation_input!(:provider_id) { nil }
 
-            m.attribute_errors { |ae| ae.error :mission, /too long/ }
-          end
-        end
-      end
+      include_examples "a refused mutation", :provider_id, /must exist/
+    end
+
+    context "with a value over its max length" do
+      let_mutation_input!(:service_summary) { "a" * 1001 }
+
+      include_examples "a refused mutation", :service_summary, /too long/
+    end
+
+    context "with a malformed website" do
+      let_mutation_input!(:website) { "example.org" }
+
+      include_examples "a refused mutation", :website, /valid URL/
+    end
+
+    context "with a malformed implementation link" do
+      let_mutation_input!(:code_repository) { { links: [{ label: "Repo", url: "not a url" }] } }
+
+      include_examples "a refused mutation", :code_repository, /invalid/
     end
   end
 
