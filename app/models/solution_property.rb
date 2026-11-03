@@ -329,6 +329,8 @@ class SolutionProperty < Support::FrozenRecordHelpers::AbstractRecord
 
   scope :core, -> { in_use.where(name: CORE) }
 
+  scope :emails, -> { in_use.where(kind: :email) }
+
   scope :finances, -> { in_use.where(name: FINANCES) }
 
   scope :for_implementation, ->(implementation) { where(implementation_name: implementation.to_s) }

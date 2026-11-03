@@ -41,7 +41,14 @@ module SolutionInterface
 
     before_save :derive_missing_properties!
 
-    validates :website, :research_organization_registry_url, url: { allow_blank: true }
+    SolutionProperty.urls.each do |prop|
+      validates prop.attribute_name, url: { allow_blank: true, no_local: true }
+    end
+
+    # Matches what browsers accept for `type="email"`, which the admin client uses.
+    SolutionProperty.emails.each do |prop|
+      validates prop.attribute_name, format: { with: URI::MailTo::EMAIL_REGEXP, allow_blank: true }
+    end
 
     SolutionProperty.with_max_length.each do |prop|
       validates prop.attribute_name, length: { maximum: prop.max_length, unless: :should_skip_editor_validations? }
