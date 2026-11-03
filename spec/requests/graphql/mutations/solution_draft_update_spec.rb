@@ -113,6 +113,26 @@ RSpec.describe Mutations::SolutionDraftUpdate, type: :request, graphql: :mutatio
       end
     end
 
+    context "with a malformed URL and email" do
+      let_mutation_input!(:board_members_url) { "example.org/board" }
+      let_mutation_input!(:email) { "someone" }
+
+      it "reports both on their fields" do
+        expect_request! do |req|
+          req.effect! keep_the_same { solution_draft.reload.board_members_url }
+
+          req.data! gql.mutation(:solution_draft_update, no_errors: false) do |m|
+            m[:solution_draft] = be_blank
+
+            m.attribute_errors do |ae|
+              ae.error :board_members_url, /valid URL/
+              ae.error :email, /invalid/
+            end
+          end
+        end
+      end
+    end
+
     context "when the editor validations fail" do
       let_mutation_input!(:name) { "" }
 
