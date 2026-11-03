@@ -37,6 +37,21 @@ module VOGMutations
       )
     end
 
+    # Compile a model's error as an error on the input field it belongs to.
+    #
+    # @param [ActiveModel::Error] error
+    # @return [VOGMutations::Error, nil] nil when no argument sets that attribute
+    def model_error(error)
+      path = error.attribute.to_s.split(?.).map(&:to_sym)
+
+      return unless argument_path?(path)
+
+      # Errors added with a literal message use that message as their type.
+      code = error.type if error.type.kind_of?(Symbol)
+
+      attribute(error.message, path:, code:)
+    end
+
     # @return [VOGMutations::Error]
     def global(message, code: nil)
       VOGMutations::Error.new(

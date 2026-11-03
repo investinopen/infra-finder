@@ -7,6 +7,10 @@ RSpec.describe Mutations::SolutionsPublish, type: :request, graphql: :mutation d
       solutions {
         publication
       }
+      skipped {
+        solution { name }
+        errors { path type messages }
+      }
       ... ErrorFragment
     }
   }
@@ -15,6 +19,10 @@ RSpec.describe Mutations::SolutionsPublish, type: :request, graphql: :mutation d
   let_it_be(:unpublished_solution, refind: true) { FactoryBot.create :solution, **complete_solution_attributes(:actual) }
 
   let_it_be(:incomplete_solution, refind: true) { FactoryBot.create :solution }
+
+  let_it_be(:invalid_solution, refind: true) do
+    FactoryBot.create(:solution, **complete_solution_attributes(:actual)).tap { _1.update_columns(service_summary: "a" * 1001) }
+  end
 
   let_it_be(:published_solution, refind: true) { FactoryBot.create(:solution, :published) }
 
@@ -38,6 +46,7 @@ RSpec.describe Mutations::SolutionsPublish, type: :request, graphql: :mutation d
     it "publishes the solutions" do
       expected_shape = gql.mutation(:solutions_publish) do |m|
         m[:solutions] = [{ publication: "PUBLISHED" }, { publication: "PUBLISHED" }]
+        m[:skipped] = []
       end
 
       expect_request! do |req|
@@ -48,23 +57,33 @@ RSpec.describe Mutations::SolutionsPublish, type: :request, graphql: :mutation d
       end
     end
 
-    context "when a solution is incomplete" do
-      let_mutation_input!(:solution_ids) { [unpublished_solution, incomplete_solution].map(&:to_encoded_id) }
+    context "when some solutions are incomplete or invalid" do
+      let_mutation_input!(:solution_ids) { [unpublished_solution, incomplete_solution, invalid_solution].map(&:to_encoded_id) }
 
-      it "publishes the complete solutions and reports the skipped ones" do
-        expected_shape = gql.mutation(:solutions_publish, no_global_errors: false) do |m|
-          m[:solutions] = [{ publication: "PUBLISHED" }, { publication: "UNPUBLISHED" }]
+      it "publishes the rest and reports each skipped solution with what it's missing" do
+        expected_shape = gql.mutation(:solutions_publish) do |m|
+          m[:solutions] = [{ publication: "PUBLISHED" }, { publication: "UNPUBLISHED" }, { publication: "UNPUBLISHED" }]
         end
 
         expect_request! do |req|
           req.effect! change { unpublished_solution.reload.published? }.from(false).to(true)
             .and keep_the_same { incomplete_solution.reload.published? }
+            .and keep_the_same { invalid_solution.reload.published? }
 
           req.data! expected_shape
         end
 
-        expect(graphql_response(:data, :solutionsPublish, :globalErrors)).to contain_exactly(
-          include("message" => a_string_starting_with("Could not publish #{incomplete_solution.name}"))
+        skipped = graphql_response(:data, :solutionsPublish, :skipped).index_by { _1.dig("solution", "name") }
+
+        expect(skipped.keys).to contain_exactly(incomplete_solution.name, invalid_solution.name)
+
+        expect(skipped[incomplete_solution.name]["errors"]).to include(
+          { "path" => "mission", "type" => "blank", "messages" => ["can't be blank"] },
+          include("path" => "solutionCategoryIds", "type" => "blank")
+        )
+
+        expect(skipped[invalid_solution.name]["errors"]).to contain_exactly(
+          { "path" => "serviceSummary", "type" => "too_long", "messages" => [a_string_matching(/too long/)] }
         )
       end
     end
