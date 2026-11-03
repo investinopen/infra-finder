@@ -71,6 +71,8 @@ class Solution < ApplicationRecord
 
   after_save :purge_comparisons!, if: :unpublished?
 
+  after_save_commit :asynchronously_update_open_drafts!, if: :mutable_drafts?
+
   # Whether this save makes the solution published.
   #
   # @return [Boolean]
@@ -158,6 +160,18 @@ class Solution < ApplicationRecord
   # @return [void]
   def refresh_pending_and_in_review_drafts_count!
     update_columns(pending_and_in_review_drafts_count: solution_drafts.mutable.count)
+  end
+
+  # @return [Boolean]
+  def mutable_drafts? = pending_and_in_review_drafts_count.to_i.positive?
+
+  # @api private
+  # @see SolutionDrafts::UpdateFromSolutionJob
+  # @return [void]
+  def asynchronously_update_open_drafts!
+    solution_drafts.mutable.each do |draft|
+      SolutionDrafts::UpdateFromSolutionJob.perform_later draft
+    end
   end
 
   # @!endgroup

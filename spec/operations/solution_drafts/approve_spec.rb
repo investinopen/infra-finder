@@ -51,5 +51,25 @@ RSpec.describe SolutionDrafts::Approve, type: :operation do
         .and change(SolutionRevision, :count).by(1)
         .and change { solution.reload.publication }.from("unpublished").to("published")
     end
+
+    context "with another open draft" do
+      let!(:other_draft) do
+        solution.create_draft!(user: admin).tap do |draft|
+          draft.update!(founded_on: Date.new(2022, 1, 1))
+        end
+      end
+
+      it "copies the approved changes into properties the other draft has not overridden" do
+        perform_enqueued_jobs(only: SolutionDrafts::UpdateFromSolutionJob) do
+          expect_calling_with(solution_draft, user: admin).to succeed
+        end
+
+        expect(other_draft.reload).to have_attributes(
+          name: "Test Solution Update",
+          founded_on: Date.new(2022, 1, 1),
+          draft_overrides: ["founded_on"]
+        )
+      end
+    end
   end
 end

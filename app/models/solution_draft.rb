@@ -38,7 +38,8 @@ class SolutionDraft < ApplicationRecord
 
   after_create :refresh_solution_draft_counts!
   after_destroy :refresh_solution_draft_counts!
-  after_save :check!, if: :should_check?
+  # Runs on every save because association changes don't show up in `saved_changes`.
+  after_save :check!, if: :mutable?
 
   # @!group Stateful Workflow Methods
 
@@ -63,6 +64,11 @@ class SolutionDraft < ApplicationRecord
   # @see SolutionDrafts::Check
   monadic_operation! def check
     call_operation("solution_drafts.check", self)
+  end
+
+  # @see SolutionDrafts::UpdateFromSolution
+  monadic_operation! def update_from_solution
+    call_operation("solution_drafts.update_from_solution", self)
   end
 
   # @see SolutionDrafts::FetchChangedFields
@@ -91,18 +97,5 @@ class SolutionDraft < ApplicationRecord
   # @return [<SolutionDrafts::ChangedField>]
   def changed_fields
     fetch_changed_fields.value_or([])
-  end
-
-  def should_check?
-    return true if saved_change_to_attribute? :free_inputs
-
-    SolutionProperty.to_clone.without(SolutionProperty.free_input_names).any? do |attr|
-      case attr
-      when *SolutionProperty.attachment_values
-        saved_change_to_attribute? :"#{attr}_data"
-      else
-        saved_change_to_attribute? attr
-      end
-    end
   end
 end
