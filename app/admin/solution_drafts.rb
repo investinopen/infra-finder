@@ -10,16 +10,6 @@ ActiveAdmin.register SolutionDraft do
   end
 
   controller do
-    before_create :apply_editor_validations!
-
-    before_update :apply_editor_validations!
-
-    # @param [SolutionDraft] solution_draft
-    # @return [void]
-    def apply_editor_validations!(solution_draft)
-      solution_draft.apply_editor_validations = true
-    end
-
     def handle_simple_draft_operation!(operation_name)
       memo = params.dig(operation_name, :memo)
 
@@ -30,6 +20,10 @@ ActiveAdmin.register SolutionDraft do
       resource.public_send(operation_name, **options) do |m|
         m.success do
           redirect_to(admin_solution_solution_draft_path(resource.solution, resource), notice: t(".success"))
+        end
+
+        m.failure(:incomplete) do
+          redirect_to(admin_solution_solution_draft_path(resource.solution, resource), alert: resource.errors.full_messages.to_sentence)
         end
 
         m.failure do

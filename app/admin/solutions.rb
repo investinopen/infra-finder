@@ -28,20 +28,9 @@ ActiveAdmin.register Solution do
   end
 
   controller do
-    before_create :apply_editor_validations!
-
-    before_update :apply_editor_validations!
-
     after_create :create_initial_revision!
 
     after_update :add_direct_revision!
-
-    # @param [Solution] solution
-    # @return [void]
-    def apply_editor_validations!(solution)
-      solution.apply_editor_validations = true
-      solution.skip_editor_validations = solution.persisted? && current_user.has_any_admin_access?
-    end
 
     # Editors may read every published solution, but their list shows only the ones they edit.
     #
@@ -169,9 +158,13 @@ ActiveAdmin.register Solution do
   batch_action :publish_all, if: proc { authorized?(:publish_all, Solution) } do |ids|
     authorize! :publish_all, Solution
 
-    count = Solution.where(id: ids).publish_all!
+    skipped = []
 
-    redirect_to admin_solutions_path, notice: t(".published", count:)
+    count = Solution.where(id: ids).publish_all! { skipped << _1 }
+
+    alert = t(".skipped", count: skipped.size, names: skipped.map(&:name).to_sentence) if skipped.any?
+
+    redirect_to admin_solutions_path, notice: t(".published", count:), alert:
   rescue ActiveAdmin::AccessDenied
     head :forbidden
   end

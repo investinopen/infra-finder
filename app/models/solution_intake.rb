@@ -36,9 +36,9 @@ class SolutionIntake < ApplicationRecord
   validates :solution_id, uniqueness: { if: :solution_id? }
   validates :snowflake, presence: true, uniqueness: true
 
-  validates :launch_year, numericality: { only_integer: true, greater_than_or_equal_to: 1900, if: :apply_editor_validations? }
+  validates :launch_year, numericality: { only_integer: true, greater_than_or_equal_to: 1900, allow_nil: true, unless: :should_skip_editor_validations? }
 
-  validates :first_name, :last_name, :email, presence: true, if: :apply_editor_validations?
+  validates :launch_year, :first_name, :last_name, :email, presence: true, on: :complete, unless: :should_skip_editor_validations?
 
   friendly_id :snowflake
 
@@ -149,13 +149,7 @@ class SolutionIntake < ApplicationRecord
 
   # A guard predicate to make sure that the intake is valid for transitioning to `in_review`.
   def submittable?
-    currently_applying = apply_editor_validations?
-
-    self.apply_editor_validations = true
-
-    valid?
-  ensure
-    self.apply_editor_validations = currently_applying
+    valid?(:complete)
   end
 
   private

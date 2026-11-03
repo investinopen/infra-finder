@@ -11,15 +11,13 @@ module Mutations
 
       attachment! :logo, image: true
 
-      # As in the admin section, a draft must satisfy the editor validations.
+      # A draft may be incomplete, but its values must be valid.
       #
       # @param [SolutionDraft] solution_draft
       # @param [{ Symbol => Object }] attrs
       # @return [void]
       def call(solution_draft:, **attrs)
         assign_attributes!(solution_draft, **attrs)
-
-        solution_draft.apply_editor_validations = true
 
         persist_model! solution_draft, attach_to: :solution_draft
       end

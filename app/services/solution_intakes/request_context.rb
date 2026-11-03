@@ -11,16 +11,12 @@ module SolutionIntakes
 
     INTAKE_PARAMS = ::SolutionIntake.build_strong_params.freeze
 
-    # @return [Boolean]
-    attr_reader :apply_editor_validations
-
-    alias apply_editor_validations? apply_editor_validations
-
     # An enum that determines how the update should behave.
     #
-    # * `:draft` - The update is a draft and should skip validations.
-    # * `:submit` - The update is a submission and should apply validations, and transition the state
+    # * `:draft` - The update is a draft and only checks the values provided.
+    # * `:submit` - The update is a submission and must also be complete, and transitions the state
     #   to `:in_review` if the solution intake is currently in the `:pending` state.
+    #   Valid values are saved even when the intake is incomplete.
     # @return [:draft, :submit]
     attr_reader :mode
 
@@ -30,15 +26,12 @@ module SolutionIntakes
       super
 
       @mode = skip_validations? ? :draft : :submit
-
-      @apply_editor_validations = submit?
     end
 
     # @param [SolutionIntake] solution_intake
     # @return [void]
     def assign_to!(solution_intake)
       solution_intake.assign_attributes(params)
-      solution_intake.apply_editor_validations = apply_editor_validations?
     end
 
     # Whether we are in `draft` {#mode}.
@@ -52,17 +45,15 @@ module SolutionIntakes
     def update!(solution_intake)
       assign_to!(solution_intake)
 
-      saved = solution_intake.save
+      return Failure(mode) unless solution_intake.save
 
-      if saved
-        if submit? && solution_intake.in_state?(:pending)
-          solution_intake.submit!(current_user:, source: "form")
-        end
+      if submit?
+        return Failure(mode) unless solution_intake.valid?(:complete)
 
-        Success mode
-      else
-        Failure mode
+        solution_intake.submit!(current_user:, source: "form") if solution_intake.in_state?(:pending)
       end
+
+      Success mode
     end
 
     class << self

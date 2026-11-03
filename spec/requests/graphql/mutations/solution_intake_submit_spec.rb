@@ -73,9 +73,11 @@ RSpec.describe Mutations::SolutionIntakeSubmit, type: :request, graphql: :mutati
     context "when the intake is incomplete" do
       let_mutation_input!(:solution_intake_id) { incomplete_intake.to_encoded_id }
 
-      it "skips the intake form's validations" do
+      it "applies the intake form's validations" do
         expect_request! do |req|
-          req.effect! change { incomplete_intake.current_state(force_reload: true) }.from("pending").to("in_review")
+          req.effect! keep_the_same { incomplete_intake.current_state(force_reload: true) }
+
+          req.data! gql.mutation(:solution_intake_submit, no_global_errors: false) { |m| m[:solution_intake] = be_blank }
         end
       end
     end

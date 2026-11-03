@@ -17,6 +17,10 @@ module Mutations
             attach! :solution_intake, solution_intake
           end
 
+          m.failure(:incomplete) do
+            invalid_model! solution_intake
+          end
+
           m.failure do
             something_went_wrong!
           end

@@ -133,8 +133,28 @@ RSpec.describe Solution, type: :model do
   context "when selectively applying editor validations" do
     let_it_be(:solution, refind: true) { FactoryBot.create :solution }
 
-    before do
-      solution.apply_editor_validations = true
+    it "saves an incomplete solution" do
+      expect(solution).to be_valid
+
+      expect(solution).not_to be_valid(:complete)
+    end
+
+    it "saves a published solution that is incomplete" do
+      solution.update_columns(publication: "published")
+
+      solution.mission = "A new mission"
+
+      expect(solution.save).to be true
+    end
+
+    it "will not publish an incomplete solution" do
+      expect do
+        solution.publication = :published
+
+        expect(solution.save).to be false
+      end.to keep_the_same { solution.reload.published? }
+
+      expect(solution.errors).to include :mission
     end
 
     it "applies them by default" do
@@ -167,10 +187,6 @@ RSpec.describe Solution, type: :model do
   context "when applying editor validations" do
     let_it_be(:solution, refind: true) { FactoryBot.create :solution }
 
-    before do
-      solution.apply_editor_validations = true
-    end
-
     context "with restricted category selections" do
       let_it_be(:solution_categories) { FactoryBot.create_list :solution_category, 4 }
 
@@ -181,8 +197,6 @@ RSpec.describe Solution, type: :model do
           solution.save!
         end.to keep_the_same(SolutionCategoryLink, :count)
           .and raise_error(ActiveRecord::RecordInvalid, /too many/i)
-
-        expect(solution).to be_invalid
       end
     end
   end

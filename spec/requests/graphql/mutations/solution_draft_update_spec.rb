@@ -52,6 +52,28 @@ RSpec.describe Mutations::SolutionDraftUpdate, type: :request, graphql: :mutatio
       end
     end
 
+    context "when a required property is cleared" do
+      let_mutation_input!(:mission) { nil }
+
+      it "saves the incomplete draft" do
+        expect_request! do |req|
+          req.effect! change { solution_draft.reload.mission }.to(nil)
+        end
+      end
+    end
+
+    context "with an invalid value" do
+      let_mutation_input!(:mission) { "a" * 5000 }
+
+      it "changes nothing" do
+        expect_request! do |req|
+          req.effect! keep_the_same { solution_draft.reload.mission }
+
+          req.data! gql.mutation(:solution_draft_update, no_global_errors: false) { |m| m[:solution_draft] = be_blank }
+        end
+      end
+    end
+
     context "when the editor validations fail" do
       let_mutation_input!(:name) { "" }
 

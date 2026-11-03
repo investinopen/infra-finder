@@ -25,7 +25,7 @@ module SolutionProperties
       <%- end -%>
       accepts_nested_attributes_for *STRUCTURED_MODEL_NAMES, reject_if: :all_blank
 
-      validates *STRUCTURED_MODEL_NAMES, store_model: { if: :apply_editor_validations? }
+      validates *STRUCTURED_MODEL_NAMES, store_model: { unless: :should_skip_editor_validations? }
     end
     <%- store_model_lists.each do |prop| -%>
 

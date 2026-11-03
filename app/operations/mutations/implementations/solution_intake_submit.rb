@@ -8,8 +8,7 @@ module Mutations
 
       authorizes! :solution_intake, with: :submit?
 
-      # Non-admins submit like the public intake form, which checks the editor validations;
-      # admins can skip them, as in ActiveAdmin.
+      # Every user, admin or not, can only submit a complete intake.
       #
       # @param [SolutionIntake] solution_intake
       # @param [String, nil] note
@@ -17,15 +16,13 @@ module Mutations
       def call(solution_intake:, note: nil)
         admin = current_user.has_any_admin_access?
 
-        unless admin
-          solution_intake.apply_editor_validations = true
-
-          validate_model! solution_intake
-        end
-
         solution_intake.submit(current_user:, note:, source: admin ? "admin" : "form") do |m|
           m.success do
             attach! :solution_intake, solution_intake
+          end
+
+          m.failure(:incomplete) do
+            invalid_model! solution_intake
           end
 
           m.failure do

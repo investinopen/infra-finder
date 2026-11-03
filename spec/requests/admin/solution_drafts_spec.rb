@@ -226,6 +226,23 @@ RSpec.describe "Admin Solution Drafts", type: :request, default_auth: true do
       expect_request_to_fail!(unauthorized: true)
     end
 
+    context "when it is incomplete" do
+      before do
+        solution_draft.update_columns(mission: nil)
+      end
+
+      it "stays pending and shows what is missing" do
+        sign_in editor
+
+        expect do
+          put(request_path, params:)
+        end.to keep_the_same { solution_draft.current_state(force_reload: true) }
+
+        expect(response).to redirect_to(success_path)
+        expect(flash[:alert]).to match(/mission/i)
+      end
+    end
+
     context "when it is already in review" do
       before do
         solution_draft.request_review!

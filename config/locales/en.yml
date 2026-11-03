@@ -38,6 +38,7 @@ en:
         pending_draft_exists: "You already have a pending draft for this solution."
       batch_action:
         published: "Published %{count} solution(s) from the selected."
+        skipped: "Skipped %{count} incomplete or invalid solution(s): %{names}"
         unpublished: "Unpublished %{count} solution(s) from the selected."
     solution_drafts:
       request_review:

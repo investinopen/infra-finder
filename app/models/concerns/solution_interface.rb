@@ -36,12 +36,10 @@ module SolutionInterface
 
     before_validation :set_default_identifier!
 
-    after_commit :clear_editor_validation_application!
-
     validates :website, :research_organization_registry_url, url: { allow_blank: true }
 
     SolutionProperty.with_max_length.each do |prop|
-      validates prop.attribute_name, length: { maximum: prop.max_length, if: :apply_editor_validations?, unless: :should_skip_editor_validations? }
+      validates prop.attribute_name, length: { maximum: prop.max_length, unless: :should_skip_editor_validations? }
     end
 
     SolutionProperty.with_presence_required_for(solution_kind).each do |prop|
@@ -67,24 +65,9 @@ module SolutionInterface
     self.identifier ||= SecureRandom.uuid
   end
 
-  # @return [Boolean]
-  attr_accessor :apply_editor_validations
-
-  alias apply_editor_validations? apply_editor_validations
-
-  # @api private
-  # @return [void]
-  def clear_editor_validation_application!
-    @apply_editor_validations = false
-  end
-
-  # @return [Boolean]
-  attr_accessor :skip_editor_validations
-
-  # @see #skip_editor_validations
   # @see Solutions::Validations#should_skip_editor_validations?
   def should_skip_editor_validations?
-    skip_editor_validations.present? || Solutions::Validations.should_skip_editor_validations?
+    Solutions::Validations.should_skip_editor_validations?
   end
 
   module ClassMethods

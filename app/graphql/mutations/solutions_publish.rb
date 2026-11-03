@@ -5,6 +5,7 @@ module Mutations
   class SolutionsPublish < Mutations::BaseMutation
     description <<~TEXT
     Publish several solutions at once. Solutions that are already published are left as they are.
+    Solutions that are incomplete or invalid are left unpublished, with an error for each.
     TEXT
 
     field :solutions, [Types::SolutionType, { null: false }], null: true do

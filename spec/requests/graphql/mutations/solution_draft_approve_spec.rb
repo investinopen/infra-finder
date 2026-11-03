@@ -54,6 +54,21 @@ RSpec.describe Mutations::SolutionDraftApprove, type: :request, graphql: :mutati
 
       expect(solution_draft.last_transition.memo).to eq "A memo"
     end
+
+    context "when the draft is incomplete" do
+      before { solution_draft.update_columns(mission: nil) }
+
+      it "returns an error and leaves the draft in review and the solution unpublished" do
+        expect_request! do |req|
+          req.effect! keep_the_same { solution_draft.current_state(force_reload: true) }
+            .and keep_the_same { solution.reload.published? }
+
+          req.data! gql.mutation(:solution_draft_approve, no_global_errors: false) { |m| m[:solution_draft] = be_blank }
+        end
+
+        expect(graphql_response(:data, :solutionDraftApprove, :globalErrors).size).to eq 1
+      end
+    end
   end
 
   as_an_admin_user do
