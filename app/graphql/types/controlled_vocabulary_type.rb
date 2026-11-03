@@ -33,11 +33,23 @@ module Types
       description "The vocabulary's records."
     end
 
+    field :record, ::Types::ControlledVocabularyRecordType, null: true do
+      description "A single record in the vocabulary."
+
+      argument :url_slug, String, required: true do
+        description "The human-readable slug to look up, as used in public URLs. Previous slugs also match."
+      end
+    end
+
     # @return [String]
     def kind = object.model_name
 
     # @return [String]
     def label = object.model_klass.model_name.human.pluralize
+
+    # @param [String] url_slug
+    # @return [ControlledVocabularyRecord, nil]
+    def record(url_slug:) = load_record_by_url_slug(object.model_klass, url_slug)
 
     # @return [Integer]
     def records_count = object.model_klass.count

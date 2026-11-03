@@ -25,6 +25,15 @@ module Support
         dataloader.with(GraphQL::Dataloader::ActiveRecordSource, klass, **options).load(id)
       end
 
+      # @param [Class(ApplicationRecord)] klass a model that uses friendly_id
+      # @param [String] url_slug a current or previous human-readable slug
+      # @return [ApplicationRecord, nil]
+      def load_record_by_url_slug(klass, url_slug)
+        klass.friendly.find(url_slug)
+      rescue ActiveRecord::RecordNotFound
+        nil
+      end
+
       # If we are using graphql-batch / promises, await the promises.
       # Otherwise, just return the values as-is.
       def maybe_await(promises)
