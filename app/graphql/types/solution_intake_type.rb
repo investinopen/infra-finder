@@ -8,6 +8,7 @@ module Types
     TEXT
 
     implements ::Types::CommentableType
+    implements ::Types::CompletableType
     implements ::Types::SolutionInterfaceType
 
     field :snowflake, String, null: false do

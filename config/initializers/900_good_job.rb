@@ -30,6 +30,12 @@ Rails.application.configure do
       description: "Recount empty properties on every solution",
       set: { priority: 500 },
     },
+    check_missing_properties: {
+      cron: "15 7 * * *",
+      class: "Solutions::CheckAllMissingPropertiesJob",
+      description: "Recheck which required properties every solution, draft, and intake is missing",
+      set: { priority: 500 },
+    },
     comparison_prune: {
       cron: "0 8 * * *",
       class: "Comparisons::PruneJob",

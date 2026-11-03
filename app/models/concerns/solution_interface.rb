@@ -34,7 +34,12 @@ module SolutionInterface
 
     scope :with_all_facets_loaded, -> { preload(:provider, *SolutionProperty.eager_load_associations).strict_loading }
 
+    scope :complete, -> { where(missing_properties: []) }
+    scope :incomplete, -> { where("cardinality(#{quoted_table_name}.missing_properties) > 0") }
+
     before_validation :set_default_identifier!
+
+    before_save :derive_missing_properties!
 
     validates :website, :research_organization_registry_url, url: { allow_blank: true }
 
@@ -42,9 +47,7 @@ module SolutionInterface
       validates prop.attribute_name, length: { maximum: prop.max_length, unless: :should_skip_editor_validations? }
     end
 
-    SolutionProperty.with_presence_required_for(solution_kind).each do |prop|
-      validates prop.attribute_name, presence: prop.required_presence_options
-    end
+    validate :check_completeness!, on: :complete, unless: :should_skip_editor_validations?
 
     expose_ransackable_associations!(*SolutionProperty.ransackable_associations)
     expose_ransackable_attributes!(*SolutionProperty.ransackable_attributes)
@@ -69,6 +72,41 @@ module SolutionInterface
   def should_skip_editor_validations?
     Solutions::Validations.should_skip_editor_validations?
   end
+
+  # @!group Completeness
+
+  # Attributes that must have a value, beyond the required solution properties.
+  #
+  # @abstract
+  # @return [<Symbol>]
+  def additional_required_attributes = []
+
+  # Whether every required property has a value, as of the last save.
+  #
+  # @return [Boolean, nil] nil when not yet checked
+  def complete? = missing_properties&.empty?
+
+  # @see Solutions::FindMissingProperties
+  # @return [Dry::Monads::Success(<String>)]
+  monadic_operation! def find_missing_properties
+    call_operation("solutions.find_missing_properties", self)
+  end
+
+  # @api private
+  # @return [void]
+  def check_completeness!
+    find_missing_properties!.each do |attribute|
+      errors.add(attribute, :blank)
+    end
+  end
+
+  # @api private
+  # @return [void]
+  def derive_missing_properties!
+    self.missing_properties = find_missing_properties!
+  end
+
+  # @!endgroup
 
   module ClassMethods
     # @return [String]

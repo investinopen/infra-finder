@@ -21,7 +21,7 @@ A submission made on behalf of a provider that proposes a new solution, reviewed
 _Avoid_: Application, form, submission
 
 **Solution property**:
-A single piece of information that describes a solution, such as its mission, website, or categories.
+A single piece of information that describes a solution, such as its mission, website, or categories. A solution property may or may not be required. If it is required and empty, it is considered a _missing_ property.
 _Avoid_: Field, attribute, question
 
 **Solution completeness**:

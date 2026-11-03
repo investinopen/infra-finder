@@ -34,6 +34,10 @@ module Filtering
         arg.description "Filter to solutions with a draft in review."
       end
 
+      boolean_scope! :complete, falsey_scope: :incomplete do |arg|
+        arg.description "Filter to solutions that are complete (true) or incomplete (false)."
+      end
+
       integer_match! :empty_properties_count
 
       timestamps!

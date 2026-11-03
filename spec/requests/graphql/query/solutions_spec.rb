@@ -22,6 +22,8 @@ RSpec.describe "Query.solutions", type: :request, graphql: true do
         nodes {
           name
           emptyPropertiesCount
+          complete
+          missingProperties
           publication
           firstName
           provider { name }
@@ -83,6 +85,34 @@ RSpec.describe "Query.solutions", type: :request, graphql: true do
       it "applies the filter" do
         expect(names).to include(own_unpublished.name, other_unpublished.name)
         expect(names).not_to include(other_published.name)
+      end
+    end
+
+    context "when filtering by completeness" do
+      before_all do
+        own_unpublished.update_columns(missing_properties: [])
+        other_published.update_columns(missing_properties: ["mission"])
+        other_unpublished.update_columns(missing_properties: nil)
+      end
+
+      context "with complete solutions" do
+        let(:filters) { { complete: true } }
+
+        it "applies the filter" do
+          expect(names).to contain_exactly(own_unpublished.name)
+
+          expect(graphql_response(:data, :solutions, :nodes, 0)).to include("complete" => true, "missingProperties" => [])
+        end
+      end
+
+      context "with incomplete solutions" do
+        let(:filters) { { complete: false } }
+
+        it "applies the filter" do
+          expect(names).to contain_exactly(other_published.name)
+
+          expect(graphql_response(:data, :solutions, :nodes, 0)).to include("complete" => false, "missingProperties" => ["mission"])
+        end
       end
     end
 

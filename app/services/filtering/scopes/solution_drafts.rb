@@ -16,6 +16,10 @@ module Filtering
         arg.description "Filter to drafts created by one or more users."
       end
 
+      boolean_scope! :complete, falsey_scope: :incomplete do |arg|
+        arg.description "Filter to drafts that are complete (true) or incomplete (false)."
+      end
+
       timestamps!
     end
   end
