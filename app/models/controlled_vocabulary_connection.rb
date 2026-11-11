@@ -194,6 +194,8 @@ class ControlledVocabularyConnection < Support::FrozenRecordHelpers::AbstractRec
 
     klass.has_many link_assoc_name, -> { where(conditions) }, class_name: linkage.link_model_name, dependent: :destroy, inverse_of: linkage.source_reference
     klass.has_many assoc_name, -> { in_default_order }, through: link_assoc_name, source: linkage.target_reference
+
+    klass.validates assoc_name, length: { maximum: max_length, message: :option_limit_exceeded } if limits_max_length?
   end
 
   # @param [Class(ApplicationRecord)] klass

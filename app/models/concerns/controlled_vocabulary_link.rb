@@ -39,22 +39,6 @@ module ControlledVocabularyLink
     __send__(solution_association.name).__send__(solution_link_association.name)
   end
 
-  # @api private
-  # @return [Integer]
-  def multiple_selection_count_for(assoc)
-    solution_connection_association.for_assoc(assoc).multiple.count
-  end
-
-  # @api private
-  # @return [void]
-  def check_connection_limits!
-    ControlledVocabularyConnection.each_connection_with_length_limits_for(vocab_name:, solution_kind:) do |conn|
-      if multiple_selection_count_for(conn.assoc) >= conn.max_length
-        errors.add :base, :option_limit_exceeded
-      end
-    end
-  end
-
   module ClassMethods
     delegate :name, to: :solution_link_association, prefix: true
 
@@ -123,8 +107,6 @@ module ControlledVocabularyLink
     def derive_validations!
       validates linkage.source_id, uniqueness: { scope: %i[assoc], if: :single? }
       validates linkage.source_id, uniqueness: { scope: [linkage.target_id, :assoc], unless: :single? }
-
-      before_validation :check_connection_limits!, unless: :single?
     end
   end
 end
