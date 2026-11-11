@@ -186,4 +186,72 @@ RSpec.describe Solution, type: :model do
       end
     end
   end
+
+  context "when assigning too many categories" do
+    let_it_be(:solution, refind: true) { FactoryBot.create(:solution) }
+
+    let_it_be(:solution_categories) { FactoryBot.create_list :solution_category, 4 }
+
+    it "catches the error" do
+      expect do
+        solution.solution_categories = solution_categories
+
+        solution.valid?
+      end.to execute_safely
+        .and keep_the_same(SolutionCategoryLink, :count)
+        .and change(solution, :valid?).from(true).to(false)
+
+      expect(solution.errors.of_kind?(:solution_categories, :too_long)).to be true
+      expect(solution.save).to be false
+
+      solution.solution_categories = solution_categories.first(3)
+
+      expect(solution).to be_valid
+      expect(solution.reload.solution_categories).to match_array(solution_categories.first(3))
+    end
+
+    it "preserves existing selections when assigning too many categories" do
+      solution.solution_categories = solution_categories.first(2)
+
+      expect do
+        solution.solution_categories = solution_categories
+      end.to keep_the_same(SolutionCategoryLink, :count)
+
+      expect(solution.solution_categories).to match_array(solution_categories)
+      expect(solution).to be_invalid
+      expect(solution.save).to be false
+      expect(solution.reload.solution_categories).to match_array(solution_categories.first(2))
+    end
+
+    it "validates excessive category IDs without persisting them" do
+      expect do
+        solution.solution_category_ids = solution_categories.map(&:id)
+      end.to keep_the_same(SolutionCategoryLink, :count)
+
+      expect(solution).to be_invalid
+      expect(solution.errors.of_kind?(:solution_categories, :too_long)).to be true
+
+      solution.solution_category_ids = solution_categories.first(3).map(&:id)
+
+      expect(solution).to be_valid
+      expect(solution.reload.solution_categories).to match_array(solution_categories.first(3))
+    end
+
+    it "validates selections on a new solution before saving its links" do
+      new_solution = FactoryBot.build :solution
+
+      expect do
+        new_solution.solution_categories = solution_categories
+
+        expect(new_solution.save).to be false
+      end.to keep_the_same(SolutionCategoryLink, :count)
+
+      expect(new_solution.errors.of_kind?(:solution_categories, :too_long)).to be true
+
+      new_solution.solution_categories = solution_categories.first(3)
+      new_solution.save!
+
+      expect(new_solution.reload.solution_categories).to match_array(solution_categories.first(3))
+    end
+  end
 end
