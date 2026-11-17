@@ -12,6 +12,8 @@ module Shared
 
     tc.add! :solution_kind, Solutions::Types::Kind
 
+    tc.add! :user_privileged_data_change, ::Users::PrivilegedDataChange::Type
+
     tc.add_model! "Comment"
     tc.add_model! "Invitation"
     tc.add_model! "Provider"

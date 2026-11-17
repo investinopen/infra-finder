@@ -2,6 +2,8 @@
 
 # @see User
 class UserPolicy < ApplicationPolicy
+  pre_check :deny_anonymous!, only: %i[manage_own_session? update? send_reset_password_instructions?]
+
   def index?
     has_any_admin_access?
   end

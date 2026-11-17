@@ -155,6 +155,11 @@ class ApplicationPolicy < ActionPolicy::Base
 
   # @!endgroup
 
+  # @return [void]
+  def deny_anonymous!
+    deny!("anonymous user") if anonymous?
+  end
+
   def record_exists_in_scope?
     apply_scope(record.class.all, type: :active_record_relation).exists?(id: record.id)
   end
