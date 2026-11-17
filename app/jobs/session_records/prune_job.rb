@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-module Sessions
+module SessionRecords
   # Prune database sessions that have not been used within the session TTL.
   #
+  # @see SessionRecord
   # @see SessionConfig#ttl
   class PruneJob < ApplicationJob
     queue_as :maintenance
@@ -11,7 +12,9 @@ module Sessions
 
     # @return [void]
     def perform
-      ActiveRecord::SessionStore::Session.where(updated_at: ...SessionConfig.ttl.days.ago).in_batches.delete_all
+      ::SessionRecord.expired.prune!
+
+      ::Sessions.sweep!
     end
   end
 end
