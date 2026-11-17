@@ -4,6 +4,7 @@
 module ControlledVocabularyRecord
   extend ActiveSupport::Concern
   extend DefinesMonadicOperation
+  extend Support::Typing
 
   include BuildsSelectOptions
   include ExposesRansackable
