@@ -81,6 +81,8 @@ module Types
 
     field :viewer_accept_terms, mutation: Mutations::ViewerAcceptTerms, terms_exempt: true
 
+    field :viewer_update, mutation: Mutations::ViewerUpdate
+
     field :viewer_update_notifications, mutation: Mutations::ViewerUpdateNotifications
   end
 end

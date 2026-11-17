@@ -15,36 +15,30 @@ module Mutations
       TEXT
     end
 
-    argument :email, String, required: false do
-      description "The user's email address."
-    end
-
-    argument :name, String, required: false do
-      description "The user's display name."
-    end
+    shared_argument_set Mutations::Shared::UserData
 
     argument :admin, Boolean, required: false do
-      description "Whether the user is an admin."
+      description <<~TEXT
+      Whether the user is an admin.
+      TEXT
     end
 
     argument :super_admin, Boolean, required: false do
-      description "Whether the user is a super admin."
-    end
-
-    argument :password, String, required: false do
-      description "A new password. Changing it signs the user out of the API everywhere."
-    end
-
-    argument :password_confirmation, String, required: false do
-      description "Must match `password`."
+      description <<~TEXT
+      Whether the user is a super admin.
+      TEXT
     end
 
     argument :comment_notifications, Types::SubscriptionType, required: false do
-      description "Whether the user is emailed about comments."
+      description <<~TEXT
+      Whether the user is emailed about comments.
+      TEXT
     end
 
     argument :solution_notifications, Types::SubscriptionType, required: false do
-      description "Whether the user is emailed about solution workflow changes."
+      description <<~TEXT
+      Whether the user is emailed about solution workflow changes.
+      TEXT
     end
   end
 end
