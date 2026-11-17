@@ -1332,35 +1332,105 @@ CREATE TABLE public.security_standards (
 
 
 --
--- Name: sessions; Type: TABLE; Schema: public; Owner: -
+-- Name: session_records; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.sessions (
-    id bigint NOT NULL,
+CREATE TABLE public.session_records (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    user_id uuid,
     session_id character varying NOT NULL,
-    data text,
+    init_access_ip inet,
+    last_access_ip inet,
+    data jsonb DEFAULT '{}'::jsonb NOT NULL,
+    last_user_request_at timestamp without time zone,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
 --
--- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: sessions; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.sessions_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+CREATE TABLE public.sessions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    user_id uuid NOT NULL,
+    ip_address inet,
+    user_agent text,
+    token_digest character varying,
+    scope character varying,
+    adoption_key character varying,
+    auth_method character varying,
+    auth_provider character varying,
+    auth_detail jsonb,
+    browser_name character varying,
+    browser_version character varying,
+    os_name character varying,
+    os_version character varying,
+    device_type character varying,
+    device_model character varying,
+    app_name character varying,
+    app_version character varying,
+    app_build character varying,
+    client_hints jsonb,
+    country_code character varying(2),
+    country_name character varying,
+    city character varying,
+    region character varying,
+    device_id character varying(36),
+    last_seen_at timestamp(6) without time zone,
+    last_seen_ip character varying(45),
+    ended_at timestamp(6) without time zone,
+    ended_reason character varying,
+    ended_by_type character varying,
+    ended_by_id uuid,
+    ended_metadata jsonb,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+);
 
 
 --
--- Name: sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: sessions_events; Type: TABLE; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
+CREATE TABLE public.sessions_events (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    event character varying NOT NULL,
+    authenticatable_type character varying,
+    authenticatable_id uuid,
+    scope character varying,
+    session_id uuid,
+    identity character varying,
+    device_id character varying(36),
+    auth_method character varying,
+    auth_provider character varying,
+    auth_detail jsonb,
+    failure_reason character varying,
+    revoked_reason character varying,
+    ip_address inet,
+    user_agent text,
+    client_hints jsonb,
+    browser_name character varying,
+    browser_version character varying,
+    os_name character varying,
+    os_version character varying,
+    device_type character varying,
+    device_model character varying,
+    app_name character varying,
+    app_version character varying,
+    app_build character varying,
+    country_code character varying(2),
+    country_name character varying,
+    city character varying,
+    region character varying,
+    latitude numeric(10,7),
+    longitude numeric(10,7),
+    request_id character varying,
+    context character varying,
+    metadata jsonb,
+    occurred_at timestamp(6) without time zone NOT NULL
+);
 
 
 --
@@ -3445,13 +3515,6 @@ CREATE TABLE public.values_frameworks (
 
 
 --
--- Name: sessions id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.sessions_id_seq'::regclass);
-
-
---
 -- Name: solution_imports identifier; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3800,6 +3863,22 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.security_standards
     ADD CONSTRAINT security_standards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: session_records session_records_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.session_records
+    ADD CONSTRAINT session_records_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sessions_events sessions_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions_events
+    ADD CONSTRAINT sessions_events_pkey PRIMARY KEY (id);
 
 
 --
@@ -6111,17 +6190,150 @@ CREATE UNIQUE INDEX index_security_standards_on_term ON public.security_standard
 
 
 --
--- Name: index_sessions_on_session_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_session_records_on_session_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_sessions_on_session_id ON public.sessions USING btree (session_id);
+CREATE UNIQUE INDEX index_session_records_on_session_id ON public.session_records USING btree (session_id);
 
 
 --
--- Name: index_sessions_on_updated_at; Type: INDEX; Schema: public; Owner: -
+-- Name: index_session_records_on_updated_at; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_sessions_on_updated_at ON public.sessions USING btree (updated_at);
+CREATE INDEX index_session_records_on_updated_at ON public.session_records USING btree (updated_at);
+
+
+--
+-- Name: index_session_records_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_session_records_on_user_id ON public.session_records USING btree (user_id);
+
+
+--
+-- Name: index_sessions_events_on_authenticatable_and_occurred_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_events_on_authenticatable_and_occurred_at ON public.sessions_events USING btree (authenticatable_type, authenticatable_id, occurred_at);
+
+
+--
+-- Name: index_sessions_events_on_device_id_and_occurred_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_events_on_device_id_and_occurred_at ON public.sessions_events USING btree (device_id, occurred_at);
+
+
+--
+-- Name: index_sessions_events_on_event_and_occurred_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_events_on_event_and_occurred_at ON public.sessions_events USING btree (event, occurred_at);
+
+
+--
+-- Name: index_sessions_events_on_identity; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_events_on_identity ON public.sessions_events USING btree (identity);
+
+
+--
+-- Name: index_sessions_events_on_ip_address; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_events_on_ip_address ON public.sessions_events USING btree (ip_address);
+
+
+--
+-- Name: index_sessions_events_on_occurred_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_events_on_occurred_at ON public.sessions_events USING btree (occurred_at);
+
+
+--
+-- Name: index_sessions_events_on_session_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_events_on_session_id ON public.sessions_events USING btree (session_id);
+
+
+--
+-- Name: index_sessions_on_adoption_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_sessions_on_adoption_key ON public.sessions USING btree (adoption_key);
+
+
+--
+-- Name: index_sessions_on_auth_method; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_on_auth_method ON public.sessions USING btree (auth_method);
+
+
+--
+-- Name: index_sessions_on_auth_provider; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_on_auth_provider ON public.sessions USING btree (auth_provider);
+
+
+--
+-- Name: index_sessions_on_country_code; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_on_country_code ON public.sessions USING btree (country_code);
+
+
+--
+-- Name: index_sessions_on_device_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_on_device_id ON public.sessions USING btree (device_id);
+
+
+--
+-- Name: index_sessions_on_ended_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_on_ended_at ON public.sessions USING btree (ended_at);
+
+
+--
+-- Name: index_sessions_on_ended_by_type_and_ended_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_on_ended_by_type_and_ended_by_id ON public.sessions USING btree (ended_by_type, ended_by_id);
+
+
+--
+-- Name: index_sessions_on_ended_reason; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_on_ended_reason ON public.sessions USING btree (ended_reason);
+
+
+--
+-- Name: index_sessions_on_last_seen_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_on_last_seen_at ON public.sessions USING btree (last_seen_at);
+
+
+--
+-- Name: index_sessions_on_token_digest; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_sessions_on_token_digest ON public.sessions USING btree (token_digest);
+
+
+--
+-- Name: index_sessions_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_sessions_on_user_id ON public.sessions USING btree (user_id);
 
 
 --
@@ -8925,6 +9137,14 @@ CREATE UNIQUE INDEX udx_solution_values_frameworks_single ON public.solution_val
 
 
 --
+-- Name: session_records fk_rails_04f115a08a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.session_records
+    ADD CONSTRAINT fk_rails_04f115a08a FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: noticed_events fk_rails_05e303c326; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -9746,6 +9966,14 @@ ALTER TABLE ONLY public.solutions
 
 ALTER TABLE ONLY public.solution_draft_community_engagement_activities
     ADD CONSTRAINT fk_rails_74990b81fc FOREIGN KEY (community_engagement_activity_id) REFERENCES public.community_engagement_activities(id) ON DELETE CASCADE;
+
+
+--
+-- Name: sessions fk_rails_758836b4f0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT fk_rails_758836b4f0 FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -10787,6 +11015,9 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261117174252'),
+('20261117174251'),
+('20261117173555'),
 ('20261103202056'),
 ('20261027175940'),
 ('20261027172839'),

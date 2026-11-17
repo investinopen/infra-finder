@@ -12,6 +12,8 @@ class User < ApplicationRecord
     :recoverable, :rememberable, :validatable,
     :confirmable, :lockable, :timeoutable, :trackable
 
+  has_sessions
+
   # A Rack env key that, when set, makes a sign-out keep the user's token
   # sessions (see the Warden hook in `config/initializers/devise.rb`).
   KEEP_TOKEN_SESSIONS = "infra_finder.keep_token_sessions"
@@ -66,6 +68,8 @@ class User < ApplicationRecord
   has_many :solution_intake_sources, inverse_of: :editor, class_name: "SolutionIntake", foreign_key: :editor_id, dependent: :nullify
   has_many :solution_intake_transitions, inverse_of: :user, dependent: :nullify
 
+  has_many :session_records, inverse_of: :user, dependent: :destroy
+
   before_validation :derive_kind!
 
   after_update :revoke_token_sessions!, if: :saved_change_to_encrypted_password?
@@ -83,30 +87,20 @@ class User < ApplicationRecord
   alias editor? editor_kind?
   alias has_any_editor_access? editor_kind?
 
-  def accepted_terms?
-    accepted_terms_at?
-  end
+  def accepted_terms? = accepted_terms_at?
 
   # @see AnonymousInterface#anonymous?
   def anonymous? = false
 
   alias has_accepted_terms? accepted_terms?
 
-  def has_unaccepted_terms?
-    !has_accepted_terms?
-  end
+  def has_unaccepted_terms? = !has_accepted_terms?
 
-  def has_any_admin_access?
-    super_admin? || admin?
-  end
+  def has_any_admin_access? = super_admin? || admin?
 
-  def has_any_admin_or_editor_access?
-    has_any_admin_access? || has_any_editor_access?
-  end
+  def has_any_admin_or_editor_access? = has_any_admin_access? || has_any_editor_access?
 
-  def has_no_admin_access?
-    !has_any_admin_access?
-  end
+  def has_no_admin_access? = !has_any_admin_access?
 
   # Anyone who may use the GraphQL API, and has accepted the terms, may upload files.
   #
@@ -117,13 +111,9 @@ class User < ApplicationRecord
   end
 
   # @param [Solution] solution
-  def has_pending_draft_for?(solution)
-    pending_draft_scope_for(solution).exists?
-  end
+  def has_pending_draft_for?(solution) = pending_draft_scope_for(solution).exists?
 
-  def has_provider_editor_assignments?
-    provider_editor_assignments.exists?
-  end
+  def has_provider_editor_assignments? = provider_editor_assignments.exists?
 
   # Every sign-in is remembered, so a sign-in session outlives Devise's
   # `timeoutable` and lasts `Devise.remember_for`. This overrides the

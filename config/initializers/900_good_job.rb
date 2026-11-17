@@ -56,8 +56,8 @@ Rails.application.configure do
     },
     session_prune: {
       cron: "30 8 * * *",
-      class: "Sessions::PruneJob",
-      description: "Prune expired sessions",
+      class: "SessionRecords::PruneJob",
+      description: "Prune expired session records",
       set: { priority: 500 },
     },
     refresh_option_counters: {
