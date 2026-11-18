@@ -3,6 +3,7 @@
 module Invitations
   # @see Invitations::Attempt
   class Attempter < Support::HookBased::Actor
+    include Support::Requests::ReadsCurrentUser
     include Dry::Initializer[undefined: false].define -> do
       option :provider, Types::Provider
 
@@ -16,6 +17,9 @@ module Invitations
     end
 
     standard_execution!
+
+    # @return [User, nil]
+    attr_reader :admin
 
     # @return [Invitation, nil]
     attr_reader :invitation
@@ -33,13 +37,15 @@ module Invitations
     end
 
     wrapped_hook! def prepare
+      @admin = current_authenticated_user
+
       @invitation = nil
 
       super
     end
 
     wrapped_hook! def attempt
-      @invitation = Invitation.new(provider:, email:, first_name:, last_name:, memo:)
+      @invitation = Invitation.new(provider:, email:, first_name:, last_name:, admin:, memo:)
 
       unless @invitation.save
         @invitation = nil
