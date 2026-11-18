@@ -12,7 +12,7 @@ module Mutations
       # @param [String, nil] note
       # @return [void]
       def call(solution_intake:, note: nil)
-        solution_intake.approve(current_user:, note:, source: "admin") do |m|
+        solution_intake.approve(note:, source: "admin") do |m|
           m.success do
             attach! :solution_intake, solution_intake
           end

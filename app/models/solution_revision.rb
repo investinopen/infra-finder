@@ -37,6 +37,6 @@ class SolutionRevision < ApplicationRecord
 
   # @return [void]
   def assign_current_user!
-    self.user ||= current_user if current_user.present?
+    self.user ||= current_authenticated_user
   end
 end

@@ -50,7 +50,7 @@ module SolutionIntakes
       if submit?
         return Failure(mode) unless solution_intake.valid?(:complete)
 
-        solution_intake.submit!(current_user:, source: "form") if solution_intake.in_state?(:pending)
+        solution_intake.submit!(source: "form") if solution_intake.in_state?(:pending)
       end
 
       Success mode

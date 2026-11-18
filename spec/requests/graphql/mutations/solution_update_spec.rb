@@ -7,6 +7,14 @@ RSpec.describe Mutations::SolutionUpdate, type: :request, graphql: :mutation do
       solution {
         name
         mission
+
+        revisions(order: RECENT) {
+          nodes {
+            user {
+              id
+            }
+          }
+        }
       }
       ... ErrorFragment
     }
@@ -59,6 +67,16 @@ RSpec.describe Mutations::SolutionUpdate, type: :request, graphql: :mutation do
         m.prop(:solution) do |s|
           s[:name] = solution.name
           s[:mission] = "A new mission"
+
+          s.prop :revisions do |r|
+            r.array :nodes do |n|
+              n.item do |node|
+                node.prop :user do |u|
+                  u[:id] = current_user.to_encoded_id
+                end
+              end
+            end
+          end
         end
       end
 

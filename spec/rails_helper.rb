@@ -162,10 +162,6 @@ RSpec.configure do |config|
     Faker::UniqueGenerator.clear
   end
 
-  config.after do
-    RequestStore.store.clear
-  end
-
   config.around do |example|
     DatabaseCleaner.cleaning do
       example.run
