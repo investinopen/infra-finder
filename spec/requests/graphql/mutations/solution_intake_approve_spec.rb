@@ -47,7 +47,8 @@ RSpec.describe Mutations::SolutionIntakeApprove, type: :request, graphql: :mutat
 
       expect_request! do |req|
         req.effect! change { solution_intake.current_state(force_reload: true) }.from("in_review").to("approved")
-          .and change(Solution, :count).by(1)
+        req.effect! change(Solution, :count).by(1)
+        req.effect! change(Invitation.where(admin: current_user), :count).by(1)
 
         req.data! expected_shape
       end
