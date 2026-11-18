@@ -17,7 +17,7 @@ module Types
       TEXT
     end
 
-    field :user, "::Types::UserType" do
+    field :initiator, "::Types::UserType" do
       description <<~TEXT
       The user who performed the transition, if available.
 
@@ -25,6 +25,18 @@ module Types
       TEXT
     end
 
-    load_association! :user
+    field :user, "::Types::UserType", deprecation_reason: "Use `incitingUser` instead." do
+      description <<~TEXT
+      Formerly the user who performed the transition.
+
+      Use `initiator` instead.
+      TEXT
+    end
+
+    load_association! :initiator
+
+    # @note Always nil. Use `initiator` instead.
+    # @return [nil]
+    def user = nil
   end
 end

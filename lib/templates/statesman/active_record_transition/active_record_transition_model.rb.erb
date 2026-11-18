@@ -3,7 +3,12 @@
 # @see <%= klass.sub(/Transition\z/, "") %>
 # @see <%= klass.sub(/Transition\z/, "s::StateMachine") %>
 class <%= klass %> < ApplicationRecord
-  include StandardTransition
+  include Support::StatesmanHelpers::Transition
+  include CommonTransition
 
-  set_up_transition! <%= parent_name.to_sym.inspect %>, inverse_of: <%= table_name.to_sym.inspect %>
+  belongs_to <%= parent_name.to_sym.inspect %>, inverse_of: <%= table_name.to_sym.inspect %>
+  belongs_to :initiator, optional: true, polymorphic: true
+
+  owner_association_name <%= parent_name.to_sym.inspect %>
+  transitions_association_name <%= table_name.to_sym.inspect %>
 end

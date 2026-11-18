@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe StandardTransitionPolicy, type: :policy do
+RSpec.describe CommonTransitionPolicy, type: :policy do
   include_context "a standard policy"
 
   let_it_be(:transition, refind: true) { FactoryBot.create(:solution_intake).tap { _1.transition_to!(:in_review) }.solution_intake_transitions.last }

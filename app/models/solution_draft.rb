@@ -10,6 +10,8 @@ class SolutionDraft < ApplicationRecord
   include TimestampScopes
   include UsesStatesman
 
+  pg_enum! :state, as: :solution_draft_state, default: :pending, allow_blank: false
+
   has_state_machine! predicates: :ALL
 
   clear_exposed_ransackable_attributes!

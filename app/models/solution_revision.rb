@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class SolutionRevision < ApplicationRecord
+  include ::Support::Requests::ReadsCurrentUser
   include Commentable
   include TimestampScopes
 
@@ -28,5 +29,14 @@ class SolutionRevision < ApplicationRecord
 
   strip_attributes only: %i[note reason]
 
+  before_validation :assign_current_user!
+
   validates :note, :reason, length: { maximum: 500 }
+
+  private
+
+  # @return [void]
+  def assign_current_user!
+    self.user ||= current_user if current_user.present?
+  end
 end

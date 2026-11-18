@@ -10,6 +10,8 @@ class SolutionImport < ApplicationRecord
   include TimestampScopes
   include UsesStatesman
 
+  pg_enum! :state, as: :solution_import_state, default: :pending, allow_blank: false, suffix: :state
+
   has_state_machine!
 
   pg_enum! :strategy, as: :solution_import_strategy, allow_blank: false

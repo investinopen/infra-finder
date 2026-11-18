@@ -20,5 +20,9 @@ module SolutionDrafts
     after_transition do |solution_draft, _|
       solution_draft.refresh_solution_draft_counts!
     end
+
+    after_transition do |solution_draft, transition|
+      solution_draft.update_column :state, transition.to_state
+    end
   end
 end

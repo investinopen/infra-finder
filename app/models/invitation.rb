@@ -8,6 +8,8 @@ class Invitation < ApplicationRecord
   include TimestampScopes
   include UsesStatesman
 
+  pg_enum! :state, as: :invitation_state, default: :pending, allow_blank: false
+
   has_state_machine!
 
   define_simple_lookups! :email

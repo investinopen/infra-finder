@@ -4,7 +4,7 @@ module Policies
   # Per-request memoization for policy checks that would otherwise repeat for
   # every row of a collection.
   #
-  # @see StandardTransitionPolicy#show?
+  # @see CommonTransitionPolicy#show?
   class Current < ActiveSupport::CurrentAttributes
     attribute :memo, default: -> { {} }
 

@@ -13,7 +13,9 @@ module Support
 
       Predicates = Value(:ALL) | Array.of(Coercible::Symbol)
 
-      TransitionClass = Inherits(::ActiveRecord::Base)
+      ModelClass = ::Support::Models::Types::ModelClass
+
+      TransitionClass = ModelClass
     end
   end
 end

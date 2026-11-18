@@ -3,11 +3,16 @@
 # @see SolutionIntake
 # @see SolutionIntakes::StateMachine
 class SolutionIntakeTransition < ApplicationRecord
-  include StandardTransition
+  include Support::StatesmanHelpers::Transition
+  include CommonTransition
 
-  set_up_transition! :solution_intake, inverse_of: :solution_intake_transitions
+  stateful_enum! :solution_intake_state
 
-  belongs_to :user, inverse_of: :solution_intake_transitions, optional: true
+  belongs_to :solution_intake, inverse_of: :solution_intake_transitions
+  belongs_to :initiator, optional: true, polymorphic: true
+
+  owner_association_name :solution_intake
+  transitions_association_name :solution_intake_transitions
 
   attribute :metadata, SolutionIntakes::TransitionMetadata.to_type
 

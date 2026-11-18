@@ -10,7 +10,8 @@ module Subscriptions
     transition from: :unsubscribed, to: :subscribed
     transition from: :subscribed, to: :unsubscribed
 
-    after_transition do |record, _|
+    after_transition do |record, transition|
+      record.update_column :state, transition.to_state
       record.touch(:updated_at)
     end
   end
