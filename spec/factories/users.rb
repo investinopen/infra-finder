@@ -4,6 +4,7 @@ FactoryBot.define do
   factory :user do
     transient do
       confirmed { true }
+      editor_for { [] }
     end
 
     sequence(:email) { "test-#{_1.to_s.rjust(3, ?0)}@example.com" }
@@ -41,6 +42,12 @@ FactoryBot.define do
 
     after(:build) do |user, evaluator|
       user.skip_confirmation! if evaluator.confirmed
+    end
+
+    after(:create) do |user, evaluator|
+      Array(evaluator.editor_for).each do |provider|
+        provider.assign_editor! user
+      end
     end
   end
 end

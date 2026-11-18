@@ -33,13 +33,7 @@ module TestHelpers
         end
       end
 
-      def make_default_request!(override_inputs: {}, variables: graphql_variables, token: self.token, **options)
-        if override_inputs.any?
-          variables => { input:, }
-
-          variables = variables.merge(input: input.merge(override_inputs))
-        end
-
+      def make_default_request!(variables: graphql_variables, token: self.token, **options)
         make_graphql_request! query, token:, variables:, **options
       end
 

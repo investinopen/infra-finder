@@ -3,26 +3,31 @@
 # @see SolutionIntake
 class SolutionIntakePolicy < ApplicationPolicy
   include Policies::HidesSolutionValues
+  include Policies::Mutability
+
+  pre_check :enforce_mutable!, only: %i[update submit]
+
+  pre_check :require_any_admin!, only: %i[approve? reject? reset?]
 
   def index? = has_any_admin_access?
 
-  def show? = allowed_for?(:pending, :in_review, must_be_mutable: false)
+  def show? = any_admin_or_in_state?(:pending, :in_review)
 
   def create? = has_any_admin_access?
 
-  def edit? = allowed_for?(:pending, must_be_mutable: true)
+  def update? = mutable?
 
-  def update? = allowed_for?(:pending, must_be_mutable: true)
+  alias_rule :edit?, to: :update?
 
   # @!group Workflow Actions
 
-  def approve? = has_any_admin_access? && can_transition_to?(:approved)
+  def approve? = can_transition_to?(:approved)
 
-  def reject? = has_any_admin_access? && can_transition_to?(:rejected)
+  def reject? = can_transition_to?(:rejected)
 
-  def reset? = has_any_admin_access? && can_transition_to?(:pending)
+  def reset? = can_transition_to?(:pending)
 
-  def submit? = allowed_for?(:pending, must_be_mutable: true) && can_transition_to?(:in_review)
+  def submit? = any_admin_or_in_state?(:pending) && can_transition_to?(:in_review)
 
   # @!endgroup Workflow Actions
 
@@ -39,15 +44,16 @@ class SolutionIntakePolicy < ApplicationPolicy
 
   private
 
-  def allowed_for?(*states, must_be_mutable: false)
+  # @param [<Symbol>] states
+  def any_admin_or_in_state?(*states)
     return true if record.in_state?(*states)
-
-    return false if must_be_mutable && !record.mutable?
 
     has_any_admin_access?
   end
 
-  def can_transition_to?(state)
-    record.try(:can_transition_to?, state)
+  def calculate_mutable
+    return false unless super
+
+    record.pending? || has_any_admin_access?
   end
 end

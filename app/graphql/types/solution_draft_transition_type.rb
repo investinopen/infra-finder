@@ -24,5 +24,11 @@ module Types
       The state that the solution draft is transitioning to.
       TEXT
     end
+
+    field :memo, String, null: true do
+      description <<~TEXT
+      The memo associated with the transition.
+      TEXT
+    end
   end
 end

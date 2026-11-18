@@ -35,18 +35,28 @@ module VOGTesting
         @data = value
       end
 
+      # @return [Array<Hash>]
       def top_level_errors!(value)
-        @top_level_errors = value
+        @top_level_errors ||= []
+        @top_level_errors.concat(value)
       end
 
       alias errors! top_level_errors!
 
       def invalid_one_of!(...)
-        top_level_errors! @gql.top_level_invalid_one_of(...)
+        top_level_errors! @gql.top_level.invalid_one_of(...)
+      end
+
+      def invalid_enum_value!(...)
+        top_level_errors! @gql.top_level.invalid_enum_value(...)
+      end
+
+      def non_null!(...)
+        top_level_errors! @gql.top_level.non_null(...)
       end
 
       def unauthorized!
-        top_level_errors! @gql.top_level_unauthorized
+        top_level_errors! @gql.top_level.unauthorized
       end
 
       # @!endgroup DSL Methods

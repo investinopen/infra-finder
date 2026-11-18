@@ -12,7 +12,7 @@ class SolutionDraft < ApplicationRecord
 
   pg_enum! :state, as: :solution_draft_state, default: :pending, allow_blank: false
 
-  has_state_machine! predicates: :ALL
+  has_state_machine!
 
   clear_exposed_ransackable_attributes!
 
@@ -61,7 +61,7 @@ class SolutionDraft < ApplicationRecord
     call_operation("solution_drafts.request_revision", self, **options)
   end
 
-  # @!endgroup
+  # @!endgroup Stateful Workflow Methods
 
   # @see SolutionDrafts::Check
   monadic_operation! def check
@@ -84,20 +84,14 @@ class SolutionDraft < ApplicationRecord
     solution&.refresh_pending_and_in_review_drafts_count!
   end
 
-  def finalized?
-    in_state?(:approved, :rejected)
-  end
+  def finalized? = in_state?(:approved, :rejected)
 
-  def mutable?
-    in_state?(:pending, :in_review)
-  end
+  def mutable? = in_state?(:pending, :in_review)
 
   def pending_logo_change?
     in_state?(:pending, :in_review) && "logo".in?(draft_overrides)
   end
 
   # @return [<SolutionDrafts::ChangedField>]
-  def changed_fields
-    fetch_changed_fields.value_or([])
-  end
+  def changed_fields = fetch_changed_fields.value_or([])
 end

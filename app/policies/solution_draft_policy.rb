@@ -3,18 +3,17 @@
 # @see SolutionDraft
 class SolutionDraftPolicy < ApplicationPolicy
   include Policies::HidesSolutionValues
+  include Policies::Mutability
 
-  def index?
-    admin_or_editor?
-  end
+  pre_check :require_any_admin!, only: %i[request_revision? approve? reject?]
 
-  def show?
-    admin_or_editor_for_record?
-  end
+  def index? = admin_or_editor?
 
-  def update?
-    record.mutable? && admin_or_editor_for_record?
-  end
+  def show? = admin_or_editor_for_record?
+
+  def update? = mutable?
+
+  alias_rule :edit?, to: :update?
 
   def destroy?
     return super unless record.pending?
@@ -22,28 +21,22 @@ class SolutionDraftPolicy < ApplicationPolicy
     admin_or_editor_for_record?
   end
 
-  def request_review?
-    update? && can_transition_to?(:in_review)
-  end
+  def request_review? = update? && can_transition_to?(:in_review)
 
-  def request_revision?
-    has_any_admin_access? && can_transition_to?(:pending)
-  end
+  def request_revision? = can_transition_to?(:pending)
 
-  def approve?
-    has_any_admin_access? && can_transition_to?(:approved)
-  end
+  def approve? = can_transition_to?(:approved)
 
-  def reject?
-    has_any_admin_access? && can_transition_to?(:rejected)
-  end
+  def reject? = can_transition_to?(:rejected)
 
   private
 
-  # @param [Symbol] state
-  # @return [Boolean]
-  def can_transition_to?(state)
-    record.try(:can_transition_to?, state)
+  def calculate_mutable
+    return false unless super
+
+    return true if record.pending? && admin_or_editor_for_record?
+
+    has_any_admin_access?
   end
 
   # @param [ActiveRecord::Relation] relation
