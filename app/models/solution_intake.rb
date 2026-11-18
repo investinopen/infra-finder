@@ -147,14 +147,10 @@ class SolutionIntake < ApplicationRecord
 
   # Whether the intake is mutable, meaning that the form is potentially usable
   # and it has not yet been approved nor rejected.
-  def mutable?
-    pending? || in_review?
-  end
+  def mutable? = pending? || in_review?
 
   # A guard predicate to make sure that the intake is valid for transitioning to `in_review`.
-  def submittable?
-    valid?(:complete)
-  end
+  def submittable? = valid?(:complete)
 
   private
 

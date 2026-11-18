@@ -5,18 +5,18 @@ RSpec.describe SolutionDraftPolicy, type: :policy do
 
   let_it_be(:other_solution, refind: true) { FactoryBot.create :solution, provider: other_provider }
 
-  let_it_be(:pending_draft, refind: true) { solution.create_draft!(user: FactoryBot.create(:user)) }
+  let_it_be(:pending_draft, refind: true) { solution.create_draft!(enforce_draft_limits: false) }
 
-  let_it_be(:in_review_draft, refind: true) { solution.create_draft!(user: FactoryBot.create(:user)).tap { _1.transition_to!(:in_review) } }
+  let_it_be(:in_review_draft, refind: true) { solution.create_draft!(enforce_draft_limits: false).tap { _1.transition_to!(:in_review) } }
 
   let_it_be(:approved_draft, refind: true) do
-    solution.create_draft!(user: FactoryBot.create(:user)).tap do |draft|
+    solution.create_draft!(enforce_draft_limits: false).tap do |draft|
       draft.transition_to!(:in_review)
       draft.transition_to!(:approved)
     end
   end
 
-  let_it_be(:other_draft, refind: true) { other_solution.create_draft!(user: FactoryBot.create(:user)) }
+  let_it_be(:other_draft, refind: true) { other_solution.create_draft!(enforce_draft_limits: false) }
 
   context "with a pending draft from the editor's provider" do
     let(:record) { pending_draft }
@@ -43,10 +43,6 @@ RSpec.describe SolutionDraftPolicy, type: :policy do
 
     describe_rule :create? do
       it_behaves_like "a super admin permission"
-    end
-
-    describe_rule :edit? do
-      it_behaves_like "an admin or record editor permission"
     end
 
     describe_rule :update? do
@@ -101,12 +97,8 @@ RSpec.describe SolutionDraftPolicy, type: :policy do
       it_behaves_like "a super admin permission"
     end
 
-    describe_rule :edit? do
-      it_behaves_like "an admin or record editor permission"
-    end
-
     describe_rule :update? do
-      it_behaves_like "an admin or record editor permission"
+      it_behaves_like "a privileged permission"
     end
 
     describe_rule :destroy? do
@@ -155,10 +147,6 @@ RSpec.describe SolutionDraftPolicy, type: :policy do
 
     describe_rule :create? do
       it_behaves_like "a super admin permission"
-    end
-
-    describe_rule :edit? do
-      it_behaves_like "a forbidden permission"
     end
 
     describe_rule :update? do
@@ -211,10 +199,6 @@ RSpec.describe SolutionDraftPolicy, type: :policy do
 
     describe_rule :create? do
       it_behaves_like "a super admin permission"
-    end
-
-    describe_rule :edit? do
-      it_behaves_like "an admin or record editor permission", editor: :other_editor, non_editor: :editor
     end
 
     describe_rule :update? do

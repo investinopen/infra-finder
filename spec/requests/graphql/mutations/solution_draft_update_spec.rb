@@ -14,7 +14,7 @@ RSpec.describe Mutations::SolutionDraftUpdate, type: :request, graphql: :mutatio
 
   let_it_be(:provider, refind: true) { FactoryBot.create :provider }
 
-  let_it_be(:editor, refind: true) { FactoryBot.create(:user, :accepted_terms).tap { provider.assign_editor!(_1) } }
+  let_it_be(:editor, refind: true) { FactoryBot.create(:user, :accepted_terms, editor_for: provider) }
 
   let_it_be(:solution, refind: true) { FactoryBot.create :solution, provider: }
 
@@ -152,71 +152,6 @@ RSpec.describe Mutations::SolutionDraftUpdate, type: :request, graphql: :mutatio
 
   context "as the solution's editor" do
     let(:current_user) { editor }
-
-    include_examples "an authorized mutation"
-
-    describe "the arguments" do
-      it "sets each kind of property" do
-        make_default_request!(override_inputs: {
-          license_ids: [license.to_encoded_id],
-          board_level_id: board_level.to_encoded_id,
-          annual_revenue: "1234.50",
-          code_repository_implementation: "AVAILABLE",
-          code_repository: { links: [{ label: "Repo", url: "https://example.org/repo" }], statement: "Public" },
-          code_license: { link: { url: "https://example.org/license" } },
-          recent_grants: [{ name: "Big Grant", funder: "Foundation" }],
-        })
-
-        solution_draft.reload
-
-        expect(solution_draft).to have_attributes(licenses: [license], board_level:, code_repository_implementation: "available")
-        expect(solution_draft.annual_revenue_cents).to eq 123_450
-        expect(solution_draft.code_repository.links.map(&:url)).to eq ["https://example.org/repo"]
-        expect(solution_draft.code_repository.statement).to eq "Public"
-        expect(solution_draft.code_license.link.url).to eq "https://example.org/license"
-        expect(solution_draft.recent_grants.map(&:name)).to eq ["Big Grant"]
-      end
-
-      it "leaves omitted properties as they are" do
-        solution_draft.update!(licenses: [license], board_level:, code_repository_implementation: "available")
-
-        expect do
-          make_default_request!
-        end.to keep_the_same { solution_draft.reload.licenses.to_a }
-          .and keep_the_same { solution_draft.reload.board_level }
-          .and keep_the_same { solution_draft.reload.code_repository_implementation }
-          .and keep_the_same { solution_draft.reload.mission }
-      end
-
-      it "clears a property given null" do
-        solution_draft.update!(key_achievements: "Achieved")
-
-        expect do
-          make_default_request!(override_inputs: { key_achievements: nil })
-        end.to change { solution_draft.reload.key_achievements }.from("Achieved").to(nil)
-      end
-
-      it "refuses null for a list" do
-        make_default_request!(override_inputs: { license_ids: nil }, no_top_level_errors: false)
-
-        expect(graphql_response(:errors).pluck("message")).to eq ["licenseIds can't be null"]
-      end
-
-      it "only accepts the statuses an implementation has" do
-        make_default_request!(override_inputs: { pricing_implementation: "NOT_APPLICABLE" }, no_top_level_errors: false)
-
-        expect(graphql_response(:errors).first["message"]).to include("NOT_APPLICABLE")
-      end
-    end
-
-    context "when the draft is approved" do
-      before do
-        solution_draft.request_review!
-        solution_draft.approve!
-      end
-
-      include_examples "an unauthorized mutation"
-    end
   end
 
   as_an_admin_user do
@@ -224,7 +159,104 @@ RSpec.describe Mutations::SolutionDraftUpdate, type: :request, graphql: :mutatio
   end
 
   as_an_editor_user do
-    include_examples "an unauthorized mutation"
+    context "with no access" do
+      include_examples "an unauthorized mutation"
+    end
+
+    context "when an editor on the provider" do
+      let(:current_user) { editor }
+
+      include_examples "an authorized mutation"
+
+      describe "the arguments" do
+        context "when setting each kind of property" do
+          let_mutation_input!(:license_ids) { [license.to_encoded_id] }
+          let_mutation_input!(:board_level_id) { board_level.to_encoded_id }
+          let_mutation_input!(:annual_revenue) { "1234.50" }
+          let_mutation_input!(:code_repository_implementation) { "AVAILABLE" }
+          let_mutation_input!(:code_repository) { { links: [{ label: "Repo", url: "https://example.org/repo" }], statement: "Public" } }
+          let_mutation_input!(:code_license) { { link: { url: "https://example.org/license" } } }
+          let_mutation_input!(:recent_grants) { [{ name: "Big Grant", funder: "Foundation" }] }
+
+          it "handles each property correctly" do
+            expect_request! do |req|
+              req.effect! change { solution_draft.reload.licenses.to_a }.from([]).to([license])
+              req.effect! change { solution_draft.reload.board_level }.from(nil).to(board_level)
+              req.effect! change { solution_draft.reload.annual_revenue_cents }.from(0).to(123_450)
+              req.effect! change { solution_draft.reload.code_repository_implementation }.from("unknown").to("available")
+              req.effect! change { solution_draft.reload.code_repository.links.map(&:url) }.from([]).to(["https://example.org/repo"])
+              req.effect! change { solution_draft.reload.code_repository.statement }.from(nil).to("Public")
+              req.effect! change { solution_draft.reload.code_license.link.url }.from(nil).to("https://example.org/license")
+              req.effect! change { solution_draft.reload.recent_grants.map(&:name) }.from([]).to(["Big Grant"])
+            end
+          end
+        end
+
+        it "leaves omitted properties as they are" do
+          solution_draft.update!(licenses: [license], board_level:, code_repository_implementation: "available")
+
+          expect_request! do |req|
+            req.effect! keep_the_same { solution_draft.reload.licenses.to_a }
+            req.effect! keep_the_same { solution_draft.reload.board_level }
+            req.effect! keep_the_same { solution_draft.reload.code_repository_implementation }
+            req.effect! keep_the_same { solution_draft.reload.mission }
+          end
+        end
+
+        context "when setting null on a property" do
+          let_mutation_input!(:key_achievements) { nil }
+
+          it "clears the property" do
+            solution_draft.update!(key_achievements: "Achieved")
+
+            expect_request! do |req|
+              req.effect! change { solution_draft.reload.key_achievements }.from("Achieved").to(nil)
+            end
+          end
+        end
+
+        context "when setting null on a list" do
+          let_mutation_input!(:license_ids) { nil }
+
+          it "refuses the value with the proper GQL error" do
+            expect_request! do |req|
+              req.effect! keep_the_same { solution_draft.reload.updated_at }
+
+              req.non_null! :license_ids
+            end
+          end
+        end
+
+        context "when setting an implementation status" do
+          let_mutation_input!(:pricing_implementation) { "NOT_APPLICABLE" }
+
+          it "only accepts valid implementation statuses" do
+            expect_request! do |req|
+              req.effect! keep_the_same { solution_draft.reload.updated_at }
+
+              req.invalid_enum_value!("NOT_APPLICABLE", ::Types::PricingImplementationStatusType)
+            end
+          end
+        end
+      end
+
+      context "when the draft is under review" do
+        before do
+          solution_draft.request_review!
+        end
+
+        include_examples "an unauthorized mutation"
+      end
+
+      context "when the draft is approved" do
+        before do
+          solution_draft.request_review!
+          solution_draft.approve!
+        end
+
+        include_examples "an unauthorized mutation"
+      end
+    end
   end
 
   as_an_anonymous_user do

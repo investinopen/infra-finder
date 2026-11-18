@@ -41,10 +41,6 @@ RSpec.describe SolutionIntakePolicy, type: :policy do
       it_behaves_like "a privileged permission"
     end
 
-    describe_rule :edit? do
-      it_behaves_like "a full-access permission"
-    end
-
     describe_rule :update? do
       it_behaves_like "a full-access permission"
     end
@@ -102,10 +98,6 @@ RSpec.describe SolutionIntakePolicy, type: :policy do
     end
 
     describe_rule :create? do
-      it_behaves_like "a privileged permission"
-    end
-
-    describe_rule :edit? do
       it_behaves_like "a privileged permission"
     end
 
@@ -171,10 +163,6 @@ RSpec.describe SolutionIntakePolicy, type: :policy do
 
     describe_rule :create? do
       it_behaves_like "a privileged permission"
-    end
-
-    describe_rule :edit? do
-      it_behaves_like "a forbidden permission"
     end
 
     describe_rule :update? do

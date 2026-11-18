@@ -72,7 +72,7 @@ module SolutionImports
           yield solution.create_revision(kind: :import, reason: "Created via solution import ##{import.id}", user:)
         end
 
-        @draft = yield solution.create_draft(user:, enforce_single_pending_draft: false)
+        @draft = yield solution.create_draft(user:, enforce_draft_limits: false)
 
         super
       end

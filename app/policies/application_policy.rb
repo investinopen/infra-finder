@@ -33,9 +33,7 @@ class ApplicationPolicy < ActionPolicy::Base
     resolve_default_scope_for(relation)
   end
 
-  def index?
-    has_any_admin_access?
-  end
+  def index? = has_any_admin_access?
 
   def show?
     if requires_admin_for_show?
@@ -52,31 +50,25 @@ class ApplicationPolicy < ActionPolicy::Base
   # @return [Boolean]
   def read_for_mutation? = true
 
-  def create?
-    super_admin?
-  end
+  def create? = super_admin?
 
-  def update?
-    super_admin?
-  end
+  def update? = super_admin?
 
-  def destroy?
-    super_admin?
-  end
+  def destroy? = super_admin?
 
-  def destroy_all?
-    super_admin?
-  end
+  def destroy_all? = super_admin?
 
-  def batch_action?
-    super_admin?
-  end
+  def batch_action? = super_admin?
 
   private
 
   def admin_or_editor_for_record?
     has_any_admin_access? || has_editor_access_for_record?
   end
+
+  # @param [Symbol] state
+  # @return [Boolean]
+  def can_transition_to?(state) = record.try(:can_transition_to?, state)
 
   def has_editor_access_for_record?
     case record
@@ -153,7 +145,7 @@ class ApplicationPolicy < ActionPolicy::Base
     resolve_scope_for_non_admin(relation)
   end
 
-  # @!endgroup
+  # @!endgroup Scope Resolution
 
   # @return [void]
   def deny_anonymous!
@@ -164,9 +156,12 @@ class ApplicationPolicy < ActionPolicy::Base
     apply_scope(record.class.all, type: :active_record_relation).exists?(id: record.id)
   end
 
-  def requires_admin_for_show?
-    self.class.requires_admin_for_show
+  # @return [void]
+  def require_any_admin!
+    deny!("requires admin access") unless has_any_admin_access?
   end
+
+  def requires_admin_for_show? = self.class.requires_admin_for_show
 
   class << self
     # @return [void]
