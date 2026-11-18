@@ -4,8 +4,8 @@
 #
 # A transition is visible to whoever can see the record it belongs to.
 #
-# @see StandardTransition
-class StandardTransitionPolicy < ApplicationPolicy
+# @see CommonTransition
+class CommonTransitionPolicy < ApplicationPolicy
   # The owner check is memoized per request so a page of transitions for the
   # same owner loads and authorizes the owner once.
   #

@@ -14,7 +14,7 @@ class <%= transition_class_name %> < ApplicationRecord
 
   belongs_to <%= base_association.to_sym.inspect %>, inverse_of: <%= transitions_association_name.to_sym.inspect %>
 
-  belongs_to :user, inverse_of: <%= transitions_association_name.to_sym.inspect %>, optional: true
+  belongs_to :initiator, optional: true, polymorphic: true
 
   owner_association_name <%= base_association.to_sym.inspect %>
 

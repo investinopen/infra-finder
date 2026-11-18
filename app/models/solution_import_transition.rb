@@ -3,7 +3,14 @@
 # @see SolutionImport
 # @see SolutionImports::StateMachine
 class SolutionImportTransition < ApplicationRecord
-  include StandardTransition
+  include Support::StatesmanHelpers::Transition
+  include CommonTransition
 
-  set_up_transition! :solution_import, inverse_of: :solution_import_transitions
+  stateful_enum! :solution_import_state
+
+  belongs_to :solution_import, inverse_of: :solution_import_transitions
+  belongs_to :initiator, optional: true, polymorphic: true
+
+  owner_association_name :solution_import
+  transitions_association_name :solution_import_transitions
 end

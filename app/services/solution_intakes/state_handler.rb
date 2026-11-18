@@ -69,8 +69,6 @@ module SolutionIntakes
 
       intake.transition_to!(target_state, **meta_args)
 
-      intake.last_transition.update!(user:) if has_user?
-
       super
     end
 

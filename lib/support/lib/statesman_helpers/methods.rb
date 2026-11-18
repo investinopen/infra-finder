@@ -30,7 +30,8 @@ module Support
         def #{config.build_machine_name}
           ::#{config.machine_class}.new(
             self,
-            transition_class: ::#{config.transition_class}
+            transition_class: ::#{config.transition_class},
+            initial_transition: persisted? && #{config.initial_transition?}
           )
         end
 
@@ -74,6 +75,7 @@ module Support
       def configure_association!(klass)
         options = {
           autosave: false,
+          class_name: config.transition_class.name,
           inverse_of: config.inverse_of,
           dependent: :delete_all
         }

@@ -3,7 +3,14 @@
 # @see User
 # @see Users::StateMachine
 class UserTransition < ApplicationRecord
-  include StandardTransition
+  include Support::StatesmanHelpers::Transition
+  include CommonTransition
 
-  set_up_transition! :user, inverse_of: :user_transitions
+  stateful_enum! :user_state
+
+  belongs_to :user, inverse_of: :user_transitions
+  belongs_to :initiator, optional: true, polymorphic: true
+
+  owner_association_name :user
+  transitions_association_name :user_transitions
 end

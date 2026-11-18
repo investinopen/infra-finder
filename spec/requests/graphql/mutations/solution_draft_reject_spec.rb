@@ -6,6 +6,16 @@ RSpec.describe Mutations::SolutionDraftReject, type: :request, graphql: :mutatio
     solutionDraftReject(input: $input) {
       solutionDraft {
         currentState
+
+        transitions {
+          nodes {
+            fromState
+            toState
+            initiator {
+              id
+            }
+          }
+        }
       }
       ... ErrorFragment
     }
@@ -25,6 +35,27 @@ RSpec.describe Mutations::SolutionDraftReject, type: :request, graphql: :mutatio
 
   let(:empty_mutation_shape) { gql.empty_mutation :solution_draft_reject }
 
+  let(:valid_mutation_shape) do
+    gql.mutation(:solution_draft_reject) do |m|
+      m.prop(:solution_draft) do |d|
+        d[:current_state] = "REJECTED"
+
+        d.prop :transitions do |conn|
+          conn.array :nodes do |nodes|
+            nodes.item do |trx|
+              trx[:from_state] = "IN_REVIEW"
+              trx[:to_state] = "REJECTED"
+
+              trx.prop :initiator do |u|
+                u[:id] = current_user.to_encoded_id
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
   shared_examples_for "an unauthorized mutation" do
     it "is not authorized" do
       expect_request! do |req|
@@ -42,7 +73,7 @@ RSpec.describe Mutations::SolutionDraftReject, type: :request, graphql: :mutatio
       expect_request! do |req|
         req.effect! change { solution_draft.current_state(force_reload: true) }.from("in_review").to("rejected")
 
-        req.data! gql.mutation(:solution_draft_reject) { |m| m.prop(:solution_draft) { |d| d[:current_state] = "REJECTED" } }
+        req.data! valid_mutation_shape
       end
 
       expect(solution_draft.last_transition.memo).to eq "A memo"

@@ -4,6 +4,7 @@ class User < ApplicationRecord
   include Commentable
   include HasName
   include HasSubscriptionOption
+  include Initiator
   include Notifiable
   include TimestampScopes
   include UsesStatesman
@@ -17,6 +18,8 @@ class User < ApplicationRecord
   # A Rack env key that, when set, makes a sign-out keep the user's token
   # sessions (see the Warden hook in `config/initializers/devise.rb`).
   KEEP_TOKEN_SESSIONS = "infra_finder.keep_token_sessions"
+
+  pg_enum! :state, as: :user_state, default: :pending, allow_blank: false
 
   has_state_machine!
 
@@ -66,7 +69,6 @@ class User < ApplicationRecord
   has_many_readonly :solution_revisions, inverse_of: :user
 
   has_many :solution_intake_sources, inverse_of: :editor, class_name: "SolutionIntake", foreign_key: :editor_id, dependent: :nullify
-  has_many :solution_intake_transitions, inverse_of: :user, dependent: :nullify
 
   has_many :session_records, inverse_of: :user, dependent: :destroy
 
@@ -91,6 +93,8 @@ class User < ApplicationRecord
 
   # @see AnonymousInterface#anonymous?
   def anonymous? = false
+
+  def authenticated? = true
 
   alias has_accepted_terms? accepted_terms?
 

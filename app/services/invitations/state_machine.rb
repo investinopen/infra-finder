@@ -20,5 +20,9 @@ module Invitations
     guard_transition(to: :created) do |invitation|
       invitation.valid? :finalize
     end
+
+    after_transition do |invitation, transition|
+      invitation.update_column :state, transition.to_state
+    end
   end
 end

@@ -247,6 +247,18 @@ CREATE TYPE public.implementation_status AS ENUM (
 
 
 --
+-- Name: invitation_state; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.invitation_state AS ENUM (
+    'pending',
+    'created',
+    'success',
+    'failure'
+);
+
+
+--
 -- Name: maintenance_status; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -298,6 +310,31 @@ CREATE TYPE public.solution_claim_state AS ENUM (
 CREATE TYPE public.solution_data_version AS ENUM (
     'v2',
     'unknown'
+);
+
+
+--
+-- Name: solution_draft_state; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.solution_draft_state AS ENUM (
+    'pending',
+    'in_review',
+    'approved',
+    'rejected'
+);
+
+
+--
+-- Name: solution_import_state; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.solution_import_state AS ENUM (
+    'pending',
+    'invalid',
+    'started',
+    'success',
+    'failure'
 );
 
 
@@ -382,6 +419,16 @@ CREATE TYPE public.subscription_kind AS ENUM (
 
 
 --
+-- Name: subscription_state; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.subscription_state AS ENUM (
+    'unsubscribed',
+    'subscribed'
+);
+
+
+--
 -- Name: user_kind; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -391,6 +438,16 @@ CREATE TYPE public.user_kind AS ENUM (
     'editor',
     'unassigned',
     'anonymous'
+);
+
+
+--
+-- Name: user_state; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.user_state AS ENUM (
+    'pending',
+    'accepted_terms'
 );
 
 
@@ -864,10 +921,13 @@ CREATE TABLE public.invitation_transitions (
     invitation_id uuid NOT NULL,
     most_recent boolean NOT NULL,
     sort_key integer NOT NULL,
-    to_state character varying NOT NULL,
+    to_state public.invitation_state NOT NULL,
     metadata jsonb,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    initiator_type character varying,
+    initiator_id uuid,
+    from_state public.invitation_state
 );
 
 
@@ -886,7 +946,8 @@ CREATE TABLE public.invitations (
     memo text,
     notification_sent_at timestamp without time zone,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    state public.invitation_state DEFAULT 'pending'::public.invitation_state NOT NULL
 );
 
 
@@ -2235,11 +2296,14 @@ CREATE TABLE public.solution_draft_transitions (
     solution_draft_id uuid NOT NULL,
     most_recent boolean NOT NULL,
     sort_key integer NOT NULL,
-    to_state character varying NOT NULL,
+    to_state public.solution_draft_state NOT NULL,
     metadata jsonb,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    memo text GENERATED ALWAYS AS ((metadata ->> 'memo'::text)) STORED
+    memo text GENERATED ALWAYS AS ((metadata ->> 'memo'::text)) STORED,
+    initiator_type character varying,
+    initiator_id uuid,
+    from_state public.solution_draft_state
 );
 
 
@@ -2390,7 +2454,8 @@ CREATE TABLE public.solution_drafts (
     email public.citext,
     fiscal_host text,
     registries jsonb DEFAULT '[]'::jsonb NOT NULL,
-    missing_properties text[]
+    missing_properties text[],
+    state public.solution_draft_state DEFAULT 'pending'::public.solution_draft_state NOT NULL
 );
 
 
@@ -2418,10 +2483,13 @@ CREATE TABLE public.solution_import_transitions (
     solution_import_id uuid NOT NULL,
     most_recent boolean NOT NULL,
     sort_key integer NOT NULL,
-    to_state character varying NOT NULL,
+    to_state public.solution_import_state NOT NULL,
     metadata jsonb,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    initiator_type character varying,
+    initiator_id uuid,
+    from_state public.solution_import_state
 );
 
 
@@ -2445,7 +2513,8 @@ CREATE TABLE public.solution_imports (
     metadata jsonb DEFAULT '{}'::jsonb NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    intakes_count bigint DEFAULT 0 NOT NULL
+    intakes_count bigint DEFAULT 0 NOT NULL,
+    state public.solution_import_state DEFAULT 'pending'::public.solution_import_state NOT NULL
 );
 
 
@@ -2872,7 +2941,9 @@ CREATE TABLE public.solution_intake_transitions (
     metadata jsonb,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    user_id uuid
+    user_id uuid,
+    initiator_type character varying,
+    initiator_id uuid
 );
 
 
@@ -3355,10 +3426,13 @@ CREATE TABLE public.subscription_transitions (
     subscription_id uuid NOT NULL,
     most_recent boolean NOT NULL,
     sort_key integer NOT NULL,
-    to_state character varying NOT NULL,
+    to_state public.subscription_state NOT NULL,
     metadata jsonb,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    initiator_type character varying,
+    initiator_id uuid,
+    from_state public.subscription_state
 );
 
 
@@ -3372,7 +3446,8 @@ CREATE TABLE public.subscriptions (
     subscribable_id uuid NOT NULL,
     kind public.subscription_kind NOT NULL,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    state public.subscription_state DEFAULT 'unsubscribed'::public.subscription_state NOT NULL
 );
 
 
@@ -3437,10 +3512,13 @@ CREATE TABLE public.user_transitions (
     user_id uuid NOT NULL,
     most_recent boolean NOT NULL,
     sort_key integer NOT NULL,
-    to_state character varying NOT NULL,
+    to_state public.user_state NOT NULL,
     metadata jsonb,
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    initiator_type character varying,
+    initiator_id uuid,
+    from_state public.user_state
 );
 
 
@@ -3479,7 +3557,8 @@ CREATE TABLE public.users (
     solution_notifications public.subscription DEFAULT 'unsubscribed'::public.subscription NOT NULL,
     solution_notifications_updated_at timestamp without time zone,
     reminder_notifications public.subscription DEFAULT 'unsubscribed'::public.subscription NOT NULL,
-    reminder_notifications_updated_at timestamp without time zone
+    reminder_notifications_updated_at timestamp without time zone,
+    state public.user_state DEFAULT 'pending'::public.user_state NOT NULL
 );
 
 
@@ -5567,6 +5646,13 @@ CREATE UNIQUE INDEX index_integrations_on_term ON public.integrations USING btre
 
 
 --
+-- Name: index_invitation_transitions_on_initiator; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_invitation_transitions_on_initiator ON public.invitation_transitions USING btree (initiator_type, initiator_id);
+
+
+--
 -- Name: index_invitation_transitions_parent_most_recent; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6813,6 +6899,13 @@ CREATE INDEX index_solution_draft_staffings_on_staffing_id ON public.solution_dr
 
 
 --
+-- Name: index_solution_draft_transitions_on_initiator; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_draft_transitions_on_initiator ON public.solution_draft_transitions USING btree (initiator_type, initiator_id);
+
+
+--
 -- Name: index_solution_draft_transitions_parent_most_recent; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -6964,6 +7057,13 @@ CREATE INDEX index_solution_hosting_strategies_on_hosting_strategy_id ON public.
 --
 
 CREATE INDEX index_solution_hosting_strategies_on_solution_id ON public.solution_hosting_strategies USING btree (solution_id);
+
+
+--
+-- Name: index_solution_import_transitions_on_initiator; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_import_transitions_on_initiator ON public.solution_import_transitions USING btree (initiator_type, initiator_id);
 
 
 --
@@ -7188,6 +7288,13 @@ CREATE INDEX index_solution_intake_staffings_on_solution_intake_id ON public.sol
 --
 
 CREATE INDEX index_solution_intake_staffings_on_staffing_id ON public.solution_intake_staffings USING btree (staffing_id);
+
+
+--
+-- Name: index_solution_intake_transitions_on_initiator; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_solution_intake_transitions_on_initiator ON public.solution_intake_transitions USING btree (initiator_type, initiator_id);
 
 
 --
@@ -7695,6 +7802,13 @@ CREATE UNIQUE INDEX index_status_certifications_on_term ON public.status_certifi
 
 
 --
+-- Name: index_subscription_transitions_on_initiator; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_subscription_transitions_on_initiator ON public.subscription_transitions USING btree (initiator_type, initiator_id);
+
+
+--
 -- Name: index_subscription_transitions_parent_most_recent; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7790,6 +7904,13 @@ CREATE UNIQUE INDEX index_user_contributions_on_slug ON public.user_contribution
 --
 
 CREATE UNIQUE INDEX index_user_contributions_on_term ON public.user_contributions USING btree (term);
+
+
+--
+-- Name: index_user_transitions_on_initiator; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_user_transitions_on_initiator ON public.user_transitions USING btree (initiator_type, initiator_id);
 
 
 --
@@ -11015,6 +11136,7 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261117183837'),
 ('20261117174252'),
 ('20261117174251'),
 ('20261117173555'),
