@@ -3,11 +3,11 @@
 module Solutions
   module Revisions
     class Creator < Support::HookBased::Actor
+      include Support::Requests::ReadsCurrentUser
       include Dry::Initializer[undefined: false].define -> do
         param :solution, Types::Actual
 
         option :solution_draft, Types::Draft.optional, optional: true
-        option :user, Types.Instance(::User).optional, default: proc { RequestStore.store[:current_user] }
         option :kind, Types::RevisionKind, default: proc { "other" }
         option :note, Types::String.optional, optional: true
         option :reason, Types::String.optional, optional: true
@@ -29,7 +29,7 @@ module Solutions
       # @return [ActiveSupport::HashWithIndifferentAccess]
       attr_reader :metadata
 
-      # @return []
+      # @return [SolutionRevision]
       attr_reader :revision
 
       # @return [ActiveSnapshot::Snapshot]
@@ -38,7 +38,11 @@ module Solutions
       # @return [SolutionRevision, nil]
       attr_reader :previous_revision
 
+      # @return [String]
       attr_reader :provider_state
+
+      # @return [User, nil]
+      attr_reader :user
 
       delegate :provider, :snapshots, :solution_revisions, to: :solution
 
@@ -71,6 +75,8 @@ module Solutions
         @diffs = []
 
         @metadata = { kind:, note:, reason:, solution_draft_id:, }
+
+        @user = current_authenticated_user
 
         @attrs = metadata.dup.merge(provider:, user:)
 

@@ -5,10 +5,10 @@ module SolutionIntakes
   class StateHandler < Support::HookBased::Actor
     extend Dry::Core::ClassAttributes
 
+    include Support::Requests::ReadsCurrentUser
+
     include Dry::Initializer[undefined: false].define -> do
       param :intake, Types::Intake
-
-      option :current_user, Types::CurrentUser, optional: true
 
       option :note, Types::String.optional, optional: true
 

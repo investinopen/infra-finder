@@ -6,7 +6,6 @@ module Solutions
       include Dry::Initializer[undefined: false].define -> do
         param :solution, Types::Actual
 
-        option :user, Types.Instance(::User).optional, default: proc { RequestStore.store[:current_user] }
         option :reason, Types::String.optional, default: proc { "Initial revision" }
       end
 
@@ -42,7 +41,6 @@ module Solutions
 
         @revision = yield solution.create_revision(
           kind: "initial",
-          user:,
           reason:
         )
 

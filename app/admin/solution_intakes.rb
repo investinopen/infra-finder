@@ -11,7 +11,7 @@ ActiveAdmin.register SolutionIntake do
     def handle_workflow_operation!(operation_name)
       note = params.dig(operation_name, :note)
 
-      options = { current_user:, note:, source: "admin", }
+      options = { note:, source: "admin", }
 
       resource.public_send(operation_name, **options) do |m|
         m.success do

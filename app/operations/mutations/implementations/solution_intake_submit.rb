@@ -16,7 +16,7 @@ module Mutations
       def call(solution_intake:, note: nil)
         admin = current_user.has_any_admin_access?
 
-        solution_intake.submit(current_user:, note:, source: admin ? "admin" : "form") do |m|
+        solution_intake.submit(note:, source: admin ? "admin" : "form") do |m|
           m.success do
             attach! :solution_intake, solution_intake
           end

@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
 
   # @return [void]
   def clear_user!
-    RequestStore.store[:current_user] = nil
+    Support::Requests::Current.current_user = nil
   end
 
   def access_denied(error = nil)
@@ -80,7 +80,7 @@ class ApplicationController < ActionController::Base
 
   # @return [void]
   def store_user!
-    RequestStore.store[:current_user] = user_signed_in? ? current_user : nil
+    Support::Requests::Current.current_user = user_signed_in? ? current_user : nil
   end
 
   def uncacheable!
