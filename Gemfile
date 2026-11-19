@@ -2,8 +2,6 @@
 
 source "https://rubygems.org"
 
-ruby "3.3.12"
-
 # STDLIB
 gem "csv", "~> 3"
 gem "observer"
