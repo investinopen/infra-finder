@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/investinopen/infra-finder/compare/v1.0.0...v1.0.1) (2026-11-19)
+
+
+### Bug Fixes
+
+* unlock ruby version in gemfile ([41ebcbd](https://github.com/investinopen/infra-finder/commit/41ebcbd38c5665768f4efefc093a0d03732eba5e))
+
 ## 1.0.0 (2026-11-19)
 
 
