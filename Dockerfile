@@ -29,6 +29,7 @@ RUN <<EOF
 EOF
 
 ENV GEM_HOME=/usr/local/bundle \
+    GEM_PATH=/usr/local/bundle \
     GEMRC=/usr/local/etc/gemrc \
     MISE_DATA_DIR=/usr/local/share/mise \
     PATH="/usr/local/share/mise/shims:/usr/local/bundle/bin:$PATH" \

@@ -7,7 +7,7 @@ class ComparisonItemsController < ApplicationController
   before_action :derive_share_mode!
 
   def show
-    @solution = Solution.find params[:solution_id]
+    @solution = Solution.find params.expect(:solution_id)
 
     current_comparison.toggle(@solution) do |m|
       m.success do
@@ -27,7 +27,7 @@ class ComparisonItemsController < ApplicationController
   end
 
   def create # rubocop:disable Metrics/AbcSize
-    @solution = Solution.find params[:solution_id]
+    @solution = Solution.find params.expect(:solution_id)
 
     current_comparison.add(@solution) do |m|
       m.success do
@@ -67,7 +67,7 @@ class ComparisonItemsController < ApplicationController
   end
 
   def destroy # rubocop:disable Metrics/AbcSize
-    @solution = Solution.find params[:solution_id]
+    @solution = Solution.find params.expect(:solution_id)
 
     current_comparison.remove(@solution) do |m|
       m.success do

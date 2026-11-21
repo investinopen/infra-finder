@@ -17,7 +17,7 @@ class SolutionsController < ApplicationController
   end
 
   def show
-    @solution = Solution.publicly_accessible_for(current_user).find params[:id]
+    @solution = Solution.publicly_accessible_for(current_user).find params.expect(:id)
 
     solution_name = @solution.name
 

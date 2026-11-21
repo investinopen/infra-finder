@@ -4,6 +4,8 @@ source "https://rubygems.org"
 
 # STDLIB
 gem "csv", "~> 3"
+gem "logger"
+gem "msgpack"
 gem "observer"
 gem "sorted_set", "~> 1"
 

@@ -25,8 +25,8 @@ AllCops:
     - "tmp/**/*"
     - "vendor/**/*"
   SuggestExtensions: false
-  TargetRailsVersion: 7.1
-  TargetRubyVersion: 3.3
+  TargetRailsVersion: 8.1
+  TargetRubyVersion: 4
 
 Bundler/OrderedGems:
   Enabled: false
