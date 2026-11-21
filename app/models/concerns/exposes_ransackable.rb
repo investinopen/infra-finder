@@ -92,7 +92,7 @@ module ExposesRansackable
         fetch_or_store(:from, name) do
           ranking = ALLOWANCE_RANKING.fetch(name)
 
-          new(name:, ranking:)
+          new(nil, name:, ranking:)
         end
       end
 
