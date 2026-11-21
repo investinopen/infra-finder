@@ -92,16 +92,16 @@ module ExposesRansackable
         fetch_or_store(:from, name) do
           ranking = ALLOWANCE_RANKING.fetch(name)
 
-          new(nil, name:, ranking:)
+          new(name:, ranking:)
         end
       end
 
-      def new(input, ...)
+      def new(input = nil, **kwargs)
         case input
         when Symbol
           from(input)
         else
-          super
+          super(**kwargs)
         end
       end
     end

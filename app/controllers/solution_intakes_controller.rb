@@ -55,7 +55,7 @@ class SolutionIntakesController < ApplicationController
   #
   # @return [void]
   def find_solution_intake!
-    @solution_intake = SolutionIntake.find(params[:id])
+    @solution_intake = SolutionIntake.find(params.expect(:id))
 
     raise ActiveRecord::RecordNotFound unless allowed_to?(:show?, @solution_intake)
   end

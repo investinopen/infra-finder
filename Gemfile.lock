@@ -857,8 +857,10 @@ DEPENDENCIES
   jsbundling-rails
   jwt (~> 3.1)
   kamal (~> 2.12)
+  logger
   marcel
   money-rails (~> 3.0)
+  msgpack
   naught (~> 1.1)
   nokogiri (~> 1.19)
   noticed (~> 3.1)

@@ -4,7 +4,7 @@ class ComparisonSharesController < ApplicationController
   comparison_load_strategy :fetch
 
   def show
-    @comparison_share = ComparisonShare.find params[:id]
+    @comparison_share = ComparisonShare.find params.expect(:id)
 
     current_comparison.accept_shared @comparison_share do |m|
       m.success do |_, changed|
@@ -29,7 +29,7 @@ class ComparisonSharesController < ApplicationController
   end
 
   def shared
-    @comparison_share = ComparisonShare.find params[:id]
+    @comparison_share = ComparisonShare.find params.expect(:id)
 
     @comparison_share.shared!
 
