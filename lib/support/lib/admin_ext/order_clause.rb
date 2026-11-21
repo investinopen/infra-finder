@@ -14,7 +14,7 @@ module Support
       # @return [String]
       def to_sql
         # simplecov:disable
-        return super unless resource_class < LazyOrdering && @column !~ /\./ && @op.blank?
+        return super unless resource_class < VOG::LazyOrdering && @column !~ /\./ && @op.blank?
         # simplecov:enable
 
         resource_class.lazy_order_expr_for(@column, raw_direction:).to_sql

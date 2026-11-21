@@ -2,15 +2,27 @@
 
 module ControlledVocabularies
   module Types
-    include Dry.Types
-
-    extend Support::EnhancedTypes
+    extend Support::Typespace
 
     Assoc = Types::Coercible::String.constrained(filled: true)
 
     ConnectionMode = Coercible::Symbol.enum(:single, :multiple)
 
+    ControlledVocabulary = FrozenInstance("ControlledVocabulary")
+
+    Entry = ModelInstance("ControlledVocabularyEntry")
+
     EnumMapping = Coercible::Hash.map(Coercible::String, Coercible::String)
+
+    ExtraFieldType = ::Types::ControlledVocabularyFieldTypeType.dry_type
+
+    ExtraField = Hash.schema(
+      name: String.constrained(filled: true),
+      type: ExtraFieldType,
+      required?: Types::Params::Bool.default(false).fallback(false),
+    )
+
+    ExtraFields = Array.of(ExtraField).default(Dry::Core::Constants::EMPTY_ARRAY)
 
     Provision = ApplicationRecord.dry_pg_enum(:controlled_vocabulary_provision)
 

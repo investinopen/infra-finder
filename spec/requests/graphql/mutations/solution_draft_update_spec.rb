@@ -150,10 +150,6 @@ RSpec.describe Mutations::SolutionDraftUpdate, type: :request, graphql: :mutatio
     end
   end
 
-  context "as the solution's editor" do
-    let(:current_user) { editor }
-  end
-
   as_an_admin_user do
     include_examples "an authorized mutation"
   end

@@ -10,13 +10,6 @@ module Types
     A record in the `staffing` controlled vocabulary.
     TEXT
 
-    # Columns beyond those in {Types::ControlledVocabularyRecordType}.
-    # @see Types::ControlledVocabularyType#extra_fields
-    EXTRA_FIELDS = [
-      { name: "min_value", type: "INTEGER", required: false },
-      { name: "max_value", type: "INTEGER", required: false },
-    ].freeze
-
     field :min_value, Integer, null: true do
       description "The record's `min_value`."
     end

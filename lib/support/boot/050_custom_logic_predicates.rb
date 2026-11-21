@@ -92,7 +92,7 @@ Dry::Logic::Predicates.predicate :relation_for? do |model_klass, input|
 end
 
 Dry::Logic::Predicates.predicate :specific_model? do |model_name, input|
-  model?(input) && input.model_name == model_name
+  (model?(input) || frozen_record?(input) || has_model_name?(input)) && input.class.model_name == model_name
 end
 
 Dry::Logic::Predicates.predicate :dry_type? do |input|

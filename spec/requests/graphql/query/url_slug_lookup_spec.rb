@@ -79,6 +79,10 @@ RSpec.describe "Looking up records by urlSlug", type: :request, graphql: true do
     end
 
     describe "ControlledVocabulary.record" do
+      before do
+        ControlledVocabularies::SyncEntriesJob.perform_now
+      end
+
       let(:query) do
         <<~GRAPHQL
         query($urlSlug: String!) {

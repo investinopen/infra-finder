@@ -9,10 +9,5 @@ module Types
     description <<~TEXT
     A record in the `acc_scope` controlled vocabulary.
     TEXT
-
-    # Columns beyond those in {Types::ControlledVocabularyRecordType}.
-    # @see Types::ControlledVocabularyType#extra_fields
-    EXTRA_FIELDS = [
-    ].freeze
   end
 end

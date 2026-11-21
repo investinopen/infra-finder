@@ -9,14 +9,6 @@ module Types
     description <<~TEXT
     A record in the `<%= vocab.name %>` controlled vocabulary.
     TEXT
-
-    # Columns beyond those in {Types::ControlledVocabularyRecordType}.
-    # @see Types::ControlledVocabularyType#extra_fields
-    EXTRA_FIELDS = [
-<% extra_fields.each do |name, graphql_type, nullable| -%>
-      { name: <%= name.inspect %>, type: <%= graphql_type.underscore.upcase.inspect %>, required: <%= !nullable %> },
-<% end -%>
-    ].freeze
 <% extra_fields.each do |name, graphql_type, nullable| -%>
 
     field :<%= name %>, <%= graphql_type %>, null: <%= nullable %> do

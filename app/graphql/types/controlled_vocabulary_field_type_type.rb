@@ -9,15 +9,15 @@ module Types
     The value type of a controlled vocabulary's extra field.
     TEXT
 
-    value "BOOLEAN", value: "BOOLEAN" do
+    value "BOOLEAN", value: "boolean" do
       description "A true/false value."
     end
 
-    value "INTEGER", value: "INTEGER" do
+    value "INTEGER", value: "integer" do
       description "A whole number."
     end
 
-    value "STRING", value: "STRING" do
+    value "STRING", value: "string" do
       description "Text."
     end
   end

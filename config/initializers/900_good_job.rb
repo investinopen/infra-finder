@@ -48,6 +48,12 @@ Rails.application.configure do
       description: "Prune stale comparison shares",
       set: { priority: 300 },
     },
+    controlled_vocabularies_sync_entries: {
+      cron: "*/5 * * * *",
+      class: "ControlledVocabularies::SyncEntriesJob",
+      description: "Synchronize controlled vocabulary entries",
+      set: { priority: 500 },
+    },
     oauth_prune: {
       cron: "45 8 * * *",
       class: "OAuth::PruneJob",

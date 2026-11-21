@@ -6,6 +6,9 @@ module ControlledVocabularies
     tc.add! :assoc, ControlledVocabularies::Types::Assoc
     tc.add! :connection_mode, ControlledVocabularies::Types::ConnectionMode
     tc.add! :enum_mapping, ControlledVocabularies::Types::EnumMapping
+    tc.add! :extra_field, ControlledVocabularies::Types::ExtraField
+    tc.add! :extra_fields, ControlledVocabularies::Types::ExtraFields
+    tc.add! :extra_field_type, ControlledVocabularies::Types::ExtraFieldType
     tc.add! :source_kind, ControlledVocabularies::Types::SourceKind
     tc.add! :source_table, ControlledVocabularies::Types::SourceTable
     tc.add! :strategy, ControlledVocabularies::Types::Strategy
