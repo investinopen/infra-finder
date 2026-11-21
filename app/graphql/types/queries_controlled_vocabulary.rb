@@ -11,7 +11,7 @@ module Types
     An interface for querying controlled vocabularies.
     TEXT
 
-    field :controlled_vocabularies, [::Types::ControlledVocabularyType, { null: false }], null: false do
+    field :controlled_vocabularies, resolver: ::Resolvers::ControlledVocabularyEntryResolver do
       description "Every controlled vocabulary."
     end
 
@@ -23,15 +23,8 @@ module Types
       end
     end
 
-    # @return [<ControlledVocabulary>]
-    def controlled_vocabularies
-      ControlledVocabulary.with_model_name.sort_by(&:model_name)
-    end
-
     # @param [String] kind
-    # @return [ControlledVocabulary]
-    def controlled_vocabulary(kind:)
-      ControlledVocabulary.with_model_name.find_by!(model_name: kind)
-    end
+    # @return [ControlledVocabularyEntry]
+    def controlled_vocabulary(kind:) = ControlledVocabularyEntry.as_model.find_by!(kind:)
   end
 end

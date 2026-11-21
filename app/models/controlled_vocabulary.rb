@@ -9,18 +9,42 @@ class ControlledVocabulary < Support::FrozenRecordHelpers::AbstractRecord
   schema!(types: ControlledVocabularies::TypeRegistry) do
     required(:name).filled(:vocab_name)
     required(:strategy).filled(:strategy)
+    required(:label).filled(:string)
+    required(:kind).filled(:string)
     optional(:enum_name).maybe(:string)
     optional(:model_name).maybe(:string)
     required(:accepts_other).value(:bool)
     required(:mapping).value(:hash)
+    required(:extra_fields).value(:extra_fields)
     required(:terms).value(:term_definitions)
   end
 
-  default_attributes!(accepts_other: false, mapping: {}, terms: [])
+  calculates! :label do |record|
+    case record["strategy"]
+    in "model"
+      record["model_name"].underscore.humanize
+    else
+      record["name"].to_s.humanize
+    end.pluralize
+  end
+
+  calculates! :kind do |record|
+    case record["strategy"]
+    in "model"
+      record["model_name"]
+    in "enum"
+      record["enum_name"]
+    else
+      record["name"]
+    end
+  end
+
+  default_attributes!(accepts_other: false, extra_fields: [], mapping: {}, terms: [])
 
   self.primary_key = :name
 
   add_index :name, unique: true
+  add_index :kind, unique: true
   add_index :model_name
 
   scope :accepts_other, -> { where(accepts_other: true) }
@@ -40,13 +64,33 @@ class ControlledVocabulary < Support::FrozenRecordHelpers::AbstractRecord
     model_name.safe_constantize if uses_model? && model_name?
   end
 
+  # @!attribute [r] records_count
+  # @return [Integer] the (cached) number of records for this vocabulary.
+  def calculate_records_count = fetch_options.fmap(&:size).value_or(0)
+
+  # @return [ControlledVocabularyEntry]
+  def find_entry = ControlledVocabularyEntry.find_or_initialize_by(name:)
+
   # @return [Symbol, nil]
-  def table_name
-    model_klass&.table_name&.to_sym
+  def table_name = model_klass&.table_name&.to_sym
+
+  # @return [Hash]
+  def to_entry_attributes
+    base = slice(:kind, :strategy, :label, :accepts_other, :extra_fields)
+
+    base.merge(details: entry_details)
+  end
+
+  monadic_operation! def synchronize
+    InfraFinder::Container["controlled_vocabularies.sync_entry"].(self)
   end
 
   monadic_operation! def upsert_records
     InfraFinder::Container["controlled_vocabularies.upsert_records"].(self)
+  end
+
+  memoize def entry_details
+    slice(:model_name, :enum_name)
   end
 
   # @return [<String>]

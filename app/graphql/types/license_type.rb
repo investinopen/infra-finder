@@ -10,12 +10,6 @@ module Types
     A record in the `code_lcns` controlled vocabulary.
     TEXT
 
-    # Columns beyond those in {Types::ControlledVocabularyRecordType}.
-    # @see Types::ControlledVocabularyType#extra_fields
-    EXTRA_FIELDS = [
-      { name: "url", type: "STRING", required: false },
-    ].freeze
-
     field :url, String, null: true do
       description "The record's `url`."
     end

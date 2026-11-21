@@ -61,6 +61,9 @@
   strategy: model
   model_name: License
   accepts_other: true
+  extra_fields:
+    - name: url
+      type: string
   terms:
   - term: Apache License, Version 2.0
   - term: MIT License
@@ -307,6 +310,11 @@
 - name: staffing
   strategy: model
   model_name: Staffing
+  extra_fields:
+    - name: min_value
+      type: integer
+    - name: max_value
+      type: integer
   terms:
   - term: 0
     slug: "zero"

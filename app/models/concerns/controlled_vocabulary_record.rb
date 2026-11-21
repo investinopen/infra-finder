@@ -266,6 +266,24 @@ module ControlledVocabularyRecord
       arel_table[:provides].eq("other")
     end
 
+    # @param ["asc", "desc"] direction
+    # @return [Arel::Nodes::Ordering]
+    def solutions_count_order_expression(direction: "asc")
+      combined = %i[solutions_count name].map do |col|
+        arel_table[col].__send__(direction).to_sql
+      end.join(", ")
+
+      arel_literal(combined)
+    end
+
+    def solution_drafts_count_order_expression(direction: "asc")
+      combined = %i[solution_drafts_count name].map do |col|
+        arel_table[col].__send__(direction).to_sql
+      end.join(", ")
+
+      arel_literal(combined)
+    end
+
     private
 
     # @return [void]

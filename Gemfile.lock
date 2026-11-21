@@ -476,6 +476,8 @@ GEM
       racc (~> 1.4)
     noticed (3.1.0)
       rails (>= 7.1.0)
+    object_identifier (0.11.0)
+    object_inspector (1.2.0)
     observer (0.1.2)
     oj (3.17.7)
       bigdecimal (>= 3.0)
@@ -860,6 +862,8 @@ DEPENDENCIES
   naught (~> 1.1)
   nokogiri (~> 1.19)
   noticed (~> 3.1)
+  object_identifier
+  object_inspector
   observer
   oj (~> 3.17)
   pg (~> 1.7)

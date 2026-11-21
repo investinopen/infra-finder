@@ -161,6 +161,10 @@ module Resolvers
 
         default ||= introspector.default_value
 
+        unless default.in?(enum_klass.actual_values)
+          raise ArgumentError, "#{default.inspect} is not an internal value of #{enum_klass.graphql_name} (expected one of #{enum_klass.actual_values.inspect})"
+        end
+
         defines :order_enum_default, type: enum_klass.dry_type
 
         order_enum_default default

@@ -34,16 +34,16 @@ module Resolvers
       end
     end
 
+    order_pair! :solutions_count
+
+    order_pair! :solution_drafts_count
+
     # The model for the parent vocabulary, rather than a fixed class.
     #
     # @return [Class<ControlledVocabularyRecord>]
-    def model_klass
-      object.try(:model_klass) || super
-    end
+    def model_klass = object.model_klass
 
     # @return [ActiveRecord::Relation<ControlledVocabularyRecord>]
-    def resolve_default_scope
-      model_klass.all
-    end
+    def resolve_default_scope = model_klass.all
   end
 end

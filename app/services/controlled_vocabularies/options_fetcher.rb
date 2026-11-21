@@ -5,7 +5,7 @@ module ControlledVocabularies
     extend Dry::Core::Cache
 
     include Dry::Initializer[undefined: false].define -> do
-      param :vocab, Types.Instance(::ControlledVocabulary)
+      param :vocab, Types::ControlledVocabulary
     end
 
     include MonadicPersistence

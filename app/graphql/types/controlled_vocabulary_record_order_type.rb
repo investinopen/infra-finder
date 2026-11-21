@@ -26,5 +26,21 @@ module Types
     value "NAME_DESCENDING" do
       description "Sort records by name in descending (Z-A) order."
     end
+
+    value "SOLUTIONS_COUNT_ASCENDING" do
+      description "Sort records by solutions count in ascending order, with name as a tie-breaker."
+    end
+
+    value "SOLUTIONS_COUNT_DESCENDING" do
+      description "Sort records by solutions count in descending order, with name as a tie-breaker."
+    end
+
+    value "SOLUTION_DRAFTS_COUNT_ASCENDING" do
+      description "Sort records by solution drafts count in ascending order, with name as a tie-breaker."
+    end
+
+    value "SOLUTION_DRAFTS_COUNT_DESCENDING" do
+      description "Sort records by solution drafts count in descending order, with name as a tie-breaker."
+    end
   end
 end

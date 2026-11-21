@@ -4,6 +4,7 @@ module Types
   # One of the controlled vocabularies that solutions are described with.
   #
   # @see ControlledVocabulary
+  # @see ControlledVocabularyEntry
   class ControlledVocabularyType < Types::BaseObject
     description <<~TEXT
     One of the controlled vocabularies that solutions are described with.
@@ -41,27 +42,11 @@ module Types
       end
     end
 
-    # @return [String]
-    def kind = object.model_name
-
-    # @return [String]
-    def label = object.model_klass.model_name.human.pluralize
-
     # @param [String] url_slug
     # @return [ControlledVocabularyRecord, nil]
     def record(url_slug:) = load_record_by_url_slug(object.model_klass, url_slug)
 
-    # @return [Integer]
-    def records_count = object.model_klass.count
-
     # @return [<Hash>]
-    def extra_fields
-      object.model_klass.graphql_node_type::EXTRA_FIELDS.map do |field|
-        field.merge(
-          name: field[:name].camelize(:lower),
-          label: object.model_klass.human_attribute_name(field[:name])
-        )
-      end
-    end
+    def extra_fields = object.extra_fields.map(&:to_graphql)
   end
 end

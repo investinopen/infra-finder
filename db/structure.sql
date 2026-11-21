@@ -174,6 +174,18 @@ CREATE TYPE public.controlled_vocabulary_provision AS ENUM (
 
 
 --
+-- Name: controlled_vocabulary_strategy; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.controlled_vocabulary_strategy AS ENUM (
+    'countries',
+    'currencies',
+    'enum',
+    'model'
+);
+
+
+--
 -- Name: financial_information_scope; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -831,6 +843,26 @@ CREATE TABLE public.content_licenses (
     created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     bespoke_filter_position bigint
+);
+
+
+--
+-- Name: controlled_vocabulary_entries; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.controlled_vocabulary_entries (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    strategy public.controlled_vocabulary_strategy NOT NULL,
+    name public.citext NOT NULL,
+    kind public.citext NOT NULL,
+    label public.citext NOT NULL,
+    accepts_other boolean DEFAULT false NOT NULL,
+    records_count bigint DEFAULT 0 NOT NULL,
+    details jsonb DEFAULT '{}'::jsonb NOT NULL,
+    extra_fields jsonb DEFAULT '[]'::jsonb NOT NULL,
+    mapping jsonb DEFAULT '{}'::jsonb NOT NULL,
+    created_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -3713,6 +3745,14 @@ ALTER TABLE ONLY public.content_licenses
 
 
 --
+-- Name: controlled_vocabulary_entries controlled_vocabulary_entries_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.controlled_vocabulary_entries
+    ADD CONSTRAINT controlled_vocabulary_entries_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: domain_relevances domain_relevances_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -5531,6 +5571,27 @@ CREATE UNIQUE INDEX index_content_licenses_on_slug ON public.content_licenses US
 --
 
 CREATE UNIQUE INDEX index_content_licenses_on_term ON public.content_licenses USING btree (term);
+
+
+--
+-- Name: index_controlled_vocabulary_entries_on_kind; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_controlled_vocabulary_entries_on_kind ON public.controlled_vocabulary_entries USING btree (kind);
+
+
+--
+-- Name: index_controlled_vocabulary_entries_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_controlled_vocabulary_entries_on_name ON public.controlled_vocabulary_entries USING btree (name);
+
+
+--
+-- Name: index_controlled_vocabulary_entries_on_records_count; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_controlled_vocabulary_entries_on_records_count ON public.controlled_vocabulary_entries USING btree (records_count);
 
 
 --
@@ -11136,6 +11197,7 @@ ALTER TABLE ONLY public.solution_draft_integrations
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261118222033'),
 ('20261117183837'),
 ('20261117174252'),
 ('20261117174251'),
